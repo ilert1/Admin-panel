@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  juggler-front:
+    image: $IMAGE_NAME:$IMAGE_TAG
+    container_name: juggler-front
+    hostname: juggler-front
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.juggler-front.rule=Host(`${JUGGLER_FRONT_UI_URL}`) 
+      - traefik.http.routers.juggler-front.entrypoints=https
+      - traefik.http.services.juggler-front.loadbalancer.server.port=80
+      - traefik.http.routers.juggler-front.middlewares=juggler-front-auth
+      - traefik.http.middlewares.juggler-front-auth.basicauth.usersfile=/etc/traefik/htpasswd-temporal
+
+networks:
+  default:
+    external: true
+    name: blowfish-network
