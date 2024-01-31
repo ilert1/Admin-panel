@@ -22,7 +22,6 @@ export class BaseDataProvider {
         //     offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
         // }).toString();
         // const { json } = await http(`${API_URL}/${resource}?${paramsStr}`);
-        console.log(123);
         const { json } = await http(`${API_URL}/${resource}`);
         return {
             data: json.data || [],
