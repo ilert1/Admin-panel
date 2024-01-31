@@ -10,8 +10,11 @@ services:
       - traefik.enable=true
       - traefik.http.routers.juggler-front.rule=Host(`${JUGGLER_FRONT_UI_URL}`) 
       - traefik.http.routers.juggler-front.entrypoints=https
-      - traefik.http.services.juggler-front.loadbalancer.server.port=8080
+      - traefik.http.services.juggler-front.loadbalancer.server.port=80
       - traefik.http.routers.juggler-front.middlewares=juggler-front-auth
       - traefik.http.middlewares.juggler-front-auth.basicauth.usersfile=/etc/traefik/htpasswd-temporal
-    ports:
-      - '127.0.0.1:8888:80'
+
+networks:
+  default:
+    external: true
+    name: blowfish-network
