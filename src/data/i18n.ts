@@ -6,12 +6,42 @@ const ru = {
     ...raRU,
     resources: {
         accounts: {
-            name: "Аккаунт |||| Аккаунты",
+            name: "Счет |||| Счета",
             fields: {
                 id: "ID",
                 owner_id: "ID владельца",
                 state: "Состояние",
-                type: "Тип"
+                type: "Тип",
+                amounts: "Суммы"
+            }
+        },
+        transactions: {
+            name: "Транзакция |||| Транзакции",
+            fields: {
+                id: "ID",
+                state: {
+                    title: "Состояние",
+                    final: "Финальная",
+                    state_int: "Код",
+                    state_description: "Описание"
+                },
+                source: {
+                    id: "ID",
+                    amount: {
+                        currency: "Валюта",
+                        value: "Сумма"
+                    }
+                },
+                destination: {
+                    id: "ID",
+                    amount: {
+                        currency: "Валюта",
+                        value: "Сумма"
+                    }
+                },
+                recipient: "Получатель",
+                type: "Тип",
+                value: "Сумма"
             }
         }
     }
@@ -26,6 +56,36 @@ const en = {
                 id: "ID",
                 owner_id: "Owner ID",
                 state: "State",
+                type: "Type",
+                amounts: "Amounts"
+            }
+        },
+        transactions: {
+            name: "Transaction |||| Transactions",
+            fields: {
+                id: "ID",
+                state: {
+                    title: "State",
+                    final: "Is final",
+                    state_int: "Code",
+                    state_description: "Description"
+                },
+                source: {
+                    id: "ID",
+                    amount: {
+                        currency: "Currency",
+                        value: "Value"
+                    }
+                },
+                destination: {
+                    id: "ID",
+                    amount: {
+                        currency: "Currency",
+                        value: "Value"
+                    }
+                },
+                recipient: "Recipient",
+                value: "Value",
                 type: "Type"
             }
         }

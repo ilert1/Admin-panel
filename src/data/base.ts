@@ -5,7 +5,7 @@ import {
     DeleteManyResult,
     DeleteParams,
     DeleteResult,
-    // GetListParams,
+    GetListParams,
     GetListResult,
     GetManyReferenceResult,
     GetManyResult,
@@ -16,16 +16,16 @@ import {
 } from "react-admin";
 
 export class BaseDataProvider {
-    async getList(resource: string /*params: GetListParams*/): Promise<GetListResult> {
-        // const paramsStr = new URLSearchParams({
-        //     limit: params.pagination.perPage.toString(),
-        //     offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
-        // }).toString();
-        // const { json } = await http(`${API_URL}/${resource}?${paramsStr}`);
-        const { json } = await http(`${API_URL}/${resource}`);
+    async getList(resource: string, params: GetListParams): Promise<GetListResult> {
+        const paramsStr = new URLSearchParams({
+            limit: params.pagination.perPage.toString(),
+            offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
+        }).toString();
+        const { json } = await http(`${API_URL}/${resource}?${paramsStr}`);
+        // const { json } = await http(`${API_URL}/${resource}`);
         return {
             data: json.data || [],
-            total: json.data?.length || 0
+            total: json?.total || 0
         };
     }
 
