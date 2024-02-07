@@ -1,4 +1,13 @@
-import { ArrayField, BooleanField, Datagrid, Labeled, NumberField, Show, TextField } from "react-admin";
+import {
+    ArrayField,
+    BooleanField,
+    Datagrid,
+    Labeled,
+    NumberField,
+    Show,
+    TextField,
+    ReferenceManyField
+} from "react-admin";
 import { Grid } from "@mui/material";
 
 export const TransactionShow = () => (
@@ -68,19 +77,43 @@ export const TransactionShow = () => (
                 </Grid>
             </Grid>
             <Grid item xs={12}>
-                <ArrayField source="fees">
-                    <Datagrid
-                        bulkActionButtons={false}
-                        sx={{
-                            "& .RaDatagrid-headerCell": {
-                                fontWeight: "bold"
-                            }
-                        }}>
-                        <TextField source="recipient" />
-                        <NumberField source="type" />
-                        <NumberField source="value" />
-                    </Datagrid>
-                </ArrayField>
+                <Labeled>
+                    <ArrayField source="fees">
+                        <Datagrid
+                            bulkActionButtons={false}
+                            sx={{
+                                "& .RaDatagrid-headerCell": {
+                                    fontWeight: "bold"
+                                }
+                            }}>
+                            <TextField source="recipient" />
+                            <NumberField source="type" />
+                            <NumberField source="value" />
+                        </Datagrid>
+                    </ArrayField>
+                </Labeled>
+            </Grid>
+            <Grid item xs={12}>
+                <Labeled label="resources.transactions.fields.history">
+                    <ReferenceManyField reference="transactions" target="id">
+                        <Datagrid
+                            bulkActionButtons={false}
+                            rowClick="show"
+                            sx={{
+                                "& .RaDatagrid-headerCell": {
+                                    fontWeight: "bold"
+                                }
+                            }}>
+                            <TextField source="id" />
+                            <TextField source="type" />
+                            <TextField
+                                label="resources.transactions.fields.state.title"
+                                source="state.state_description"
+                            />
+                            <BooleanField label="resources.transactions.fields.state.final" source="state.final" />
+                        </Datagrid>
+                    </ReferenceManyField>
+                </Labeled>
             </Grid>
         </Grid>
     </Show>

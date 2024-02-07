@@ -12,7 +12,8 @@ import {
     GetOneParams,
     GetOneResult,
     UpdateManyResult,
-    UpdateParams
+    UpdateParams,
+    GetManyReferenceParams
 } from "react-admin";
 
 export class BaseDataProvider {
@@ -73,8 +74,11 @@ export class BaseDataProvider {
         throw new Error("Method not implemented");
     }
 
-    async getManyReference(): Promise<GetManyReferenceResult> {
-        throw new Error("Method not implemented");
+    async getManyReference(resource: string, params: GetManyReferenceParams): Promise<GetManyReferenceResult> {
+        const { json } = await http(`${API_URL}/${resource}/${params.id}/history`, {
+            method: "GET"
+        });
+        return { data: json?.data || [], total: json?.data?.length || 0 };
     }
 
     async updateMany(): Promise<UpdateManyResult> {

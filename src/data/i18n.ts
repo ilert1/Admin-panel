@@ -41,7 +41,9 @@ const ru = {
                 },
                 recipient: "Получатель",
                 type: "Тип",
-                value: "Сумма"
+                value: "Сумма",
+                history: "История",
+                fees: "Комиссии"
             }
         }
     }
@@ -86,7 +88,9 @@ const en = {
                 },
                 recipient: "Recipient",
                 value: "Value",
-                type: "Type"
+                type: "Type",
+                history: "History",
+                fees: "Fees"
             }
         }
     }
