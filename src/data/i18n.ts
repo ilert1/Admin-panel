@@ -12,7 +12,10 @@ const ru = {
                 owner_id: "ID владельца",
                 state: "Состояние",
                 type: "Тип",
-                amounts: "Суммы"
+                amounts: "Суммы",
+                meta: {
+                    caption: "Название"
+                }
             }
         },
         transactions: {
@@ -59,7 +62,10 @@ const en = {
                 owner_id: "Owner ID",
                 state: "State",
                 type: "Type",
-                amounts: "Amounts"
+                amounts: "Amounts",
+                meta: {
+                    caption: "Caption"
+                }
             }
         },
         transactions: {

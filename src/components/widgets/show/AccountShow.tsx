@@ -5,6 +5,11 @@ export const AccountShow = () => (
     <Show>
         <Grid container spacing={2} sx={{ p: 2 }}>
             <Grid container item xs={12}>
+                <Labeled label="">
+                    <TextField source="meta.caption" />
+                </Labeled>
+            </Grid>
+            <Grid container item xs={12}>
                 <Grid item xs={12} sm={6} md={4}>
                     <Labeled>
                         <TextField source="id" />
