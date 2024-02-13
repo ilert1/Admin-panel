@@ -23,7 +23,6 @@ export class BaseDataProvider {
             offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
         }).toString();
         const { json } = await http(`${API_URL}/${resource}?${paramsStr}`);
-        // const { json } = await http(`${API_URL}/${resource}`);
         return {
             data: json.data || [],
             total: json?.total || 0
@@ -87,5 +86,12 @@ export class BaseDataProvider {
 
     async deleteMany(): Promise<DeleteManyResult> {
         throw new Error("Method not implemented");
+    }
+
+    async getDictionaries(): Promise<Dictionary.Data> {
+        const { json } = await http(`${API_URL}/dictionaries`, {
+            method: "GET"
+        });
+        return json?.data;
     }
 }
