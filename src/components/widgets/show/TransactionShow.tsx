@@ -8,14 +8,97 @@ import {
     TextField,
     ReferenceManyField,
     FunctionField,
-    useDataProvider
+    useDataProvider,
+    useTranslate,
+    useRecordContext
 } from "react-admin";
-import { Grid } from "@mui/material";
-import { useQuery } from "react-query";
+import {
+    Grid,
+    Button,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    FormControl,
+    InputLabel,
+    MenuItem
+} from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { useMutation, useQuery } from "react-query";
+import { useEffect, useState } from "react";
+
+const StateDialog = (props: any) => {
+    const translate = useTranslate();
+
+    const { data, ...rest } = props;
+
+    const record = useRecordContext();
+
+    const [value, setValue] = useState("");
+
+    useEffect(() => {
+        setValue(record?.state?.state_int);
+    }, [record]);
+
+    const handleChange = (event: SelectChangeEvent) => {
+        setValue(event.target.value);
+    };
+
+    const saveState = () => {
+        props?.onChangeStatus(record.id, value as string);
+    };
+
+    return (
+        <Dialog {...rest}>
+            <DialogTitle>{translate("resources.transactions.show.statusButton")}</DialogTitle>
+            <DialogContent>
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">
+                        {translate("resources.transactions.fields.state.title")}
+                    </InputLabel>
+                    <Select onChange={handleChange} value={value}>
+                        {data?.states &&
+                            Object.keys(data?.states).map(key => (
+                                <MenuItem key={key} value={data?.states[key].state_int}>
+                                    {data?.states[key].state_description}
+                                </MenuItem>
+                            ))}
+                    </Select>
+                </FormControl>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={saveState}>{translate("resources.transactions.show.save")}</Button>
+                <Button onClick={props?.onClose} color="error">
+                    {translate("resources.transactions.show.cancel")}
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
+};
 
 export const TransactionShow = () => {
     const dataProvider = useDataProvider();
     const { data } = useQuery([], () => dataProvider.getDictionaries());
+
+    const { mutate } = useMutation(() => dataProvider.create("transactions/man_set_state", {}));
+
+    const translate = useTranslate();
+
+    const [statusDialogOpen, setStatusDialogOpen] = useState(false);
+
+    const openStatusDialog = () => {
+        setStatusDialogOpen(true);
+    };
+
+    const closeStatusDialog = () => {
+        setStatusDialogOpen(false);
+    };
+
+    const onChangeStatus = (id: string, data: string) => {
+        // console.log(id, data);
+        // mutate({ id, data });
+    };
+
     return (
         <Show>
             <Grid container spacing={2} sx={{ p: 2 }}>
@@ -130,7 +213,16 @@ export const TransactionShow = () => {
                         </ReferenceManyField>
                     </Labeled>
                 </Grid>
+                <Grid item>
+                    <Button onClick={openStatusDialog}>{translate("resources.transactions.show.statusButton")}</Button>
+                </Grid>
             </Grid>
+            <StateDialog
+                open={statusDialogOpen}
+                onClose={closeStatusDialog}
+                onChangeStatus={onChangeStatus}
+                data={data}
+            />
         </Show>
     );
 };

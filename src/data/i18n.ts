@@ -47,6 +47,11 @@ const ru = {
                 value: "Сумма",
                 history: "История",
                 fees: "Комиссии"
+            },
+            show: {
+                statusButton: "Ручной перевод в статус",
+                save: "Сохранить",
+                cancel: "Отмена"
             }
         }
     }
@@ -97,6 +102,11 @@ const en = {
                 type: "Type",
                 history: "History",
                 fees: "Fees"
+            },
+            show: {
+                statusButton: "Manual change status",
+                save: "Сохранить",
+                cancel: "Отмена"
             }
         }
     }
