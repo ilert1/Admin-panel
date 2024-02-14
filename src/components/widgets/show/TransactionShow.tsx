@@ -52,10 +52,18 @@ const StateDialog = (props: any) => {
     const saveState = () => {
         fetch(`${API_URL}/transactions/man_set_state`, {
             method: "POST",
-            body: JSON.stringify({ id: record.id, state: value })
+            body: JSON.stringify({ id: record.id, state: value }),
+            headers: {
+                "Content-Type": "application/json"
+            }
         })
-            .then(() => {
-                notify(translate("resources.transactions.show.success"));
+            .then(resp => resp.json())
+            .then(json => {
+                if (json.success) {
+                    notify(translate("resources.transactions.show.success"));
+                } else {
+                    throw new Error(json.error || "Unknown error");
+                }
             })
             .catch(e => {
                 notify(e.message, { type: "error" });
@@ -126,7 +134,7 @@ export const TransactionShowWidget = () => {
         })
             .then(resp => resp.json())
             .then(json => {
-                if (json.status) {
+                if (json.success) {
                     notify(translate("resources.transactions.show.success"));
                 } else {
                     throw new Error(json.error || "Unknown error");
@@ -146,7 +154,7 @@ export const TransactionShowWidget = () => {
         })
             .then(resp => resp.json())
             .then(json => {
-                if (json.status) {
+                if (json.success) {
                     notify(translate("resources.transactions.show.success"));
                 } else {
                     throw new Error(json.error || "Unknown error");
