@@ -22,13 +22,16 @@ const ru = {
             name: "Транзакция |||| Транзакции",
             fields: {
                 id: "ID",
+                created_at: "Дата создания",
+                committed: "Зафиксированная",
                 state: {
                     title: "Состояние",
                     final: "Финальная",
                     state_int: "Код",
-                    state_description: "Описание"
+                    state_description: "Статус"
                 },
                 source: {
+                    header: "Отправитель",
                     id: "ID",
                     amount: {
                         currency: "Валюта",
@@ -36,6 +39,7 @@ const ru = {
                     }
                 },
                 destination: {
+                    header: "Получаетль",
                     id: "ID",
                     amount: {
                         currency: "Валюта",
@@ -80,13 +84,16 @@ const en = {
             name: "Transaction |||| Transactions",
             fields: {
                 id: "ID",
+                created_at: "Created at",
+                committed: "Committed",
                 state: {
                     title: "State",
                     final: "Is final",
                     state_int: "Code",
-                    state_description: "Description"
+                    state_description: "Status"
                 },
                 source: {
+                    header: "Sender",
                     id: "ID",
                     amount: {
                         currency: "Currency",
@@ -94,6 +101,7 @@ const en = {
                     }
                 },
                 destination: {
+                    header: "Receiver",
                     id: "ID",
                     amount: {
                         currency: "Currency",

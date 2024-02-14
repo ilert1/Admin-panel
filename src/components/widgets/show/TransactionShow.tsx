@@ -12,7 +12,8 @@ import {
     useTranslate,
     useRecordContext,
     useRefresh,
-    useNotify
+    useNotify,
+    DateField
 } from "react-admin";
 import {
     Grid,
@@ -23,7 +24,8 @@ import {
     DialogActions,
     FormControl,
     InputLabel,
-    MenuItem
+    MenuItem,
+    Typography
 } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useQuery } from "react-query";
@@ -193,11 +195,6 @@ export const TransactionShowWidget = () => {
                 <Grid container item xs={12}>
                     <Grid item xs={12} sm={6} md={4}>
                         <Labeled>
-                            <TextField source="state.state_int" />
-                        </Labeled>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Labeled>
                             <TextField source="state.state_description" />
                         </Labeled>
                     </Grid>
@@ -208,6 +205,11 @@ export const TransactionShowWidget = () => {
                     </Grid>
                 </Grid>
                 <Grid container item xs={12}>
+                    <Grid item xs={12}>
+                        <Typography variant="caption" color="#616161">
+                            {translate("resources.transactions.fields.source.header")}
+                        </Typography>
+                    </Grid>
                     <Grid item xs={12} sm={6} md={4}>
                         <Labeled>
                             <TextField source="source.id" />
@@ -225,6 +227,11 @@ export const TransactionShowWidget = () => {
                     </Grid>
                 </Grid>
                 <Grid container item xs={12}>
+                    <Grid item xs={12}>
+                        <Typography variant="caption" color="#616161">
+                            {translate("resources.transactions.fields.destination.header")}
+                        </Typography>
+                    </Grid>
                     <Grid item xs={12} sm={6} md={4}>
                         <Labeled>
                             <TextField source="destination.id" />
@@ -272,7 +279,7 @@ export const TransactionShowWidget = () => {
                                         fontWeight: "bold"
                                     }
                                 }}>
-                                <TextField source="id" />
+                                <DateField showTime source="created_at" />
                                 <FunctionField
                                     source="type"
                                     render={(record: any) => data?.transactionTypes[record.type]?.type_descr}
@@ -282,13 +289,16 @@ export const TransactionShowWidget = () => {
                                     source="state.state_description"
                                 />
                                 <BooleanField label="resources.transactions.fields.state.final" source="state.final" />
+                                <BooleanField label="resources.transactions.fields.committed" source="committed" />
                             </Datagrid>
                         </ReferenceManyField>
                     </Labeled>
                 </Grid>
                 <Grid item>
                     <Button onClick={openStatusDialog}>{translate("resources.transactions.show.statusButton")}</Button>
-                    <Button onClick={makeStorno}>{translate("resources.transactions.show.storno")}</Button>
+                    <Button disabled={!record.dispute} onClick={makeStorno}>
+                        {translate("resources.transactions.show.storno")}
+                    </Button>
                     <Button onClick={commitTransaction}>{translate("resources.transactions.show.commit")}</Button>
                 </Grid>
             </Grid>
