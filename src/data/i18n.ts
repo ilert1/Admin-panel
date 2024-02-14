@@ -51,7 +51,8 @@ const ru = {
             show: {
                 statusButton: "Ручной перевод в статус",
                 save: "Сохранить",
-                cancel: "Отмена"
+                cancel: "Отмена",
+                success: "Успешно"
             }
         }
     }
@@ -105,8 +106,9 @@ const en = {
             },
             show: {
                 statusButton: "Manual change status",
-                save: "Сохранить",
-                cancel: "Отмена"
+                save: "Save",
+                cancel: "Cancel",
+                success: "Success"
             }
         }
     }

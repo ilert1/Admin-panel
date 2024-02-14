@@ -10,7 +10,9 @@ import {
     FunctionField,
     useDataProvider,
     useTranslate,
-    useRecordContext
+    useRecordContext,
+    useRefresh,
+    useNotify
 } from "react-admin";
 import {
     Grid,
@@ -24,8 +26,9 @@ import {
     MenuItem
 } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { useEffect, useState } from "react";
+import { API_URL } from "@/helpers";
 
 const StateDialog = (props: any) => {
     const translate = useTranslate();
@@ -33,6 +36,8 @@ const StateDialog = (props: any) => {
     const { data, ...rest } = props;
 
     const record = useRecordContext();
+    const notify = useNotify();
+    const refresh = useRefresh();
 
     const [value, setValue] = useState("");
 
@@ -45,7 +50,21 @@ const StateDialog = (props: any) => {
     };
 
     const saveState = () => {
-        props?.onChangeStatus(record.id, value as string);
+        fetch(`${API_URL}/transactions/man_set_state`, {
+            method: "POST",
+            body: JSON.stringify({ id: record.id, state: value })
+        })
+            .then(() => {
+                notify(translate("resources.transactions.show.success"));
+            })
+            .catch(e => {
+                notify(e.message, { type: "error" });
+            })
+            .finally(() => {
+                refresh();
+            });
+        props?.onClose?.();
+        refresh();
     };
 
     return (
@@ -58,8 +77,8 @@ const StateDialog = (props: any) => {
                     </InputLabel>
                     <Select onChange={handleChange} value={value}>
                         {data?.states &&
-                            Object.keys(data?.states).map(key => (
-                                <MenuItem key={key} value={data?.states[key].state_int}>
+                            Object.keys(data?.states).map((key, i) => (
+                                <MenuItem key={i} value={data?.states[key].state_int}>
                                     {data?.states[key].state_description}
                                 </MenuItem>
                             ))}
@@ -80,8 +99,6 @@ export const TransactionShow = () => {
     const dataProvider = useDataProvider();
     const { data } = useQuery([], () => dataProvider.getDictionaries());
 
-    const { mutate } = useMutation(() => dataProvider.create("transactions/man_set_state", {}));
-
     const translate = useTranslate();
 
     const [statusDialogOpen, setStatusDialogOpen] = useState(false);
@@ -92,11 +109,6 @@ export const TransactionShow = () => {
 
     const closeStatusDialog = () => {
         setStatusDialogOpen(false);
-    };
-
-    const onChangeStatus = (id: string, data: string) => {
-        // console.log(id, data);
-        // mutate({ id, data });
     };
 
     return (
@@ -217,12 +229,7 @@ export const TransactionShow = () => {
                     <Button onClick={openStatusDialog}>{translate("resources.transactions.show.statusButton")}</Button>
                 </Grid>
             </Grid>
-            <StateDialog
-                open={statusDialogOpen}
-                onClose={closeStatusDialog}
-                onChangeStatus={onChangeStatus}
-                data={data}
-            />
+            <StateDialog open={statusDialogOpen} onClose={closeStatusDialog} data={data} />
         </Show>
     );
 };

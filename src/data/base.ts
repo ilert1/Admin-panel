@@ -88,7 +88,7 @@ export class BaseDataProvider {
         throw new Error("Method not implemented");
     }
 
-    async getDictionaries(): Promise<Dictionary.Data> {
+    async getDictionaries(): Promise<any> {
         const { json } = await http(`${API_URL}/dictionaries`, {
             method: "GET"
         });
