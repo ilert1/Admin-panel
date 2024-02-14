@@ -174,6 +174,30 @@ export const TransactionShowWidget = () => {
             });
     };
 
+    const switchDispute = () => {
+        fetch(`https://juggler.bfgate.api4ftx.cloud/transactions/dispute`, {
+            method: "POST",
+            body: JSON.stringify({ id: record.id, dispute: !record.dispute }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(resp => resp.json())
+            .then(json => {
+                if (json.success) {
+                    notify(translate("resources.transactions.show.success"));
+                } else {
+                    throw new Error(json.error || "Unknown error");
+                }
+            })
+            .catch(e => {
+                notify(e.message, { type: "error" });
+            })
+            .finally(() => {
+                refresh();
+            });
+    };
+
     return (
         <>
             <Grid container spacing={2} sx={{ p: 2 }}>
@@ -296,10 +320,15 @@ export const TransactionShowWidget = () => {
                 </Grid>
                 <Grid item>
                     <Button onClick={openStatusDialog}>{translate("resources.transactions.show.statusButton")}</Button>
-                    <Button disabled={!record.dispute} onClick={makeStorno}>
+                    <Button disabled={!record?.dispute} onClick={makeStorno}>
                         {translate("resources.transactions.show.storno")}
                     </Button>
                     <Button onClick={commitTransaction}>{translate("resources.transactions.show.commit")}</Button>
+                    <Button onClick={switchDispute}>
+                        {record?.dispute
+                            ? translate("resources.transactions.show.closeDispute")
+                            : translate("resources.transactions.show.openDispute")}
+                    </Button>
                 </Grid>
             </Grid>
             <StateDialog open={statusDialogOpen} onClose={closeStatusDialog} data={data} />

@@ -58,7 +58,9 @@ const ru = {
                 cancel: "Отмена",
                 success: "Успешно",
                 storno: "Сторно",
-                commit: "Зафиксировать"
+                commit: "Зафиксировать",
+                openDispute: "Открыть диспут",
+                closeDispute: "Закрыть диспут"
             }
         }
     }
@@ -120,7 +122,9 @@ const en = {
                 cancel: "Cancel",
                 success: "Success",
                 storno: "Storno",
-                commit: "Commit"
+                commit: "Commit",
+                openDispute: "Open dispute",
+                closeDispute: "Close dispute"
             }
         }
     }
