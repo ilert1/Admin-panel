@@ -114,7 +114,7 @@ export const TransactionShowWidget = () => {
     };
 
     const makeStorno = () => {
-        fetch(`https://bf-manager.bfgate.api4ftx.cloud/v1/manager/storno/transactions/man_set_state`, {
+        fetch(`https://bf-manager.bfgate.api4ftx.cloud/v1/manager/storno`, {
             method: "POST",
             body: JSON.stringify({
                 source: record.source,
@@ -124,11 +124,15 @@ export const TransactionShowWidget = () => {
                 }
             })
         })
-            .then(() => {
-                notify(translate("resources.transactions.show.success"));
+            .then(resp => resp.json())
+            .then(json => {
+                if (json.status) {
+                    notify(translate("resources.transactions.show.success"));
+                } else {
+                    throw new Error(json.error || "Unknown error");
+                }
             })
             .catch(e => {
-                console.log(e);
                 notify(e.message, { type: "error" });
             })
             .finally(() => {
