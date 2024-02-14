@@ -150,7 +150,11 @@ export const TransactionShowWidget = () => {
 
     const commitTransaction = () => {
         fetch(`${API_URL}/transactions/commit`, {
-            method: "POST"
+            method: "POST",
+            body: JSON.stringify({ id: record.id }),
+            headers: {
+                "Content-Type": "application/json"
+            }
         })
             .then(resp => resp.json())
             .then(json => {
