@@ -52,7 +52,9 @@ const ru = {
                 statusButton: "Ручной перевод в статус",
                 save: "Сохранить",
                 cancel: "Отмена",
-                success: "Успешно"
+                success: "Успешно",
+                storno: "Сторно",
+                commit: "Зафиксировать"
             }
         }
     }
@@ -108,7 +110,9 @@ const en = {
                 statusButton: "Manual change status",
                 save: "Save",
                 cancel: "Cancel",
-                success: "Success"
+                success: "Success",
+                storno: "Storno",
+                commit: "Commit"
             }
         }
     }

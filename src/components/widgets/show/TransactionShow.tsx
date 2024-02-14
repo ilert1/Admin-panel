@@ -64,7 +64,6 @@ const StateDialog = (props: any) => {
                 refresh();
             });
         props?.onClose?.();
-        refresh();
     };
 
     return (
@@ -95,11 +94,14 @@ const StateDialog = (props: any) => {
     );
 };
 
-export const TransactionShow = () => {
+export const TransactionShowWidget = () => {
     const dataProvider = useDataProvider();
     const { data } = useQuery([], () => dataProvider.getDictionaries());
 
     const translate = useTranslate();
+    const notify = useNotify();
+    const refresh = useRefresh();
+    const record = useRecordContext();
 
     const [statusDialogOpen, setStatusDialogOpen] = useState(false);
 
@@ -111,8 +113,51 @@ export const TransactionShow = () => {
         setStatusDialogOpen(false);
     };
 
+    const makeStorno = () => {
+        fetch(`https://bf-manager.bfgate.api4ftx.cloud/v1/manager/storno/transactions/man_set_state`, {
+            method: "POST",
+            body: JSON.stringify({
+                source: record.source,
+                destination: record.destination,
+                meta: {
+                    id: record.id
+                }
+            })
+        })
+            .then(() => {
+                notify(translate("resources.transactions.show.success"));
+            })
+            .catch(e => {
+                console.log(e);
+                notify(e.message, { type: "error" });
+            })
+            .finally(() => {
+                refresh();
+            });
+    };
+
+    const commitTransaction = () => {
+        fetch(`${API_URL}/transactions/commit`, {
+            method: "POST"
+        })
+            .then(resp => resp.json())
+            .then(json => {
+                if (json.status) {
+                    notify(translate("resources.transactions.show.success"));
+                } else {
+                    throw new Error(json.error || "Unknown error");
+                }
+            })
+            .catch(e => {
+                notify(e.message, { type: "error" });
+            })
+            .finally(() => {
+                refresh();
+            });
+    };
+
     return (
-        <Show>
+        <>
             <Grid container spacing={2} sx={{ p: 2 }}>
                 <Grid container item xs={12}>
                     <Grid item xs={12} sm={6} md={4}>
@@ -227,9 +272,17 @@ export const TransactionShow = () => {
                 </Grid>
                 <Grid item>
                     <Button onClick={openStatusDialog}>{translate("resources.transactions.show.statusButton")}</Button>
+                    <Button onClick={makeStorno}>{translate("resources.transactions.show.storno")}</Button>
+                    <Button onClick={commitTransaction}>{translate("resources.transactions.show.commit")}</Button>
                 </Grid>
             </Grid>
             <StateDialog open={statusDialogOpen} onClose={closeStatusDialog} data={data} />
-        </Show>
+        </>
     );
 };
+
+export const TransactionShow = () => (
+    <Show>
+        <TransactionShowWidget />
+    </Show>
+);
