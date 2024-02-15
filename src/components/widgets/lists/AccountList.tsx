@@ -14,7 +14,7 @@ export const AccountList = () => {
                         fontWeight: "bold"
                     }
                 }}>
-                <TextField source="id" sortable={false} />
+                <TextField source="meta.caption" sortable={false} />
                 <TextField source="owner_id" sortable={false} />
                 <FunctionField source="state" render={(record: any) => data?.accountStates[record.state]?.type_descr} />
                 <FunctionField source="type" render={(record: any) => data?.accountTypes[record.type]?.type_descr} />

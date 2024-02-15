@@ -236,7 +236,7 @@ export const TransactionShowWidget = () => {
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
                         <Labeled>
-                            <TextField source="source.id" />
+                            <TextField source="source.meta.caption" />
                         </Labeled>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
@@ -258,7 +258,7 @@ export const TransactionShowWidget = () => {
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
                         <Labeled>
-                            <TextField source="destination.id" />
+                            <TextField source="destination.meta.caption" />
                         </Labeled>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>

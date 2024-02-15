@@ -36,6 +36,9 @@ const ru = {
                     amount: {
                         currency: "Валюта",
                         value: "Сумма"
+                    },
+                    meta: {
+                        caption: "Название"
                     }
                 },
                 destination: {
@@ -44,6 +47,9 @@ const ru = {
                     amount: {
                         currency: "Валюта",
                         value: "Сумма"
+                    },
+                    meta: {
+                        caption: "Название"
                     }
                 },
                 recipient: "Получатель",
@@ -100,6 +106,9 @@ const en = {
                     amount: {
                         currency: "Currency",
                         value: "Value"
+                    },
+                    meta: {
+                        caption: "Name"
                     }
                 },
                 destination: {
@@ -108,6 +117,9 @@ const en = {
                     amount: {
                         currency: "Currency",
                         value: "Value"
+                    },
+                    meta: {
+                        caption: "Name"
                     }
                 },
                 recipient: "Recipient",
