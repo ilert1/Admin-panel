@@ -13,7 +13,8 @@ import {
     useRecordContext,
     useRefresh,
     useNotify,
-    DateField
+    DateField,
+    useGetList
 } from "react-admin";
 import {
     Grid,
@@ -25,11 +26,12 @@ import {
     FormControl,
     InputLabel,
     MenuItem,
-    Typography
+    Typography,
+    TextField as MUITextField
 } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useQuery } from "react-query";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { API_URL } from "@/helpers";
 
 const StateDialog = (props: any) => {
@@ -81,10 +83,8 @@ const StateDialog = (props: any) => {
             <DialogTitle>{translate("resources.transactions.show.statusButton")}</DialogTitle>
             <DialogContent>
                 <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">
-                        {translate("resources.transactions.fields.state.title")}
-                    </InputLabel>
-                    <Select onChange={handleChange} value={value}>
+                    <InputLabel shrink={true}>{translate("resources.transactions.fields.state.title")}</InputLabel>
+                    <Select onChange={handleChange} value={value} notched={true}>
                         {data?.states &&
                             Object.keys(data?.states).map((key, i) => (
                                 <MenuItem key={i} value={data?.states[key].state_int}>
@@ -104,33 +104,57 @@ const StateDialog = (props: any) => {
     );
 };
 
-export const TransactionShowWidget = () => {
-    const dataProvider = useDataProvider();
-    const { data } = useQuery([], () => dataProvider.getDictionaries());
-
+const StornoDialog = (props: any) => {
     const translate = useTranslate();
+
+    const { accounts, ...rest } = props;
+
+    const record = useRecordContext();
     const notify = useNotify();
     const refresh = useRefresh();
-    const record = useRecordContext();
 
-    const [statusDialogOpen, setStatusDialogOpen] = useState(false);
+    const [value, setValue] = useState("");
+    const [source, setSource] = useState("");
+    const [destination, setDestination] = useState("");
 
-    const openStatusDialog = () => {
-        setStatusDialogOpen(true);
+    const handleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setValue(event.target.value);
     };
 
-    const closeStatusDialog = () => {
-        setStatusDialogOpen(false);
+    const handleSourceChange = (event: SelectChangeEvent) => {
+        setSource(event.target.value);
+        if (event.target.value === destination) {
+            setDestination("");
+        }
+    };
+
+    const handleDestinationChange = (event: SelectChangeEvent) => {
+        setDestination(event.target.value);
+        if (event.target.value === source) {
+            setSource("");
+        }
     };
 
     const makeStorno = () => {
         fetch(`https://bf-manager.bfgate.api4ftx.cloud/v1/manager/storno`, {
             method: "POST",
             body: JSON.stringify({
-                source: record.source,
-                destination: record.destination,
+                source: {
+                    id: source,
+                    amount: {
+                        currency: "RUB",
+                        value: +value
+                    }
+                },
+                destination: {
+                    id: destination,
+                    amount: {
+                        currency: "RUB",
+                        value: +value
+                    }
+                },
                 meta: {
-                    id: record.id
+                    parentId: record.id
                 }
             })
         })
@@ -148,6 +172,86 @@ export const TransactionShowWidget = () => {
             .finally(() => {
                 refresh();
             });
+        props?.onClose?.();
+    };
+
+    return (
+        <Dialog {...rest}>
+            <DialogTitle>{translate("resources.transactions.show.storno")}</DialogTitle>
+            <DialogContent>
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">
+                        {translate("resources.transactions.fields.source.header")}
+                    </InputLabel>
+                    <Select onChange={handleSourceChange} value={source}>
+                        {accounts &&
+                            accounts.map((acc: any) => (
+                                <MenuItem key={acc.id} value={acc.id}>
+                                    {acc.meta.caption}
+                                </MenuItem>
+                            ))}
+                    </Select>
+                </FormControl>
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">
+                        {translate("resources.transactions.fields.destination.header")}
+                    </InputLabel>
+                    <Select onChange={handleDestinationChange} value={destination}>
+                        {accounts &&
+                            accounts.map((acc: any) => (
+                                <MenuItem key={acc.id} value={acc.id}>
+                                    {acc.meta.caption}
+                                </MenuItem>
+                            ))}
+                    </Select>
+                </FormControl>
+                <MUITextField
+                    type="number"
+                    fullWidth
+                    label={translate("resources.transactions.fields.value")}
+                    value={value}
+                    onChange={handleValueChange}
+                />
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={makeStorno} disabled={!source || !destination || !value}>
+                    {translate("resources.transactions.show.save")}
+                </Button>
+                <Button onClick={props?.onClose} color="error">
+                    {translate("resources.transactions.show.cancel")}
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
+};
+
+export const TransactionShowWidget = () => {
+    const dataProvider = useDataProvider();
+    const { data } = useQuery([], () => dataProvider.getDictionaries());
+    const { data: accounts } = useGetList("accounts");
+
+    const translate = useTranslate();
+    const notify = useNotify();
+    const refresh = useRefresh();
+    const record = useRecordContext();
+
+    const [statusDialogOpen, setStatusDialogOpen] = useState(false);
+    const [stornoDialogOpen, setStornoDialogOpen] = useState(false);
+
+    const openStatusDialog = () => {
+        setStatusDialogOpen(true);
+    };
+
+    const closeStatusDialog = () => {
+        setStatusDialogOpen(false);
+    };
+
+    const openStornoDialog = () => {
+        setStornoDialogOpen(true);
+    };
+
+    const closeStornoDialog = () => {
+        setStornoDialogOpen(false);
     };
 
     const commitTransaction = () => {
@@ -320,7 +424,7 @@ export const TransactionShowWidget = () => {
                 </Grid>
                 <Grid item>
                     <Button onClick={openStatusDialog}>{translate("resources.transactions.show.statusButton")}</Button>
-                    <Button disabled={!record?.dispute} onClick={makeStorno}>
+                    <Button disabled={!record?.dispute} onClick={openStornoDialog}>
                         {translate("resources.transactions.show.storno")}
                     </Button>
                     <Button onClick={commitTransaction}>{translate("resources.transactions.show.commit")}</Button>
@@ -332,6 +436,7 @@ export const TransactionShowWidget = () => {
                 </Grid>
             </Grid>
             <StateDialog open={statusDialogOpen} onClose={closeStatusDialog} data={data} />
+            <StornoDialog open={stornoDialogOpen} onClose={closeStornoDialog} accounts={accounts} />
         </>
     );
 };

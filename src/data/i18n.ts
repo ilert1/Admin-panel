@@ -42,7 +42,7 @@ const ru = {
                     }
                 },
                 destination: {
-                    header: "Получаетль",
+                    header: "Получатель",
                     id: "ID",
                     amount: {
                         currency: "Валюта",
