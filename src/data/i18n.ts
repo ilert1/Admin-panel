@@ -26,7 +26,8 @@ const ru = {
                 committed: "Зафиксированная",
                 dispute: "Диспут",
                 meta: {
-                    external_status: "Внешний статус"
+                    external_status: "Внешний статус",
+                    parentId: "ID родительской транзакции"
                 },
                 state: {
                     title: "Состояние",
@@ -34,6 +35,7 @@ const ru = {
                     state_int: "Код",
                     state_description: "Статус"
                 },
+                stornoIds: "Транзакции сторно",
                 source: {
                     header: "Отправитель",
                     id: "ID",
@@ -100,7 +102,8 @@ const en = {
                 committed: "Committed",
                 dispute: "Dispute",
                 meta: {
-                    external_status: "External status"
+                    external_status: "External status",
+                    parentId: "Parent transaction ID"
                 },
                 state: {
                     title: "State",
@@ -108,6 +111,7 @@ const en = {
                     state_int: "Code",
                     state_description: "Status"
                 },
+                stornoIds: "Storno transactions",
                 source: {
                     header: "Sender",
                     id: "ID",

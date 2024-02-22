@@ -14,7 +14,8 @@ import {
     useRefresh,
     useNotify,
     DateField,
-    useGetList
+    useGetList,
+    SingleFieldList
 } from "react-admin";
 import {
     Grid,
@@ -27,7 +28,8 @@ import {
     InputLabel,
     MenuItem,
     Typography,
-    TextField as MUITextField
+    TextField as MUITextField,
+    Link
 } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useQuery } from "react-query";
@@ -396,6 +398,31 @@ export const TransactionShowWidget = () => {
                         </ArrayField>
                     </Labeled>
                 </Grid>
+                {record?.history?.stornoIds?.length > 0 && (
+                    <Grid item xs={12}>
+                        <Labeled label="resources.transactions.fields.stornoIds">
+                            <ArrayField source="history.stornoIds">
+                                <SingleFieldList linkType={false}>
+                                    <FunctionField
+                                        render={(r: any) => <Link href={`#/transactions/${r}/show`}>{r}</Link>}
+                                    />
+                                </SingleFieldList>
+                            </ArrayField>
+                        </Labeled>
+                    </Grid>
+                )}
+                {record?.meta?.parentId && (
+                    <Grid item xs={12}>
+                        <Labeled>
+                            <FunctionField
+                                source="meta.parentId"
+                                render={(r: any) => (
+                                    <Link href={`#/transactions/${r.meta.parentId}/show`}>{r.meta.parentId}</Link>
+                                )}
+                            />
+                        </Labeled>
+                    </Grid>
+                )}
                 <Grid item xs={12}>
                     <Labeled label="resources.transactions.fields.history">
                         <ReferenceManyField reference="transactions" target="id">
