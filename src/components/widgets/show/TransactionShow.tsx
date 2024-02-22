@@ -418,6 +418,11 @@ export const TransactionShowWidget = () => {
                                 />
                                 <BooleanField label="resources.transactions.fields.state.final" source="state.final" />
                                 <BooleanField label="resources.transactions.fields.committed" source="committed" />
+                                <BooleanField label="resources.transactions.fields.dispute" source="dispute" />
+                                <TextField
+                                    label="resources.transactions.fields.meta.external_status"
+                                    source="meta.external_status"
+                                />
                             </Datagrid>
                         </ReferenceManyField>
                     </Labeled>

@@ -24,6 +24,10 @@ const ru = {
                 id: "ID",
                 created_at: "Дата создания",
                 committed: "Зафиксированная",
+                dispute: "Диспут",
+                meta: {
+                    external_status: "Внешний статус"
+                },
                 state: {
                     title: "Состояние",
                     final: "Финальная",
@@ -94,6 +98,10 @@ const en = {
                 id: "ID",
                 created_at: "Created at",
                 committed: "Committed",
+                dispute: "Dispute",
+                meta: {
+                    external_status: "External status"
+                },
                 state: {
                     title: "State",
                     final: "Is final",
