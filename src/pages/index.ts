@@ -1,0 +1,1 @@
+export { PayInPage } from "./PayIn";
