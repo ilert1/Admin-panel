@@ -1,1 +1,324 @@
-export const PayInPage = () => <>payin</>;
+import { useMemo, useState, ChangeEvent, useEffect } from "react";
+import { useQuery, useMutation } from "react-query";
+import {
+    Card,
+    CardContent,
+    CircularProgress,
+    Box,
+    Stack,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    SelectChangeEvent,
+    Button,
+    TextField,
+    Typography
+} from "@mui/material";
+import { useTranslate, useDataProvider } from "react-admin";
+
+export const PayInPage = () => {
+    const translate = useTranslate();
+
+    const dataProvider = useDataProvider();
+
+    const [step, setStep] = useState(0);
+    const [source, setSource] = useState("");
+    const [dest, setDest] = useState("");
+    const [sourceValue, setSourceValue] = useState("");
+    const [destValue, setDestValue] = useState("");
+    const [payMethod, setPayMethod] = useState<any>();
+    const [last4Digits, setLast4Digits] = useState("");
+
+    const { isLoading: initialLoading, data: accounts } = useQuery("accounts", () =>
+        fetch("https://juggler.bfgate.api4ftx.cloud/accounts").then(response => response.json())
+    );
+
+    const {
+        isLoading: payMethodsLoading,
+        data: payMethods,
+        refetch: loadPayMethods
+    } = useQuery(
+        "pay-methods",
+        () =>
+            fetch("https://bf-manager.bfgate.api4ftx.cloud/v1/manager/paymethods")
+                .then(response => response.json())
+                .then((json: any) => json.data),
+        {
+            refetchOnWindowFocus: false,
+            enabled: false
+        }
+    );
+
+    const {
+        isLoading: transactionLoading,
+        data: transaction,
+        refetch: loadTransaction
+    } = useQuery("transaction", () => dataProvider.getOne("transactions", { id: createResponse.data.id }), {
+        refetchOnWindowFocus: false,
+        enabled: step === 4,
+        refetchInterval: (data): number | false => (!data?.data?.state?.final ? 3000 : false)
+    });
+
+    const {
+        isLoading: dictionariesLoading,
+        data: dictionaries,
+        refetch: loadDictionaries
+    } = useQuery([], () => dataProvider.getDictionaries(), {
+        refetchOnWindowFocus: false,
+        enabled: false
+    });
+
+    const sourceAccounts = useMemo(() => accounts?.data?.filter((elem: any) => elem.type === 2), [accounts]);
+    const destinationAccounts = useMemo(() => accounts?.data?.filter((elem: any) => elem.type === 1), [accounts]);
+
+    const handleSourceChange = (event: SelectChangeEvent) => {
+        setSource(event.target.value);
+    };
+
+    const handleDestChange = (event: SelectChangeEvent) => {
+        setDest(event.target.value);
+    };
+
+    const handlePayMethodChange = (event: SelectChangeEvent) => {
+        setPayMethod(event.target.value);
+    };
+
+    const {
+        mutate: payInCreate,
+        isLoading: payInCreateLoading,
+        data: createResponse
+    } = useMutation(() =>
+        fetch(`https://bf-manager.bfgate.api4ftx.cloud/v1/payin/create`, {
+            method: "POST",
+            body: JSON.stringify({
+                source: {
+                    id: source,
+                    amount: {
+                        currency: "RUB",
+                        value: +sourceValue
+                    }
+                },
+                destination: {
+                    id: dest,
+                    amount: {
+                        currency: "RUB",
+                        value: +destValue
+                    }
+                }
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(response => response.json())
+    );
+
+    const {
+        mutate: payInStart,
+        isLoading: payInStartLoading,
+        data: startResponse
+    } = useMutation(() =>
+        fetch(`https://bf-manager.bfgate.api4ftx.cloud/v1/payin/start`, {
+            method: "POST",
+            body: JSON.stringify({
+                id: createResponse.data.id,
+                message: {
+                    payment: {
+                        type: payMethod.paymentType,
+                        bank: payMethod.bank
+                    }
+                }
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(response => response.json())
+    );
+
+    const {
+        mutate: payInConfirm,
+        isLoading: payInConfirmLoading,
+        data: confirmResponse
+    } = useMutation(() =>
+        fetch(`https://bf-manager.bfgate.api4ftx.cloud/v1/payin/confirm`, {
+            method: "POST",
+            body: JSON.stringify({
+                id: createResponse.data.id,
+                message: {
+                    payment: {
+                        customerCardLastDigits: last4Digits
+                    }
+                }
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(response => response.json())
+    );
+
+    useEffect(() => {
+        if (createResponse?.success) {
+            setStep(1);
+        }
+    }, [createResponse]);
+
+    useEffect(() => {
+        if (startResponse?.success) {
+            setStep(2);
+        }
+    }, [startResponse]);
+
+    useEffect(() => {
+        if (confirmResponse?.success) {
+            setStep(3);
+        }
+    }, [confirmResponse]);
+
+    useEffect(() => {
+        if (step === 1) {
+            loadPayMethods();
+        } else if (step === 3) {
+            loadTransaction();
+        } else if (step === 4) {
+            loadDictionaries();
+        }
+    }, [step]); //eslint-disable-line react-hooks/exhaustive-deps
+
+    const isLoading = useMemo(
+        () =>
+            initialLoading ||
+            payInCreateLoading ||
+            payMethodsLoading ||
+            payInStartLoading ||
+            payInConfirmLoading ||
+            transactionLoading ||
+            dictionariesLoading,
+        [
+            initialLoading,
+            payInCreateLoading,
+            payMethodsLoading,
+            payInStartLoading,
+            payInConfirmLoading,
+            transactionLoading,
+            dictionariesLoading
+        ]
+    );
+
+    return (
+        <Card sx={{ mt: 6 }}>
+            <CardContent>
+                {isLoading ? (
+                    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <CircularProgress />
+                    </Box>
+                ) : step == 0 ? (
+                    <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+                        <Stack direction="row" spacing={2}>
+                            <FormControl sx={{ m: 1, width: 300 }}>
+                                <InputLabel>{translate("pages.payIn.source")}</InputLabel>
+                                <Select value={source} onChange={handleSourceChange}>
+                                    {sourceAccounts?.map((acc: any) => (
+                                        <MenuItem key={acc.id} value={acc.id}>
+                                            {acc.meta.caption}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <TextField
+                                type="number"
+                                label={translate("pages.payIn.sourceValue")}
+                                value={sourceValue}
+                                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                    setSourceValue(event.target.value);
+                                }}
+                            />
+                        </Stack>
+                        <Stack direction="row" spacing={2}>
+                            <FormControl sx={{ m: 1, width: 300 }}>
+                                <InputLabel>{translate("pages.payIn.destination")}</InputLabel>
+                                <Select value={dest} onChange={handleDestChange}>
+                                    {destinationAccounts?.map((acc: any) => (
+                                        <MenuItem key={acc.id} value={acc.id}>
+                                            {acc.meta.caption}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <TextField
+                                type="number"
+                                label={translate("pages.payIn.destValue")}
+                                value={destValue}
+                                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                    setDestValue(event.target.value);
+                                }}
+                            />
+                        </Stack>
+
+                        <Button disabled={!source || !dest || !sourceValue || !destValue} onClick={() => payInCreate()}>
+                            {translate("pages.payIn.createOrder")}
+                        </Button>
+                    </Stack>
+                ) : step === 1 ? (
+                    <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+                        <FormControl sx={{ m: 1, width: 300 }}>
+                            <InputLabel>{translate("pages.payIn.payMethods")}</InputLabel>
+                            <Select value={payMethod} onChange={handlePayMethodChange}>
+                                {payMethods?.map((method: any, i: number) => (
+                                    <MenuItem key={i} value={method}>
+                                        {method.bankName + " - " + method.paymentTypeName}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <Button disabled={!payMethod} onClick={() => payInStart()}>
+                            {translate("pages.payIn.select")}
+                        </Button>
+                    </Stack>
+                ) : step === 2 ? (
+                    <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+                        <TextField
+                            inputProps={{ maxLength: 4 }}
+                            label={translate("pages.payIn.last4Digits")}
+                            value={last4Digits}
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                setLast4Digits(event.target.value);
+                            }}
+                        />
+                        <Button disabled={last4Digits?.length < 4} onClick={() => payInConfirm()}>
+                            {translate("pages.payIn.confirm")}
+                        </Button>
+                    </Stack>
+                ) : step === 3 ? (
+                    <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+                        <div>
+                            <Typography variant="caption">{translate("pages.payIn.bank")}</Typography>
+                            <Typography variant="body1">{transaction?.data?.result?.bank}</Typography>
+                        </div>
+                        <div>
+                            <Typography variant="caption">{translate("pages.payIn.cardInfo")}</Typography>
+                            <Typography variant="body1">{transaction?.data?.result?.cardInfo}</Typography>
+                        </div>
+                        <div>
+                            <Typography variant="caption">{translate("pages.payIn.cardHolder")}</Typography>
+                            <Typography variant="body1">{transaction?.data?.result?.cardHolder}</Typography>
+                        </div>
+                        <Button onClick={() => setStep(4)}>{translate("pages.payIn.done")}</Button>
+                    </Stack>
+                ) : step === 4 ? (
+                    <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+                        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                            <Typography variant="body1">
+                                {dictionaries.states?.[transaction?.data?.state?.state_int]?.state_description}
+                            </Typography>
+                        </Box>
+                        {!transaction?.data?.state?.final && (
+                            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                <CircularProgress />
+                            </Box>
+                        )}
+                    </Stack>
+                ) : null}
+            </CardContent>
+        </Card>
+    );
+};

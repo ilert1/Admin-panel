@@ -9,11 +9,6 @@ export class TransactionDataProvider extends BaseDataProvider {
         const sourceId = json?.data?.source?.id;
         const dest = await http(`https://juggler.bfgate.api4ftx.cloud/accounts/${destId}`);
         const source = await http(`https://juggler.bfgate.api4ftx.cloud/accounts/${sourceId}`);
-        console.log({
-            ...json.data,
-            destination: { ...json.data.destination, meta: dest.json.data.meta },
-            source: { ...json.data.source, meta: source.json.data.meta }
-        });
         return {
             data: {
                 ...json.data,

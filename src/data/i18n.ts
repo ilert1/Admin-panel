@@ -75,6 +75,23 @@ const ru = {
                 closeDispute: "Закрыть диспут"
             }
         }
+    },
+    pages: {
+        payIn: {
+            source: "Счет источник",
+            destination: "Счет получатель",
+            createOrder: "Создать ордер",
+            sourceValue: "Сумма пополнения",
+            destValue: "Сумма зачисления",
+            payMethods: "Методы оплаты",
+            select: "Выбрать",
+            last4Digits: "Последние 4 цифры карты",
+            confirm: "Подтвердить",
+            bank: "Банк",
+            cardInfo: "Номер карты",
+            cardHolder: "Владелец карты",
+            done: "Проведено"
+        }
     }
 };
 
@@ -150,6 +167,23 @@ const en = {
                 openDispute: "Open dispute",
                 closeDispute: "Close dispute"
             }
+        }
+    },
+    pages: {
+        payIn: {
+            source: "Source account",
+            destination: "Destination account",
+            createOrder: "Create order",
+            sourceValue: "Source value",
+            destValue: "Destination value",
+            payMethods: "Pay methods",
+            select: "Select",
+            last4Digits: "Card last 4 digits",
+            confirm: "Confirm",
+            bank: "Bank",
+            cardInfo: "Card info",
+            cardHolder: "Card holder",
+            done: "Done"
         }
     }
 };
