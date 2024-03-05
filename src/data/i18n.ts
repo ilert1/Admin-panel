@@ -76,6 +76,11 @@ const ru = {
             }
         }
     },
+    app: {
+        menu: {
+            payin: "Создать транзакцию Пополнение"
+        }
+    },
     pages: {
         payIn: {
             source: "Счет источник",
@@ -90,7 +95,8 @@ const ru = {
             bank: "Банк",
             cardInfo: "Номер карты",
             cardHolder: "Владелец карты",
-            done: "Проведено"
+            done: "Проведено",
+            loadingInfo: "Загрузка информации"
         }
     }
 };
@@ -169,6 +175,11 @@ const en = {
             }
         }
     },
+    app: {
+        menu: {
+            payin: "Create pay in transaction"
+        }
+    },
     pages: {
         payIn: {
             source: "Source account",
@@ -183,7 +194,8 @@ const en = {
             bank: "Bank",
             cardInfo: "Card info",
             cardHolder: "Card holder",
-            done: "Done"
+            done: "Done",
+            loadingInfo: "Loading info"
         }
     }
 };

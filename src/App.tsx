@@ -1,4 +1,4 @@
-import { Admin, CustomRoutes, Resource, combineDataProviders, Menu, Layout } from "react-admin";
+import { Admin, CustomRoutes, Resource, combineDataProviders, Menu, Layout, useTranslate } from "react-admin";
 import { TransactionDataProvider, i18nProvider } from "@/data";
 import {
     Receipt as ReceiptIcon,
@@ -12,13 +12,16 @@ import { AccountShow, TransactionShow } from "./components/widgets/show";
 import { Route } from "react-router-dom";
 import { PayInPage } from "./pages";
 
-export const MyMenu = () => (
-    <Menu>
-        <Menu.DashboardItem />
-        <Menu.ResourceItems />
-        <Menu.Item to="/payin" primaryText="Pay IN" leftIcon={<AddCardIcon />} />
-    </Menu>
-);
+export const MyMenu = () => {
+    const translate = useTranslate();
+    return (
+        <Menu>
+            <Menu.DashboardItem />
+            <Menu.ResourceItems />
+            <Menu.Item to="/payin" primaryText={translate("app.menu.payin")} leftIcon={<AddCardIcon />} />
+        </Menu>
+    );
+};
 
 export const MyLayout = (props: any) => <Layout {...props} menu={MyMenu} />;
 

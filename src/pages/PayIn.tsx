@@ -27,7 +27,7 @@ export const PayInPage = () => {
     const [dest, setDest] = useState("");
     const [sourceValue, setSourceValue] = useState("");
     const [destValue, setDestValue] = useState("");
-    const [payMethod, setPayMethod] = useState<any>();
+    const [payMethod, setPayMethod] = useState<any>("");
     const [last4Digits, setLast4Digits] = useState("");
 
     const { isLoading: initialLoading, data: accounts } = useQuery("accounts", () =>
@@ -56,17 +56,18 @@ export const PayInPage = () => {
         refetch: loadTransaction
     } = useQuery("transaction", () => dataProvider.getOne("transactions", { id: createResponse.data.id }), {
         refetchOnWindowFocus: false,
-        enabled: step === 4,
-        refetchInterval: (data): number | false => (!data?.data?.state?.final ? 3000 : false)
-    });
-
-    const {
-        isLoading: dictionariesLoading,
-        data: dictionaries,
-        refetch: loadDictionaries
-    } = useQuery([], () => dataProvider.getDictionaries(), {
-        refetchOnWindowFocus: false,
-        enabled: false
+        enabled: [3, 4].includes(step),
+        refetchInterval: (data): number | false => {
+            if (
+                (step === 3 &&
+                    (!data?.data?.result?.cardHolder || !data?.data?.result?.bank || !data?.data?.result?.cardInfo)) ||
+                (step === 4 && !data?.data?.state?.final)
+            ) {
+                return 3000;
+            } else {
+                return false;
+            }
+        }
     });
 
     const sourceAccounts = useMemo(() => accounts?.data?.filter((elem: any) => elem.type === 2), [accounts]);
@@ -179,8 +180,6 @@ export const PayInPage = () => {
             loadPayMethods();
         } else if (step === 3) {
             loadTransaction();
-        } else if (step === 4) {
-            loadDictionaries();
         }
     }, [step]); //eslint-disable-line react-hooks/exhaustive-deps
 
@@ -191,16 +190,14 @@ export const PayInPage = () => {
             payMethodsLoading ||
             payInStartLoading ||
             payInConfirmLoading ||
-            transactionLoading ||
-            dictionariesLoading,
+            transactionLoading,
         [
             initialLoading,
             payInCreateLoading,
             payMethodsLoading,
             payInStartLoading,
             payInConfirmLoading,
-            transactionLoading,
-            dictionariesLoading
+            transactionLoading
         ]
     );
 
@@ -292,24 +289,28 @@ export const PayInPage = () => {
                     <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
                         <div>
                             <Typography variant="caption">{translate("pages.payIn.bank")}</Typography>
-                            <Typography variant="body1">{transaction?.data?.result?.bank}</Typography>
+                            <Typography variant="body1">
+                                {transaction?.data?.result?.bank || translate("pages.payIn.loadingInfo")}
+                            </Typography>
                         </div>
                         <div>
                             <Typography variant="caption">{translate("pages.payIn.cardInfo")}</Typography>
-                            <Typography variant="body1">{transaction?.data?.result?.cardInfo}</Typography>
+                            <Typography variant="body1">
+                                {transaction?.data?.result?.cardInfo || translate("pages.payIn.loadingInfo")}
+                            </Typography>
                         </div>
                         <div>
                             <Typography variant="caption">{translate("pages.payIn.cardHolder")}</Typography>
-                            <Typography variant="body1">{transaction?.data?.result?.cardHolder}</Typography>
+                            <Typography variant="body1">
+                                {transaction?.data?.result?.cardHolder || translate("pages.payIn.loadingInfo")}
+                            </Typography>
                         </div>
                         <Button onClick={() => setStep(4)}>{translate("pages.payIn.done")}</Button>
                     </Stack>
                 ) : step === 4 ? (
                     <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
                         <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                            <Typography variant="body1">
-                                {dictionaries.states?.[transaction?.data?.state?.state_int]?.state_description}
-                            </Typography>
+                            <Typography variant="body1">{transaction?.data?.state?.state_description}</Typography>
                         </Box>
                         {!transaction?.data?.state?.final && (
                             <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
