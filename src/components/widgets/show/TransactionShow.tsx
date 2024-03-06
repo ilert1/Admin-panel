@@ -482,7 +482,7 @@ export const TransactionShowWidget = () => {
                 </Grid>
                 <Grid item>
                     <Button onClick={openStatusDialog}>{translate("resources.transactions.show.statusButton")}</Button>
-                    <Button disabled={false && !record?.dispute} onClick={openStornoDialog}>
+                    <Button disabled={!record?.dispute} onClick={openStornoDialog}>
                         {translate("resources.transactions.show.storno")}
                     </Button>
                     <Button onClick={commitTransaction}>{translate("resources.transactions.show.commit")}</Button>
