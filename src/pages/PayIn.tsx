@@ -58,9 +58,12 @@ export const PayInPage = () => {
         refetchOnWindowFocus: false,
         enabled: [3, 4].includes(step),
         refetchInterval: (data): number | false => {
+            console.log(data);
             if (
                 (step === 3 &&
-                    (!data?.data?.result?.cardHolder || !data?.data?.result?.bank || !data?.data?.result?.cardInfo)) ||
+                    (!data?.data?.result?.data?.cardholder ||
+                        !data?.data?.result?.data?.bank ||
+                        !data?.data?.result?.data?.cardInfo)) ||
                 (step === 4 && !data?.data?.state?.final)
             ) {
                 return 3000;
@@ -288,22 +291,26 @@ export const PayInPage = () => {
                 ) : step === 3 ? (
                     <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
                         <div>
-                            <Typography variant="caption">{translate("pages.payIn.bank")}</Typography>
-                            <Typography variant="body1">
-                                {transaction?.data?.result?.bank || translate("pages.payIn.loadingInfo")}
-                            </Typography>
-                        </div>
-                        <div>
-                            <Typography variant="caption">{translate("pages.payIn.cardInfo")}</Typography>
-                            <Typography variant="body1">
-                                {transaction?.data?.result?.cardInfo || translate("pages.payIn.loadingInfo")}
-                            </Typography>
-                        </div>
-                        <div>
-                            <Typography variant="caption">{translate("pages.payIn.cardHolder")}</Typography>
-                            <Typography variant="body1">
-                                {transaction?.data?.result?.cardHolder || translate("pages.payIn.loadingInfo")}
-                            </Typography>
+                            <div>
+                                <Typography variant="caption">{translate("pages.payIn.bank")}</Typography>
+                                <Typography variant="body1">
+                                    {transaction?.data?.result?.data?.bank || translate("pages.payIn.loadingInfo")}
+                                </Typography>
+                            </div>
+                            <div>
+                                <Typography variant="caption">{translate("pages.payIn.cardInfo")}</Typography>
+                                <Typography variant="body1">
+                                    {transaction?.data?.result?.data?.cardInfo || translate("pages.payIn.loadingInfo")}
+                                </Typography>
+                            </div>
+                            <div>
+                                <Typography variant="caption">{translate("pages.payIn.cardHolder")}</Typography>
+                                <Typography variant="body1">
+                                    {typeof transaction?.data?.result?.data?.cardholder === "string"
+                                        ? transaction?.data?.result?.data?.cardholder
+                                        : translate("pages.payIn.loadingInfo")}
+                                </Typography>
+                            </div>
                         </div>
                         <Button onClick={() => setStep(4)}>{translate("pages.payIn.done")}</Button>
                     </Stack>
