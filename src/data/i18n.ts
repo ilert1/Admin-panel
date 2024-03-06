@@ -58,6 +58,7 @@ const ru = {
                         caption: "Название"
                     }
                 },
+                currency: "Валюта",
                 recipient: "Получатель",
                 type: "Тип",
                 value: "Сумма",
@@ -157,6 +158,7 @@ const en = {
                         caption: "Name"
                     }
                 },
+                currency: "Currency",
                 recipient: "Recipient",
                 value: "Value",
                 type: "Type",

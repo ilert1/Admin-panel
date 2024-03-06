@@ -15,7 +15,8 @@ import {
     useNotify,
     DateField,
     useGetList,
-    SingleFieldList
+    SingleFieldList,
+    useLocaleState
 } from "react-admin";
 import {
     Grid,
@@ -33,7 +34,7 @@ import {
 } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useQuery } from "react-query";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { API_URL } from "@/helpers";
 
 const StateDialog = (props: any) => {
@@ -109,7 +110,9 @@ const StateDialog = (props: any) => {
 const StornoDialog = (props: any) => {
     const translate = useTranslate();
 
-    const { accounts, ...rest } = props;
+    const { accounts, currencies, ...rest } = props;
+
+    const [locale] = useLocaleState();
 
     const record = useRecordContext();
     const notify = useNotify();
@@ -118,6 +121,7 @@ const StornoDialog = (props: any) => {
     const [value, setValue] = useState("");
     const [source, setSource] = useState("");
     const [destination, setDestination] = useState("");
+    const [currency, setCurrency] = useState("");
 
     const handleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value);
@@ -137,6 +141,10 @@ const StornoDialog = (props: any) => {
         }
     };
 
+    const handleCurrencyChange = (event: SelectChangeEvent) => {
+        setCurrency(event.target.value);
+    };
+
     const makeStorno = () => {
         fetch(`https://bf-manager.bfgate.api4ftx.cloud/v1/manager/storno`, {
             method: "POST",
@@ -144,14 +152,14 @@ const StornoDialog = (props: any) => {
                 source: {
                     id: source,
                     amount: {
-                        currency: "RUB",
+                        currency,
                         value: +value
                     }
                 },
                 destination: {
                     id: destination,
                     amount: {
-                        currency: "RUB",
+                        currency,
                         value: +value
                     }
                 },
@@ -207,6 +215,16 @@ const StornoDialog = (props: any) => {
                             ))}
                     </Select>
                 </FormControl>
+                <FormControl fullWidth>
+                    <InputLabel>{translate("resources.transactions.fields.currency")}</InputLabel>
+                    <Select value={currency} onChange={handleCurrencyChange}>
+                        {currencies?.map?.((cur: any) => (
+                            <MenuItem key={cur.code} value={cur["alpha-3"]}>
+                                {`${cur["name-" + locale]} (${cur["alpha-3"]})`}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
                 <MUITextField
                     type="number"
                     fullWidth
@@ -216,7 +234,7 @@ const StornoDialog = (props: any) => {
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={makeStorno} disabled={!source || !destination || !value}>
+                <Button onClick={makeStorno} disabled={!source || !destination || !value || !currency}>
                     {translate("resources.transactions.show.save")}
                 </Button>
                 <Button onClick={props?.onClose} color="error">
@@ -255,6 +273,14 @@ export const TransactionShowWidget = () => {
     const closeStornoDialog = () => {
         setStornoDialogOpen(false);
     };
+
+    const { data: currencies } = useQuery("currencies", () =>
+        fetch("https://juggler.bfgate.api4ftx.cloud/dictionaries/curr").then(response => response.json())
+    );
+
+    const sortedCurrencies = useMemo(() => {
+        return currencies?.data?.sort((a: any, b: any) => a.prior_gr - b.prior_gr) || [];
+    }, [currencies]);
 
     const commitTransaction = () => {
         fetch(`${API_URL}/transactions/commit`, {
@@ -456,7 +482,7 @@ export const TransactionShowWidget = () => {
                 </Grid>
                 <Grid item>
                     <Button onClick={openStatusDialog}>{translate("resources.transactions.show.statusButton")}</Button>
-                    <Button disabled={!record?.dispute} onClick={openStornoDialog}>
+                    <Button disabled={false && !record?.dispute} onClick={openStornoDialog}>
                         {translate("resources.transactions.show.storno")}
                     </Button>
                     <Button onClick={commitTransaction}>{translate("resources.transactions.show.commit")}</Button>
@@ -468,7 +494,12 @@ export const TransactionShowWidget = () => {
                 </Grid>
             </Grid>
             <StateDialog open={statusDialogOpen} onClose={closeStatusDialog} data={data} />
-            <StornoDialog open={stornoDialogOpen} onClose={closeStornoDialog} accounts={accounts} />
+            <StornoDialog
+                open={stornoDialogOpen}
+                onClose={closeStornoDialog}
+                accounts={accounts}
+                currencies={sortedCurrencies}
+            />
         </>
     );
 };

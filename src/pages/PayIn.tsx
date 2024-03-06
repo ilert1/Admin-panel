@@ -15,12 +15,14 @@ import {
     TextField,
     Typography
 } from "@mui/material";
-import { useTranslate, useDataProvider } from "react-admin";
+import { useTranslate, useDataProvider, useLocaleState } from "react-admin";
 
 export const PayInPage = () => {
     const translate = useTranslate();
 
     const dataProvider = useDataProvider();
+
+    const [locale] = useLocaleState();
 
     const [step, setStep] = useState(0);
     const [source, setSource] = useState("");
@@ -58,7 +60,6 @@ export const PayInPage = () => {
         refetchOnWindowFocus: false,
         enabled: [3, 4].includes(step),
         refetchInterval: (data): number | false => {
-            console.log(data);
             if (
                 (step === 3 &&
                     (!data?.data?.result?.data?.cardholder ||
@@ -73,8 +74,18 @@ export const PayInPage = () => {
         }
     });
 
+    const { data: currencies } = useQuery("currencies", () =>
+        fetch("https://juggler.bfgate.api4ftx.cloud/dictionaries/curr").then(response => response.json())
+    );
+
+    const sortedCurrencies = useMemo(() => {
+        return currencies?.data?.sort((a: any, b: any) => a.prior_gr - b.prior_gr) || [];
+    }, [currencies]);
+
     const sourceAccounts = useMemo(() => accounts?.data?.filter((elem: any) => elem.type === 2), [accounts]);
     const destinationAccounts = useMemo(() => accounts?.data?.filter((elem: any) => elem.type === 1), [accounts]);
+    const [sourceCurrency, setSourceCurrency] = useState("");
+    const [destCurrency, setDestCurrency] = useState("");
 
     const handleSourceChange = (event: SelectChangeEvent) => {
         setSource(event.target.value);
@@ -88,6 +99,14 @@ export const PayInPage = () => {
         setPayMethod(event.target.value);
     };
 
+    const handleSourceCurrencyChange = (event: SelectChangeEvent) => {
+        setSourceCurrency(event.target.value);
+    };
+
+    const handleDestCurrencyChange = (event: SelectChangeEvent) => {
+        setDestCurrency(event.target.value);
+    };
+
     const {
         mutate: payInCreate,
         isLoading: payInCreateLoading,
@@ -99,14 +118,14 @@ export const PayInPage = () => {
                 source: {
                     id: source,
                     amount: {
-                        currency: "RUB",
+                        currency: sourceCurrency,
                         value: +sourceValue
                     }
                 },
                 destination: {
                     id: dest,
                     amount: {
-                        currency: "RUB",
+                        currency: destCurrency,
                         value: +destValue
                     }
                 }
@@ -232,6 +251,16 @@ export const PayInPage = () => {
                                     setSourceValue(event.target.value);
                                 }}
                             />
+                            <FormControl sx={{ m: 1, width: 300 }}>
+                                <InputLabel>{translate("resources.transactions.fields.currency")}</InputLabel>
+                                <Select value={sourceCurrency} onChange={handleSourceCurrencyChange}>
+                                    {sortedCurrencies?.map?.((cur: any) => (
+                                        <MenuItem key={cur.code} value={cur["alpha-3"]}>
+                                            {`${cur["name-" + locale]} (${cur["alpha-3"]})`}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
                         </Stack>
                         <Stack direction="row" spacing={2}>
                             <FormControl sx={{ m: 1, width: 300 }}>
@@ -252,6 +281,16 @@ export const PayInPage = () => {
                                     setDestValue(event.target.value);
                                 }}
                             />
+                            <FormControl sx={{ m: 1, width: 300 }}>
+                                <InputLabel>{translate("resources.transactions.fields.currency")}</InputLabel>
+                                <Select value={destCurrency} onChange={handleDestCurrencyChange}>
+                                    {sortedCurrencies?.map?.((cur: any) => (
+                                        <MenuItem key={cur.code} value={cur["alpha-3"]}>
+                                            {`${cur["name-" + locale]} (${cur["alpha-3"]})`}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
                         </Stack>
 
                         <Button disabled={!source || !dest || !sourceValue || !destValue} onClick={() => payInCreate()}>
