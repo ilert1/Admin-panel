@@ -101,7 +101,16 @@ const ru = {
             loadingInfo: "Загрузка информации"
         },
         payOut: {
-            payMethod: "Метод оплаты"
+            payMethod: "Метод оплаты",
+            source: "Счет источник",
+            destination: "Счет получатель",
+            sourceValue: "Сумма пополнения",
+            destValue: "Сумма зачисления",
+            sourceCurrency: "Валюта источника",
+            destinationCurrency: "Валюта получателя",
+            create: "Создать",
+            cardHolder: "Владелец карты",
+            cardInfo: "Номер карты"
         }
     }
 };
@@ -205,7 +214,16 @@ const en = {
             loadingInfo: "Loading info"
         },
         payOut: {
-            payMethod: "Pay method"
+            payMethod: "Pay method",
+            source: "Source account",
+            destination: "Destination account",
+            sourceValue: "Source value",
+            destValue: "Destination value",
+            sourceCurrency: "Source currency",
+            destinationCurrency: "Destination currency",
+            create: "Create",
+            cardHolder: "Card holder",
+            cardInfo: "Card number"
         }
     }
 };

@@ -231,7 +231,7 @@ export const PayInPage = () => {
                         <CircularProgress />
                     </Box>
                 ) : step == 0 ? (
-                    <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+                    <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={2}>
                         <Stack direction="row" spacing={2}>
                             <FormControl sx={{ m: 1, width: 300 }}>
                                 <InputLabel>{translate("pages.payIn.source")}</InputLabel>
@@ -298,7 +298,7 @@ export const PayInPage = () => {
                         </Button>
                     </Stack>
                 ) : step === 1 ? (
-                    <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+                    <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={2}>
                         <FormControl sx={{ m: 1, width: 300 }}>
                             <InputLabel>{translate("pages.payIn.payMethods")}</InputLabel>
                             <Select value={payMethod} onChange={handlePayMethodChange}>
@@ -314,7 +314,7 @@ export const PayInPage = () => {
                         </Button>
                     </Stack>
                 ) : step === 2 ? (
-                    <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+                    <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={2}>
                         <TextField
                             inputProps={{ maxLength: 4 }}
                             label={translate("pages.payIn.last4Digits")}
@@ -328,7 +328,7 @@ export const PayInPage = () => {
                         </Button>
                     </Stack>
                 ) : step === 3 ? (
-                    <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+                    <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={2}>
                         <div>
                             <div>
                                 <Typography variant="caption">{translate("pages.payIn.bank")}</Typography>
@@ -354,7 +354,7 @@ export const PayInPage = () => {
                         <Button onClick={() => setStep(4)}>{translate("pages.payIn.done")}</Button>
                     </Stack>
                 ) : step === 4 ? (
-                    <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+                    <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={2}>
                         <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <Typography variant="body1">{transaction?.data?.state?.state_description}</Typography>
                         </Box>
