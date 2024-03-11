@@ -17,7 +17,6 @@ export const MyMenu = () => {
     const translate = useTranslate();
     return (
         <Menu>
-            <Menu.DashboardItem />
             <Menu.ResourceItems />
             <Menu.Item to="/payin" primaryText={translate("app.menu.payin")} leftIcon={<AddCardIcon />} />
             <Menu.Item to="/payout" primaryText={translate("app.menu.payout")} leftIcon={<CreditScoreIcon />} />

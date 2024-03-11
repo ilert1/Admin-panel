@@ -79,8 +79,8 @@ const ru = {
     },
     app: {
         menu: {
-            payin: "Создать транзакцию Пополнение",
-            payout: "Создать транзакцию Выплата"
+            payin: "Пополнение",
+            payout: "Выплата"
         }
     },
     pages: {
@@ -183,8 +183,8 @@ const en = {
     },
     app: {
         menu: {
-            payin: "Create pay in transaction",
-            payout: "Create pay out transaction"
+            payin: "Pay in",
+            payout: "Pay out"
         }
     },
     pages: {
