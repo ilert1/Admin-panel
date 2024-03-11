@@ -79,7 +79,8 @@ const ru = {
     },
     app: {
         menu: {
-            payin: "Создать транзакцию Пополнение"
+            payin: "Создать транзакцию Пополнение",
+            payout: "Создать транзакцию Выплата"
         }
     },
     pages: {
@@ -98,6 +99,9 @@ const ru = {
             cardHolder: "Владелец карты",
             done: "Проведено",
             loadingInfo: "Загрузка информации"
+        },
+        payOut: {
+            payMethod: "Метод оплаты"
         }
     }
 };
@@ -179,7 +183,8 @@ const en = {
     },
     app: {
         menu: {
-            payin: "Create pay in transaction"
+            payin: "Create pay in transaction",
+            payout: "Create pay out transaction"
         }
     },
     pages: {
@@ -198,6 +203,9 @@ const en = {
             cardHolder: "Card holder",
             done: "Done",
             loadingInfo: "Loading info"
+        },
+        payOut: {
+            payMethod: "Pay method"
         }
     }
 };

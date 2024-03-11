@@ -3,14 +3,15 @@ import { TransactionDataProvider, i18nProvider } from "@/data";
 import {
     Receipt as ReceiptIcon,
     AccountBalanceWallet as AccountBalanceWalletIcon,
-    AddCard as AddCardIcon
+    AddCard as AddCardIcon,
+    CreditScore as CreditScoreIcon
 } from "@mui/icons-material";
 import { BaseDataProvider, AuthProvider } from "@/data";
 import { AccountList, TransactionList } from "@/components/widgets/lists";
 import { AccountCreate } from "@/components/widgets/create";
 import { AccountShow, TransactionShow } from "./components/widgets/show";
 import { Route } from "react-router-dom";
-import { PayInPage } from "./pages";
+import { PayInPage, PayOutPage } from "./pages";
 
 export const MyMenu = () => {
     const translate = useTranslate();
@@ -19,6 +20,7 @@ export const MyMenu = () => {
             <Menu.DashboardItem />
             <Menu.ResourceItems />
             <Menu.Item to="/payin" primaryText={translate("app.menu.payin")} leftIcon={<AddCardIcon />} />
+            <Menu.Item to="/payout" primaryText={translate("app.menu.payout")} leftIcon={<CreditScoreIcon />} />
         </Menu>
     );
 };
@@ -45,6 +47,7 @@ export const App = () => (
         <Resource name="transactions" list={TransactionList} show={TransactionShow} icon={ReceiptIcon} />
         <CustomRoutes>
             <Route path="/payin" element={<PayInPage />} />
+            <Route path="/payout" element={<PayOutPage />} />
         </CustomRoutes>
     </Admin>
 );
