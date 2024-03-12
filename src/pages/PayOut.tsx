@@ -95,6 +95,8 @@ export const PayOutPage = () => {
         payOutCreate();
     };
 
+    console.log(dest);
+
     return (
         <Card sx={{ mt: 6 }}>
             <CardContent>
@@ -151,7 +153,7 @@ export const PayOutPage = () => {
                                 <InputLabel>{translate("pages.payOut.destination")}</InputLabel>
                                 <Select value={dest} onChange={handleDestChange}>
                                     {destinationAccounts?.map((acc: any) => (
-                                        <MenuItem key={acc.id} value={acc.id}>
+                                        <MenuItem key={acc.id} value={acc}>
                                             {acc.meta.caption}
                                         </MenuItem>
                                     ))}
