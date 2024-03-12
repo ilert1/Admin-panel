@@ -95,8 +95,6 @@ export const PayOutPage = () => {
         payOutCreate();
     };
 
-    console.log(dest);
-
     return (
         <Card sx={{ mt: 6 }}>
             <CardContent>
