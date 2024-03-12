@@ -29,7 +29,7 @@ export const PayOutPage = () => {
     const [cardInfo, setCardInfo] = useState("");
 
     const { isLoading: initialLoading, data: payMethods } = useQuery("paymethods", () =>
-        fetch("https://bf-manager.bfgate.api4ftx.cloud/v1/manager/paymethods").then(response => response.json())
+        fetch("https://bf-manager.bfgate.api4ftx.cloud/v1/manager/paymethods/payout").then(response => response.json())
     );
 
     const { isLoading: accountsLoading, data: accounts } = useQuery("accounts", () =>
@@ -71,8 +71,8 @@ export const PayOutPage = () => {
         () => initialLoading || accountsLoading || payOutCreateLoading,
         [initialLoading, accountsLoading, payOutCreateLoading]
     );
-    const sourceAccounts = useMemo(() => accounts?.data?.filter((elem: any) => elem.type === 2), [accounts]);
-    const destinationAccounts = useMemo(() => accounts?.data?.filter((elem: any) => elem.type === 1), [accounts]);
+    const sourceAccounts = useMemo(() => accounts?.data?.filter((elem: any) => elem.type === 1), [accounts]);
+    const destinationAccounts = useMemo(() => accounts?.data?.filter((elem: any) => elem.type === 2), [accounts]);
     const sourceCurrencies = useMemo(() => source?.amounts?.map((amount: any) => amount.currency), [source]);
 
     const handlePayMethodChange = (event: SelectChangeEvent) => {
