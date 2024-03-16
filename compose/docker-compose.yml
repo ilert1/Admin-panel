@@ -6,6 +6,8 @@ services:
     build:
       context: ../
       dockerfile: docker/Dockerfile
+      args:
+        VITE_API_URL
     container_name: ${COMPOSE_PROJECT_NAME}
     hostname: ${COMPOSE_PROJECT_NAME}
     restart: unless-stopped
