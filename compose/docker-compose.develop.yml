@@ -1,11 +1,8 @@
+
 version: '3.9'
 
 services:
   juggler-front:
-    image: $IMAGE_NAME:$IMAGE_TAG
-    container_name: juggler-front
-    hostname: juggler-front
-    restart: unless-stopped
     labels:
       - traefik.enable=true
       - traefik.http.routers.juggler-front.rule=Host(`${JUGGLER_FRONT_UI_URL}`) 
@@ -15,4 +12,4 @@ services:
 networks:
   default:
     external: true
-    name: blowfish-network
+    name: develop-network

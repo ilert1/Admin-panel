@@ -1,8 +1,15 @@
+include:
+  - project: blowfish/other/gitlab
+    ref: master
+    file:
+      - build.yml
+      - deploy.yml
+
 variables:
-  PROJECT_NAME: front/juggler-front
-  PROJECT_DIR: /opt/blowfish
-  WORK_DIR: $PROJECT_DIR/$PROJECT_NAME
-  IMAGE_NAME: $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME
+  PROJECT_NAME:   ${PROJECT_NAME}
+  PROJECT_DIR:    ${PROJECT_DIR}
+  WORK_DIR:       ${PROJECT_DIR}/${PROJECT_NAME}
+  IMAGE_NAME:     ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
 
 stages:
   - build
@@ -11,64 +18,55 @@ stages:
 
 ### build
 
-.pre-build:
-  image: docker:25.0-dind
-  stage: build
-  tags:
-    - blowfish
-  services:
-    - docker:25.0-dind
+build-develop:
+  extends: .pre-build
   variables:
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
-  script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-    - >-
-      docker build -t $IMAGE_NAME:$IMAGE_TAG
-      --build-arg VITE_API_URL=$VITE_API_URL .
-    - docker push $IMAGE_NAME:$IMAGE_TAG
-    - docker logout $CI_REGISTRY
+        IMAGE_TAG:     develop
+        ENVIRONMENT:   develop
+        APP_CONFIG:    ${BF_DEVELOP_APP_CONFIG}
+  only:
+    refs:
+      - develop
 
 build-master:
   extends: .pre-build
   variables:
-    IMAGE_TAG:               master
-    VITE_API_URL:            $BF_MASTER_VITE_API_URL
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
+        IMAGE_TAG:     master
+        ENVIRONMENT:   master
+        APP_CONFIG:    ${BF_MASTER_APP_CONFIG}
+  only:
+    refs:
+      - master
 
 
 ### deploy
 
-.pre-deploy:
-  stage: deploy
-  tags:
-    - blowfish
-  before_script:
-    - "which ssh-agent || ( apk add openssh-client)"
-    - eval "$(ssh-agent -s)"
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
-    - ssh-keyscan -H -p $SSH_PORT $SSH_HOST >> ~/.ssh/known_hosts
-  script:
-    - |
-      scp -P $SSH_PORT $CI_PROJECT_DIR/docker-compose.yml $SSH_USER@$SSH_HOST:$WORK_DIR
-      ssh -p $SSH_PORT -o "StrictHostKeyChecking=no" $SSH_USER@$SSH_HOST <<DEPLOY
-      cd $WORK_DIR
-      echo "IMAGE_NAME=$IMAGE_NAME" > .env
-      echo "IMAGE_TAG=$IMAGE_TAG" >> .env
-      echo "$APP_CONFIG" >> .env
-      docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-      docker-compose pull && docker-compose up -d
-      docker logout $CI_REGISTRY
-      DEPLOY
+deploy-develop:
+  extends: .pre-deploy
+  variables:
+    IMAGE_TAG:        develop
+    ENVIRONMENT:      develop
+    APP_CONFIG:       ${BF_DEVELOP_APP_CONFIG}
+    PROJECT_DIR:      ${BF_DEVELOP_PROJECT_DIR}
+    SSH_HOST:         ${BF_DEVELOP_SSH_HOST}
+    SSH_PRIVATE_KEY:  ${BF_DEVELOP_SSH_PRIVATE_KEY}
+  only:
+    refs:
+      - develop
+  needs:
+    - build-develop
 
 deploy-master:
   extends: .pre-deploy
   variables:
     IMAGE_TAG:        master
-    APP_CONFIG:       $BF_MASTER_JUGGLER_FRONT_APP_CONFIG
-    SSH_HOST:         $BF_MASTER_SSH_HOST
-    SSH_PRIVATE_KEY:  $BF_MASTER_SSH_PRIVATE_KEY
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
+    ENVIRONMENT:      master
+    APP_CONFIG:       ${BF_MASTER_APP_CONFIG}
+    PROJECT_DIR:      ${BF_MASTER_PROJECT_DIR}
+    SSH_HOST:         ${BF_MASTER_SSH_HOST}
+    SSH_PRIVATE_KEY:  ${BF_MASTER_SSH_PRIVATE_KEY}
+  only:
+    refs:
+      - master
+  needs:
+    - build-master

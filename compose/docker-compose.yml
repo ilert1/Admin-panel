@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  juggler-front:
+    image: $IMAGE_NAME:$IMAGE_TAG
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    container_name: ${COMPOSE_PROJECT_NAME}
+    hostname: ${COMPOSE_PROJECT_NAME}
+    restart: unless-stopped
+    env_file:
+    - ./../.env
