@@ -85,24 +85,27 @@ export const App = () => {
         }
     }, [keycloak]);
 
-    return (
-        <Admin
-            i18nProvider={i18nProvider}
-            dataProvider={dataProvider}
-            authProvider={authProvider.current}
-            layout={MyLayout}>
-            <Resource
-                name="accounts"
-                list={AccountList}
-                show={AccountShow}
-                create={AccountCreate}
-                icon={AccountBalanceWalletIcon}
-            />
-            <Resource name="transactions" list={TransactionList} show={TransactionShow} icon={ReceiptIcon} />
-            <CustomRoutes>
-                <Route path="/payin" element={<PayInPage />} />
-                <Route path="/payout" element={<PayOutPage />} />
-            </CustomRoutes>
-        </Admin>
-    );
+    if (keycloak) {
+        return (
+            <Admin
+                requireAuth
+                i18nProvider={i18nProvider}
+                dataProvider={dataProvider}
+                authProvider={authProvider.current}
+                layout={MyLayout}>
+                <Resource
+                    name="accounts"
+                    list={AccountList}
+                    show={AccountShow}
+                    create={AccountCreate}
+                    icon={AccountBalanceWalletIcon}
+                />
+                <Resource name="transactions" list={TransactionList} show={TransactionShow} icon={ReceiptIcon} />
+                <CustomRoutes>
+                    <Route path="/payin" element={<PayInPage />} />
+                    <Route path="/payout" element={<PayOutPage />} />
+                </CustomRoutes>
+            </Admin>
+        );
+    }
 };
