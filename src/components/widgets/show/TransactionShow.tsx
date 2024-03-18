@@ -16,7 +16,8 @@ import {
     DateField,
     useGetList,
     SingleFieldList,
-    useLocaleState
+    useLocaleState,
+    usePermissions
 } from "react-admin";
 import {
     Grid,
@@ -35,7 +36,7 @@ import {
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useQuery } from "react-query";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
-import { API_URL } from "@/helpers";
+import { API_URL } from "@/data/base";
 
 const StateDialog = (props: any) => {
     const translate = useTranslate();
@@ -257,6 +258,10 @@ export const TransactionShowWidget = () => {
 
     const [statusDialogOpen, setStatusDialogOpen] = useState(false);
     const [stornoDialogOpen, setStornoDialogOpen] = useState(false);
+
+    const { permissions } = usePermissions();
+
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
     const openStatusDialog = () => {
         setStatusDialogOpen(true);
@@ -482,15 +487,19 @@ export const TransactionShowWidget = () => {
                 </Grid>
                 <Grid item>
                     <Button onClick={openStatusDialog}>{translate("resources.transactions.show.statusButton")}</Button>
-                    <Button disabled={!record?.dispute} onClick={openStornoDialog}>
-                        {translate("resources.transactions.show.storno")}
-                    </Button>
+                    {adminOnly && (
+                        <>
+                            <Button onClick={switchDispute}>
+                                {record?.dispute
+                                    ? translate("resources.transactions.show.closeDispute")
+                                    : translate("resources.transactions.show.openDispute")}
+                            </Button>
+                            <Button disabled={!record?.dispute} onClick={openStornoDialog}>
+                                {translate("resources.transactions.show.storno")}
+                            </Button>
+                        </>
+                    )}
                     <Button onClick={commitTransaction}>{translate("resources.transactions.show.commit")}</Button>
-                    <Button onClick={switchDispute}>
-                        {record?.dispute
-                            ? translate("resources.transactions.show.closeDispute")
-                            : translate("resources.transactions.show.openDispute")}
-                    </Button>
                 </Grid>
             </Grid>
             <StateDialog open={statusDialogOpen} onClose={closeStatusDialog} data={data} />

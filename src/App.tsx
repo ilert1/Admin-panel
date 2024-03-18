@@ -50,7 +50,6 @@ const initOptions: KeycloakInitOptions = { onLoad: "login-required" };
 
 const getPermissions = (decoded: KeycloakTokenParsed) => {
     const roles = decoded?.realm_access?.roles;
-    console.log(roles);
     if (!roles) {
         return false;
     }
@@ -77,6 +76,11 @@ export const App = () => {
         const initKeyCloakClient = async () => {
             const keycloakClient = new Keycloak(config);
             await keycloakClient.init(initOptions);
+            if (keycloakClient?.authenticated) {
+                localStorage.setItem("access-token", keycloakClient.token + "");
+            } else {
+                localStorage.removeItem("access-token");
+            }
             authProvider.current = keycloakAuthProvider(keycloakClient, raKeycloakOptions);
             setKeycloak(keycloakClient);
         };

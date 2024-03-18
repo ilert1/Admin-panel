@@ -1,4 +1,3 @@
-import { API_URL, http } from "@/helpers";
 import {
     CreateParams,
     CreateResult,
@@ -15,6 +14,9 @@ import {
     UpdateParams,
     GetManyReferenceParams
 } from "react-admin";
+import { fetchUtils } from "react-admin";
+
+export const API_URL = import.meta.env.VITE_API_URL;
 
 export class BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
@@ -22,7 +24,9 @@ export class BaseDataProvider {
             limit: params.pagination.perPage.toString(),
             offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
         }).toString();
-        const { json } = await http(`${API_URL}/${resource}?${paramsStr}`);
+        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}?${paramsStr}`, {
+            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
+        });
         return {
             data: json.data || [],
             total: json?.total || 0
@@ -30,18 +34,20 @@ export class BaseDataProvider {
     }
 
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
-        const { json } = await http(`${API_URL}/${resource}/${params.id}`);
+        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
+            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
+        });
         return { data: json.data };
     }
 
     async update(resource: string, params: UpdateParams) {
         delete params.data.generatedAt;
         delete params.data.loadedAt;
-        const { json } = await http(`${API_URL}/${resource}`, {
+        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}`, {
             method: "PUT",
-            body: JSON.stringify(params.data)
+            body: JSON.stringify(params.data),
+            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
         });
-
         if (!json.success) {
             throw new Error(json.error);
         }
@@ -50,18 +56,19 @@ export class BaseDataProvider {
     }
 
     async create(resource: string, params: CreateParams): Promise<CreateResult> {
-        const { json } = await http(`${API_URL}/${resource}`, {
+        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}`, {
             method: "POST",
-            body: JSON.stringify(params.data)
+            body: JSON.stringify(params.data),
+            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
         });
         return { data: json };
     }
 
     async delete(resource: string, params: DeleteParams): Promise<DeleteResult> {
-        const { json } = await http(`${API_URL}/${resource}/${params.id}`, {
-            method: "DELETE"
+        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
+            method: "DELETE",
+            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
         });
-
         if (!json.success) {
             throw new Error(json.error);
         }
@@ -74,8 +81,9 @@ export class BaseDataProvider {
     }
 
     async getManyReference(resource: string, params: GetManyReferenceParams): Promise<GetManyReferenceResult> {
-        const { json } = await http(`${API_URL}/${resource}/${params.id}/history`, {
-            method: "GET"
+        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}/history`, {
+            method: "GET",
+            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
         });
         return { data: json?.data || [], total: json?.data?.length || 0 };
     }
@@ -89,8 +97,9 @@ export class BaseDataProvider {
     }
 
     async getDictionaries(): Promise<any> {
-        const { json } = await http(`${API_URL}/dictionaries`, {
-            method: "GET"
+        const { json } = await fetchUtils.fetchJson(`${API_URL}/dictionaries`, {
+            method: "GET",
+            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
         });
         return json?.data;
     }
