@@ -62,7 +62,8 @@ const StateDialog = (props: any) => {
             method: "POST",
             body: JSON.stringify({ id: record.id, state: value }),
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
         })
             .then(resp => resp.json())
@@ -167,7 +168,10 @@ const StornoDialog = (props: any) => {
                 meta: {
                     parentId: record.id
                 }
-            })
+            }),
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
         })
             .then(resp => resp.json())
             .then(json => {
@@ -280,7 +284,11 @@ export const TransactionShowWidget = () => {
     };
 
     const { data: currencies } = useQuery("currencies", () =>
-        fetch("https://juggler.bfgate.api4ftx.cloud/dictionaries/curr").then(response => response.json())
+        fetch("https://juggler.bfgate.api4ftx.cloud/dictionaries/curr", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }).then(response => response.json())
     );
 
     const sortedCurrencies = useMemo(() => {
@@ -292,7 +300,8 @@ export const TransactionShowWidget = () => {
             method: "POST",
             body: JSON.stringify({ id: record.id }),
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
         })
             .then(resp => resp.json())
@@ -316,7 +325,8 @@ export const TransactionShowWidget = () => {
             method: "POST",
             body: JSON.stringify({ id: record.id, dispute: !record.dispute }),
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
         })
             .then(resp => resp.json())

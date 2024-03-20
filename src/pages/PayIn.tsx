@@ -33,7 +33,11 @@ export const PayInPage = () => {
     const [last4Digits, setLast4Digits] = useState("");
 
     const { isLoading: initialLoading, data: accounts } = useQuery("accounts", () =>
-        fetch("https://juggler.bfgate.api4ftx.cloud/accounts").then(response => response.json())
+        fetch("https://juggler.bfgate.api4ftx.cloud/accounts", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }).then(response => response.json())
     );
 
     const {
@@ -43,7 +47,11 @@ export const PayInPage = () => {
     } = useQuery(
         "pay-methods",
         () =>
-            fetch("https://bf-manager.bfgate.api4ftx.cloud/v1/manager/paymethods")
+            fetch("https://bf-manager.bfgate.api4ftx.cloud/v1/manager/paymethods", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            })
                 .then(response => response.json())
                 .then((json: any) => json.data),
         {
@@ -75,7 +83,11 @@ export const PayInPage = () => {
     });
 
     const { data: currencies } = useQuery("currencies", () =>
-        fetch("https://juggler.bfgate.api4ftx.cloud/dictionaries/curr").then(response => response.json())
+        fetch("https://juggler.bfgate.api4ftx.cloud/dictionaries/curr", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }).then(response => response.json())
     );
 
     const sortedCurrencies = useMemo(() => {
@@ -131,7 +143,8 @@ export const PayInPage = () => {
                 }
             }),
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
         }).then(response => response.json())
     );
@@ -153,7 +166,8 @@ export const PayInPage = () => {
                 }
             }),
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
         }).then(response => response.json())
     );
@@ -174,7 +188,8 @@ export const PayInPage = () => {
                 }
             }),
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
         }).then(response => response.json())
     );

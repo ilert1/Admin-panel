@@ -25,7 +25,7 @@ export class BaseDataProvider {
             offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
         }).toString();
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}?${paramsStr}`, {
-            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
         return {
             data: json.data || [],
@@ -35,7 +35,7 @@ export class BaseDataProvider {
 
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
-            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
         return { data: json.data };
     }
@@ -46,7 +46,7 @@ export class BaseDataProvider {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}`, {
             method: "PUT",
             body: JSON.stringify(params.data),
-            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
         if (!json.success) {
             throw new Error(json.error);
@@ -59,7 +59,7 @@ export class BaseDataProvider {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}`, {
             method: "POST",
             body: JSON.stringify(params.data),
-            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
         return { data: json };
     }
@@ -67,7 +67,7 @@ export class BaseDataProvider {
     async delete(resource: string, params: DeleteParams): Promise<DeleteResult> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
             method: "DELETE",
-            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
         if (!json.success) {
             throw new Error(json.error);
@@ -83,7 +83,7 @@ export class BaseDataProvider {
     async getManyReference(resource: string, params: GetManyReferenceParams): Promise<GetManyReferenceResult> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}/history`, {
             method: "GET",
-            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
         return { data: json?.data || [], total: json?.data?.length || 0 };
     }
@@ -99,7 +99,7 @@ export class BaseDataProvider {
     async getDictionaries(): Promise<any> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/dictionaries`, {
             method: "GET",
-            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
         return json?.data;
     }

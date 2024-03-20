@@ -71,11 +71,11 @@ const config: KeycloakConfig = {
 export const App = () => {
     const [keycloak, setKeycloak] = useState<Keycloak>();
     const authProvider = useRef<AuthProvider>();
-
     useEffect(() => {
         const initKeyCloakClient = async () => {
             const keycloakClient = new Keycloak(config);
             await keycloakClient.init(initOptions);
+
             if (keycloakClient?.authenticated) {
                 localStorage.setItem("access-token", keycloakClient.token + "");
             } else {
@@ -87,7 +87,7 @@ export const App = () => {
         if (!keycloak) {
             initKeyCloakClient();
         }
-    }, [keycloak]);
+    }, [keycloak]); // eslint-disable-line react-hooks/exhaustive-deps
 
     if (keycloak) {
         return (

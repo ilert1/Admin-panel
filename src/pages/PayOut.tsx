@@ -29,11 +29,19 @@ export const PayOutPage = () => {
     const [cardInfo, setCardInfo] = useState("");
 
     const { isLoading: initialLoading, data: payMethods } = useQuery("paymethods", () =>
-        fetch("https://bf-manager.bfgate.api4ftx.cloud/v1/manager/paymethods/payout").then(response => response.json())
+        fetch("https://bf-manager.bfgate.api4ftx.cloud/v1/manager/paymethods/payout", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }).then(response => response.json())
     );
 
     const { isLoading: accountsLoading, data: accounts } = useQuery("accounts", () =>
-        fetch("https://juggler.bfgate.api4ftx.cloud/accounts").then(response => response.json())
+        fetch("https://juggler.bfgate.api4ftx.cloud/accounts", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }).then(response => response.json())
     );
 
     const { mutate: payOutCreate, isLoading: payOutCreateLoading } = useMutation(() =>
@@ -62,7 +70,8 @@ export const PayOutPage = () => {
                 }
             }),
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
         }).then(response => response.json())
     );
