@@ -47,7 +47,6 @@ deploy-develop:
     IMAGE_TAG:        develop
     ENVIRONMENT:      develop
     APP_CONFIG:       ${BF_DEVELOP_APP_CONFIG}
-    PROJECT_DIR:      ${BF_DEVELOP_PROJECT_DIR}
     SSH_HOST:         ${BF_DEVELOP_SSH_HOST}
     SSH_PRIVATE_KEY:  ${BF_DEVELOP_SSH_PRIVATE_KEY}
   only:
@@ -62,7 +61,6 @@ deploy-master:
     IMAGE_TAG:        master
     ENVIRONMENT:      master
     APP_CONFIG:       ${BF_MASTER_APP_CONFIG}
-    PROJECT_DIR:      ${BF_MASTER_PROJECT_DIR}
     SSH_HOST:         ${BF_MASTER_SSH_HOST}
     SSH_PRIVATE_KEY:  ${BF_MASTER_SSH_PRIVATE_KEY}
   only:
