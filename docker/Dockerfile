@@ -22,7 +22,12 @@ RUN npm run build
 # deploy
 FROM nginx:1.23-alpine as deploy
 
-RUN apk add --no-cache tzdata
+RUN set -ex && \
+    echo -e "http://mirror.yandex.ru/mirrors/alpine/edge/main" >  /etc/apk/repositories && \
+    echo -e "http://mirror.yandex.ru/mirrors/alpine/edge/community" >> /etc/apk/repositories && \
+    apk update && \
+    apk add --no-cache tzdata
+
 ENV TZ=Europe/Moscow
 
 COPY ./docker/nginx.conf /etc/nginx/conf.d/default.conf
