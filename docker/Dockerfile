@@ -23,9 +23,9 @@ RUN npm run build
 FROM nginx:1.23-alpine as deploy
 
 RUN set -ex && \
-    echo -e "http://mirror.yandex.ru/mirrors/alpine/edge/main" >  /etc/apk/repositories && \
-    echo -e "http://mirror.yandex.ru/mirrors/alpine/edge/community" >> /etc/apk/repositories && \
-    apk update && \
+    # echo -e "http://mirror.yandex.ru/mirrors/alpine/edge/main" >  /etc/apk/repositories && \
+    # echo -e "http://mirror.yandex.ru/mirrors/alpine/edge/community" >> /etc/apk/repositories && \
+    # apk update && \
     apk add --no-cache tzdata
 
 ENV TZ=Europe/Moscow
