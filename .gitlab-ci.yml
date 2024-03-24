@@ -21,9 +21,9 @@ stages:
 build-develop:
   extends: .pre-build
   variables:
-        IMAGE_TAG:     develop
-        ENVIRONMENT:   develop
-        APP_CONFIG:    ${BF_DEVELOP_APP_CONFIG}
+    ENVIRONMENT:   develop
+    IMAGE_TAG:     develop
+    APP_CONFIG:    ${BF_DEVELOP_APP_CONFIG}
   only:
     refs:
       - develop
@@ -31,12 +31,23 @@ build-develop:
 build-master:
   extends: .pre-build
   variables:
-        IMAGE_TAG:     master
-        ENVIRONMENT:   master
-        APP_CONFIG:    ${BF_MASTER_APP_CONFIG}
+    ENVIRONMENT:   master
+    IMAGE_TAG:     master
+    APP_CONFIG:    ${BF_MASTER_APP_CONFIG}
   only:
     refs:
       - master
+
+build-production:
+  extends: .pre-build
+  variables:
+    ENVIRONMENT:   production
+    IMAGE_TAG:     ${CI_COMMIT_TAG}
+    APP_CONFIG:    ${BF_PRODUCTION_APP_CONFIG}
+  only:
+    - tags
+  except:
+    - branches
 
 
 ### deploy
@@ -44,11 +55,11 @@ build-master:
 deploy-develop:
   extends: .pre-deploy
   variables:
-    IMAGE_TAG:        develop
-    ENVIRONMENT:      develop
-    APP_CONFIG:       ${BF_DEVELOP_APP_CONFIG}
-    SSH_HOST:         ${BF_DEVELOP_SSH_HOST}
-    SSH_PRIVATE_KEY:  ${BF_DEVELOP_SSH_PRIVATE_KEY}
+    ENVIRONMENT:       develop
+    IMAGE_TAG:         develop
+    APP_CONFIG:        ${BF_DEVELOP_APP_CONFIG}
+    SSH_HOST:          ${BF_DEVELOP_SSH_HOST}
+    SSH_PRIVATE_KEY:   ${BF_DEVELOP_SSH_PRIVATE_KEY}
   only:
     refs:
       - develop
@@ -58,13 +69,29 @@ deploy-develop:
 deploy-master:
   extends: .pre-deploy
   variables:
-    IMAGE_TAG:        master
-    ENVIRONMENT:      master
-    APP_CONFIG:       ${BF_MASTER_APP_CONFIG}
-    SSH_HOST:         ${BF_MASTER_SSH_HOST}
-    SSH_PRIVATE_KEY:  ${BF_MASTER_SSH_PRIVATE_KEY}
+    ENVIRONMENT:       master
+    IMAGE_TAG:         master
+    APP_CONFIG:        ${BF_MASTER_APP_CONFIG}
+    SSH_HOST:          ${BF_MASTER_SSH_HOST}
+    SSH_PRIVATE_KEY:   ${BF_MASTER_SSH_PRIVATE_KEY}
   only:
     refs:
       - master
   needs:
     - build-master
+
+deploy-production:
+  extends: .pre-deploy
+  variables:
+    ENVIRONMENT:       production
+    IMAGE_TAG:         ${CI_COMMIT_TAG}
+    APP_CONFIG:        ${BF_PRODUCTION_APP_CONFIG}
+    SSH_HOST:          ${BF_PRODUCTION_SSH_HOST}
+    SSH_PRIVATE_KEY:   ${BF_PRODUCTION_SSH_PRIVATE_KEY}
+  only:
+    - tags
+  except:
+    - branches
+  needs:
+    - build-production
+  when: manual

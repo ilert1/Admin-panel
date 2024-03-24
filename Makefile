@@ -4,6 +4,7 @@ BASE_MANIFEST=compose/docker-compose.yml
 LOCAL_MANIFEST=compose/docker-compose.local.yml
 DEVELOP_MANIFEST=compose/docker-compose.develop.yml
 MASTER_MANIFEST=compose/docker-compose.master.yml
+PRODUCTION_MANIFEST=compose/docker-compose.production.yml
 
 ENV_DEPLOY=.env
 include ${ENV_DEPLOY}
@@ -172,6 +173,63 @@ logs_juggler-front_master: ## Show logs of juggler-front_master
 		--env-file ${ENV_DEPLOY} \
 		--file ${BASE_MANIFEST} \
 		--file ${MASTER_MANIFEST} \
+			logs \
+				--follow
+
+
+---> [ Production ] ---------------------------------------------------------------------------> : ## *
+
+config_juggler-front_production: ## Validate juggler-front_production
+	@docker-compose \
+		--env-file ${ENV_DEPLOY} \
+		--file ${BASE_MANIFEST} \
+		--file ${PRODUCTION_MANIFEST} \
+			config
+
+build_juggler-front_production: ## Build juggler-front_production
+	@docker-compose \
+		--env-file ${ENV_DEPLOY} \
+		--file ${BASE_MANIFEST} \
+		--file ${PRODUCTION_MANIFEST} \
+			build
+
+push_juggler-front_production: ## Push images juggler-front_production
+	@docker-compose \
+		--env-file ${ENV_DEPLOY} \
+		--file ${BASE_MANIFEST} \
+		--file ${PRODUCTION_MANIFEST} \
+			push
+
+pull_juggler-front_production: ## Pull images juggler-front_production
+	@docker-compose \
+		--env-file ${ENV_DEPLOY} \
+		--file ${BASE_MANIFEST} \
+		--file ${PRODUCTION_MANIFEST} \
+			pull
+
+create_juggler-front_production: ## Create juggler-front_production
+	@docker-compose \
+		--env-file ${ENV_DEPLOY} \
+		--file ${BASE_MANIFEST} \
+		--file ${PRODUCTION_MANIFEST} \
+			up \
+				--detach \
+				--force-recreate
+
+drop_juggler-front_production: ## Drop juggler-front_production
+	@docker-compose \
+		--env-file ${ENV_DEPLOY} \
+		--file ${BASE_MANIFEST} \
+		--file ${PRODUCTION_MANIFEST} \
+			down
+
+recreate_juggler-front_production: drop_juggler-front_production create_juggler-front_production ## ReCreate juggler-front_production
+
+logs_juggler-front_production: ## Show logs of juggler-front_production
+	@docker-compose \
+		--env-file ${ENV_DEPLOY} \
+		--file ${BASE_MANIFEST} \
+		--file ${PRODUCTION_MANIFEST} \
 			logs \
 				--follow
 
