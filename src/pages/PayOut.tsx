@@ -15,6 +15,7 @@ import {
     Button
 } from "@mui/material";
 import { useTranslate } from "react-admin";
+import { API_URL, BF_MANAGER_URL } from "@/data/base";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
@@ -29,7 +30,7 @@ export const PayOutPage = () => {
     const [cardInfo, setCardInfo] = useState("");
 
     const { isLoading: initialLoading, data: payMethods } = useQuery("paymethods", () =>
-        fetch("https://bf-manager.bfgate.api4ftx.cloud/v1/manager/paymethods/payout", {
+        fetch(`${BF_MANAGER_URL}/v1/manager/paymethods/payout`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
@@ -37,7 +38,7 @@ export const PayOutPage = () => {
     );
 
     const { isLoading: accountsLoading, data: accounts } = useQuery("accounts", () =>
-        fetch("https://juggler.bfgate.api4ftx.cloud/accounts", {
+        fetch(`${API_URL}/accounts`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
@@ -45,7 +46,7 @@ export const PayOutPage = () => {
     );
 
     const { mutate: payOutCreate, isLoading: payOutCreateLoading } = useMutation(() =>
-        fetch(`https://bf-manager.bfgate.api4ftx.cloud/v1/payout/create`, {
+        fetch(`${BF_MANAGER_URL}/v1/payout/create`, {
             method: "POST",
             body: JSON.stringify({
                 source: {

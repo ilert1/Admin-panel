@@ -16,6 +16,7 @@ import {
     Typography
 } from "@mui/material";
 import { useTranslate, useDataProvider, useLocaleState } from "react-admin";
+import { API_URL, BF_MANAGER_URL } from "@/data/base";
 
 export const PayInPage = () => {
     const translate = useTranslate();
@@ -33,7 +34,7 @@ export const PayInPage = () => {
     const [last4Digits, setLast4Digits] = useState("");
 
     const { isLoading: initialLoading, data: accounts } = useQuery("accounts", () =>
-        fetch("https://juggler.bfgate.api4ftx.cloud/accounts", {
+        fetch(`${API_URL}/accounts`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
@@ -47,7 +48,7 @@ export const PayInPage = () => {
     } = useQuery(
         "pay-methods",
         () =>
-            fetch("https://bf-manager.bfgate.api4ftx.cloud/v1/manager/paymethods", {
+            fetch(`${BF_MANAGER_URL}/v1/manager/paymethods`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("access-token")}`
                 }
@@ -83,7 +84,7 @@ export const PayInPage = () => {
     });
 
     const { data: currencies } = useQuery("currencies", () =>
-        fetch("https://juggler.bfgate.api4ftx.cloud/dictionaries/curr", {
+        fetch(`${API_URL}/dictionaries/curr`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
@@ -124,7 +125,7 @@ export const PayInPage = () => {
         isLoading: payInCreateLoading,
         data: createResponse
     } = useMutation(() =>
-        fetch(`https://bf-manager.bfgate.api4ftx.cloud/v1/payin/create`, {
+        fetch(`${BF_MANAGER_URL}/v1/payin/create`, {
             method: "POST",
             body: JSON.stringify({
                 source: {
@@ -154,7 +155,7 @@ export const PayInPage = () => {
         isLoading: payInStartLoading,
         data: startResponse
     } = useMutation(() =>
-        fetch(`https://bf-manager.bfgate.api4ftx.cloud/v1/payin/start`, {
+        fetch(`${BF_MANAGER_URL}/v1/payin/start`, {
             method: "POST",
             body: JSON.stringify({
                 id: createResponse.data.id,
@@ -177,7 +178,7 @@ export const PayInPage = () => {
         isLoading: payInConfirmLoading,
         data: confirmResponse
     } = useMutation(() =>
-        fetch(`https://bf-manager.bfgate.api4ftx.cloud/v1/payin/confirm`, {
+        fetch(`${BF_MANAGER_URL}/v1/payin/confirm`, {
             method: "POST",
             body: JSON.stringify({
                 id: createResponse.data.id,
