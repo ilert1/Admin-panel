@@ -15,11 +15,14 @@ import {
     TextField,
     Typography
 } from "@mui/material";
-import { useTranslate, useDataProvider, useLocaleState } from "react-admin";
+import { useTranslate, useDataProvider, useLocaleState, usePermissions, useRedirect } from "react-admin";
 import { API_URL, BF_MANAGER_URL } from "@/data/base";
 
 export const PayInPage = () => {
     const translate = useTranslate();
+    const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+    const redirect = useRedirect();
 
     const dataProvider = useDataProvider();
 
@@ -119,6 +122,12 @@ export const PayInPage = () => {
     const handleDestCurrencyChange = (event: SelectChangeEvent) => {
         setDestCurrency(event.target.value);
     };
+
+    useEffect(() => {
+        if (!adminOnly) {
+            redirect("/");
+        }
+    }, [adminOnly]); //eslint-disable-line react-hooks/exhaustive-deps
 
     const {
         mutate: payInCreate,

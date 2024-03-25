@@ -6,7 +6,8 @@ import {
     Menu,
     Layout,
     useTranslate,
-    AuthProvider
+    AuthProvider,
+    usePermissions
 } from "react-admin";
 import { TransactionDataProvider, i18nProvider } from "@/data";
 import {
@@ -23,14 +24,18 @@ import { Route } from "react-router-dom";
 import { PayInPage, PayOutPage } from "./pages";
 import Keycloak, { KeycloakConfig, KeycloakTokenParsed, KeycloakInitOptions } from "keycloak-js";
 import { keycloakAuthProvider } from "ra-keycloak";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export const MyMenu = () => {
     const translate = useTranslate();
+    const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
     return (
         <Menu>
             <Menu.ResourceItems />
-            <Menu.Item to="/payin" primaryText={translate("app.menu.payin")} leftIcon={<AddCardIcon />} />
+            {adminOnly && (
+                <Menu.Item to="/payin" primaryText={translate("app.menu.payin")} leftIcon={<AddCardIcon />} />
+            )}
             <Menu.Item to="/payout" primaryText={translate("app.menu.payout")} leftIcon={<CreditScoreIcon />} />
         </Menu>
     );
@@ -71,6 +76,7 @@ const config: KeycloakConfig = {
 export const App = () => {
     const [keycloak, setKeycloak] = useState<Keycloak>();
     const authProvider = useRef<AuthProvider>();
+
     useEffect(() => {
         const initKeyCloakClient = async () => {
             const keycloakClient = new Keycloak(config);
@@ -106,6 +112,7 @@ export const App = () => {
                 />
                 <Resource name="transactions" list={TransactionList} show={TransactionShow} icon={ReceiptIcon} />
                 <CustomRoutes>
+                    {/* {adminOnly && <Route path="/payin" element={<PayInPage />} />} */}
                     <Route path="/payin" element={<PayInPage />} />
                     <Route path="/payout" element={<PayOutPage />} />
                 </CustomRoutes>

@@ -1,4 +1,4 @@
-import { useMemo, useState, ChangeEvent } from "react";
+import { useMemo, useState, ChangeEvent, useEffect } from "react";
 import { useQuery, useMutation } from "react-query";
 import {
     Card,
@@ -19,7 +19,6 @@ import { API_URL, BF_MANAGER_URL } from "@/data/base";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
-
     const [payMethod, setPayMethod] = useState<any>("");
     const [source, setSource] = useState<any>("");
     const [dest, setDest] = useState<any>("");
