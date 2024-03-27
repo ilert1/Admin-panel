@@ -1,13 +1,4 @@
-import {
-    ArrayField,
-    Datagrid,
-    Labeled,
-    NumberField,
-    Show,
-    TextField,
-    FunctionField,
-    useDataProvider
-} from "react-admin";
+import { ArrayField, Datagrid, Labeled, Show, TextField, FunctionField, useDataProvider } from "react-admin";
 import { Grid } from "@mui/material";
 import { useQuery } from "react-query";
 
@@ -59,7 +50,14 @@ export const AccountShow = () => {
                             <TextField source="id" />
                             <TextField source="type" />
                             <TextField source="currency" />
-                            <NumberField source="value" />
+                            <FunctionField
+                                source="value"
+                                render={(record: any) =>
+                                    ((record.value.quantity || 0) / record.value.accuracy).toFixed(
+                                        Math.log10(record.value.accuracy)
+                                    )
+                                }
+                            />
                         </Datagrid>
                     </ArrayField>
                 </Grid>

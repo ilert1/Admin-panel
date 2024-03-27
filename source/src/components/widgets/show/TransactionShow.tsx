@@ -3,7 +3,6 @@ import {
     BooleanField,
     Datagrid,
     Labeled,
-    NumberField,
     Show,
     TextField,
     ReferenceManyField,
@@ -434,7 +433,14 @@ export const TransactionShowWidget = () => {
                                     source="type"
                                     render={(record: any) => data?.feeTypes[record.type]?.type_descr}
                                 />
-                                <NumberField source="value" />
+                                <FunctionField
+                                    source="value"
+                                    render={(record: any) =>
+                                        ((record.value.quantity || 0) / record.value.accuracy).toFixed(
+                                            Math.log10(record.value.accuracy)
+                                        )
+                                    }
+                                />
                             </Datagrid>
                         </ArrayField>
                     </Labeled>
