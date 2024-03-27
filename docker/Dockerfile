@@ -15,19 +15,16 @@ ENV VITE_KEYCLOAK_URL=${VITE_KEYCLOAK_URL}
 ENV VITE_KEYCLOAK_REALM=${VITE_KEYCLOAK_REALM}
 ENV VITE_KEYCLOAK_CLIENT_ID=${VITE_KEYCLOAK_CLIENT_ID}
 
-COPY . .
+COPY ./source ./
 
 RUN npm install
 RUN npm run build
 
 
 # deploy
-FROM nginx:1.23-alpine as deploy
+FROM nginx:1.23-alpine
 
 RUN set -ex && \
-    # echo -e "http://mirror.yandex.ru/mirrors/alpine/edge/main" >  /etc/apk/repositories && \
-    # echo -e "http://mirror.yandex.ru/mirrors/alpine/edge/community" >> /etc/apk/repositories && \
-    # apk update && \
     apk add --no-cache tzdata
 
 ENV TZ=Europe/Moscow
