@@ -387,7 +387,14 @@ export const TransactionShowWidget = () => {
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
                         <Labeled>
-                            <TextField source="source.amount.value" />
+                            <FunctionField
+                                source="source.amount.value"
+                                render={(record: any) =>
+                                    (
+                                        (record.source.amount.value.quantity || 0) / record.source.amount.value.accuracy
+                                    ).toFixed(Math.log10(record.source.amount.value.accuracy))
+                                }
+                            />
                         </Labeled>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
@@ -409,7 +416,15 @@ export const TransactionShowWidget = () => {
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
                         <Labeled>
-                            <TextField source="destination.amount.value" />
+                            <FunctionField
+                                source="source.amount.value"
+                                render={(record: any) =>
+                                    (
+                                        (record.destination.amount.value.quantity || 0) /
+                                        record.destination.amount.value.accuracy
+                                    ).toFixed(Math.log10(record.destination.amount.value.accuracy))
+                                }
+                            />
                         </Labeled>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
