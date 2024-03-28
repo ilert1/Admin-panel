@@ -35,7 +35,7 @@ import {
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useQuery } from "react-query";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
-import { API_URL } from "@/data/base";
+import { API_URL, BF_MANAGER_URL } from "@/data/base";
 
 const StateDialog = (props: any) => {
     const translate = useTranslate();
@@ -147,7 +147,7 @@ const StornoDialog = (props: any) => {
     };
 
     const makeStorno = () => {
-        fetch(`https://bf-manager.bfgate.api4ftx.cloud/v1/manager/storno`, {
+        fetch(`${BF_MANAGER_URL}/v1/manager/storno`, {
             method: "POST",
             body: JSON.stringify({
                 source: {
@@ -283,7 +283,7 @@ export const TransactionShowWidget = () => {
     };
 
     const { data: currencies } = useQuery("currencies", () =>
-        fetch("https://juggler.bfgate.api4ftx.cloud/dictionaries/curr", {
+        fetch(`${API_URL}/dictionaries/curr`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
@@ -320,7 +320,7 @@ export const TransactionShowWidget = () => {
     };
 
     const switchDispute = () => {
-        fetch(`https://juggler.bfgate.api4ftx.cloud/transactions/dispute`, {
+        fetch(`${API_URL}/transactions/dispute`, {
             method: "POST",
             body: JSON.stringify({ id: record.id, dispute: !record.dispute }),
             headers: {
