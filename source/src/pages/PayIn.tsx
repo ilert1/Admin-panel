@@ -141,14 +141,20 @@ export const PayInPage = () => {
                     id: source,
                     amount: {
                         currency: sourceCurrency,
-                        value: +sourceValue
+                        value: {
+                            quantity: +sourceValue * 100,
+                            accuracy: 100
+                        }
                     }
                 },
                 destination: {
                     id: dest,
                     amount: {
                         currency: destCurrency,
-                        value: +destValue
+                        value: {
+                            quantity: +destValue * 100,
+                            accuracy: 100
+                        }
                     }
                 }
             }),

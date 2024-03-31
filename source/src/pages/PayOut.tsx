@@ -39,13 +39,19 @@ export const PayOutPage = () => {
             body: JSON.stringify({
                 source: {
                     amount: {
-                        value: +sourceValue
+                        value: {
+                            quantity: +sourceValue * 100,
+                            accuracy: 100
+                        }
                     }
                 },
                 destination: {
                     amount: {
                         currency: payMethod?.fiatCurrency,
-                        value: +destValue
+                        value: {
+                            quantity: +destValue * 100,
+                            accuracy: 100
+                        }
                     }
                 },
                 meta: {
