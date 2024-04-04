@@ -110,7 +110,8 @@ const ru = {
             destinationCurrency: "Валюта получателя",
             create: "Создать",
             cardHolder: "Владелец карты",
-            cardInfo: "Номер карты"
+            cardInfo: "Номер карты",
+            success: "Успешно"
         }
     }
 };
@@ -223,7 +224,8 @@ const en = {
             destinationCurrency: "Destination currency",
             create: "Create",
             cardHolder: "Card holder",
-            cardInfo: "Card number"
+            cardInfo: "Card number",
+            success: "Success"
         }
     }
 };

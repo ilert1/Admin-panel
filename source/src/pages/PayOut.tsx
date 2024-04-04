@@ -14,16 +14,17 @@ import {
     TextField,
     Button
 } from "@mui/material";
-import { useTranslate } from "react-admin";
+import { useNotify, useTranslate } from "react-admin";
 import { BF_MANAGER_URL } from "@/data/base";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
     const [payMethod, setPayMethod] = useState<any>("");
-    const [sourceValue, setSourceValue] = useState("");
     const [destValue, setDestValue] = useState("");
     const [cardHolder, setCardHolder] = useState("");
     const [cardInfo, setCardInfo] = useState("");
+
+    const notify = useNotify();
 
     const { isLoading: initialLoading, data: payMethods } = useQuery("paymethods", () =>
         fetch(`${BF_MANAGER_URL}/v1/manager/paymethods/payout`, {
@@ -37,14 +38,6 @@ export const PayOutPage = () => {
         fetch(`${BF_MANAGER_URL}/v1/payout/create`, {
             method: "POST",
             body: JSON.stringify({
-                source: {
-                    amount: {
-                        value: {
-                            quantity: +sourceValue * 100,
-                            accuracy: 100
-                        }
-                    }
-                },
                 destination: {
                     amount: {
                         currency: payMethod?.fiatCurrency,
@@ -65,7 +58,22 @@ export const PayOutPage = () => {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
-        }).then(response => response.json())
+        })
+            .then(response => response.json())
+            .then(json => {
+                if (json.success) {
+                    setPayMethod("");
+                    setDestValue("");
+                    setCardHolder("");
+                    setCardInfo("");
+                    notify(translate("pages.payOut.success"));
+                } else {
+                    throw new Error(json.error || "Unknown error");
+                }
+            })
+            .catch(e => {
+                notify(e.message, { type: "error" });
+            })
     );
 
     const isLoading = useMemo(() => initialLoading || payOutCreateLoading, [initialLoading, payOutCreateLoading]);
@@ -87,25 +95,18 @@ export const PayOutPage = () => {
                     </Box>
                 ) : (
                     <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={2}>
-                        <FormControl sx={{ m: 1, width: 300 }}>
+                        <FormControl sx={{ m: 1, width: 340 }}>
                             <InputLabel>{translate("pages.payOut.payMethod")}</InputLabel>
                             <Select value={payMethod} onChange={handlePayMethodChange}>
                                 {payMethods?.data?.map((method: any, i: number) => (
                                     <MenuItem key={i} value={method}>
-                                        {`${method.bankName} (${method.paymentType})`}
+                                        {`${method.bankName} (${method.paymentTypeName}, ${method.fiatCurrency})`}
                                     </MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
                         <TextField
-                            type="number"
-                            label={translate("pages.payOut.sourceValue")}
-                            value={sourceValue}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                                setSourceValue(event.target.value);
-                            }}
-                        />
-                        <TextField
+                            sx={{ m: 1, width: 340 }}
                             type="number"
                             label={translate("pages.payOut.destValue")}
                             value={destValue}
@@ -113,8 +114,9 @@ export const PayOutPage = () => {
                                 setDestValue(event.target.value);
                             }}
                         />
+
                         <TextField
-                            sx={{ m: 1, width: 300 }}
+                            sx={{ m: 1, width: 340 }}
                             label={translate("pages.payOut.cardHolder")}
                             value={cardHolder}
                             onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -122,7 +124,7 @@ export const PayOutPage = () => {
                             }}
                         />
                         <TextField
-                            sx={{ m: 1, width: 300 }}
+                            sx={{ m: 1, width: 340 }}
                             type="number"
                             label={translate("pages.payOut.cardInfo")}
                             value={cardInfo}
@@ -130,9 +132,7 @@ export const PayOutPage = () => {
                                 setCardInfo(event.target.value);
                             }}
                         />
-                        <Button
-                            disabled={!payMethod || !sourceValue || !destValue || !cardInfo || !cardHolder}
-                            onClick={create}>
+                        <Button disabled={!payMethod || !destValue || !cardInfo || !cardHolder} onClick={create}>
                             {translate("pages.payOut.create")}
                         </Button>
                     </Stack>
