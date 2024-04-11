@@ -14,25 +14,43 @@ import {
     TextField,
     Button
 } from "@mui/material";
-import { useNotify, useTranslate } from "react-admin";
-import { BF_MANAGER_URL } from "@/data/base";
+import { useNotify, useTranslate, useLocaleState } from "react-admin";
+import { BF_MANAGER_URL, API_URL } from "@/data/base";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
     const [payMethod, setPayMethod] = useState<any>("");
     const [destValue, setDestValue] = useState("");
-    const [cardHolder, setCardHolder] = useState("");
-    const [cardInfo, setCardInfo] = useState("");
+    const [currency, setCurrency] = useState("");
+    const [additionalFieldValues, setAdditionalFiledValues] = useState<Record<string, string>>({});
 
     const notify = useNotify();
 
-    const { isLoading: initialLoading, data: payMethods } = useQuery("paymethods", () =>
-        fetch(`${BF_MANAGER_URL}/v1/manager/paymethods/payout`, {
+    const [locale] = useLocaleState();
+
+    const { data: currencies } = useQuery("currencies", () =>
+        fetch(`${API_URL}/dictionaries/curr`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
         }).then(response => response.json())
     );
+
+    const { isLoading: initialLoading, data: payMethods } = useQuery(["paymethods", currency], () => {
+        if (currency) {
+            return fetch(`${BF_MANAGER_URL}/v1/manager/paymethods/payout?currency=${currency}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }).then(response => response.json());
+        } else {
+            return Promise.resolve([]);
+        }
+    });
+
+    const additionalFields = useMemo(() => {
+        return payMethod?.fields?.filter?.((f: any) => !f.hidden && f.required) || [];
+    }, [payMethod]);
 
     const { mutate: payOutCreate, isLoading: payOutCreateLoading } = useMutation(() =>
         fetch(`${BF_MANAGER_URL}/v1/payout/create`, {
@@ -48,8 +66,7 @@ export const PayOutPage = () => {
                     }
                 },
                 meta: {
-                    cardholder: cardHolder,
-                    cardInfo,
+                    ...additionalFieldValues,
                     paymentType: payMethod?.paymentType,
                     customerBank: payMethod?.bank
                 }
@@ -64,8 +81,6 @@ export const PayOutPage = () => {
                 if (json.success) {
                     setPayMethod("");
                     setDestValue("");
-                    setCardHolder("");
-                    setCardInfo("");
                     notify(translate("pages.payOut.success"));
                 } else {
                     throw new Error(json.error || "Unknown error");
@@ -78,12 +93,42 @@ export const PayOutPage = () => {
 
     const isLoading = useMemo(() => initialLoading || payOutCreateLoading, [initialLoading, payOutCreateLoading]);
 
+    const canPayout = useMemo(() => {
+        return (
+            payMethod &&
+            destValue &&
+            additionalFields.reduce((acc: boolean, curr: any) => acc && !!additionalFieldValues[curr.name], [true])
+        );
+    }, [payMethod, destValue, additionalFieldValues, additionalFields]);
+
     const handlePayMethodChange = (event: SelectChangeEvent) => {
         setPayMethod(event.target.value);
     };
 
+    const handleCurrencyChange = (event: SelectChangeEvent) => {
+        setCurrency(event.target.value);
+    };
+
+    const handleAdditionalFieldChange = (key: string, value: string) => {
+        setAdditionalFiledValues(current => {
+            current[key] = value;
+            return { ...current };
+        });
+    };
+
     const create = () => {
         payOutCreate();
+    };
+
+    const translateField = (key: string) => {
+        switch (key) {
+            case "cardholder":
+                return translate("pages.payOut.cardHolder");
+            case "cardInfo":
+                return translate("pages.payOut.cardInfo");
+            default:
+                return key;
+        }
     };
 
     return (
@@ -96,43 +141,50 @@ export const PayOutPage = () => {
                 ) : (
                     <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={2}>
                         <FormControl sx={{ m: 1, width: 340 }}>
-                            <InputLabel>{translate("pages.payOut.payMethod")}</InputLabel>
-                            <Select value={payMethod} onChange={handlePayMethodChange}>
-                                {payMethods?.data?.map((method: any, i: number) => (
-                                    <MenuItem key={i} value={method}>
-                                        {`${method.bankName} (${method.paymentTypeName}, ${method.fiatCurrency})`}
+                            <InputLabel>{translate("resources.transactions.fields.currency")}</InputLabel>
+                            <Select value={currency} onChange={handleCurrencyChange}>
+                                {currencies?.data?.map?.((cur: any) => (
+                                    <MenuItem key={cur.code} value={cur["alpha-3"]}>
+                                        {`${cur["name-" + locale]} (${cur["alpha-3"]})`}
                                     </MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
-                        <TextField
-                            sx={{ m: 1, width: 340 }}
-                            type="number"
-                            label={translate("pages.payOut.destValue")}
-                            value={destValue}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                                setDestValue(event.target.value);
-                            }}
-                        />
+                        {currency && (
+                            <>
+                                <FormControl sx={{ m: 1, width: 340 }}>
+                                    <InputLabel>{translate("pages.payOut.payMethod")}</InputLabel>
+                                    <Select value={payMethod} onChange={handlePayMethodChange}>
+                                        {payMethods?.data?.map((method: any, i: number) => (
+                                            <MenuItem key={i} value={method}>
+                                                {`${method.bankName} (${method.paymentTypeName}, ${method.fiatCurrency})`}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                                <TextField
+                                    sx={{ m: 1, width: 340 }}
+                                    type="number"
+                                    label={translate("pages.payOut.destValue")}
+                                    value={destValue}
+                                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                        setDestValue(event.target.value);
+                                    }}
+                                />
+                            </>
+                        )}
 
-                        <TextField
-                            sx={{ m: 1, width: 340 }}
-                            label={translate("pages.payOut.cardHolder")}
-                            value={cardHolder}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                                setCardHolder(event.target.value);
-                            }}
-                        />
-                        <TextField
-                            sx={{ m: 1, width: 340 }}
-                            type="number"
-                            label={translate("pages.payOut.cardInfo")}
-                            value={cardInfo}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                                setCardInfo(event.target.value);
-                            }}
-                        />
-                        <Button disabled={!payMethod || !destValue || !cardInfo || !cardHolder} onClick={create}>
+                        {additionalFields.map((f: any, i: number) => (
+                            <TextField
+                                key={i}
+                                sx={{ m: 1, width: 340 }}
+                                label={translateField(f.name)}
+                                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                    handleAdditionalFieldChange(f.name, event.target.value);
+                                }}
+                            />
+                        ))}
+                        <Button disabled={!canPayout} onClick={create}>
                             {translate("pages.payOut.create")}
                         </Button>
                     </Stack>
