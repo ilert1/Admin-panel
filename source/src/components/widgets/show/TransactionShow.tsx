@@ -516,22 +516,22 @@ export const TransactionShowWidget = () => {
                         </ReferenceManyField>
                     </Labeled>
                 </Grid>
-                <Grid item>
-                    <Button onClick={openStatusDialog}>{translate("resources.transactions.show.statusButton")}</Button>
-                    {adminOnly && (
-                        <>
-                            <Button onClick={switchDispute}>
-                                {record?.dispute
-                                    ? translate("resources.transactions.show.closeDispute")
-                                    : translate("resources.transactions.show.openDispute")}
-                            </Button>
-                            <Button disabled={!record?.dispute} onClick={openStornoDialog}>
-                                {translate("resources.transactions.show.storno")}
-                            </Button>
-                        </>
-                    )}
-                    <Button onClick={commitTransaction}>{translate("resources.transactions.show.commit")}</Button>
-                </Grid>
+                {adminOnly && (
+                    <Grid item>
+                        <Button onClick={openStatusDialog}>
+                            {translate("resources.transactions.show.statusButton")}
+                        </Button>
+                        <Button onClick={switchDispute}>
+                            {record?.dispute
+                                ? translate("resources.transactions.show.closeDispute")
+                                : translate("resources.transactions.show.openDispute")}
+                        </Button>
+                        <Button disabled={!record?.dispute} onClick={openStornoDialog}>
+                            {translate("resources.transactions.show.storno")}
+                        </Button>
+                        <Button onClick={commitTransaction}>{translate("resources.transactions.show.commit")}</Button>
+                    </Grid>
+                )}
             </Grid>
             <StateDialog open={statusDialogOpen} onClose={closeStatusDialog} data={data} />
             <StornoDialog
