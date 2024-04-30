@@ -35,6 +35,8 @@ const ru = {
                     state_int: "Код",
                     state_description: "Статус"
                 },
+                rateInfo: "Курс",
+                createdAt: "Дата и время создания",
                 stornoIds: "Транзакции сторно",
                 source: {
                     header: "Отправитель",
@@ -149,6 +151,8 @@ const en = {
                     state_int: "Code",
                     state_description: "Status"
                 },
+                rateInfo: "Rate",
+                createdAt: "Created at",
                 stornoIds: "Storno transactions",
                 source: {
                     header: "Sender",

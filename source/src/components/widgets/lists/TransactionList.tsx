@@ -1,4 +1,4 @@
-import { BooleanField, Datagrid, List, TextField, useDataProvider, FunctionField } from "react-admin";
+import { BooleanField, Datagrid, List, TextField, useDataProvider, FunctionField, DateField } from "react-admin";
 import { useQuery } from "react-query";
 
 export const TransactionList = () => {
@@ -22,6 +22,16 @@ export const TransactionList = () => {
                 />
                 <TextField label="resources.transactions.fields.state.title" source="state.state_description" />
                 <BooleanField label="resources.transactions.fields.state.final" source="state.final" />
+                <FunctionField
+                    label="resources.transactions.fields.rateInfo"
+                    source="source.amount.rate_info"
+                    render={(record: any) =>
+                        `${record.rate_info.s_currency} / ${record.rate_info.d_currency}: ${(
+                            (record.rate_info.value.quantity || 0) / record.rate_info.value.accuracy
+                        ).toFixed(Math.log10(record.rate_info.value.accuracy))}`
+                    }
+                />
+                <DateField showTime label="resources.transactions.fields.createdAt" source="created_at" />
             </Datagrid>
         </List>
     );
