@@ -57,7 +57,7 @@ const StateDialog = (props: any) => {
     };
 
     const saveState = () => {
-        fetch(`${API_URL}/transactions/man_set_state`, {
+        fetch(`${API_URL}/trn/man_set_state`, {
             method: "POST",
             body: JSON.stringify({ id: record.id, state: value }),
             headers: {
@@ -295,7 +295,7 @@ export const TransactionShowWidget = () => {
     }, [currencies]);
 
     const commitTransaction = () => {
-        fetch(`${API_URL}/transactions/commit`, {
+        fetch(`${API_URL}/trn/commit`, {
             method: "POST",
             body: JSON.stringify({ id: record.id }),
             headers: {
@@ -320,7 +320,7 @@ export const TransactionShowWidget = () => {
     };
 
     const switchDispute = () => {
-        fetch(`${API_URL}/transactions/dispute`, {
+        fetch(`${API_URL}/trn/dispute`, {
             method: "POST",
             body: JSON.stringify({ id: record.id, dispute: !record.dispute }),
             headers: {
