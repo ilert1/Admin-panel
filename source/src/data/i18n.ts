@@ -76,6 +76,12 @@ const ru = {
                 commit: "Зафиксировать",
                 openDispute: "Открыть диспут",
                 closeDispute: "Закрыть диспут"
+            },
+            list: {
+                filter: {
+                    transactionId: "ID транзакции",
+                    account: "Счет"
+                }
             }
         }
     },
@@ -192,6 +198,12 @@ const en = {
                 commit: "Commit",
                 openDispute: "Open dispute",
                 closeDispute: "Close dispute"
+            },
+            list: {
+                filter: {
+                    transactionId: "Transaction ID",
+                    account: "Account"
+                }
             }
         }
     },

@@ -15,7 +15,9 @@ export class TransactionDataProvider extends BaseDataProvider {
             url += `/${params.filter.id}`;
         }
         url += `?${paramsStr}`;
-        console.log(url);
+        if (params.filter.account) {
+            url += `&filter=account&value=${params.filter.account}`;
+        }
         const { json } = await fetchUtils.fetchJson(url, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
