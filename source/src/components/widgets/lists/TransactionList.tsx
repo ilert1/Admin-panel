@@ -1,4 +1,13 @@
-import { BooleanField, Datagrid, List, TextField, useDataProvider, FunctionField, DateField } from "react-admin";
+import {
+    BooleanField,
+    Datagrid,
+    List,
+    TextField,
+    useDataProvider,
+    FunctionField,
+    DateField,
+    SearchInput
+} from "react-admin";
 import { useQuery } from "react-query";
 
 export const TransactionList = () => {
@@ -6,7 +15,8 @@ export const TransactionList = () => {
     const { data } = useQuery([], () => dataProvider.getDictionaries());
 
     return (
-        <List exporter={false}>
+        // eslint-disable-next-line react/jsx-key
+        <List exporter={false} filters={[<SearchInput source="id" alwaysOn resettable />]}>
             <Datagrid
                 bulkActionButtons={false}
                 rowClick="show"
