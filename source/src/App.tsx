@@ -1,6 +1,5 @@
 import { CustomRoutes, Resource, combineDataProviders, AuthProvider, CoreAdminContext, CoreAdminUI } from "react-admin";
 import { TransactionDataProvider, i18nProvider } from "@/data";
-import { Receipt as ReceiptIcon, AccountBalanceWallet as AccountBalanceWalletIcon } from "@mui/icons-material";
 import { BaseDataProvider } from "@/data";
 import { AccountList, TransactionList } from "@/components/widgets/lists";
 import { AccountCreate } from "@/components/widgets/create";
@@ -12,6 +11,7 @@ import { keycloakAuthProvider } from "ra-keycloak";
 import { useEffect, useRef, useState } from "react";
 import { Dashboard } from "./Dashboard";
 import { MainLayout } from "./layouts";
+import { Wallet as WalletIcon, Receipt as ReceiptIcon } from "lucide-react";
 import "./globals.css";
 
 const dataProvider = combineDataProviders(resource => {
@@ -68,14 +68,17 @@ export const App = () => {
 
     if (keycloak) {
         return (
-            <CoreAdminContext i18nProvider={i18nProvider} dataProvider={dataProvider}>
-                <CoreAdminUI dashboard={Dashboard} layout={MainLayout}>
+            <CoreAdminContext
+                i18nProvider={i18nProvider}
+                dataProvider={dataProvider}
+                authProvider={authProvider.current}>
+                <CoreAdminUI dashboard={Dashboard} layout={MainLayout} title="Juggler" requireAuth>
                     <Resource
                         name="accounts"
                         list={AccountList}
                         show={AccountShow}
                         create={AccountCreate}
-                        icon={AccountBalanceWalletIcon}
+                        icon={WalletIcon}
                     />
                     <Resource name="transactions" list={TransactionList} show={TransactionShow} icon={ReceiptIcon} />
                 </CoreAdminUI>

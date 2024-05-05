@@ -16,5 +16,8 @@ module.exports = {
         react: {
             version: "detect"
         }
+    },
+    rules: {
+        "no-undef": "off"
     }
 };
