@@ -1,24 +1,43 @@
-import { Datagrid, List, TextField, useDataProvider, FunctionField } from "react-admin";
+import { useDataProvider, ListContextProvider, useListController } from "react-admin";
 import { useQuery } from "react-query";
+import { ColumnDef } from "@tanstack/react-table";
+import { DataTable } from "@/components/widgets/shared";
 
 export const AccountList = () => {
+    const listContext = useListController<Account>();
+
+    const columns: ColumnDef<Account>[] = [
+        {
+            accessorKey: "id",
+            header: "ID"
+        },
+        {
+            accessorKey: "owner_id",
+            header: "OwnerID"
+        },
+        {
+            accessorKey: "state",
+            header: "State"
+        }
+    ];
+
     const dataProvider = useDataProvider();
     const { data } = useQuery([], () => dataProvider.getDictionaries());
-    return (
-        <List exporter={false}>
-            <Datagrid
-                bulkActionButtons={false}
-                rowClick="show"
-                sx={{
-                    "& .RaDatagrid-headerCell": {
-                        fontWeight: "bold"
-                    }
-                }}>
-                <TextField source="meta.caption" sortable={false} />
-                <TextField source="owner_id" sortable={false} />
-                <FunctionField source="state" render={(record: any) => data?.accountStates[record.state]?.type_descr} />
-                <FunctionField source="type" render={(record: any) => data?.accountTypes[record.type]?.type_descr} />
-            </Datagrid>
-        </List>
-    );
+
+    if (listContext.isLoading || !listContext.data) {
+        return <div>Loading...</div>;
+    } else {
+        return (
+            <ListContextProvider value={listContext}>
+                <div className="text-sm breadcrumbs mb-4">
+                    <ul>
+                        <li>Products</li>
+                    </ul>
+                </div>
+                <div className="flex flex-col gap-4">
+                    <DataTable columns={columns} data={listContext.data} />
+                </div>
+            </ListContextProvider>
+        );
+    }
 };

@@ -1,21 +1,6 @@
-import {
-    Admin,
-    CustomRoutes,
-    Resource,
-    combineDataProviders,
-    Menu,
-    Layout,
-    useTranslate,
-    AuthProvider,
-    usePermissions
-} from "react-admin";
+import { CustomRoutes, Resource, combineDataProviders, AuthProvider, CoreAdminContext, CoreAdminUI } from "react-admin";
 import { TransactionDataProvider, i18nProvider } from "@/data";
-import {
-    Receipt as ReceiptIcon,
-    AccountBalanceWallet as AccountBalanceWalletIcon,
-    AddCard as AddCardIcon,
-    CreditScore as CreditScoreIcon
-} from "@mui/icons-material";
+import { Receipt as ReceiptIcon, AccountBalanceWallet as AccountBalanceWalletIcon } from "@mui/icons-material";
 import { BaseDataProvider } from "@/data";
 import { AccountList, TransactionList } from "@/components/widgets/lists";
 import { AccountCreate } from "@/components/widgets/create";
@@ -24,24 +9,10 @@ import { Route } from "react-router-dom";
 import { PayInPage, PayOutPage } from "./pages";
 import Keycloak, { KeycloakConfig, KeycloakTokenParsed, KeycloakInitOptions } from "keycloak-js";
 import { keycloakAuthProvider } from "ra-keycloak";
-import { useEffect, useMemo, useRef, useState } from "react";
-
-export const MyMenu = () => {
-    const translate = useTranslate();
-    const { permissions } = usePermissions();
-    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
-    return (
-        <Menu>
-            <Menu.ResourceItems />
-            {adminOnly && (
-                <Menu.Item to="/payin" primaryText={translate("app.menu.payin")} leftIcon={<AddCardIcon />} />
-            )}
-            <Menu.Item to="/payout" primaryText={translate("app.menu.payout")} leftIcon={<CreditScoreIcon />} />
-        </Menu>
-    );
-};
-
-export const MyLayout = (props: any) => <Layout {...props} menu={MyMenu} />;
+import { useEffect, useRef, useState } from "react";
+import { Dashboard } from "./Dashboard";
+import { MainLayout } from "./layouts";
+import "./globals.css";
 
 const dataProvider = combineDataProviders(resource => {
     if (resource === "transactions") {
@@ -97,26 +68,23 @@ export const App = () => {
 
     if (keycloak) {
         return (
-            <Admin
-                requireAuth
-                i18nProvider={i18nProvider}
-                dataProvider={dataProvider}
-                authProvider={authProvider.current}
-                layout={MyLayout}>
-                <Resource
-                    name="accounts"
-                    list={AccountList}
-                    show={AccountShow}
-                    create={AccountCreate}
-                    icon={AccountBalanceWalletIcon}
-                />
-                <Resource name="transactions" list={TransactionList} show={TransactionShow} icon={ReceiptIcon} />
+            <CoreAdminContext i18nProvider={i18nProvider} dataProvider={dataProvider}>
+                <CoreAdminUI dashboard={Dashboard} layout={MainLayout}>
+                    <Resource
+                        name="accounts"
+                        list={AccountList}
+                        show={AccountShow}
+                        create={AccountCreate}
+                        icon={AccountBalanceWalletIcon}
+                    />
+                    <Resource name="transactions" list={TransactionList} show={TransactionShow} icon={ReceiptIcon} />
+                </CoreAdminUI>
+
                 <CustomRoutes>
-                    {/* {adminOnly && <Route path="/payin" element={<PayInPage />} />} */}
                     <Route path="/payin" element={<PayInPage />} />
                     <Route path="/payout" element={<PayOutPage />} />
                 </CustomRoutes>
-            </Admin>
+            </CoreAdminContext>
         );
     }
 };

@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "types": ["vite/client"],
+        "types": ["vite/client", "src/types.d.ts"],
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,
         "skipLibCheck": true,
@@ -16,6 +16,7 @@
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "react-jsx",
+        "baseUrl": ".",
         "paths": {
             "@/*": ["./src/*"]
         }
