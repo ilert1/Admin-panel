@@ -11,16 +11,7 @@ import {
     useGetList
 } from "react-admin";
 import { useQuery } from "react-query";
-import {
-    Card,
-    CardContent,
-    TextField as MUITextField,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    IconButton
-} from "@mui/material";
+import { TextField as MUITextField, FormControl, InputLabel, Select, MenuItem, IconButton, Box } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import { debounce } from "lodash";
 import { SelectChangeEvent } from "@mui/material/Select";
@@ -65,58 +56,46 @@ const TransactionFilterSidebar = () => {
     };
 
     return (
-        <Card
-            sx={{
-                display: { xs: "none", sm: "block" },
-                height: "max-content",
-                order: -1,
-                mr: 2,
-                mt: 6,
-                minWidth: 320,
-                width: 320,
-                maxWidth: 320
-            }}>
-            <CardContent>
-                <MUITextField
-                    label={translate("resources.transactions.list.filter.transactionId")}
-                    fullWidth
-                    value={id}
-                    onChange={onIdChanded}
-                    helperText={false}
-                    InputProps={{
-                        endAdornment:
-                            id?.length > 0 ? (
-                                <IconButton size="small" onClick={clearId}>
-                                    <ClearIcon />
-                                </IconButton>
-                            ) : undefined
-                    }}
-                />
-                <FormControl fullWidth>
-                    <InputLabel shrink={true}>{translate("resources.transactions.list.filter.account")}</InputLabel>
-                    <Select
-                        IconComponent={
-                            account?.length > 0
-                                ? () => (
-                                      <IconButton size="small" onClick={clearAccount}>
-                                          <ClearIcon />
-                                      </IconButton>
-                                  )
-                                : undefined
-                        }
-                        onChange={onAccountChanged}
-                        value={account}
-                        notched={true}>
-                        {accounts &&
-                            accounts.map((account, i) => (
-                                <MenuItem key={i} value={account.id}>
-                                    {account.meta.caption}
-                                </MenuItem>
-                            ))}
-                    </Select>
-                </FormControl>
-            </CardContent>
-        </Card>
+        <Box sx={{ display: "flex", flexDirection: "row", gap: 2, p: 2 }}>
+            <MUITextField
+                label={translate("resources.transactions.list.filter.transactionId")}
+                fullWidth
+                value={id}
+                onChange={onIdChanded}
+                helperText={false}
+                InputProps={{
+                    endAdornment:
+                        id?.length > 0 ? (
+                            <IconButton size="small" onClick={clearId}>
+                                <ClearIcon />
+                            </IconButton>
+                        ) : undefined
+                }}
+            />
+            <FormControl fullWidth>
+                <InputLabel shrink={true}>{translate("resources.transactions.list.filter.account")}</InputLabel>
+                <Select
+                    IconComponent={
+                        account?.length > 0
+                            ? () => (
+                                  <IconButton size="small" onClick={clearAccount}>
+                                      <ClearIcon />
+                                  </IconButton>
+                              )
+                            : undefined
+                    }
+                    onChange={onAccountChanged}
+                    value={account}
+                    notched={true}>
+                    {accounts &&
+                        accounts.map((account, i) => (
+                            <MenuItem key={i} value={account.id}>
+                                {account.meta.caption}
+                            </MenuItem>
+                        ))}
+                </Select>
+            </FormControl>
+        </Box>
     );
 };
 
@@ -125,7 +104,8 @@ export const TransactionList = () => {
     const { data } = useQuery([], () => dataProvider.getDictionaries());
 
     return (
-        <List exporter={false} aside={<TransactionFilterSidebar />}>
+        <List exporter={false}>
+            <TransactionFilterSidebar />
             <Datagrid
                 bulkActionButtons={false}
                 rowClick="show"
