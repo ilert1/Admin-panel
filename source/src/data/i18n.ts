@@ -1,8 +1,9 @@
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import raRU from "ra-language-russian";
 import raEn from "ra-language-english";
+import { TranslationMessages } from "ra-core";
 
-const ru = {
+const ru: TranslationMessages = {
     ...raRU,
     resources: {
         accounts: {
@@ -103,6 +104,10 @@ const ru = {
                 next: "Далее",
                 previous: "Назад"
             }
+        },
+        theme: {
+            light: "Включить темную тему",
+            dark: "Включить светлую тему"
         }
     },
     pages: {
@@ -138,7 +143,7 @@ const ru = {
     }
 };
 
-const en = {
+const en: TranslationMessages = {
     ...raEn,
     resources: {
         accounts: {
@@ -239,6 +244,10 @@ const en = {
                 next: "Next",
                 previous: "Previous"
             }
+        },
+        theme: {
+            light: "Toggle dark theme",
+            dark: "Toggle light theme"
         }
     },
     pages: {
@@ -274,9 +283,9 @@ const en = {
     }
 };
 
-const translations: any = { ru, en };
+const translations = { ru, en };
 
-export const i18nProvider = polyglotI18nProvider((locale: string) => translations[locale], "en", [
+export const i18nProvider = polyglotI18nProvider((locale: string) => translations[locale as "ru" | "en"], "en", [
     { locale: "ru", name: "Русский" },
     { locale: "en", name: "English" }
 ]);

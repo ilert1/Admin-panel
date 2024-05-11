@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { Dashboard } from "./Dashboard";
 import { MainLayout } from "./layouts";
 import { Wallet as WalletIcon, Receipt as ReceiptIcon } from "lucide-react";
+import { ThemeProvider } from "@/components/providers";
 import "./globals.css";
 
 const dataProvider = combineDataProviders(resource => {
@@ -68,20 +69,27 @@ export const App = () => {
 
     if (keycloak) {
         return (
-            <CoreAdminContext
-                i18nProvider={i18nProvider}
-                dataProvider={dataProvider}
-                authProvider={authProvider.current}>
-                <CoreAdminUI dashboard={Dashboard} layout={MainLayout} title="Juggler" requireAuth>
-                    <Resource name="accounts" list={AccountList} create={AccountCreate} icon={WalletIcon} />
-                    <Resource name="transactions" list={TransactionList} show={TransactionShow} icon={ReceiptIcon} />
-                </CoreAdminUI>
+            <ThemeProvider defaultTheme="dark" storageKey="juggler-ui-theme">
+                <CoreAdminContext
+                    i18nProvider={i18nProvider}
+                    dataProvider={dataProvider}
+                    authProvider={authProvider.current}>
+                    <CoreAdminUI dashboard={Dashboard} layout={MainLayout} title="Juggler" requireAuth>
+                        <Resource name="accounts" list={AccountList} create={AccountCreate} icon={WalletIcon} />
+                        <Resource
+                            name="transactions"
+                            list={TransactionList}
+                            show={TransactionShow}
+                            icon={ReceiptIcon}
+                        />
+                    </CoreAdminUI>
 
-                <CustomRoutes>
-                    <Route path="/payin" element={<PayInPage />} />
-                    <Route path="/payout" element={<PayOutPage />} />
-                </CustomRoutes>
-            </CoreAdminContext>
+                    <CustomRoutes>
+                        <Route path="/payin" element={<PayInPage />} />
+                        <Route path="/payout" element={<PayOutPage />} />
+                    </CustomRoutes>
+                </CoreAdminContext>
+            </ThemeProvider>
         );
     }
 };

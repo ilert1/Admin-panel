@@ -29,7 +29,14 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { CreditCard as CreditCardIcon, HandCoins as HandCoinsIcon, PanelLeft as PanelLeftIcon } from "lucide-react";
+import {
+    CreditCard as CreditCardIcon,
+    HandCoins as HandCoinsIcon,
+    PanelLeft as PanelLeftIcon,
+    Moon as MoonIcon,
+    Sun as SunIcon
+} from "lucide-react";
+import { useTheme } from "@/components/providers";
 
 export const MainLayout = ({ children, title }: CoreLayoutProps) => {
     const resources = useResourceDefinitions();
@@ -52,11 +59,20 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
 
     const identity = useGetIdentity();
     const logout = useLogout();
+    const { setTheme, theme } = useTheme();
+
+    const toggleTheme = () => {
+        if (theme === "light") {
+            setTheme("dark");
+        } else {
+            setTheme("light");
+        }
+    };
 
     return (
         <TooltipProvider delayDuration={200}>
             <div className="flex min-h-screen w-full flex-col bg-muted/40">
-                <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
+                <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col justify-between border-r bg-background sm:flex">
                     <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
                         {Object.keys(resources).map(resource => (
                             <Tooltip key={resource}>
@@ -98,6 +114,24 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                             <TooltipContent side="right">{translate("app.menu.payout")}</TooltipContent>
                         </Tooltip>
                     </nav>
+                    <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <NavLink
+                                    to="#"
+                                    onClick={toggleTheme}
+                                    className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
+                                    {theme === "light" ? <SunIcon /> : <MoonIcon />}
+                                    <span className="sr-only">
+                                        {theme === "dark" ? translate("app.theme.dark") : translate("app.theme.light")}
+                                    </span>
+                                </NavLink>
+                            </TooltipTrigger>
+                            <TooltipContent side="right">
+                                {theme === "dark" ? translate("app.theme.dark") : translate("app.theme.light")}
+                            </TooltipContent>
+                        </Tooltip>
+                    </nav>
                 </aside>
                 <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
                     <header className="sticky top-0 z-30 sm:z-0 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
@@ -108,7 +142,7 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                                     <span className="sr-only">Toggle Menu</span>
                                 </Button>
                             </SheetTrigger>
-                            <SheetContent side="left" className="sm:max-w-xs">
+                            <SheetContent side="left" className="sm:max-w-xs flex flex-col justify-between">
                                 <nav className="grid gap-6 text-lg font-medium">
                                     {Object.keys(resources).map(resource => (
                                         <NavLink
@@ -134,6 +168,15 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                                         className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
                                         <HandCoinsIcon className="h-5 w-5" />
                                         {translate("app.menu.payout")}
+                                    </NavLink>
+                                </nav>
+                                <nav className="grid gap-6 text-lg font-medium">
+                                    <NavLink
+                                        to="#"
+                                        onClick={toggleTheme}
+                                        className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
+                                        {theme === "light" ? <SunIcon /> : <MoonIcon />}
+                                        {theme === "dark" ? translate("app.theme.dark") : translate("app.theme.light")}
                                     </NavLink>
                                 </nav>
                             </SheetContent>
