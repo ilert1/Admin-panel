@@ -4,6 +4,7 @@ module.exports = {
         "plugin:react/recommended",
         "plugin:react/jsx-runtime",
         "plugin:react-hooks/recommended",
+        "plugin:@typescript-eslint/recommended",
         "prettier"
     ],
     parser: "@typescript-eslint/parser",
@@ -18,6 +19,8 @@ module.exports = {
         }
     },
     rules: {
-        "no-undef": "off"
+        "no-undef": "off",
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": ["error"]
     }
 };

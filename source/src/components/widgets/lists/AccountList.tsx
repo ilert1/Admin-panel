@@ -21,12 +21,12 @@ export const AccountList = () => {
         {
             accessorKey: "state",
             header: translate("resources.accounts.fields.state"),
-            cell: ({ row }) => data?.accountStates?.[row.getValue("state") as any]?.type_descr || ""
+            cell: ({ row }) => data?.accountStates?.[row.getValue("state") as string]?.type_descr || ""
         },
         {
             accessorKey: "type",
             header: translate("resources.accounts.fields.type"),
-            cell: ({ row }) => data?.accountTypes?.[row.getValue("type") as any]?.type_descr || ""
+            cell: ({ row }) => data?.accountTypes?.[row.getValue("type") as string]?.type_descr || ""
         }
     ];
 
