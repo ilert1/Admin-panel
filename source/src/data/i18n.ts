@@ -13,10 +13,18 @@ const ru = {
                 state: "Состояние",
                 type: "Тип",
                 amounts: "Суммы",
+                amount: {
+                    id: "ID",
+                    type: "Тип",
+                    currency: "Валюта",
+                    value: "Сумма"
+                },
                 meta: {
                     caption: "Название"
                 }
-            }
+            },
+            showHeader: "Информация о счете",
+            showDescription: "Подробная информация о счете с ID %{id}"
         },
         transactions: {
             name: "Транзакция |||| Транзакции",
@@ -89,6 +97,12 @@ const ru = {
         menu: {
             payin: "Пополнение",
             payout: "Выплата"
+        },
+        ui: {
+            pagination: {
+                next: "Далее",
+                previous: "Назад"
+            }
         }
     },
     pages: {
@@ -135,10 +149,18 @@ const en = {
                 state: "State",
                 type: "Type",
                 amounts: "Amounts",
+                amount: {
+                    id: "ID",
+                    type: "Type",
+                    currency: "Currency",
+                    value: "Value"
+                },
                 meta: {
                     caption: "Caption"
                 }
-            }
+            },
+            showHeader: "Account info",
+            showDescription: "Detailed information about account with ID %{id}"
         },
         transactions: {
             name: "Transaction |||| Transactions",
@@ -211,6 +233,12 @@ const en = {
         menu: {
             payin: "Pay in",
             payout: "Pay out"
+        },
+        ui: {
+            pagination: {
+                next: "Next",
+                previous: "Previous"
+            }
         }
     },
     pages: {

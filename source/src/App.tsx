@@ -3,7 +3,7 @@ import { TransactionDataProvider, i18nProvider } from "@/data";
 import { BaseDataProvider } from "@/data";
 import { AccountList, TransactionList } from "@/components/widgets/lists";
 import { AccountCreate } from "@/components/widgets/create";
-import { AccountShow, TransactionShow } from "./components/widgets/show";
+import { TransactionShow } from "./components/widgets/show";
 import { Route } from "react-router-dom";
 import { PayInPage, PayOutPage } from "./pages";
 import Keycloak, { KeycloakConfig, KeycloakTokenParsed, KeycloakInitOptions } from "keycloak-js";
@@ -73,13 +73,7 @@ export const App = () => {
                 dataProvider={dataProvider}
                 authProvider={authProvider.current}>
                 <CoreAdminUI dashboard={Dashboard} layout={MainLayout} title="Juggler" requireAuth>
-                    <Resource
-                        name="accounts"
-                        list={AccountList}
-                        show={AccountShow}
-                        create={AccountCreate}
-                        icon={WalletIcon}
-                    />
+                    <Resource name="accounts" list={AccountList} create={AccountCreate} icon={WalletIcon} />
                     <Resource name="transactions" list={TransactionList} show={TransactionShow} icon={ReceiptIcon} />
                 </CoreAdminUI>
 
