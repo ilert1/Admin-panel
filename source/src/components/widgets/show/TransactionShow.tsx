@@ -154,14 +154,20 @@ const StornoDialog = (props: any) => {
                     id: source,
                     amount: {
                         currency,
-                        value: +value
+                        value: {
+                            quantity: +value,
+                            accuracy: 100
+                        }
                     }
                 },
                 destination: {
                     id: destination,
                     amount: {
                         currency,
-                        value: +value
+                        value: {
+                            quantity: +value,
+                            accuracy: 100
+                        }
                     }
                 },
                 meta: {
