@@ -6,32 +6,25 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export class TransactionDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
-        const paramsStr = new URLSearchParams({
+        const data: any = {
             limit: params.pagination.perPage.toString(),
             offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
-        }).toString();
-        let url = `${API_URL}/${resource}`;
-        if (params.filter.id) {
-            url += `/${params.filter.id}`;
-        }
-        url += `?${paramsStr}`;
+        };
         if (params.filter.account) {
-            url += `&filter=account&value=${params.filter.account}`;
+            data["accountId"] = params.filter.account;
         }
+        if (params.filter.id) {
+            data["id"] = params.filter.id;
+        }
+        const paramsStr = new URLSearchParams(data).toString();
+        const url = `${API_URL}/${resource}?${paramsStr}`;
         const { json } = await fetchUtils.fetchJson(url, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
-        if (params.filter.id) {
-            return {
-                data: json.data ? [json.data] : [],
-                total: json.data ? 1 : 0
-            };
-        } else {
-            return {
-                data: json.data || [],
-                total: json?.total || 0
-            };
-        }
+        return {
+            data: json.data || [],
+            total: json?.total || 0
+        };
     }
 
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
