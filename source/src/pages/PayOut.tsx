@@ -12,7 +12,8 @@ import {
     MenuItem,
     SelectChangeEvent,
     TextField,
-    Button
+    Button,
+    InputAdornment
 } from "@mui/material";
 import { useNotify, useTranslate, useLocaleState } from "react-admin";
 import { BF_MANAGER_URL, API_URL } from "@/data/base";
@@ -21,7 +22,6 @@ export const PayOutPage = () => {
     const translate = useTranslate();
     const [payMethod, setPayMethod] = useState<any>("");
     const [destValue, setDestValue] = useState("");
-    const [currency, setCurrency] = useState("");
     const [additionalFieldValues, setAdditionalFiledValues] = useState<Record<string, string>>({});
 
     const notify = useNotify();
@@ -36,16 +36,12 @@ export const PayOutPage = () => {
         }).then(response => response.json())
     );
 
-    const { isLoading: initialLoading, data: payMethods } = useQuery(["paymethods", currency], () => {
-        if (currency) {
-            return fetch(`${BF_MANAGER_URL}/v1/manager/paymethods/payout?currency=${currency}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
-            }).then(response => response.json());
-        } else {
-            return Promise.resolve([]);
-        }
+    const { isLoading: initialLoading, data: payMethods } = useQuery("paymethods", () => {
+        return fetch(`${BF_MANAGER_URL}/v1/payout/paymethods`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }).then(response => response.json());
     });
 
     const additionalFields = useMemo(() => {
@@ -105,10 +101,6 @@ export const PayOutPage = () => {
         setPayMethod(event.target.value);
     };
 
-    const handleCurrencyChange = (event: SelectChangeEvent) => {
-        setCurrency(event.target.value);
-    };
-
     const handleAdditionalFieldChange = (key: string, value: string) => {
         setAdditionalFiledValues(current => {
             current[key] = value;
@@ -141,38 +133,39 @@ export const PayOutPage = () => {
                 ) : (
                     <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={2}>
                         <FormControl sx={{ m: 1, width: 340 }}>
-                            <InputLabel>{translate("resources.transactions.fields.currency")}</InputLabel>
-                            <Select value={currency} onChange={handleCurrencyChange}>
-                                {currencies?.data?.map?.((cur: any) => (
-                                    <MenuItem key={cur.code} value={cur["alpha-3"]}>
-                                        {`${cur["name-" + locale]} (${cur["alpha-3"]})`}
+                            <InputLabel>{translate("pages.payOut.payMethod")}</InputLabel>
+                            <Select value={payMethod} onChange={handlePayMethodChange}>
+                                {payMethods?.data?.map((method: any, i: number) => (
+                                    <MenuItem key={i} value={method}>
+                                        {`${method.bankName} (${method.paymentTypeName}, ${method.fiatCurrency})`}
                                     </MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
-                        {currency && (
-                            <>
-                                <FormControl sx={{ m: 1, width: 340 }}>
-                                    <InputLabel>{translate("pages.payOut.payMethod")}</InputLabel>
-                                    <Select value={payMethod} onChange={handlePayMethodChange}>
-                                        {payMethods?.data?.map((method: any, i: number) => (
-                                            <MenuItem key={i} value={method}>
-                                                {`${method.bankName} (${method.paymentTypeName}, ${method.fiatCurrency})`}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                                <TextField
-                                    sx={{ m: 1, width: 340 }}
-                                    type="number"
-                                    label={translate("pages.payOut.destValue")}
-                                    value={destValue}
-                                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                                        setDestValue(event.target.value);
-                                    }}
-                                />
-                            </>
-                        )}
+                        <TextField
+                            sx={{ m: 1, width: 340 }}
+                            type="number"
+                            label={translate("pages.payOut.destValue")}
+                            value={destValue}
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                setDestValue(event.target.value);
+                            }}
+                            InputProps={{
+                                startAdornment: payMethod?.fiatCurrency ? (
+                                    <InputAdornment position="start">{`${
+                                        currencies?.data?.find((c: any) => c["alpha-3"] === payMethod?.fiatCurrency)?.[
+                                            "name-" + locale
+                                        ]
+                                    } (${
+                                        currencies?.data?.find((c: any) => c["alpha-3"] === payMethod?.fiatCurrency)?.[
+                                            "alpha-3"
+                                        ]
+                                    })`}</InputAdornment>
+                                ) : (
+                                    ""
+                                )
+                            }}
+                        />
 
                         {additionalFields.map((f: any, i: number) => (
                             <TextField
