@@ -2,6 +2,8 @@ import {
     CoreLayoutProps,
     useGetIdentity,
     useGetResourceLabel,
+    useI18nProvider,
+    useLocaleState,
     useLogout,
     usePermissions,
     useResourceDefinitions,
@@ -35,7 +37,8 @@ import {
     PanelLeft as PanelLeftIcon,
     Moon as MoonIcon,
     Sun as SunIcon,
-    LayoutDashboard as LayoutDashboardIcon
+    LayoutDashboard as LayoutDashboardIcon,
+    Languages as LanguagesIcon
 } from "lucide-react";
 import { useTheme } from "@/components/providers";
 
@@ -61,6 +64,14 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
     const identity = useGetIdentity();
     const logout = useLogout();
     const { setTheme, theme } = useTheme();
+    const [locale, setLocale] = useLocaleState();
+    const { getLocales } = useI18nProvider();
+
+    const changeLocale = (value: string) => {
+        if (locale !== value) {
+            setLocale(value);
+        }
+    };
 
     const toggleTheme = () => {
         if (theme === "light") {
@@ -219,7 +230,25 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                             </BreadcrumbList>
                         </Breadcrumb>
                         {identity?.data && (
-                            <div className="relative ml-auto">
+                            <div className="relative ml-auto flex flex-row gap-2">
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Avatar className="cursor-pointer">
+                                            <AvatarFallback>
+                                                <LanguagesIcon className="h-5 w-5" />
+                                            </AvatarFallback>
+                                        </Avatar>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end">
+                                        {getLocales?.().map(locale => (
+                                            <DropdownMenuItem
+                                                key={locale.locale}
+                                                onClick={() => changeLocale(locale.locale)}>
+                                                {locale.name}
+                                            </DropdownMenuItem>
+                                        ))}
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <Avatar className="cursor-pointer">
