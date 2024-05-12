@@ -34,7 +34,8 @@ import {
     HandCoins as HandCoinsIcon,
     PanelLeft as PanelLeftIcon,
     Moon as MoonIcon,
-    Sun as SunIcon
+    Sun as SunIcon,
+    LayoutDashboard as LayoutDashboardIcon
 } from "lucide-react";
 import { useTheme } from "@/components/providers";
 
@@ -74,6 +75,17 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
             <div className="flex min-h-screen w-full flex-col bg-muted/40">
                 <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col justify-between border-r bg-background sm:flex">
                     <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <NavLink
+                                    to="/"
+                                    className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
+                                    <LayoutDashboardIcon />
+                                    <span className="sr-only">{translate("app.menu.dashboard")}</span>
+                                </NavLink>
+                            </TooltipTrigger>
+                            <TooltipContent side="right">{translate("app.menu.dashboard")}</TooltipContent>
+                        </Tooltip>
                         {Object.keys(resources).map(resource => (
                             <Tooltip key={resource}>
                                 <TooltipTrigger asChild>
@@ -144,6 +156,12 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                             </SheetTrigger>
                             <SheetContent side="left" className="sm:max-w-xs flex flex-col justify-between">
                                 <nav className="grid gap-6 text-lg font-medium">
+                                    <NavLink
+                                        to="/"
+                                        className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
+                                        <LayoutDashboardIcon className="h-5 w-5" />
+                                        {translate("app.menu.dashboard")}
+                                    </NavLink>
                                     {Object.keys(resources).map(resource => (
                                         <NavLink
                                             key={resource}
@@ -222,7 +240,7 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                             </div>
                         )}
                     </header>
-                    <main className="p-4 sm:px-6 sm:py-0">{children}</main>
+                    <main className="p-4 sm:px-6 sm:py-0 container">{children}</main>
                 </div>
             </div>
         </TooltipProvider>

@@ -96,8 +96,11 @@ const ru: TranslationMessages = {
     },
     app: {
         menu: {
+            accounts: "Счета",
+            transactions: "Транзакции",
             payin: "Пополнение",
-            payout: "Выплата"
+            payout: "Выплата",
+            dashboard: "Главная"
         },
         ui: {
             pagination: {
@@ -236,8 +239,11 @@ const en: TranslationMessages = {
     },
     app: {
         menu: {
+            accounts: "Accounts",
+            transactions: "Transactions",
             payin: "Pay in",
-            payout: "Pay out"
+            payout: "Pay out",
+            dashboard: "Dashboard"
         },
         ui: {
             pagination: {
