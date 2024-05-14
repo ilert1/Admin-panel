@@ -111,6 +111,31 @@ export const TransactionList = () => {
             header: translate("resources.transactions.fields.state.final")
         },
         {
+            accessorKey: "sourceValue",
+            header: translate("resources.transactions.fields.sourceValue"),
+            cell: ({ row }) => {
+                const value =
+                    (row.original.source.amount.value.quantity || 0) / row.original.source.amount.value.accuracy;
+                if (isNaN(value)) return "-";
+                return `${value.toFixed(Math.log10(row.original.source.amount.value.accuracy))} ${
+                    row.original.source.amount.currency || ""
+                }`;
+            }
+        },
+        {
+            accessorKey: "destValue",
+            header: translate("resources.transactions.fields.destValue"),
+            cell: ({ row }) => {
+                const value =
+                    (row.original.destination.amount.value.quantity || 0) /
+                    row.original.destination.amount.value.accuracy;
+                if (isNaN(value)) return "-";
+                return `${value.toFixed(Math.log10(row.original.destination.amount.value.accuracy))} ${
+                    row.original.destination.amount.currency || ""
+                }`;
+            }
+        },
+        {
             accessorKey: "type",
             header: translate("resources.transactions.fields.rateInfo"),
             cell: ({ row }) => {
