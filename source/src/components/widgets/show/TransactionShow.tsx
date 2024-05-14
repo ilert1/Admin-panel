@@ -119,13 +119,18 @@ const StornoDialog = (props: any) => {
     const notify = useNotify();
     const refresh = useRefresh();
 
-    const [value, setValue] = useState("");
+    const [sourceValue, setSourceValue] = useState("");
+    const [destValue, setDestValue] = useState("");
     const [source, setSource] = useState("");
     const [destination, setDestination] = useState("");
     const [currency, setCurrency] = useState("");
 
-    const handleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value);
+    const handleSourceValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSourceValue(event.target.value);
+    };
+
+    const handleDestValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setDestValue(event.target.value);
     };
 
     const handleSourceChange = (event: SelectChangeEvent) => {
@@ -147,6 +152,8 @@ const StornoDialog = (props: any) => {
     };
 
     const makeStorno = () => {
+        const sourceAccuracy = Math.pow(10, sourceValue.split(".")[1]?.length) || 100;
+        const destAccuracy = Math.pow(10, destValue.split(".")[1]?.length) || 100;
         fetch(`${BF_MANAGER_URL}/v1/manager/storno`, {
             method: "POST",
             body: JSON.stringify({
@@ -155,18 +162,18 @@ const StornoDialog = (props: any) => {
                     amount: {
                         currency,
                         value: {
-                            quantity: +value,
-                            accuracy: 100
+                            quantity: +sourceValue * sourceAccuracy,
+                            accuracy: sourceAccuracy
                         }
                     }
                 },
                 destination: {
                     id: destination,
                     amount: {
-                        currency,
+                        currency: "USDT",
                         value: {
-                            quantity: +value,
-                            accuracy: 100
+                            quantity: +destValue * destAccuracy,
+                            accuracy: destAccuracy
                         }
                     }
                 },
@@ -238,13 +245,22 @@ const StornoDialog = (props: any) => {
                 <MUITextField
                     type="number"
                     fullWidth
-                    label={translate("resources.transactions.fields.value")}
-                    value={value}
-                    onChange={handleValueChange}
+                    label={translate("resources.transactions.fields.sourceValue")}
+                    value={sourceValue}
+                    onChange={handleSourceValueChange}
+                />
+                <MUITextField
+                    type="number"
+                    fullWidth
+                    label={translate("resources.transactions.fields.destValue")}
+                    value={destValue}
+                    onChange={handleDestValueChange}
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={makeStorno} disabled={!source || !destination || !value || !currency}>
+                <Button
+                    onClick={makeStorno}
+                    disabled={!source || !destination || !sourceValue || !destValue || !currency}>
                     {translate("resources.transactions.show.save")}
                 </Button>
                 <Button onClick={props?.onClose} color="error">

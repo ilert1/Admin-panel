@@ -74,7 +74,9 @@ const ru: TranslationMessages = {
                 type: "Тип",
                 value: "Сумма",
                 history: "История",
-                fees: "Комиссии"
+                fees: "Комиссии",
+                sourceValue: "Сумма отправления",
+                destValue: "Сумма зачисления"
             },
             show: {
                 statusButton: "Ручной перевод в статус",
@@ -217,7 +219,9 @@ const en: TranslationMessages = {
                 value: "Value",
                 type: "Type",
                 history: "History",
-                fees: "Fees"
+                fees: "Fees",
+                sourceValue: "Source value",
+                destValue: "Destination value"
             },
             show: {
                 statusButton: "Manual change status",
