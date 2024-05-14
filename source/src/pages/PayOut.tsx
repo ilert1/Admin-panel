@@ -142,6 +142,7 @@ export const PayOutPage = () => {
                                 ))}
                             </Select>
                         </FormControl>
+
                         <TextField
                             sx={{ m: 1, width: 340 }}
                             type="number"
@@ -151,7 +152,7 @@ export const PayOutPage = () => {
                                 setDestValue(event.target.value);
                             }}
                             InputProps={{
-                                startAdornment: payMethod?.fiatCurrency ? (
+                                endAdornment: payMethod?.fiatCurrency ? (
                                     <InputAdornment position="start">{`${
                                         currencies?.data?.find((c: any) => c["alpha-3"] === payMethod?.fiatCurrency)?.[
                                             "name-" + locale
