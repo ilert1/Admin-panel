@@ -4,13 +4,13 @@ import { BaseDataProvider } from "@/data";
 import { AccountList, TransactionList, WithdrawList } from "@/components/widgets/lists";
 import { AccountCreate } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
-import { PayOutPage } from "./pages";
+import { PayOutPage, PayOutCryptoPage } from "./pages";
 import Keycloak, { KeycloakConfig, KeycloakTokenParsed, KeycloakInitOptions } from "keycloak-js";
 import { keycloakAuthProvider } from "ra-keycloak";
 import { useEffect, useRef, useState } from "react";
 import { Dashboard } from "./Dashboard";
 import { MainLayout } from "./layouts";
-import { WalletIcon, ReceiptIcon, BitcoinIcon } from "lucide-react";
+import { WalletIcon, ReceiptIcon, WaypointsIcon } from "lucide-react";
 import { ThemeProvider } from "@/components/providers";
 import { isTokenStillFresh } from "@/helpers/jwt";
 import { Toaster } from "@/components/ui/sonner";
@@ -86,10 +86,11 @@ export const App = () => {
                     <CoreAdminUI dashboard={Dashboard} layout={MainLayout} title="Juggler" requireAuth>
                         <Resource name="accounts" list={AccountList} create={AccountCreate} icon={WalletIcon} />
                         <Resource name="transactions" list={TransactionList} icon={ReceiptIcon} />
-                        <Resource name="withdraw" list={WithdrawList} icon={BitcoinIcon} />
+                        <Resource name="withdraw" list={WithdrawList} icon={WaypointsIcon} />
                         <CustomRoutes>
                             {/* <Route path="/payin" element={<PayInPage />} /> */}
-                            <Route path="/payout" element={<PayOutPage />} />
+                            <Route path="/bank-transfer" element={<PayOutPage />} />
+                            <Route path="/crypto-transfer" element={<PayOutCryptoPage />} />
                         </CustomRoutes>
                     </CoreAdminUI>
                 </CoreAdminContext>

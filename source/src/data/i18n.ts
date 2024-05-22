@@ -133,7 +133,8 @@ const ru: TranslationMessages = {
             payin: "Пополнение",
             payout: "Выплата",
             dashboard: "Главная",
-            withdraw: "Выводы в криптовалюте"
+            bankTransfer: "Банковский перевод",
+            cryptoWalletTransfer: "Перевод криптовалюты"
         },
         ui: {
             pagination: {
@@ -177,6 +178,15 @@ const ru: TranslationMessages = {
                     value: "Сумма зачисления %{currency}",
                     create: "Создать",
                     success: "Вывод успешно создан"
+                },
+                cryptoTransfer: {
+                    address: "Адрес TRC20",
+                    addressMessage: "Неверный адрес",
+                    amount: "Сумма",
+                    amountMessage: "Некорректное значение",
+                    amountMinMessage: "Сумма должна быть минимум 2 USD₮",
+                    commission: "Комиссия",
+                    totalAmount: "Сумма выплаты"
                 }
             }
         }
@@ -185,8 +195,11 @@ const ru: TranslationMessages = {
         payin: {
             header: "Пополнение"
         },
-        payout: {
-            header: "Вывод"
+        bankTransfer: {
+            header: "Банковский перевод"
+        },
+        cryptoTransfer: {
+            header: "Перевод криптовалюты"
         }
     }
 };
@@ -321,7 +334,8 @@ const en: TranslationMessages = {
             payin: "Pay in",
             payout: "Pay out",
             dashboard: "Dashboard",
-            withdraw: "Crypto withdrawals"
+            bankTransfer: "Bank Transfer",
+            cryptoWalletTransfer: "Crypto Wallet Transfer"
         },
         ui: {
             pagination: {
@@ -365,6 +379,15 @@ const en: TranslationMessages = {
                     valueMessage: "Wrong value",
                     create: "Created",
                     success: "Payout successfully created"
+                },
+                cryptoTransfer: {
+                    address: "TRC20 address",
+                    addressMessage: "Wrong address",
+                    amount: "Amount",
+                    amountMessage: "Wrong value",
+                    amountMinMessage: "Amount should be at least 2 USD₮",
+                    commission: "Commission",
+                    totalAmount: "Total amount"
                 }
             }
         }
@@ -373,8 +396,11 @@ const en: TranslationMessages = {
         payin: {
             header: "Pay In"
         },
-        payout: {
-            header: "Pay Out"
+        bankTransfer: {
+            header: "Bank Transfer"
+        },
+        cryptoTransfer: {
+            header: "Crypto Wallet Transfer"
         }
     }
 };

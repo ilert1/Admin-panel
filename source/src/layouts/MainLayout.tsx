@@ -32,15 +32,17 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
-    CreditCard as CreditCardIcon,
-    HandCoins as HandCoinsIcon,
-    PanelLeft as PanelLeftIcon,
-    Moon as MoonIcon,
-    Sun as SunIcon,
-    LayoutDashboard as LayoutDashboardIcon,
-    Languages as LanguagesIcon
+    CreditCardIcon,
+    HandCoinsIcon,
+    PanelLeftIcon,
+    MoonIcon,
+    SunIcon,
+    LayoutDashboardIcon,
+    LanguagesIcon,
+    BitcoinIcon
 } from "lucide-react";
 import { useTheme } from "@/components/providers";
+import { camelize } from "@/helpers/utils";
 
 export const MainLayout = ({ children, title }: CoreLayoutProps) => {
     const resources = useResourceDefinitions();
@@ -58,7 +60,7 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
         if (["payin", "payout"].includes(resourceName)) {
             return translate(`pages.${resourceName}.header`);
         } else if (resourceName) {
-            return translate(`resources.${resourceName}.name`, { smart_count: 2 });
+            return translate(`pages.${camelize(resourceName)}.header`, { smart_count: 2 });
         } else {
             return null;
         }
@@ -129,17 +131,34 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                             </Tooltip>
                         )} */}
                         {merchantOnly && (
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <NavLink
-                                        to="/payout"
-                                        className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
-                                        <HandCoinsIcon />
-                                        <span className="sr-only">{translate("app.menu.payout")}</span>
-                                    </NavLink>
-                                </TooltipTrigger>
-                                <TooltipContent side="right">{translate("app.menu.payout")}</TooltipContent>
-                            </Tooltip>
+                            <>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <NavLink
+                                            to="/bank-transfer"
+                                            className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
+                                            <HandCoinsIcon />
+                                            <span className="sr-only">{translate("app.menu.bankTransfer")}</span>
+                                        </NavLink>
+                                    </TooltipTrigger>
+                                    <TooltipContent side="right">{translate("app.menu.bankTransfer")}</TooltipContent>
+                                </Tooltip>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <NavLink
+                                            to="/crypto-transfer"
+                                            className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
+                                            <BitcoinIcon />
+                                            <span className="sr-only">
+                                                {translate("app.menu.cryptoWalletTransfer")}
+                                            </span>
+                                        </NavLink>
+                                    </TooltipTrigger>
+                                    <TooltipContent side="right">
+                                        {translate("app.menu.cryptoWalletTransfer")}
+                                    </TooltipContent>
+                                </Tooltip>
+                            </>
                         )}
                     </nav>
                     <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
