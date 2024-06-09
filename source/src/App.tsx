@@ -60,6 +60,14 @@ export const App = () => {
                 localStorage.removeItem("access-token");
             }
             authProvider.current = keycloakAuthProvider(keycloakClient, raKeycloakOptions);
+            authProvider.current.checkAuth = error => {
+                const status = error.status;
+                if (status === 401) {
+                    authProvider.current?.logout({});
+                    return Promise.reject();
+                }
+                return Promise.resolve();
+            };
             setKeycloak(keycloakClient);
         };
         if (!keycloak) {
