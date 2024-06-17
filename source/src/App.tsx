@@ -13,6 +13,7 @@ import { Dashboard } from "./Dashboard";
 import { MainLayout } from "./layouts";
 import { Wallet as WalletIcon, Receipt as ReceiptIcon } from "lucide-react";
 import { ThemeProvider } from "@/components/providers";
+import { isTokenStillFresh } from "@/helpers/jwt";
 import "./globals.css";
 
 const dataProvider = combineDataProviders(resource => {
@@ -60,13 +61,13 @@ export const App = () => {
                 localStorage.removeItem("access-token");
             }
             authProvider.current = keycloakAuthProvider(keycloakClient, raKeycloakOptions);
-            authProvider.current.checkAuth = error => {
-                const status = error.status;
-                if (status === 401) {
-                    authProvider.current?.logout({});
+            authProvider.current.checkAuth = () => {
+                const tokenString = localStorage.getItem("access-token");
+                if (tokenString && isTokenStillFresh(tokenString)) {
+                    return Promise.resolve();
+                } else {
                     return Promise.reject();
                 }
-                return Promise.resolve();
             };
             setKeycloak(keycloakClient);
         };
