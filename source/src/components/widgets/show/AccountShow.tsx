@@ -75,35 +75,4 @@ export const AccountShow = (props: { id: string }) => {
             </div>
         );
     }
-
-    // <Show>
-    //     <Grid container spacing={2} sx={{ p: 2 }}>
-    //         <Grid container item xs={12}>
-
-    //         </Grid>
-    //         <Grid item xs={12}>
-    //             <ArrayField source="amounts">
-    //                 <Datagrid
-    //                     bulkActionButtons={false}
-    //                     sx={{
-    //                         "& .RaDatagrid-headerCell": {
-    //                             fontWeight: "bold"
-    //                         }
-    //                     }}>
-    //                     <TextField source="id" />
-    //                     <TextField source="type" />
-    //                     <TextField source="currency" />
-    //                     <FunctionField
-    //                         source="value"
-    //                         render={(record: any) =>
-    //                             ((record.value.quantity || 0) / record.value.accuracy).toFixed(
-    //                                 Math.log10(record.value.accuracy)
-    //                             )
-    //                         }
-    //                     />
-    //                 </Datagrid>
-    //             </ArrayField>
-    //         </Grid>
-    //     </Grid>
-    // </Show>
 };

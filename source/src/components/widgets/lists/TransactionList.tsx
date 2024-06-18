@@ -2,6 +2,20 @@ import { useDataProvider, useTranslate, ListContextProvider, useListController }
 import { useQuery } from "react-query";
 import { DataTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { MoreHorizontal } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { TransactionShow } from "@/components/widgets/show";
+import { useMediaQuery } from "react-responsive";
 
 // const TransactionFilterSidebar = () => {
 //     const translate = useTranslate();
@@ -92,6 +106,16 @@ export const TransactionList = () => {
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
 
+    const [showOpen, setShowOpen] = useState(false);
+    const [showTransactionId, setShowTransactionId] = useState<string>("");
+
+    const openSheet = (id: string) => {
+        setShowTransactionId(id);
+        setShowOpen(true);
+    };
+
+    const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
+
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
             accessorKey: "id",
@@ -152,6 +176,28 @@ export const TransactionList = () => {
         {
             accessorKey: "created_at",
             header: translate("resources.transactions.fields.createdAt")
+        },
+        {
+            id: "actions",
+            cell: ({ row }) => {
+                return (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                <span className="sr-only">Open menu</span>
+                                <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
+                                {translate("ra.action.show")}
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>{translate("ra.action.edit")}</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                );
+            }
         }
     ];
 
@@ -159,9 +205,26 @@ export const TransactionList = () => {
         return <div>Loading...</div>;
     } else {
         return (
-            <ListContextProvider value={listContext}>
-                <DataTable columns={columns} data={listContext.data} />
-            </ListContextProvider>
+            <>
+                <ListContextProvider value={listContext}>
+                    <DataTable columns={columns} data={listContext.data} />
+                </ListContextProvider>
+                <Sheet open={showOpen} onOpenChange={setShowOpen}>
+                    <SheetContent
+                        className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
+                        side={isMobile ? "bottom" : "right"}>
+                        <ScrollArea className="h-full">
+                            <SheetHeader className="mb-2">
+                                <SheetTitle>{translate("resources.accounts.showHeader")}</SheetTitle>
+                                <SheetDescription>
+                                    {translate("resources.accounts.showDescription", { id: showTransactionId })}
+                                </SheetDescription>
+                            </SheetHeader>
+                            <TransactionShow id={showTransactionId} />
+                        </ScrollArea>
+                    </SheetContent>
+                </Sheet>
+            </>
         );
     }
 };

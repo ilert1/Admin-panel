@@ -70,7 +70,7 @@ export const AccountList = () => {
                                 {translate("ra.action.show")}
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>{translate("ra.action.edit")}</DropdownMenuItem>
+                            <DropdownMenuItem disabled>{translate("ra.action.edit")}</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );
