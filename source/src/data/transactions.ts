@@ -42,8 +42,8 @@ export class TransactionDataProvider extends BaseDataProvider {
         return {
             data: {
                 ...json.data,
-                destination: { ...json.data.destination, meta: dest.json.data.meta },
-                source: { ...json.data.source, meta: source.json.data.meta }
+                destination: { ...json.data.destination, meta: dest.json?.data?.meta || {} },
+                source: { ...json.data.source, meta: source.json?.data?.meta || {} }
             }
         };
     }

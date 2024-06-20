@@ -213,7 +213,7 @@ export const TransactionList = () => {
                     <SheetContent
                         className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
                         side={isMobile ? "bottom" : "right"}>
-                        <ScrollArea className="h-full">
+                        <ScrollArea className="h-full [&>div>div]:!block">
                             <SheetHeader className="mb-2">
                                 <SheetTitle>{translate("resources.accounts.showHeader")}</SheetTitle>
                                 <SheetDescription>

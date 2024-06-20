@@ -1,9 +1,10 @@
-import { useDataProvider, useShowController, useTranslate } from "react-admin";
+import { useDataProvider, useShowController, useTranslate, useGetManyReference } from "react-admin";
 import { useQuery } from "react-query";
 import { DataTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { BooleanFiled } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
+import { useMemo } from "react";
 
 export const TransactionShow = (props: { id: string }) => {
     const dataProvider = useDataProvider();
@@ -12,37 +13,85 @@ export const TransactionShow = (props: { id: string }) => {
 
     const context = useShowController({ id: props.id });
 
-    const columns: ColumnDef<Amount>[] = [
+    const trnId = useMemo<string>(() => context.record?.id, [context]);
+
+    const { data: history } = useGetManyReference("transactions", {
+        target: "id",
+        id: trnId
+    });
+
+    const feesColumns: ColumnDef<Transaction.Fee>[] = [
         {
-            id: "caption",
+            id: "recipient",
             accessorKey: "id",
-            header: translate("resources.accounts.fields.amount.id")
+            header: translate("resources.transactions.fields.recipient")
         },
         {
             id: "type",
             accessorKey: "type",
-            header: translate("resources.accounts.fields.amount.type")
+            header: translate("resources.transactions.fields.type"),
+            cell: ({ row }) => data?.feeTypes[row.original.type]?.type_descr || ""
         },
         {
             id: "currency",
             accessorKey: "currency",
-            header: translate("resources.accounts.fields.amount.currency")
+            header: translate("resources.transactions.fields.currency")
         },
         {
             id: "value",
             accessorKey: "value",
-            header: translate("resources.accounts.fields.amount.value"),
+            header: translate("resources.transactions.fields.value"),
             cell: ({ row }) =>
                 ((row.original.value.quantity || 0) / row.original.value.accuracy).toFixed(
                     Math.log10(row.original.value.accuracy)
                 )
         }
     ];
+
+    const historyColumns: ColumnDef<Transaction.Fee>[] = [
+        {
+            id: "createdAt",
+            accessorKey: "id",
+            header: translate("resources.transactions.fields.created_at")
+        },
+        {
+            id: "type",
+            accessorKey: "type",
+            header: translate("resources.transactions.fields.type"),
+            cell: ({ row }) => data?.transactionTypes[row.original.type]?.type_descr || ""
+        },
+        {
+            id: "state",
+            accessorKey: "state.state_description",
+            header: translate("resources.transactions.fields.state.title")
+        },
+        {
+            id: "final",
+            accessorKey: "state.final",
+            header: translate("resources.transactions.fields.state.final")
+        },
+        {
+            id: "committed",
+            accessorKey: "committed",
+            header: translate("resources.transactions.fields.committed")
+        },
+        {
+            id: "dispute",
+            accessorKey: "dispute",
+            header: translate("resources.transactions.fields.dispute")
+        },
+        {
+            id: "external_status",
+            accessorKey: "meta.external_status",
+            header: translate("resources.transactions.fields.meta.external_status")
+        }
+    ];
+
     if (context.isLoading || context.isFetching || !context.record) {
         return "Loading...";
     } else {
         return (
-            <div className="flex flex-col gap-2">
+            <div className="relative w-[540] overflow-x-auto">
                 <TextField label={translate("resources.transactions.fields.id")} text={context.record.id} />
                 <TextField
                     label={translate("resources.transactions.fields.type")}
@@ -62,7 +111,7 @@ export const TransactionShow = (props: { id: string }) => {
                 </h3>
                 <TextField
                     label={translate("resources.transactions.fields.source.meta.caption")}
-                    text={context.record.source.meta.caption}
+                    text={context.record.source.meta?.caption}
                 />
                 <TextField
                     label={translate("resources.transactions.fields.source.amount.value")}
@@ -79,7 +128,7 @@ export const TransactionShow = (props: { id: string }) => {
                 </h3>
                 <TextField
                     label={translate("resources.transactions.fields.destination.meta.caption")}
-                    text={context.record.destination.meta.caption}
+                    text={context.record.destination.meta?.caption}
                 />
                 <TextField
                     label={translate("resources.transactions.fields.destination.amount.value")}
@@ -92,12 +141,21 @@ export const TransactionShow = (props: { id: string }) => {
                     label={translate("resources.transactions.fields.destination.amount.currency")}
                     text={context.record.destination.amount.currency}
                 />
-                {/* <div>
+                <div className="mt-5">
                     <small className="text-sm text-muted-foreground">
-                        {translate("resources.accounts.fields.amounts")}
+                        {translate("resources.transactions.fields.fees")}
                     </small>
-                    <DataTable columns={columns} data={context.record.amounts} pagination={false} />
-                </div> */}
+                    <DataTable columns={feesColumns} data={context.record.fees} pagination={false} />
+                </div>
+
+                {history && history?.length > 0 && (
+                    <div className="mt-5">
+                        <small className="text-sm text-muted-foreground">
+                            {translate("resources.transactions.fields.history")}
+                        </small>
+                        <DataTable columns={historyColumns} data={history} pagination={false} />
+                    </div>
+                )}
             </div>
         );
     }

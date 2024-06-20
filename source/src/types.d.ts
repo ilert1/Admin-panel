@@ -79,6 +79,13 @@ declare namespace Transaction {
         state: State;
         type: number;
     };
+
+    type Fee = {
+        resipient: string;
+        type: number;
+        currency: string;
+        value: Value;
+    };
 }
 
 declare namespace JWT {
