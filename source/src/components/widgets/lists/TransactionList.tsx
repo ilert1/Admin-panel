@@ -1,4 +1,10 @@
-import { useDataProvider, useTranslate, ListContextProvider, useListController } from "react-admin";
+import {
+    useDataProvider,
+    useTranslate,
+    ListContextProvider,
+    useListController,
+    RecordContextProvider
+} from "react-admin";
 import { useQuery } from "react-query";
 import { DataTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
@@ -16,6 +22,7 @@ import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { TransactionShow } from "@/components/widgets/show";
 import { useMediaQuery } from "react-responsive";
+import { useTransactionActions } from "@/hooks";
 
 // const TransactionFilterSidebar = () => {
 //     const translate = useTranslate();
@@ -99,6 +106,14 @@ import { useMediaQuery } from "react-responsive";
 //     );
 // };
 
+const TransactionActions = () => {
+    const { switchDispute, showDispute, disputeCaption } = useTransactionActions();
+
+    console.log(showDispute);
+
+    return <>{showDispute && <DropdownMenuItem onClick={switchDispute}>{disputeCaption}</DropdownMenuItem>}</>;
+};
+
 export const TransactionList = () => {
     const dataProvider = useDataProvider();
     const { data } = useQuery([], () => dataProvider.getDictionaries());
@@ -181,21 +196,23 @@ export const TransactionList = () => {
             id: "actions",
             cell: ({ row }) => {
                 return (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                                <span className="sr-only">Open menu</span>
-                                <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
-                                {translate("ra.action.show")}
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>{translate("ra.action.edit")}</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <RecordContextProvider value={row.original}>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" className="h-8 w-8 p-0">
+                                    <span className="sr-only">Open menu</span>
+                                    <MoreHorizontal className="h-4 w-4" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
+                                    {translate("ra.action.show")}
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <TransactionActions />
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </RecordContextProvider>
                 );
             }
         }

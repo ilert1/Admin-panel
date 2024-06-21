@@ -83,10 +83,13 @@ const ru: TranslationMessages = {
                 save: "Сохранить",
                 cancel: "Отмена",
                 success: "Успешно",
+                error: "Ошибка",
                 storno: "Сторно",
                 commit: "Зафиксировать",
                 openDispute: "Открыть диспут",
-                closeDispute: "Закрыть диспут"
+                closeDispute: "Закрыть диспут",
+                disputeOpened: "Диспут открыт",
+                disputeClosed: "Диспут закрыт"
             },
             list: {
                 filter: {
@@ -228,10 +231,13 @@ const en: TranslationMessages = {
                 save: "Save",
                 cancel: "Cancel",
                 success: "Success",
+                error: "Error",
                 storno: "Storno",
                 commit: "Commit",
                 openDispute: "Open dispute",
-                closeDispute: "Close dispute"
+                closeDispute: "Close dispute",
+                disputeOpened: "Disput opened",
+                disputeClosed: "Disput closed"
             },
             list: {
                 filter: {

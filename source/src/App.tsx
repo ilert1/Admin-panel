@@ -14,6 +14,7 @@ import { MainLayout } from "./layouts";
 import { Wallet as WalletIcon, Receipt as ReceiptIcon } from "lucide-react";
 import { ThemeProvider } from "@/components/providers";
 import { isTokenStillFresh } from "@/helpers/jwt";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 const dataProvider = combineDataProviders(resource => {
@@ -98,6 +99,7 @@ export const App = () => {
                         <Route path="/payout" element={<PayOutPage />} />
                     </CustomRoutes>
                 </CoreAdminContext>
+                <Toaster />
             </ThemeProvider>
         );
     }
