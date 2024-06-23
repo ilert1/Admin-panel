@@ -111,13 +111,22 @@ import { useTransactionActions } from "@/hooks";
 // };
 
 const TransactionActions = (props: { dictionaries: any }) => {
-    const { switchDispute, showDispute, disputeCaption, showState, switchState, stateCaption, states } =
-        useTransactionActions(props.dictionaries);
+    const {
+        switchDispute,
+        showDispute,
+        disputeCaption,
+        showState,
+        switchState,
+        stateCaption,
+        states,
+        showCommit,
+        commitCaption,
+        commitTransaction
+    } = useTransactionActions(props.dictionaries);
 
     return (
         <>
             {showDispute && <DropdownMenuItem onClick={switchDispute}>{disputeCaption}</DropdownMenuItem>}
-
             {showState && (
                 <DropdownMenuSub>
                     <DropdownMenuSubTrigger>{stateCaption}</DropdownMenuSubTrigger>
@@ -132,6 +141,7 @@ const TransactionActions = (props: { dictionaries: any }) => {
                     </DropdownMenuPortal>
                 </DropdownMenuSub>
             )}
+            {showCommit && <DropdownMenuItem onClick={commitTransaction}>{commitCaption}</DropdownMenuItem>}
         </>
     );
 };

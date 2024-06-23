@@ -94,6 +94,33 @@ export const useTransactionActions = (data: any) => {
         [data?.states]
     );
 
+    const showCommit = useMemo(() => adminOnly, [adminOnly]);
+    const commitTransaction = () => {
+        fetch(`${API_URL}/trn/commit`, {
+            method: "POST",
+            body: JSON.stringify({ id: record.id }),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        })
+            .then(resp => resp.json())
+            .then(json => {
+                if (json.success) {
+                    success(translate("resources.transactions.show.success"));
+                } else {
+                    throw new Error(json.error || "Unknown error");
+                }
+            })
+            .catch(e => {
+                error(e.message);
+            })
+            .finally(() => {
+                refresh();
+            });
+    };
+    const commitCaption = translate("resources.transactions.show.commit");
+
     return {
         switchDispute,
         showDispute,
@@ -101,6 +128,9 @@ export const useTransactionActions = (data: any) => {
         showState,
         switchState,
         stateCaption,
-        states
+        states,
+        showCommit,
+        commitCaption,
+        commitTransaction
     };
 };
