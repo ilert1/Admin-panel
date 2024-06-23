@@ -3,17 +3,30 @@ import { API_URL } from "@/data/base";
 import { useMemo } from "react";
 import { toast } from "sonner";
 
-export const useTransactionActions = () => {
+export const useTransactionActions = (data: any) => {
     const record = useRecordContext();
     const translate = useTranslate();
     const { permissions } = usePermissions();
-
+    const refresh = useRefresh();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
+    const success = (message: string) => {
+        toast.success(translate("resources.transactions.show.success"), {
+            dismissible: true,
+            description: message,
+            duration: 3000
+        });
+    };
+
+    const error = (message: string) => {
+        toast.error(translate("resources.transactions.show.error"), {
+            dismissible: true,
+            description: message,
+            duration: 3000
+        });
+    };
+
     const showDispute = useMemo(() => adminOnly, [adminOnly]);
-
-    const refresh = useRefresh();
-
     const disputeCaption = useMemo(
         () =>
             record?.dispute
@@ -21,7 +34,6 @@ export const useTransactionActions = () => {
                 : translate("resources.transactions.show.openDispute"),
         [record] // eslint-disable-line react-hooks/exhaustive-deps
     );
-
     const switchDispute = () => {
         fetch(`${API_URL}/trn/dispute`, {
             method: "POST",
@@ -34,32 +46,61 @@ export const useTransactionActions = () => {
             .then(resp => resp.json())
             .then(json => {
                 if (json.success) {
-                    toast.success(translate("resources.transactions.show.success"), {
-                        dismissible: true,
-                        description: record.dispute
+                    success(
+                        record.dispute
                             ? translate("resources.transactions.show.disputeClosed")
-                            : translate("resources.transactions.show.disputeOpened"),
-                        duration: 3000
-                    });
+                            : translate("resources.transactions.show.disputeOpened")
+                    );
                 } else {
                     throw new Error(json.error || "Unknown error");
                 }
             })
             .catch(e => {
-                toast.error(translate("resources.transactions.show.error"), {
-                    dismissible: true,
-                    description: e.message,
-                    duration: 3000
-                });
+                error(e.message);
             })
             .finally(() => {
                 refresh();
             });
     };
 
+    const showState = useMemo(() => adminOnly, [adminOnly]);
+    const stateCaption = translate("resources.transactions.show.statusButton");
+    const switchState = (state: number) => {
+        fetch(`${API_URL}/trn/man_set_state`, {
+            method: "POST",
+            body: JSON.stringify({ id: record.id, state }),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        })
+            .then(resp => resp.json())
+            .then(json => {
+                if (json.success) {
+                    success(translate("resources.transactions.show.success"));
+                } else {
+                    throw new Error(json.error || "Unknown error");
+                }
+            })
+            .catch(e => {
+                error(e.message);
+            })
+            .finally(() => {
+                refresh();
+            });
+    };
+    const states = useMemo(
+        () => (data?.states ? Object.keys(data?.states).map(key => data?.states[key]) || [] : []),
+        [data?.states]
+    );
+
     return {
         switchDispute,
         showDispute,
-        disputeCaption
+        disputeCaption,
+        showState,
+        switchState,
+        stateCaption,
+        states
     };
 };

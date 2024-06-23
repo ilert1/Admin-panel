@@ -21,7 +21,7 @@ export const AccountList = () => {
     const listContext = useListController<Account>();
     const translate = useTranslate();
 
-    const { data } = useQuery([], () => dataProvider.getDictionaries());
+    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
 
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");

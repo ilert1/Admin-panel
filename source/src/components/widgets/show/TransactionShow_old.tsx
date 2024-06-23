@@ -273,7 +273,7 @@ const StornoDialog = (props: any) => {
 
 export const TransactionShowWidget = () => {
     const dataProvider = useDataProvider();
-    const { data } = useQuery([], () => dataProvider.getDictionaries());
+    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
     const { data: accounts } = useGetList("accounts");
 
     const translate = useTranslate();

@@ -13,7 +13,11 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuSeparator,
-    DropdownMenuTrigger
+    DropdownMenuTrigger,
+    DropdownMenuSub,
+    DropdownMenuSubTrigger,
+    DropdownMenuPortal,
+    DropdownMenuSubContent
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { MoreHorizontal } from "lucide-react";
@@ -106,17 +110,35 @@ import { useTransactionActions } from "@/hooks";
 //     );
 // };
 
-const TransactionActions = () => {
-    const { switchDispute, showDispute, disputeCaption } = useTransactionActions();
+const TransactionActions = (props: { dictionaries: any }) => {
+    const { switchDispute, showDispute, disputeCaption, showState, switchState, stateCaption, states } =
+        useTransactionActions(props.dictionaries);
 
-    console.log(showDispute);
+    return (
+        <>
+            {showDispute && <DropdownMenuItem onClick={switchDispute}>{disputeCaption}</DropdownMenuItem>}
 
-    return <>{showDispute && <DropdownMenuItem onClick={switchDispute}>{disputeCaption}</DropdownMenuItem>}</>;
+            {showState && (
+                <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>{stateCaption}</DropdownMenuSubTrigger>
+                    <DropdownMenuPortal>
+                        <DropdownMenuSubContent>
+                            {states.map((state, i) => (
+                                <DropdownMenuItem key={i} onClick={() => switchState(state.state_int)}>
+                                    {state.state_description}
+                                </DropdownMenuItem>
+                            ))}
+                        </DropdownMenuSubContent>
+                    </DropdownMenuPortal>
+                </DropdownMenuSub>
+            )}
+        </>
+    );
 };
 
 export const TransactionList = () => {
     const dataProvider = useDataProvider();
-    const { data } = useQuery([], () => dataProvider.getDictionaries());
+    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
 
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
@@ -209,7 +231,7 @@ export const TransactionList = () => {
                                     {translate("ra.action.show")}
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
-                                <TransactionActions />
+                                <TransactionActions dictionaries={data} />
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </RecordContextProvider>

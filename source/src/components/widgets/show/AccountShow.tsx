@@ -5,7 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 export const AccountShow = (props: { id: string }) => {
     const dataProvider = useDataProvider();
-    const { data } = useQuery([], () => dataProvider.getDictionaries());
+    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
     const translate = useTranslate();
 
     const context = useShowController({ id: props.id });
