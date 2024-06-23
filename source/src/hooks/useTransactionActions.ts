@@ -121,6 +121,9 @@ export const useTransactionActions = (data: any) => {
     };
     const commitCaption = translate("resources.transactions.show.commit");
 
+    const showStorno = useMemo(() => adminOnly && !record?.dispute, [adminOnly, record]);
+    const stornoCaption = translate("resources.transactions.show.storno");
+
     return {
         switchDispute,
         showDispute,
@@ -131,6 +134,8 @@ export const useTransactionActions = (data: any) => {
         states,
         showCommit,
         commitCaption,
-        commitTransaction
+        commitTransaction,
+        showStorno,
+        stornoCaption
     };
 };

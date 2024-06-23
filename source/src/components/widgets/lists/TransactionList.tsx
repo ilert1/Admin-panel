@@ -3,7 +3,8 @@ import {
     useTranslate,
     ListContextProvider,
     useListController,
-    RecordContextProvider
+    RecordContextProvider,
+    useGetList
 } from "react-admin";
 import { useQuery } from "react-query";
 import { DataTable } from "@/components/widgets/shared";
@@ -22,11 +23,13 @@ import {
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { TransactionShow } from "@/components/widgets/show";
 import { useMediaQuery } from "react-responsive";
 import { useTransactionActions } from "@/hooks";
+import { TransactionStorno } from "@/components/widgets/forms";
+import { API_URL } from "@/data/base";
 
 // const TransactionFilterSidebar = () => {
 //     const translate = useTranslate();
@@ -110,7 +113,7 @@ import { useTransactionActions } from "@/hooks";
 //     );
 // };
 
-const TransactionActions = (props: { dictionaries: any }) => {
+const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void }) => {
     const {
         switchDispute,
         showDispute,
@@ -121,7 +124,9 @@ const TransactionActions = (props: { dictionaries: any }) => {
         states,
         showCommit,
         commitCaption,
-        commitTransaction
+        commitTransaction,
+        showStorno,
+        stornoCaption
     } = useTransactionActions(props.dictionaries);
 
     return (
@@ -142,6 +147,7 @@ const TransactionActions = (props: { dictionaries: any }) => {
                 </DropdownMenuSub>
             )}
             {showCommit && <DropdownMenuItem onClick={commitTransaction}>{commitCaption}</DropdownMenuItem>}
+            {showStorno && <DropdownMenuItem onClick={() => props?.stornoOpen?.()}>{stornoCaption}</DropdownMenuItem>}
         </>
     );
 };
@@ -149,6 +155,19 @@ const TransactionActions = (props: { dictionaries: any }) => {
 export const TransactionList = () => {
     const dataProvider = useDataProvider();
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
+    const { data: accounts } = useGetList("accounts");
+
+    const { data: currencies } = useQuery("currencies", () =>
+        fetch(`${API_URL}/dictionaries/curr`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }).then(response => response.json())
+    );
+
+    const sortedCurrencies = useMemo(() => {
+        return currencies?.data?.sort((a: any, b: any) => a.prior_gr - b.prior_gr) || [];
+    }, [currencies]);
 
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
@@ -160,6 +179,8 @@ export const TransactionList = () => {
         setShowTransactionId(id);
         setShowOpen(true);
     };
+
+    const [stornoOpen, setStornoOpen] = useState(false);
 
     const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
 
@@ -241,7 +262,7 @@ export const TransactionList = () => {
                                     {translate("ra.action.show")}
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
-                                <TransactionActions dictionaries={data} />
+                                <TransactionActions dictionaries={data} stornoOpen={() => setStornoOpen(true)} />
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </RecordContextProvider>
@@ -264,12 +285,24 @@ export const TransactionList = () => {
                         side={isMobile ? "bottom" : "right"}>
                         <ScrollArea className="h-full [&>div>div]:!block">
                             <SheetHeader className="mb-2">
-                                <SheetTitle>{translate("resources.accounts.showHeader")}</SheetTitle>
+                                <SheetTitle>{translate("resources.transactions.showHeader")}</SheetTitle>
                                 <SheetDescription>
-                                    {translate("resources.accounts.showDescription", { id: showTransactionId })}
+                                    {translate("resources.transactions.showDescription", { id: showTransactionId })}
                                 </SheetDescription>
                             </SheetHeader>
                             <TransactionShow id={showTransactionId} />
+                        </ScrollArea>
+                    </SheetContent>
+                </Sheet>
+                <Sheet open={stornoOpen} onOpenChange={setStornoOpen}>
+                    <SheetContent
+                        className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
+                        side={isMobile ? "bottom" : "right"}>
+                        <ScrollArea className="h-full [&>div>div]:!block">
+                            <SheetHeader className="mb-2">
+                                <SheetTitle>{translate("resources.transactions.show.storno")}</SheetTitle>
+                            </SheetHeader>
+                            <TransactionStorno accounts={accounts || []} currencies={sortedCurrencies || []} />
                         </ScrollArea>
                     </SheetContent>
                 </Sheet>

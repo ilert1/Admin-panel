@@ -96,6 +96,14 @@ const ru: TranslationMessages = {
                     transactionId: "ID транзакции",
                     account: "Счет"
                 }
+            },
+            showHeader: "Информация о транзакции",
+            showDescription: "Подробная информация о транзакции с ID %{id}",
+            storno: {
+                destValueMessage: "Некорректное значение",
+                sourceValueMessage: "Некорректное значение",
+                selectSourceValue: "Выберите счет отправителя",
+                selectDestinationValue: "Выберите счет отправителя"
             }
         }
     },
@@ -244,6 +252,14 @@ const en: TranslationMessages = {
                     transactionId: "Transaction ID",
                     account: "Account"
                 }
+            },
+            showHeader: "Transaction info",
+            showDescription: "Detailed information about transaction with ID %{id}",
+            storno: {
+                destValueMessage: "Wrong value",
+                sourceValueMessage: "Wrong value",
+                selectSourceValue: "Select sender account",
+                selectDestinationValue: "Select receiver account"
             }
         }
     },
