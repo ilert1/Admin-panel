@@ -126,7 +126,8 @@ const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void }
         commitCaption,
         commitTransaction,
         showStorno,
-        stornoCaption
+        stornoCaption,
+        makeStorno
     } = useTransactionActions(props.dictionaries);
 
     return (

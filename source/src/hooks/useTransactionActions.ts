@@ -1,5 +1,5 @@
 import { useRecordContext, useTranslate, usePermissions, useRefresh } from "react-admin";
-import { API_URL } from "@/data/base";
+import { API_URL, BF_MANAGER_URL } from "@/data/base";
 import { useMemo } from "react";
 import { toast } from "sonner";
 
@@ -123,6 +123,61 @@ export const useTransactionActions = (data: any) => {
 
     const showStorno = useMemo(() => adminOnly && !record?.dispute, [adminOnly, record]);
     const stornoCaption = translate("resources.transactions.show.storno");
+    const makeStorno = (props: {
+        sourceValue: string;
+        destValue: string;
+        source: string;
+        currency: string;
+        destination: string;
+    }) => {
+        const sourceAccuracy = Math.pow(10, props.sourceValue.split(".")[1]?.length) || 100;
+        const destAccuracy = Math.pow(10, props.destValue.split(".")[1]?.length) || 100;
+        fetch(`${BF_MANAGER_URL}/v1/manager/storno`, {
+            method: "POST",
+            body: JSON.stringify({
+                source: {
+                    id: props.source,
+                    amount: {
+                        currency: props.currency,
+                        value: {
+                            quantity: +props.sourceValue * sourceAccuracy,
+                            accuracy: sourceAccuracy
+                        }
+                    }
+                },
+                destination: {
+                    id: props.destination,
+                    amount: {
+                        currency: "USDT",
+                        value: {
+                            quantity: +props.destValue * destAccuracy,
+                            accuracy: destAccuracy
+                        }
+                    }
+                },
+                meta: {
+                    parentId: record.id
+                }
+            }),
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        })
+            .then(resp => resp.json())
+            .then(json => {
+                if (json.success) {
+                    success(translate("resources.transactions.show.success"));
+                } else {
+                    throw new Error(json.error || "Unknown error");
+                }
+            })
+            .catch(e => {
+                error(e.message);
+            })
+            .finally(() => {
+                refresh();
+            });
+    };
 
     return {
         switchDispute,
@@ -136,6 +191,7 @@ export const useTransactionActions = (data: any) => {
         commitCaption,
         commitTransaction,
         showStorno,
-        stornoCaption
+        stornoCaption,
+        makeStorno
     };
 };
