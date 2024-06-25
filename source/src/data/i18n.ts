@@ -106,6 +106,24 @@ const ru: TranslationMessages = {
                 selectDestinationValue: "Выберите счет отправителя",
                 selectCurrency: "Выберите валюту"
             }
+        },
+        withdraw: {
+            name: "Вывод в криптовалюте |||| Выводы в криптовалюте",
+            fields: {
+                id: "ID",
+                created_at: "Дата и время создания",
+                destination: {
+                    id: "Адрес TRC20",
+                    amount: {
+                        currency: "Валюта",
+                        value: "Сумма"
+                    }
+                },
+                payload: {
+                    hash: "Хеш",
+                    hash_link: "Ссылка Tronscan"
+                }
+            }
         }
     },
     app: {
@@ -262,6 +280,24 @@ const en: TranslationMessages = {
                 selectSourceValue: "Select sender account",
                 selectDestinationValue: "Select receiver account",
                 selectCurrency: "Select currency"
+            }
+        },
+        withdraw: {
+            name: "Crypto Withdrawal |||| Crypto Withdrawals",
+            fields: {
+                id: "ID",
+                created_at: "Created at",
+                destination: {
+                    id: "TRC20 address",
+                    amount: {
+                        currency: "Currency",
+                        value: "Value"
+                    }
+                },
+                payload: {
+                    hash: "Hash",
+                    hash_link: "Tronscan link"
+                }
             }
         }
     },

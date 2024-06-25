@@ -1,9 +1,8 @@
 import { CustomRoutes, Resource, combineDataProviders, AuthProvider, CoreAdminContext, CoreAdminUI } from "react-admin";
 import { TransactionDataProvider, i18nProvider } from "@/data";
 import { BaseDataProvider } from "@/data";
-import { AccountList, TransactionList } from "@/components/widgets/lists";
+import { AccountList, TransactionList, WithdrawList } from "@/components/widgets/lists";
 import { AccountCreate } from "@/components/widgets/create";
-import { TransactionShow } from "./components/widgets/show";
 import { Route } from "react-router-dom";
 import { PayInPage, PayOutPage } from "./pages";
 import Keycloak, { KeycloakConfig, KeycloakTokenParsed, KeycloakInitOptions } from "keycloak-js";
@@ -11,7 +10,7 @@ import { keycloakAuthProvider } from "ra-keycloak";
 import { useEffect, useRef, useState } from "react";
 import { Dashboard } from "./Dashboard";
 import { MainLayout } from "./layouts";
-import { Wallet as WalletIcon, Receipt as ReceiptIcon } from "lucide-react";
+import { WalletIcon, ReceiptIcon, BitcoinIcon } from "lucide-react";
 import { ThemeProvider } from "@/components/providers";
 import { isTokenStillFresh } from "@/helpers/jwt";
 import { Toaster } from "@/components/ui/sonner";
@@ -86,12 +85,8 @@ export const App = () => {
                     authProvider={authProvider.current}>
                     <CoreAdminUI dashboard={Dashboard} layout={MainLayout} title="Juggler" requireAuth>
                         <Resource name="accounts" list={AccountList} create={AccountCreate} icon={WalletIcon} />
-                        <Resource
-                            name="transactions"
-                            list={TransactionList}
-                            show={TransactionShow}
-                            icon={ReceiptIcon}
-                        />
+                        <Resource name="transactions" list={TransactionList} icon={ReceiptIcon} />
+                        <Resource name="withdraw" list={WithdrawList} icon={BitcoinIcon} />
                     </CoreAdminUI>
 
                     <CustomRoutes>
