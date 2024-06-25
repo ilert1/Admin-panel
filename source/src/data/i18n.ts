@@ -103,7 +103,8 @@ const ru: TranslationMessages = {
                 destValueMessage: "Некорректное значение",
                 sourceValueMessage: "Некорректное значение",
                 selectSourceValue: "Выберите счет отправителя",
-                selectDestinationValue: "Выберите счет отправителя"
+                selectDestinationValue: "Выберите счет отправителя",
+                selectCurrency: "Выберите валюту"
             }
         }
     },
@@ -259,7 +260,8 @@ const en: TranslationMessages = {
                 destValueMessage: "Wrong value",
                 sourceValueMessage: "Wrong value",
                 selectSourceValue: "Select sender account",
-                selectDestinationValue: "Select receiver account"
+                selectDestinationValue: "Select receiver account",
+                selectCurrency: "Select currency"
             }
         }
     },

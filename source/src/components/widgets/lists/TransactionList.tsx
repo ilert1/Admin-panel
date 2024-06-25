@@ -23,13 +23,14 @@ import {
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { TransactionShow } from "@/components/widgets/show";
 import { useMediaQuery } from "react-responsive";
 import { useTransactionActions } from "@/hooks";
 import { TransactionStorno } from "@/components/widgets/forms";
 import { API_URL } from "@/data/base";
+import { EventBus, EVENT_STORNO } from "@/helpers/event-bus";
 
 // const TransactionFilterSidebar = () => {
 //     const translate = useTranslate();
@@ -113,7 +114,7 @@ import { API_URL } from "@/data/base";
 //     );
 // };
 
-const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void }) => {
+const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
         switchDispute,
         showDispute,
@@ -129,6 +130,22 @@ const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void }
         stornoCaption,
         makeStorno
     } = useTransactionActions(props.dictionaries);
+
+    useEffect(() => {
+        EventBus.getInstance().registerUnique(
+            EVENT_STORNO,
+            (data: {
+                sourceValue: string;
+                destValue: string;
+                source: string;
+                currency: string;
+                destination: string;
+            }) => {
+                makeStorno(data);
+                props?.stornoClose?.();
+            }
+        );
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
@@ -263,7 +280,11 @@ export const TransactionList = () => {
                                     {translate("ra.action.show")}
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
-                                <TransactionActions dictionaries={data} stornoOpen={() => setStornoOpen(true)} />
+                                <TransactionActions
+                                    dictionaries={data}
+                                    stornoOpen={() => setStornoOpen(true)}
+                                    stornoClose={() => setStornoOpen(false)}
+                                />
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </RecordContextProvider>

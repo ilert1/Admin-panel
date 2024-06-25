@@ -7,18 +7,9 @@ import { Button } from "@/components/ui/button";
 import { useTranslate, useLocaleState } from "react-admin";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useEffect } from "react";
+import { EventBus, EVENT_STORNO } from "@/helpers/event-bus";
 
-export const TransactionStorno = (props: {
-    accounts: any[];
-    currencies: any[];
-    submit: (props: {
-        sourceValue: string;
-        destValue: string;
-        source: string;
-        currency: string;
-        destination: string;
-    }) => void;
-}) => {
+export const TransactionStorno = (props: { accounts: any[]; currencies: any[] }) => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
 
@@ -28,16 +19,23 @@ export const TransactionStorno = (props: {
         source: z.string(),
         destination: z.string(),
         currency: z.string(),
-        destValue: z.number({
-            message: translate("resources.transactions.storno.destValueMessage")
-        }),
-        sourceValue: z.number({
-            message: translate("resources.transactions.storno.sourceValueMessage")
-        })
+        destValue: z
+            .string()
+            .regex(/^[+-]?([0-9]*[.])?[0-9]+$/, translate("resources.transactions.storno.destValueMessage")),
+        sourceValue: z
+            .string()
+            .regex(/^[+-]?([0-9]*[.])?[0-9]+$/, translate("resources.transactions.storno.sourceValueMessage"))
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema)
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            source: "",
+            destination: "",
+            currency: "",
+            destValue: "",
+            sourceValue: ""
+        }
     });
 
     const watchSource = form.watch("source");
@@ -56,13 +54,7 @@ export const TransactionStorno = (props: {
     }, [watchDestination]); // eslint-disable-line react-hooks/exhaustive-deps
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        props?.submit?.({
-            sourceValue: values.sourceValue + "",
-            destValue: values.destValue + "",
-            source: values.source,
-            currency: values.currency,
-            destination: values.destination
-        });
+        EventBus.getInstance().dispatch(EVENT_STORNO, values);
     }
 
     return (
@@ -129,12 +121,12 @@ export const TransactionStorno = (props: {
                     name="currency"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>{translate("resources.transactions.fields.source.header")}</FormLabel>
+                            <FormLabel>{translate("resources.transactions.fields.currency")}</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue
-                                            placeholder={translate("resources.transactions.storno.selectSourceValue")}
+                                            placeholder={translate("resources.transactions.storno.selectCurrency")}
                                         />
                                     </SelectTrigger>
                                 </FormControl>
