@@ -88,7 +88,7 @@ export const AccountList = () => {
         return (
             <>
                 <ListContextProvider value={listContext}>
-                    <DataTable columns={columns} data={listContext.data} />
+                    <DataTable columns={columns} />
                 </ListContextProvider>
                 <Sheet open={showOpen} onOpenChange={setShowOpen}>
                     <SheetContent

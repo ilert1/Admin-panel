@@ -1,10 +1,10 @@
 import {
     useDataProvider,
     useTranslate,
-    ListContextProvider,
     useListController,
     RecordContextProvider,
-    useGetList
+    useGetList,
+    ListContextProvider
 } from "react-admin";
 import { useQuery } from "react-query";
 import { DataTable } from "@/components/widgets/shared";
@@ -299,7 +299,7 @@ export const TransactionList = () => {
         return (
             <>
                 <ListContextProvider value={listContext}>
-                    <DataTable columns={columns} data={listContext.data} />
+                    <DataTable columns={columns} />
                 </ListContextProvider>
                 <Sheet open={showOpen} onOpenChange={setShowOpen}>
                     <SheetContent

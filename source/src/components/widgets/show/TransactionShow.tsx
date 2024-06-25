@@ -1,6 +1,6 @@
 import { useDataProvider, useShowController, useTranslate, useGetManyReference } from "react-admin";
 import { useQuery } from "react-query";
-import { DataTable } from "@/components/widgets/shared";
+import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { BooleanFiled } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
@@ -145,7 +145,7 @@ export const TransactionShow = (props: { id: string }) => {
                     <small className="text-sm text-muted-foreground">
                         {translate("resources.transactions.fields.fees")}
                     </small>
-                    <DataTable columns={feesColumns} data={context.record.fees} pagination={false} />
+                    <SimpleTable columns={feesColumns} data={context.record.fees} />
                 </div>
 
                 {history && history?.length > 0 && (
@@ -153,7 +153,7 @@ export const TransactionShow = (props: { id: string }) => {
                         <small className="text-sm text-muted-foreground">
                             {translate("resources.transactions.fields.history")}
                         </small>
-                        <DataTable columns={historyColumns} data={history} pagination={false} />
+                        <SimpleTable columns={historyColumns} data={history} />
                     </div>
                 )}
             </div>

@@ -1,6 +1,6 @@
 import { useDataProvider, useShowController, useTranslate } from "react-admin";
 import { useQuery } from "react-query";
-import { DataTable } from "@/components/widgets/shared";
+import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 
 export const AccountShow = (props: { id: string }) => {
@@ -70,7 +70,7 @@ export const AccountShow = (props: { id: string }) => {
                     <small className="text-sm text-muted-foreground">
                         {translate("resources.accounts.fields.amounts")}
                     </small>
-                    <DataTable columns={columns} data={context.record.amounts} pagination={false} />
+                    <SimpleTable columns={columns} data={context.record.amounts} />
                 </div>
             </div>
         );
