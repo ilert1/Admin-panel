@@ -132,7 +132,8 @@ const ru: TranslationMessages = {
             transactions: "Транзакции",
             payin: "Пополнение",
             payout: "Выплата",
-            dashboard: "Главная"
+            dashboard: "Главная",
+            withdraw: "Выводы в криптовалюте"
         },
         ui: {
             pagination: {
@@ -307,7 +308,8 @@ const en: TranslationMessages = {
             transactions: "Transactions",
             payin: "Pay in",
             payout: "Pay out",
-            dashboard: "Dashboard"
+            dashboard: "Dashboard",
+            withdraw: "Crypto withdrawals"
         },
         ui: {
             pagination: {

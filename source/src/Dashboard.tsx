@@ -1,9 +1,4 @@
-import {
-    CreditCard as CreditCardIcon,
-    HandCoins as HandCoinsIcon,
-    Wallet as WalletIcon,
-    Receipt as ReceiptIcon
-} from "lucide-react";
+import { CreditCardIcon, HandCoinsIcon, WalletIcon, ReceiptIcon, BitcoinIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
 import { Link } from "react-admin";
 
@@ -22,6 +17,12 @@ export const Dashboard = () => {
                 className="flex w-full flex-col items-center rounded-xl border bg-card p-6 !text-card-foreground shadow transition-colors hover:bg-muted/50 sm:p-10">
                 <ReceiptIcon className="h-10 w-10" />
                 <p className="font-medium mt-2">{translate("app.menu.transactions")}</p>
+            </Link>
+            <Link
+                to="/withdraw"
+                className="flex w-full flex-col items-center rounded-xl border bg-card p-6 !text-card-foreground shadow transition-colors hover:bg-muted/50 sm:p-10">
+                <BitcoinIcon className="h-10 w-10" />
+                <p className="font-medium mt-2">{translate("app.menu.withdraw")}</p>
             </Link>
             <Link
                 to="/payin"
