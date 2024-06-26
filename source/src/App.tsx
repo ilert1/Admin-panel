@@ -87,12 +87,11 @@ export const App = () => {
                         <Resource name="accounts" list={AccountList} create={AccountCreate} icon={WalletIcon} />
                         <Resource name="transactions" list={TransactionList} icon={ReceiptIcon} />
                         <Resource name="withdraw" list={WithdrawList} icon={BitcoinIcon} />
+                        <CustomRoutes>
+                            <Route path="/payin" element={<PayInPage />} />
+                            <Route path="/payout" element={<PayOutPage />} />
+                        </CustomRoutes>
                     </CoreAdminUI>
-
-                    <CustomRoutes>
-                        <Route path="/payin" element={<PayInPage />} />
-                        <Route path="/payout" element={<PayOutPage />} />
-                    </CustomRoutes>
                 </CoreAdminContext>
                 <Toaster />
             </ThemeProvider>

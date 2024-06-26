@@ -147,15 +147,33 @@ const ru: TranslationMessages = {
         theme: {
             light: "Включить темную тему",
             dark: "Включить светлую тему"
+        },
+        widgets: {
+            forms: {
+                payIn: {
+                    source: "Счет источник",
+                    selectSource: "Выберите счет источник",
+                    destination: "Счет получатель",
+                    selectDestination: "Выберите счет получатель",
+                    sourceCurrency: "Валюта источника",
+                    selectSourceCurrency: "Выберите валюту источника",
+                    destinationCurrency: "Валюта получателя",
+                    selectDestinationCurrency: "Выберите валюту получаетля",
+                    sourceMessage: "Пожалуйста, выберите счет источник",
+                    destinationMessage: "Пожалуйста, выберите счет получатель",
+                    sourceCurrencyMessage: "Пожалуйста, выберите вылюту источника",
+                    destinationCurrencyMessage: "Пожалуйста, выберите вылюту получателя",
+                    sourceValueMessage: "Некорректное значение",
+                    destValueMessage: "Некорректное значение",
+                    sourceValue: "Сумма пополнения",
+                    destValue: "Сумма зачисления",
+                    createOrder: "Создать ордер"
+                }
+            }
         }
     },
     pages: {
         payIn: {
-            source: "Счет источник",
-            destination: "Счет получатель",
-            createOrder: "Создать ордер",
-            sourceValue: "Сумма пополнения",
-            destValue: "Сумма зачисления",
             payMethods: "Методы оплаты",
             select: "Выбрать",
             last4Digits: "Последние 4 цифры карты",
@@ -326,15 +344,33 @@ const en: TranslationMessages = {
         theme: {
             light: "Toggle dark theme",
             dark: "Toggle light theme"
+        },
+        widgets: {
+            forms: {
+                payIn: {
+                    source: "Source account",
+                    selectSource: "Select source account",
+                    destination: "Destination account",
+                    selectDestination: "Select destination account",
+                    sourceCurrency: "Source currency",
+                    selectSourceCurrency: "Select source currency",
+                    destinationCurrency: "Destination currency",
+                    selectDestinationCurrency: "Select destination currency",
+                    sourceMessage: "Please, select source account",
+                    destinationMessage: "Please, select destination account",
+                    sourceCurrencyMessage: "Please, select source currency",
+                    destinationCurrencyMessage: "Please, select destination currency",
+                    sourceValueMessage: "Wrong value",
+                    destValueMessage: "Wrong value",
+                    sourceValue: "Source value",
+                    destValue: "Destination value",
+                    createOrder: "Create order"
+                }
+            }
         }
     },
     pages: {
         payIn: {
-            source: "Source account",
-            destination: "Destination account",
-            createOrder: "Create order",
-            sourceValue: "Source value",
-            destValue: "Destination value",
             payMethods: "Pay methods",
             select: "Select",
             last4Digits: "Card last 4 digits",

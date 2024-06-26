@@ -72,3 +72,4 @@ export class EventBus implements IEventBus {
 }
 
 export const EVENT_STORNO = "event-storno";
+export const EVENT_PAYIN = "event-payin";
