@@ -139,6 +139,9 @@ const ru: TranslationMessages = {
             pagination: {
                 next: "Далее",
                 previous: "Назад"
+            },
+            textField: {
+                copied: "Скопировано"
             }
         },
         theme: {
@@ -315,6 +318,9 @@ const en: TranslationMessages = {
             pagination: {
                 next: "Next",
                 previous: "Previous"
+            },
+            textField: {
+                copied: "Copied"
             }
         },
         theme: {

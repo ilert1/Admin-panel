@@ -91,8 +91,8 @@ export const TransactionShow = (props: { id: string }) => {
         return "Loading...";
     } else {
         return (
-            <div className="relative w-[540] overflow-x-auto">
-                <TextField label={translate("resources.transactions.fields.id")} text={context.record.id} />
+            <div className="relative w-[540] overflow-x-auto flex flex-col gap-2">
+                <TextField label={translate("resources.transactions.fields.id")} text={context.record.id} copyValue />
                 <TextField
                     label={translate("resources.transactions.fields.type")}
                     text={data?.transactionTypes[context.record.type]?.type_descr}

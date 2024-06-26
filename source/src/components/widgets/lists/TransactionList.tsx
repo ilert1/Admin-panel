@@ -31,6 +31,7 @@ import { useTransactionActions } from "@/hooks";
 import { TransactionStorno } from "@/components/widgets/forms";
 import { API_URL } from "@/data/base";
 import { EventBus, EVENT_STORNO } from "@/helpers/event-bus";
+import { TextField } from "@/components/ui/text-field";
 
 // const TransactionFilterSidebar = () => {
 //     const translate = useTranslate();
@@ -205,7 +206,8 @@ export const TransactionList = () => {
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
             accessorKey: "id",
-            header: translate("resources.transactions.fields.id")
+            header: translate("resources.transactions.fields.id"),
+            cell: ({ row }) => <TextField text={row.original.id} copyValue />
         },
         {
             accessorKey: "type",

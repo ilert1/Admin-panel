@@ -6,7 +6,6 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -69,8 +68,6 @@ export const AccountList = () => {
                             <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
                                 {translate("ra.action.show")}
                             </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem disabled>{translate("ra.action.edit")}</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );
