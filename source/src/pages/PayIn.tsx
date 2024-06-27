@@ -1,9 +1,8 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { usePermissions, useRedirect, useRefresh, useTranslate } from "react-admin";
+import { usePermissions, useRedirect, useTranslate } from "react-admin";
 import { API_URL, BF_MANAGER_URL } from "@/data/base";
 import { PayInForm } from "@/components/widgets/forms";
-import { EventBus, EVENT_PAYIN } from "@/helpers/event-bus";
 import { toast } from "sonner";
 
 export const PayInPage = () => {
@@ -11,7 +10,6 @@ export const PayInPage = () => {
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
     const redirect = useRedirect();
-    const refresh = useRefresh();
 
     const success = (message: string) => {
         toast.success(translate("resources.transactions.show.success"), {
@@ -29,7 +27,7 @@ export const PayInPage = () => {
         });
     };
 
-    const { data: accounts } = useQuery("accounts", () =>
+    const { isLoading: accountsLoading, data: accounts } = useQuery("accounts", () =>
         fetch(`${API_URL}/accounts`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -37,7 +35,7 @@ export const PayInPage = () => {
         }).then(response => response.json())
     );
 
-    const { data: currencies } = useQuery("currencies", () =>
+    const { isLoading: currenciesLoading, data: currencies } = useQuery("currencies", () =>
         fetch(`${API_URL}/dictionaries/curr`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -51,67 +49,75 @@ export const PayInPage = () => {
         }
     }, [adminOnly]); //eslint-disable-line react-hooks/exhaustive-deps
 
-    useEffect(() => {
-        EventBus.getInstance().registerUnique(
-            EVENT_PAYIN,
-            (data: {
-                source: string;
-                sourceValue: string;
-                sourceCurrency: string;
-                dest: string;
-                destValue: string;
-                destCurrency: string;
-            }) => {
-                fetch(`${BF_MANAGER_URL}/v1/payin/create`, {
-                    method: "POST",
-                    body: JSON.stringify({
-                        source: {
-                            id: data.source,
-                            amount: {
-                                currency: data.sourceCurrency,
-                                value: {
-                                    quantity: +data.sourceValue * 100,
-                                    accuracy: 100
-                                }
-                            }
-                        },
-                        destination: {
-                            id: data.dest,
-                            amount: {
-                                currency: data.destCurrency,
-                                value: {
-                                    quantity: +data.destValue * 100,
-                                    accuracy: 100
-                                }
-                            }
+    const [localLoading, setLocalLoading] = useState(false);
+
+    const isLoading = useMemo(
+        () => currenciesLoading || accountsLoading || localLoading,
+        [localLoading, currenciesLoading, accountsLoading]
+    );
+
+    const createPayIn = (data: {
+        source: string;
+        sourceValue: string;
+        sourceCurrency: string;
+        dest: string;
+        destValue: string;
+        destCurrency: string;
+    }) => {
+        setLocalLoading(true);
+        fetch(`${BF_MANAGER_URL}/v1/payin/create`, {
+            method: "POST",
+            body: JSON.stringify({
+                source: {
+                    id: data.source,
+                    amount: {
+                        currency: data.sourceCurrency,
+                        value: {
+                            quantity: +data.sourceValue * 100,
+                            accuracy: 100
                         }
-                    }),
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${localStorage.getItem("access-token")}`
                     }
-                })
-                    .then(response => response.json())
-                    .then(json => {
-                        if (json.success) {
-                            success(translate("resources.transactions.show.success"));
-                        } else {
-                            error(json.error || "Unknown error");
+                },
+                destination: {
+                    id: data.dest,
+                    amount: {
+                        currency: data.destCurrency,
+                        value: {
+                            quantity: +data.destValue * 100,
+                            accuracy: 100
                         }
-                    })
-                    .catch(e => {
-                        error(e.message);
-                    })
-                    .finally(() => {
-                        refresh();
-                    });
+                    }
+                }
+            }),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
-        );
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+        })
+            .then(response => response.json())
+            .then(json => {
+                if (json.success) {
+                    success(translate("resources.transactions.show.success"));
+                } else {
+                    error(json.error || "Unknown error");
+                }
+            })
+            .catch(e => {
+                error(e.message);
+            })
+            .finally(() => {
+                setLocalLoading(false);
+            });
+    };
 
     return (
         <div>
-            <PayInForm accounts={accounts?.data || []} currencies={currencies?.data || []} />
+            <PayInForm
+                accounts={accounts?.data || []}
+                currencies={currencies?.data || []}
+                loading={isLoading}
+                create={createPayIn}
+            />
         </div>
     );
 };

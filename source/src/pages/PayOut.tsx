@@ -1,32 +1,31 @@
-import { useMemo, useState, ChangeEvent } from "react";
-import { useQuery, useMutation } from "react-query";
-import {
-    Card,
-    CardContent,
-    Box,
-    CircularProgress,
-    Stack,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    SelectChangeEvent,
-    TextField,
-    Button,
-    InputAdornment
-} from "@mui/material";
-import { useNotify, useTranslate, useLocaleState } from "react-admin";
+import { useMemo, useState } from "react";
+import { useQuery } from "react-query";
+import { useGetList, useTranslate } from "react-admin";
 import { BF_MANAGER_URL, API_URL } from "@/data/base";
+import { PayOutForm } from "@/components/widgets/forms";
+import { toast } from "sonner";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
-    const [payMethod, setPayMethod] = useState<any>("");
-    const [destValue, setDestValue] = useState("");
-    const [additionalFieldValues, setAdditionalFiledValues] = useState<Record<string, string>>({});
+    const success = (message: string) => {
+        toast.success(translate("resources.transactions.show.success"), {
+            dismissible: true,
+            description: message,
+            duration: 3000
+        });
+    };
 
-    const notify = useNotify();
+    const error = (message: string) => {
+        toast.error(translate("resources.transactions.show.error"), {
+            dismissible: true,
+            description: message,
+            duration: 3000
+        });
+    };
 
-    const [locale] = useLocaleState();
+    const { data: accounts } = useGetList("accounts");
+
+    const currency = useMemo(() => accounts?.[0]?.amounts?.[0]?.shop_currency, [accounts]);
 
     const { data: currencies } = useQuery("currencies", () =>
         fetch(`${API_URL}/dictionaries/curr`, {
@@ -36,19 +35,26 @@ export const PayOutPage = () => {
         }).then(response => response.json())
     );
 
-    const { isLoading: initialLoading, data: payMethods } = useQuery("paymethods", () => {
-        return fetch(`${BF_MANAGER_URL}/v1/payout/paymethods`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
-        }).then(response => response.json());
-    });
+    const { isLoading: initialLoading, data: payMethods } = useQuery(
+        ["paymethods", currency],
+        () => {
+            return fetch(`${BF_MANAGER_URL}/v1/payout/paymethods?currency=${currency}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }).then(response => response.json());
+        },
+        {
+            select: (data: any) => data?.data || []
+        }
+    );
 
-    const additionalFields = useMemo(() => {
-        return payMethod?.fields?.filter?.((f: any) => !f.hidden && f.required) || [];
-    }, [payMethod]);
+    const [localLoading, setLocalLoading] = useState(false);
+    const isLoading = useMemo(() => initialLoading || localLoading, [initialLoading, localLoading]);
 
-    const { mutate: payOutCreate, isLoading: payOutCreateLoading } = useMutation(() =>
+    const createPayOut = (data: any) => {
+        const { payMethod, ...rest } = data;
+        setLocalLoading(true);
         fetch(`${BF_MANAGER_URL}/v1/payout/create`, {
             method: "POST",
             body: JSON.stringify({
@@ -56,13 +62,13 @@ export const PayOutPage = () => {
                     amount: {
                         currency: payMethod?.fiatCurrency,
                         value: {
-                            quantity: +destValue * 100,
+                            quantity: +rest.value * 100,
                             accuracy: 100
                         }
                     }
                 },
                 meta: {
-                    ...additionalFieldValues,
+                    ...rest,
                     paymentType: payMethod?.paymentType,
                     customerBank: payMethod?.bank
                 }
@@ -75,115 +81,27 @@ export const PayOutPage = () => {
             .then(response => response.json())
             .then(json => {
                 if (json.success) {
-                    setPayMethod("");
-                    setDestValue("");
-                    notify(translate("pages.payOut.success"));
+                    success(translate("pages.payout.success"));
                 } else {
-                    throw new Error(json.error || "Unknown error");
+                    error(json.error || "Unknown error");
                 }
             })
             .catch(e => {
-                notify(e.message, { type: "error" });
+                error(e.message);
             })
-    );
-
-    const isLoading = useMemo(() => initialLoading || payOutCreateLoading, [initialLoading, payOutCreateLoading]);
-
-    const canPayout = useMemo(() => {
-        return (
-            payMethod &&
-            destValue &&
-            additionalFields.reduce((acc: boolean, curr: any) => acc && !!additionalFieldValues[curr.name], [true])
-        );
-    }, [payMethod, destValue, additionalFieldValues, additionalFields]);
-
-    const handlePayMethodChange = (event: SelectChangeEvent) => {
-        setPayMethod(event.target.value);
-    };
-
-    const handleAdditionalFieldChange = (key: string, value: string) => {
-        setAdditionalFiledValues(current => {
-            current[key] = value;
-            return { ...current };
-        });
-    };
-
-    const create = () => {
-        payOutCreate();
-    };
-
-    const translateField = (key: string) => {
-        switch (key) {
-            case "cardholder":
-                return translate("pages.payOut.cardHolder");
-            case "cardInfo":
-                return translate("pages.payOut.cardInfo");
-            default:
-                return key;
-        }
+            .finally(() => {
+                setLocalLoading(false);
+            });
     };
 
     return (
-        <Card sx={{ mt: 6 }}>
-            <CardContent>
-                {isLoading ? (
-                    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <CircularProgress />
-                    </Box>
-                ) : (
-                    <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={2}>
-                        <FormControl sx={{ m: 1, width: 340 }}>
-                            <InputLabel>{translate("pages.payOut.payMethod")}</InputLabel>
-                            <Select value={payMethod} onChange={handlePayMethodChange}>
-                                {payMethods?.data?.map((method: any, i: number) => (
-                                    <MenuItem key={i} value={method}>
-                                        {`${method.bankName} (${method.paymentTypeName}, ${method.fiatCurrency})`}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-
-                        <TextField
-                            sx={{ m: 1, width: 340 }}
-                            type="number"
-                            label={translate("pages.payOut.destValue")}
-                            value={destValue}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                                setDestValue(event.target.value);
-                            }}
-                            InputProps={{
-                                endAdornment: payMethod?.fiatCurrency ? (
-                                    <InputAdornment position="start">{`${
-                                        currencies?.data?.find((c: any) => c["alpha-3"] === payMethod?.fiatCurrency)?.[
-                                            "name-" + locale
-                                        ]
-                                    } (${
-                                        currencies?.data?.find((c: any) => c["alpha-3"] === payMethod?.fiatCurrency)?.[
-                                            "alpha-3"
-                                        ]
-                                    })`}</InputAdornment>
-                                ) : (
-                                    ""
-                                )
-                            }}
-                        />
-
-                        {additionalFields.map((f: any, i: number) => (
-                            <TextField
-                                key={i}
-                                sx={{ m: 1, width: 340 }}
-                                label={translateField(f.name)}
-                                onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                                    handleAdditionalFieldChange(f.name, event.target.value);
-                                }}
-                            />
-                        ))}
-                        <Button disabled={!canPayout} onClick={create}>
-                            {translate("pages.payOut.create")}
-                        </Button>
-                    </Stack>
-                )}
-            </CardContent>
-        </Card>
+        <div>
+            <PayOutForm
+                currencies={currencies?.data || []}
+                payMethods={payMethods}
+                loading={isLoading}
+                create={createPayOut}
+            />
+        </div>
     );
 };

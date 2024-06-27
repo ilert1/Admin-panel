@@ -168,36 +168,25 @@ const ru: TranslationMessages = {
                     sourceValue: "Сумма пополнения",
                     destValue: "Сумма зачисления",
                     createOrder: "Создать ордер"
+                },
+                payout: {
+                    payMethod: "Метод оплаты",
+                    selectPayMethod: "Выберите метод оплаты",
+                    payMethodMessage: "Пожалуйста, выберите метод оплаты",
+                    valueMessage: "Некорректное значение",
+                    value: "Сумма зачисления %{currency}",
+                    create: "Создать",
+                    success: "Вывод успешно создан"
                 }
             }
         }
     },
     pages: {
         payin: {
-            header: "Пополнение",
-            payMethods: "Методы оплаты",
-            select: "Выбрать",
-            last4Digits: "Последние 4 цифры карты",
-            confirm: "Подтвердить",
-            bank: "Банк",
-            cardInfo: "Номер карты",
-            cardHolder: "Владелец карты",
-            done: "Проведено",
-            loadingInfo: "Загрузка информации"
+            header: "Пополнение"
         },
         payout: {
-            header: "Pay Out",
-            payMethod: "Метод оплаты",
-            source: "Счет источник",
-            destination: "Счет получатель",
-            sourceValue: "Сумма пополнения",
-            destValue: "Сумма зачисления",
-            sourceCurrency: "Валюта источника",
-            destinationCurrency: "Валюта получателя",
-            create: "Создать",
-            cardHolder: "Владелец карты",
-            cardInfo: "Номер карты",
-            success: "Успешно"
+            header: "Вывод"
         }
     }
 };
@@ -367,36 +356,25 @@ const en: TranslationMessages = {
                     sourceValue: "Source value",
                     destValue: "Destination value",
                     createOrder: "Create order"
+                },
+                payout: {
+                    payMethod: "Pay method",
+                    selectPayMethod: "Select pay method",
+                    payMethodMessage: "Please, select pay method",
+                    value: "Destination value %{currency}",
+                    valueMessage: "Wrong value",
+                    create: "Created",
+                    success: "Payout successfully created"
                 }
             }
         }
     },
     pages: {
         payin: {
-            header: "Pay In",
-            payMethods: "Pay methods",
-            select: "Select",
-            last4Digits: "Card last 4 digits",
-            confirm: "Confirm",
-            bank: "Bank",
-            cardInfo: "Card info",
-            cardHolder: "Card holder",
-            done: "Done",
-            loadingInfo: "Loading info"
+            header: "Pay In"
         },
         payout: {
-            header: "Pay Out",
-            payMethod: "Pay method",
-            source: "Source account",
-            destination: "Destination account",
-            sourceValue: "Source value",
-            destValue: "Destination value",
-            sourceCurrency: "Source currency",
-            destinationCurrency: "Destination currency",
-            create: "Create",
-            cardHolder: "Card holder",
-            cardInfo: "Card number",
-            success: "Success"
+            header: "Pay Out"
         }
     }
 };
