@@ -150,7 +150,7 @@ const ru: TranslationMessages = {
         },
         widgets: {
             forms: {
-                payIn: {
+                payin: {
                     source: "Счет источник",
                     selectSource: "Выберите счет источник",
                     destination: "Счет получатель",
@@ -173,7 +173,8 @@ const ru: TranslationMessages = {
         }
     },
     pages: {
-        payIn: {
+        payin: {
+            header: "Пополнение",
             payMethods: "Методы оплаты",
             select: "Выбрать",
             last4Digits: "Последние 4 цифры карты",
@@ -184,7 +185,8 @@ const ru: TranslationMessages = {
             done: "Проведено",
             loadingInfo: "Загрузка информации"
         },
-        payOut: {
+        payout: {
+            header: "Pay Out",
             payMethod: "Метод оплаты",
             source: "Счет источник",
             destination: "Счет получатель",
@@ -347,7 +349,7 @@ const en: TranslationMessages = {
         },
         widgets: {
             forms: {
-                payIn: {
+                payin: {
                     source: "Source account",
                     selectSource: "Select source account",
                     destination: "Destination account",
@@ -370,7 +372,8 @@ const en: TranslationMessages = {
         }
     },
     pages: {
-        payIn: {
+        payin: {
+            header: "Pay In",
             payMethods: "Pay methods",
             select: "Select",
             last4Digits: "Card last 4 digits",
@@ -381,7 +384,8 @@ const en: TranslationMessages = {
             done: "Done",
             loadingInfo: "Loading info"
         },
-        payOut: {
+        payout: {
+            header: "Pay Out",
             payMethod: "Pay method",
             source: "Source account",
             destination: "Destination account",

@@ -20,16 +20,16 @@ export const PayInForm = (props: { accounts: any[]; currencies: any[] }) => {
     }, [currencies]);
 
     const formSchema = z.object({
-        source: z.string().min(1, translate("app.widgets.forms.payIn.sourceMessage")),
+        source: z.string().min(1, translate("app.widgets.forms.payin.sourceMessage")),
         sourceValue: z
             .string()
             .regex(/^[+-]?([0-9]*[.])?[0-9]+$/, translate("resources.transactions.storno.sourceValueMessage")),
-        sourceCurrency: z.string().min(1, translate("app.widgets.forms.payIn.sourceCurrencyMessage")),
-        dest: z.string().min(1, translate("app.widgets.forms.payIn.destinationMessage")),
+        sourceCurrency: z.string().min(1, translate("app.widgets.forms.payin.sourceCurrencyMessage")),
+        dest: z.string().min(1, translate("app.widgets.forms.payin.destinationMessage")),
         destValue: z
             .string()
             .regex(/^[+-]?([0-9]*[.])?[0-9]+$/, translate("resources.transactions.storno.destValueMessage")),
-        destCurrency: z.string().min(1, translate("app.widgets.forms.payIn.destinationCurrencyMessage"))
+        destCurrency: z.string().min(1, translate("app.widgets.forms.payin.destinationCurrencyMessage"))
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -61,12 +61,12 @@ export const PayInForm = (props: { accounts: any[]; currencies: any[] }) => {
                             name="source"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>{translate("app.widgets.forms.payIn.source")}</FormLabel>
+                                    <FormLabel>{translate("app.widgets.forms.payin.source")}</FormLabel>
                                     <Select onValueChange={field.onChange} value={field.value}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue
-                                                    placeholder={translate("app.widgets.forms.payIn.selectSource")}
+                                                    placeholder={translate("app.widgets.forms.payin.selectSource")}
                                                 />
                                             </SelectTrigger>
                                         </FormControl>
@@ -90,7 +90,7 @@ export const PayInForm = (props: { accounts: any[]; currencies: any[] }) => {
                             name="sourceValue"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>{translate("app.widgets.forms.payIn.sourceValue")}</FormLabel>
+                                    <FormLabel>{translate("app.widgets.forms.payin.sourceValue")}</FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
@@ -105,13 +105,13 @@ export const PayInForm = (props: { accounts: any[]; currencies: any[] }) => {
                             name="sourceCurrency"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>{translate("app.widgets.forms.payIn.sourceCurrency")}</FormLabel>
+                                    <FormLabel>{translate("app.widgets.forms.payin.sourceCurrency")}</FormLabel>
                                     <Select onValueChange={field.onChange} value={field.value}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue
                                                     placeholder={translate(
-                                                        "app.widgets.forms.payIn.selectSourceCurrency"
+                                                        "app.widgets.forms.payin.selectSourceCurrency"
                                                     )}
                                                 />
                                             </SelectTrigger>
@@ -138,12 +138,12 @@ export const PayInForm = (props: { accounts: any[]; currencies: any[] }) => {
                             name="dest"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>{translate("app.widgets.forms.payIn.destination")}</FormLabel>
+                                    <FormLabel>{translate("app.widgets.forms.payin.destination")}</FormLabel>
                                     <Select onValueChange={field.onChange} value={field.value}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue
-                                                    placeholder={translate("app.widgets.forms.payIn.selectDestination")}
+                                                    placeholder={translate("app.widgets.forms.payin.selectDestination")}
                                                 />
                                             </SelectTrigger>
                                         </FormControl>
@@ -167,7 +167,7 @@ export const PayInForm = (props: { accounts: any[]; currencies: any[] }) => {
                             name="destValue"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>{translate("app.widgets.forms.payIn.destValue")}</FormLabel>
+                                    <FormLabel>{translate("app.widgets.forms.payin.destValue")}</FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
@@ -182,13 +182,13 @@ export const PayInForm = (props: { accounts: any[]; currencies: any[] }) => {
                             name="destCurrency"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>{translate("app.widgets.forms.payIn.destinationCurrency")}</FormLabel>
+                                    <FormLabel>{translate("app.widgets.forms.payin.destinationCurrency")}</FormLabel>
                                     <Select onValueChange={field.onChange} value={field.value}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue
                                                     placeholder={translate(
-                                                        "app.widgets.forms.payIn.selectDestinationCurrency"
+                                                        "app.widgets.forms.payin.selectDestinationCurrency"
                                                     )}
                                                 />
                                             </SelectTrigger>
@@ -208,7 +208,7 @@ export const PayInForm = (props: { accounts: any[]; currencies: any[] }) => {
                         />
                     </div>
                 </div>
-                <Button type="submit">{translate("app.widgets.forms.payIn.createOrder")}</Button>
+                <Button type="submit">{translate("app.widgets.forms.payin.createOrder")}</Button>
             </form>
         </Form>
     );

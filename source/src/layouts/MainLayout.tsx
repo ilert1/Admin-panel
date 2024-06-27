@@ -54,7 +54,9 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
         [location]
     );
     const resourceLabel = useMemo(() => {
-        if (resourceName) {
+        if (["payin", "payout"].includes(resourceName)) {
+            return translate(`pages.${resourceName}.header`);
+        } else if (resourceName) {
             return translate(`resources.${resourceName}.name`, { smart_count: 2 });
         } else {
             return null;
