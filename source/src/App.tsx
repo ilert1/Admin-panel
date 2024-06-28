@@ -4,7 +4,7 @@ import { BaseDataProvider } from "@/data";
 import { AccountList, TransactionList, WithdrawList } from "@/components/widgets/lists";
 import { AccountCreate } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
-import { PayInPage, PayOutPage } from "./pages";
+import { PayOutPage } from "./pages";
 import Keycloak, { KeycloakConfig, KeycloakTokenParsed, KeycloakInitOptions } from "keycloak-js";
 import { keycloakAuthProvider } from "ra-keycloak";
 import { useEffect, useRef, useState } from "react";
@@ -88,7 +88,7 @@ export const App = () => {
                         <Resource name="transactions" list={TransactionList} icon={ReceiptIcon} />
                         <Resource name="withdraw" list={WithdrawList} icon={BitcoinIcon} />
                         <CustomRoutes>
-                            <Route path="/payin" element={<PayInPage />} />
+                            {/* <Route path="/payin" element={<PayInPage />} /> */}
                             <Route path="/payout" element={<PayOutPage />} />
                         </CustomRoutes>
                     </CoreAdminUI>

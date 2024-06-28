@@ -48,6 +48,7 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+    const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
     const location = useLocation();
     const resourceName = useMemo(
         () => location.pathname?.split("/")?.filter((s: string) => s?.length > 0)?.[0],
@@ -114,7 +115,7 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                                 </TooltipContent>
                             </Tooltip>
                         ))}
-                        {adminOnly && (
+                        {/* {adminOnly && (
                             <Tooltip>
                                 <TooltipTrigger asChild>
                                     <NavLink
@@ -126,18 +127,20 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                                 </TooltipTrigger>
                                 <TooltipContent side="right">{translate("app.menu.payin")}</TooltipContent>
                             </Tooltip>
+                        )} */}
+                        {merchantOnly && (
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <NavLink
+                                        to="/payout"
+                                        className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
+                                        <HandCoinsIcon />
+                                        <span className="sr-only">{translate("app.menu.payout")}</span>
+                                    </NavLink>
+                                </TooltipTrigger>
+                                <TooltipContent side="right">{translate("app.menu.payout")}</TooltipContent>
+                            </Tooltip>
                         )}
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <NavLink
-                                    to="/payout"
-                                    className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
-                                    <HandCoinsIcon />
-                                    <span className="sr-only">{translate("app.menu.payout")}</span>
-                                </NavLink>
-                            </TooltipTrigger>
-                            <TooltipContent side="right">{translate("app.menu.payout")}</TooltipContent>
-                        </Tooltip>
                     </nav>
                     <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
                         <Tooltip>
