@@ -11,7 +11,7 @@ import {
 } from "react-admin";
 import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import { useMemo, createElement } from "react";
+import { useMemo, createElement, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
 import {
     Breadcrumb,
@@ -57,10 +57,10 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
         [location]
     );
     const resourceLabel = useMemo(() => {
-        if (["payin", "payout"].includes(resourceName)) {
-            return translate(`pages.${resourceName}.header`);
+        if (["payin", "bank-transfer", "crypto-transfer"].includes(resourceName)) {
+            return translate(`pages.${camelize(resourceName)}.header`);
         } else if (resourceName) {
-            return translate(`pages.${camelize(resourceName)}.header`, { smart_count: 2 });
+            return translate(`resources.${camelize(resourceName)}.name`, { smart_count: 2 });
         } else {
             return null;
         }
@@ -71,6 +71,8 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
     const { setTheme, theme } = useTheme();
     const [locale, setLocale] = useLocaleState();
     const { getLocales } = useI18nProvider();
+
+    const [isSheetOpen, setSheetOpen] = useState(false);
 
     const changeLocale = (value: string) => {
         if (locale !== value) {
@@ -182,17 +184,17 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                 </aside>
                 <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
                     <header className="sticky top-0 z-30 sm:z-0 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-                        <Sheet>
+                        <Sheet open={isSheetOpen} onOpenChange={setSheetOpen}>
                             <SheetTrigger asChild>
                                 <Button size="icon" variant="outline" className="sm:hidden">
                                     <PanelLeftIcon className="h-5 w-5" />
-                                    <span className="sr-only">Toggle Menu</span>
                                 </Button>
                             </SheetTrigger>
                             <SheetContent side="left" className="sm:max-w-xs flex flex-col justify-between">
                                 <nav className="grid gap-6 text-lg font-medium">
                                     <NavLink
                                         to="/"
+                                        onClick={() => setSheetOpen(false)}
                                         className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
                                         <LayoutDashboardIcon className="h-5 w-5" />
                                         {translate("app.menu.dashboard")}
@@ -201,6 +203,7 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                                         <NavLink
                                             key={resource}
                                             to={`/${resource}`}
+                                            onClick={() => setSheetOpen(false)}
                                             className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
                                             {createElement(resources[resource].icon, {
                                                 className: "h-5 w-5"
@@ -211,16 +214,25 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                                     {adminOnly && (
                                         <NavLink
                                             to="/payin"
+                                            onClick={() => setSheetOpen(false)}
                                             className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
                                             <CreditCardIcon className="h-5 w-5" />
                                             {translate("app.menu.payin")}
                                         </NavLink>
                                     )}
                                     <NavLink
-                                        to="/payout"
+                                        to="/bank-transfer"
+                                        onClick={() => setSheetOpen(false)}
                                         className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
                                         <HandCoinsIcon className="h-5 w-5" />
-                                        {translate("app.menu.payout")}
+                                        {translate("app.menu.bankTransfer")}
+                                    </NavLink>
+                                    <NavLink
+                                        to="/crypto-transfer"
+                                        onClick={() => setSheetOpen(false)}
+                                        className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
+                                        <BitcoinIcon className="h-5 w-5" />
+                                        {translate("app.menu.cryptoWalletTransfer")}
                                     </NavLink>
                                 </nav>
                                 <nav className="grid gap-6 text-lg font-medium">
