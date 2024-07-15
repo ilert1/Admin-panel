@@ -1,7 +1,6 @@
 import { CustomRoutes, Resource, combineDataProviders, AuthProvider, CoreAdminContext, CoreAdminUI } from "react-admin";
-import { TransactionDataProvider, i18nProvider } from "@/data";
-import { BaseDataProvider } from "@/data";
-import { AccountList, TransactionList, WithdrawList } from "@/components/widgets/lists";
+import { TransactionDataProvider, i18nProvider, BaseDataProvider, UsersDataProvider } from "@/data";
+import { AccountList, TransactionList, WithdrawList, UserList } from "@/components/widgets/lists";
 import { AccountCreate } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
 import { PayOutPage, PayOutCryptoPage } from "./pages";
@@ -10,7 +9,7 @@ import { keycloakAuthProvider } from "ra-keycloak";
 import { useEffect, useRef, useState } from "react";
 import { Dashboard } from "./Dashboard";
 import { MainLayout } from "./layouts";
-import { WalletIcon, ReceiptIcon, WaypointsIcon } from "lucide-react";
+import { WalletIcon, ReceiptIcon, WaypointsIcon, UsersIcon } from "lucide-react";
 import { ThemeProvider } from "@/components/providers";
 import { isTokenStillFresh } from "@/helpers/jwt";
 import { Toaster } from "@/components/ui/sonner";
@@ -19,6 +18,8 @@ import "./globals.css";
 const dataProvider = combineDataProviders(resource => {
     if (resource === "transactions") {
         return new TransactionDataProvider();
+    } else if (resource === "users") {
+        return new UsersDataProvider();
     } else {
         return new BaseDataProvider();
     }
@@ -84,14 +85,22 @@ export const App = () => {
                     dataProvider={dataProvider}
                     authProvider={authProvider.current}>
                     <CoreAdminUI dashboard={Dashboard} layout={MainLayout} title="Juggler" requireAuth>
-                        <Resource name="accounts" list={AccountList} create={AccountCreate} icon={WalletIcon} />
-                        <Resource name="transactions" list={TransactionList} icon={ReceiptIcon} />
-                        <Resource name="withdraw" list={WithdrawList} icon={WaypointsIcon} />
-                        <CustomRoutes>
-                            {/* <Route path="/payin" element={<PayInPage />} /> */}
-                            <Route path="/bank-transfer" element={<PayOutPage />} />
-                            <Route path="/crypto-transfer" element={<PayOutCryptoPage />} />
-                        </CustomRoutes>
+                        {permissions => (
+                            <>
+                                <Resource name="accounts" list={AccountList} create={AccountCreate} icon={WalletIcon} />
+                                <Resource name="transactions" list={TransactionList} icon={ReceiptIcon} />
+                                <Resource name="withdraw" list={WithdrawList} icon={WaypointsIcon} />
+                                {permissions === "admin" && <Resource name="users" list={UserList} icon={UsersIcon} />}
+                                <CustomRoutes>
+                                    {permissions === "merchant" && (
+                                        <Route path="/bank-transfer" element={<PayOutPage />} />
+                                    )}
+                                    {permissions === "merchant" && (
+                                        <Route path="/crypto-transfer" element={<PayOutCryptoPage />} />
+                                    )}
+                                </CustomRoutes>
+                            </>
+                        )}
                     </CoreAdminUI>
                 </CoreAdminContext>
                 <Toaster />

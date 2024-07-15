@@ -27,6 +27,15 @@ const ru: TranslationMessages = {
             showHeader: "Информация о счете",
             showDescription: "Подробная информация о счете с ID %{id}"
         },
+        users: {
+            name: "Пользователь |||| Пользователи",
+            fields: {
+                id: "ID",
+                name: "Имя",
+                created_at: "Дата создания",
+                active: "Активный"
+            }
+        },
         transactions: {
             name: "Транзакция |||| Транзакции",
             fields: {
@@ -134,7 +143,8 @@ const ru: TranslationMessages = {
             dashboard: "Главная",
             bankTransfer: "Банковский перевод",
             cryptoWalletTransfer: "Перевод криптовалюты",
-            withdraw: "Вывод в криптовалюте"
+            withdraw: "Вывод в криптовалюте",
+            users: "Пользователи"
         },
         ui: {
             pagination: {
@@ -229,6 +239,15 @@ const en: TranslationMessages = {
             },
             showHeader: "Account info",
             showDescription: "Detailed information about account with ID %{id}"
+        },
+        users: {
+            name: "User |||| Users",
+            fields: {
+                id: "ID",
+                name: "Name",
+                created_at: "Created at",
+                active: "Active"
+            }
         },
         transactions: {
             name: "Transaction |||| Transactions",
@@ -337,7 +356,8 @@ const en: TranslationMessages = {
             dashboard: "Dashboard",
             bankTransfer: "Bank Transfer",
             cryptoWalletTransfer: "Crypto Wallet Transfer",
-            withdraw: "Crypto Withdrawal"
+            withdraw: "Crypto Withdrawal",
+            users: "Users"
         },
         ui: {
             pagination: {

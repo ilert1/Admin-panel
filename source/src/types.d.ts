@@ -122,3 +122,12 @@ declare namespace JWT {
         email: string;
     }
 }
+
+namespace Users {
+    interface User {
+        id: string;
+        name: string;
+        created_at: string;
+        deleted_at: string;
+    }
+}

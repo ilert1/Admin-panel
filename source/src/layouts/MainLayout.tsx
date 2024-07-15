@@ -32,7 +32,6 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
-    CreditCardIcon,
     HandCoinsIcon,
     PanelLeftIcon,
     MoonIcon,
@@ -49,7 +48,6 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
     const getResourceLabel = useGetResourceLabel();
     const translate = useTranslate();
     const { permissions } = usePermissions();
-    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
     const location = useLocation();
     const resourceName = useMemo(
@@ -57,7 +55,7 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
         [location]
     );
     const resourceLabel = useMemo(() => {
-        if (["payin", "bank-transfer", "crypto-transfer"].includes(resourceName)) {
+        if (["bank-transfer", "crypto-transfer"].includes(resourceName)) {
             return translate(`pages.${camelize(resourceName)}.header`);
         } else if (resourceName) {
             return translate(`resources.${camelize(resourceName)}.name`, { smart_count: 2 });
@@ -119,19 +117,6 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                                 </TooltipContent>
                             </Tooltip>
                         ))}
-                        {/* {adminOnly && (
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <NavLink
-                                        to="/payin"
-                                        className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
-                                        <CreditCardIcon />
-                                        <span className="sr-only">{translate("app.menu.payin")}</span>
-                                    </NavLink>
-                                </TooltipTrigger>
-                                <TooltipContent side="right">{translate("app.menu.payin")}</TooltipContent>
-                            </Tooltip>
-                        )} */}
                         {merchantOnly && (
                             <>
                                 <Tooltip>
@@ -211,29 +196,24 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                                             {getResourceLabel(resources[resource].name)}
                                         </NavLink>
                                     ))}
-                                    {adminOnly && (
-                                        <NavLink
-                                            to="/payin"
-                                            onClick={() => setSheetOpen(false)}
-                                            className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                                            <CreditCardIcon className="h-5 w-5" />
-                                            {translate("app.menu.payin")}
-                                        </NavLink>
+                                    {merchantOnly && (
+                                        <>
+                                            <NavLink
+                                                to="/bank-transfer"
+                                                onClick={() => setSheetOpen(false)}
+                                                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
+                                                <HandCoinsIcon className="h-5 w-5" />
+                                                {translate("app.menu.bankTransfer")}
+                                            </NavLink>
+                                            <NavLink
+                                                to="/crypto-transfer"
+                                                onClick={() => setSheetOpen(false)}
+                                                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
+                                                <BitcoinIcon className="h-5 w-5" />
+                                                {translate("app.menu.cryptoWalletTransfer")}
+                                            </NavLink>
+                                        </>
                                     )}
-                                    <NavLink
-                                        to="/bank-transfer"
-                                        onClick={() => setSheetOpen(false)}
-                                        className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                                        <HandCoinsIcon className="h-5 w-5" />
-                                        {translate("app.menu.bankTransfer")}
-                                    </NavLink>
-                                    <NavLink
-                                        to="/crypto-transfer"
-                                        onClick={() => setSheetOpen(false)}
-                                        className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                                        <BitcoinIcon className="h-5 w-5" />
-                                        {translate("app.menu.cryptoWalletTransfer")}
-                                    </NavLink>
                                 </nav>
                                 <nav className="grid gap-6 text-lg font-medium">
                                     <NavLink

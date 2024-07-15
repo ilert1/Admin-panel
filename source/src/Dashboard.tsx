@@ -1,9 +1,13 @@
-import { HandCoinsIcon, WalletIcon, ReceiptIcon, WaypointsIcon, BitcoinIcon } from "lucide-react";
-import { useTranslate } from "react-admin";
+import { HandCoinsIcon, WalletIcon, ReceiptIcon, WaypointsIcon, BitcoinIcon, UsersIcon } from "lucide-react";
+import { useMemo } from "react";
+import { usePermissions, useTranslate } from "react-admin";
 import { Link } from "react-admin";
 
 export const Dashboard = () => {
     const translate = useTranslate();
+    const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+    const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
     return (
         <div className="grid sm:grid-cols-2 gap-4 mt-8 sm:gap-6">
             <Link
@@ -24,24 +28,32 @@ export const Dashboard = () => {
                 <WaypointsIcon className="h-10 w-10" />
                 <p className="font-medium mt-2">{translate("app.menu.withdraw")}</p>
             </Link>
-            {/* <Link
-                to="/payin"
-                className="flex w-full flex-col items-center rounded-xl border bg-card p-6 !text-card-foreground shadow transition-colors hover:bg-muted/50 sm:p-10">
-                <CreditCardIcon className="h-10 w-10" />
-                <p className="font-medium mt-2">{translate("app.menu.payin")}</p>
-            </Link> */}
-            <Link
-                to="/bank-transfer"
-                className="flex w-full flex-col items-center rounded-xl border bg-card p-6 !text-card-foreground shadow transition-colors hover:bg-muted/50 sm:p-10">
-                <HandCoinsIcon className="h-10 w-10" />
-                <p className="font-medium mt-2">{translate("app.menu.bankTransfer")}</p>
-            </Link>
-            <Link
-                to="/crypto-transfer"
-                className="flex w-full flex-col items-center rounded-xl border bg-card p-6 !text-card-foreground shadow transition-colors hover:bg-muted/50 sm:p-10">
-                <BitcoinIcon className="h-10 w-10" />
-                <p className="font-medium mt-2">{translate("app.menu.cryptoWalletTransfer")}</p>
-            </Link>
+            {merchantOnly && (
+                <>
+                    <Link
+                        to="/bank-transfer"
+                        className="flex w-full flex-col items-center rounded-xl border bg-card p-6 !text-card-foreground shadow transition-colors hover:bg-muted/50 sm:p-10">
+                        <HandCoinsIcon className="h-10 w-10" />
+                        <p className="font-medium mt-2">{translate("app.menu.bankTransfer")}</p>
+                    </Link>
+                    <Link
+                        to="/crypto-transfer"
+                        className="flex w-full flex-col items-center rounded-xl border bg-card p-6 !text-card-foreground shadow transition-colors hover:bg-muted/50 sm:p-10">
+                        <BitcoinIcon className="h-10 w-10" />
+                        <p className="font-medium mt-2">{translate("app.menu.cryptoWalletTransfer")}</p>
+                    </Link>
+                </>
+            )}
+            {adminOnly && (
+                <>
+                    <Link
+                        to="/users"
+                        className="flex w-full flex-col items-center rounded-xl border bg-card p-6 !text-card-foreground shadow transition-colors hover:bg-muted/50 sm:p-10">
+                        <UsersIcon className="h-10 w-10" />
+                        <p className="font-medium mt-2">{translate("app.menu.users")}</p>
+                    </Link>
+                </>
+            )}
         </div>
     );
 };
