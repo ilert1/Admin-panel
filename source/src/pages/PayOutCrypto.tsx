@@ -1,8 +1,10 @@
 import { useMemo, useState } from "react";
 import { useTranslate } from "react-admin";
-import { BF_MANAGER_URL } from "@/data/base";
+import { BF_MANAGER_URL, API_URL } from "@/data/base";
 import { PayOutCryptoForm } from "@/components/widgets/forms";
 import { toast } from "sonner";
+import { parseJWT } from "@/helpers/jwt";
+import { useQuery } from "react-query";
 
 export const PayOutCryptoPage = () => {
     const translate = useTranslate();
@@ -22,8 +24,37 @@ export const PayOutCryptoPage = () => {
         });
     };
 
+    const merchantId = useMemo(() => {
+        const token = localStorage.getItem("access-token");
+        if (token) {
+            return parseJWT(token)?.merchant_id;
+        } else {
+            return null;
+        }
+    }, []);
+
+    const {
+        isLoading: balanceLoading,
+        data: balance,
+        refetch
+    } = useQuery(
+        "accounts",
+        () =>
+            fetch(`${API_URL}/accounts/${merchantId}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }).then(response => response.json()),
+        {
+            select(data) {
+                const value = data?.data?.amounts?.[0]?.value;
+                return +value.quantity / +value.accuracy;
+            }
+        }
+    );
+
     const [localLoading, setLocalLoading] = useState(false);
-    const isLoading = useMemo(() => localLoading, [localLoading]);
+    const isLoading = useMemo(() => balanceLoading || localLoading, [balanceLoading, localLoading]);
 
     const createPayOut = (data: any) => {
         setLocalLoading(true);
@@ -57,12 +88,13 @@ export const PayOutCryptoPage = () => {
             })
             .finally(() => {
                 setLocalLoading(false);
+                refetch();
             });
     };
 
     return (
         <div>
-            <PayOutCryptoForm loading={isLoading} create={createPayOut} />
+            <PayOutCryptoForm loading={isLoading} create={createPayOut} balance={balance || 0} />
         </div>
     );
 };

@@ -8,7 +8,7 @@ import { useTranslate } from "react-admin";
 import { useMemo } from "react";
 import { TextField } from "@/components/ui/text-field";
 
-export const PayOutCryptoForm = (props: { loading: boolean; create: (data: any) => void }) => {
+export const PayOutCryptoForm = (props: { loading: boolean; balance: number; create: (data: any) => void }) => {
     const translate = useTranslate();
 
     const formSchema = z.object({
@@ -17,7 +17,15 @@ export const PayOutCryptoForm = (props: { loading: boolean; create: (data: any) 
             .string()
             .regex(/^[+-]?([0-9]*[.])?[0-9]+$/, translate("app.widgets.forms.cryptoTransfer.amountMessage"))
             .transform(v => parseInt(v))
-            .pipe(z.number().min(2, translate("app.widgets.forms.cryptoTransfer.amountMinMessage")))
+            .pipe(
+                z
+                    .number()
+                    .min(2, translate("app.widgets.forms.cryptoTransfer.amountMinMessage"))
+                    .max(
+                        props.balance,
+                        translate("app.widgets.forms.cryptoTransfer.amountMaxMessage", { amount: props.balance })
+                    )
+            )
             .transform(v => v.toString())
     });
 
@@ -46,6 +54,11 @@ export const PayOutCryptoForm = (props: { loading: boolean; create: (data: any) 
             ...values,
             accuracy
         });
+    }
+
+    function setAllAmount() {
+        // TODO: эта херня пишет варнинг на пол экрана хз почему
+        form.setValue("amount", props.balance?.toString() || "");
     }
 
     return (
@@ -83,6 +96,11 @@ export const PayOutCryptoForm = (props: { loading: boolean; create: (data: any) 
                                 </FormItem>
                             )}
                         />
+                    </div>
+                    <div className="flex-1 flex flex-col justify-end md:items-start">
+                        <Button disabled={props.loading} variant="link" onClick={setAllAmount}>
+                            {translate("app.widgets.forms.cryptoTransfer.allAmount", { amount: props.balance })}
+                        </Button>
                     </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

@@ -185,8 +185,10 @@ const ru: TranslationMessages = {
                     amount: "Сумма",
                     amountMessage: "Некорректное значение",
                     amountMinMessage: "Сумма должна быть минимум 2 USD₮",
+                    amountMaxMessage: "Сумма должна быть максимум %{amount} USD₮",
                     commission: "Комиссия",
-                    totalAmount: "Сумма выплаты"
+                    totalAmount: "Сумма выплаты",
+                    allAmount: "Вся сумма %{amount} USD₮"
                 }
             }
         }
@@ -386,8 +388,10 @@ const en: TranslationMessages = {
                     amount: "Amount",
                     amountMessage: "Wrong value",
                     amountMinMessage: "Amount should be at least 2 USD₮",
+                    amountMaxMessage: "Amount should be less than %{amount} USD₮",
                     commission: "Commission",
-                    totalAmount: "Total amount"
+                    totalAmount: "Total amount",
+                    allAmount: "All amount %{amount} USD₮"
                 }
             }
         }
