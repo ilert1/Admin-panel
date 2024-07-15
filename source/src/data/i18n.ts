@@ -131,10 +131,10 @@ const ru: TranslationMessages = {
             accounts: "Счета",
             transactions: "Транзакции",
             payin: "Пополнение",
-            payout: "Выплата",
             dashboard: "Главная",
             bankTransfer: "Банковский перевод",
-            cryptoWalletTransfer: "Перевод криптовалюты"
+            cryptoWalletTransfer: "Перевод криптовалюты",
+            withdraw: "Вывод в криптовалюте"
         },
         ui: {
             pagination: {
@@ -332,10 +332,10 @@ const en: TranslationMessages = {
             accounts: "Accounts",
             transactions: "Transactions",
             payin: "Pay in",
-            payout: "Pay out",
             dashboard: "Dashboard",
             bankTransfer: "Bank Transfer",
-            cryptoWalletTransfer: "Crypto Wallet Transfer"
+            cryptoWalletTransfer: "Crypto Wallet Transfer",
+            withdraw: "Crypto Withdrawal"
         },
         ui: {
             pagination: {

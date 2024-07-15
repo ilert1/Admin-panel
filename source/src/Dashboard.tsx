@@ -1,4 +1,4 @@
-import { HandCoinsIcon, WalletIcon, ReceiptIcon, BitcoinIcon } from "lucide-react";
+import { HandCoinsIcon, WalletIcon, ReceiptIcon, WaypointsIcon, BitcoinIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
 import { Link } from "react-admin";
 
@@ -21,7 +21,7 @@ export const Dashboard = () => {
             <Link
                 to="/withdraw"
                 className="flex w-full flex-col items-center rounded-xl border bg-card p-6 !text-card-foreground shadow transition-colors hover:bg-muted/50 sm:p-10">
-                <BitcoinIcon className="h-10 w-10" />
+                <WaypointsIcon className="h-10 w-10" />
                 <p className="font-medium mt-2">{translate("app.menu.withdraw")}</p>
             </Link>
             {/* <Link
@@ -31,10 +31,16 @@ export const Dashboard = () => {
                 <p className="font-medium mt-2">{translate("app.menu.payin")}</p>
             </Link> */}
             <Link
-                to="/payout"
+                to="/bank-transfer"
                 className="flex w-full flex-col items-center rounded-xl border bg-card p-6 !text-card-foreground shadow transition-colors hover:bg-muted/50 sm:p-10">
                 <HandCoinsIcon className="h-10 w-10" />
-                <p className="font-medium mt-2">{translate("app.menu.payout")}</p>
+                <p className="font-medium mt-2">{translate("app.menu.bankTransfer")}</p>
+            </Link>
+            <Link
+                to="/crypto-transfer"
+                className="flex w-full flex-col items-center rounded-xl border bg-card p-6 !text-card-foreground shadow transition-colors hover:bg-muted/50 sm:p-10">
+                <BitcoinIcon className="h-10 w-10" />
+                <p className="font-medium mt-2">{translate("app.menu.cryptoWalletTransfer")}</p>
             </Link>
         </div>
     );
