@@ -2,6 +2,7 @@ import { ListContextProvider, useListController, useTranslate } from "react-admi
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
 import { BooleanFiled } from "@/components/ui/boolean-field";
+import { TextField } from "@/components/ui/text-field";
 
 export const UserList = () => {
     const listContext = useListController<Users.User>();
@@ -11,21 +12,22 @@ export const UserList = () => {
         {
             id: "id",
             accessorKey: "id",
-            header: translate("resources.users.fields.id")
+            header: translate("resources.users.fields.id"),
+            cell: ({ row }) => <TextField text={row.original.id} copyValue />
         },
         {
             id: "name",
-            accessorKey: "id",
+            accessorKey: "name",
             header: translate("resources.users.fields.name")
         },
         {
             id: "created_at",
-            accessorKey: "id",
+            accessorKey: "created_at",
             header: translate("resources.users.fields.created_at")
         },
         {
-            accessorKey: "sourceValue",
-            header: translate("resources.transactions.fields.sourceValue"),
+            accessorKey: "active",
+            header: translate("resources.users.fields.active"),
             cell: ({ row }) =>
                 row.original.deleted_at ? <BooleanFiled value={false} /> : <BooleanFiled value={true} />
         }
