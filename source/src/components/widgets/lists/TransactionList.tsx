@@ -34,6 +34,7 @@ import { EventBus, EVENT_STORNO } from "@/helpers/event-bus";
 import { TextField } from "@/components/ui/text-field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import useFileDownload from "@/hooks/useDownload";
 
 // const TransactionFilterSidebar = () => {
 //     const translate = useTranslate();
@@ -178,6 +179,39 @@ export const TransactionList = () => {
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
     const { data: accounts } = useGetList("accounts");
 
+    const {
+        startDate,
+        endDate,
+        isStartDateValid,
+        isEndDateValid,
+        isDateRangeValid,
+        setStartDate,
+        setEndDate,
+        handleDownload,
+        setIsEndDateValid,
+        setIsStartDateValid
+    } = useFileDownload("URL_TO_OUR_BACKEND");
+
+    const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setStartDate(e.target.value);
+    };
+
+    const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEndDate(e.target.value);
+    };
+
+    // const handleStartDateFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setStartDate(e.target.value);
+    //     setIsStartDateValid(true);
+    //     setIsDateRangeValid(true);
+    // };
+
+    // const handleEndDateFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setEndDate(e.target.value);
+    //     setIsEndDateValid(true);
+    //     setIsDateRangeValid(true);
+    // };
+
     const { data: currencies } = useQuery("currencies", () =>
         fetch(`${API_URL}/dictionaries/curr`, {
             headers: {
@@ -308,10 +342,22 @@ export const TransactionList = () => {
                     </Label>
                     <div className="mb-10 mt-5 flex gap-4 items-center">
                         <Label className="">{translate("resources.transactions.download.startDate")}</Label>
-                        <Input type="date" />
+                        <Input
+                            value={startDate}
+                            onChange={handleStartDateChange}
+                            style={{ borderColor: isStartDateValid && isDateRangeValid ? "" : "red" }}
+                            type="date"
+                            onFocus={() => setIsStartDateValid(true)}
+                        />
                         <Label className="">{translate("resources.transactions.download.endDate")}</Label>
-                        <Input type="date" />
-                        <Button variant="default" size="sm">
+                        <Input
+                            value={endDate}
+                            onChange={handleEndDateChange}
+                            style={{ borderColor: isEndDateValid && isDateRangeValid ? "hsl(var(--input))" : "red" }}
+                            type="date"
+                            onFocus={() => setIsEndDateValid(true)}
+                        />
+                        <Button onClick={handleDownload} variant="default" size="sm">
                             {translate("resources.transactions.download.downloadReportButtonText")}
                         </Button>
                     </div>
