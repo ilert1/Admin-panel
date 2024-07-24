@@ -2,9 +2,10 @@ import { useDataProvider, useShowController, useTranslate, useGetManyReference }
 import { useQuery } from "react-query";
 import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
-import { BooleanFiled } from "@/components/ui/boolean-field";
+import { BooleanField } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
 import { useMemo } from "react";
+import { Input } from "@/components/ui/input";
 
 export const TransactionShow = (props: { id: string }) => {
     const dataProvider = useDataProvider();
@@ -101,8 +102,7 @@ export const TransactionShow = (props: { id: string }) => {
                     label={translate("resources.transactions.fields.state.state_description")}
                     text={context.record.state.state_description}
                 />
-
-                <BooleanFiled
+                <BooleanField
                     value={context.record.state.final}
                     label={translate("resources.transactions.fields.state.final")}
                 />
@@ -147,7 +147,6 @@ export const TransactionShow = (props: { id: string }) => {
                     </small>
                     <SimpleTable columns={feesColumns} data={context.record.fees} />
                 </div>
-
                 {history && history?.length > 0 && (
                     <div className="mt-5">
                         <small className="text-sm text-muted-foreground">
@@ -156,6 +155,7 @@ export const TransactionShow = (props: { id: string }) => {
                         <SimpleTable columns={historyColumns} data={history} />
                     </div>
                 )}
+                \
             </div>
         );
     }

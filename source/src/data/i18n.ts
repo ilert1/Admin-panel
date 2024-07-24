@@ -114,6 +114,12 @@ const ru: TranslationMessages = {
                 selectSourceValue: "Выберите счет отправителя",
                 selectDestinationValue: "Выберите счет отправителя",
                 selectCurrency: "Выберите валюту"
+            },
+            download: {
+                downloadReportLabel: "Выгрузка отчета",
+                startDate: "Начальная дата :",
+                endDate: "Конечная дата :",
+                downloadReportButtonText: "Загрузить отчет"
             }
         },
         withdraw: {
@@ -327,6 +333,12 @@ const en: TranslationMessages = {
                 selectSourceValue: "Select sender account",
                 selectDestinationValue: "Select receiver account",
                 selectCurrency: "Select currency"
+            },
+            download: {
+                downloadReportLabel: "Report download",
+                startDate: "Start date",
+                endDate: "End date",
+                downloadReportButtonText: "Download report"
             }
         },
         withdraw: {

@@ -32,6 +32,8 @@ import { TransactionStorno } from "@/components/widgets/forms";
 import { API_URL } from "@/data/base";
 import { EventBus, EVENT_STORNO } from "@/helpers/event-bus";
 import { TextField } from "@/components/ui/text-field";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 // const TransactionFilterSidebar = () => {
 //     const translate = useTranslate();
@@ -300,6 +302,20 @@ export const TransactionList = () => {
     } else {
         return (
             <>
+                <div>
+                    <Label className="bg-zinc-600 p-2">
+                        {translate("resources.transactions.download.downloadReportLabel")}
+                    </Label>
+                    <div className="mb-10 mt-5 flex gap-4 items-center">
+                        <Label className="">{translate("resources.transactions.download.startDate")}</Label>
+                        <Input type="date" />
+                        <Label className="">{translate("resources.transactions.download.endDate")}</Label>
+                        <Input type="date" />
+                        <Button variant="default" size="sm">
+                            {translate("resources.transactions.download.downloadReportButtonText")}
+                        </Button>
+                    </div>
+                </div>
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />
                 </ListContextProvider>
