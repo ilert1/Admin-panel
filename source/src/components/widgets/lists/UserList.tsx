@@ -3,10 +3,37 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
 import { BooleanFiled } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { UserShow } from "@/components/widgets/show/UserShow";
+import { useMediaQuery } from "react-responsive";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const UserList = () => {
+    const [showOpen, setShowOpen] = useState(false);
+    const [userInfo, setuserInfo] = useState<Users.User>({
+        id: "",
+        name: "",
+        created_at: "",
+        deleted_at: ""
+    });
+
+    const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
     const listContext = useListController<Users.User>();
     const translate = useTranslate();
+
+    const openSheet = (user: Users.User) => {
+        setuserInfo(user);
+        setShowOpen(true);
+    };
 
     const columns: ColumnDef<Users.User>[] = [
         {
@@ -30,6 +57,26 @@ export const UserList = () => {
             header: translate("resources.users.fields.active"),
             cell: ({ row }) =>
                 row.original.deleted_at ? <BooleanFiled value={false} /> : <BooleanFiled value={true} />
+        },
+        {
+            id: "actions",
+            cell: ({ row }) => {
+                return (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                <span className="sr-only">Open menu</span>
+                                <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => openSheet(row.original)}>
+                                {translate("ra.action.show")}
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                );
+            }
         }
     ];
 
@@ -37,9 +84,27 @@ export const UserList = () => {
         return <div>Loading...</div>;
     } else {
         return (
-            <ListContextProvider value={listContext}>
-                <DataTable columns={columns} />
-            </ListContextProvider>
+            <>
+                <ListContextProvider value={listContext}>
+                    <DataTable columns={columns} />
+                </ListContextProvider>
+                <Sheet open={showOpen} onOpenChange={setShowOpen}>
+                    <SheetContent
+                        className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
+                        side={isMobile ? "bottom" : "right"}>
+                        <ScrollArea className="h-full [&>div>div]:!block">
+                            <SheetHeader className="mb-2">
+                                <SheetTitle>{translate("resources.users.showHeader")}</SheetTitle>
+                                <SheetDescription>
+                                    {translate("resources.users.showDescription", { id: userInfo.id })}
+                                </SheetDescription>
+                            </SheetHeader>
+
+                            <UserShow user={userInfo} />
+                        </ScrollArea>
+                    </SheetContent>
+                </Sheet>
+            </>
         );
     }
 };

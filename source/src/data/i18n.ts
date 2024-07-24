@@ -34,7 +34,9 @@ const ru: TranslationMessages = {
                 name: "Имя",
                 created_at: "Дата создания",
                 active: "Активный"
-            }
+            },
+            showHeader: "Информация о пользователе",
+            showDescription: "Подробная информация о пользователе с ID %{id}"
         },
         transactions: {
             name: "Транзакция |||| Транзакции",
@@ -247,7 +249,9 @@ const en: TranslationMessages = {
                 name: "Name",
                 created_at: "Created at",
                 active: "Active"
-            }
+            },
+            showHeader: "User info",
+            showDescription: "Detailed information about user with ID %{id}"
         },
         transactions: {
             name: "Transaction |||| Transactions",
