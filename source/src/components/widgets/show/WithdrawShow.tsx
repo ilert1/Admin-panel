@@ -7,7 +7,7 @@ export const WithdrawShow = (props: { id: string }) => {
     const context = useShowController({ id: props.id });
 
     if (context.isLoading || context.isFetching || !context.record) {
-        return "Loading...";
+        return <>x"Loading..."</>;
     } else {
         return (
             <div className="relative w-[540] overflow-x-auto flex flex-col gap-2">
