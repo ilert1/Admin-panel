@@ -21,7 +21,7 @@ const ru: TranslationMessages = {
                     value: "Сумма"
                 },
                 meta: {
-                    caption: "Название"
+                    caption: "Пользователь"
                 }
             },
             showHeader: "Информация о счете",
@@ -33,8 +33,11 @@ const ru: TranslationMessages = {
                 id: "ID",
                 name: "Имя",
                 created_at: "Дата создания",
-                active: "Активный"
-            }
+                active: "Активный",
+                public_key: "Публичный ключ"
+            },
+            showHeader: "Информация о пользователе",
+            showDescription: "Подробная информация о пользователе с ID %{id}"
         },
         transactions: {
             name: "Транзакция |||| Транзакции",
@@ -147,6 +150,10 @@ const ru: TranslationMessages = {
             users: "Пользователи"
         },
         ui: {
+            actions: {
+                quick_show: "Быстрый просмотр",
+                show: "Просмотр"
+            },
             pagination: {
                 next: "Далее",
                 previous: "Назад"
@@ -234,7 +241,7 @@ const en: TranslationMessages = {
                     value: "Value"
                 },
                 meta: {
-                    caption: "Caption"
+                    caption: "User"
                 }
             },
             showHeader: "Account info",
@@ -246,8 +253,11 @@ const en: TranslationMessages = {
                 id: "ID",
                 name: "Name",
                 created_at: "Created at",
-                active: "Active"
-            }
+                active: "Active",
+                public_key: "Public key"
+            },
+            showHeader: "User info",
+            showDescription: "Detailed information about user with ID %{id}"
         },
         transactions: {
             name: "Transaction |||| Transactions",
@@ -360,6 +370,10 @@ const en: TranslationMessages = {
             users: "Users"
         },
         ui: {
+            actions: {
+                quick_show: "Quick show",
+                show: "Show"
+            },
             pagination: {
                 next: "Next",
                 previous: "Previous"

@@ -15,6 +15,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "
 import { AccountShow } from "@/components/widgets/show";
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { TextField } from "@/components/ui/text-field";
 
 export const AccountList = () => {
     const listContext = useListController<Account>();
@@ -32,9 +33,16 @@ export const AccountList = () => {
 
     const columns: ColumnDef<Account>[] = [
         {
-            id: "caption",
+            id: "user",
             accessorKey: "meta.caption",
-            header: translate("resources.accounts.fields.meta.caption")
+            header: translate("resources.accounts.fields.meta.caption"),
+            cell: ({ row }) => (
+                <TextField
+                    text={row.getValue("user")}
+                    type="internal-link"
+                    link={`/users/${row.original.owner_id}/show`}
+                />
+            )
         },
         {
             id: "owner_id",
