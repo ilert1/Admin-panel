@@ -16,7 +16,8 @@ const useFileDownload = (url: string) => {
         setIsEndDateValid(!isEndDateEmpty);
 
         if (isStartDateEmpty || isEndDateEmpty) {
-            alert(translate("resources.transactions.download.bothError"));
+            // prompt(translate("resources.transactions.download.bothError"));
+
             return false;
         }
 
@@ -24,7 +25,7 @@ const useFileDownload = (url: string) => {
         setIsDateRangeValid(isValidDateRange);
 
         if (!isValidDateRange) {
-            alert(translate("resources.transactions.download.greaterError"));
+            // prompt(translate("resources.transactions.download.greaterError"));
         }
 
         return isValidDateRange;

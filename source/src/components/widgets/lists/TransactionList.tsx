@@ -35,6 +35,17 @@ import { TextField } from "@/components/ui/text-field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useFileDownload from "@/hooks/useDownload";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger
+} from "@/components/ui/alertDialog";
 
 // const TransactionFilterSidebar = () => {
 //     const translate = useTranslate();
@@ -357,9 +368,33 @@ export const TransactionList = () => {
                             type="date"
                             onFocus={() => setIsEndDateValid(true)}
                         />
-                        <Button onClick={handleDownload} variant="default" size="sm">
-                            {translate("resources.transactions.download.downloadReportButtonText")}
-                        </Button>
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button onClick={handleDownload} variant="default" size="sm">
+                                    {translate("resources.transactions.download.downloadReportButtonText")}
+                                </Button>
+                            </AlertDialogTrigger>
+                            {isStartDateValid && isDateRangeValid ? (
+                                ""
+                            ) : (
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>Error</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            {isDateRangeValid
+                                                ? " "
+                                                : translate("resources.transactions.download.greaterError")}
+                                            {isStartDateValid && isEndDateValid
+                                                ? " "
+                                                : translate("resources.transactions.download.bothError")}
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogAction>Continue</AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            )}
+                        </AlertDialog>
                     </div>
                 </div>
                 <ListContextProvider value={listContext}>
