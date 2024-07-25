@@ -1,4 +1,4 @@
-import { fetchUtils, GetListParams, GetListResult } from "react-admin";
+import { fetchUtils, GetListParams, GetListResult, GetOneParams, GetOneResult } from "react-admin";
 import { BaseDataProvider, BF_MANAGER_URL } from "./base";
 
 export class UsersDataProvider extends BaseDataProvider {
@@ -13,6 +13,16 @@ export class UsersDataProvider extends BaseDataProvider {
         return {
             data: json.data || [],
             total: json?.total || 0
+        };
+    }
+
+    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
+        const { json } = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/${resource}/${params.id}`, {
+            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
+        });
+
+        return {
+            data: json.data
         };
     }
 }

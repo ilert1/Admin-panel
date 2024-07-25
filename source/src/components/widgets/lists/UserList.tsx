@@ -19,19 +19,14 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const UserList = () => {
     const [showOpen, setShowOpen] = useState(false);
-    const [userInfo, setuserInfo] = useState<Users.User>({
-        id: "",
-        name: "",
-        created_at: "",
-        deleted_at: ""
-    });
+    const [userId, setUserId] = useState<string>("");
 
     const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
     const listContext = useListController<Users.User>();
     const translate = useTranslate();
 
-    const openSheet = (user: Users.User) => {
-        setuserInfo(user);
+    const openSheet = (id: string) => {
+        setUserId(id);
         setShowOpen(true);
     };
 
@@ -70,7 +65,7 @@ export const UserList = () => {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => openSheet(row.original)}>
+                            <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
                                 {translate("ra.action.show")}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -96,11 +91,11 @@ export const UserList = () => {
                             <SheetHeader className="mb-2">
                                 <SheetTitle>{translate("resources.users.showHeader")}</SheetTitle>
                                 <SheetDescription>
-                                    {translate("resources.users.showDescription", { id: userInfo.id })}
+                                    {translate("resources.users.showDescription", { id: userId })}
                                 </SheetDescription>
                             </SheetHeader>
 
-                            <UserShow user={userInfo} />
+                            <UserShow id={userId} />
                         </ScrollArea>
                     </SheetContent>
                 </Sheet>
