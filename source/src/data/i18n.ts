@@ -33,14 +33,11 @@ const ru: TranslationMessages = {
                 id: "ID",
                 name: "Имя",
                 created_at: "Дата создания",
-                active: "Активный"
+                active: "Активный",
+                public_key: "Публичный ключ"
             },
             showHeader: "Информация о пользователе",
-            showDescription: "Подробная информация о пользователе с ID %{id}",
-            actions: {
-                quickShow: "Быстрый просмотр",
-                show: "Просмотр"
-            }
+            showDescription: "Подробная информация о пользователе с ID %{id}"
         },
         transactions: {
             name: "Транзакция |||| Транзакции",
@@ -153,6 +150,10 @@ const ru: TranslationMessages = {
             users: "Пользователи"
         },
         ui: {
+            actions: {
+                quick_show: "Быстрый просмотр",
+                show: "Просмотр"
+            },
             pagination: {
                 next: "Далее",
                 previous: "Назад"
@@ -252,14 +253,11 @@ const en: TranslationMessages = {
                 id: "ID",
                 name: "Name",
                 created_at: "Created at",
-                active: "Active"
+                active: "Active",
+                public_key: "Public key"
             },
             showHeader: "User info",
-            showDescription: "Detailed information about user with ID %{id}",
-            actions: {
-                quickShow: "Quick show",
-                show: "Show"
-            }
+            showDescription: "Detailed information about user with ID %{id}"
         },
         transactions: {
             name: "Transaction |||| Transactions",
@@ -372,6 +370,10 @@ const en: TranslationMessages = {
             users: "Users"
         },
         ui: {
+            actions: {
+                quick_show: "Quick show",
+                show: "Show"
+            },
             pagination: {
                 next: "Next",
                 previous: "Previous"

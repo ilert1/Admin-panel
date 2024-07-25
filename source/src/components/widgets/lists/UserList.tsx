@@ -67,13 +67,13 @@ export const UserList = () => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
-                                {translate("resources.users.actions.quickShow")}
+                                {translate("app.ui.actions.quick_show")}
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <Link
                                     to={`/users/${row.original.id}/show`}
                                     className="!text-card-foreground transition-colors hover:bg-muted/50">
-                                    <p className="font-medium">{translate("resources.users.actions.show")}</p>
+                                    <p className="font-medium">{translate("app.ui.actions.show")}</p>
                                 </Link>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
