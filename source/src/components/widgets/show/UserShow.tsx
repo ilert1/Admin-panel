@@ -22,6 +22,12 @@ export const UserShow = (props: { id: string }) => {
                     </small>
                     {context.record.deleted_at ? <BooleanFiled value={false} /> : <BooleanFiled value={true} />}
                 </div>
+
+                <TextField
+                    label={translate("resources.users.fields.public_key")}
+                    text={context.record.public_key}
+                    copyValue
+                />
             </div>
         );
     }

@@ -30,7 +30,7 @@ export const TextField = ({
             {label && <small className="text-sm text-muted-foreground">{label}</small>}
             {type === "text" ? (
                 <p className="leading-5 flex flex-row gap-2">
-                    <span>{currentText}</span>
+                    <span className={copyValue && text?.length > 0 ? "truncate max-w-[500px]" : ""}>{currentText}</span>
                     {copyValue && text?.length > 0 && (
                         <span>
                             <Copy className="h-4 w-4 cursor-pointer" onClick={copy} />
