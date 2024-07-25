@@ -3,7 +3,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
 import { BooleanFiled } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
-import { Link } from "react-admin";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -70,11 +69,11 @@ export const UserList = () => {
                                 {translate("app.ui.actions.quick_show")}
                             </DropdownMenuItem>
                             <DropdownMenuItem>
-                                <Link
-                                    to={`/users/${row.original.id}/show`}
-                                    className="!text-card-foreground transition-colors hover:bg-muted/50">
-                                    <p className="font-medium">{translate("app.ui.actions.show")}</p>
-                                </Link>
+                                <TextField
+                                    text={translate("app.ui.actions.show")}
+                                    type="internal-link"
+                                    link={`/users/${row.original.id}/show`}
+                                />
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>

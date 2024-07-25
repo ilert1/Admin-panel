@@ -1,17 +1,19 @@
 import { Copy } from "lucide-react";
 import { useCallback, useMemo } from "react";
-import { useTranslate } from "react-admin";
+import { Link, useTranslate } from "react-admin";
 import { toast } from "sonner";
 
 export const TextField = ({
     text,
     label,
+    link = "/",
     type = "text",
     copyValue = false
 }: {
     text: string;
     label?: string | undefined;
-    type?: "text" | "link";
+    link?: string;
+    type?: "text" | "link" | "internal-link";
     copyValue?: boolean;
 }) => {
     const currentText = useMemo(() => (text?.length > 0 ? text : "-"), [text]);
@@ -28,7 +30,7 @@ export const TextField = ({
     return (
         <div>
             {label && <small className="text-sm text-muted-foreground">{label}</small>}
-            {type === "text" ? (
+            {type === "text" && (
                 <p className="leading-5 flex flex-row gap-2">
                     <span className={copyValue && text?.length > 0 ? "truncate max-w-[500px]" : ""}>{currentText}</span>
                     {copyValue && text?.length > 0 && (
@@ -37,10 +39,16 @@ export const TextField = ({
                         </span>
                     )}
                 </p>
-            ) : (
+            )}
+            {type === "link" && (
                 <a href="#" className="block hover:underline">
                     {text}
                 </a>
+            )}
+            {type === "internal-link" && (
+                <Link to={link} className="!text-card-foreground transition-colors hover:bg-muted/50">
+                    <p className="font-medium">{text}</p>
+                </Link>
             )}
         </div>
     );
