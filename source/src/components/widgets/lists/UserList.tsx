@@ -3,6 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
 import { BooleanFiled } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
+import { Link } from "react-admin";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -66,7 +67,14 @@ export const UserList = () => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
-                                {translate("ra.action.show")}
+                                {translate("resources.users.actions.quickShow")}
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Link
+                                    to={`/users/${row.original.id}/show`}
+                                    className="!text-card-foreground transition-colors hover:bg-muted/50">
+                                    <p className="font-medium">{translate("resources.users.actions.show")}</p>
+                                </Link>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>

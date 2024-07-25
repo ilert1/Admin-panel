@@ -36,7 +36,11 @@ const ru: TranslationMessages = {
                 active: "Активный"
             },
             showHeader: "Информация о пользователе",
-            showDescription: "Подробная информация о пользователе с ID %{id}"
+            showDescription: "Подробная информация о пользователе с ID %{id}",
+            actions: {
+                quickShow: "Быстрый просмотр",
+                show: "Просмотр"
+            }
         },
         transactions: {
             name: "Транзакция |||| Транзакции",
@@ -251,7 +255,11 @@ const en: TranslationMessages = {
                 active: "Active"
             },
             showHeader: "User info",
-            showDescription: "Detailed information about user with ID %{id}"
+            showDescription: "Detailed information about user with ID %{id}",
+            actions: {
+                quickShow: "Quick show",
+                show: "Show"
+            }
         },
         transactions: {
             name: "Transaction |||| Transactions",
