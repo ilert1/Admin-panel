@@ -68,7 +68,7 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
         } else if (item.includes("/show")) {
             return item.replace("/show", "");
         } else if (item) {
-            return translate(`resources.${camelize(item)}.name`, { smart_count: 2 });
+            return translate(`resources.${camelize(item)}.name`, { _: item, smart_count: 2 });
         } else {
             return null;
         }
