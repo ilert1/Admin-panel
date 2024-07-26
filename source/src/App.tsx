@@ -14,7 +14,7 @@ import { ThemeProvider } from "@/components/providers";
 import { isTokenStillFresh } from "@/helpers/jwt";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
-import { TransactionShow, UserShow } from "./components/widgets/show";
+import { AccountShow, TransactionShow, UserShow } from "./components/widgets/show";
 
 const dataProvider = combineDataProviders(resource => {
     if (resource === "transactions") {
@@ -88,7 +88,13 @@ export const App = () => {
                     <CoreAdminUI dashboard={Dashboard} layout={MainLayout} title="Juggler" requireAuth>
                         {permissions => (
                             <>
-                                <Resource name="accounts" list={AccountList} create={AccountCreate} icon={WalletIcon} />
+                                <Resource
+                                    name="accounts"
+                                    list={AccountList}
+                                    show={AccountShow}
+                                    create={AccountCreate}
+                                    icon={WalletIcon}
+                                />
                                 <Resource
                                     name="transactions"
                                     list={TransactionList}
