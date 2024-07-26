@@ -73,7 +73,14 @@ export const WithdrawList = () => {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                                 <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
-                                    {translate("ra.action.show")}
+                                    {translate("app.ui.actions.quick_show")}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <TextField
+                                        text={translate("app.ui.actions.show")}
+                                        type="internal-link"
+                                        link={`/withdraw/${row.original.id}/show`}
+                                    />
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
