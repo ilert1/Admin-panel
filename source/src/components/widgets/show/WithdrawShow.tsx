@@ -1,5 +1,7 @@
 import { useShowController, useTranslate } from "react-admin";
 import { TextField } from "@/components/ui/text-field";
+import { RotatingLines } from "react-loader-spinner";
+import { Loading } from "@/components/ui/loading";
 
 export const WithdrawShow = (props: { id: string }) => {
     const translate = useTranslate();
@@ -7,7 +9,7 @@ export const WithdrawShow = (props: { id: string }) => {
     const context = useShowController({ id: props.id });
 
     if (context.isLoading || context.isFetching || !context.record) {
-        return <>x"Loading..."</>;
+        return <Loading />;
     } else {
         return (
             <div className="relative w-[540] overflow-x-auto flex flex-col gap-2">

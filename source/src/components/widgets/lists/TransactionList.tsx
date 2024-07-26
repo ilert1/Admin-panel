@@ -36,6 +36,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useFileDownload from "@/hooks/useDownload";
 import { useToast } from "@/components/ui/use-toast";
+import { RotatingLines } from "react-loader-spinner";
+import { Loading } from "@/components/ui/loading";
 
 // const TransactionFilterSidebar = () => {
 //     const translate = useTranslate();
@@ -321,7 +323,7 @@ export const TransactionList = () => {
     ];
 
     if (listContext.isLoading || !listContext.data) {
-        return <div>Loading...</div>;
+        return <Loading />;
     } else {
         return (
             <>

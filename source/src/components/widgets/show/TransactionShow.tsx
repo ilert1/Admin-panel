@@ -5,6 +5,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { BooleanField } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
 import { useMemo } from "react";
+import { RotatingLines } from "react-loader-spinner";
+import { Loading } from "@/components/ui/loading";
 
 export const TransactionShow = (props: { id: string }) => {
     const dataProvider = useDataProvider();
@@ -88,7 +90,7 @@ export const TransactionShow = (props: { id: string }) => {
     ];
 
     if (context.isLoading || context.isFetching || !context.record) {
-        return <>"Loading..."</>;
+        return <Loading />;
     } else {
         return (
             <div className="relative w-[540] overflow-x-auto flex flex-col gap-2">

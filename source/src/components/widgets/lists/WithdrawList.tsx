@@ -15,6 +15,7 @@ import { WithdrawShow } from "@/components/widgets/show";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
+import { Loading } from "@/components/ui/loading";
 
 export const WithdrawList = () => {
     const listContext = useListController<Transaction.Transaction>();
@@ -84,7 +85,7 @@ export const WithdrawList = () => {
     ];
 
     if (listContext.isLoading || !listContext.data) {
-        return <div>Loading...</div>;
+        return <Loading />;
     } else {
         return (
             <>
