@@ -1,6 +1,5 @@
 import { useShowController, useTranslate } from "react-admin";
 import { TextField } from "@/components/ui/text-field";
-import { RotatingLines } from "react-loader-spinner";
 import { Loading } from "@/components/ui/loading";
 
 export const WithdrawShow = (props: { id: string }) => {
