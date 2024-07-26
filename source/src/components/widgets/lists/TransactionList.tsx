@@ -279,7 +279,14 @@ export const TransactionList = () => {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                                 <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
-                                    {translate("ra.action.show")}
+                                    {translate("app.ui.actions.quick_show")}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <TextField
+                                        text={translate("app.ui.actions.show")}
+                                        type="internal-link"
+                                        link={`/transactions/${row.original.id}/show`}
+                                    />
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 <TransactionActions
@@ -314,7 +321,7 @@ export const TransactionList = () => {
                                     {translate("resources.transactions.showDescription", { id: showTransactionId })}
                                 </SheetDescription>
                             </SheetHeader>
-                            <TransactionShow id={showTransactionId} />
+                            <TransactionShow id={showTransactionId} type="compact" />
                         </ScrollArea>
                     </SheetContent>
                 </Sheet>

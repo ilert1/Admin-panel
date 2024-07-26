@@ -6,7 +6,7 @@ import { BooleanFiled } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
 import { useMemo } from "react";
 
-export const TransactionShow = (props: { id: string }) => {
+export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     const dataProvider = useDataProvider();
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
     const translate = useTranslate();
@@ -92,55 +92,73 @@ export const TransactionShow = (props: { id: string }) => {
     } else {
         return (
             <div className="relative w-[540] overflow-x-auto flex flex-col gap-2">
-                <TextField label={translate("resources.transactions.fields.id")} text={context.record.id} copyValue />
-                <TextField
-                    label={translate("resources.transactions.fields.type")}
-                    text={data?.transactionTypes[context.record.type]?.type_descr}
-                />
-                <TextField
-                    label={translate("resources.transactions.fields.state.state_description")}
-                    text={context.record.state.state_description}
-                />
+                <div
+                    className={
+                        props.type === "compact"
+                            ? "flex flex-col gap-2"
+                            : "flex flex-row flex-wrap justify-between gap-2"
+                    }>
+                    <div className="flex flex-col gap-2">
+                        <TextField
+                            label={translate("resources.transactions.fields.id")}
+                            text={context.record.id}
+                            copyValue
+                        />
+                        <TextField
+                            label={translate("resources.transactions.fields.type")}
+                            text={data?.transactionTypes[context.record.type]?.type_descr}
+                        />
+                        <TextField
+                            label={translate("resources.transactions.fields.state.state_description")}
+                            text={context.record.state.state_description}
+                        />
 
-                <BooleanFiled
-                    value={context.record.state.final}
-                    label={translate("resources.transactions.fields.state.final")}
-                />
-                <h3 className="text-muted-foreground mt-5">
-                    {translate("resources.transactions.fields.source.header")}
-                </h3>
-                <TextField
-                    label={translate("resources.transactions.fields.source.meta.caption")}
-                    text={context.record.source.meta?.caption}
-                />
-                <TextField
-                    label={translate("resources.transactions.fields.source.amount.value")}
-                    text={(
-                        (context.record.source.amount.value.quantity || 0) / context.record.source.amount.value.accuracy
-                    ).toFixed(Math.log10(context.record.source.amount.value.accuracy))}
-                />
-                <TextField
-                    label={translate("resources.transactions.fields.source.amount.currency")}
-                    text={context.record.source.amount.currency}
-                />
-                <h3 className="text-muted-foreground mt-5">
-                    {translate("resources.transactions.fields.destination.header")}
-                </h3>
-                <TextField
-                    label={translate("resources.transactions.fields.destination.meta.caption")}
-                    text={context.record.destination.meta?.caption}
-                />
-                <TextField
-                    label={translate("resources.transactions.fields.destination.amount.value")}
-                    text={(
-                        (context.record.destination.amount.value.quantity || 0) /
-                        context.record.destination.amount.value.accuracy
-                    ).toFixed(Math.log10(context.record.destination.amount.value.accuracy))}
-                />
-                <TextField
-                    label={translate("resources.transactions.fields.destination.amount.currency")}
-                    text={context.record.destination.amount.currency}
-                />
+                        <BooleanFiled
+                            value={context.record.state.final}
+                            label={translate("resources.transactions.fields.state.final")}
+                        />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <h3 className="text-muted-foreground mt-5">
+                            {translate("resources.transactions.fields.source.header")}
+                        </h3>
+                        <TextField
+                            label={translate("resources.transactions.fields.source.meta.caption")}
+                            text={context.record.source.meta?.caption}
+                        />
+                        <TextField
+                            label={translate("resources.transactions.fields.source.amount.value")}
+                            text={(
+                                (context.record.source.amount.value.quantity || 0) /
+                                context.record.source.amount.value.accuracy
+                            ).toFixed(Math.log10(context.record.source.amount.value.accuracy))}
+                        />
+                        <TextField
+                            label={translate("resources.transactions.fields.source.amount.currency")}
+                            text={context.record.source.amount.currency}
+                        />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <h3 className="text-muted-foreground mt-5">
+                            {translate("resources.transactions.fields.destination.header")}
+                        </h3>
+                        <TextField
+                            label={translate("resources.transactions.fields.destination.meta.caption")}
+                            text={context.record.destination.meta?.caption}
+                        />
+                        <TextField
+                            label={translate("resources.transactions.fields.destination.amount.value")}
+                            text={(
+                                (context.record.destination.amount.value.quantity || 0) /
+                                context.record.destination.amount.value.accuracy
+                            ).toFixed(Math.log10(context.record.destination.amount.value.accuracy))}
+                        />
+                        <TextField
+                            label={translate("resources.transactions.fields.destination.amount.currency")}
+                            text={context.record.destination.amount.currency}
+                        />
+                    </div>
+                </div>
                 <div className="mt-5">
                     <small className="text-sm text-muted-foreground">
                         {translate("resources.transactions.fields.fees")}
