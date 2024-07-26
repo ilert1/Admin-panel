@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslate } from "react-admin";
+import { useToast } from "@/components/ui/use-toast";
 
 const useFileDownload = (url: string) => {
     const [startDate, setStartDate] = useState<string>("");
@@ -7,6 +8,8 @@ const useFileDownload = (url: string) => {
     const [isStartDateValid, setIsStartDateValid] = useState<boolean>(true);
     const [isEndDateValid, setIsEndDateValid] = useState<boolean>(true);
     const [isDateRangeValid, setIsDateRangeValid] = useState<boolean>(true);
+    const { toast } = useToast();
+
     const translate = useTranslate();
     const validateDates = () => {
         const isStartDateEmpty = startDate === "";
@@ -16,8 +19,11 @@ const useFileDownload = (url: string) => {
         setIsEndDateValid(!isEndDateEmpty);
 
         if (isStartDateEmpty || isEndDateEmpty) {
-            // prompt(translate("resources.transactions.download.bothError"));
-
+            toast({
+                description: translate("resources.transactions.download.bothError"),
+                variant: "destructive",
+                title: translate("resources.transactions.download.error")
+            });
             return false;
         }
 
@@ -25,7 +31,11 @@ const useFileDownload = (url: string) => {
         setIsDateRangeValid(isValidDateRange);
 
         if (!isValidDateRange) {
-            // prompt(translate("resources.transactions.download.greaterError"));
+            toast({
+                description: translate("resources.transactions.download.greaterError"),
+                variant: "destructive",
+                title: translate("resources.transactions.download.error")
+            });
         }
 
         return isValidDateRange;
@@ -78,55 +88,3 @@ const useFileDownload = (url: string) => {
 };
 
 export default useFileDownload;
-
-// const [startDate, setStartDate] = useState("");
-// const [endDate, setEndDate] = useState("");
-// const [isStartDateValid, setIsStartDateValid] = useState(true);
-// const [isEndDateValid, setIsEndDateValid] = useState(true);
-// const [isDateRangeValid, setIsDateRangeValid] = useState(true);
-
-// const handleDownload = async () => {
-//     // Проверка выбора дат
-//     const isStartDateEmpty = startDate === "";
-//     const isEndDateEmpty = endDate === "";
-
-//     setIsStartDateValid(!isStartDateEmpty);
-//     setIsEndDateValid(!isEndDateEmpty);
-
-//     if (isStartDateEmpty || isEndDateEmpty) {
-//         return;
-//     }
-
-//     // Проверка правильности диапазона дат
-//     const isValidDateRange = new Date(startDate) < new Date(endDate);
-//     setIsDateRangeValid(isValidDateRange);
-
-//     if (!isValidDateRange) {
-//         return;
-//     }
-
-//     try {
-//         const response = await fetch("URL_TO_YOUR_BACKEND_API", {
-//             method: "GET",
-//             headers: {
-//                 "Content-Type": "application/octet-stream"
-//             }
-//         });
-
-//         if (!response.ok) {
-//             throw new Error("Network response was not ok");
-//         }
-
-//         const blob = await response.blob();
-//         const url = window.URL.createObjectURL(blob);
-//         const a = document.createElement("a");
-//         a.href = url;
-//         a.download = "filename.ext"; // имя файла и его расширение
-//         document.body.appendChild(a);
-//         a.click();
-//         a.remove();
-//         window.URL.revokeObjectURL(url);
-//     } catch (error) {
-//         console.error("There was an error downloading the file:", error);
-//     }
-// };

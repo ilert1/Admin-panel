@@ -35,17 +35,7 @@ import { TextField } from "@/components/ui/text-field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useFileDownload from "@/hooks/useDownload";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger
-} from "@/components/ui/alertDialog";
+import { useToast } from "@/components/ui/use-toast";
 
 // const TransactionFilterSidebar = () => {
 //     const translate = useTranslate();
@@ -211,18 +201,6 @@ export const TransactionList = () => {
         setEndDate(e.target.value);
     };
 
-    // const handleStartDateFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setStartDate(e.target.value);
-    //     setIsStartDateValid(true);
-    //     setIsDateRangeValid(true);
-    // };
-
-    // const handleEndDateFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setEndDate(e.target.value);
-    //     setIsEndDateValid(true);
-    //     setIsDateRangeValid(true);
-    // };
-
     const { data: currencies } = useQuery("currencies", () =>
         fetch(`${API_URL}/dictionaries/curr`, {
             headers: {
@@ -368,33 +346,9 @@ export const TransactionList = () => {
                             type="date"
                             onFocus={() => setIsEndDateValid(true)}
                         />
-                        <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                                <Button onClick={handleDownload} variant="default" size="sm">
-                                    {translate("resources.transactions.download.downloadReportButtonText")}
-                                </Button>
-                            </AlertDialogTrigger>
-                            {isStartDateValid && isDateRangeValid ? (
-                                ""
-                            ) : (
-                                <AlertDialogContent>
-                                    <AlertDialogHeader>
-                                        <AlertDialogTitle>Error</AlertDialogTitle>
-                                        <AlertDialogDescription>
-                                            {isDateRangeValid
-                                                ? " "
-                                                : translate("resources.transactions.download.greaterError")}
-                                            {isStartDateValid && isEndDateValid
-                                                ? " "
-                                                : translate("resources.transactions.download.bothError")}
-                                        </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                        <AlertDialogAction>Continue</AlertDialogAction>
-                                    </AlertDialogFooter>
-                                </AlertDialogContent>
-                            )}
-                        </AlertDialog>
+                        <Button onClick={handleDownload} variant="default" size="sm">
+                            {translate("resources.transactions.download.downloadReportButtonText")}
+                        </Button>
                     </div>
                 </div>
                 <ListContextProvider value={listContext}>
