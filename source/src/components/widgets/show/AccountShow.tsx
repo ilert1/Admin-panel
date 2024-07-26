@@ -2,6 +2,7 @@ import { useDataProvider, useShowController, useTranslate } from "react-admin";
 import { useQuery } from "react-query";
 import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
+import { TextField } from "@/components/ui/text-field";
 
 export const AccountShow = (props: { id: string }) => {
     const dataProvider = useDataProvider();
@@ -42,30 +43,20 @@ export const AccountShow = (props: { id: string }) => {
     } else {
         return (
             <div className="flex flex-col gap-2">
-                <div>
-                    <small className="text-sm text-muted-foreground">
-                        {translate("resources.accounts.fields.meta.caption")}
-                    </small>
-                    <p className="leading-5">{context.record.meta.caption}</p>
-                </div>
-                <div>
-                    <small className="text-sm text-muted-foreground">
-                        {translate("resources.accounts.fields.owner_id")}
-                    </small>
-                    <p className="leading-5">{context.record.owner_id}</p>
-                </div>
-                <div>
-                    <small className="text-sm text-muted-foreground">
-                        {translate("resources.accounts.fields.state")}
-                    </small>
-                    <p className="leading-5">{data?.accountStates[context.record.state]?.type_descr}</p>
-                </div>
-                <div>
-                    <small className="text-sm text-muted-foreground">
-                        {translate("resources.accounts.fields.type")}
-                    </small>
-                    <p className="leading-5">{data?.accountTypes[context.record.type]?.type_descr}</p>
-                </div>
+                <TextField
+                    label={translate("resources.accounts.fields.meta.caption")}
+                    text={context.record.meta.caption}
+                />
+                <TextField label={translate("resources.accounts.fields.owner_id")} text={context.record.owner_id} />
+                <TextField
+                    label={translate("resources.accounts.fields.state")}
+                    text={data?.accountStates[context.record.state]?.type_descr}
+                />
+                <TextField
+                    label={translate("resources.accounts.fields.type")}
+                    text={data?.accountTypes[context.record.type]?.type_descr}
+                />
+
                 <div>
                     <small className="text-sm text-muted-foreground">
                         {translate("resources.accounts.fields.amounts")}
