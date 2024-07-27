@@ -32,92 +32,9 @@ import { TransactionStorno } from "@/components/widgets/forms";
 import { API_URL } from "@/data/base";
 import { EventBus, EVENT_STORNO } from "@/helpers/event-bus";
 import { TextField } from "@/components/ui/text-field";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import useFileDownload from "@/hooks/useDownload";
+import { DatePicker } from "@/components/ui/date-picker";
+import useReportDownload from "@/hooks/useReportDownload";
 import { Loading } from "@/components/ui/loading";
-
-// const TransactionFilterSidebar = () => {
-//     const translate = useTranslate();
-//     const { data: accounts } = useGetList("accounts");
-
-//     const { filterValues, setFilters, displayedFilters } = useListContext();
-
-//     const [id, setId] = useState("");
-//     const [account, setAccount] = useState("");
-
-//     const onPropertySelected = debounce((value: any, type: "id" | "account") => {
-//         if (value) {
-//             setFilters({ ...filterValues, [type]: value }, displayedFilters);
-//         } else {
-//             Reflect.deleteProperty(filterValues, type);
-//             setFilters(filterValues, displayedFilters);
-//         }
-//     }, 300);
-
-//     const onIdChanded = (e: ChangeEvent<HTMLInputElement>) => {
-//         setId(e.target.value);
-//         onPropertySelected(e.target.value, "id");
-//     };
-
-//     const clearId = () => {
-//         setId("");
-//         onPropertySelected(null, "id");
-//     };
-
-//     const onAccountChanged = (e: SelectChangeEvent) => {
-//         setAccount(e.target.value);
-//         onPropertySelected(e.target.value, "account");
-//     };
-
-//     const clearAccount = () => {
-//         setAccount("");
-//         onPropertySelected(null, "account");
-//     };
-
-//     return (
-//         <Box sx={{ display: "flex", flexDirection: "row", gap: 2, p: 2 }}>
-//             <MUITextField
-//                 label={translate("resources.transactions.list.filter.transactionId")}
-//                 fullWidth
-//                 value={id}
-//                 onChange={onIdChanded}
-//                 helperText={false}
-//                 InputProps={{
-//                     endAdornment:
-//                         id?.length > 0 ? (
-//                             <IconButton size="small" onClick={clearId}>
-//                                 <ClearIcon />
-//                             </IconButton>
-//                         ) : undefined
-//                 }}
-//             />
-//             <FormControl fullWidth>
-//                 <InputLabel shrink={true}>{translate("resources.transactions.list.filter.account")}</InputLabel>
-//                 <Select
-//                     IconComponent={
-//                         account?.length > 0
-//                             ? () => (
-//                                   <IconButton size="small" onClick={clearAccount}>
-//                                       <ClearIcon />
-//                                   </IconButton>
-//                               )
-//                             : undefined
-//                     }
-//                     onChange={onAccountChanged}
-//                     value={account}
-//                     notched={true}>
-//                     {accounts &&
-//                         accounts.map((account, i) => (
-//                             <MenuItem key={i} value={account.id}>
-//                                 {account.meta.caption}
-//                             </MenuItem>
-//                         ))}
-//                 </Select>
-//             </FormControl>
-//         </Box>
-//     );
-// };
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
@@ -180,26 +97,9 @@ export const TransactionList = () => {
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
     const { data: accounts } = useGetList("accounts");
 
-    const {
-        startDate,
-        endDate,
-        isStartDateValid,
-        isEndDateValid,
-        isDateRangeValid,
-        setStartDate,
-        setEndDate,
-        handleDownload,
-        setIsEndDateValid,
-        setIsStartDateValid
-    } = useFileDownload(import.meta.env.VITE_API_URL);
+    const accountId = useMemo(() => accounts?.[0]?.id, [accounts]);
 
-    const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setStartDate(e.target.value);
-    };
-
-    const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEndDate(e.target.value);
-    };
+    const { startDate, endDate, setStartDate, setEndDate, handleDownload } = useReportDownload(accountId);
 
     const { data: currencies } = useQuery("currencies", () =>
         fetch(`${API_URL}/dictionaries/curr`, {
@@ -324,31 +224,20 @@ export const TransactionList = () => {
     } else {
         return (
             <>
-                <div>
-                    <Label className="bg-zinc-600 p-2">
-                        {translate("resources.transactions.download.downloadReportLabel")}
-                    </Label>
-                    <div className="mb-10 mt-5 flex gap-4 items-center">
-                        <Label className="">{translate("resources.transactions.download.startDate")}</Label>
-                        <Input
-                            value={startDate}
-                            onChange={handleStartDateChange}
-                            style={{ borderColor: isStartDateValid && isDateRangeValid ? "" : "red" }}
-                            type="date"
-                            onFocus={() => setIsStartDateValid(true)}
-                        />
-                        <Label className="">{translate("resources.transactions.download.endDate")}</Label>
-                        <Input
-                            value={endDate}
-                            onChange={handleEndDateChange}
-                            style={{ borderColor: isEndDateValid && isDateRangeValid ? "hsl(var(--input))" : "red" }}
-                            type="date"
-                            onFocus={() => setIsEndDateValid(true)}
-                        />
-                        <Button onClick={handleDownload} variant="default" size="sm">
-                            {translate("resources.transactions.download.downloadReportButtonText")}
-                        </Button>
-                    </div>
+                <div className="mb-10 mt-5 flex flex-col sm:flex-row gap-4 sm:items-center">
+                    <DatePicker
+                        placeholder={translate("resources.transactions.download.startDate")}
+                        date={startDate}
+                        onChange={setStartDate}
+                    />
+                    <DatePicker
+                        placeholder={translate("resources.transactions.download.endDate")}
+                        date={endDate}
+                        onChange={setEndDate}
+                    />
+                    <Button onClick={handleDownload} variant="default" size="sm">
+                        {translate("resources.transactions.download.downloadReportButtonText")}
+                    </Button>
                 </div>
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />
