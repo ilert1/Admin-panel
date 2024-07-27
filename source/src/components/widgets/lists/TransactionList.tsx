@@ -191,7 +191,10 @@ export const TransactionList = () => {
         handleDownload,
         setIsEndDateValid,
         setIsStartDateValid
-    } = useFileDownload("URL_TO_OUR_BACKEND");
+    } = useFileDownload(
+        `https://api.juggler.develop.blowfish.api4ftx.cloud/transactions/report?start_date=2024-03-28&end_date=2024-06-18&accountId=552041c7-5404-466d-8c23-1553a8860140
+        `
+    );
 
     const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setStartDate(e.target.value);
@@ -319,7 +322,6 @@ export const TransactionList = () => {
             }
         }
     ];
-
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
     } else {

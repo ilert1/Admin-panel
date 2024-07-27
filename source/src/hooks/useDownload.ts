@@ -27,7 +27,7 @@ const useFileDownload = (url: string) => {
             return false;
         }
 
-        const isValidDateRange = new Date(startDate) < new Date(endDate);
+        const isValidDateRange = new Date(startDate) <= new Date(endDate);
         setIsDateRangeValid(isValidDateRange);
 
         if (!isValidDateRange) {
@@ -50,7 +50,8 @@ const useFileDownload = (url: string) => {
             const response = await fetch(url, {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/octet-stream"
+                    "Content-Type": "application/octet-stream",
+                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
                 }
             });
 
@@ -61,8 +62,11 @@ const useFileDownload = (url: string) => {
             const blob = await response.blob();
             const fileUrl = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
+            const formattedStartDate = startDate.replace(/-/g, "");
+            const formattedEndDate = endDate.replace(/-/g, "");
+            const filename = `data_${formattedStartDate}_to_${formattedEndDate}.csv`;
             a.href = fileUrl;
-            a.download = "filename.ext"; // имя файла и его расширение
+            a.download = filename;
             document.body.appendChild(a);
             a.click();
             a.remove();
