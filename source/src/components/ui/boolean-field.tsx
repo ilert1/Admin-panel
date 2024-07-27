@@ -1,6 +1,6 @@
 import { Check, X } from "lucide-react";
 
-export const BooleanFiled = (props: { value: boolean; label?: string | undefined }) => {
+export const BooleanField = (props: { value: boolean; label?: string | undefined }) => {
     return (
         <div>
             {props.label && <small className="text-sm text-muted-foreground">{props.label}</small>}

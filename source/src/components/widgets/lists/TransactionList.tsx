@@ -32,88 +32,9 @@ import { TransactionStorno } from "@/components/widgets/forms";
 import { API_URL } from "@/data/base";
 import { EventBus, EVENT_STORNO } from "@/helpers/event-bus";
 import { TextField } from "@/components/ui/text-field";
-
-// const TransactionFilterSidebar = () => {
-//     const translate = useTranslate();
-//     const { data: accounts } = useGetList("accounts");
-
-//     const { filterValues, setFilters, displayedFilters } = useListContext();
-
-//     const [id, setId] = useState("");
-//     const [account, setAccount] = useState("");
-
-//     const onPropertySelected = debounce((value: any, type: "id" | "account") => {
-//         if (value) {
-//             setFilters({ ...filterValues, [type]: value }, displayedFilters);
-//         } else {
-//             Reflect.deleteProperty(filterValues, type);
-//             setFilters(filterValues, displayedFilters);
-//         }
-//     }, 300);
-
-//     const onIdChanded = (e: ChangeEvent<HTMLInputElement>) => {
-//         setId(e.target.value);
-//         onPropertySelected(e.target.value, "id");
-//     };
-
-//     const clearId = () => {
-//         setId("");
-//         onPropertySelected(null, "id");
-//     };
-
-//     const onAccountChanged = (e: SelectChangeEvent) => {
-//         setAccount(e.target.value);
-//         onPropertySelected(e.target.value, "account");
-//     };
-
-//     const clearAccount = () => {
-//         setAccount("");
-//         onPropertySelected(null, "account");
-//     };
-
-//     return (
-//         <Box sx={{ display: "flex", flexDirection: "row", gap: 2, p: 2 }}>
-//             <MUITextField
-//                 label={translate("resources.transactions.list.filter.transactionId")}
-//                 fullWidth
-//                 value={id}
-//                 onChange={onIdChanded}
-//                 helperText={false}
-//                 InputProps={{
-//                     endAdornment:
-//                         id?.length > 0 ? (
-//                             <IconButton size="small" onClick={clearId}>
-//                                 <ClearIcon />
-//                             </IconButton>
-//                         ) : undefined
-//                 }}
-//             />
-//             <FormControl fullWidth>
-//                 <InputLabel shrink={true}>{translate("resources.transactions.list.filter.account")}</InputLabel>
-//                 <Select
-//                     IconComponent={
-//                         account?.length > 0
-//                             ? () => (
-//                                   <IconButton size="small" onClick={clearAccount}>
-//                                       <ClearIcon />
-//                                   </IconButton>
-//                               )
-//                             : undefined
-//                     }
-//                     onChange={onAccountChanged}
-//                     value={account}
-//                     notched={true}>
-//                     {accounts &&
-//                         accounts.map((account, i) => (
-//                             <MenuItem key={i} value={account.id}>
-//                                 {account.meta.caption}
-//                             </MenuItem>
-//                         ))}
-//                 </Select>
-//             </FormControl>
-//         </Box>
-//     );
-// };
+import { DatePicker } from "@/components/ui/date-picker";
+import useReportDownload from "@/hooks/useReportDownload";
+import { Loading } from "@/components/ui/loading";
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
@@ -175,6 +96,10 @@ export const TransactionList = () => {
     const dataProvider = useDataProvider();
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
     const { data: accounts } = useGetList("accounts");
+
+    const accountId = useMemo(() => accounts?.[0]?.id, [accounts]);
+
+    const { startDate, endDate, setStartDate, setEndDate, handleDownload } = useReportDownload(accountId);
 
     const { data: currencies } = useQuery("currencies", () =>
         fetch(`${API_URL}/dictionaries/curr`, {
@@ -294,12 +219,26 @@ export const TransactionList = () => {
             }
         }
     ];
-
     if (listContext.isLoading || !listContext.data) {
-        return <div>Loading...</div>;
+        return <Loading />;
     } else {
         return (
             <>
+                <div className="mb-10 mt-5 flex flex-col sm:flex-row gap-4 sm:items-center">
+                    <DatePicker
+                        placeholder={translate("resources.transactions.download.startDate")}
+                        date={startDate}
+                        onChange={setStartDate}
+                    />
+                    <DatePicker
+                        placeholder={translate("resources.transactions.download.endDate")}
+                        date={endDate}
+                        onChange={setEndDate}
+                    />
+                    <Button onClick={handleDownload} variant="default" size="sm">
+                        {translate("resources.transactions.download.downloadReportButtonText")}
+                    </Button>
+                </div>
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />
                 </ListContextProvider>
