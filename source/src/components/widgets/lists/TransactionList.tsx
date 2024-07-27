@@ -191,10 +191,7 @@ export const TransactionList = () => {
         handleDownload,
         setIsEndDateValid,
         setIsStartDateValid
-    } = useFileDownload(
-        `https://api.juggler.develop.blowfish.api4ftx.cloud/transactions/report?start_date=2024-03-28&end_date=2024-06-18&accountId=552041c7-5404-466d-8c23-1553a8860140
-        `
-    );
+    } = useFileDownload(import.meta.env.VITE_API_URL);
 
     const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setStartDate(e.target.value);
