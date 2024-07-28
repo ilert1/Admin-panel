@@ -38,6 +38,7 @@ const ru: TranslationMessages = {
         },
         transactions: {
             name: "Транзакция |||| Транзакции",
+            filterById: "Поиск по ID",
             fields: {
                 id: "ID",
                 created_at: "Дата создания",
@@ -123,7 +124,9 @@ const ru: TranslationMessages = {
                 bothError: "Начальная дата и конечная дата обязательно должны быть заполнены",
                 greaterError: "Конечная дата не может быть больше чем начальная дата",
                 error: "Ошибка",
-                dateExceed: "Начальная/конечная дата не может быть больше сегодняшней даты"
+                dateExceed: "Начальная/конечная дата не может быть больше сегодняшней даты",
+                idEmpty: "Поле аккаунта не может быть пустым",
+                accountField: "Выберите аккаунт мерчанта"
             }
         },
         withdraw: {
@@ -261,6 +264,7 @@ const en: TranslationMessages = {
         },
         transactions: {
             name: "Transaction |||| Transactions",
+            filterById: "Search by ID",
             fields: {
                 id: "ID",
                 created_at: "Created at",
@@ -346,7 +350,9 @@ const en: TranslationMessages = {
                 bothError: "Both start date and end date must be selected",
                 greaterError: "End date must be greater than start date",
                 error: "Error",
-                dateExceed: "Start/end date cannot be greater than today's date"
+                dateExceed: "Start/end date cannot be greater than today's date",
+                idEmpty: "Account field must be chosen",
+                accountField: "Choose merchant account"
             }
         },
         withdraw: {
