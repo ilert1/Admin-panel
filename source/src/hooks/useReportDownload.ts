@@ -23,7 +23,14 @@ const useReportDownload = (accountId: string) => {
             });
             return false;
         }
-
+        if (startDate.getTime() > Date.now() || endDate.getTime() > Date.now()) {
+            toast({
+                description: translate("resources.transactions.download.dateExceed"),
+                variant: "destructive",
+                title: translate("resources.transactions.download.error")
+            });
+            return false;
+        }
         const isValidDateRange = startDate?.getTime() <= endDate?.getTime();
         setIsDateRangeValid(isValidDateRange);
 
