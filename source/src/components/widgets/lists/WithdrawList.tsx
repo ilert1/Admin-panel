@@ -51,10 +51,11 @@ export const WithdrawList = () => {
             header: translate("resources.withdraw.fields.destination.amount.value"),
             cell: ({ row }) => {
                 const value =
-                    (row.original.source.amount.value.quantity || 0) / row.original.source.amount.value.accuracy;
+                    (row.original.destination.amount.value.quantity || 0) /
+                    row.original.destination.amount.value.accuracy;
                 if (isNaN(value)) return "-";
-                return `${value.toFixed(Math.log10(row.original.source.amount.value.accuracy))} ${
-                    row.original.source.amount.currency || ""
+                return `${value.toFixed(Math.log10(row.original.destination.amount.value.accuracy))} ${
+                    row.original.destination.amount.currency || ""
                 }`;
             }
         },
