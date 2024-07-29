@@ -44,6 +44,12 @@ import { useTheme } from "@/components/providers";
 import { camelize } from "@/helpers/utils";
 import { Toaster } from "@/components/ui/toaster";
 
+enum SplitLocations {
+    show = "show",
+    edit = "edit",
+    new = "new"
+}
+
 export const MainLayout = ({ children, title }: CoreLayoutProps) => {
     const resources = useResourceDefinitions();
     const getResourceLabel = useGetResourceLabel();
@@ -55,10 +61,12 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
     const resourceName = useMemo(() => {
         const resources = location.pathname?.split("/")?.filter((s: string) => s?.length > 0);
 
-        if (resources.includes("show")) {
-            const tempResource = resources.splice(resources.indexOf("show") - 1, 2);
-            resources.push(tempResource.join("/"));
-        }
+        Object.values(SplitLocations).forEach(item => {
+            if (resources.includes(item)) {
+                const tempResource = resources.splice(resources.indexOf(item) - 1, 2);
+                resources.push(tempResource.join("/"));
+            }
+        });
 
         return resources;
     }, [location]);
