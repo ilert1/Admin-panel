@@ -4,15 +4,21 @@ import { useToast } from "@/components/ui/use-toast";
 import { API_URL } from "@/data/base";
 import { format } from "date-fns";
 
-const useReportDownload = (accountId: string) => {
+const useReportDownload = () => {
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
     const [isDateRangeValid, setIsDateRangeValid] = useState<boolean>(true);
+    const [reqId, setReqId] = useState<string>("");
+
     const { toast } = useToast();
     const translate = useTranslate();
 
     const formattedStartDate = useMemo(() => (startDate ? format(startDate, "yyyy-MM-dd") : ""), [startDate]);
     const formattedEndDate = useMemo(() => (endDate ? format(endDate, "yyyy-MM-dd") : ""), [endDate]);
+
+    const handleSelectedIdChange = (value: string) => {
+        setReqId(value);
+    };
 
     const validateDates = () => {
         if (!startDate || !endDate) {
@@ -23,7 +29,14 @@ const useReportDownload = (accountId: string) => {
             });
             return false;
         }
-
+        if (startDate.getTime() > Date.now() || endDate.getTime() > Date.now()) {
+            toast({
+                description: translate("resources.transactions.download.dateExceed"),
+                variant: "destructive",
+                title: translate("resources.transactions.download.error")
+            });
+            return false;
+        }
         const isValidDateRange = startDate?.getTime() <= endDate?.getTime();
         setIsDateRangeValid(isValidDateRange);
 
@@ -42,9 +55,16 @@ const useReportDownload = (accountId: string) => {
         if (!validateDates()) {
             return;
         }
-
+        if (reqId.length === 0) {
+            toast({
+                description: translate("resources.transactions.download.idEmpty"),
+                variant: "destructive",
+                title: translate("resources.transactions.download.error")
+            });
+            return;
+        }
         try {
-            const url = `${API_URL}/transactions/report?start_date=${formattedStartDate}&end_date=${formattedEndDate}&accountId=${accountId}`; // &accountId=fe3bbc89-1540-4a60-9bf3-46d988b375b1
+            const url = `${API_URL}/transactions/report?start_date=${formattedStartDate}&end_date=${formattedEndDate}&accountId=${reqId}`; // &accountId=fe3bbc89-1540-4a60-9bf3-46d988b375b1
 
             const response = await fetch(url, {
                 method: "GET",
@@ -78,10 +98,12 @@ const useReportDownload = (accountId: string) => {
         startDate,
         endDate,
         isDateRangeValid,
+        reqId,
         setStartDate,
         setEndDate,
         handleDownload,
-        setIsDateRangeValid
+        setIsDateRangeValid,
+        handleSelectedIdChange
     };
 };
 

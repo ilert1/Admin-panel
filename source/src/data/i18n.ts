@@ -125,7 +125,15 @@ const ru: TranslationMessages = {
                 downloadReportButtonText: "Загрузить отчет",
                 bothError: "Начальная дата и конечная дата обязательно должны быть заполнены",
                 greaterError: "Конечная дата не может быть больше чем начальная дата",
-                error: "Ошибка"
+                error: "Ошибка",
+                dateExceed: "Начальная/конечная дата не может быть больше сегодняшней даты",
+                idEmpty: "Поле аккаунта не может быть пустым",
+                accountField: "Выберите аккаунт мерчанта"
+            },
+            filter: {
+                filterById: "Поиск по ID",
+                filterByAccount: "Поиск по счету",
+                clearFilters: "Сбросить фильтры"
             }
         },
         withdraw: {
@@ -354,7 +362,15 @@ const en: TranslationMessages = {
                 downloadReportButtonText: "Download report",
                 bothError: "Both start date and end date must be selected",
                 greaterError: "End date must be greater than start date",
-                error: "Error"
+                error: "Error",
+                dateExceed: "Start/end date cannot be greater than today's date",
+                idEmpty: "Account field must be chosen",
+                accountField: "Choose merchant account"
+            },
+            filter: {
+                filterById: "Search by ID",
+                filterByAccount: "Search by account",
+                clearFilters: "Clear filters"
             }
         },
         withdraw: {
