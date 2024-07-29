@@ -16,6 +16,7 @@ import { UserShow } from "@/components/widgets/show/UserShow";
 import { useMediaQuery } from "react-responsive";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useNavigate } from "react-router-dom";
 
 export const UserList = () => {
     const [showOpen, setShowOpen] = useState(false);
@@ -24,6 +25,7 @@ export const UserList = () => {
     const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
     const listContext = useListController<Users.User>();
     const translate = useTranslate();
+    const navigate = useNavigate();
 
     const openSheet = (id: string) => {
         setUserId(id);
@@ -68,12 +70,8 @@ export const UserList = () => {
                             <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
                                 {translate("app.ui.actions.quick_show")}
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <TextField
-                                    text={translate("app.ui.actions.show")}
-                                    type="internal-link"
-                                    link={`/users/${row.original.id}/show`}
-                                />
+                            <DropdownMenuItem onClick={() => navigate(`/users/${row.original.id}/show`)}>
+                                {translate("app.ui.actions.show")}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
