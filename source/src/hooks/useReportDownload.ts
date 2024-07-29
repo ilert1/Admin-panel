@@ -55,16 +55,10 @@ const useReportDownload = () => {
         if (!validateDates()) {
             return;
         }
-        if (reqId.length === 0) {
-            toast({
-                description: translate("resources.transactions.download.idEmpty"),
-                variant: "destructive",
-                title: translate("resources.transactions.download.error")
-            });
-            return;
-        }
         try {
-            const url = `${API_URL}/transactions/report?start_date=${formattedStartDate}&end_date=${formattedEndDate}&accountId=${reqId}`; // &accountId=fe3bbc89-1540-4a60-9bf3-46d988b375b1
+            const url = `${API_URL}/transactions/report?start_date=${formattedStartDate}&end_date=${formattedEndDate}${
+                reqId ? "&accountId=" + reqId : ""
+            }`;
 
             const response = await fetch(url, {
                 method: "GET",

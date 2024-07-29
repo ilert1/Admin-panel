@@ -127,7 +127,6 @@ const ru: TranslationMessages = {
                 greaterError: "Конечная дата не может быть больше чем начальная дата",
                 error: "Ошибка",
                 dateExceed: "Начальная/конечная дата не может быть больше сегодняшней даты",
-                idEmpty: "Поле аккаунта не может быть пустым",
                 accountField: "Выберите аккаунт мерчанта"
             },
             filter: {
@@ -364,7 +363,6 @@ const en: TranslationMessages = {
                 greaterError: "End date must be greater than start date",
                 error: "Error",
                 dateExceed: "Start/end date cannot be greater than today's date",
-                idEmpty: "Account field must be chosen",
                 accountField: "Choose merchant account"
             },
             filter: {
