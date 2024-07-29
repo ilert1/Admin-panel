@@ -32,10 +32,11 @@ export const AccountShow = (props: { id: string }) => {
             id: "value",
             accessorKey: "value",
             header: translate("resources.accounts.fields.amount.value"),
-            cell: ({ row }) =>
-                ((row.original.value.quantity || 0) / row.original.value.accuracy).toFixed(
-                    Math.log10(row.original.value.accuracy)
-                )
+            cell: ({ row }) => {
+                const value = (row.original.value.quantity || 0) / row.original.value.accuracy;
+                if (isNaN(value)) return "-";
+                return value.toFixed(Math.log10(row.original.value.accuracy));
+            }
         }
     ];
 

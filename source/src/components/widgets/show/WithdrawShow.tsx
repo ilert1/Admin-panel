@@ -7,6 +7,12 @@ export const WithdrawShow = (props: { id: string }) => {
 
     const context = useShowController({ id: props.id });
 
+    function computeValue(quantity: number, accuracy: number) {
+        const value = (quantity || 0) / accuracy;
+        if (isNaN(value)) return "-";
+        return value.toFixed(Math.log10(accuracy));
+    }
+
     if (context.isLoading || context.isFetching || !context.record) {
         return <Loading />;
     } else {
@@ -30,10 +36,10 @@ export const WithdrawShow = (props: { id: string }) => {
                 />
                 <TextField
                     label={translate("resources.withdraw.fields.destination.amount.value")}
-                    text={(
-                        (context.record.destination.amount.value.quantity || 0) /
+                    text={computeValue(
+                        context.record.destination.amount.value.quantity,
                         context.record.destination.amount.value.accuracy
-                    ).toFixed(Math.log10(context.record.destination.amount.value.accuracy))}
+                    )}
                 />
                 <TextField
                     label={translate("resources.withdraw.fields.destination.amount.currency")}
