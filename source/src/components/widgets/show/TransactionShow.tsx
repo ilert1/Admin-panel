@@ -173,7 +173,6 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                         <SimpleTable columns={historyColumns} data={history} />
                     </div>
                 )}
-                \
             </div>
         );
     }
