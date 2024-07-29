@@ -54,8 +54,13 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
 
     const historyColumns: ColumnDef<Transaction.Fee>[] = [
         {
-            id: "createdAt",
+            id: "id",
             accessorKey: "id",
+            header: translate("resources.transactions.fields.id")
+        },
+        {
+            id: "createdAt",
+            accessorKey: "created_at",
             header: translate("resources.transactions.fields.created_at")
         },
         {
