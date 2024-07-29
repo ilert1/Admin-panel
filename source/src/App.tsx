@@ -14,7 +14,7 @@ import { ThemeProvider } from "@/components/providers";
 import { isTokenStillFresh } from "@/helpers/jwt";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
-import { UserShow } from "./components/widgets/show";
+import { AccountShow, TransactionShow, UserShow, WithdrawShow } from "./components/widgets/show";
 
 const dataProvider = combineDataProviders(resource => {
     if (resource === "transactions") {
@@ -88,12 +88,32 @@ export const App = () => {
                     <CoreAdminUI dashboard={Dashboard} layout={MainLayout} title="Juggler" requireAuth>
                         {permissions => (
                             <>
-                                <Resource name="accounts" list={AccountList} create={AccountCreate} icon={WalletIcon} />
-                                <Resource name="transactions" list={TransactionList} icon={ReceiptIcon} />
-                                <Resource name="withdraw" list={WithdrawList} icon={WaypointsIcon} />
+                                <Resource
+                                    name="accounts"
+                                    list={AccountList}
+                                    show={AccountShow}
+                                    create={AccountCreate}
+                                    icon={WalletIcon}
+                                />
+
+                                <Resource
+                                    name="transactions"
+                                    list={TransactionList}
+                                    show={TransactionShow}
+                                    icon={ReceiptIcon}
+                                />
+
+                                <Resource
+                                    name="withdraw"
+                                    list={WithdrawList}
+                                    show={WithdrawShow}
+                                    icon={WaypointsIcon}
+                                />
+
                                 {permissions === "admin" && (
                                     <Resource name="users" list={UserList} show={UserShow} icon={UsersIcon} />
                                 )}
+
                                 <CustomRoutes>
                                     {permissions === "merchant" && (
                                         <Route path="/bank-transfer" element={<PayOutPage />} />

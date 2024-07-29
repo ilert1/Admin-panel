@@ -40,6 +40,7 @@ import { Loading } from "@/components/ui/loading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
+import { useNavigate } from "react-router-dom";
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
@@ -190,6 +191,7 @@ export const TransactionList = () => {
 
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
+    const navigate = useNavigate();
 
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");
@@ -280,7 +282,10 @@ export const TransactionList = () => {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                                 <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
-                                    {translate("ra.action.show")}
+                                    {translate("app.ui.actions.quick_show")}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => navigate(`/transactions/${row.original.id}/show`)}>
+                                    {translate("app.ui.actions.show")}
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 <TransactionActions
@@ -351,7 +356,7 @@ export const TransactionList = () => {
                                     {translate("resources.transactions.showDescription", { id: showTransactionId })}
                                 </SheetDescription>
                             </SheetHeader>
-                            <TransactionShow id={showTransactionId} />
+                            <TransactionShow id={showTransactionId} type="compact" />
                         </ScrollArea>
                     </SheetContent>
                 </Sheet>

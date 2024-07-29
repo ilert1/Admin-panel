@@ -16,10 +16,12 @@ import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
 import { Loading } from "@/components/ui/loading";
+import { useNavigate } from "react-router-dom";
 
 export const WithdrawList = () => {
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
+    const navigate = useNavigate();
 
     const [showOpen, setShowOpen] = useState(false);
     const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
@@ -74,7 +76,10 @@ export const WithdrawList = () => {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                                 <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
-                                    {translate("ra.action.show")}
+                                    {translate("app.ui.actions.quick_show")}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => navigate(`/withdraw/${row.original.id}/show`)}>
+                                    {translate("app.ui.actions.show")}
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>

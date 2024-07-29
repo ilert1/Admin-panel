@@ -44,6 +44,17 @@ import { useTheme } from "@/components/providers";
 import { camelize } from "@/helpers/utils";
 import { Toaster } from "@/components/ui/toaster";
 
+enum SplitLocations {
+    show = "show",
+    edit = "edit",
+    new = "new"
+}
+
+enum TransferLocations {
+    bank = "bank-transfer",
+    crypto = "crypto-transfer"
+}
+
 export const MainLayout = ({ children, title }: CoreLayoutProps) => {
     const resources = useResourceDefinitions();
     const getResourceLabel = useGetResourceLabel();
@@ -51,19 +62,31 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
     const { permissions } = usePermissions();
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
     const location = useLocation();
-    const resourceName = useMemo(
-        () => location.pathname?.split("/")?.filter((s: string) => s?.length > 0)?.[0],
-        [location]
-    );
-    const resourceLabel = useMemo(() => {
-        if (["bank-transfer", "crypto-transfer"].includes(resourceName)) {
-            return translate(`pages.${camelize(resourceName)}.header`);
-        } else if (resourceName) {
-            return translate(`resources.${camelize(resourceName)}.name`, { smart_count: 2 });
+
+    const resourceName = useMemo(() => {
+        const resources = location.pathname?.split("/")?.filter((s: string) => s?.length > 0);
+
+        Object.values(SplitLocations).forEach(item => {
+            if (resources.includes(item)) {
+                const tempResource = resources.splice(resources.indexOf(item) - 1, 2);
+                resources.push(tempResource.join("/"));
+            }
+        });
+
+        return resources;
+    }, [location]);
+
+    const resourceLabel = (item: string) => {
+        if (Object.values<string>(TransferLocations).includes(item)) {
+            return translate(`pages.${camelize(item)}.header`);
+        } else if (item.includes("/show")) {
+            return item.replace("/show", "");
+        } else if (item) {
+            return translate(`resources.${camelize(item)}.name`, { _: item, smart_count: 2 });
         } else {
             return null;
         }
-    }, [resourceName]); // eslint-disable-line react-hooks/exhaustive-deps
+    };
 
     const identity = useGetIdentity();
     const logout = useLogout();
@@ -234,16 +257,20 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                                         <NavLink to="/">{title}</NavLink>
                                     </BreadcrumbLink>
                                 </BreadcrumbItem>
-                                {resourceLabel && (
-                                    <>
+                                {resourceName.map((item, index) => (
+                                    <div
+                                        className="flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5"
+                                        key={index}>
                                         <BreadcrumbSeparator />
                                         <BreadcrumbItem>
                                             <BreadcrumbLink asChild>
-                                                <NavLink to={`/${resourceName}`}>{resourceLabel}</NavLink>
+                                                <NavLink to={`/${resourceName.slice(0, index + 1).join("/")}`}>
+                                                    {resourceLabel(item)}
+                                                </NavLink>
                                             </BreadcrumbLink>
                                         </BreadcrumbItem>
-                                    </>
-                                )}
+                                    </div>
+                                ))}
                             </BreadcrumbList>
                         </Breadcrumb>
                         {identity?.data && (

@@ -16,10 +16,12 @@ import { AccountShow } from "@/components/widgets/show";
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { TextField } from "@/components/ui/text-field";
+import { useNavigate } from "react-router-dom";
 
 export const AccountList = () => {
     const listContext = useListController<Account>();
     const translate = useTranslate();
+    const navigate = useNavigate();
 
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
 
@@ -74,7 +76,10 @@ export const AccountList = () => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
-                                {translate("ra.action.show")}
+                                {translate("app.ui.actions.quick_show")}
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => navigate(`/accounts/${row.original.id}/show`)}>
+                                {translate("app.ui.actions.show")}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
