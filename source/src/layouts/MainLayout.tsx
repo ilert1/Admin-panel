@@ -50,6 +50,11 @@ enum SplitLocations {
     new = "new"
 }
 
+enum TransferLocations {
+    bank = "bank-transfer",
+    crypto = "crypto-transfer"
+}
+
 export const MainLayout = ({ children, title }: CoreLayoutProps) => {
     const resources = useResourceDefinitions();
     const getResourceLabel = useGetResourceLabel();
@@ -72,7 +77,7 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
     }, [location]);
 
     const resourceLabel = (item: string) => {
-        if (["bank-transfer", "crypto-transfer"].includes(item)) {
+        if (Object.values<string>(TransferLocations).includes(item)) {
             return translate(`pages.${camelize(item)}.header`);
         } else if (item.includes("/show")) {
             return item.replace("/show", "");
