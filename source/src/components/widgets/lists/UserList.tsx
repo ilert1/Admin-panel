@@ -1,7 +1,7 @@
 import { ListContextProvider, useListController, useTranslate } from "react-admin";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
-import { BooleanFiled } from "@/components/ui/boolean-field";
+import { BooleanField } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
 import {
     DropdownMenu,
@@ -51,7 +51,7 @@ export const UserList = () => {
             accessorKey: "active",
             header: translate("resources.users.fields.active"),
             cell: ({ row }) =>
-                row.original.deleted_at ? <BooleanFiled value={false} /> : <BooleanFiled value={true} />
+                row.original.deleted_at ? <BooleanField value={false} /> : <BooleanField value={true} />
         },
         {
             id: "actions",

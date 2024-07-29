@@ -42,6 +42,7 @@ import {
 } from "lucide-react";
 import { useTheme } from "@/components/providers";
 import { camelize } from "@/helpers/utils";
+import { Toaster } from "@/components/ui/toaster";
 
 export const MainLayout = ({ children, title }: CoreLayoutProps) => {
     const resources = useResourceDefinitions();
@@ -302,6 +303,7 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                     <main className="p-4 sm:px-6 sm:py-0 container">{children}</main>
                 </div>
             </div>
+            <Toaster />
         </TooltipProvider>
     );
 };

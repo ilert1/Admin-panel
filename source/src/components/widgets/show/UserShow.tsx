@@ -1,4 +1,4 @@
-import { BooleanFiled } from "@/components/ui/boolean-field";
+import { BooleanField } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
 import { useShowController, useTranslate } from "react-admin";
 
@@ -20,7 +20,7 @@ export const UserShow = (props: { id: string }) => {
                     <small className="text-sm text-muted-foreground">
                         {translate("resources.users.fields.active")}
                     </small>
-                    {context.record.deleted_at ? <BooleanFiled value={false} /> : <BooleanFiled value={true} />}
+                    {context.record.deleted_at ? <BooleanField value={false} /> : <BooleanField value={true} />}
                 </div>
 
                 <TextField

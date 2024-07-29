@@ -2,9 +2,10 @@ import { useDataProvider, useShowController, useTranslate, useGetManyReference }
 import { useQuery } from "react-query";
 import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
-import { BooleanFiled } from "@/components/ui/boolean-field";
+import { BooleanField } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
 import { useMemo } from "react";
+import { Loading } from "@/components/ui/loading";
 
 export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     const dataProvider = useDataProvider();
@@ -88,7 +89,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     ];
 
     if (context.isLoading || context.isFetching || !context.record) {
-        return "Loading...";
+        return <Loading />;
     } else {
         return (
             <div className="relative w-[540] overflow-x-auto flex flex-col gap-2">
@@ -112,8 +113,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                             label={translate("resources.transactions.fields.state.state_description")}
                             text={context.record.state.state_description}
                         />
-
-                        <BooleanFiled
+                        <BooleanField
                             value={context.record.state.final}
                             label={translate("resources.transactions.fields.state.final")}
                         />
@@ -165,7 +165,6 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                     </small>
                     <SimpleTable columns={feesColumns} data={context.record.fees} />
                 </div>
-
                 {history && history?.length > 0 && (
                     <div className="mt-5">
                         <small className="text-sm text-muted-foreground">
@@ -174,6 +173,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                         <SimpleTable columns={historyColumns} data={history} />
                     </div>
                 )}
+                \
             </div>
         );
     }

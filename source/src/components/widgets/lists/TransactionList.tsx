@@ -4,7 +4,9 @@ import {
     useListController,
     RecordContextProvider,
     useGetList,
-    ListContextProvider
+    ListContextProvider,
+    useListContext,
+    usePermissions
 } from "react-admin";
 import { useQuery } from "react-query";
 import { DataTable } from "@/components/widgets/shared";
@@ -23,7 +25,7 @@ import {
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, ChangeEvent } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { TransactionShow } from "@/components/widgets/show";
 import { useMediaQuery } from "react-responsive";
@@ -32,88 +34,12 @@ import { TransactionStorno } from "@/components/widgets/forms";
 import { API_URL } from "@/data/base";
 import { EventBus, EVENT_STORNO } from "@/helpers/event-bus";
 import { TextField } from "@/components/ui/text-field";
-
-// const TransactionFilterSidebar = () => {
-//     const translate = useTranslate();
-//     const { data: accounts } = useGetList("accounts");
-
-//     const { filterValues, setFilters, displayedFilters } = useListContext();
-
-//     const [id, setId] = useState("");
-//     const [account, setAccount] = useState("");
-
-//     const onPropertySelected = debounce((value: any, type: "id" | "account") => {
-//         if (value) {
-//             setFilters({ ...filterValues, [type]: value }, displayedFilters);
-//         } else {
-//             Reflect.deleteProperty(filterValues, type);
-//             setFilters(filterValues, displayedFilters);
-//         }
-//     }, 300);
-
-//     const onIdChanded = (e: ChangeEvent<HTMLInputElement>) => {
-//         setId(e.target.value);
-//         onPropertySelected(e.target.value, "id");
-//     };
-
-//     const clearId = () => {
-//         setId("");
-//         onPropertySelected(null, "id");
-//     };
-
-//     const onAccountChanged = (e: SelectChangeEvent) => {
-//         setAccount(e.target.value);
-//         onPropertySelected(e.target.value, "account");
-//     };
-
-//     const clearAccount = () => {
-//         setAccount("");
-//         onPropertySelected(null, "account");
-//     };
-
-//     return (
-//         <Box sx={{ display: "flex", flexDirection: "row", gap: 2, p: 2 }}>
-//             <MUITextField
-//                 label={translate("resources.transactions.list.filter.transactionId")}
-//                 fullWidth
-//                 value={id}
-//                 onChange={onIdChanded}
-//                 helperText={false}
-//                 InputProps={{
-//                     endAdornment:
-//                         id?.length > 0 ? (
-//                             <IconButton size="small" onClick={clearId}>
-//                                 <ClearIcon />
-//                             </IconButton>
-//                         ) : undefined
-//                 }}
-//             />
-//             <FormControl fullWidth>
-//                 <InputLabel shrink={true}>{translate("resources.transactions.list.filter.account")}</InputLabel>
-//                 <Select
-//                     IconComponent={
-//                         account?.length > 0
-//                             ? () => (
-//                                   <IconButton size="small" onClick={clearAccount}>
-//                                       <ClearIcon />
-//                                   </IconButton>
-//                               )
-//                             : undefined
-//                     }
-//                     onChange={onAccountChanged}
-//                     value={account}
-//                     notched={true}>
-//                     {accounts &&
-//                         accounts.map((account, i) => (
-//                             <MenuItem key={i} value={account.id}>
-//                                 {account.meta.caption}
-//                             </MenuItem>
-//                         ))}
-//                 </Select>
-//             </FormControl>
-//         </Box>
-//     );
-// };
+import { DatePicker } from "@/components/ui/date-picker";
+import useReportDownload from "@/hooks/useReportDownload";
+import { Loading } from "@/components/ui/loading";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { debounce } from "lodash";
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
@@ -171,10 +97,82 @@ const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; 
     );
 };
 
+const TransactionFilterSidebar = () => {
+    const { filterValues, setFilters, displayedFilters } = useListContext();
+    const translate = useTranslate();
+    const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+    const { data: accounts } = useGetList("accounts");
+
+    const [id, setId] = useState(filterValues?.id || "");
+    const [account, setAccount] = useState(filterValues?.account || "");
+
+    const onPropertySelected = debounce((value: Account | string, type: "id" | "account") => {
+        if (value) {
+            if (type === "account") {
+                value = (value as Account).id;
+            }
+            setFilters({ ...filterValues, [type]: value }, displayedFilters);
+        } else {
+            Reflect.deleteProperty(filterValues, type);
+            setFilters(filterValues, displayedFilters);
+        }
+    }, 300);
+
+    const onIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        setId(e.target.value);
+        onPropertySelected(e.target.value, "id");
+    };
+
+    const onAccountChanged = (account: Account | string) => {
+        setAccount(account);
+        onPropertySelected(account, "account");
+    };
+
+    const clearFilters = () => {
+        setId("");
+        setAccount("");
+        setFilters({}, displayedFilters);
+    };
+
+    return (
+        <div className="sm:w-full flex flex-col sm:flex-row gap-4">
+            <Input
+                placeholder={translate("resources.transactions.filter.filterById")}
+                value={id}
+                onChange={onIdChanged}
+            />
+            {adminOnly && (
+                <Select onValueChange={onAccountChanged} value={account}>
+                    <SelectTrigger>
+                        <SelectValue placeholder={translate("resources.transactions.filter.filterByAccount")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {accounts &&
+                            accounts.map(account => (
+                                <SelectItem key={account.id} value={account}>
+                                    {account.meta.caption}
+                                </SelectItem>
+                            ))}
+                    </SelectContent>
+                </Select>
+            )}
+            <Button onClick={clearFilters} variant="secondary" size="sm" disabled={!id && !account}>
+                {translate("resources.transactions.filter.clearFilters")}
+            </Button>
+        </div>
+    );
+};
+
 export const TransactionList = () => {
     const dataProvider = useDataProvider();
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
     const { data: accounts } = useGetList("accounts");
+    const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+
+    const { startDate, endDate, handleSelectedIdChange, setStartDate, setEndDate, handleDownload } =
+        useReportDownload();
 
     const { data: currencies } = useQuery("currencies", () =>
         fetch(`${API_URL}/dictionaries/curr`, {
@@ -207,7 +205,8 @@ export const TransactionList = () => {
         {
             accessorKey: "id",
             header: translate("resources.transactions.fields.id"),
-            cell: ({ row }) => <TextField text={row.original.id} copyValue />
+            cell: ({ row }) => <TextField text={row.original.id} copyValue />,
+            filterFn: "includesString"
         },
         {
             accessorKey: "type",
@@ -301,13 +300,49 @@ export const TransactionList = () => {
             }
         }
     ];
-
     if (listContext.isLoading || !listContext.data) {
-        return <div>Loading...</div>;
+        return <Loading />;
     } else {
         return (
             <>
                 <ListContextProvider value={listContext}>
+                    <div className="mb-10 mt-5">
+                        <TransactionFilterSidebar />
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-4">
+                            <DatePicker
+                                placeholder={translate("resources.transactions.download.startDate")}
+                                date={startDate}
+                                onChange={setStartDate}
+                            />
+                            <DatePicker
+                                placeholder={translate("resources.transactions.download.endDate")}
+                                date={endDate}
+                                onChange={setEndDate}
+                            />
+                            {adminOnly && (
+                                <Select onValueChange={handleSelectedIdChange}>
+                                    <SelectTrigger>
+                                        <SelectValue
+                                            placeholder={translate("resources.transactions.download.accountField")}
+                                        />
+                                    </SelectTrigger>
+
+                                    <SelectContent>
+                                        {accounts?.map(el => {
+                                            return (
+                                                <SelectItem key={el.id} value={el.id.toString()}>
+                                                    {el.meta.caption}
+                                                </SelectItem>
+                                            );
+                                        })}
+                                    </SelectContent>
+                                </Select>
+                            )}
+                            <Button onClick={handleDownload} variant="default" size="sm">
+                                {translate("resources.transactions.download.downloadReportButtonText")}
+                            </Button>
+                        </div>
+                    </div>
                     <DataTable columns={columns} />
                 </ListContextProvider>
                 <Sheet open={showOpen} onOpenChange={setShowOpen}>

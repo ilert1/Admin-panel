@@ -2,6 +2,7 @@ import { useDataProvider, useShowController, useTranslate } from "react-admin";
 import { useQuery } from "react-query";
 import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
+import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 
 export const AccountShow = (props: { id: string }) => {
@@ -39,7 +40,7 @@ export const AccountShow = (props: { id: string }) => {
     ];
 
     if (context.isLoading || !context.record) {
-        return null;
+        return <Loading />;
     } else {
         return (
             <div className="flex flex-col gap-2">
