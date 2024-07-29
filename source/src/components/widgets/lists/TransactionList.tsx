@@ -102,7 +102,8 @@ const TransactionFilterSidebar = () => {
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
-    const { data: accounts } = useGetList("accounts");
+    // TODO: временное решение, нужно расширить компонент селекта для поддержки пагинациц
+    const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
 
     const [id, setId] = useState(filterValues?.id || "");
     const [account, setAccount] = useState(filterValues?.account || "");
@@ -167,7 +168,8 @@ const TransactionFilterSidebar = () => {
 export const TransactionList = () => {
     const dataProvider = useDataProvider();
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
-    const { data: accounts } = useGetList("accounts");
+    // TODO: временное решение, нужно расширить компонент селекта для поддержки пагинациц
+    const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
