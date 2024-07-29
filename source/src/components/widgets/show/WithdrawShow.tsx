@@ -21,12 +21,12 @@ export const WithdrawShow = (props: { id: string }) => {
                 />
                 <TextField
                     label={translate("resources.withdraw.fields.payload.hash")}
-                    text={context.record.payload.hash}
+                    text={context.record.payload?.hash}
                 />
                 <TextField
                     type="link"
                     label={translate("resources.withdraw.fields.payload.hash_link")}
-                    text={context.record.payload.hash_link}
+                    text={context.record.payload?.hash_link}
                 />
                 <TextField
                     label={translate("resources.withdraw.fields.destination.amount.value")}
