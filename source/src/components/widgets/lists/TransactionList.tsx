@@ -10,7 +10,7 @@ import {
 } from "react-admin";
 import { useQuery } from "react-query";
 import { DataTable } from "@/components/widgets/shared";
-import { ColumnDef, ColumnFiltersState } from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -23,7 +23,7 @@ import {
     DropdownMenuSubContent
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { ChevronsLeft, MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useMemo, useEffect, ChangeEvent } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -37,15 +37,7 @@ import { TextField } from "@/components/ui/text-field";
 import { DatePicker } from "@/components/ui/date-picker";
 import useReportDownload from "@/hooks/useReportDownload";
 import { Loading } from "@/components/ui/loading";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 
@@ -108,10 +100,18 @@ const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; 
 const TransactionFilterSidebar = () => {
     const { filterValues, setFilters, displayedFilters } = useListContext();
     const translate = useTranslate();
-    const [id, setId] = useState(filterValues?.id || "");
+    const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+    const { data: accounts } = useGetList("accounts");
 
-    const onPropertySelected = debounce((value: any, type: "id" | "account") => {
+    const [id, setId] = useState(filterValues?.id || "");
+    const [account, setAccount] = useState(filterValues?.account || "");
+
+    const onPropertySelected = debounce((value: Account | string, type: "id" | "account") => {
         if (value) {
+            if (type === "account") {
+                value = (value as Account).id;
+            }
             setFilters({ ...filterValues, [type]: value }, displayedFilters);
         } else {
             Reflect.deleteProperty(filterValues, type);
@@ -124,14 +124,42 @@ const TransactionFilterSidebar = () => {
         onPropertySelected(e.target.value, "id");
     };
 
+    const onAccountChanged = (account: Account | string) => {
+        setAccount(account);
+        onPropertySelected(account, "account");
+    };
+
+    const clearFilters = () => {
+        setId("");
+        setAccount("");
+        setFilters({}, displayedFilters);
+    };
+
     return (
-        <div className="sm:w-full">
+        <div className="sm:w-full flex flex-col sm:flex-row gap-4">
             <Input
-                placeholder={translate("resources.transactions.filterById")}
+                placeholder={translate("resources.transactions.filter.filterById")}
                 value={id}
                 onChange={onIdChanged}
-                className="max-w-screen-sm sm:w-full"
             />
+            {adminOnly && (
+                <Select onValueChange={onAccountChanged} value={account}>
+                    <SelectTrigger>
+                        <SelectValue placeholder={translate("resources.transactions.filter.filterByAccount")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {accounts &&
+                            accounts.map(account => (
+                                <SelectItem key={account.id} value={account}>
+                                    {account.meta.caption}
+                                </SelectItem>
+                            ))}
+                    </SelectContent>
+                </Select>
+            )}
+            <Button onClick={clearFilters} variant="secondary" size="sm" disabled={!id && !account}>
+                {translate("resources.transactions.filter.clearFilters")}
+            </Button>
         </div>
     );
 };
@@ -271,9 +299,9 @@ export const TransactionList = () => {
         return (
             <>
                 <ListContextProvider value={listContext}>
-                    <div className="mb-10 mt-5 flex flex-col sm:flex-col md:flex-row gap-4 sm:items-center justify-between">
+                    <div className="mb-10 mt-5">
                         <TransactionFilterSidebar />
-                        <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-4">
                             <DatePicker
                                 placeholder={translate("resources.transactions.download.startDate")}
                                 date={startDate}
@@ -286,25 +314,20 @@ export const TransactionList = () => {
                             />
                             {adminOnly && (
                                 <Select onValueChange={handleSelectedIdChange}>
-                                    <div className="">
-                                        <SelectTrigger className="md:w-40 sm:w-full">
-                                            <SelectValue
-                                                placeholder={translate("resources.transactions.download.accountField")}
-                                            />
-                                        </SelectTrigger>
-                                    </div>
+                                    <SelectTrigger>
+                                        <SelectValue
+                                            placeholder={translate("resources.transactions.download.accountField")}
+                                        />
+                                    </SelectTrigger>
 
                                     <SelectContent>
-                                        <SelectGroup>
-                                            <SelectLabel>Select client</SelectLabel>
-                                            {accounts?.map(el => {
-                                                return (
-                                                    <SelectItem key={el.id} value={el.id.toString()}>
-                                                        {el.meta.caption}
-                                                    </SelectItem>
-                                                );
-                                            })}
-                                        </SelectGroup>
+                                        {accounts?.map(el => {
+                                            return (
+                                                <SelectItem key={el.id} value={el.id.toString()}>
+                                                    {el.meta.caption}
+                                                </SelectItem>
+                                            );
+                                        })}
                                     </SelectContent>
                                 </Select>
                             )}

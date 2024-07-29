@@ -38,7 +38,6 @@ const ru: TranslationMessages = {
         },
         transactions: {
             name: "Транзакция |||| Транзакции",
-            filterById: "Поиск по ID",
             fields: {
                 id: "ID",
                 created_at: "Дата создания",
@@ -127,6 +126,11 @@ const ru: TranslationMessages = {
                 dateExceed: "Начальная/конечная дата не может быть больше сегодняшней даты",
                 idEmpty: "Поле аккаунта не может быть пустым",
                 accountField: "Выберите аккаунт мерчанта"
+            },
+            filter: {
+                filterById: "Поиск по ID",
+                filterByAccount: "Поиск по счету",
+                clearFilters: "Сбросить фильтры"
             }
         },
         withdraw: {
@@ -264,7 +268,6 @@ const en: TranslationMessages = {
         },
         transactions: {
             name: "Transaction |||| Transactions",
-            filterById: "Search by ID",
             fields: {
                 id: "ID",
                 created_at: "Created at",
@@ -353,6 +356,11 @@ const en: TranslationMessages = {
                 dateExceed: "Start/end date cannot be greater than today's date",
                 idEmpty: "Account field must be chosen",
                 accountField: "Choose merchant account"
+            },
+            filter: {
+                filterById: "Search by ID",
+                filterByAccount: "Search by account",
+                clearFilters: "Clear filters"
             }
         },
         withdraw: {
