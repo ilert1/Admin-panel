@@ -21,6 +21,12 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
         id: trnId
     });
 
+    function computeValue(quantity: number, accuracy: number) {
+        const value = (quantity || 0) / accuracy;
+        if (isNaN(value)) return "-";
+        return value.toFixed(Math.log10(accuracy));
+    }
+
     const feesColumns: ColumnDef<Transaction.Fee>[] = [
         {
             id: "recipient",
@@ -42,10 +48,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             id: "value",
             accessorKey: "value",
             header: translate("resources.transactions.fields.value"),
-            cell: ({ row }) =>
-                ((row.original.value.quantity || 0) / row.original.value.accuracy).toFixed(
-                    Math.log10(row.original.value.accuracy)
-                )
+            cell: ({ row }) => computeValue(row.original.value.quantity, row.original.value.accuracy)
         }
     ];
 
@@ -128,10 +131,10 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                         />
                         <TextField
                             label={translate("resources.transactions.fields.source.amount.value")}
-                            text={(
-                                (context.record.source.amount.value.quantity || 0) /
+                            text={computeValue(
+                                context.record.source.amount.value.quantity,
                                 context.record.source.amount.value.accuracy
-                            ).toFixed(Math.log10(context.record.source.amount.value.accuracy))}
+                            )}
                         />
                         <TextField
                             label={translate("resources.transactions.fields.source.amount.currency")}
@@ -148,10 +151,10 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                         />
                         <TextField
                             label={translate("resources.transactions.fields.destination.amount.value")}
-                            text={(
-                                (context.record.destination.amount.value.quantity || 0) /
+                            text={computeValue(
+                                context.record.destination.amount.value.quantity,
                                 context.record.destination.amount.value.accuracy
-                            ).toFixed(Math.log10(context.record.destination.amount.value.accuracy))}
+                            )}
                         />
                         <TextField
                             label={translate("resources.transactions.fields.destination.amount.currency")}
