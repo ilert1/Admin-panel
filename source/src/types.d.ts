@@ -5,6 +5,7 @@ type Value = {
 
 type Amount = {
     currency: string;
+    shop_currency: string;
     id: string;
     type: string;
     value: Value;
