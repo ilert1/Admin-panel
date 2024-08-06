@@ -19,6 +19,11 @@ export const AccountShow = (props: { id: string }) => {
             header: translate("resources.accounts.fields.amount.id")
         },
         {
+            id: "shop_currency",
+            accessorKey: "shop_currency",
+            header: translate("resources.accounts.fields.amount.shop_currency")
+        },
+        {
             id: "type",
             accessorKey: "type",
             header: translate("resources.accounts.fields.amount.type")
