@@ -11,13 +11,13 @@ const buttonVariants = cva(
             variant: {
                 default:
                     "bg-green-50 text-neutral-0 hover:bg-green-40 active:bg-neutral-100 disabled:bg-neutral-20 disabled:text-neutral-80",
-                // destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+                secondary:
+                    "bg-neutral-0 text-green-50 hover:text-green-40 active:text-neutral-100 disabled:bg-neutral-20 disabled:text-neutral-80",
                 outline:
                     "border border-green-50 text-green-50 hover:bg-green-0 hover:border-green-40 active:bg-neutral-0 active:text-green-60 active:border-green-60 disabled:bg-neutral-20 disabled:border-neutral-80 disabled:text-neutral-80",
-                secondary:
-                    "bg-neutral-0 text-green-50 hover:text-green-40 active:text-neutral-100 disabled:bg-neutral-20 disabled:text-neutral-80"
-                // ghost: "hover:bg-accent hover:text-accent-foreground",
-                // link: "text-primary underline-offset-4 hover:underline"
+                textBtn:
+                    "bg-neutral-0 text-green-50 hover:text-green-40 active:text-neutral-100 disabled:text-neutral-80",
+                error: "border border-red-40 text-red-40 hover:bg-red-0 active:bg-neutral-0"
             },
             size: {
                 default: "h-10 px-4 py-2",

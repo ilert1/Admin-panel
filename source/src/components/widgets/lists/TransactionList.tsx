@@ -275,7 +275,7 @@ export const TransactionList = () => {
                     <RecordContextProvider value={row.original}>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="h-8 w-8 p-0">
+                                <Button variant="secondary" className="h-8 w-8 p-0">
                                     <span className="sr-only">Open menu</span>
                                     <MoreHorizontal className="h-4 w-4" />
                                 </Button>
@@ -338,7 +338,7 @@ export const TransactionList = () => {
                                     </SelectContent>
                                 </Select>
                             )}
-                            <Button onClick={handleDownload} variant="default" size="sm">
+                            <Button onClick={handleDownload} variant="error" size="sm">
                                 {translate("resources.transactions.download.downloadReportButtonText")}
                             </Button>
                         </div>
