@@ -94,6 +94,12 @@ module.exports = {
                 card: {
                     DEFAULT: "hsl(var(--card))",
                     foreground: "hsl(var(--card-foreground))"
+                },
+                tooltip: {
+                    info: "hsl(var(--green-40))",
+                    info_bold: "hsl(var(--green-50))",
+                    warning: "hsl(var(--yellow-40))",
+                    error: "hsl(var(--red-40))"
                 }
             },
             borderRadius: {
@@ -137,6 +143,9 @@ module.exports = {
                 text: ["12px", { lineHeight: "16px", fontWeight: 400 }],
                 "note-1": ["12px", { lineHeight: "18px", fontWeight: 400 }],
                 "note-2": ["10px", { lineHeight: "12px", fontWeight: 400 }]
+            },
+            gridTemplateColumns: {
+                "1/9": "10% 90%"
             }
         }
     },

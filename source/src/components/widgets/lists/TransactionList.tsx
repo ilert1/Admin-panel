@@ -338,7 +338,7 @@ export const TransactionList = () => {
                                     </SelectContent>
                                 </Select>
                             )}
-                            <Button onClick={handleDownload} variant="error" size="sm">
+                            <Button onClick={handleDownload} variant="default" size="sm">
                                 {translate("resources.transactions.download.downloadReportButtonText")}
                             </Button>
                         </div>
