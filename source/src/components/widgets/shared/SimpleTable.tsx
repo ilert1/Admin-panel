@@ -7,11 +7,12 @@ interface SimpleTableProps<TData, TValue> {
 }
 
 export function SimpleTable<TData, TValue>({ columns, data }: SimpleTableProps<TData, TValue>) {
+    console.log(data);
+
     const table = useReactTable({
         data,
         columns,
-        getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel()
+        getCoreRowModel: getCoreRowModel()
     });
 
     return (
