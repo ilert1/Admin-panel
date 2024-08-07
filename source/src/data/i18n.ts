@@ -16,6 +16,7 @@ const ru: TranslationMessages = {
                 amounts: "Суммы",
                 amount: {
                     id: "ID",
+                    shop_currency: "Фиатная валюта",
                     type: "Тип",
                     currency: "Валюта",
                     value: "Сумма"
@@ -252,6 +253,7 @@ const en: TranslationMessages = {
                 amounts: "Amounts",
                 amount: {
                     id: "ID",
+                    shop_currency: "Shop currency",
                     type: "Type",
                     currency: "Currency",
                     value: "Value"
