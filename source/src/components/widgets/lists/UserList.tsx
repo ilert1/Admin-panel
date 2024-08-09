@@ -85,6 +85,7 @@ export const UserList = () => {
     } else {
         return (
             <>
+                <Button onClick={() => navigate(`/users/create`)}/>
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />
                 </ListContextProvider>
