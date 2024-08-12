@@ -1,218 +1,205 @@
+"use client"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { useTranslate, useLocaleState } from "react-admin";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useTranslate, useLocaleState, SaveHandler } from "react-admin";
 import { useMemo } from "react";
 
 export const UserCreateForm = (props: {
-    accounts: any[];
-    currencies: any[];
-    loading: boolean;
-    create: (data: {
-        name: string;
-        login: string;
-        email: string;
-        password: string;
-        publicKey: string;
-        shopCurrency: string;
-        shopApiKey: string,
-        shopSignKey: string,
-        shopBalanceKey: string,
-    }) => void;
+    onSubmit: (data: any) => void;
+    isDisabled: boolean
 }) => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
 
 
     const formSchema = z.object({
-        source: z.string().min(1, translate("app.widgets.forms.payin.sourceMessage")),
-        sourceValue: z
+        name: z.string().min(3, {message: translate("app.widgets.forms.userCreate.nameMessage")}),
+        login:z.string().min(3, translate("app.widgets.forms.userCreate.loginMessage")),
+        email: z
             .string()
-            .regex(/^[+-]?([0-9]*[.])?[0-9]+$/, translate("resources.transactions.storno.sourceValueMessage")),
-        sourceCurrency: z.string().min(1, translate("app.widgets.forms.payin.sourceCurrencyMessage")),
-        dest: z.string().min(1, translate("app.widgets.forms.payin.destinationMessage")),
-        destValue: z
+            .regex(/^\S+@\S+\.\S+$/, {message: translate("app.widgets.forms.userCreate.emailMessage")}),
+        password: z
             .string()
-            .regex(/^[+-]?([0-9]*[.])?[0-9]+$/, translate("resources.transactions.storno.destValueMessage")),
-        destCurrency: z.string().min(1, translate("app.widgets.forms.payin.destinationCurrencyMessage"))
+            .regex(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/, translate("app.widgets.forms.userCreate.passwordMessage")),
+        publicKey: z
+            .string()
+            .regex(/^-----BEGIN PUBLIC KEY-----(.?){226}-----END PUBLIC KEY-----$/, translate("app.widgets.forms.userCreate.publicKeyMessage")),
+        shopCurrency: z
+            .string()
+            .regex(/^[A-Z]{3}$/, translate("app.widgets.forms.userCreate.shopCurrencyMessage")),
+        shopApiKey: z
+            .string()
+            .regex(/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/, translate("app.widgets.forms.userCreate.keyMessage")),
+        shopSignKey: z
+            .string()
+            .regex(/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/, translate("app.widgets.forms.userCreate.keyMessage")),
+        shopBalanceKey: z
+            .string()
+            .regex(/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/, translate("app.widgets.forms.userCreate.keyMessage"))
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            source: "",
-            sourceValue: "",
-            sourceCurrency: "",
-            dest: "",
-            destValue: "",
-            destCurrency: ""
+            name: "my_merch",
+            login: "my_merch_login",
+            email: "email@emailovich.com",
+            password: "123qweQWE!@#",
+            publicKey: "-----BEGIN PUBLIC KEY-----\nMIGeMA11GCSqGSIb3DQEBAQUAA4GMADCBiAKBgG6zX+So2tgR0TR8GnOMtaze2aQY\nwkWcfIRO27phbopiQKTukL6yfZ8WR02qvwAoiwSI/BpJnPHVs2emKWdHaxNJMhOo\nxxLyUdqIvI4L/GLWisZFC2BWvGbxLwQLokkXwsK7ljBMjdH6PTgFJFh6HpW1Xs+Q\nZXqYzDIVu6TaqI+LAgMBAAE=\n-----END PUBLIC KEY-----",
+            shopCurrency: "RUB",
+            shopApiKey: "4347505a-91be-49d5-bff3-ad2e4be32b9e",
+            shopSignKey: "983b484f-d0eb-4565-85d7-12e4cb27c0b5",
+            shopBalanceKey: "988b48aa-d0eb-4565-85d7-12e4cb27c0b5"
         }
     });
 
-    
-
-    // function onSubmit(values: z.infer<typeof formSchema>) {
-    //     props?.create?.(values);
-    // }
 
     return (
         <Form {...form}>
             <form 
-            // onSubmit={form.handleSubmit(onSubmit)} 
+            onSubmit={form.handleSubmit(props.onSubmit)} 
             className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     <FormField
-                        disabled={props.loading}
+                        name="name"
                         control={form.control}
-                        name="source"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>{translate("app.widgets.forms.payin.source")}</FormLabel>
-                                <Select onValueChange={field.onChange} value={field.value} disabled={props.loading}>
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue
-                                                placeholder={translate("app.widgets.forms.payin.selectSource")}
-                                            />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    {/* <SelectContent>
-                                        {sourceAccounts &&
-                                            sourceAccounts.map((acc: any) => (
-                                                <SelectItem key={acc.id} value={acc.id}>
-                                                    {acc.meta.caption}
-                                                </SelectItem>
-                                            ))}
-                                    </SelectContent> */}
-                                </Select>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        disabled={props.loading}
-                        control={form.control}
-                        name="sourceValue"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>{translate("app.widgets.forms.payin.sourceValue")}</FormLabel>
+                                <FormLabel>{translate("app.widgets.forms.userCreate.name")}</FormLabel>
                                 <FormControl>
-                                    <Input {...field} />
+                                     <Input disabled={props.isDisabled} {...field} />
                                 </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        disabled={props.loading}
-                        control={form.control}
-                        name="sourceCurrency"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>{translate("app.widgets.forms.payin.sourceCurrency")}</FormLabel>
-                                <Select onValueChange={field.onChange} value={field.value} disabled={props.loading}>
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue
-                                                placeholder={translate("app.widgets.forms.payin.selectSourceCurrency")}
-                                            />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    {/* <SelectContent>
-                                        {sortedCurrencies &&
-                                            sortedCurrencies.map((cur: any) => (
-                                                <SelectItem key={cur.code} value={cur["alpha-3"]}>
-                                                    {`${cur["name-" + locale]} (${cur["alpha-3"]})`}
-                                                </SelectItem>
-                                            ))}
-                                    </SelectContent> */}
-                                </Select>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        disabled={props.loading}
-                        control={form.control}
-                        name="dest"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>{translate("app.widgets.forms.payin.destination")}</FormLabel>
-                                <Select onValueChange={field.onChange} value={field.value} disabled={props.loading}>
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue
-                                                placeholder={translate("app.widgets.forms.payin.selectDestination")}
-                                            />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    {/* <SelectContent>
-                                        {destinationAccounts &&
-                                            destinationAccounts.map((acc: any) => (
-                                                <SelectItem key={acc.id} value={acc.id}>
-                                                    {acc.meta.caption}
-                                                </SelectItem>
-                                            ))}
-                                    </SelectContent> */}
-                                </Select>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        disabled={props.loading}
-                        control={form.control}
-                        name="destValue"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>{translate("app.widgets.forms.payin.destValue")}</FormLabel>
-                                <FormControl>
-                                    <Input {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        disabled={props.loading}
-                        control={form.control}
-                        name="destCurrency"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>{translate("app.widgets.forms.payin.destinationCurrency")}</FormLabel>
-                                <Select onValueChange={field.onChange} value={field.value} disabled={props.loading}>
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue
-                                                placeholder={translate(
-                                                    "app.widgets.forms.payin.selectDestinationCurrency"
-                                                )}
-                                            />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    {/* <SelectContent>
-                                        {sortedCurrencies &&
-                                            sortedCurrencies.map((cur: any) => (
-                                                <SelectItem key={cur.code} value={cur["alpha-3"]}>
-                                                    {`${cur["name-" + locale]} (${cur["alpha-3"]})`}
-                                                </SelectItem>
-                                            ))}
-                                    </SelectContent> */}
-                                </Select>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
                 </div>
-                <Button disabled={props.loading} type="submit">
-                    {translate("app.widgets.forms.payin.createOrder")}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <FormField
+                        name="login"
+                        control={form.control}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>{translate("app.widgets.forms.userCreate.login")}</FormLabel>
+                                <FormControl>
+                                     <Input disabled={props.isDisabled} {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <FormField
+                        name="email"
+                        control={form.control}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>{translate("app.widgets.forms.userCreate.email")}</FormLabel>
+                                <FormControl>
+                                     <Input disabled={props.isDisabled} {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <FormField
+                        name="password"
+                        control={form.control}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>{translate("app.widgets.forms.userCreate.password")}</FormLabel>
+                                <FormControl>
+                                     <Input disabled={props.isDisabled} {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <FormField
+                        name="publicKey"
+                        control={form.control}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>{translate("app.widgets.forms.userCreate.publicKey")}</FormLabel>
+                                <FormControl>
+                                     <Input disabled={props.isDisabled} {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <FormField
+                        name="shopCurrency"
+                        control={form.control}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>{translate("app.widgets.forms.userCreate.shopCurrency")}</FormLabel>
+                                <FormControl>
+                                     <Input disabled={props.isDisabled} {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <FormField
+                        name="shopApiKey"
+                        control={form.control}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>{translate("app.widgets.forms.userCreate.shopApiKey")}</FormLabel>
+                                <FormControl>
+                                     <Input disabled={props.isDisabled} {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <FormField
+                        name="shopSignKey"
+                        control={form.control}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>{translate("app.widgets.forms.userCreate.shopSignKey")}</FormLabel>
+                                <FormControl>
+                                     <Input disabled={props.isDisabled} {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <FormField
+                        name="shopBalanceKey"
+                        control={form.control}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>{translate("app.widgets.forms.userCreate.shopBalanceKey")}</FormLabel>
+                                <FormControl>
+                                     <Input disabled={props.isDisabled} {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                <Button type="submit">
+                    {translate("app.widgets.forms.userCreate.createUser")}
                 </Button>
             </form>
         </Form>
