@@ -1,4 +1,12 @@
-import { CreateParams, CreateResult, fetchUtils, GetListParams, GetListResult, GetOneParams, GetOneResult } from "react-admin";
+import {
+    CreateParams,
+    CreateResult,
+    fetchUtils,
+    GetListParams,
+    GetListResult,
+    GetOneParams,
+    GetOneResult
+} from "react-admin";
 import { BaseDataProvider, BF_MANAGER_URL } from "./base";
 
 export class UsersDataProvider extends BaseDataProvider {
@@ -31,8 +39,8 @@ export class UsersDataProvider extends BaseDataProvider {
             body: JSON.stringify(params.data),
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
-        console.log("typeof json:")
-        console.log(json)
-        return { data: json };
+        console.log("typeof json:");
+        console.log(json);
+        return { data: json.data };
     }
 }
