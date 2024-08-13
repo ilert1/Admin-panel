@@ -31,6 +31,8 @@ export class UsersDataProvider extends BaseDataProvider {
             body: JSON.stringify(params.data),
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
+        console.log("typeof json:")
+        console.log(json)
         return { data: json };
     }
 }

@@ -7,8 +7,8 @@ import { Input } from "@/components/ui/input"
 import { toast } from "sonner";
 import { CreateContextProvider, useCreateController, useTranslate } from "react-admin"
 
-const UserCreate = () => {
-    const contrProps = useCreateController();
+
+const UserCreate = (props) => {
     const translate = useTranslate();
     const navigate = useNavigate()
 
@@ -25,6 +25,8 @@ const UserCreate = () => {
             duration: 3000
         });
     };
+
+    const contrProps = useCreateController(props);
 
     const createUserRecord = (data: any) => {
         if (contrProps.save !== undefined) {
