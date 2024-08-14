@@ -5,29 +5,27 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { useTranslate, useLocaleState, SaveHandler } from "react-admin";
-import { useMemo } from "react";
+import { useTranslate } from "react-admin";
+import { useState } from "react";
 
 export const UserCreateForm = (props: {
     onSubmit: (data: any) => void;
     isDisabled: boolean
 }) => {
     const translate = useTranslate();
-    const [locale] = useLocaleState();
 
 
     const formSchema = z.object({
-        name: z.string().min(3, {message: translate("app.widgets.forms.userCreate.nameMessage")}),
+        name: z.string().min(3, translate("app.widgets.forms.userCreate.nameMessage")),
         login:z.string().min(3, translate("app.widgets.forms.userCreate.loginMessage")),
         email: z
             .string()
-            .regex(/^\S+@\S+\.\S+$/, {message: translate("app.widgets.forms.userCreate.emailMessage")}),
+            .regex(/^\S+@\S+\.\S+$/, translate("app.widgets.forms.userCreate.emailMessage")),
         password: z
             .string()
             .regex(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/, translate("app.widgets.forms.userCreate.passwordMessage")),
         publicKey: z
-            .string()
-            .regex(/^-----BEGIN PUBLIC KEY-----(.?){226}-----END PUBLIC KEY-----$/, translate("app.widgets.forms.userCreate.publicKeyMessage")),
+            .string(),
         shopCurrency: z
             .string()
             .regex(/^[A-Z]{3}$/, translate("app.widgets.forms.userCreate.shopCurrencyMessage")),
@@ -45,17 +43,33 @@ export const UserCreateForm = (props: {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "my_merch",
-            login: "my_merch_login",
-            email: "email@emailovich.com",
-            password: "123qweQWE!@#",
-            publicKey: "-----BEGIN PUBLIC KEY-----\nMIGeMA11GCSqGSIb3DQEBAQUAA4GMADCBiAKBgG6zX+So2tgR0TR8GnOMtaze2aQY\nwkWcfIRO27phbopiQKTukL6yfZ8WR02qvwAoiwSI/BpJnPHVs2emKWdHaxNJMhOo\nxxLyUdqIvI4L/GLWisZFC2BWvGbxLwQLokkXwsK7ljBMjdH6PTgFJFh6HpW1Xs+Q\nZXqYzDIVu6TaqI+LAgMBAAE=\n-----END PUBLIC KEY-----",
-            shopCurrency: "RUB",
-            shopApiKey: "4347505a-91be-49d5-bff3-ad2e4be32b9e",
-            shopSignKey: "983b484f-d0eb-4565-85d7-12e4cb27c0b5",
-            shopBalanceKey: "988b48aa-d0eb-4565-85d7-12e4cb27c0b5"
+            name: "my_merch_new",
+            login: "my_merch_login_new",
+            email: "my_new_merchant@gmail.com",
+            password: "!Q2w#E4r5t",
+            publicKey: "",
+            shopCurrency: "EUR",
+            shopApiKey: "2a071a71-264a-44fa-abff-7c88c33f767f",
+            shopSignKey: "6dce863a-1def-45ff-b29c-b2492325db20",
+            shopBalanceKey: "2f50e0d3-d1ee-4995-99c4-9493f1d9f67a"
         }
     });
+
+    const [fileContent, setFileContent] = useState("")
+  const handleFileDrop = (e: any) => {
+    e.preventDefault()
+    const file = e.dataTransfer.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = () => {
+        typeof reader.result === "string" && setFileContent(reader.result.replaceAll('\n', ''))
+      }
+      reader.readAsText(file)
+    }
+  }
+  const handleTextChange = (e: any) => {
+    setFileContent(e.target.value)
+  }
 
 
     return (
@@ -123,15 +137,25 @@ export const UserCreateForm = (props: {
                         )}
                     />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={handleFileDrop}
+                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
+                >
                     <FormField
                         name="publicKey"
                         control={form.control}
-                        render={({ field }) => (
+                        render={() => (
                             <FormItem>
                                 <FormLabel>{translate("app.widgets.forms.userCreate.publicKey")}</FormLabel>
                                 <FormControl>
-                                     <Input disabled={props.isDisabled} {...field} />
+                                     <Input 
+                                     
+                                    value={fileContent}
+                                    onChange={handleTextChange}
+                                    placeholder="Drop file here or type text"
+                                    className="w-full text-left"
+                                    disabled={props.isDisabled}/>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

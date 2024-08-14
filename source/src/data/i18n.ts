@@ -37,8 +37,15 @@ const ru: TranslationMessages = {
                 active: "Активный",
                 public_key: "Публичный ключ"
             },
+            createButton: "Создать пользователя",
             showHeader: "Информация о пользователе",
-            showDescription: "Подробная информация о пользователе с ID %{id}"
+            showDescription: "Подробная информация о пользователе с ID %{id}",
+            create: {
+                success: "Готово",
+                successMessage: "Пользователь создан",
+                error: "Ошибка",
+                errorMessage: "Не удалось создать пользователя"
+            }
         },
         transactions: {
             name: "Транзакция |||| Транзакции",
@@ -293,8 +300,15 @@ const en: TranslationMessages = {
                 active: "Active",
                 public_key: "Public key"
             },
+            createButton: "Create user",
             showHeader: "User info",
-            showDescription: "Detailed information about user with ID %{id}"
+            showDescription: "Detailed information about user with ID %{id}",
+            create: {
+                success: "Готово",
+                successMessage: "Пользователь создан",
+                error: "Ошибка",
+                errorMessage: "Не удалось создать пользователя"
+            }
         },
         transactions: {
             name: "Transaction |||| Transactions",
