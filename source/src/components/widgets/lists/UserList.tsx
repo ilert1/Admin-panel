@@ -86,7 +86,9 @@ export const UserList = () => {
         return (
             <>
                 <div className="mb-4 flex justify-end">
-                    <Button onClick={() => navigate(`/users/create`)}>{translate("resources.users.createButton")}</Button>
+                    <Button onClick={() => navigate(`/users/create`)}>
+                        {translate("resources.users.createButton")}
+                    </Button>
                 </div>
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,75 +8,75 @@ import { Button } from "@/components/ui/button";
 import { useTranslate } from "react-admin";
 import { useState } from "react";
 
-export const UserCreateForm = (props: {
-    onSubmit: (data: any) => void;
-    isDisabled: boolean
-}) => {
+export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisabled: boolean }) => {
     const translate = useTranslate();
-
 
     const formSchema = z.object({
         name: z.string().min(3, translate("app.widgets.forms.userCreate.nameMessage")),
-        login:z.string().min(3, translate("app.widgets.forms.userCreate.loginMessage")),
-        email: z
-            .string()
-            .regex(/^\S+@\S+\.\S+$/, translate("app.widgets.forms.userCreate.emailMessage")),
+        login: z.string().min(3, translate("app.widgets.forms.userCreate.loginMessage")),
+        email: z.string().regex(/^\S+@\S+\.\S+$/, translate("app.widgets.forms.userCreate.emailMessage")),
         password: z
             .string()
-            .regex(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/, translate("app.widgets.forms.userCreate.passwordMessage")),
-        publicKey: z
-            .string(),
-        shopCurrency: z
-            .string()
-            .regex(/^[A-Z]{3}$/, translate("app.widgets.forms.userCreate.shopCurrencyMessage")),
+            .regex(
+                /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
+                translate("app.widgets.forms.userCreate.passwordMessage")
+            ),
+        publicKey: z.string(),
+        shopCurrency: z.string().regex(/^[A-Z]{3}$/, translate("app.widgets.forms.userCreate.shopCurrencyMessage")),
         shopApiKey: z
             .string()
-            .regex(/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/, translate("app.widgets.forms.userCreate.keyMessage")),
+            .regex(
+                /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/,
+                translate("app.widgets.forms.userCreate.keyMessage")
+            ),
         shopSignKey: z
             .string()
-            .regex(/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/, translate("app.widgets.forms.userCreate.keyMessage")),
+            .regex(
+                /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/,
+                translate("app.widgets.forms.userCreate.keyMessage")
+            ),
         shopBalanceKey: z
             .string()
-            .regex(/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/, translate("app.widgets.forms.userCreate.keyMessage"))
+            .regex(
+                /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/,
+                translate("app.widgets.forms.userCreate.keyMessage")
+            )
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "my_merch_new",
-            login: "my_merch_login_new",
-            email: "my_new_merchant@gmail.com",
-            password: "!Q2w#E4r5t",
+            name: "",
+            login: "",
+            email: "",
+            password: "",
             publicKey: "",
-            shopCurrency: "EUR",
-            shopApiKey: "2a071a71-264a-44fa-abff-7c88c33f767f",
-            shopSignKey: "6dce863a-1def-45ff-b29c-b2492325db20",
-            shopBalanceKey: "2f50e0d3-d1ee-4995-99c4-9493f1d9f67a"
+            shopCurrency: "",
+            shopApiKey: "",
+            shopSignKey: "",
+            shopBalanceKey: ""
         }
     });
 
-    const [fileContent, setFileContent] = useState("")
-  const handleFileDrop = (e: any) => {
-    e.preventDefault()
-    const file = e.dataTransfer.files[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = () => {
-        typeof reader.result === "string" && setFileContent(reader.result.replaceAll('\n', ''))
-      }
-      reader.readAsText(file)
-    }
-  }
-  const handleTextChange = (e: any) => {
-    setFileContent(e.target.value)
-  }
-
+    const [fileContent, setFileContent] = useState("");
+    const handleFileDrop = (e: any) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                typeof reader.result === "string" && setFileContent(reader.result.replaceAll("\n", ""));
+            };
+            reader.readAsText(file);
+        }
+    };
+    const handleTextChange = (e: any) => {
+        setFileContent(e.target.value);
+    };
 
     return (
         <Form {...form}>
-            <form 
-            onSubmit={form.handleSubmit(props.onSubmit)} 
-            className="space-y-6">
+            <form onSubmit={form.handleSubmit(props.onSubmit)} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     <FormField
                         name="name"
@@ -85,7 +85,7 @@ export const UserCreateForm = (props: {
                             <FormItem>
                                 <FormLabel>{translate("app.widgets.forms.userCreate.name")}</FormLabel>
                                 <FormControl>
-                                     <Input disabled={props.isDisabled} {...field} />
+                                    <Input disabled={props.isDisabled} {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -100,7 +100,7 @@ export const UserCreateForm = (props: {
                             <FormItem>
                                 <FormLabel>{translate("app.widgets.forms.userCreate.login")}</FormLabel>
                                 <FormControl>
-                                     <Input disabled={props.isDisabled} {...field} />
+                                    <Input disabled={props.isDisabled} {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -115,7 +115,7 @@ export const UserCreateForm = (props: {
                             <FormItem>
                                 <FormLabel>{translate("app.widgets.forms.userCreate.email")}</FormLabel>
                                 <FormControl>
-                                     <Input disabled={props.isDisabled} {...field} />
+                                    <Input disabled={props.isDisabled} {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -130,7 +130,7 @@ export const UserCreateForm = (props: {
                             <FormItem>
                                 <FormLabel>{translate("app.widgets.forms.userCreate.password")}</FormLabel>
                                 <FormControl>
-                                     <Input disabled={props.isDisabled} {...field} />
+                                    <Input disabled={props.isDisabled} {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -138,10 +138,9 @@ export const UserCreateForm = (props: {
                     />
                 </div>
                 <div
-                    onDragOver={(e) => e.preventDefault()}
+                    onDragOver={e => e.preventDefault()}
                     onDrop={handleFileDrop}
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
-                >
+                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     <FormField
                         name="publicKey"
                         control={form.control}
@@ -149,13 +148,13 @@ export const UserCreateForm = (props: {
                             <FormItem>
                                 <FormLabel>{translate("app.widgets.forms.userCreate.publicKey")}</FormLabel>
                                 <FormControl>
-                                     <Input 
-                                     
-                                    value={fileContent}
-                                    onChange={handleTextChange}
-                                    placeholder="Drop file here or type text"
-                                    className="w-full text-left"
-                                    disabled={props.isDisabled}/>
+                                    <Input
+                                        value={fileContent}
+                                        onChange={handleTextChange}
+                                        placeholder="Drop file here or type text"
+                                        className="w-full text-left"
+                                        disabled={props.isDisabled}
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -170,7 +169,7 @@ export const UserCreateForm = (props: {
                             <FormItem>
                                 <FormLabel>{translate("app.widgets.forms.userCreate.shopCurrency")}</FormLabel>
                                 <FormControl>
-                                     <Input disabled={props.isDisabled} {...field} />
+                                    <Input disabled={props.isDisabled} {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -185,7 +184,7 @@ export const UserCreateForm = (props: {
                             <FormItem>
                                 <FormLabel>{translate("app.widgets.forms.userCreate.shopApiKey")}</FormLabel>
                                 <FormControl>
-                                     <Input disabled={props.isDisabled} {...field} />
+                                    <Input disabled={props.isDisabled} {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -200,7 +199,7 @@ export const UserCreateForm = (props: {
                             <FormItem>
                                 <FormLabel>{translate("app.widgets.forms.userCreate.shopSignKey")}</FormLabel>
                                 <FormControl>
-                                     <Input disabled={props.isDisabled} {...field} />
+                                    <Input disabled={props.isDisabled} {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -215,16 +214,14 @@ export const UserCreateForm = (props: {
                             <FormItem>
                                 <FormLabel>{translate("app.widgets.forms.userCreate.shopBalanceKey")}</FormLabel>
                                 <FormControl>
-                                     <Input disabled={props.isDisabled} {...field} />
+                                    <Input disabled={props.isDisabled} {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
                 </div>
-                <Button type="submit">
-                    {translate("app.widgets.forms.userCreate.createUser")}
-                </Button>
+                <Button type="submit">{translate("app.widgets.forms.userCreate.createUser")}</Button>
             </form>
         </Form>
     );

@@ -1,12 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { UserCreateForm } from "../forms/UserCreate"
+import { UserCreateForm } from "../forms/UserCreate";
 import { toast } from "sonner";
-import { CreateContextProvider, useCreateController, useTranslate } from "react-admin"
-
+import { CreateContextProvider, useCreateController, useTranslate } from "react-admin";
 
 const UserCreate = () => {
     const translate = useTranslate();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const contrProps = useCreateController();
 
     const onSuccess = (data: any) => {
@@ -26,32 +25,24 @@ const UserCreate = () => {
         });
     };
 
-    
-
     const createUserRecord = (data: any) => {
         if (contrProps.save !== undefined) {
-            contrProps.save(data, {onSuccess, onError})
+            contrProps.save(data, { onSuccess, onError });
         }
-    }
+    };
 
     return (
-      <CreateContextProvider value={contrProps}>
-          {
-                contrProps.save !== undefined
-                ?
-                <UserCreateForm 
-                    onSubmit={createUserRecord} 
+        <CreateContextProvider value={contrProps}>
+            {contrProps.save !== undefined ? (
+                <UserCreateForm
+                    onSubmit={createUserRecord}
                     isDisabled={contrProps.saving !== undefined ? contrProps.saving : false}
                 />
-                :
-                <>
-                {navigate(`/${contrProps.resource}`)}
-                </>
-          }
-      </CreateContextProvider>
-    )
-}
-
-
+            ) : (
+                <>{navigate(`/${contrProps.resource}`)}</>
+            )}
+        </CreateContextProvider>
+    );
+};
 
 export default UserCreate;
