@@ -37,8 +37,15 @@ const ru: TranslationMessages = {
                 active: "Активный",
                 public_key: "Публичный ключ"
             },
+            createButton: "Создать пользователя",
             showHeader: "Информация о пользователе",
-            showDescription: "Подробная информация о пользователе с ID %{id}"
+            showDescription: "Подробная информация о пользователе с ID %{id}",
+            create: {
+                success: "Готово",
+                successMessage: "Пользователь создан",
+                error: "Ошибка",
+                errorMessage: "Не удалось создать пользователя"
+            }
         },
         transactions: {
             name: "Транзакция |||| Транзакции",
@@ -223,6 +230,25 @@ const ru: TranslationMessages = {
                     commission: "Комиссия",
                     totalAmount: "Сумма выплаты",
                     allAmount: "Вся сумма %{amount} USD₮"
+                },
+                userCreate: {
+                    name: "Имя",
+                    nameMessage: "Пожалуйста, введите имя мерчанта",
+                    login: "Логин",
+                    loginMessage: "Пожалуйста, введите логин мерчанта",
+                    email: "Адрес эл.почты",
+                    emailMessage: "Неправильный формат адреса",
+                    password: "Пароль",
+                    passwordMessage: "Пароль должен состоять минимум из 8 символов, включая хотя бы одну строчную и прописную букву, а также специальный символ !@#$%^&*()-_",
+                    publicKey: "Публичный ключ(скопируйте или перенесите файл ключа)",
+                    publicKeyMessage: "Неверный формат публичного ключа",
+                    shopCurrency: "Валюта",
+                    shopCurrencyMessage: "Неизвестная валюта",
+                    shopApiKey: "API ключ",
+                    shopSignKey: "Ключ проверки подписи",
+                    shopBalanceKey: "Ключ доступа к балансу",
+                    keyMessage: "Неверный формат ключа",
+                    createUser: "Создать пользователя"
                 }
             }
         }
@@ -274,8 +300,15 @@ const en: TranslationMessages = {
                 active: "Active",
                 public_key: "Public key"
             },
+            createButton: "Create user",
             showHeader: "User info",
-            showDescription: "Detailed information about user with ID %{id}"
+            showDescription: "Detailed information about user with ID %{id}",
+            create: {
+                success: "Готово",
+                successMessage: "Пользователь создан",
+                error: "Ошибка",
+                errorMessage: "Не удалось создать пользователя"
+            }
         },
         transactions: {
             name: "Transaction |||| Transactions",
@@ -460,6 +493,25 @@ const en: TranslationMessages = {
                     commission: "Commission",
                     totalAmount: "Total amount",
                     allAmount: "All amount %{amount} USD₮"
+                },
+                userCreate: {
+                    name: "Name",
+                    nameMessage: "Please, enter merchant's name",
+                    login: "Login",
+                    loginMessage: "Please, enter merchant's login",
+                    email: "Email",
+                    emailMessage: "Email is incorrect",
+                    password: "Password",
+                    passwordMessage: "Password must be at least 8 symbols, including at least one lowercase and uppercase letter, also one special symbol !@#$%^&*()-_",
+                    publicKey: "Public key(copy or drag&drop)",
+                    publicKeyMessage: "Wrong public key format",
+                    shopCurrency: "Currency",
+                    shopCurrencyMessage: "Unknown currency",
+                    shopApiKey: "API key",
+                    shopSignKey: "Sign key",
+                    shopBalanceKey: "Balance key",
+                    keyMessage: "Key format is wrong",
+                    createUser: "Create user"
                 }
             }
         }
