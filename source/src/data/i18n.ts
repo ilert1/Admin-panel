@@ -93,7 +93,6 @@ const ru: TranslationMessages = {
             },
             show: {
                 statusButton: "Ручной перевод в статус",
-                save: "Сохранить",
                 cancel: "Отмена",
                 success: "Успешно",
                 error: "Ошибка",
@@ -153,6 +152,99 @@ const ru: TranslationMessages = {
                     hash_link: "Ссылка Tronscan"
                 }
             }
+        },
+        currencies: {
+            fields: {
+                currency: "Валюта",
+                type: "Тип",
+                symbPos: "Позиция символа",
+                symbol: "Символ",
+                fiat: "ФИАТ",
+                crypto: "Криптовалюта",
+                before: "Перед значением",
+                after: "После значения",
+                currencyName: "Название валюты"
+            },
+            error: {
+                code: "Код валюты обязательно нужно ввести"
+            },
+            create: "Добавить новую валюту",
+            showTitle: "Детальная информацию о валюте",
+            showDescription: "Детальная информацию о валюте"
+        },
+        merchants: {
+            fields: {
+                id: "ID",
+                name: "Имя",
+                descr: "Описание"
+            },
+            errors: {
+                id: "ID обязательно должен быть заполнен",
+                name: "У провадйера обязательно должно быть имя"
+            },
+            showTitle: "Детальная инфорация о мерчанте",
+            createNew: "Создать нового мерчанта"
+        },
+        providers: {
+            fields: {
+                name: "Название провайдера",
+                pk: "Публичный ключ",
+                genKey: "Создать ключи",
+                keyMiss: "Ключ отсутсвует",
+                regenKey: "Пересоздать ключ",
+                json_schema: "Схема Json",
+                code: "Методы",
+                enterMethods: "Введите свои методы"
+            },
+            errors: {
+                name: "Имя должно содержать хотя бы один символ"
+            },
+            showTitle: "Детальная информация о провайдере",
+            createNew: "Создать нового провайдера",
+            attention: "Внимание",
+            warning:
+                "Приватный ключ будет показан только ОДИН раз. Скопируйте, сохраните и отправьте ключ DevOps инженеру",
+            pleaseCreate: "Пожалуйста создайте ключи на странице с таблицей провайдеров",
+            pleaseWait: "Пожалуйста подождите",
+            clickToCopy: "Это ваш приватный ключ. Нажмите на кнопку чтобы скопировать ключ, или скопируйте вручную.",
+            continue: "Продолжить",
+            close: "Закрыть"
+        },
+        directions: {
+            fields: {
+                name: "Название направления",
+                active: "Состояние",
+                srcCurr: "Исходная валюта",
+                destCurr: "Конечная валюта",
+                merchant: "Мерчант",
+                id: "Идентификатор направления",
+                auth_data: "Информация об аутентификации",
+                pleaseGen: "Пожалуйста, создайте ключи в провайдерах",
+                stateActive: "Активный",
+                stateInactive: "Не активный",
+                description: "Описание",
+                api_key: "Ключ API",
+                merchantsDirections: "Направления мерчанта "
+            },
+            errors: {
+                name: "У направления обязательно должно быть имя",
+                src_curr: "Исходная валюта обязательно должна быть выбрана",
+                dst_curr: "Конечная валюта обязательно должна быть выбрана",
+                merchant: "Мерчант обязательно должен быть выбран",
+                provider: "Провайдер обязательно должен быть выбран"
+            },
+            create: "Создать новое направление",
+            sourceCurrency: "Исходящая валюта",
+            destinationCurrency: "Конечная валюта",
+            selectSourceCurrency: "Выбрать исходящую валюту",
+            selectDestCurrency: "Выбрать конечную валюту",
+            merchant: "Мерчант",
+            provider: "Провайдер",
+            weight: "Вес",
+            description: "Описание",
+            writeSecretPhrase: "Напишите информацию об аутентификации и нажмите сохранить",
+            note: "Внимание: Вы не можете использовать для направления провайдера, для которого нет ключа",
+            addedSuccess: "Аутентификационная информация была добавлена"
         }
     },
     app: {
@@ -164,12 +256,23 @@ const ru: TranslationMessages = {
             bankTransfer: "Банковский перевод",
             cryptoWalletTransfer: "Перевод криптовалюты",
             withdraw: "Вывод в криптовалюте",
-            users: "Пользователи"
+            users: "Пользователи",
+            currencies: "Валюты",
+            merchant: "Мерчанты",
+            providers: "Провайдеры",
+            directions: "Направления"
         },
         ui: {
             actions: {
                 quick_show: "Быстрый просмотр",
-                show: "Просмотр"
+                show: "Просмотр",
+                edit: "Изменить",
+                delete: "Удалить",
+                save: "Сохранить",
+                addSecretKey: "Добавить аутентификационную инфорамцию",
+                changeSecretKey: "Изменить аутентификационную инфорамцию",
+                cancel: "Отменить",
+                areYouSure: "Вы точно хотите удалить элемент?"
             },
             pagination: {
                 next: "Далее",
@@ -177,6 +280,9 @@ const ru: TranslationMessages = {
             },
             textField: {
                 copied: "Скопировано"
+            },
+            delete: {
+                deletedSuccessfully: "Элемент удален успешно"
             }
         },
         theme: {
@@ -330,7 +436,6 @@ const en: TranslationMessages = {
             },
             show: {
                 statusButton: "Manual change status",
-                save: "Save",
                 cancel: "Cancel",
                 success: "Success",
                 error: "Error",
@@ -390,6 +495,99 @@ const en: TranslationMessages = {
                     hash_link: "Tronscan link"
                 }
             }
+        },
+        currencies: {
+            fields: {
+                currency: "Currency",
+                type: "Type",
+                symbPos: "Symbol Position",
+                symbol: "Symbol",
+                fiat: "FIAT",
+                crypto: "Cryptocurrency",
+                before: "Before value",
+                after: "After value",
+                currencyName: "Currency name"
+            },
+            errors: {
+                code: "Code is required"
+            },
+            create: "Add new currency",
+            showTitle: "Detailed information about currency",
+            showDescription: "Detailed information about currency"
+        },
+        merchants: {
+            fields: {
+                id: "ID",
+                name: "Name",
+                descr: "Description"
+            },
+            errors: {
+                id: "ID is required",
+                name: "Name is required"
+            },
+            showTitle: "Detailed information about merchant",
+            createNew: "Create new merchant"
+        },
+        providers: {
+            fields: {
+                name: "Providers' name",
+                pk: "Public key",
+                genKey: "Generate keys",
+                keyMiss: "The key is missing",
+                regenKey: "Regenerate key",
+                json_schema: "Json schema",
+                code: "Methods",
+                enterMethods: "Enter your methods"
+            },
+            errors: {
+                name: "Name must contain at least 1 symbol"
+            },
+            showTitle: "Detailed information about provider",
+            createNew: "Create new provider",
+            attention: "Attention",
+            warning: "Private key will be shown ONLY 1 time. Copy, save it and send to DevOps engineer",
+            pleaseCreate: "Please create keys on the page with providers table",
+            pleaseWait: "Please wait",
+            clickToCopy: "This is your private key.\n Click button to copy or copy manually.",
+            continue: "Continue",
+            close: "Close"
+        },
+        directions: {
+            fields: {
+                name: "Directions name",
+                active: "State",
+                srcCurr: "Source currency",
+                destCurr: "Destinetion currency",
+                merchant: "Merchant",
+                id: "Directions id",
+                auth_data: "Authentication data",
+                pleaseGen: "Please create keys in providers",
+                stateActive: "Active",
+                stateInactive: "Inactive",
+                description: "Description",
+                api_key: "Api key",
+                merchantsDirections: "Directions of merchant "
+            },
+            errors: {
+                name: "The direction must have a name",
+                src_curr: "The source currency must be selected",
+                dst_curr: "The destination currency must be selected",
+                merchant: "The merchant must be selected",
+                provider: "The provider must be selected"
+            },
+            create: "Create new direction",
+            sourceCurrency: "Source currency",
+            destinationCurrency: "Destination currency",
+            selectSourceCurrency: "Choose source currency",
+            selectDestCurrency: "Choose destination currency",
+            merchant: "Merchant",
+            weight: "Weight",
+            provider: "Provider",
+            description: "Description",
+            writeSecretPhrase: "Write auth data for direction and click save",
+            enterSecretPhrase: "Enter secret phrase",
+            note: "Note: You cannot use a provider for direction that does not have a key",
+            addedSuccess: "Auth data has been added successfully"
         }
     },
     app: {
@@ -401,12 +599,23 @@ const en: TranslationMessages = {
             bankTransfer: "Bank Transfer",
             cryptoWalletTransfer: "Crypto Wallet Transfer",
             withdraw: "Crypto Withdrawal",
-            users: "Users"
+            users: "Users",
+            currencies: "Currencies",
+            merchant: "Merchants",
+            providers: "Providers",
+            directions: "Directions"
         },
         ui: {
             actions: {
                 quick_show: "Quick show",
-                show: "Show"
+                show: "Show",
+                edit: "Edit",
+                delete: "Delete",
+                save: "Save",
+                addSecretKey: "Add auth data",
+                changeSecretKey: "Change auth data",
+                cancel: "Cancel",
+                areYouSure: "Are you sure you want delete this element?"
             },
             pagination: {
                 next: "Next",
@@ -414,6 +623,9 @@ const en: TranslationMessages = {
             },
             textField: {
                 copied: "Copied"
+            },
+            delete: {
+                deletedSuccessfully: "Deleted successfully"
             }
         },
         theme: {

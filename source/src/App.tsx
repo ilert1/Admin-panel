@@ -1,7 +1,31 @@
 import { CustomRoutes, Resource, combineDataProviders, AuthProvider, CoreAdminContext, CoreAdminUI } from "react-admin";
-import { TransactionDataProvider, i18nProvider, BaseDataProvider, UsersDataProvider } from "@/data";
-import { AccountList, TransactionList, WithdrawList, UserList } from "@/components/widgets/lists";
-import { AccountCreate } from "@/components/widgets/create";
+import {
+    TransactionDataProvider,
+    i18nProvider,
+    BaseDataProvider,
+    UsersDataProvider,
+    MerchantsDataProvider,
+    CurrenciesDataProvider,
+    ProvidersDataProvider,
+    DirectionsDataProvider
+} from "@/data";
+import {
+    AccountList,
+    TransactionList,
+    WithdrawList,
+    UserList,
+    CurrenciesList,
+    MerchantList,
+    ProvidersList,
+    DirectionsList
+} from "@/components/widgets/lists";
+import {
+    AccountCreate,
+    CurrencyCreate,
+    DirectionCreate,
+    MerchantCreate,
+    ProviderCreate
+} from "@/components/widgets/create";
 import { Route } from "react-router-dom";
 import { PayOutPage, PayOutCryptoPage } from "./pages";
 import Keycloak, { KeycloakConfig, KeycloakTokenParsed, KeycloakInitOptions } from "keycloak-js";
@@ -9,18 +33,37 @@ import { keycloakAuthProvider } from "ra-keycloak";
 import { useEffect, useRef, useState } from "react";
 import { Dashboard } from "./Dashboard";
 import { MainLayout } from "./layouts";
-import { WalletIcon, ReceiptIcon, WaypointsIcon, UsersIcon } from "lucide-react";
+import { WalletIcon, ReceiptIcon, WaypointsIcon, UsersIcon, StoreIcon, PcCaseIcon, MilestoneIcon } from "lucide-react";
 import { ThemeProvider } from "@/components/providers";
 import { isTokenStillFresh } from "@/helpers/jwt";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
-import { AccountShow, TransactionShow, UserShow, WithdrawShow } from "./components/widgets/show";
+import {
+    AccountShow,
+    CurrenciesShow,
+    DirectionsShow,
+    MerchantShow,
+    ProvidersShow,
+    TransactionShow,
+    UserShow,
+    WithdrawShow
+} from "./components/widgets/show";
+import { CurrencyIcon } from "lucide-react";
+import { CurrencyEdit, DirectionEdit, MerchantEdit, ProvidersEdit } from "./components/widgets/edit";
 
-const dataProvider = combineDataProviders(resource => {
+const dataProvider = combineDataProviders((resource: string) => {
     if (resource === "transactions") {
         return new TransactionDataProvider();
     } else if (resource === "users") {
         return new UsersDataProvider();
+    } else if (resource === "currency") {
+        return new CurrenciesDataProvider();
+    } else if (resource === "merchant") {
+        return new MerchantsDataProvider();
+    } else if (resource === "provider") {
+        return new ProvidersDataProvider();
+    } else if (resource === "direction") {
+        return new DirectionsDataProvider();
     } else {
         return new BaseDataProvider();
     }
@@ -86,7 +129,7 @@ export const App = () => {
                     dataProvider={dataProvider}
                     authProvider={authProvider.current}>
                     <CoreAdminUI dashboard={Dashboard} layout={MainLayout} title="Juggler" requireAuth>
-                        {permissions => (
+                        {(permissions: string) => (
                             <>
                                 <Resource
                                     name="accounts"
@@ -111,7 +154,41 @@ export const App = () => {
                                 />
 
                                 {permissions === "admin" && (
-                                    <Resource name="users" list={UserList} show={UserShow} icon={UsersIcon} />
+                                    <>
+                                        <Resource
+                                            name="currency"
+                                            list={CurrenciesList}
+                                            show={CurrenciesShow}
+                                            create={CurrencyCreate}
+                                            edit={CurrencyEdit}
+                                            icon={CurrencyIcon}
+                                        />
+                                        <Resource name="users" list={UserList} show={UserShow} icon={UsersIcon} />
+                                        <Resource
+                                            name="merchant"
+                                            list={MerchantList}
+                                            show={MerchantShow}
+                                            create={MerchantCreate}
+                                            edit={MerchantEdit}
+                                            icon={StoreIcon}
+                                        />
+                                        <Resource
+                                            name="provider"
+                                            list={ProvidersList}
+                                            show={ProvidersShow}
+                                            edit={ProvidersEdit}
+                                            create={ProviderCreate}
+                                            icon={PcCaseIcon}
+                                        />
+                                        <Resource
+                                            name="direction"
+                                            list={DirectionsList}
+                                            show={DirectionsShow}
+                                            icon={MilestoneIcon}
+                                            create={DirectionCreate}
+                                            edit={DirectionEdit}
+                                        />
+                                    </>
                                 )}
 
                                 <CustomRoutes>

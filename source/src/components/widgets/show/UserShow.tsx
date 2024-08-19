@@ -1,4 +1,5 @@
 import { BooleanField } from "@/components/ui/boolean-field";
+import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useShowController, useTranslate } from "react-admin";
 
@@ -8,7 +9,7 @@ export const UserShow = (props: { id: string }) => {
     const context = useShowController({ id: props.id });
 
     if (context.isLoading || context.isFetching || !context.record) {
-        return "Loading...";
+        return <Loading />;
     } else {
         return (
             <div className="relative w-[540] overflow-x-auto flex flex-col gap-2">
