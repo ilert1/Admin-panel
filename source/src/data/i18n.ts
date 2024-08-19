@@ -22,7 +22,7 @@ const ru: TranslationMessages = {
                     value: "Сумма"
                 },
                 meta: {
-                    caption: "Пользователь"
+                    caption: "Имя"
                 }
             },
             showHeader: "Информация о счете",
@@ -259,7 +259,7 @@ const en: TranslationMessages = {
                     value: "Value"
                 },
                 meta: {
-                    caption: "User"
+                    caption: "Name"
                 }
             },
             showHeader: "Account info",
