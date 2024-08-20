@@ -26,7 +26,7 @@ import { TextField } from "@/components/ui/text-field";
 import { useNavigate } from "react-router-dom";
 import { DirectionsShow } from "../show";
 import { Loading } from "@/components/ui/loading";
-import CodeEditor from "@uiw/react-textarea-code-editor";
+// import CodeEditor from "@uiw/react-textarea-code-editor";
 
 import {
     AlertDialog,
@@ -39,6 +39,7 @@ import {
     AlertDialogTitle
 } from "@/components/ui/alertdialog";
 import { useToast } from "@/components/ui/use-toast";
+import { Editor } from "@monaco-editor/react";
 
 const API_URL = import.meta.env.VITE_ENIGMA_URL;
 
@@ -56,6 +57,11 @@ export const DirectionsList = () => {
     const [password, setPassword] = useState("");
     const [chosenId, setChosenId] = useState("");
     const [code, setCode] = useState("{}");
+    const handleEditorChange = (value: string | undefined) => {
+        if (value !== undefined) {
+            setCode(value);
+        }
+    };
 
     const { toast } = useToast();
 
@@ -164,7 +170,6 @@ export const DirectionsList = () => {
             accessorKey: "dst_currency",
             header: translate("resources.directions.fields.destCurr"),
             cell: ({ row }) => {
-                console.log(row);
                 const obj: Omit<Currencies.Currency, "id"> = row.getValue("dst_currency");
                 return <TextField text={obj.code} />;
             }
@@ -263,7 +268,7 @@ export const DirectionsList = () => {
                                 <AlertDialogDescription></AlertDialogDescription>
                             </AlertDialogHeader>
                             <div className="flex items-center space-x-2">
-                                <CodeEditor
+                                {/* <CodeEditor
                                     id="editor"
                                     language="js"
                                     value={code}
@@ -277,6 +282,13 @@ export const DirectionsList = () => {
                                         marginTop: "2px",
                                         width: "100%"
                                     }}
+                                /> */}
+                                <Editor
+                                    height="20vh"
+                                    defaultLanguage="javascript"
+                                    defaultValue="// some comment"
+                                    value={code}
+                                    onChange={handleEditorChange}
                                 />
                             </div>
                             <AlertDialogFooter>

@@ -2,7 +2,7 @@ import { useDataProvider, useShowController, useTranslate } from "react-admin";
 import { useQuery } from "react-query";
 import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
-import CodeEditor from "@uiw/react-textarea-code-editor";
+// import CodeEditor from "@uiw/react-textarea-code-editor";
 import { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -47,7 +47,7 @@ export const ProvidersShow = (props: { id: string }) => {
                     <Label htmlFor="editor" className="text-muted-foreground">
                         {translate("resources.providers.fields.code")}
                     </Label>
-                    <CodeEditor
+                    {/* <CodeEditor
                         id="editor"
                         className="max-w-96"
                         language="js"
@@ -61,7 +61,7 @@ export const ProvidersShow = (props: { id: string }) => {
                             fontFamily: "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
                             marginBottom: "10px"
                         }}
-                    />
+                    /> */}
                 </div>
             </div>
         );

@@ -1,7 +1,6 @@
 import { useCreateController, CreateContextProvider, useRedirect, useTranslate, useDataProvider } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import CodeEditor from "@uiw/react-textarea-code-editor";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
@@ -10,6 +9,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "react-query";
 import { Loading } from "@/components/ui/loading";
+import { Editor } from "@monaco-editor/react";
 
 export const ProviderCreate = () => {
     const dataProvider = useDataProvider();
@@ -40,17 +40,21 @@ export const ProviderCreate = () => {
     });
 
     const onSubmit: SubmitHandler<Omit<Provider, "id">> = async data => {
+        console.log(data);
         if (code.length === 0) {
             data.methods = {};
         } else {
             data.methods = JSON.parse(code);
         }
+
         if (!data.methods) {
             data.methods = {};
         }
+
         if (!data.fields_json_schema) {
             data.fields_json_schema = "";
         }
+
         if (!data.public_key) {
             data.public_key = null;
         }
@@ -102,19 +106,11 @@ export const ProviderCreate = () => {
                                 <FormItem className="w-full p-2">
                                     <FormLabel>{translate("resources.providers.fields.code")}</FormLabel>
                                     <FormControl>
-                                        <CodeEditor
-                                            id="editor"
-                                            language="js"
-                                            value={code}
-                                            placeholder={`Example: {"bar": "foo", "baz": "dar"} Don't put comma after the last element`}
-                                            onChange={evn => setCode(evn.target.value)}
-                                            padding={15}
-                                            style={{
-                                                backgroundColor: "#D9D9D9",
-                                                fontFamily:
-                                                    "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
-                                                marginTop: "2px"
-                                            }}
+                                        <Editor
+                                            {...field}
+                                            height="20vh"
+                                            defaultLanguage="javascript"
+                                            defaultValue="// some comment"
                                         />
                                     </FormControl>
                                     <FormMessage />

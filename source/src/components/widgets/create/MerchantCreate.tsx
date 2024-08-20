@@ -20,7 +20,6 @@ export const MerchantCreate = () => {
         if (data?.description?.length === 0) {
             data.description = null;
         }
-        console.log(data);
         await dataProvider.create("merchant", { data: data });
         redirect("list", "merchant");
     };

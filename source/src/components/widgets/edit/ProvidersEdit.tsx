@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEditController, EditContextProvider, useTranslate, useRedirect, useDataProvider } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import CodeEditor from "@uiw/react-textarea-code-editor";
+// import CodeEditor from "@uiw/react-textarea-code-editor";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -107,7 +107,7 @@ export const ProvidersEdit = () => {
                                 <FormItem className="w-full p-2">
                                     <FormLabel>{translate("resources.providers.fields.code")}</FormLabel>
                                     <FormControl>
-                                        <CodeEditor
+                                        {/* <CodeEditor
                                             id="editor"
                                             language="js"
                                             {...field}
@@ -119,7 +119,7 @@ export const ProvidersEdit = () => {
                                                     "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
                                                 marginTop: "2px"
                                             }}
-                                        />
+                                        /> */}
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

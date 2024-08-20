@@ -21,7 +21,6 @@ export const DirectionCreate = () => {
     const redirect = useRedirect();
 
     const onSubmit: SubmitHandler<DirectionCreate> = async data => {
-        console.log(data);
         await dataProvider.create("direction", { data: data });
         redirect("list", "direction");
     };
