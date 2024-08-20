@@ -15,6 +15,7 @@ import { isTokenStillFresh } from "@/helpers/jwt";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 import { AccountShow, TransactionShow, UserShow, WithdrawShow } from "./components/widgets/show";
+import UserCreate from "./components/widgets/create/UserCreate";
 
 const dataProvider = combineDataProviders(resource => {
     if (resource === "transactions") {
@@ -111,7 +112,7 @@ export const App = () => {
                                 />
 
                                 {permissions === "admin" && (
-                                    <Resource name="users" list={UserList} show={UserShow} icon={UsersIcon} />
+                                    <Resource name="users" list={UserList} show={UserShow} create={UserCreate} icon={UsersIcon} />
                                 )}
 
                                 <CustomRoutes>
