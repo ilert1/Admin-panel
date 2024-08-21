@@ -1,11 +1,4 @@
-import {
-    useEditController,
-    EditContextProvider,
-    useRedirect,
-    useTranslate,
-    useDataProvider,
-    getValuesFromRecords
-} from "react-admin";
+import { useEditController, EditContextProvider, useRedirect, useTranslate, useDataProvider } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -25,6 +18,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { useFetchDataForDirections } from "@/hooks";
+import { useToast } from "@/components/ui/use-toast";
 
 export const DirectionEdit = () => {
     const dataProvider = useDataProvider();
@@ -34,7 +28,7 @@ export const DirectionEdit = () => {
     controllerProps.mutationMode = "pessimistic";
 
     const { record, isLoading } = useEditController();
-
+    const { toast } = useToast();
     const { id } = useParams();
     const translate = useTranslate();
     const redirect = useRedirect();
@@ -55,17 +49,14 @@ export const DirectionEdit = () => {
     }, [record]);
 
     const onSubmit: SubmitHandler<DirectionCreate> = async data => {
-        console.log(data);
         try {
             await dataProvider.update("merchant", {
-                id: id,
-                data: data,
+                id,
+                data,
                 previousData: undefined
             });
             redirect("list", "merchant");
-        } catch (error: any) {
-            console.log(error.message);
-        }
+        } catch (error: any) {}
     };
 
     const formSchema = z.object({
@@ -78,7 +69,6 @@ export const DirectionEdit = () => {
         provider: z.string().min(1, translate("resources.directions.errors.provider")),
         weight: z.number()
     });
-    console.log(record?.merchant.name);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {

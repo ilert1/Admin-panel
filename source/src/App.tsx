@@ -186,7 +186,6 @@ export const App = () => {
                                             show={DirectionsShow}
                                             icon={MilestoneIcon}
                                             create={DirectionCreate}
-                                            edit={DirectionEdit}
                                         />
                                     </>
                                 )}

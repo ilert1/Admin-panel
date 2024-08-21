@@ -166,7 +166,8 @@ const ru: TranslationMessages = {
                 currencyName: "Название валюты"
             },
             error: {
-                code: "Код валюты обязательно нужно ввести"
+                code: "Код валюты обязательно нужно ввести",
+                alreadyInUse: "Данное имя уже тспользуется. Выберите другое."
             },
             create: "Добавить новую валюту",
             showTitle: "Детальная информацию о валюте",
@@ -180,7 +181,8 @@ const ru: TranslationMessages = {
             },
             errors: {
                 id: "ID обязательно должен быть заполнен",
-                name: "У провадйера обязательно должно быть имя"
+                name: "У мерчанта обязательно должно быть имя",
+                alreadyInUse: "Мерчант с таким именем или Id уже существует"
             },
             showTitle: "Детальная инфорация о мерчанте",
             createNew: "Создать нового мерчанта"
@@ -197,7 +199,8 @@ const ru: TranslationMessages = {
                 enterMethods: "Введите свои методы"
             },
             errors: {
-                name: "Имя должно содержать хотя бы один символ"
+                name: "Имя должно содержать хотя бы один символ",
+                alreadyInUse: "Данное имя уже используется․ Выберите другой."
             },
             showTitle: "Детальная информация о провайдере",
             createNew: "Создать нового провайдера",
@@ -223,7 +226,7 @@ const ru: TranslationMessages = {
                 stateActive: "Активный",
                 stateInactive: "Не активный",
                 description: "Описание",
-                api_key: "Ключ API",
+                api_key: "Информация об аутентификации",
                 merchantsDirections: "Направления мерчанта "
             },
             errors: {
@@ -231,7 +234,8 @@ const ru: TranslationMessages = {
                 src_curr: "Исходная валюта обязательно должна быть выбрана",
                 dst_curr: "Конечная валюта обязательно должна быть выбрана",
                 merchant: "Мерчант обязательно должен быть выбран",
-                provider: "Провайдер обязательно должен быть выбран"
+                provider: "Провайдер обязательно должен быть выбран",
+                authError: "Ошибка при добавлении информации об аутентификации"
             },
             create: "Создать новое направление",
             sourceCurrency: "Исходящая валюта",
@@ -244,7 +248,11 @@ const ru: TranslationMessages = {
             description: "Описание",
             writeSecretPhrase: "Напишите информацию об аутентификации и нажмите сохранить",
             note: "Внимание: Вы не можете использовать для направления провайдера, для которого нет ключа",
-            addedSuccess: "Аутентификационная информация была добавлена"
+            addedSuccess: "Аутентификационная информация была добавлена",
+            pleaseCreate: "Пожалуйста добавьте аутентификационную информацию на странице с таблицей",
+            noProviders: "Нет доступных провайдеров",
+            noMerchants: "Нет доступных мерчантов",
+            noCurrencies: "Нет доступных валют"
         }
     },
     app: {
@@ -509,7 +517,8 @@ const en: TranslationMessages = {
                 currencyName: "Currency name"
             },
             errors: {
-                code: "Code is required"
+                code: "Code is required",
+                alreadyInUse: "This name is already in use. Choose another one."
             },
             create: "Add new currency",
             showTitle: "Detailed information about currency",
@@ -523,7 +532,8 @@ const en: TranslationMessages = {
             },
             errors: {
                 id: "ID is required",
-                name: "Name is required"
+                name: "Name is required",
+                alreadyInUse: "Merchant with this id or name is already exists."
             },
             showTitle: "Detailed information about merchant",
             createNew: "Create new merchant"
@@ -540,7 +550,8 @@ const en: TranslationMessages = {
                 enterMethods: "Enter your methods"
             },
             errors: {
-                name: "Name must contain at least 1 symbol"
+                name: "Name must contain at least 1 symbol",
+                alreadyInUse: "This name is already in use. Choose another one."
             },
             showTitle: "Detailed information about provider",
             createNew: "Create new provider",
@@ -565,7 +576,7 @@ const en: TranslationMessages = {
                 stateActive: "Active",
                 stateInactive: "Inactive",
                 description: "Description",
-                api_key: "Api key",
+                api_key: "Auth data",
                 merchantsDirections: "Directions of merchant "
             },
             errors: {
@@ -573,7 +584,8 @@ const en: TranslationMessages = {
                 src_curr: "The source currency must be selected",
                 dst_curr: "The destination currency must be selected",
                 merchant: "The merchant must be selected",
-                provider: "The provider must be selected"
+                provider: "The provider must be selected",
+                authError: "An error has occurred while adding authentication information"
             },
             create: "Create new direction",
             sourceCurrency: "Source currency",
@@ -587,7 +599,11 @@ const en: TranslationMessages = {
             writeSecretPhrase: "Write auth data for direction and click save",
             enterSecretPhrase: "Enter secret phrase",
             note: "Note: You cannot use a provider for direction that does not have a key",
-            addedSuccess: "Auth data has been added successfully"
+            addedSuccess: "Auth data has been added successfully",
+            pleaseCreate: "Please add auth data on the page with table",
+            noProviders: "No available providers",
+            noMerchants: "No available merchants",
+            noCurrencies: "No available currencies"
         }
     },
     app: {

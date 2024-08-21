@@ -7,21 +7,20 @@ import { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "react-query";
 import { Loading } from "@/components/ui/loading";
 import { Editor } from "@monaco-editor/react";
+import { useTheme } from "@/components/providers";
 
 export const ProviderCreate = () => {
     const dataProvider = useDataProvider();
-    const { isLoading } = useCreateController({ resource: "provider" });
     const controllerProps = useCreateController();
+    const { toast } = useToast();
+    const { theme } = useTheme();
 
     const translate = useTranslate();
-    const { toast } = useToast();
     const redirect = useRedirect();
-
-    const [code, setCode] = useState("");
-
+    const [editorValue, setEditorValue] = useState("{}");
+    const [error, setError] = useState(false);
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.merchants.errors.name")),
         public_key: z.string().nullable(),
@@ -40,11 +39,10 @@ export const ProviderCreate = () => {
     });
 
     const onSubmit: SubmitHandler<Omit<Provider, "id">> = async data => {
-        console.log(data);
-        if (code.length === 0) {
+        if (data.methods.length === 0) {
             data.methods = {};
         } else {
-            data.methods = JSON.parse(code);
+            data.methods = JSON.parse(data.methods);
         }
 
         if (!data.methods) {
@@ -58,11 +56,22 @@ export const ProviderCreate = () => {
         if (!data.public_key) {
             data.public_key = null;
         }
-
-        await dataProvider.create("provider", { data: data });
-        redirect("list", "provider");
+        try {
+            await dataProvider.create("provider", { data });
+            redirect("list", "provider");
+        } catch (error) {
+            toast({
+                description: translate("resources.providers.errors.alreadyInUse"),
+                variant: "error",
+                title: translate("resources.transactions.download.error")
+            });
+        }
     };
-    if (isLoading) return <Loading />;
+    const handleEditorDidMount = (editor: any, monaco: any) => {
+        monaco.editor.setTheme(`vs-${theme}`);
+    };
+
+    if (controllerProps.isLoading || theme.length === 0) return <Loading />;
 
     return (
         <CreateContextProvider value={controllerProps}>
@@ -109,8 +118,20 @@ export const ProviderCreate = () => {
                                         <Editor
                                             {...field}
                                             height="20vh"
-                                            defaultLanguage="javascript"
-                                            defaultValue="// some comment"
+                                            defaultLanguage="json"
+                                            value={editorValue}
+                                            onChange={value => {
+                                                setEditorValue(value || "{}");
+                                                field.onChange(value);
+                                            }}
+                                            onValidate={markers => {
+                                                setError(markers.length > 0);
+                                            }}
+                                            options={{
+                                                theme: `vs-${theme}`
+                                            }}
+                                            loading={<Loading />}
+                                            onMount={handleEditorDidMount}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -118,7 +139,7 @@ export const ProviderCreate = () => {
                             )}
                         />
                         <div className="w-1/4 p-2 ml-auto">
-                            <Button type="submit" variant="default" className="w-full">
+                            <Button type="submit" variant="default" className="w-full" disabled={error}>
                                 {translate("app.ui.actions.save")}
                             </Button>
                         </div>

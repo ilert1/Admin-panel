@@ -34,7 +34,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle
 } from "@/components/ui/alertdialog";
-import { toast, useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 
 export const CurrenciesList = () => {
     const listContext = useListController<Currencies.Currency>();
@@ -49,6 +49,7 @@ export const CurrenciesList = () => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [chosenId, setChosenId] = useState("");
     const { toast } = useToast();
+
     const openSheet = (id: string) => {
         setShowCurrencyId(id);
         setShowOpen(true);
@@ -64,21 +65,14 @@ export const CurrenciesList = () => {
     };
 
     const handleOkClicked = async () => {
-        try {
-            await dataProvider.delete("currency", {
-                id: chosenId
-            });
-            toast({
-                description: translate("app.ui.delete.deletedSuccessfully"),
-                variant: "default",
-                title: "Success"
-            });
-            setChosenId("");
-            refresh();
-        } catch (error: any) {
-            // Не очень нужная вещь, с бэка непонятные сообщения об ошибках приходят
-            // Пока оставлю может понадобиться
-        }
+        await dataProvider.delete("currency", {
+            id: chosenId
+        });
+        toast({
+            description: translate("app.ui.delete.deletedSuccessfully"),
+            variant: "success",
+            title: "Success"
+        });
         setChosenId("");
         refresh();
     };
@@ -202,9 +196,6 @@ export const CurrenciesList = () => {
                         <ScrollArea className="h-full">
                             <SheetHeader className="mb-2">
                                 <SheetTitle>{translate("resources.currencies.showTitle")}</SheetTitle>
-                                {/* <SheetDescription>
-                                    {translate("resources.currencies.showDescription", { id: showCurrencyId })}
-                                </SheetDescription> */}
                             </SheetHeader>
                             <CurrenciesShow id={showCurrencyId} />
                         </ScrollArea>

@@ -7,3 +7,11 @@ export const Loading = () => {
         </div>
     );
 };
+
+export const LoadingAlertDialog = () => {
+    return (
+        <div className="flex justify-center items-center h-full w-full">
+            <RotatingLines strokeColor="grey" strokeWidth="5" animationDuration="0.75" width="96" visible={true} />
+        </div>
+    );
+};

@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
 
 enum PositionEnum {
     BEFORE = "before",
@@ -26,6 +27,7 @@ export const CurrencyEdit = () => {
 
     const translate = useTranslate();
     const redirect = useRedirect();
+    const { toast } = useToast();
 
     useEffect(() => {
         if (record) {
@@ -39,13 +41,20 @@ export const CurrencyEdit = () => {
     }, [record]);
 
     const onSubmit: SubmitHandler<Omit<Currencies.Currency, "id">> = async data => {
-        console.log(data);
-        await dataProvider.update("currency", {
-            id: id,
-            data: data,
-            previousData: undefined
-        });
-        redirect("list", "currency");
+        try {
+            await dataProvider.update("currency", {
+                id: id,
+                data: data,
+                previousData: undefined
+            });
+            redirect("list", "currency");
+        } catch (error) {
+            toast({
+                description: translate("resources.currencies.errors.alreadyInUse"),
+                variant: "destructive",
+                title: "Error"
+            });
+        }
     };
 
     const formSchema = z.object({

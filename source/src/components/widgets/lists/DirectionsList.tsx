@@ -7,7 +7,6 @@ import {
     fetchUtils,
     useRefresh
 } from "react-admin";
-import { useQuery } from "react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
 import {
@@ -25,8 +24,7 @@ import { useMediaQuery } from "react-responsive";
 import { TextField } from "@/components/ui/text-field";
 import { useNavigate } from "react-router-dom";
 import { DirectionsShow } from "../show";
-import { Loading } from "@/components/ui/loading";
-// import CodeEditor from "@uiw/react-textarea-code-editor";
+import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 
 import {
     AlertDialog,
@@ -39,7 +37,9 @@ import {
     AlertDialogTitle
 } from "@/components/ui/alertdialog";
 import { useToast } from "@/components/ui/use-toast";
+import * as monaco from "monaco-editor";
 import { Editor } from "@monaco-editor/react";
+import { useTheme } from "@/components/providers";
 
 const API_URL = import.meta.env.VITE_ENIGMA_URL;
 
@@ -54,13 +54,40 @@ export const DirectionsList = () => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-    const [password, setPassword] = useState("");
     const [chosenId, setChosenId] = useState("");
+
     const [code, setCode] = useState("{}");
+    const [hasErrors, setHasErrors] = useState(false);
+    const { theme } = useTheme();
+    const [isValid, setIsValid] = useState(false);
+
+    const handleEditorDidMount = (editor: any, monaco: any) => {
+        monaco.editor.setTheme(`vs-${theme}`);
+    };
+
+    const validateCode = (value: string) => {
+        try {
+            const parsed = JSON.parse(value || "{}");
+            if (value.trim() === "" || Object.keys(parsed).length === 0) {
+                setIsValid(false);
+            } else {
+                setIsValid(true);
+            }
+        } catch (error) {
+            setIsValid(false);
+        }
+    };
+
     const handleEditorChange = (value: string | undefined) => {
         if (value !== undefined) {
             setCode(value);
+            validateCode(value);
         }
+    };
+
+    const handleValidation = (markers: monaco.editor.IMarker[]) => {
+        console.log(hasErrors);
+        setHasErrors(markers.length > 0);
     };
 
     const { toast } = useToast();
@@ -76,22 +103,22 @@ export const DirectionsList = () => {
         });
         toast({
             description: translate("app.ui.delete.deletedSuccessfully"),
-            variant: "default",
+            variant: "success",
             title: "Success"
         });
         refresh();
     };
 
     const handleGen = async () => {
+        const data = JSON.parse(code);
         setChosenId("");
-        setPassword("");
+        setCode("");
+        console.log(data);
         try {
             const { json } = await fetchUtils.fetchJson(`${API_URL}/direction/${chosenId}`, {
                 method: "PUT",
                 body: JSON.stringify({
-                    auth_data: {
-                        api_key: password
-                    }
+                    auth_data: data
                 }),
                 user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
             });
@@ -102,13 +129,14 @@ export const DirectionsList = () => {
 
             toast({
                 description: translate("resources.directions.addedSuccess"),
-                variant: "default",
+                variant: "success",
                 title: "Success"
             });
             refresh();
         } catch (error: any) {
+            console.log(error);
             toast({
-                description: error.message,
+                description: translate("resources.directions.errors."),
                 variant: "destructive",
                 title: "Error"
             });
@@ -215,14 +243,11 @@ export const DirectionsList = () => {
                             <DropdownMenuItem onClick={() => navigate(`/direction/${row.original.id}/show`)}>
                                 {translate("app.ui.actions.show")}
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => navigate(`/direction/${row.original.id}/edit/`)}>
-                                {translate("app.ui.actions.edit")}
-                            </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleDelete(row.original.id)}>
                                 <p className="text-popover-foreground">{translate("app.ui.actions.delete")}</p>
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleAddPassClicked(row.original.id)}>
-                                {row.original.auth_data?.api_key === undefined
+                                {row.original.auth_data === undefined
                                     ? translate("app.ui.actions.addSecretKey")
                                     : translate("app.ui.actions.changeSecretKey")}
                             </DropdownMenuItem>
@@ -268,31 +293,22 @@ export const DirectionsList = () => {
                                 <AlertDialogDescription></AlertDialogDescription>
                             </AlertDialogHeader>
                             <div className="flex items-center space-x-2">
-                                {/* <CodeEditor
-                                    id="editor"
-                                    language="js"
-                                    value={code}
-                                    onChange={e => setCode(e.target.value)}
-                                    placeholder={`Example: {"bar": "foo", "baz": "dar"}`}
-                                    padding={15}
-                                    style={{
-                                        backgroundColor: "text-neural-40",
-                                        fontFamily:
-                                            "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
-                                        marginTop: "2px",
-                                        width: "100%"
-                                    }}
-                                /> */}
                                 <Editor
                                     height="20vh"
-                                    defaultLanguage="javascript"
-                                    defaultValue="// some comment"
+                                    defaultLanguage="json"
+                                    defaultValue="{}"
                                     value={code}
                                     onChange={handleEditorChange}
+                                    onValidate={handleValidation}
+                                    loading={<LoadingAlertDialog />}
+                                    options={{
+                                        theme: `vs-${theme}`
+                                    }}
+                                    onMount={handleEditorDidMount}
                                 />
                             </div>
                             <AlertDialogFooter>
-                                <AlertDialogAction onClick={handleGen}>
+                                <AlertDialogAction disabled={hasErrors || !isValid} onClick={handleGen}>
                                     {translate("app.ui.actions.save")}
                                 </AlertDialogAction>
                                 <AlertDialogCancel>{translate("app.ui.actions.cancel")}</AlertDialogCancel>
@@ -310,9 +326,7 @@ export const DirectionsList = () => {
                         <ScrollArea className="h-full">
                             <SheetHeader className="mb-2">
                                 <SheetTitle>{translate("resources.merchants.showTitle")}</SheetTitle>
-                                <SheetDescription>
-                                    {/* {translate("resources.currencies.showDescription", { id: showMerchantId })} */}
-                                </SheetDescription>
+                                <SheetDescription></SheetDescription>
                             </SheetHeader>
                             <DirectionsShow id={showDirectionId} />
                         </ScrollArea>

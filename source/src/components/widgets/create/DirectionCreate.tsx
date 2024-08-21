@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useFetchDataForDirections } from "@/hooks";
+import { useToast } from "@/components/ui/use-toast";
 
 export const DirectionCreate = () => {
     const dataProvider = useDataProvider();
@@ -16,13 +17,21 @@ export const DirectionCreate = () => {
 
     const { isLoading } = useCreateController({ resource: "direction" });
     const controllerProps = useCreateController();
-
+    const { toast } = useToast();
     const translate = useTranslate();
     const redirect = useRedirect();
 
     const onSubmit: SubmitHandler<DirectionCreate> = async data => {
-        await dataProvider.create("direction", { data: data });
-        redirect("list", "direction");
+        try {
+            await dataProvider.create("direction", { data });
+            redirect("list", "direction");
+        } catch (error) {
+            toast({
+                description: translate("resources.providers.errors.alreadyInUse"),
+                variant: "destructive",
+                title: "Error"
+            });
+        }
     };
 
     const formSchema = z.object({
@@ -52,6 +61,10 @@ export const DirectionCreate = () => {
 
     if (isLoading || loadingData) return <Loading />;
 
+    const currenciesDisabled = !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0);
+    const merchantsDisabled = !(merchants && Array.isArray(merchants.data) && merchants?.data?.length > 0);
+    const providersDisabled = !(providers && Array.isArray(providers.data) && providers?.data?.length > 0);
+
     return (
         <CreateContextProvider value={controllerProps}>
             <p className="mb-2">{translate("resources.directions.note")}</p>
@@ -80,7 +93,7 @@ export const DirectionCreate = () => {
                                 <FormItem className="w-1/2 p-2">
                                     <FormLabel>{translate("resources.directions.fields.active")}</FormLabel>
                                     <Select
-                                        value={field.value ? "true" : "false"} // Преобразуем булево значение в строку
+                                        value={field.value ? "true" : "false"}
                                         onValueChange={value => field.onChange(value === "true")}>
                                         <FormControl>
                                             <SelectTrigger>
@@ -104,28 +117,36 @@ export const DirectionCreate = () => {
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             control={form.control}
                             name="src_currency"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
                                     <FormLabel>{translate("resources.directions.sourceCurrency")}</FormLabel>
-                                    <Select value={field.value} onValueChange={field.onChange}>
+                                    <Select
+                                        value={field.value}
+                                        onValueChange={field.onChange}
+                                        disabled={currenciesDisabled}>
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue />
+                                                <SelectValue
+                                                    placeholder={
+                                                        currenciesDisabled
+                                                            ? translate("resources.directions.noCurrencies")
+                                                            : ""
+                                                    }
+                                                />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {currencies?.data.map(currency => {
-                                                    return (
-                                                        <SelectItem key={currency.code} value={currency.code}>
-                                                            {currency.code}
-                                                        </SelectItem>
-                                                    );
-                                                })}
+                                                {!currenciesDisabled
+                                                    ? currencies.data.map(currency => (
+                                                          <SelectItem key={currency.code} value={currency.code}>
+                                                              {currency.code}
+                                                          </SelectItem>
+                                                      ))
+                                                    : ""}
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
@@ -139,21 +160,30 @@ export const DirectionCreate = () => {
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
                                     <FormLabel>{translate("resources.directions.destinationCurrency")}</FormLabel>
-                                    <Select value={field.value} onValueChange={field.onChange}>
+                                    <Select
+                                        value={field.value}
+                                        onValueChange={field.onChange}
+                                        disabled={currenciesDisabled}>
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue />
+                                                <SelectValue
+                                                    placeholder={
+                                                        currenciesDisabled
+                                                            ? translate("resources.directions.noCurrencies")
+                                                            : ""
+                                                    }
+                                                />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {currencies?.data.map(currency => {
-                                                    return (
-                                                        <SelectItem key={currency.code} value={currency.code}>
-                                                            {currency.code}
-                                                        </SelectItem>
-                                                    );
-                                                })}
+                                                {!currenciesDisabled
+                                                    ? currencies.data.map(currency => (
+                                                          <SelectItem key={currency.code} value={currency.code}>
+                                                              {currency.code}
+                                                          </SelectItem>
+                                                      ))
+                                                    : ""}
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
@@ -166,22 +196,31 @@ export const DirectionCreate = () => {
                             name="merchant"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.merchant")}</FormLabel>
-                                    <Select value={field.value} onValueChange={field.onChange}>
+                                    <FormLabel>{translate("resources.directions.no")}</FormLabel>
+                                    <Select
+                                        value={field.value}
+                                        onValueChange={field.onChange}
+                                        disabled={merchantsDisabled}>
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue />
+                                                <SelectValue
+                                                    placeholder={
+                                                        merchantsDisabled
+                                                            ? translate("resources.directions.noMerchants")
+                                                            : ""
+                                                    }
+                                                />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {merchants?.data.map(merchant => {
-                                                    return (
-                                                        <SelectItem key={merchant.name} value={merchant.id}>
-                                                            {merchant.name}
-                                                        </SelectItem>
-                                                    );
-                                                })}
+                                                {!merchantsDisabled
+                                                    ? merchants.data.map(merchant => (
+                                                          <SelectItem key={merchant.name} value={merchant.id}>
+                                                              {merchant.name}
+                                                          </SelectItem>
+                                                      ))
+                                                    : ""}
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
@@ -195,24 +234,33 @@ export const DirectionCreate = () => {
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
                                     <FormLabel>{translate("resources.directions.provider")}</FormLabel>
-                                    <Select value={field.value} onValueChange={field.onChange}>
+                                    <Select
+                                        value={field.value}
+                                        onValueChange={field.onChange}
+                                        disabled={providersDisabled}>
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue />
+                                                <SelectValue
+                                                    placeholder={
+                                                        providersDisabled
+                                                            ? translate("resources.directions.noProviders")
+                                                            : ""
+                                                    }
+                                                />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {providers?.data.map((provider: Provider) => {
-                                                    return (
-                                                        <SelectItem
-                                                            key={provider.name}
-                                                            value={provider.name}
-                                                            disabled={provider.public_key ? false : true}>
-                                                            {provider.name}
-                                                        </SelectItem>
-                                                    );
-                                                })}
+                                                {!providersDisabled
+                                                    ? providers.data.map(provider => (
+                                                          <SelectItem
+                                                              key={provider.name}
+                                                              value={provider.name}
+                                                              disabled={provider.public_key ? false : true}>
+                                                              {provider.name}
+                                                          </SelectItem>
+                                                      ))
+                                                    : ""}
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>

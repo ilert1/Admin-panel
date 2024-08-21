@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
 
 export const MerchantEdit = () => {
     const dataProvider = useDataProvider();
@@ -21,6 +22,7 @@ export const MerchantEdit = () => {
     const { id } = useParams();
     const translate = useTranslate();
     const redirect = useRedirect();
+    const { toast } = useToast();
 
     useEffect(() => {
         if (record) {
@@ -33,13 +35,20 @@ export const MerchantEdit = () => {
     }, [record]);
 
     const onSubmit: SubmitHandler<Merchant> = async data => {
-        console.log(data);
-        await dataProvider.update("merchant", {
-            id: id,
-            data: data,
-            previousData: undefined
-        });
-        redirect("list", "merchant");
+        try {
+            await dataProvider.update("merchant", {
+                id,
+                data,
+                previousData: undefined
+            });
+            redirect("list", "merchant");
+        } catch (error) {
+            toast({
+                description: translate("resources.currencies.errors.alreadyInUse"),
+                variant: "destructive",
+                title: "Error"
+            });
+        }
     };
 
     const formSchema = z.object({

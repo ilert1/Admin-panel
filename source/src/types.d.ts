@@ -175,12 +175,11 @@ interface Direction {
     dst_currency: Omit<Currencies.Currency, "id">;
     merchant: Merchant;
     provider: Omit<Provider, "id">;
-    auth_data: {
-        api_key: string;
-    };
+    auth_data: {};
     weight: Number;
     fees: {};
 }
+
 interface DirectionCreate {
     name: string;
     description: string | null;

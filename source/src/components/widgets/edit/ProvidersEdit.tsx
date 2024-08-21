@@ -2,28 +2,30 @@ import { useParams } from "react-router-dom";
 import { useEditController, EditContextProvider, useTranslate, useRedirect, useDataProvider } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-// import CodeEditor from "@uiw/react-textarea-code-editor";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import { useQuery } from "react-query";
 import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Editor } from "@monaco-editor/react";
+import { useTheme } from "@/components/providers";
+import { useToast } from "@/components/ui/use-toast";
 
 export const ProvidersEdit = () => {
     const dataProvider = useDataProvider();
-    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
+    const [error, setError] = useState(false);
+    const { record, isLoading } = useEditController();
 
     const { id } = useParams();
 
-    const { record, isLoading } = useEditController();
     const controllerProps = useEditController();
     controllerProps.mutationMode = "pessimistic";
 
     const translate = useTranslate();
     const redirect = useRedirect();
+    const { theme } = useTheme();
+    const { toast } = useToast();
 
     useEffect(() => {
         if (record) {
@@ -37,16 +39,27 @@ export const ProvidersEdit = () => {
     }, [record]);
 
     const onSubmit: SubmitHandler<Omit<Omit<Provider, "id">, "name">> = async data => {
-        console.log(data);
         data.methods = JSON.parse(data.methods);
-
-        await dataProvider.update("provider", {
-            id: id,
-            data: data,
-            previousData: undefined
-        });
-        redirect("list", "provider");
+        try {
+            await dataProvider.update("provider", {
+                id,
+                data,
+                previousData: undefined
+            });
+            redirect("list", "provider");
+        } catch (error) {
+            toast({
+                description: translate("resources.currencies.errors.alreadyInUse"),
+                variant: "destructive",
+                title: "Error"
+            });
+        }
     };
+
+    const handleEditorDidMount = (editor: any, monaco: any) => {
+        monaco.editor.setTheme(`vs-${theme}`);
+    };
+
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.merchants.errors.name")),
         public_key: z.string().nullable(),
@@ -107,19 +120,16 @@ export const ProvidersEdit = () => {
                                 <FormItem className="w-full p-2">
                                     <FormLabel>{translate("resources.providers.fields.code")}</FormLabel>
                                     <FormControl>
-                                        {/* <CodeEditor
-                                            id="editor"
-                                            language="js"
+                                        <Editor
                                             {...field}
-                                            placeholder={`Example: {"bar": "foo", "baz": "dar"} Don't put comma after the last element`}
-                                            padding={15}
-                                            style={{
-                                                backgroundColor: "bg-neutral-40",
-                                                fontFamily:
-                                                    "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
-                                                marginTop: "2px"
+                                            height="20vh"
+                                            defaultLanguage="json"
+                                            onValidate={markers => {
+                                                setError(markers.length > 0);
                                             }}
-                                        /> */}
+                                            loading={<Loading />}
+                                            onMount={handleEditorDidMount}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

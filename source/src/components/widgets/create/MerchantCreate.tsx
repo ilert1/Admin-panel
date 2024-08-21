@@ -7,6 +7,7 @@ import { Loading } from "@/components/ui/loading";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { toast } from "@/components/ui/use-toast";
 
 export const MerchantCreate = () => {
     const dataProvider = useDataProvider();
@@ -20,7 +21,15 @@ export const MerchantCreate = () => {
         if (data?.description?.length === 0) {
             data.description = null;
         }
-        await dataProvider.create("merchant", { data: data });
+        try {
+            await dataProvider.create("merchant", { data });
+        } catch (error) {
+            toast({
+                description: translate("resources.merchants.errors.alreadyInUse"),
+                variant: "destructive",
+                title: "Error"
+            });
+        }
         redirect("list", "merchant");
     };
 

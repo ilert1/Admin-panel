@@ -1,21 +1,10 @@
 import { useCreateController, CreateContextProvider, useRedirect, useTranslate, useDataProvider } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import CodeEditor from "@uiw/react-textarea-code-editor";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import { useState } from "react";
-import { useQuery } from "react-query";
+import { toast } from "@/components/ui/use-toast";
 import { Loading } from "@/components/ui/loading";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -27,20 +16,23 @@ enum PositionEnum {
 
 export const CurrencyCreate = () => {
     const dataProvider = useDataProvider();
-    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
-    const [selectedPosition, setSelectedPosition] = useState(PositionEnum.BEFORE);
-    const [selectedType, setSelectedType] = useState(false);
-    const { isLoading } = useCreateController({ resource: "currency" });
     const controllerProps = useCreateController();
 
     const translate = useTranslate();
     const redirect = useRedirect();
 
     const onSubmit: SubmitHandler<Omit<Currencies.Currency, "id">> = async data => {
-        console.log(data);
         data.code = data.code.toUpperCase();
-        await dataProvider.create("currency", { data: data });
-        redirect("list", "currency");
+        try {
+            await dataProvider.create("currency", { data: data });
+            redirect("list", "currency");
+        } catch (error) {
+            toast({
+                description: translate("resources.currencies.errors.alreadyInUse"),
+                variant: "destructive",
+                title: "Error"
+            });
+        }
     };
 
     const formSchema = z.object({
@@ -60,7 +52,7 @@ export const CurrencyCreate = () => {
         }
     });
 
-    if (isLoading) return <Loading />;
+    if (controllerProps.isLoading) return <Loading />;
 
     return (
         <CreateContextProvider value={controllerProps}>

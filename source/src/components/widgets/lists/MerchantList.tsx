@@ -69,7 +69,7 @@ export const MerchantList = () => {
         setChosenId("");
         toast({
             description: translate("app.ui.delete.deletedSuccessfully"),
-            variant: "default",
+            variant: "success",
             title: "Success"
         });
         refresh();

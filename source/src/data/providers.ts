@@ -20,17 +20,37 @@ export class ProvidersDataProvider extends BaseDataProvider {
             limit: params?.pagination.perPage.toString(),
             offset: ((params?.pagination.page - 1) * +params?.pagination.perPage).toString()
         }).toString();
-
-        console.log(paramsStr);
-
         const url = `${API_URL}/${resource}?${paramsStr}`;
-        console.log(url);
+
         const { json } = await fetchUtils.fetchJson(url, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
-            cache: "no-cache"
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
 
-        console.log(json);
+        if (!json.success) {
+            throw new Error(json.error);
+        }
+
+        return {
+            data:
+                json.data.map((elem: { name: any }) => {
+                    return {
+                        id: elem.name,
+                        ...elem
+                    };
+                }) || [],
+            total: json?.meta.total || 0
+        };
+    }
+
+    async getListWithoutPagination(resource: string) {
+        const url = `${API_URL}/${resource}`;
+        const { json } = await fetchUtils.fetchJson(url, {
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        });
+
+        if (!json.success) {
+            throw new Error(json.error);
+        }
 
         return {
             data:
@@ -46,11 +66,12 @@ export class ProvidersDataProvider extends BaseDataProvider {
 
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
-            user: { authenticated: true, token: localStorage.getItem("access-token") as string },
-            cache: "no-cache"
+            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
         });
 
-        console.log(json);
+        if (!json.success) {
+            throw new Error(json.error);
+        }
 
         return {
             data: {
@@ -63,13 +84,11 @@ export class ProvidersDataProvider extends BaseDataProvider {
     async update(resource: string, params: UpdateParams) {
         delete params.data.generatedAt;
         delete params.data.loadedAt;
-        console.log(`${API_URL}/${resource}/${params.id}`);
 
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
             method: "PUT",
             body: JSON.stringify(params.data),
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
-            cache: "no-cache"
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
 
         if (!json.success) {
@@ -88,10 +107,13 @@ export class ProvidersDataProvider extends BaseDataProvider {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}`, {
             method: "POST",
             body: JSON.stringify(params.data),
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
-            cache: "no-cache"
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
-        console.log(json.data);
+
+        if (!json.success) {
+            throw new Error(json.error);
+        }
+
         return {
             data: {
                 id: json.data.name,
@@ -103,13 +125,13 @@ export class ProvidersDataProvider extends BaseDataProvider {
     async delete(resource: string, params: DeleteParams): Promise<DeleteResult> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
             method: "DELETE",
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
-            cache: "no-cache"
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
+
         if (!json.success) {
             throw new Error(json.error);
         }
-        console.log(json);
+
         return { data: { id: params.id } };
     }
 }

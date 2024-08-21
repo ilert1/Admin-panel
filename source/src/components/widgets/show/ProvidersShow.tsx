@@ -1,24 +1,22 @@
-import { useDataProvider, useShowController, useTranslate } from "react-admin";
-import { useQuery } from "react-query";
+import { useShowController, useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
-// import CodeEditor from "@uiw/react-textarea-code-editor";
-import { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Editor } from "@monaco-editor/react";
+import { useTheme } from "@/components/providers";
+import { useState } from "react";
 
 export const ProvidersShow = (props: { id: string }) => {
-    const dataProvider = useDataProvider();
     const translate = useTranslate();
     const context = useShowController({ id: props.id });
-    const [code, setCode] = useState(``);
+    const { theme } = useTheme();
+    const [isEditorReady, setIsEditorReady] = useState(false);
 
-    useEffect(() => {
-        if (context.record && context.record.methods) {
-            console.log(context.record.methods);
-            setCode(JSON.stringify(context.record.methods, null, 2));
-        }
-    }, [context.record]);
+    const handleEditorDidMount = (editor: any, monaco: any) => {
+        monaco.editor.setTheme(`vs-${theme}`);
+        setIsEditorReady(true);
+    };
 
     if (context.isLoading || !context.record) {
         return <Loading />;
@@ -47,21 +45,16 @@ export const ProvidersShow = (props: { id: string }) => {
                     <Label htmlFor="editor" className="text-muted-foreground">
                         {translate("resources.providers.fields.code")}
                     </Label>
-                    {/* <CodeEditor
-                        id="editor"
-                        className="max-w-96"
-                        language="js"
-                        value={code}
-                        placeholder={translate("resources.providers.fields.enterMethods")}
-                        onChange={evn => setCode(evn.target.value)}
-                        padding={15}
-                        disabled
-                        style={{
-                            backgroundColor: "bg-neutral-40",
-                            fontFamily: "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
-                            marginBottom: "10px"
+                    <Editor
+                        height="20vh"
+                        defaultLanguage="json"
+                        value={JSON.stringify(context.record.methods)}
+                        loading={<Loading />}
+                        options={{
+                            readOnly: true
                         }}
-                    /> */}
+                        onMount={handleEditorDidMount}
+                    />
                 </div>
             </div>
         );

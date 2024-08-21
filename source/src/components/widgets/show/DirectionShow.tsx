@@ -7,6 +7,7 @@ import { TextField } from "@/components/ui/text-field";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 const API_URL = import.meta.env.VITE_ENIGMA_URL;
 
@@ -16,6 +17,7 @@ export const DirectionsShow = (props: { id: string }) => {
     const translate = useTranslate();
     const context = useShowController({ id: props.id });
     const [merchantDirections, setMerchantDirections] = useState([]);
+    const { toast } = useToast();
 
     useEffect(() => {
         const fetchMerchantDirections = async () => {
@@ -23,14 +25,17 @@ export const DirectionsShow = (props: { id: string }) => {
                 const { json } = await fetchUtils.fetchJson(
                     `${API_URL}/direction/merchant/${context?.record.merchant.id}`,
                     {
-                        user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
-                        cache: "no-cache"
+                        user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
                     }
                 );
 
+                if (!json.success) {
+                    throw new Error(json.error);
+                }
+
                 setMerchantDirections(json.data);
             } catch (error) {
-                console.error("Failed to fetch merchant directions:", error);
+                toast({});
             }
         };
 
@@ -38,7 +43,6 @@ export const DirectionsShow = (props: { id: string }) => {
             fetchMerchantDirections();
         }
     }, [context.record]);
-    console.log(merchantDirections);
 
     const columns: ColumnDef<Direction>[] = [
         {
@@ -81,7 +85,6 @@ export const DirectionsShow = (props: { id: string }) => {
             accessorKey: "dst_currency",
             header: translate("resources.directions.fields.destCurr"),
             cell: ({ row }) => {
-                console.log(row);
                 const obj: Omit<Currencies.Currency, "id"> = row.getValue("dst_currency");
                 return <TextField text={obj.code} />;
             }
@@ -111,7 +114,6 @@ export const DirectionsShow = (props: { id: string }) => {
         }
     ];
 
-    console.log(context?.record.weight);
     if (context.isLoading || !context.record) {
         return <Loading />;
     } else {
@@ -151,7 +153,9 @@ export const DirectionsShow = (props: { id: string }) => {
                     </Label>
                     <Textarea
                         id="api_key"
-                        value={context.record.auth_data.api_key || translate("resources.providers.pleaseCreate")}
+                        value={
+                            JSON.stringify(context.record.auth_data) || translate("resources.directions.pleaseCreate")
+                        }
                         disabled
                         className="w-full h-40 disabled:cursor-default"
                     />
