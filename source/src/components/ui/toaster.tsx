@@ -25,16 +25,14 @@ export function Toaster() {
             {toasts.map(function ({ id, title, description, action, ...props }) {
                 const { variant } = props as { variant: ToastVariant };
                 return (
-                    <Toast key={id} {...props}>
-                        <div className="grid grid-cols-1/9 gap-1">
-                            <div className="row-span-2">{toastIcons[variant]}</div> {/* Исправлено */}
-                            <div className="">
-                                {title && <ToastTitle>{title}</ToastTitle>}
-                                {description && <ToastDescription>{description}</ToastDescription>}
-                            </div>
+                    <Toast key={id} {...props} className="flex items-start space-x-3">
+                        <div className="flex-shrink-0">{toastIcons[variant]}</div>
+                        <div className="flex-1">
+                            {title && <ToastTitle>{title}</ToastTitle>}
+                            {description && <ToastDescription>{description}</ToastDescription>}
                         </div>
-                        {action}
-                        <ToastClose />
+                        {action && <div className="ml-4">{action}</div>}
+                        <ToastClose className="ml-4" />
                     </Toast>
                 );
             })}
