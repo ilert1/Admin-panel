@@ -41,6 +41,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@/components/providers";
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
@@ -108,6 +109,7 @@ const TransactionFilterSidebar = () => {
 
     const [id, setId] = useState(filterValues?.id || "");
     const [account, setAccount] = useState(filterValues?.account || "");
+    const { theme } = useTheme();
 
     const onPropertySelected = debounce((value: Account | string, type: "id" | "account") => {
         if (value) {
@@ -136,9 +138,10 @@ const TransactionFilterSidebar = () => {
         setAccount("");
         setFilters({}, displayedFilters);
     };
-
+    const borderColor = theme === "dark" ? "border-neutral-10" : "border-neutral-70";
+    const classNames = `sm:w-full flex flex-col sm:flex-row gap-4 border ${borderColor} shadow-4 rounded-md p-2`;
     return (
-        <div className="sm:w-full flex flex-col sm:flex-row gap-4">
+        <div className={classNames}>
             <Input
                 placeholder={translate("resources.transactions.filter.filterById")}
                 value={id}
@@ -192,6 +195,7 @@ export const TransactionList = () => {
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
     const navigate = useNavigate();
+    const { theme } = useTheme();
 
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");
@@ -204,6 +208,9 @@ export const TransactionList = () => {
     const [stornoOpen, setStornoOpen] = useState(false);
 
     const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
+
+    const borderColor = theme === "dark" ? "border-neutral-10" : "border-neutral-70";
+    const classNames = `flex flex-col sm:flex-row sm:items-center gap-4 mt-4 border ${borderColor} shadow-4 rounded-md p-2`;
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
@@ -308,7 +315,7 @@ export const TransactionList = () => {
                 <ListContextProvider value={listContext}>
                     <div className="mb-10 mt-5">
                         <TransactionFilterSidebar />
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-4">
+                        <div className={classNames}>
                             <DatePicker
                                 placeholder={translate("resources.transactions.download.startDate")}
                                 date={startDate}
