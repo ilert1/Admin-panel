@@ -35,14 +35,14 @@ export const AccountList = () => {
 
     const columns: ColumnDef<Account>[] = [
         {
-            id: "user",
+            id: "name",
             accessorKey: "meta.caption",
             header: translate("resources.accounts.fields.meta.caption"),
             cell: ({ row }) => (
                 <TextField
-                    text={row.getValue("user")}
+                    text={row.getValue("name")}
                     type="internal-link"
-                    link={`/users/${row.original.owner_id}/show`}
+                    link={`/accounts/${row.original.owner_id}/show`}
                 />
             )
         },
