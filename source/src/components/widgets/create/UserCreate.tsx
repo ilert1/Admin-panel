@@ -3,7 +3,7 @@ import { UserCreateForm } from "../forms";
 import { toast } from "sonner";
 import { CreateContextProvider, useCreateController, useTranslate } from "react-admin";
 
-const UserCreate = () => {
+export const UserCreate = () => {
     const translate = useTranslate();
     const navigate = useNavigate();
     const contrProps = useCreateController();
@@ -44,5 +44,3 @@ const UserCreate = () => {
         </CreateContextProvider>
     );
 };
-
-export default UserCreate;

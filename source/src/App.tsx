@@ -24,7 +24,8 @@ import {
     CurrencyCreate,
     DirectionCreate,
     MerchantCreate,
-    ProviderCreate
+    ProviderCreate,
+    UserCreate
 } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
 import { PayOutPage, PayOutCryptoPage } from "./pages";
@@ -163,7 +164,13 @@ export const App = () => {
                                             edit={CurrencyEdit}
                                             icon={CurrencyIcon}
                                         />
-                                        <Resource name="users" list={UserList} show={UserShow} icon={UsersIcon} />
+                                        <Resource
+                                            name="users"
+                                            list={UserList}
+                                            show={UserShow}
+                                            icon={UsersIcon}
+                                            create={UserCreate}
+                                        />
                                         <Resource
                                             name="merchant"
                                             list={MerchantList}
