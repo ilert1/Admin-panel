@@ -2,6 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { UserCreateForm } from "../forms";
 import { toast } from "sonner";
 import { CreateContextProvider, useCreateController, useTranslate } from "react-admin";
+import { useQuery } from "react-query";
+import { API_URL } from "@/data/base";
+import { useMemo } from "react";
 
 export const UserCreate = () => {
     const translate = useTranslate();
@@ -25,18 +28,29 @@ export const UserCreate = () => {
         });
     };
 
+    const { isLoading: currenciesLoading, data: currencies } = useQuery("currencies", () =>
+        fetch(`${API_URL}/dictionaries/curr`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }).then(response => response.json())
+    );
+
     const createUserRecord = (data: any) => {
         if (contrProps.save !== undefined) {
             contrProps.save(data, { onSuccess, onError });
         }
     };
 
+    const isDisabled = useMemo(() => currenciesLoading || contrProps.saving, [contrProps.saving, currenciesLoading]);
+
     return (
         <CreateContextProvider value={contrProps}>
             {contrProps.save !== undefined ? (
                 <UserCreateForm
                     onSubmit={createUserRecord}
-                    isDisabled={contrProps.saving !== undefined ? contrProps.saving : false}
+                    currencies={currencies?.data || []}
+                    isDisabled={isDisabled !== undefined ? isDisabled : false}
                 />
             ) : (
                 <>{navigate(`/${contrProps.resource}`)}</>
