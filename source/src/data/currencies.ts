@@ -21,13 +21,12 @@ export class CurrenciesDataProvider extends BaseDataProvider {
             offset: ((params?.pagination.page - 1) * +params?.pagination.perPage).toString()
         }).toString();
 
-        const url = `${API_URL}/${resource}?${paramsStr}`;
-
+        const url = `${API_URL}/${resource}/?${paramsStr}`;
+        console.log(url);
         const { json } = await fetchUtils.fetchJson(url, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
-
-        if (!json.success) {
+        if (!json?.success) {
             throw new Error(json.error);
         }
 
