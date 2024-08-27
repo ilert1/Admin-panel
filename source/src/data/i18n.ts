@@ -426,10 +426,10 @@ const en: TranslationMessages = {
             showHeader: "User info",
             showDescription: "Detailed information about user with ID %{id}",
             create: {
-                success: "Готово",
-                successMessage: "Пользователь создан",
-                error: "Ошибка",
-                errorMessage: "Не удалось создать пользователя"
+                success: "Success",
+                successMessage: "User is created",
+                error: "Error",
+                errorMessage: "Failed to create user"
             }
         },
         transactions: {

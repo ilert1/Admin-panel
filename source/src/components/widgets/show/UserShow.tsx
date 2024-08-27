@@ -16,7 +16,7 @@ export const UserShow = (props: { id: string }) => {
                 <TextField label={translate("resources.users.fields.name")} text={context.record.name} />
                 <TextField label={translate("resources.users.fields.login")} text={context.record.login} />
                 <TextField label={translate("resources.users.fields.email")} text={context.record.email} />
-                <TextField label={translate("resources.users.fields.currency")} text={context.record.currency} />
+                <TextField label={translate("resources.users.fields.currency")} text={context.record.shop_currency} />
                 <TextField label={translate("resources.users.fields.id")} text={context.record.id} copyValue />
                 <TextField label={translate("resources.users.fields.created_at")} text={context.record.created_at} />
 
