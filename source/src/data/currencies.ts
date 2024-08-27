@@ -24,6 +24,7 @@ export class CurrenciesDataProvider extends BaseDataProvider {
         const url = `${API_URL}/${resource}/?${paramsStr}`;
         console.log(url);
         const { json } = await fetchUtils.fetchJson(url, {
+            method: "GET",
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
         if (!json?.success) {
