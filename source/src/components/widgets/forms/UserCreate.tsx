@@ -86,10 +86,10 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
             reader.readAsText(file);
         }
     };
-    const handleTextChange = (e: any) => {
+    const handleTextChange = (e: any, field: any) => {
         setFileContent(e.target.value);
-        console.log(e.target.value);
         form.setValue("publicKey", e.target.value);
+        field.onChange(e.target.value);
     };
 
     return (
@@ -161,7 +161,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                             <FormField
                                 name="shopCurrency"
                                 control={form.control}
-                                render={() => (
+                                render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="block">
                                             {translate("app.widgets.forms.userCreate.shopCurrency")}
@@ -205,13 +205,14 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                                                     key={cur["alpha-3"]}
                                                                     value={cur["alpha-3"]}
                                                                     onSelect={currentValue => {
+                                                                        form.setValue("shopCurrency", cur["alpha-3"]);
+                                                                        field.onChange(cur["alpha-3"]);
                                                                         setValueCurDialog(
                                                                             currentValue === valueCurDialog
                                                                                 ? ""
                                                                                 : currentValue
                                                                         );
                                                                         setOpenCurDialog(false);
-                                                                        form.setValue("shopCurrency", cur["alpha-3"]);
                                                                     }}>
                                                                     <Check
                                                                         className={cn(
@@ -241,14 +242,14 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                             <FormField
                                 name="publicKey"
                                 control={form.control}
-                                render={() => (
+                                render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>{translate("app.widgets.forms.userCreate.publicKey")}</FormLabel>
                                         <FormControl>
                                             <Input
                                                 value={fileContent}
-                                                onChange={handleTextChange}
-                                                onInput={handleTextChange}
+                                                onChange={e => handleTextChange(e, field)}
+                                                onInput={e => handleTextChange(e, field)}
                                                 placeholder="Drop file here or type text"
                                                 disabled={props.isDisabled}
                                             />

@@ -33,6 +33,9 @@ const ru: TranslationMessages = {
             fields: {
                 id: "ID",
                 name: "Имя",
+                login: "Логин",
+                email: "Электронная почта",
+                currency: "Валюта",
                 created_at: "Дата создания",
                 active: "Активный",
                 public_key: "Публичный ключ"
@@ -412,6 +415,9 @@ const en: TranslationMessages = {
             fields: {
                 id: "ID",
                 name: "Name",
+                login: "Login",
+                email: "Email",
+                currency: "Currency",
                 created_at: "Created at",
                 active: "Active",
                 public_key: "Public key"
