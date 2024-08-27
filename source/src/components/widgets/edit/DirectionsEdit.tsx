@@ -275,8 +275,11 @@ export const DirectionEdit = () => {
                                 </FormItem>
                             )}
                         />
-                        <div className="p-2 ml-auto w-1/2 md:w-1/4">
-                            <Button type="submit" variant="default" className="w-full">
+                        <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
+                            <Button type="submit" variant="error" className="flex-1">
+                                {translate("app.ui.actions.cancel")}
+                            </Button>
+                            <Button type="submit" variant="default" className="flex-1">
                                 {translate("app.ui.actions.save")}
                             </Button>
                         </div>

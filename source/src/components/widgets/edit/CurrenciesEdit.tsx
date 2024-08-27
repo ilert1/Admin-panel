@@ -169,8 +169,11 @@ export const CurrencyEdit = () => {
                             )}
                         />
 
-                        <div className="w-1/5 p-2 ml-auto">
-                            <Button type="submit" variant="default" className="w-full">
+                        <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
+                            <Button type="submit" variant="error" className="flex-1">
+                                {translate("app.ui.actions.cancel")}
+                            </Button>
+                            <Button type="submit" variant="default" className="flex-1">
                                 {translate("app.ui.actions.save")}
                             </Button>
                         </div>
