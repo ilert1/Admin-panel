@@ -88,6 +88,8 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
     };
     const handleTextChange = (e: any) => {
         setFileContent(e.target.value);
+        console.log(e.target.value);
+        form.setValue("publicKey", e.target.value);
     };
 
     return (
@@ -246,6 +248,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                             <Input
                                                 value={fileContent}
                                                 onChange={handleTextChange}
+                                                onInput={handleTextChange}
                                                 placeholder="Drop file here or type text"
                                                 disabled={props.isDisabled}
                                             />
