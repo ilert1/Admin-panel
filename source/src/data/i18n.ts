@@ -33,9 +33,15 @@ const ru: TranslationMessages = {
             fields: {
                 id: "ID",
                 name: "Имя",
+                login: "Логин",
+                email: "Электронная почта",
+                currency: "Валюта",
                 created_at: "Дата создания",
                 active: "Активный",
-                public_key: "Публичный ключ"
+                public_key: "Публичный ключ",
+                shop_api_key: "Ключ API",
+                shop_sign_key: "Ключ подписи",
+                shop_balance_key: "Ключ баланса"
             },
             createButton: "Создать пользователя",
             showHeader: "Информация о пользователе",
@@ -412,18 +418,24 @@ const en: TranslationMessages = {
             fields: {
                 id: "ID",
                 name: "Name",
+                login: "Login",
+                email: "Email",
+                currency: "Currency",
                 created_at: "Created at",
                 active: "Active",
-                public_key: "Public key"
+                public_key: "Public key",
+                shop_api_key: "API key",
+                shop_sign_key: "Sign key",
+                shop_balance_key: "Balance key"
             },
             createButton: "Create user",
             showHeader: "User info",
             showDescription: "Detailed information about user with ID %{id}",
             create: {
-                success: "Готово",
-                successMessage: "Пользователь создан",
-                error: "Ошибка",
-                errorMessage: "Не удалось создать пользователя"
+                success: "Success",
+                successMessage: "User is created",
+                error: "Error",
+                errorMessage: "Failed to create user"
             }
         },
         transactions: {
