@@ -105,7 +105,7 @@ export const UserList = () => {
                                 </SheetDescription>
                             </SheetHeader>
 
-                            <UserShow id={userId} />
+                            <UserShow id={userId} isBrief={true} />
                         </ScrollArea>
                     </SheetContent>
                 </Sheet>

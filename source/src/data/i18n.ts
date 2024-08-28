@@ -1,7 +1,7 @@
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import raRU from "ra-language-russian";
 import raEn from "ra-language-english";
-import { TranslationMessages } from "ra-core";
+import { shallowEqual, TranslationMessages } from "ra-core";
 
 const ru: TranslationMessages = {
     ...raRU,
@@ -38,7 +38,10 @@ const ru: TranslationMessages = {
                 currency: "Валюта",
                 created_at: "Дата создания",
                 active: "Активный",
-                public_key: "Публичный ключ"
+                public_key: "Публичный ключ",
+                shop_api_key: "Ключ API",
+                shop_sign_key: "Ключ подписи",
+                shop_balance_key: "Ключ баланса"
             },
             createButton: "Создать пользователя",
             showHeader: "Информация о пользователе",
@@ -420,7 +423,10 @@ const en: TranslationMessages = {
                 currency: "Currency",
                 created_at: "Created at",
                 active: "Active",
-                public_key: "Public key"
+                public_key: "Public key",
+                shop_api_key: "API key",
+                shop_sign_key: "Sign key",
+                shop_balance_key: "Balance key"
             },
             createButton: "Create user",
             showHeader: "User info",
