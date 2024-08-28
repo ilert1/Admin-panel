@@ -87,7 +87,7 @@ export const CurrencyEdit = () => {
                                 <FormItem className="w-1/2 p-2">
                                     <FormLabel>{translate("resources.currencies.fields.currencyName")}</FormLabel>
                                     <FormControl>
-                                        <Input {...field} />
+                                        <Input {...field} disabled />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -170,7 +170,11 @@ export const CurrencyEdit = () => {
                         />
 
                         <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
-                            <Button type="submit" variant="error" className="flex-1">
+                            <Button
+                                type="button"
+                                variant="error"
+                                className="flex-1"
+                                onClick={() => redirect("list", "currency")}>
                                 {translate("app.ui.actions.cancel")}
                             </Button>
                             <Button type="submit" variant="default" className="flex-1">

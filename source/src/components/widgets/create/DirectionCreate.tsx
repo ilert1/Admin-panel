@@ -42,7 +42,7 @@ export const DirectionCreate = () => {
         dst_currency: z.string().min(1, translate("resources.directions.errors.dst_curr")),
         merchant: z.string().min(1, translate("resources.directions.errors.merchant")),
         provider: z.string().min(1, translate("resources.directions.errors.provider")),
-        weight: z.number()
+        weight: z.coerce.number()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -196,7 +196,7 @@ export const DirectionCreate = () => {
                             name="merchant"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.no")}</FormLabel>
+                                    <FormLabel>{translate("resources.directions.merchant")}</FormLabel>
                                     <Select
                                         value={field.value}
                                         onValueChange={field.onChange}

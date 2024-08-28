@@ -119,7 +119,11 @@ export const MerchantEdit = () => {
                             )}
                         />
                         <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
-                            <Button type="submit" variant="error" className="flex-1">
+                            <Button
+                                type="button"
+                                variant="error"
+                                className="flex-1"
+                                onClick={() => redirect("list", "merchant")}>
                                 {translate("app.ui.actions.cancel")}
                             </Button>
                             <Button type="submit" variant="default" className="flex-1">
