@@ -81,7 +81,7 @@ export const MerchantEdit = () => {
                                     <FormLabel>{translate("resources.merchants.fields.id")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} />
+                                            <Input {...field} disabled />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
