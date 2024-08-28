@@ -55,7 +55,7 @@ export const DirectionsList = () => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const [chosenId, setChosenId] = useState("");
-
+    //Remove this comment and enter valid json. //Example:\n//{\n//"foo": "bar", }
     const [code, setCode] = useState("{}");
     const [hasErrors, setHasErrors] = useState(false);
     const { theme } = useTheme();
@@ -288,7 +288,8 @@ export const DirectionsList = () => {
                     <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
                         <AlertDialogContent>
                             <AlertDialogHeader>
-                                {translate("resources.directions.writeSecretPhrase")}
+                                <div>{translate("resources.directions.writeSecretPhrase")}</div>
+                                <div>{translate("resources.directions.secretHelper")}</div>
                                 <AlertDialogTitle></AlertDialogTitle>
                                 <AlertDialogDescription></AlertDialogDescription>
                             </AlertDialogHeader>
@@ -296,7 +297,6 @@ export const DirectionsList = () => {
                                 <Editor
                                     height="20vh"
                                     defaultLanguage="json"
-                                    defaultValue="{}"
                                     value={code}
                                     onChange={handleEditorChange}
                                     onValidate={handleValidation}
