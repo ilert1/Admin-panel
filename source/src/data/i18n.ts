@@ -206,7 +206,7 @@ const ru: TranslationMessages = {
                 pk: "Публичный ключ",
                 genKey: "Создать ключи",
                 keyMiss: "Ключ отсутсвует",
-                regenKey: "Пересоздать ключ",
+                regenKey: "Пересоздать ключи",
                 json_schema: "Схема Json",
                 code: "Методы",
                 enterMethods: "Введите свои методы"
@@ -592,7 +592,7 @@ const en: TranslationMessages = {
                 pk: "Public key",
                 genKey: "Generate keys",
                 keyMiss: "The key is missing",
-                regenKey: "Regenerate key",
+                regenKey: "Regenerate keys",
                 json_schema: "Json schema",
                 code: "Methods",
                 enterMethods: "Enter your methods"
@@ -616,7 +616,7 @@ const en: TranslationMessages = {
                 name: "Directions name",
                 active: "State",
                 srcCurr: "Source currency",
-                destCurr: "Destinetion currency",
+                destCurr: "Destination currency",
                 merchant: "Merchant",
                 id: "Directions id",
                 auth_data: "Authentication data",

@@ -308,7 +308,9 @@ export const DirectionsList = () => {
                                 />
                             </div>
                             <AlertDialogFooter>
-                                <AlertDialogCancel>{translate("app.ui.actions.cancel")}</AlertDialogCancel>
+                                <AlertDialogCancel onClick={() => setCode("{}")}>
+                                    {translate("app.ui.actions.cancel")}
+                                </AlertDialogCancel>
                                 <AlertDialogAction disabled={hasErrors || !isValid} onClick={handleGen}>
                                     {translate("app.ui.actions.save")}
                                 </AlertDialogAction>

@@ -139,8 +139,8 @@ export const ProvidersList = () => {
                     );
                 } else {
                     let text = String(row.getValue("public_key"));
-                    if (text.length > 15) {
-                        text = text.substring(0, 15) + "...";
+                    if (text.length > 30) {
+                        text = text.substring(0, 30) + "...";
                     }
                     return <TextField text={text} />;
                 }
@@ -155,8 +155,8 @@ export const ProvidersList = () => {
                     <TextField
                         text={
                             row.getValue("fields_json_schema")
-                                ? String(row.getValue("fields_json_schema")).length > 15
-                                    ? String(row.getValue("fields_json_schema")).substring(0, 15) + "..."
+                                ? String(row.getValue("fields_json_schema")).length > 30
+                                    ? String(row.getValue("fields_json_schema")).substring(0, 30) + "..."
                                     : row.getValue("fields_json_schema")
                                 : ""
                         }
