@@ -186,10 +186,14 @@
             --neutral-0: 0 0% 0%;
             /* #000000 */
 
+            --neutral-bb: 202 40% 12%;
+            /* #13232C */
+
             --primary-foreground: 0 0% 0%;
             --secondary: 147 10% 10%;
             --secondary-foreground: 0 0% 100%;
-            --muted: 109 10% 15%;
+            --muted: 202 40% 12%;
+            /* #13232C */
             --muted-foreground: 147 0% 60%;
             --accent: 109 10% 15%;
             --accent-foreground: 147 0% 90%;
