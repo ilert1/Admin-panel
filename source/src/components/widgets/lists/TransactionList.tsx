@@ -41,7 +41,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "@/components/providers";
+import { format } from "date-fns";
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
@@ -109,7 +109,6 @@ const TransactionFilterSidebar = () => {
 
     const [id, setId] = useState(filterValues?.id || "");
     const [account, setAccount] = useState(filterValues?.account || "");
-    const { theme } = useTheme();
 
     const onPropertySelected = debounce((value: Account | string, type: "id" | "account") => {
         if (value) {
@@ -138,34 +137,60 @@ const TransactionFilterSidebar = () => {
         setAccount("");
         setFilters({}, displayedFilters);
     };
-    const borderColor = theme === "dark" ? "border-neutral-10" : "border-neutral-70";
-    const classNames = `sm:w-full flex flex-col sm:flex-row gap-4 border ${borderColor} shadow-4 rounded-md p-2`;
+
     return (
-        <div className={classNames}>
-            <Input
-                placeholder={translate("resources.transactions.filter.filterById")}
-                value={id}
-                onChange={onIdChanged}
-            />
+        <>
+            <label className="flex gap-2 items-center lg:min-w-96">
+                <span>{translate("resources.transactions.filter.filterById")}</span>
+                <Input
+                    className="flex-1 text-sm placeholder:text-neutral-70"
+                    placeholder={translate("resources.transactions.fields.id")}
+                    value={id}
+                    onChange={onIdChanged}
+                />
+            </label>
             {adminOnly && (
-                <Select onValueChange={onAccountChanged} value={account}>
-                    <SelectTrigger>
-                        <SelectValue placeholder={translate("resources.transactions.filter.filterByAccount")} />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {accounts &&
-                            accounts.map(account => (
-                                <SelectItem key={account.id} value={account}>
-                                    {account.meta.caption}
-                                </SelectItem>
-                            ))}
-                    </SelectContent>
-                </Select>
+                <div className="flex-1">
+                    <Select onValueChange={onAccountChanged} value={account}>
+                        <SelectTrigger>
+                            <SelectValue placeholder={translate("resources.transactions.filter.filterByAccount")} />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {accounts &&
+                                accounts.map(account => (
+                                    <SelectItem key={account.id} value={account}>
+                                        {account.meta.caption}
+                                    </SelectItem>
+                                ))}
+                        </SelectContent>
+                    </Select>
+                </div>
             )}
-            <Button onClick={clearFilters} variant="secondary" size="sm" disabled={!id && !account}>
-                {translate("resources.transactions.filter.clearFilters")}
+            <Button
+                className="flex items-center gap-1 order-9"
+                onClick={clearFilters}
+                variant="clearBtn"
+                size="sm"
+                disabled={!id && !account}>
+                <span>{translate("resources.transactions.filter.clearFilters")}</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 4L4 12"
+                        stroke="#B3B3B3"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                    <path
+                        d="M4 4L12 12"
+                        stroke="#B3B3B3"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                </svg>
             </Button>
-        </div>
+        </>
     );
 };
 
@@ -195,7 +220,6 @@ export const TransactionList = () => {
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
     const navigate = useNavigate();
-    const { theme } = useTheme();
 
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");
@@ -208,9 +232,6 @@ export const TransactionList = () => {
     const [stornoOpen, setStornoOpen] = useState(false);
 
     const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
-
-    const borderColor = theme === "dark" ? "border-neutral-10" : "border-neutral-70";
-    const classNames = `flex flex-col sm:flex-row sm:items-center gap-4 mt-4 border ${borderColor} shadow-4 rounded-md p-2`;
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
@@ -314,38 +335,61 @@ export const TransactionList = () => {
             <>
                 <ListContextProvider value={listContext}>
                     <div className="mb-10 mt-5">
-                        <TransactionFilterSidebar />
-                        <div className={classNames}>
-                            <DatePicker
-                                placeholder={translate("resources.transactions.download.startDate")}
-                                date={startDate}
-                                onChange={setStartDate}
-                            />
-                            <DatePicker
-                                placeholder={translate("resources.transactions.download.endDate")}
-                                date={endDate}
-                                onChange={setEndDate}
-                            />
-                            {adminOnly && (
-                                <Select onValueChange={handleSelectedIdChange}>
-                                    <SelectTrigger>
-                                        <SelectValue
-                                            placeholder={translate("resources.transactions.download.accountField")}
-                                        />
-                                    </SelectTrigger>
+                        <h1 className="text-3xl mb-6">{translate("app.menu.transactions")}</h1>
 
-                                    <SelectContent>
-                                        {accounts?.map(el => {
-                                            return (
-                                                <SelectItem key={el.id} value={el.id.toString()}>
-                                                    {el.meta.caption}
-                                                </SelectItem>
-                                            );
-                                        })}
-                                    </SelectContent>
-                                </Select>
-                            )}
+                        <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 flex-wrap justify-between">
+                            <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 flex-wrap">
+                                <TransactionFilterSidebar />
+
+                                <div className="grid grid-cols-2 gap-2">
+                                    <label className="flex gap-2 items-center">
+                                        <span>{translate("resources.transactions.download.startDate")}</span>
+                                        <div className="flex-1 flex flex-col items-stretch">
+                                            <DatePicker
+                                                placeholder={format(new Date(), "dd.MM.yyyy")}
+                                                date={startDate}
+                                                onChange={setStartDate}
+                                            />
+                                        </div>
+                                    </label>
+
+                                    <label className="flex gap-2 items-center">
+                                        <span>{translate("resources.transactions.download.endDate")}</span>
+                                        <div className="flex-1 flex flex-col items-stretch">
+                                            <DatePicker
+                                                placeholder={format(new Date(), "dd.MM.yyyy")}
+                                                date={endDate}
+                                                onChange={setEndDate}
+                                            />
+                                        </div>
+                                    </label>
+                                </div>
+                                {adminOnly && (
+                                    <div className="flex-1">
+                                        <Select onValueChange={handleSelectedIdChange}>
+                                            <SelectTrigger>
+                                                <SelectValue
+                                                    placeholder={translate(
+                                                        "resources.transactions.download.accountField"
+                                                    )}
+                                                />
+                                            </SelectTrigger>
+
+                                            <SelectContent>
+                                                {accounts?.map(el => {
+                                                    return (
+                                                        <SelectItem key={el.id} value={el.id.toString()}>
+                                                            {el.meta.caption}
+                                                        </SelectItem>
+                                                    );
+                                                })}
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                )}
+                            </div>
                             <Button
+                                className="order-10"
                                 onClick={handleDownload}
                                 variant="default"
                                 size="sm"

@@ -54,7 +54,7 @@ const ru: TranslationMessages = {
             }
         },
         transactions: {
-            name: "Транзакция |||| Транзакции",
+            name: "Транзакция |||| История операций",
             fields: {
                 id: "ID",
                 created_at: "Дата создания",
@@ -133,9 +133,9 @@ const ru: TranslationMessages = {
             },
             download: {
                 downloadReportLabel: "Выгрузка отчета",
-                startDate: "Начальная дата :",
-                endDate: "Конечная дата :",
-                downloadReportButtonText: "Загрузить отчет",
+                startDate: "Дата с",
+                endDate: "до",
+                downloadReportButtonText: "Скачать отчет",
                 bothError: "Начальная дата и конечная дата обязательно должны быть заполнены",
                 greaterError: "Конечная дата не может быть больше чем начальная дата",
                 error: "Ошибка",
@@ -274,7 +274,7 @@ const ru: TranslationMessages = {
     app: {
         menu: {
             accounts: "Счета",
-            transactions: "Транзакции",
+            transactions: "История операций",
             payin: "Пополнение",
             dashboard: "Главная",
             bankTransfer: "Банковский перевод",
