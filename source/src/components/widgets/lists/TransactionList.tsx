@@ -349,10 +349,10 @@ export const TransactionList = () => {
         return (
             <>
                 <ListContextProvider value={listContext}>
-                    <div className="mb-10 mt-5">
+                    <div className="mb-6 mt-5">
                         <h1 className="text-3xl mb-6">{translate("app.menu.transactions")}</h1>
 
-                        <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 flex-wrap justify-between">
+                        <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 flex-wrap justify-between mb-6">
                             <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 flex-wrap">
                                 <TransactionFilterSidebar />
 
@@ -411,6 +411,19 @@ export const TransactionList = () => {
                                 disabled={reqId ? false : true}>
                                 {translate("resources.transactions.download.downloadReportButtonText")}
                             </Button>
+                        </div>
+
+                        <div className="flex items-center justify-between gap-3">
+                            <div className="flex items-center gap-3">
+                                <button className="text-green-40 border-b-2 border-green-40 pb-1">
+                                    All operations
+                                </button>
+                                {Object.keys(data?.transactionTypes).map(item => (
+                                    <button key={data?.transactionTypes?.[item].type} className="pb-1">
+                                        {data?.transactionTypes?.[item].type_descr}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
                     <DataTable columns={columns} />
