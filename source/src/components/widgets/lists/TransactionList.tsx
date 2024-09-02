@@ -346,7 +346,7 @@ export const TransactionList = () => {
                                 <div className="grid grid-cols-2 gap-2">
                                     <label className="flex gap-2 items-center">
                                         <span>{translate("resources.transactions.download.startDate")}</span>
-                                        <div className="flex-1 flex flex-col items-stretch">
+                                        <div className="flex-1 sm:flex-none flex flex-col items-stretch">
                                             <DatePicker
                                                 placeholder={format(startDate, "dd.MM.yyyy")}
                                                 date={startDate}
@@ -357,7 +357,7 @@ export const TransactionList = () => {
 
                                     <label className="flex gap-2 items-center">
                                         <span>{translate("resources.transactions.download.endDate")}</span>
-                                        <div className="flex-1 flex flex-col items-stretch">
+                                        <div className="flex-1 sm:flex-none flex flex-col items-stretch">
                                             <DatePicker
                                                 placeholder={format(endDate, "dd.MM.yyyy")}
                                                 date={endDate}
