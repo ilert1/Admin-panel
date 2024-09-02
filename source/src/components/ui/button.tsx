@@ -17,7 +17,7 @@ const buttonVariants = cva(
                     "border border-green-50 text-green-50 hover:bg-green-0 hover:border-green-50 active:bg-neutral-0 active:text-green-40 active:border-green-40 focus:bg-neutral-0 focus:text-green-60 focus:border-green-60 disabled:bg-neutral-20 disabled:border-neutral-80 disabled:text-neutral-80",
                 textBtn:
                     "bg-neutral-0 text-green-50 hover:text-green-50 active:text-neutral-100 disabled:text-neutral-80",
-                clearBtn: "text-neutral-50",
+                clearBtn: "text-neutral-80 dark:text-neutral-50",
                 error: "border border-red-40 text-red-40 hover:bg-red-0 active:bg-neutral-0"
             },
             size: {
