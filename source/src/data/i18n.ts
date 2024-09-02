@@ -56,7 +56,7 @@ const ru: TranslationMessages = {
         transactions: {
             name: "Транзакция |||| История операций",
             fields: {
-                id: "ID",
+                id: "ID операции",
                 created_at: "Дата создания",
                 committed: "Зафиксированная",
                 dispute: "Диспут",
@@ -71,7 +71,7 @@ const ru: TranslationMessages = {
                     state_description: "Статус"
                 },
                 rateInfo: "Курс",
-                createdAt: "Дата и время создания",
+                createdAt: "Дата и время",
                 stornoIds: "Транзакции сторно",
                 source: {
                     header: "Отправитель",
@@ -122,6 +122,7 @@ const ru: TranslationMessages = {
                     account: "Счет"
                 }
             },
+            pagination: "Записей",
             showHeader: "Информация о транзакции",
             showDescription: "Подробная информация о транзакции с ID %{id}",
             storno: {
@@ -510,6 +511,7 @@ const en: TranslationMessages = {
                     account: "Account"
                 }
             },
+            pagination: "Rows per page",
             showHeader: "Transaction info",
             showDescription: "Detailed information about transaction with ID %{id}",
             storno: {

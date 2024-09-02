@@ -235,6 +235,10 @@ export const TransactionList = () => {
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
+            accessorKey: "created_at",
+            header: translate("resources.transactions.fields.createdAt")
+        },
+        {
             accessorKey: "id",
             header: translate("resources.transactions.fields.id"),
             cell: ({ row }) => <TextField text={row.original.id} copyValue />,
@@ -249,10 +253,10 @@ export const TransactionList = () => {
             accessorKey: "state.state_description",
             header: translate("resources.transactions.fields.state.title")
         },
-        {
-            accessorKey: "state.final",
-            header: translate("resources.transactions.fields.state.final")
-        },
+        // {
+        //     accessorKey: "state.final",
+        //     header: translate("resources.transactions.fields.state.final")
+        // },
         {
             accessorKey: "sourceValue",
             header: translate("resources.transactions.fields.sourceValue"),
@@ -293,10 +297,6 @@ export const TransactionList = () => {
             }
         },
         {
-            accessorKey: "created_at",
-            header: translate("resources.transactions.fields.createdAt")
-        },
-        {
             id: "actions",
             cell: ({ row }) => {
                 return (
@@ -309,13 +309,15 @@ export const TransactionList = () => {
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                                <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
+                                <DropdownMenuItem onClick={() => openSheet(row.original.id)} className="border-none">
                                     {translate("app.ui.actions.quick_show")}
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => navigate(`/transactions/${row.original.id}/show`)}>
+                                <DropdownMenuItem
+                                    onClick={() => navigate(`/transactions/${row.original.id}/show`)}
+                                    className="border-none">
                                     {translate("app.ui.actions.show")}
                                 </DropdownMenuItem>
-                                <DropdownMenuSeparator />
+                                {adminOnly && <DropdownMenuSeparator />}
                                 <TransactionActions
                                     dictionaries={data}
                                     stornoOpen={() => setStornoOpen(true)}
@@ -346,7 +348,7 @@ export const TransactionList = () => {
                                         <span>{translate("resources.transactions.download.startDate")}</span>
                                         <div className="flex-1 flex flex-col items-stretch">
                                             <DatePicker
-                                                placeholder={format(new Date(), "dd.MM.yyyy")}
+                                                placeholder={format(startDate, "dd.MM.yyyy")}
                                                 date={startDate}
                                                 onChange={setStartDate}
                                             />
@@ -357,7 +359,7 @@ export const TransactionList = () => {
                                         <span>{translate("resources.transactions.download.endDate")}</span>
                                         <div className="flex-1 flex flex-col items-stretch">
                                             <DatePicker
-                                                placeholder={format(new Date(), "dd.MM.yyyy")}
+                                                placeholder={format(endDate, "dd.MM.yyyy")}
                                                 date={endDate}
                                                 onChange={setEndDate}
                                             />
