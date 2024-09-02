@@ -236,7 +236,13 @@ export const TransactionList = () => {
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
             accessorKey: "created_at",
-            header: translate("resources.transactions.fields.createdAt")
+            header: translate("resources.transactions.fields.createdAt"),
+            cell: ({ row }) => (
+                <>
+                    <p>{new Date(row.original.created_at).toLocaleDateString()}</p>
+                    <p>{new Date(row.original.created_at).toLocaleTimeString()}</p>
+                </>
+            )
         },
         {
             accessorKey: "id",
@@ -288,9 +294,16 @@ export const TransactionList = () => {
             cell: ({ row }) => {
                 const rateInfo: Transaction.RateInfo = row.original.rate_info;
                 if (rateInfo) {
-                    return `${rateInfo.s_currency} / ${rateInfo.d_currency}: ${(
-                        (rateInfo.value.quantity || 0) / rateInfo.value.accuracy
-                    ).toFixed(Math.log10(rateInfo.value.accuracy))}`;
+                    return (
+                        <>
+                            <p className="text-neutral-60 dark:text-neutral-30">{`${rateInfo.s_currency} / ${rateInfo.d_currency}:`}</p>
+                            <p>
+                                {((rateInfo.value.quantity || 0) / rateInfo.value.accuracy).toFixed(
+                                    Math.log10(rateInfo.value.accuracy)
+                                )}
+                            </p>
+                        </>
+                    );
                 } else {
                     return 0;
                 }
