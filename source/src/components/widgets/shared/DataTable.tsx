@@ -98,9 +98,7 @@ export function DataTable<TData, TValue>({ columns, pagination = true }: DataTab
                             </Button>
                         )}
 
-                        {table.getState().pagination.pageIndex > 2 && (
-                            <Button className="text-sm font-medium">...</Button>
-                        )}
+                        {table.getState().pagination.pageIndex > 2 && <div className="text-sm font-medium">...</div>}
 
                         {table.getState().pagination.pageIndex > 0 && (
                             <Button
