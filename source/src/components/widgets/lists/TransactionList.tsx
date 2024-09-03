@@ -23,7 +23,7 @@ import {
     DropdownMenuSubContent
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { EyeIcon } from "lucide-react";
+import { EyeIcon, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useMemo, useEffect, ChangeEvent, useCallback } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -185,30 +185,6 @@ const TransactionFilterSidebar = () => {
                             </Select>
                         </div>
                     )}
-                    <Button
-                        className="flex items-center gap-1 order-9"
-                        onClick={clearFilters}
-                        variant="clearBtn"
-                        size="sm"
-                        disabled={!id && !account}>
-                        <span>{translate("resources.transactions.filter.clearFilters")}</span>
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M12 4L4 12"
-                                stroke="#B3B3B3"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            />
-                            <path
-                                d="M4 4L12 12"
-                                stroke="#B3B3B3"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            />
-                        </svg>
-                    </Button>
 
                     <div className="flex flex-col sm:flex-row items-stretch flex-wrap gap-2 sm:gap-3">
                         <label className="flex gap-2 items-center">
@@ -250,14 +226,19 @@ const TransactionFilterSidebar = () => {
                             </Select>
                         </div>
                     )}
+
+                    <Button
+                        className="flex items-center gap-1 w-auto h-auto"
+                        onClick={clearFilters}
+                        variant="clearBtn"
+                        size="default"
+                        disabled={!id && !account}>
+                        <span>{translate("resources.transactions.filter.clearFilters")}</span>
+                        <XIcon className="size-4" />
+                    </Button>
                 </div>
 
-                <Button
-                    className="order-10"
-                    onClick={handleDownload}
-                    variant="default"
-                    size="sm"
-                    disabled={reqId ? false : true}>
+                <Button onClick={handleDownload} variant="default" size="sm" disabled={reqId ? false : true}>
                     {translate("resources.transactions.download.downloadReportButtonText")}
                 </Button>
             </div>
