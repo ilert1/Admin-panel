@@ -24,7 +24,7 @@ export function DatePicker(props: { placeholder: string; date?: Date; onChange?:
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button variant={"outline"} className={"flex items-center gap-3 text-neutral-100"}>
+                <Button variant={"outline"} className={"flex items-center gap-3 text-neutral-100 duration-200"}>
                     {date ? format(date, "dd.MM.yyyy") : <span>{props.placeholder}</span>}
                     <CalendarIcon className="h-4 w-4 text-green-50 mb-0.5" />
                 </Button>
