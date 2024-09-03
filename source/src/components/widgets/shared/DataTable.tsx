@@ -1,10 +1,9 @@
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable, getPaginationRowModel } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon } from "lucide-react";
+import { CircleArrowLeftIcon, CircleArrowRightIcon } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useListContext, useTranslate } from "react-admin";
-import { Input } from "@/components/ui/input";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -72,59 +71,100 @@ export function DataTable<TData, TValue>({ columns, pagination = true }: DataTab
             </Table>
             {pagination && (
                 <div className="flex w-full items-center justify-between gap-4 overflow-auto p-1 sm:flex-row sm:gap-8">
-                    <div className="flex w-full items-center gap-4 overflow-auto p-1 sm:flex-row sm:gap-8">
-                        <div className="flex items-center justify-center text-sm font-medium">
-                            {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-                        </div>
-                        <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2">
+                        <Button
+                            aria-label="Go to previous page"
+                            variant="clearBtn"
+                            size="icon"
+                            className="text-green-50 hover:text-green-30 disabled:text-neutral-30 size-5"
+                            onClick={() => {
+                                table.previousPage();
+                                setPage(page - 1);
+                            }}
+                            disabled={!table.getCanPreviousPage()}>
+                            <CircleArrowLeftIcon className="size-4" aria-hidden="true" />
+                        </Button>
+
+                        {table.getState().pagination.pageIndex > 1 && (
                             <Button
-                                aria-label="Go to first page"
-                                variant="outline"
-                                className="hidden size-8 p-0 lg:flex"
+                                size={"sm"}
+                                variant="clearBtn"
                                 onClick={() => {
-                                    table.setPageIndex(0);
+                                    table.firstPage();
                                     setPage(1);
                                 }}
-                                disabled={!table.getCanPreviousPage()}>
-                                <ChevronsLeftIcon className="size-4" aria-hidden="true" />
+                                className="m-0 p-0 text-sm font-medium hover:text-green-50 cursor-pointer">
+                                1
                             </Button>
+                        )}
+
+                        {table.getState().pagination.pageIndex > 2 && (
+                            <Button className="text-sm font-medium">...</Button>
+                        )}
+
+                        {table.getState().pagination.pageIndex > 0 && (
                             <Button
-                                aria-label="Go to previous page"
-                                variant="outline"
-                                size="icon"
-                                className="size-8"
+                                size={"sm"}
+                                variant="clearBtn"
                                 onClick={() => {
                                     table.previousPage();
                                     setPage(page - 1);
                                 }}
-                                disabled={!table.getCanPreviousPage()}>
-                                <ChevronLeftIcon className="size-4" aria-hidden="true" />
+                                className="m-0 p-0 text-sm font-medium hover:text-green-50 cursor-pointer">
+                                {table.getState().pagination.pageIndex}
                             </Button>
+                        )}
+
+                        <Button
+                            size={"sm"}
+                            variant="clearBtn"
+                            className="text-sm font-medium text-green-50 hover:text-green-50 m-0 p-0">
+                            {table.getState().pagination.pageIndex + 1}
+                        </Button>
+
+                        {table.getPageCount() > table.getState().pagination.pageIndex + 2 && (
                             <Button
-                                aria-label="Go to next page"
-                                variant="outline"
-                                size="icon"
-                                className="size-8"
+                                variant="clearBtn"
+                                size={"sm"}
                                 onClick={() => {
                                     table.nextPage();
                                     setPage(page + 1);
                                 }}
-                                disabled={!table.getCanNextPage()}>
-                                <ChevronRightIcon className="size-4" aria-hidden="true" />
+                                className="m-0 p-0 text-sm font-medium hover:text-green-50 cursor-pointer">
+                                {table.getState().pagination.pageIndex + 2}
                             </Button>
+                        )}
+
+                        {table.getPageCount() > 3 &&
+                            table.getState().pagination.pageIndex + 3 < table.getPageCount() && (
+                                <div className="text-sm font-medium">...</div>
+                            )}
+
+                        {table.getPageCount() > table.getState().pagination.pageIndex + 1 && (
                             <Button
-                                aria-label="Go to last page"
-                                variant="outline"
-                                size="icon"
-                                className="hidden size-8 lg:flex"
+                                size={"sm"}
+                                variant="clearBtn"
                                 onClick={() => {
-                                    table.setPageIndex(table.getPageCount() - 1);
+                                    table.lastPage();
                                     setPage(table.getPageCount());
                                 }}
-                                disabled={!table.getCanNextPage()}>
-                                <ChevronsRightIcon className="size-4" aria-hidden="true" />
+                                className="m-0 p-0 text-sm font-medium hover:text-green-50 cursor-pointer">
+                                {table.getPageCount()}
                             </Button>
-                        </div>
+                        )}
+
+                        <Button
+                            aria-label="Go to next page"
+                            variant="clearBtn"
+                            size="icon"
+                            className="text-green-50 hover:text-green-30 disabled:text-neutral-30 size-5"
+                            onClick={() => {
+                                table.nextPage();
+                                setPage(page + 1);
+                            }}
+                            disabled={!table.getCanNextPage()}>
+                            <CircleArrowRightIcon className="size-4" aria-hidden="true" />
+                        </Button>
                     </div>
 
                     <div className="flex items-center space-x-2">
@@ -137,7 +177,7 @@ export function DataTable<TData, TValue>({ columns, pagination = true }: DataTab
                                 table.setPageSize(Number(value));
                                 setPerPage(Number(value));
                             }}>
-                            <SelectTrigger className="h-8 border-none bg-transparent p-0 w-auto gap-1">
+                            <SelectTrigger className="h-8 border-none bg-green-60 p-1 w-auto gap-0.5">
                                 <SelectValue placeholder={table.getState().pagination.pageSize} />
                             </SelectTrigger>
                             <SelectContent side="top">
