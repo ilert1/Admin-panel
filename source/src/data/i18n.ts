@@ -123,6 +123,7 @@ const ru: TranslationMessages = {
                 }
             },
             pagination: "Записей",
+            chart: "График операций",
             showHeader: "Информация о транзакции",
             showDescription: "Подробная информация о транзакции с ID %{id}",
             storno: {
@@ -512,6 +513,7 @@ const en: TranslationMessages = {
                 }
             },
             pagination: "Rows per page",
+            chart: "Schedule of operations",
             showHeader: "Transaction info",
             showDescription: "Detailed information about transaction with ID %{id}",
             storno: {
