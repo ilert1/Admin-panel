@@ -23,7 +23,7 @@ import {
     DropdownMenuSubContent
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { MoreHorizontal } from "lucide-react";
+import { EyeIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useMemo, useEffect, ChangeEvent, useCallback } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -156,7 +156,7 @@ const TransactionFilterSidebar = () => {
     return (
         <>
             <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 flex-wrap justify-between mb-6">
-                <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 flex-wrap">
+                <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 sm:gap-3 flex-wrap">
                     <label className="flex gap-2 items-center lg:min-w-96">
                         <span>{translate("resources.transactions.filter.filterById")}</span>
                         <Input
@@ -210,27 +210,23 @@ const TransactionFilterSidebar = () => {
                         </svg>
                     </Button>
 
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="flex flex-col sm:flex-row items-stretch flex-wrap gap-2 sm:gap-3">
                         <label className="flex gap-2 items-center">
                             <span>{translate("resources.transactions.download.startDate")}</span>
-                            <div className="flex-1 sm:flex-none flex flex-col items-stretch">
-                                <DatePicker
-                                    placeholder={format(startDate, "dd.MM.yyyy")}
-                                    date={startDate}
-                                    onChange={setStartDate}
-                                />
-                            </div>
+                            <DatePicker
+                                placeholder={format(startDate, "dd.MM.yyyy")}
+                                date={startDate}
+                                onChange={setStartDate}
+                            />
                         </label>
 
                         <label className="flex gap-2 items-center">
                             <span>{translate("resources.transactions.download.endDate")}</span>
-                            <div className="flex-1 sm:flex-none flex flex-col items-stretch">
-                                <DatePicker
-                                    placeholder={format(endDate, "dd.MM.yyyy")}
-                                    date={endDate}
-                                    onChange={setEndDate}
-                                />
-                            </div>
+                            <DatePicker
+                                placeholder={format(endDate, "dd.MM.yyyy")}
+                                date={endDate}
+                                onChange={setEndDate}
+                            />
                         </label>
                     </div>
                     {adminOnly && (
@@ -436,9 +432,9 @@ export const TransactionList = () => {
                     <RecordContextProvider value={row.original}>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="secondary" className="h-8 w-8 p-0">
+                                <Button variant="clearBtn" className="w-full p-0">
                                     <span className="sr-only">Open menu</span>
-                                    <MoreHorizontal className="h-4 w-4" />
+                                    <EyeIcon className="text-green-50 size-7" />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
