@@ -55,7 +55,6 @@ export const DirectionsList = () => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const [chosenId, setChosenId] = useState("");
-    //Remove this comment and enter valid json. //Example:\n//{\n//"foo": "bar", }
     const [code, setCode] = useState("{}");
     const [hasErrors, setHasErrors] = useState(false);
     const { theme } = useTheme();
@@ -112,7 +111,7 @@ export const DirectionsList = () => {
     const handleGen = async () => {
         const data = JSON.parse(code);
         setChosenId("");
-        setCode("");
+        setCode("{}");
         console.log(data);
         try {
             const { json } = await fetchUtils.fetchJson(`${API_URL}/direction/${chosenId}`, {

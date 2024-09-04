@@ -1,12 +1,4 @@
-import {
-    CustomRoutes,
-    Resource,
-    combineDataProviders,
-    AuthProvider,
-    CoreAdminContext,
-    CoreAdminUI,
-    useCheckAuth
-} from "react-admin";
+import { CustomRoutes, Resource, combineDataProviders, CoreAdminContext, CoreAdminUI } from "react-admin";
 import {
     TransactionDataProvider,
     i18nProvider,
@@ -37,14 +29,10 @@ import {
 } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
 import { PayOutPage, PayOutCryptoPage, LoginPage } from "./pages";
-import Keycloak, { KeycloakConfig, KeycloakTokenParsed, KeycloakInitOptions } from "keycloak-js";
-import { keycloakAuthProvider } from "ra-keycloak";
-import { useEffect, useRef, useState } from "react";
 import { Dashboard } from "./Dashboard";
 import { MainLayout } from "./layouts";
 import { WalletIcon, ReceiptIcon, WaypointsIcon, UsersIcon, StoreIcon, PcCaseIcon, MilestoneIcon } from "lucide-react";
 import { authProvider, ThemeProvider } from "@/components/providers";
-import { isTokenStillFresh } from "@/helpers/jwt";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 import {
@@ -59,7 +47,7 @@ import {
 } from "./components/widgets/show";
 import { CurrencyIcon } from "lucide-react";
 import { CurrencyEdit, MerchantEdit, ProvidersEdit } from "./components/widgets/edit";
-import { useNavigate } from "react-router-dom";
+
 const dataProvider = combineDataProviders((resource: string) => {
     if (resource === "transactions") {
         return new TransactionDataProvider();
