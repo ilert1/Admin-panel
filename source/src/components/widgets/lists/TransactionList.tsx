@@ -160,7 +160,7 @@ const TransactionFilterSidebar = () => {
                     <label className="flex gap-2 items-center lg:min-w-96">
                         <span>{translate("resources.transactions.filter.filterById")}</span>
                         <Input
-                            className="flex-1 text-sm placeholder:text-neutral-70"
+                            className="flex-1 text-sm placeholder:text-neutral-70 h-9"
                             placeholder={translate("resources.transactions.fields.id")}
                             value={id}
                             onChange={onIdChanged}
