@@ -1,8 +1,14 @@
 import { AuthProvider, fetchUtils } from "react-admin";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 import { isTokenStillFresh } from "@/helpers/jwt";
 
-const keycloakUrl = "https://auth.api4ftx.cloud/realms/blowfish-develop/protocol/openid-connect/token";
+interface KeycloakJwtPayload extends JwtPayload {
+    realm_access: {
+        roles: string[];
+    };
+}
+
+const keycloakUrl = import.meta.env.VITE_KEYCLOAK_LOGIN_URL;
 
 export const authProvider: AuthProvider = {
     login: async ({ username, password }) => {
@@ -23,19 +29,11 @@ export const authProvider: AuthProvider = {
             });
             const { access_token, refresh_token } = json;
 
-            localStorage.setItem("accessToken", access_token);
-            localStorage.setItem("refreshToken", refresh_token);
+            localStorage.setItem("access-token", access_token);
+            localStorage.setItem("refresh-token", refresh_token);
 
             const decodedToken: any = jwtDecode(access_token);
             localStorage.setItem("user", JSON.stringify(decodedToken));
-            //         if (response.ok) {
-            //             const json = await response.json();
-            //             localStorage.setItem("accessToken", json.access_token);
-            //             localStorage.setItem("refreshToken", json.refresh_token);
-            //             return Promise.resolve();
-            //         } else {
-            //             throw new Error("Login failed");
-            //         }
             return Promise.resolve();
         } catch (error) {
             return Promise.reject(error);
@@ -43,27 +41,42 @@ export const authProvider: AuthProvider = {
     },
 
     logout: () => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("access-token");
+        localStorage.removeItem("refresh-token");
         localStorage.removeItem("user");
         return Promise.resolve();
     },
 
     checkAuth: () => {
-        return isTokenStillFresh(String(localStorage.getItem("accessToken"))) ? Promise.resolve() : Promise.reject();
+        return isTokenStillFresh(String(localStorage.getItem("access-token"))) ? Promise.resolve() : Promise.reject();
     },
 
     checkError: error => {
+        if (!error) return Promise.resolve();
         if (error.status === 401 || error.status === 403) {
-            localStorage.removeItem("accessToken");
+            localStorage.removeItem("access-token");
             return Promise.reject();
         }
         return Promise.resolve();
     },
 
     getPermissions: () => {
-        const user = JSON.parse(localStorage.getItem("user") || "{}");
-        return user ? Promise.resolve(user.roles) : Promise.reject();
+        const token = localStorage.getItem("access-token");
+        if (!token) return Promise.reject();
+
+        const user = jwtDecode<KeycloakJwtPayload>(token);
+        const roles = user.realm_access?.roles;
+
+        if (!roles) return Promise.reject();
+
+        if (roles.includes("admin")) {
+            return Promise.resolve("admin");
+        }
+        if (roles.includes("merchant")) {
+            return Promise.resolve("merchant");
+        }
+
+        return Promise.reject();
     },
 
     getIdentity: () => {
@@ -74,48 +87,3 @@ export const authProvider: AuthProvider = {
         });
     }
 };
-
-// import { AuthProvider } from "react-admin";
-
-// export const authProvider: AuthProvider = {
-//     login: async ({ username, password }) => {
-//         const formData = new URLSearchParams();
-//         formData.append("client_id", "juggler-front-local");
-//         formData.append("grant_type", "password");
-//         formData.append("username", username);
-//         formData.append("password", password);
-
-//         const response = await fetch(keycloakUrl, {
-//             method: "POST",
-//             body: formData,
-//             headers: {
-//                 "Content-Type": "application/x-www-form-urlencoded"
-//             }
-//         });
-
-//         if (response.ok) {
-//             const json = await response.json();
-//             localStorage.setItem("accessToken", json.access_token);
-//             localStorage.setItem("refreshToken", json.refresh_token);
-//             return Promise.resolve();
-//         } else {
-//             throw new Error("Login failed");
-//         }
-//     },
-//     logout: () => {
-//         localStorage.removeItem("accessToken");
-//         return Promise.resolve();
-//     },
-//     checkError: error => {
-//         const status = error.status;
-//         if (status === 401 || status === 403) {
-//             localStorage.removeItem("accessToken");
-//             return Promise.reject();
-//         }
-//         return Promise.resolve();
-//     },
-//     checkAuth: () => {
-//         return localStorage.getItem("accessToken") ? Promise.resolve() : Promise.reject();
-//     },
-//     getPermissions: () => Promise.resolve()
-// };

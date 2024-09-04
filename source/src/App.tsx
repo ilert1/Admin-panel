@@ -78,16 +78,6 @@ const dataProvider = combineDataProviders((resource: string) => {
     }
 });
 
-const getPermissions = (decoded: KeycloakTokenParsed) => {
-    const roles = decoded?.realm_access?.roles;
-    if (!roles) {
-        return false;
-    }
-    if (roles.includes("admin")) return "admin";
-    if (roles.includes("merchant")) return "merchant";
-    return false;
-};
-
 export const App = () => {
     return (
         <ThemeProvider defaultTheme="dark" storageKey="juggler-ui-theme">
