@@ -23,9 +23,9 @@ import {
     DropdownMenuSubContent
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { EyeIcon, XIcon } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState, useMemo, useEffect, ChangeEvent, useCallback } from "react";
+import { useState, useMemo, useEffect, ChangeEvent } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { TransactionShow } from "@/components/widgets/show";
 import { useMediaQuery } from "react-responsive";
@@ -41,7 +41,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
-import { format } from "date-fns";
+import { useTheme } from "@/components/providers";
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
@@ -100,32 +100,18 @@ const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; 
 };
 
 const TransactionFilterSidebar = () => {
-    const dataProvider = useDataProvider();
-    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
     const { filterValues, setFilters, displayedFilters } = useListContext();
     const translate = useTranslate();
     const { permissions } = usePermissions();
-    const { setPage } = useListContext();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
     // TODO: временное решение, нужно расширить компонент селекта для поддержки пагинациц
     const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
-    const { startDate, endDate, handleSelectedIdChange, setStartDate, setEndDate, reqId, handleDownload } =
-        useReportDownload();
 
     const [id, setId] = useState(filterValues?.id || "");
     const [account, setAccount] = useState(filterValues?.account || "");
-    const [typeTabActive, setTypeTabActive] = useState("");
+    const { theme } = useTheme();
 
-    const chooseClassTabActive = useCallback(
-        (type: string) => {
-            return typeTabActive === type
-                ? "text-green-50 dark:text-green-40 border-b-2 dark:border-green-40 border-green-50 pb-1 duration-200"
-                : "pb-1 border-b-2 border-transparent duration-200 hover:text-green-40";
-        },
-        [typeTabActive]
-    );
-
-    const onPropertySelected = debounce((value: Account | string, type: "id" | "account" | "type") => {
+    const onPropertySelected = debounce((value: Account | string, type: "id" | "account") => {
         if (value) {
             if (type === "account") {
                 value = (value as Account).id;
@@ -135,7 +121,6 @@ const TransactionFilterSidebar = () => {
             Reflect.deleteProperty(filterValues, type);
             setFilters(filterValues, displayedFilters);
         }
-        setPage(1);
     }, 300);
 
     const onIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
@@ -151,149 +136,36 @@ const TransactionFilterSidebar = () => {
     const clearFilters = () => {
         setId("");
         setAccount("");
-        setTypeTabActive("");
         setFilters({}, displayedFilters);
-        setPage(1);
     };
-
+    const borderColor = theme === "dark" ? "border-neutral-10" : "border-neutral-70";
+    const classNames = `sm:w-full flex flex-col sm:flex-row gap-4 border ${borderColor} shadow-4 rounded-md p-2`;
     return (
-        <>
-            <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 flex-wrap justify-between mb-6">
-                <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 sm:gap-3 flex-wrap">
-                    <label className="flex gap-2 items-center lg:min-w-96">
-                        <span>{translate("resources.transactions.filter.filterById")}</span>
-                        <Input
-                            className="flex-1 text-sm placeholder:text-neutral-70"
-                            placeholder={translate("resources.transactions.fields.id")}
-                            value={id}
-                            onChange={onIdChanged}
-                        />
-                    </label>
-                    {adminOnly && (
-                        <div className="flex-1">
-                            <Select onValueChange={onAccountChanged} value={account}>
-                                <SelectTrigger>
-                                    <SelectValue
-                                        placeholder={translate("resources.transactions.filter.filterByAccount")}
-                                    />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {accounts &&
-                                        accounts.map(account => (
-                                            <SelectItem key={account.id} value={account}>
-                                                {account.meta.caption}
-                                            </SelectItem>
-                                        ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    )}
-
-                    <div className="flex flex-col sm:flex-row items-stretch flex-wrap gap-2 sm:gap-3">
-                        <label className="flex gap-2 items-center">
-                            <span>{translate("resources.transactions.download.startDate")}</span>
-                            <DatePicker
-                                placeholder={format(startDate, "dd.MM.yyyy")}
-                                date={startDate}
-                                onChange={setStartDate}
-                            />
-                        </label>
-
-                        <label className="flex gap-2 items-center">
-                            <span>{translate("resources.transactions.download.endDate")}</span>
-                            <DatePicker
-                                placeholder={format(endDate, "dd.MM.yyyy")}
-                                date={endDate}
-                                onChange={setEndDate}
-                            />
-                        </label>
-                    </div>
-                    {adminOnly && (
-                        <div className="flex-1">
-                            <Select onValueChange={handleSelectedIdChange}>
-                                <SelectTrigger>
-                                    <SelectValue
-                                        placeholder={translate("resources.transactions.download.accountField")}
-                                    />
-                                </SelectTrigger>
-
-                                <SelectContent>
-                                    {accounts?.map(el => {
-                                        return (
-                                            <SelectItem key={el.id} value={el.id.toString()}>
-                                                {el.meta.caption}
-                                            </SelectItem>
-                                        );
-                                    })}
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    )}
-
-                    <Button
-                        className="flex items-center gap-1 w-auto h-auto"
-                        onClick={clearFilters}
-                        variant="clearBtn"
-                        size="default"
-                        disabled={!id && !account}>
-                        <span>{translate("resources.transactions.filter.clearFilters")}</span>
-                        <XIcon className="size-4" />
-                    </Button>
-                </div>
-
-                <Button onClick={handleDownload} variant="default" size="sm" disabled={reqId ? false : true}>
-                    {translate("resources.transactions.download.downloadReportButtonText")}
-                </Button>
-            </div>
-
-            <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                    <button className={chooseClassTabActive("")} onClick={clearFilters}>
-                        All operations
-                    </button>
-                    {Object.keys(data?.transactionTypes).map(item => (
-                        <button
-                            key={data?.transactionTypes?.[item].type}
-                            className={chooseClassTabActive(data?.transactionTypes?.[item].type_descr)}
-                            onClick={() => {
-                                setTypeTabActive(data?.transactionTypes?.[item].type_descr);
-                                onPropertySelected(data?.transactionTypes?.[item].type, "type");
-                            }}>
-                            {data?.transactionTypes?.[item].type_descr}
-                        </button>
-                    ))}
-                </div>
-
-                <div className="flex items-center gap-1">
-                    <p className="text-sm text-neutral-50 cursor-pointer hover:text-green-50">
-                        {translate("resources.transactions.chart")}
-                    </p>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
-                            stroke="#237648"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                        <path
-                            d="M12 12V3"
-                            stroke="#237648"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                        <path
-                            d="M19.7906 7.5L4.20935 16.5"
-                            stroke="#237648"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                    </svg>
-                </div>
-            </div>
-        </>
+        <div className={classNames}>
+            <Input
+                placeholder={translate("resources.transactions.filter.filterById")}
+                value={id}
+                onChange={onIdChanged}
+            />
+            {adminOnly && (
+                <Select onValueChange={onAccountChanged} value={account}>
+                    <SelectTrigger>
+                        <SelectValue placeholder={translate("resources.transactions.filter.filterByAccount")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {accounts &&
+                            accounts.map(account => (
+                                <SelectItem key={account.id} value={account}>
+                                    {account.meta.caption}
+                                </SelectItem>
+                            ))}
+                    </SelectContent>
+                </Select>
+            )}
+            <Button onClick={clearFilters} variant="secondary" size="sm" disabled={!id && !account}>
+                {translate("resources.transactions.filter.clearFilters")}
+            </Button>
+        </div>
     );
 };
 
@@ -304,6 +176,9 @@ export const TransactionList = () => {
     const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+
+    const { startDate, endDate, reqId, handleSelectedIdChange, setStartDate, setEndDate, handleDownload } =
+        useReportDownload();
 
     const { data: currencies } = useQuery("currencies", () =>
         fetch(`${API_URL}/dictionaries/curr`, {
@@ -320,6 +195,7 @@ export const TransactionList = () => {
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
     const navigate = useNavigate();
+    const { theme } = useTheme();
 
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");
@@ -333,17 +209,10 @@ export const TransactionList = () => {
 
     const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
 
+    const borderColor = theme === "dark" ? "border-neutral-10" : "border-neutral-70";
+    const classNames = `flex flex-col sm:flex-row sm:items-center gap-4 mt-4 border ${borderColor} shadow-4 rounded-md p-2`;
+
     const columns: ColumnDef<Transaction.Transaction>[] = [
-        {
-            accessorKey: "created_at",
-            header: translate("resources.transactions.fields.createdAt"),
-            cell: ({ row }) => (
-                <>
-                    <p>{new Date(row.original.created_at).toLocaleDateString()}</p>
-                    <p>{new Date(row.original.created_at).toLocaleTimeString()}</p>
-                </>
-            )
-        },
         {
             accessorKey: "id",
             header: translate("resources.transactions.fields.id"),
@@ -359,10 +228,10 @@ export const TransactionList = () => {
             accessorKey: "state.state_description",
             header: translate("resources.transactions.fields.state.title")
         },
-        // {
-        //     accessorKey: "state.final",
-        //     header: translate("resources.transactions.fields.state.final")
-        // },
+        {
+            accessorKey: "state.final",
+            header: translate("resources.transactions.fields.state.final")
+        },
         {
             accessorKey: "sourceValue",
             header: translate("resources.transactions.fields.sourceValue"),
@@ -389,25 +258,22 @@ export const TransactionList = () => {
             }
         },
         {
-            accessorKey: "rate_info",
+            accessorKey: "type",
             header: translate("resources.transactions.fields.rateInfo"),
             cell: ({ row }) => {
                 const rateInfo: Transaction.RateInfo = row.original.rate_info;
                 if (rateInfo) {
-                    return (
-                        <>
-                            <p className="text-neutral-60 dark:text-neutral-70">{`${rateInfo.s_currency} / ${rateInfo.d_currency}:`}</p>
-                            <p>
-                                {((rateInfo.value.quantity || 0) / rateInfo.value.accuracy).toFixed(
-                                    Math.log10(rateInfo.value.accuracy)
-                                )}
-                            </p>
-                        </>
-                    );
+                    return `${rateInfo.s_currency} / ${rateInfo.d_currency}: ${(
+                        (rateInfo.value.quantity || 0) / rateInfo.value.accuracy
+                    ).toFixed(Math.log10(rateInfo.value.accuracy))}`;
                 } else {
                     return 0;
                 }
             }
+        },
+        {
+            accessorKey: "created_at",
+            header: translate("resources.transactions.fields.createdAt")
         },
         {
             id: "actions",
@@ -416,21 +282,19 @@ export const TransactionList = () => {
                     <RecordContextProvider value={row.original}>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="clearBtn" className="w-full p-0">
+                                <Button variant="secondary" className="h-8 w-8 p-0">
                                     <span className="sr-only">Open menu</span>
-                                    <EyeIcon className="text-green-50 size-7" />
+                                    <MoreHorizontal className="h-4 w-4" />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                                <DropdownMenuItem onClick={() => openSheet(row.original.id)} className="border-none">
+                                <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
                                     {translate("app.ui.actions.quick_show")}
                                 </DropdownMenuItem>
-                                <DropdownMenuItem
-                                    onClick={() => navigate(`/transactions/${row.original.id}/show`)}
-                                    className="border-none">
+                                <DropdownMenuItem onClick={() => navigate(`/transactions/${row.original.id}/show`)}>
                                     {translate("app.ui.actions.show")}
                                 </DropdownMenuItem>
-                                {adminOnly && <DropdownMenuSeparator />}
+                                <DropdownMenuSeparator />
                                 <TransactionActions
                                     dictionaries={data}
                                     stornoOpen={() => setStornoOpen(true)}
@@ -449,12 +313,47 @@ export const TransactionList = () => {
         return (
             <>
                 <ListContextProvider value={listContext}>
-                    <div className="mb-6 mt-5">
-                        <h1 className="text-3xl mb-6">{translate("app.menu.transactions")}</h1>
-
+                    <div className="mb-10 mt-5">
                         <TransactionFilterSidebar />
-                    </div>
+                        <div className={classNames}>
+                            <DatePicker
+                                placeholder={translate("resources.transactions.download.startDate")}
+                                date={startDate}
+                                onChange={setStartDate}
+                            />
+                            <DatePicker
+                                placeholder={translate("resources.transactions.download.endDate")}
+                                date={endDate}
+                                onChange={setEndDate}
+                            />
+                            {adminOnly && (
+                                <Select onValueChange={handleSelectedIdChange}>
+                                    <SelectTrigger>
+                                        <SelectValue
+                                            placeholder={translate("resources.transactions.download.accountField")}
+                                        />
+                                    </SelectTrigger>
 
+                                    <SelectContent>
+                                        {accounts?.map(el => {
+                                            return (
+                                                <SelectItem key={el.id} value={el.id.toString()}>
+                                                    {el.meta.caption}
+                                                </SelectItem>
+                                            );
+                                        })}
+                                    </SelectContent>
+                                </Select>
+                            )}
+                            <Button
+                                onClick={handleDownload}
+                                variant="default"
+                                size="sm"
+                                disabled={reqId ? false : true}>
+                                {translate("resources.transactions.download.downloadReportButtonText")}
+                            </Button>
+                        </div>
+                    </div>
                     <DataTable columns={columns} />
                 </ListContextProvider>
                 <Sheet open={showOpen} onOpenChange={setShowOpen}>
@@ -464,12 +363,10 @@ export const TransactionList = () => {
                         <ScrollArea className="h-full [&>div>div]:!block">
                             <SheetHeader className="mb-2">
                                 <SheetTitle>{translate("resources.transactions.showHeader")}</SheetTitle>
-
                                 <SheetDescription>
                                     {translate("resources.transactions.showDescription", { id: showTransactionId })}
                                 </SheetDescription>
                             </SheetHeader>
-
                             <TransactionShow id={showTransactionId} type="compact" />
                         </ScrollArea>
                     </SheetContent>
@@ -482,7 +379,6 @@ export const TransactionList = () => {
                             <SheetHeader className="mb-2">
                                 <SheetTitle>{translate("resources.transactions.show.storno")}</SheetTitle>
                             </SheetHeader>
-
                             <TransactionStorno accounts={accounts || []} currencies={sortedCurrencies || []} />
                         </ScrollArea>
                     </SheetContent>
