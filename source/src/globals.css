@@ -217,23 +217,14 @@
 @layer utilities {
     ::-webkit-scrollbar {
         width: 8px;
-        /* Ширина скроллера */
     }
 
     ::-webkit-scrollbar-track {
-        background: 0 0% 100%;
-        /* Цвет фона трека скроллера */
+        background: hsl(var(--neutral-0));
     }
 
     ::-webkit-scrollbar-thumb {
-        background: 148 53% 25%;
-        /* Цвет ползунка скроллера */
+        background: hsl(var(--green-50));
         border-radius: 8px;
-        /* Радиус скругления ползунка */
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        background: 148 92% 9%;
-        /* Цвет ползунка при наведении */
     }
 }
