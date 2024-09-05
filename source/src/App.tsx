@@ -50,7 +50,7 @@ import {
     WithdrawShow
 } from "./components/widgets/show";
 import { CurrencyIcon } from "lucide-react";
-import { CurrencyEdit, MerchantEdit, ProvidersEdit } from "./components/widgets/edit";
+import { CurrencyEdit, DirectionEdit, MerchantEdit, ProvidersEdit } from "./components/widgets/edit";
 
 const dataProvider = combineDataProviders((resource: string) => {
     if (resource === "transactions") {
