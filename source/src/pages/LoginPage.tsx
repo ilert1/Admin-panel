@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useLogin, useTranslate } from "react-admin";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useTheme } from "@/components/providers";
 import { Eye, EyeOff } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 export const LoginPage = () => {
     const [username, setUsername] = useState("");
@@ -53,7 +53,7 @@ export const LoginPage = () => {
                             type="text"
                             value={username}
                             onChange={handleChange(setUsername)}
-                            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-title-1"
+                            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-title-1"
                         />
                     </div>
                     <div className="mb-5 relative">
@@ -66,7 +66,7 @@ export const LoginPage = () => {
                                 type={showPassword ? "text" : "password"}
                                 value={password}
                                 onChange={handleChange(setPassword)}
-                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 pr-10 text-title-1"
+                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm pr-10 text-title-1"
                             />
                             <button
                                 type="button"
