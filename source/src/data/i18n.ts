@@ -54,9 +54,9 @@ const ru: TranslationMessages = {
             }
         },
         transactions: {
-            name: "Транзакция |||| Транзакции",
+            name: "Транзакция |||| История операций",
             fields: {
-                id: "ID",
+                id: "ID операции",
                 created_at: "Дата создания",
                 committed: "Зафиксированная",
                 dispute: "Диспут",
@@ -71,7 +71,7 @@ const ru: TranslationMessages = {
                     state_description: "Статус"
                 },
                 rateInfo: "Курс",
-                createdAt: "Дата и время создания",
+                createdAt: "Дата и время",
                 stornoIds: "Транзакции сторно",
                 source: {
                     header: "Отправитель",
@@ -122,6 +122,8 @@ const ru: TranslationMessages = {
                     account: "Счет"
                 }
             },
+            pagination: "Записей",
+            chart: "График операций",
             showHeader: "Информация о транзакции",
             showDescription: "Подробная информация о транзакции с ID %{id}",
             storno: {
@@ -133,9 +135,9 @@ const ru: TranslationMessages = {
             },
             download: {
                 downloadReportLabel: "Выгрузка отчета",
-                startDate: "Начальная дата :",
-                endDate: "Конечная дата :",
-                downloadReportButtonText: "Загрузить отчет",
+                startDate: "Дата с",
+                endDate: "до",
+                downloadReportButtonText: "Скачать отчет",
                 bothError: "Начальная дата и конечная дата обязательно должны быть заполнены",
                 greaterError: "Конечная дата не может быть больше чем начальная дата",
                 error: "Ошибка",
@@ -274,7 +276,7 @@ const ru: TranslationMessages = {
     app: {
         menu: {
             accounts: "Счета",
-            transactions: "Транзакции",
+            transactions: "История операций",
             payin: "Пополнение",
             dashboard: "Главная",
             bankTransfer: "Банковский перевод",
@@ -510,6 +512,8 @@ const en: TranslationMessages = {
                     account: "Account"
                 }
             },
+            pagination: "Rows per page",
+            chart: "Schedule of operations",
             showHeader: "Transaction info",
             showDescription: "Detailed information about transaction with ID %{id}",
             storno: {

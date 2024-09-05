@@ -5,8 +5,10 @@ import { API_URL } from "@/data/base";
 import { format } from "date-fns";
 
 const useReportDownload = () => {
-    const [startDate, setStartDate] = useState<Date>();
-    const [endDate, setEndDate] = useState<Date>();
+    const [startDate, setStartDate] = useState<Date>(
+        new Date(new Date().getFullYear(), new Date().getMonth() - 1, new Date().getDate())
+    );
+    const [endDate, setEndDate] = useState<Date>(new Date());
     const [isDateRangeValid, setIsDateRangeValid] = useState<boolean>(true);
     const [reqId, setReqId] = useState<string>("");
 

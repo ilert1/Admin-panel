@@ -1,7 +1,6 @@
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -25,9 +24,13 @@ export function DatePicker(props: { placeholder: string; date?: Date; onChange?:
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button variant={"outline"} className={cn(!date && "text-muted-foreground")}>
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date ? format(date, "dd.MM.yyyy") : <span>{props.placeholder}</span>}
+                <Button
+                    variant={"outline"}
+                    className={
+                        "flex flex-1 justify-between items-center gap-3 text-neutral-100 duration-200 px-3 py-2 border-green-40"
+                    }>
+                    {date ? format(date, "dd.MM.yyyy") : <span className="mr-2">{props.placeholder}</span>}
+                    <CalendarIcon className="h-4 w-4 text-green-50 mb-0.5" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
