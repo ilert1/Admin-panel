@@ -27,7 +27,7 @@ export function DatePicker(props: { placeholder: string; date?: Date; onChange?:
                 <Button
                     variant={"outline"}
                     className={
-                        "flex flex-1 justify-between items-center gap-3 text-neutral-100 duration-200 px-3 py-2 h-9"
+                        "flex flex-1 justify-between items-center gap-3 text-neutral-100 duration-200 px-3 py-2"
                     }>
                     {date ? format(date, "dd.MM.yyyy") : <span className="mr-2">{props.placeholder}</span>}
                     <CalendarIcon className="h-4 w-4 text-green-50 mb-0.5" />

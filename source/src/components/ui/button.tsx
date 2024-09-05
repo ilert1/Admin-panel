@@ -21,10 +21,10 @@ const buttonVariants = cva(
                 error: "border border-red-40 text-red-40 hover:bg-red-0 active:bg-neutral-0"
             },
             size: {
-                default: "h-10 px-4 py-2",
+                default: "h-9 px-4 py-2",
                 sm: "h-9 rounded-4 px-3",
                 lg: "h-11 rounded-4 px-8",
-                icon: "h-10 w-10"
+                icon: "h-9 w-10"
             }
         },
         defaultVariants: {
