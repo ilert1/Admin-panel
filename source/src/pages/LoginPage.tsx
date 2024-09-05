@@ -31,17 +31,21 @@ export const LoginPage = () => {
     return (
         <div
             className="relative flex items-center justify-center min-h-screen bg-loginBG overflow-hidden"
-            style={{ backgroundImage: "url(/LoginBackground.png)" }}>
+            style={{
+                backgroundImage: "url(/LoginBackground.png)",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat"
+            }}>
             <div
-                className={`w-full max-w-md p-8 rounded-lg shadow-md ${
+                className={`w-full max-w-md px-16 pb-16 rounded-16 shadow-md ${
                     theme === "dark" ? "bg-neutral-0" : "bg-neutral-100"
                 }`}>
-                <div className="flex justify-center mb-6">
-                    <img src="/MoneyGateLogo.svg" alt="Logo" className="h-12" />
+                <div className="flex justify-center mb-6 mt-5">
+                    <img src="/MoneyGateLogo.svg" alt="Logo" className="h-20 w-56" />
                 </div>
                 <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                        <label htmlFor="username" className="block text-title-1 text-neutral-30">
+                    <div className="mb-5">
+                        <label htmlFor="username" className="block text-note-1 text-neutral-30">
                             {translate("app.login.usernameOrEmail")}
                         </label>
                         <Input
@@ -52,8 +56,8 @@ export const LoginPage = () => {
                             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-title-1"
                         />
                     </div>
-                    <div className="mb-6 relative">
-                        <label htmlFor="password" className="block text-title-1 text-neutral-30">
+                    <div className="mb-5 relative">
+                        <label htmlFor="password" className="block text-note-1 text-neutral-30">
                             {translate("app.login.password")}
                         </label>
                         <div className="flex items-center relative">
@@ -67,7 +71,7 @@ export const LoginPage = () => {
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center mt-1">
                                 {showPassword ? (
                                     <EyeOff className="h-5 w-5 text-green-40" />
                                 ) : (
@@ -76,15 +80,15 @@ export const LoginPage = () => {
                             </button>
                         </div>
                     </div>
-                    {error && <div className="text-red-30 text-note-1 mb-4">{error}</div>}
                     <Button type="submit" color="primary" variant="default" className="w-full">
                         {translate("app.login.login")}
                     </Button>
+                    {error && <div className="text-red-30 text-note-1 mt-5">{error}</div>}
                 </form>
             </div>
             <div className="absolute bottom-[-20px] right-[-20px] p-4">
                 <img
-                    src="/BlowFish.png"
+                    src="/BlowFish.svg"
                     alt="Decorative"
                     className="w-[400px] h-[400px] invisible md:visible md:w-[200px] md:h-[200px] lg:w-[320px] lg:h-[320px]"
                 />

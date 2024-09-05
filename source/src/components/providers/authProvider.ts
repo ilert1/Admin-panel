@@ -9,12 +9,13 @@ interface KeycloakJwtPayload extends JwtPayload {
 }
 
 const keycloakUrl = import.meta.env.VITE_KEYCLOAK_LOGIN_URL;
+const clientId = import.meta.env.VITE_KEYCLOAK_CLIENT_ID;
 
 export const authProvider: AuthProvider = {
     login: async ({ username, password }) => {
         try {
             const body = new URLSearchParams({
-                client_id: "juggler-front-local",
+                client_id: clientId,
                 grant_type: "password",
                 username: username,
                 password: password
