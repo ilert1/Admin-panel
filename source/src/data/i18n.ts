@@ -217,6 +217,7 @@ const ru: TranslationMessages = {
             },
             showTitle: "Детальная информация о провайдере",
             createNew: "Создать нового провайдера",
+            createTestKeys: "Создать тестовые ключи",
             attention: "Внимание",
             warning:
                 "Приватный ключ будет показан только ОДИН раз. Скопируйте, сохраните и отправьте ключ DevOps инженеру",
@@ -224,7 +225,8 @@ const ru: TranslationMessages = {
             pleaseWait: "Пожалуйста подождите",
             clickToCopy: "Это ваш приватный ключ. Нажмите на кнопку чтобы скопировать ключ, или скопируйте вручную.",
             continue: "Продолжить",
-            close: "Закрыть"
+            close: "Закрыть",
+            privateKey: "Приватный ключ"
         },
         directions: {
             fields: {
@@ -603,13 +605,15 @@ const en: TranslationMessages = {
             },
             showTitle: "Detailed information about provider",
             createNew: "Create new provider",
+            createTestKeys: "Create test keys",
             attention: "Attention",
             warning: "Private key will be shown ONLY 1 time. Copy, save it and send to DevOps engineer",
             pleaseCreate: "Please create keys on the page with providers table",
             pleaseWait: "Please wait",
             clickToCopy: "This is your private key.\n Click button to copy or copy manually.",
             continue: "Continue",
-            close: "Close"
+            close: "Close",
+            privateKey: "Private key"
         },
         directions: {
             fields: {
