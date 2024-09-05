@@ -248,13 +248,14 @@ const TransactionFilterSidebar = () => {
 
             <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                    <button className={chooseClassTabActive("")} onClick={clearFilters}>
+                    <button className={chooseClassTabActive("")} onClick={clearFilters} disabled={typeTabActive === ""}>
                         All operations
                     </button>
                     {Object.keys(data?.transactionTypes).map(item => (
                         <button
                             key={data?.transactionTypes?.[item].type}
                             className={chooseClassTabActive(data?.transactionTypes?.[item].type_descr)}
+                            disabled={typeTabActive === data?.transactionTypes?.[item].type_descr}
                             onClick={() => {
                                 setTypeTabActive(data?.transactionTypes?.[item].type_descr);
                                 onPropertySelected(data?.transactionTypes?.[item].type, "type");
