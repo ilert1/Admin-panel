@@ -105,6 +105,7 @@ const TransactionFilterSidebar = () => {
     const { filterValues, setFilters, displayedFilters } = useListContext();
     const translate = useTranslate();
     const { permissions } = usePermissions();
+    const { page, setPage } = useListContext();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
     // TODO: временное решение, нужно расширить компонент селекта для поддержки пагинациц
     const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
@@ -134,6 +135,7 @@ const TransactionFilterSidebar = () => {
             Reflect.deleteProperty(filterValues, type);
             setFilters(filterValues, displayedFilters);
         }
+        setPage(1);
     }, 300);
 
     const onIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
@@ -151,6 +153,7 @@ const TransactionFilterSidebar = () => {
         setAccount("");
         setTypeTabActive("");
         setFilters({}, displayedFilters);
+        setPage(1);
     };
 
     return (
@@ -451,6 +454,7 @@ export const TransactionList = () => {
 
                         <TransactionFilterSidebar />
                     </div>
+
                     <DataTable columns={columns} />
                 </ListContextProvider>
                 <Sheet open={showOpen} onOpenChange={setShowOpen}>

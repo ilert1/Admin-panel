@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CircleArrowLeftIcon, CircleArrowRightIcon } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useListContext, useTranslate } from "react-admin";
+import { useEffect } from "react";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -28,6 +29,10 @@ export function DataTable<TData, TValue>({ columns, pagination = true }: DataTab
             }
         }
     });
+
+    useEffect(() => {
+        table.setPageIndex(page - 1);
+    }, [page, table]);
 
     return (
         <div>
@@ -78,7 +83,6 @@ export function DataTable<TData, TValue>({ columns, pagination = true }: DataTab
                             size="icon"
                             className="text-green-50 hover:text-green-30 disabled:text-neutral-30 size-5"
                             onClick={() => {
-                                table.previousPage();
                                 setPage(page - 1);
                             }}
                             disabled={!table.getCanPreviousPage()}>
@@ -90,7 +94,6 @@ export function DataTable<TData, TValue>({ columns, pagination = true }: DataTab
                                 size={"sm"}
                                 variant="clearBtn"
                                 onClick={() => {
-                                    table.firstPage();
                                     setPage(1);
                                 }}
                                 className="m-0 p-0 text-sm font-medium hover:text-green-50 cursor-pointer">
@@ -105,7 +108,6 @@ export function DataTable<TData, TValue>({ columns, pagination = true }: DataTab
                                 size={"sm"}
                                 variant="clearBtn"
                                 onClick={() => {
-                                    table.previousPage();
                                     setPage(page - 1);
                                 }}
                                 className="m-0 p-0 text-sm font-medium hover:text-green-50 cursor-pointer">
@@ -125,7 +127,6 @@ export function DataTable<TData, TValue>({ columns, pagination = true }: DataTab
                                 variant="clearBtn"
                                 size={"sm"}
                                 onClick={() => {
-                                    table.nextPage();
                                     setPage(page + 1);
                                 }}
                                 className="m-0 p-0 text-sm font-medium hover:text-green-50 cursor-pointer">
@@ -143,7 +144,6 @@ export function DataTable<TData, TValue>({ columns, pagination = true }: DataTab
                                 size={"sm"}
                                 variant="clearBtn"
                                 onClick={() => {
-                                    table.lastPage();
                                     setPage(table.getPageCount());
                                 }}
                                 className="m-0 p-0 text-sm font-medium hover:text-green-50 cursor-pointer">
@@ -157,7 +157,6 @@ export function DataTable<TData, TValue>({ columns, pagination = true }: DataTab
                             size="icon"
                             className="text-green-50 hover:text-green-30 disabled:text-neutral-30 size-5"
                             onClick={() => {
-                                table.nextPage();
                                 setPage(page + 1);
                             }}
                             disabled={!table.getCanNextPage()}>
