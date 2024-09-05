@@ -39,10 +39,10 @@ export function DataTable<TData, TValue>({ columns, pagination = true }: DataTab
             <Table className="bg-neutral-0">
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup, i) => (
-                        <TableRow key={i} className="bg-green-50 hover:bg-green-50 ">
+                        <TableRow key={i} className="bg-green-50 hover:bg-green-50">
                             {headerGroup.headers.map((header, j) => {
                                 return (
-                                    <TableHead key={j} className="text-neutral-100 text-base border border-muted ">
+                                    <TableHead key={j} className="text-white text-base border border-muted ">
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(header.column.columnDef.header, header.getContext())}

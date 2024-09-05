@@ -10,14 +10,14 @@ const buttonVariants = cva(
         variants: {
             variant: {
                 default:
-                    "bg-green-50 text-neutral-100 hover:bg-green-20 active:bg-green-20 disabled:bg-neutral-20 disabled:text-neutral-80",
+                    "bg-green-50 text-neutral-0 dark:text-neutral-100 hover:bg-green-40 dark:hover:bg-green-20 active:bg-green-20 disabled:bg-neutral-20 disabled:text-neutral-80",
                 secondary:
                     "bg-neutral-0 text-green-50 hover:text-green-50 active:text-neutral-100 disabled:bg-neutral-20 disabled:text-neutral-80",
                 outline:
-                    "border border-green-50 bg-neutral-0 text-green-50 hover:bg-green-0 hover:border-green-50 active:bg-neutral-0 active:text-green-40 active:border-green-40 focus:bg-neutral-0 focus:text-green-60 focus:border-green-60 disabled:bg-neutral-20 disabled:border-neutral-80 disabled:text-neutral-80",
+                    "border border-green-50 bg-neutral-0 text-green-50 hover:border-green-50 active:bg-neutral-0 active:text-green-40 active:border-green-40 focus:bg-neutral-0 focus:text-green-60 focus:border-green-60 disabled:bg-neutral-20 disabled:border-neutral-80 disabled:text-neutral-80",
                 textBtn:
                     "bg-neutral-0 text-green-50 hover:text-green-50 active:text-neutral-100 disabled:text-neutral-80",
-                clearBtn: "",
+                clearBtn: "text-neutral-50 hover:text-neutral-100",
                 error: "border border-red-40 text-red-40 hover:bg-red-0 active:bg-neutral-0"
             },
             size: {

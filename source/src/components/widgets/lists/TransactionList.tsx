@@ -119,7 +119,7 @@ const TransactionFilterSidebar = () => {
     const chooseClassTabActive = useCallback(
         (type: string) => {
             return typeTabActive === type
-                ? "text-green-40 border-b-2 border-green-40 pb-1 duration-200"
+                ? "text-green-50 dark:text-green-40 border-b-2 dark:border-green-40 border-green-50 pb-1 duration-200"
                 : "pb-1 border-b-2 border-transparent duration-200 hover:text-green-40";
         },
         [typeTabActive]
@@ -396,7 +396,7 @@ export const TransactionList = () => {
                 if (rateInfo) {
                     return (
                         <>
-                            <p className="text-neutral-60 dark:text-neutral-30">{`${rateInfo.s_currency} / ${rateInfo.d_currency}:`}</p>
+                            <p className="text-neutral-60 dark:text-neutral-70">{`${rateInfo.s_currency} / ${rateInfo.d_currency}:`}</p>
                             <p>
                                 {((rateInfo.value.quantity || 0) / rateInfo.value.accuracy).toFixed(
                                     Math.log10(rateInfo.value.accuracy)
