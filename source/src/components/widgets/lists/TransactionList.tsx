@@ -105,7 +105,7 @@ const TransactionFilterSidebar = () => {
     const { filterValues, setFilters, displayedFilters } = useListContext();
     const translate = useTranslate();
     const { permissions } = usePermissions();
-    const { page, setPage } = useListContext();
+    const { setPage } = useListContext();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
     // TODO: временное решение, нужно расширить компонент селекта для поддержки пагинациц
     const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
