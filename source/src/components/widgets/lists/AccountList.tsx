@@ -17,6 +17,7 @@ import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { TextField } from "@/components/ui/text-field";
 import { useNavigate } from "react-router-dom";
+import { Loading } from "@/components/ui/loading";
 
 export const AccountList = () => {
     const listContext = useListController<Account>();
@@ -93,7 +94,7 @@ export const AccountList = () => {
     const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
 
     if (listContext.isLoading || !listContext.data) {
-        return <div>Loading...</div>;
+        return <Loading />;
     } else {
         return (
             <>

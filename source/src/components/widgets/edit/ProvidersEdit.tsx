@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Loading } from "@/components/ui/loading";
+import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -127,7 +127,7 @@ export const ProvidersEdit = () => {
                                             onValidate={markers => {
                                                 setError(markers.length > 0);
                                             }}
-                                            loading={<Loading />}
+                                            loading={<LoadingAlertDialog />}
                                             onMount={handleEditorDidMount}
                                         />
                                     </FormControl>
