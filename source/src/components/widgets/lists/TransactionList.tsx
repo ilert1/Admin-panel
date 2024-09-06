@@ -216,7 +216,7 @@ export const TransactionList = () => {
         {
             accessorKey: "id",
             header: translate("resources.transactions.fields.id"),
-            cell: ({ row }) => <TextField text={row.original.id} copyValue />,
+            cell: ({ row }) => <TextField text={row.original.id} wrap copyValue />,
             filterFn: "includesString"
         },
         {
@@ -227,7 +227,7 @@ export const TransactionList = () => {
         {
             accessorKey: "meta.customer_payment_id",
             header: translate("resources.transactions.fields.meta.customer_payment_id"),
-            cell: ({ row }) => <TextField text={row.original.meta.customer_payment_id} copyValue />
+            cell: ({ row }) => <TextField text={row.original.meta.customer_payment_id} wrap copyValue />
         },
         {
             accessorKey: "type",
