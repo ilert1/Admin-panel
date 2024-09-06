@@ -19,6 +19,7 @@ export const MerchantShow = (props: { id: string }) => {
                 <TextField label={translate("resources.merchants.fields.id")} text={context.record.id} />
                 <TextField label={translate("resources.merchants.fields.name")} text={context.record.name} />
                 <TextField label={translate("resources.merchants.fields.descr")} text={context.record.description} />
+                <TextField label={"Keycloak ID"} text={context.record.keycloak_id} />
             </div>
         );
     }
