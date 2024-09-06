@@ -142,6 +142,7 @@ const TransactionFilterSidebar = () => {
     const clearFilters = () => {
         setId("");
         setAccount("");
+        setCustomerPaymentId("");
         setFilters({}, displayedFilters);
     };
     const borderColor = theme === "dark" ? "border-neutral-10" : "border-neutral-70";
@@ -173,7 +174,11 @@ const TransactionFilterSidebar = () => {
                     </SelectContent>
                 </Select>
             )}
-            <Button onClick={clearFilters} variant="secondary" size="sm" disabled={!id && !account}>
+            <Button
+                onClick={clearFilters}
+                variant="secondary"
+                size="sm"
+                disabled={!id && !account && !customerPaymentId}>
                 {translate("resources.transactions.filter.clearFilters")}
             </Button>
         </div>
