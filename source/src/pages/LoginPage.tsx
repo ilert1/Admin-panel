@@ -37,15 +37,15 @@ export const LoginPage = () => {
                 backgroundRepeat: "no-repeat"
             }}>
             <div
-                className={`w-full max-w-md px-16 pb-16 rounded-16 shadow-md ${
+                className={`mx-4 w-full max-w-md px-8 sm:px-16 pb-16 rounded-16 shadow-md min-w-[240px] z-10 ${
                     theme === "dark" ? "bg-neutral-0" : "bg-neutral-100"
                 }`}>
-                <div className="flex justify-center mb-6 mt-5">
-                    <img src="/MoneyGateLogo.svg" alt="Logo" className="h-20 w-56" />
+                <div className="flex justify-center mb-2.5 mt-5">
+                    <img src="/MoneyGateLogo.svg" alt="Logo" className="h-20 w-56 pointer-events-none select-none" />
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-5">
-                        <label htmlFor="username" className="block text-note-1 text-neutral-30">
+                        <label htmlFor="username" className="block text-note-1 text-neutral-30 mb-1">
                             {translate("app.login.usernameOrEmail")}
                         </label>
                         <Input
@@ -53,11 +53,11 @@ export const LoginPage = () => {
                             type="text"
                             value={username}
                             onChange={handleChange(setUsername)}
-                            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-title-1"
+                            className=" block w-full border-gray-300 rounded-md shadow-sm text-title-1"
                         />
                     </div>
                     <div className="mb-5 relative">
-                        <label htmlFor="password" className="block text-note-1 text-neutral-30">
+                        <label htmlFor="password" className="block text-note-1 text-neutral-30 mb-1">
                             {translate("app.login.password")}
                         </label>
                         <div className="flex items-center relative">
@@ -66,18 +66,8 @@ export const LoginPage = () => {
                                 type={showPassword ? "text" : "password"}
                                 value={password}
                                 onChange={handleChange(setPassword)}
-                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm pr-10 text-title-1"
+                                className=" block w-full border-gray-300 rounded-md shadow-sm pr-10 text-title-1"
                             />
-                            <button
-                                type="button"
-                                onClick={() => setShowPassword(!showPassword)}
-                                className="absolute inset-y-0 right-0 pr-3 flex items-center mt-1">
-                                {showPassword ? (
-                                    <EyeOff className="h-5 w-5 text-green-40" />
-                                ) : (
-                                    <Eye className="h-5 w-5 text-green-40" />
-                                )}
-                            </button>
                         </div>
                     </div>
                     <Button type="submit" color="primary" variant="default" className="w-full">
@@ -90,7 +80,7 @@ export const LoginPage = () => {
                 <img
                     src="/BlowFish.svg"
                     alt="Decorative"
-                    className="w-[400px] h-[400px] invisible md:visible md:w-[200px] md:h-[200px] lg:w-[320px] lg:h-[320px]"
+                    className="w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] xl:w-[400px] xl:h-[400px]pointer-events-none select-none -z-50"
                 />
             </div>
         </div>
