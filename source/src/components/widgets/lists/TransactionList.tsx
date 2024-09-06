@@ -113,6 +113,7 @@ const TransactionFilterSidebar = () => {
         useReportDownload();
 
     const [id, setId] = useState(filterValues?.id || "");
+    const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
     const [account, setAccount] = useState(filterValues?.account || "");
     const [typeTabActive, setTypeTabActive] = useState("");
 
@@ -125,22 +126,30 @@ const TransactionFilterSidebar = () => {
         [typeTabActive]
     );
 
-    const onPropertySelected = debounce((value: Account | string, type: "id" | "account" | "type") => {
-        if (value) {
-            if (type === "account") {
-                value = (value as Account).id;
+    const onPropertySelected = debounce(
+        (value: Account | string, type: "id" | "customer_payment_id" | "account" | "type") => {
+            if (value) {
+                if (type === "account") {
+                    value = (value as Account).id;
+                }
+                setFilters({ ...filterValues, [type]: value }, displayedFilters);
+            } else {
+                Reflect.deleteProperty(filterValues, type);
+                setFilters(filterValues, displayedFilters);
             }
-            setFilters({ ...filterValues, [type]: value }, displayedFilters);
-        } else {
-            Reflect.deleteProperty(filterValues, type);
-            setFilters(filterValues, displayedFilters);
-        }
-        setPage(1);
-    }, 300);
+            setPage(1);
+        },
+        300
+    );
 
     const onIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
         setId(e.target.value);
         onPropertySelected(e.target.value, "id");
+    };
+
+    const onCustomerPaymentIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        setCustomerPaymentId(e.target.value);
+        onPropertySelected(e.target.value, "customer_payment_id");
     };
 
     const onAccountChanged = (account: Account | string) => {
@@ -167,6 +176,15 @@ const TransactionFilterSidebar = () => {
                             placeholder={translate("resources.transactions.fields.id")}
                             value={id}
                             onChange={onIdChanged}
+                        />
+                    </label>
+                    <label className="flex gap-2 items-center lg:min-w-96">
+                        <span>{translate("resources.transactions.filter.filterCustomerPaymentId")}</span>
+                        <Input
+                            className="flex-1 text-sm placeholder:text-neutral-70"
+                            placeholder={translate("resources.transactions.fields.id")}
+                            value={customerPaymentId}
+                            onChange={onCustomerPaymentIdChanged}
                         />
                     </label>
                     {adminOnly && (
@@ -348,8 +366,18 @@ export const TransactionList = () => {
         {
             accessorKey: "id",
             header: translate("resources.transactions.fields.id"),
-            cell: ({ row }) => <TextField text={row.original.id} copyValue />,
+            cell: ({ row }) => <TextField text={row.original.id} wrap copyValue />,
             filterFn: "includesString"
+        },
+        {
+            accessorKey: "meta.customer_id",
+            header: translate("resources.transactions.fields.meta.customer_id"),
+            cell: ({ row }) => <TextField text={row.original.meta.customer_id} />
+        },
+        {
+            accessorKey: "meta.customer_payment_id",
+            header: translate("resources.transactions.fields.meta.customer_payment_id"),
+            cell: ({ row }) => <TextField text={row.original.meta.customer_payment_id} wrap copyValue />
         },
         {
             accessorKey: "type",

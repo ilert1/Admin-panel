@@ -62,7 +62,9 @@ const ru: TranslationMessages = {
                 dispute: "Диспут",
                 meta: {
                     external_status: "Внешний статус",
-                    parentId: "ID родительской транзакции"
+                    parentId: "ID родительской транзакции",
+                    customer_payment_id: "ID платежа клиента",
+                    customer_id: "ID клиента"
                 },
                 state: {
                     title: "Состояние",
@@ -147,7 +149,8 @@ const ru: TranslationMessages = {
             filter: {
                 filterById: "Поиск по ID",
                 filterByAccount: "Поиск по счету",
-                clearFilters: "Сбросить фильтры"
+                clearFilters: "Сбросить фильтры",
+                filterCustomerPaymentId: "Поиск по ID платежа клиента"
             }
         },
         withdraw: {
@@ -453,7 +456,9 @@ const en: TranslationMessages = {
                 dispute: "Dispute",
                 meta: {
                     external_status: "External status",
-                    parentId: "Parent transaction ID"
+                    parentId: "Parent transaction ID",
+                    customer_payment_id: "Customer payment ID",
+                    customer_id: "Customer ID"
                 },
                 state: {
                     title: "State",
@@ -538,7 +543,8 @@ const en: TranslationMessages = {
             filter: {
                 filterById: "Search by ID",
                 filterByAccount: "Search by account",
-                clearFilters: "Clear filters"
+                clearFilters: "Clear filters",
+                filterCustomerPaymentId: "Search by customer payment ID"
             }
         },
         withdraw: {

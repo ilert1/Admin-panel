@@ -8,13 +8,15 @@ export const TextField = ({
     label,
     link = "/",
     type = "text",
-    copyValue = false
+    copyValue = false,
+    wrap = false
 }: {
     text: string;
     label?: string | undefined;
     link?: string;
     type?: "text" | "link" | "internal-link";
     copyValue?: boolean;
+    wrap?: boolean;
 }) => {
     const currentText = useMemo(() => (text?.length > 0 ? text : "-"), [text]);
     const translate = useTranslate();
@@ -26,6 +28,14 @@ export const TextField = ({
             duration: 1000
         });
     }, [currentText]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const textStyle = () => {
+        if (wrap) {
+            return "overflow-hidden ellipsis max-w-[500px]";
+        }
+
+        return "truncate max-w-[500px]";
+    };
 
     return (
         <div>
@@ -40,7 +50,7 @@ export const TextField = ({
                             />
                         </span>
                     )}
-                    <span className={copyValue && text?.length > 0 ? "truncate max-w-[500px]" : ""}>{currentText}</span>
+                    <span className={textStyle()}>{currentText}</span>
                 </p>
             )}
             {type === "link" && (
