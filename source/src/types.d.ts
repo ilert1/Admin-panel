@@ -152,6 +152,7 @@ interface Merchant {
     id: string;
     name: string;
     description: string | null;
+    keycloak_id: string | null;
 }
 
 interface Provider {
