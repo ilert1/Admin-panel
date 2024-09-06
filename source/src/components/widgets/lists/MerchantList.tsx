@@ -92,6 +92,11 @@ export const MerchantList = () => {
             header: translate("resources.merchants.fields.descr")
         },
         {
+            id: "keycloak_id",
+            accessorKey: "keycloak_id",
+            header: "Keyclaok ID"
+        },
+        {
             id: "actions",
             cell: ({ row }) => {
                 return (
