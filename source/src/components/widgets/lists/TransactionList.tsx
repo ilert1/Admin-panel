@@ -160,6 +160,7 @@ const TransactionFilterSidebar = () => {
     const clearFilters = () => {
         setId("");
         setAccount("");
+        setCustomerPaymentId("");
         setTypeTabActive("");
         setFilters({}, displayedFilters);
         setPage(1);
@@ -253,7 +254,7 @@ const TransactionFilterSidebar = () => {
                         onClick={clearFilters}
                         variant="clearBtn"
                         size="default"
-                        disabled={!id && !account}>
+                        disabled={!id && !account && !customerPaymentId}>
                         <span>{translate("resources.transactions.filter.clearFilters")}</span>
                         <XIcon className="size-4" />
                     </Button>
