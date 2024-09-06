@@ -41,6 +41,8 @@ declare namespace Transaction {
         external_status_details: string;
         fail_url: string;
         success_url: string;
+        customer_id: string;
+        customer_payment_id: string;
     };
 
     type State = {
@@ -177,7 +179,7 @@ interface Direction {
     merchant: Merchant;
     provider: Omit<Provider, "id">;
     auth_data: {};
-    weight: Number;
+    weight: number;
     fees: {};
 }
 
@@ -188,5 +190,5 @@ interface DirectionCreate {
     dst_currency: string;
     merchant: string;
     provider: string;
-    weight: Number;
+    weight: number;
 }
