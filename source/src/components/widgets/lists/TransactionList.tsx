@@ -108,10 +108,11 @@ const TransactionFilterSidebar = () => {
     const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
 
     const [id, setId] = useState(filterValues?.id || "");
+    const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
     const [account, setAccount] = useState(filterValues?.account || "");
     const { theme } = useTheme();
 
-    const onPropertySelected = debounce((value: Account | string, type: "id" | "account") => {
+    const onPropertySelected = debounce((value: Account | string, type: "id" | "customer_payment_id" | "account") => {
         if (value) {
             if (type === "account") {
                 value = (value as Account).id;
@@ -126,6 +127,11 @@ const TransactionFilterSidebar = () => {
     const onIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
         setId(e.target.value);
         onPropertySelected(e.target.value, "id");
+    };
+
+    const onCustomerPaymentIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        setCustomerPaymentId(e.target.value);
+        onPropertySelected(e.target.value, "customer_payment_id");
     };
 
     const onAccountChanged = (account: Account | string) => {
@@ -146,6 +152,11 @@ const TransactionFilterSidebar = () => {
                 placeholder={translate("resources.transactions.filter.filterById")}
                 value={id}
                 onChange={onIdChanged}
+            />
+            <Input
+                placeholder={translate("resources.transactions.filter.filterCustomerPaymentId")}
+                value={customerPaymentId}
+                onChange={onCustomerPaymentIdChanged}
             />
             {adminOnly && (
                 <Select onValueChange={onAccountChanged} value={account}>
@@ -216,8 +227,18 @@ export const TransactionList = () => {
         {
             accessorKey: "id",
             header: translate("resources.transactions.fields.id"),
-            cell: ({ row }) => <TextField text={row.original.id} copyValue />,
+            cell: ({ row }) => <TextField text={row.original.id} wrap copyValue />,
             filterFn: "includesString"
+        },
+        {
+            accessorKey: "meta.customer_id",
+            header: translate("resources.transactions.fields.meta.customer_id"),
+            cell: ({ row }) => <TextField text={row.original.meta.customer_id} />
+        },
+        {
+            accessorKey: "meta.customer_payment_id",
+            header: translate("resources.transactions.fields.meta.customer_payment_id"),
+            cell: ({ row }) => <TextField text={row.original.meta.customer_payment_id} wrap copyValue />
         },
         {
             accessorKey: "type",
