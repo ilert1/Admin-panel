@@ -1,4 +1,11 @@
-import { useEditController, EditContextProvider, useRedirect, useTranslate, useDataProvider } from "react-admin";
+import {
+    useEditController,
+    EditContextProvider,
+    useRedirect,
+    useTranslate,
+    useDataProvider,
+    useRefresh
+} from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -23,13 +30,15 @@ export const MerchantEdit = () => {
     const translate = useTranslate();
     const redirect = useRedirect();
     const { toast } = useToast();
+    const refresh = useRefresh();
 
     useEffect(() => {
         if (record) {
             form.reset({
                 id: record?.id || "",
                 name: record?.name || "",
-                description: record?.description || ""
+                description: record?.description || "",
+                keycloak_id: record?.keycloak_id || ""
             });
         }
     }, [record]);
@@ -41,6 +50,7 @@ export const MerchantEdit = () => {
                 data,
                 previousData: undefined
             });
+            refresh();
             redirect("list", "merchant");
         } catch (error) {
             toast({
@@ -54,7 +64,8 @@ export const MerchantEdit = () => {
     const formSchema = z.object({
         id: z.string().min(1, translate("resources.merchants.errors.id")),
         name: z.string().min(1, translate("resources.merchants.errors.name")),
-        description: z.string().nullable()
+        description: z.string().nullable(),
+        keycloak_id: z.string().nullable()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -62,7 +73,8 @@ export const MerchantEdit = () => {
         defaultValues: {
             id: record?.id || "",
             name: record?.name || "",
-            description: record?.description || ""
+            description: record?.description || "",
+            keycloak_id: record?.keycloak_id || ""
         }
     });
 
@@ -109,6 +121,21 @@ export const MerchantEdit = () => {
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
                                     <FormLabel>{translate("resources.merchants.fields.descr")}</FormLabel>
+                                    <FormControl>
+                                        <div>
+                                            <Input {...field} value={field.value ?? ""} />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="keycloak_id"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormLabel>Keycloak ID</FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} value={field.value ?? ""} />
