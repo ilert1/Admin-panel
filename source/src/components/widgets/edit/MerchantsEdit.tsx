@@ -65,7 +65,12 @@ export const MerchantEdit = () => {
         id: z.string().min(1, translate("resources.merchants.errors.id")),
         name: z.string().min(1, translate("resources.merchants.errors.name")),
         description: z.string().nullable(),
-        keycloak_id: z.string().nullable()
+        keycloak_id: z
+            .string()
+            .nullable()
+            .refine(value => value === null || !/\s/.test(value), {
+                message: translate("resources.merchants.errors.noSpaces")
+            })
     });
 
     const form = useForm<z.infer<typeof formSchema>>({

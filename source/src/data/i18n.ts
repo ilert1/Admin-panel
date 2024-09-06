@@ -197,7 +197,8 @@ const ru: TranslationMessages = {
             errors: {
                 id: "ID обязательно должен быть заполнен",
                 name: "У мерчанта обязательно должно быть имя",
-                alreadyInUse: "Мерчант с таким именем или Id уже существует"
+                alreadyInUse: "Мерчант с таким именем или Id уже существует",
+                noSpaces: "Пробелы запрещены в данном поле"
             },
             showTitle: "Детальная инфорация о мерчанте",
             createNew: "Создать нового мерчанта"
@@ -587,7 +588,8 @@ const en: TranslationMessages = {
             errors: {
                 id: "ID is required",
                 name: "Name is required",
-                alreadyInUse: "Merchant with this id or name is already exists."
+                alreadyInUse: "Merchant with this id or name is already exists.",
+                noSpaces: "Spaces are not allowed in this field"
             },
             showTitle: "Detailed information about merchant",
             createNew: "Create new merchant"

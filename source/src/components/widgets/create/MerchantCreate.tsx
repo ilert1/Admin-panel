@@ -21,6 +21,10 @@ export const MerchantCreate = () => {
         if (data?.description?.length === 0) {
             data.description = null;
         }
+        if (data?.keycloak_id?.length === 0) {
+            data.keycloak_id = null;
+        }
+
         try {
             await dataProvider.create("merchant", { data });
         } catch (error) {
@@ -36,7 +40,13 @@ export const MerchantCreate = () => {
     const formSchema = z.object({
         id: z.string().min(1, translate("resources.merchants.errors.id")),
         name: z.string().min(1, translate("resources.merchants.errors.name")),
-        description: z.string().nullable()
+        description: z.string().nullable(),
+        keycloak_id: z
+            .string()
+            .nullable()
+            .refine(value => value === null || !/\s/.test(value), {
+                message: translate("resources.merchants.errors.noSpaces")
+            })
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -44,7 +54,8 @@ export const MerchantCreate = () => {
         defaultValues: {
             id: "",
             name: "",
-            description: ""
+            description: "",
+            keycloak_id: ""
         }
     });
 
@@ -91,6 +102,21 @@ export const MerchantCreate = () => {
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
                                     <FormLabel>{translate("resources.merchants.fields.descr")}</FormLabel>
+                                    <FormControl>
+                                        <div>
+                                            <Input {...field} value={field.value ?? ""} />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="keycloak_id"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormLabel>Keycloak ID</FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} value={field.value ?? ""} />
