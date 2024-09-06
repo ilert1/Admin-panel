@@ -147,7 +147,8 @@ const ru: TranslationMessages = {
             filter: {
                 filterById: "Поиск по ID",
                 filterByAccount: "Поиск по счету",
-                clearFilters: "Сбросить фильтры"
+                clearFilters: "Сбросить фильтры",
+                filterCustomerPaymentId: "Поиск по ID платежа клиента"
             }
         },
         withdraw: {
@@ -537,7 +538,8 @@ const en: TranslationMessages = {
             filter: {
                 filterById: "Search by ID",
                 filterByAccount: "Search by account",
-                clearFilters: "Clear filters"
+                clearFilters: "Clear filters",
+                filterCustomerPaymentId: "Search by customer payment ID"
             }
         },
         withdraw: {
