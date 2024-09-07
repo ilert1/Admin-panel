@@ -1,5 +1,5 @@
 import { useShowController, useTranslate } from "react-admin";
-import { Loading } from "@/components/ui/loading";
+import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -49,7 +49,7 @@ export const ProvidersShow = (props: { id: string }) => {
                         height="20vh"
                         defaultLanguage="json"
                         value={JSON.stringify(context.record.methods)}
-                        loading={<Loading />}
+                        loading={<LoadingAlertDialog />}
                         options={{
                             readOnly: true
                         }}

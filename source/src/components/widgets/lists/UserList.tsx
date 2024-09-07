@@ -17,6 +17,7 @@ import { useMediaQuery } from "react-responsive";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useNavigate } from "react-router-dom";
+import { Loading } from "@/components/ui/loading";
 
 export const UserList = () => {
     const [showOpen, setShowOpen] = useState(false);
@@ -81,7 +82,7 @@ export const UserList = () => {
     ];
 
     if (listContext.isLoading || !listContext.data) {
-        return <div>Loading...</div>;
+        return <Loading />;
     } else {
         return (
             <>

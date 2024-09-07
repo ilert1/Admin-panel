@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loading } from "@/components/ui/loading";
+import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 import { Editor } from "@monaco-editor/react";
 import { useTheme } from "@/components/providers";
 
@@ -130,7 +130,7 @@ export const ProviderCreate = () => {
                                             options={{
                                                 theme: `vs-${theme}`
                                             }}
-                                            loading={<Loading />}
+                                            loading={<LoadingAlertDialog />}
                                             onMount={handleEditorDidMount}
                                         />
                                     </FormControl>
