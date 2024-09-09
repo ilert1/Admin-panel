@@ -9,8 +9,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         const [inputValue, setInputValue] = React.useState<string | number | readonly string[] | undefined>(
             value || ""
         );
+
         const [showPassword, setShowPassword] = React.useState(false);
         const [isFocused, setIsFocused] = React.useState(false);
+        const [isHoveringInput, setIsHoveringInput] = React.useState(false);
+
+        const inputRef = React.useRef<HTMLInputElement>(null);
+
+        React.useImperativeHandle(ref, () => inputRef.current!);
 
         const handleClear = () => {
             setInputValue("");
@@ -18,6 +24,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 const event = { target: { value: "" } } as React.ChangeEvent<HTMLInputElement>;
                 onChange(event);
             }
+            inputRef.current?.focus();
         };
 
         const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,8 +34,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             }
         };
 
+        const showClearButton = inputValue && (isFocused || isHoveringInput);
+
         return (
-            <div className="relative flex items-center w-full">
+            <div
+                className="relative flex items-center w-full"
+                onMouseEnter={() => setIsHoveringInput(true)}
+                onMouseLeave={() => setIsHoveringInput(false)}>
                 <input
                     type={type === "password" && showPassword ? "text" : type}
                     value={inputValue}
@@ -41,17 +53,18 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         className,
                         inputValue || type === "password" ? "pr-12" : "pr-10"
                     )}
-                    ref={ref}
+                    ref={inputRef}
                     {...props}
                 />
-                {inputValue && (
+                {showClearButton && (
                     <button
                         type="button"
                         onClick={handleClear}
+                        tabIndex={-1}
                         className={cn(
                             "absolute inset-y-0",
                             type === "password" ? "right-9" : "right-3",
-                            "flex items-center justify-center text-neutral-60 hover:text-neutral-80"
+                            "flex items-center justify-center text-neutral-60 hover:text-neutral-80 transition-colors duration-200"
                         )}>
                         <X className="w-4 h-4" />
                     </button>
@@ -61,19 +74,20 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         disabled={disabled}
+                        tabIndex={-1}
                         className="absolute right-3 top-0 bottom-0 flex items-center justify-center">
                         {showPassword ? (
                             <EyeOff
                                 className={cn(
                                     "h-5 w-5",
-                                    disabled ? "text-neutral-60" : isFocused ? "text-green-50" : "text-green-40"
+                                    disabled ? "text-neutral-60" : inputValue ? "text-green-50" : "text-green-40"
                                 )}
                             />
                         ) : (
                             <Eye
                                 className={cn(
                                     "h-5 w-5",
-                                    disabled ? "text-neutral-60" : isFocused ? "text-green-50" : "text-green-40"
+                                    disabled ? "text-neutral-60" : inputValue ? "text-green-50" : "text-green-40"
                                 )}
                             />
                         )}
