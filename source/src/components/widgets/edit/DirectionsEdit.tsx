@@ -52,9 +52,9 @@ export const DirectionEdit = () => {
     };
 
     const formSchema = z.object({
-        name: z.string().min(1, translate("resources.directions.errors.name")),
+        name: z.string().min(1, translate("resources.directions.errors.name")).trim(),
         active: z.boolean().default(false),
-        description: z.string().nullable(),
+        description: z.string().trim().nullable(),
         src_currency: z.string().min(1, translate("resources.directions.errors.src_curr")),
         dst_currency: z.string().min(1, translate("resources.directions.errors.dst_curr")),
         merchant: z.string().min(1, translate("resources.directions.errors.merchant")),
