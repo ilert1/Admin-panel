@@ -62,9 +62,9 @@ export const MerchantEdit = () => {
     };
 
     const formSchema = z.object({
-        id: z.string().min(1, translate("resources.merchants.errors.id")),
-        name: z.string().min(1, translate("resources.merchants.errors.name")),
-        description: z.string().nullable(),
+        id: z.string().min(1, translate("resources.merchants.errors.id")).trim(),
+        name: z.string().min(1, translate("resources.merchants.errors.name")).trim(),
+        description: z.string().trim().nullable(),
         keycloak_id: z
             .string()
             .nullable()

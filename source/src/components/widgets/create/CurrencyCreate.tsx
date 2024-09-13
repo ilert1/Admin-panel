@@ -38,7 +38,7 @@ export const CurrencyCreate = () => {
     const formSchema = z.object({
         code: z.string().min(1, translate("resources.currencies.errors.code")),
         position: z.enum([PositionEnum.AFTER, PositionEnum.BEFORE]),
-        symbol: z.string().nullable(),
+        symbol: z.string().trim().nullable(),
         is_coin: z.boolean().default(false)
     });
 

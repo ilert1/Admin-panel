@@ -61,7 +61,7 @@ export const ProvidersEdit = () => {
     };
 
     const formSchema = z.object({
-        name: z.string().min(1, translate("resources.merchants.errors.name")),
+        name: z.string().min(1, translate("resources.merchants.errors.name")).trim(),
         public_key: z.string().nullable(),
         fields_json_schema: z.string().optional().default(""),
         methods: z.string()
