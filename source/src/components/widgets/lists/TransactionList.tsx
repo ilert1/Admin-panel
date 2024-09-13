@@ -41,6 +41,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@/components/providers";
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
@@ -107,9 +108,11 @@ const TransactionFilterSidebar = () => {
     const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
 
     const [id, setId] = useState(filterValues?.id || "");
+    const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
     const [account, setAccount] = useState(filterValues?.account || "");
+    const { theme } = useTheme();
 
-    const onPropertySelected = debounce((value: Account | string, type: "id" | "account") => {
+    const onPropertySelected = debounce((value: Account | string, type: "id" | "customer_payment_id" | "account") => {
         if (value) {
             if (type === "account") {
                 value = (value as Account).id;
@@ -126,6 +129,11 @@ const TransactionFilterSidebar = () => {
         onPropertySelected(e.target.value, "id");
     };
 
+    const onCustomerPaymentIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        setCustomerPaymentId(e.target.value);
+        onPropertySelected(e.target.value, "customer_payment_id");
+    };
+
     const onAccountChanged = (account: Account | string) => {
         setAccount(account);
         onPropertySelected(account, "account");
@@ -134,15 +142,22 @@ const TransactionFilterSidebar = () => {
     const clearFilters = () => {
         setId("");
         setAccount("");
+        setCustomerPaymentId("");
         setFilters({}, displayedFilters);
     };
-
+    const borderColor = theme === "dark" ? "border-neutral-10" : "border-neutral-70";
+    const classNames = `sm:w-full flex flex-col sm:flex-row gap-4 border ${borderColor} shadow-4 rounded-md p-2`;
     return (
-        <div className="sm:w-full flex flex-col sm:flex-row gap-4">
+        <div className={classNames}>
             <Input
                 placeholder={translate("resources.transactions.filter.filterById")}
                 value={id}
                 onChange={onIdChanged}
+            />
+            <Input
+                placeholder={translate("resources.transactions.filter.filterCustomerPaymentId")}
+                value={customerPaymentId}
+                onChange={onCustomerPaymentIdChanged}
             />
             {adminOnly && (
                 <Select onValueChange={onAccountChanged} value={account}>
@@ -159,7 +174,11 @@ const TransactionFilterSidebar = () => {
                     </SelectContent>
                 </Select>
             )}
-            <Button onClick={clearFilters} variant="secondary" size="sm" disabled={!id && !account}>
+            <Button
+                onClick={clearFilters}
+                variant="secondary"
+                size="sm"
+                disabled={!id && !account && !customerPaymentId}>
                 {translate("resources.transactions.filter.clearFilters")}
             </Button>
         </div>
@@ -174,7 +193,7 @@ export const TransactionList = () => {
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
-    const { startDate, endDate, handleSelectedIdChange, setStartDate, setEndDate, handleDownload } =
+    const { startDate, endDate, reqId, handleSelectedIdChange, setStartDate, setEndDate, handleDownload } =
         useReportDownload();
 
     const { data: currencies } = useQuery("currencies", () =>
@@ -192,6 +211,7 @@ export const TransactionList = () => {
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
     const navigate = useNavigate();
+    const { theme } = useTheme();
 
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");
@@ -205,12 +225,25 @@ export const TransactionList = () => {
 
     const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
 
+    const borderColor = theme === "dark" ? "border-neutral-10" : "border-neutral-70";
+    const classNames = `flex flex-col sm:flex-row sm:items-center gap-4 mt-4 border ${borderColor} shadow-4 rounded-md p-2`;
+
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
             accessorKey: "id",
             header: translate("resources.transactions.fields.id"),
-            cell: ({ row }) => <TextField text={row.original.id} copyValue />,
+            cell: ({ row }) => <TextField text={row.original.id} wrap copyValue />,
             filterFn: "includesString"
+        },
+        {
+            accessorKey: "meta.customer_id",
+            header: translate("resources.transactions.fields.meta.customer_id"),
+            cell: ({ row }) => <TextField text={row.original.meta.customer_id} />
+        },
+        {
+            accessorKey: "meta.customer_payment_id",
+            header: translate("resources.transactions.fields.meta.customer_payment_id"),
+            cell: ({ row }) => <TextField text={row.original.meta.customer_payment_id} wrap copyValue />
         },
         {
             accessorKey: "type",
@@ -275,7 +308,7 @@ export const TransactionList = () => {
                     <RecordContextProvider value={row.original}>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="h-8 w-8 p-0">
+                                <Button variant="secondary" className="h-8 w-8 p-0">
                                     <span className="sr-only">Open menu</span>
                                     <MoreHorizontal className="h-4 w-4" />
                                 </Button>
@@ -308,7 +341,7 @@ export const TransactionList = () => {
                 <ListContextProvider value={listContext}>
                     <div className="mb-10 mt-5">
                         <TransactionFilterSidebar />
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-4">
+                        <div className={classNames}>
                             <DatePicker
                                 placeholder={translate("resources.transactions.download.startDate")}
                                 date={startDate}
@@ -338,7 +371,11 @@ export const TransactionList = () => {
                                     </SelectContent>
                                 </Select>
                             )}
-                            <Button onClick={handleDownload} variant="default" size="sm">
+                            <Button
+                                onClick={handleDownload}
+                                variant="default"
+                                size="sm"
+                                disabled={reqId ? false : true}>
                                 {translate("resources.transactions.download.downloadReportButtonText")}
                             </Button>
                         </div>

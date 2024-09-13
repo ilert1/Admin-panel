@@ -114,6 +114,15 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                             copyValue
                         />
                         <TextField
+                            label={translate("resources.transactions.fields.meta.customer_id")}
+                            text={context.record.meta.customer_id}
+                        />
+                        <TextField
+                            label={translate("resources.transactions.fields.meta.customer_payment_id")}
+                            text={context.record.meta.customer_payment_id}
+                            copyValue
+                        />
+                        <TextField
                             label={translate("resources.transactions.fields.type")}
                             text={data?.transactionTypes[context.record.type]?.type_descr}
                         />

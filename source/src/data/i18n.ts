@@ -22,7 +22,7 @@ const ru: TranslationMessages = {
                     value: "Сумма"
                 },
                 meta: {
-                    caption: "Пользователь"
+                    caption: "Имя"
                 }
             },
             showHeader: "Информация о счете",
@@ -33,12 +33,25 @@ const ru: TranslationMessages = {
             fields: {
                 id: "ID",
                 name: "Имя",
+                login: "Логин",
+                email: "Электронная почта",
+                currency: "Валюта",
                 created_at: "Дата создания",
                 active: "Активный",
-                public_key: "Публичный ключ"
+                public_key: "Публичный ключ",
+                shop_api_key: "Ключ API",
+                shop_sign_key: "Ключ подписи",
+                shop_balance_key: "Ключ баланса"
             },
+            createButton: "Создать пользователя",
             showHeader: "Информация о пользователе",
-            showDescription: "Подробная информация о пользователе с ID %{id}"
+            showDescription: "Подробная информация о пользователе с ID %{id}",
+            create: {
+                success: "Готово",
+                successMessage: "Пользователь создан",
+                error: "Ошибка",
+                errorMessage: "Не удалось создать пользователя"
+            }
         },
         transactions: {
             name: "Транзакция |||| Транзакции",
@@ -49,7 +62,9 @@ const ru: TranslationMessages = {
                 dispute: "Диспут",
                 meta: {
                     external_status: "Внешний статус",
-                    parentId: "ID родительской транзакции"
+                    parentId: "ID родительской транзакции",
+                    customer_payment_id: "ID платежа клиента",
+                    customer_id: "ID клиента"
                 },
                 state: {
                     title: "Состояние",
@@ -93,7 +108,6 @@ const ru: TranslationMessages = {
             },
             show: {
                 statusButton: "Ручной перевод в статус",
-                save: "Сохранить",
                 cancel: "Отмена",
                 success: "Успешно",
                 error: "Ошибка",
@@ -133,7 +147,8 @@ const ru: TranslationMessages = {
             filter: {
                 filterById: "Поиск по ID",
                 filterByAccount: "Поиск по счету",
-                clearFilters: "Сбросить фильтры"
+                clearFilters: "Сбросить фильтры",
+                filterCustomerPaymentId: "Поиск по ID платежа клиента"
             }
         },
         withdraw: {
@@ -153,6 +168,111 @@ const ru: TranslationMessages = {
                     hash_link: "Ссылка Tronscan"
                 }
             }
+        },
+        currencies: {
+            fields: {
+                currency: "Валюта",
+                type: "Тип",
+                symbPos: "Позиция символа",
+                symbol: "Символ",
+                fiat: "ФИАТ",
+                crypto: "Криптовалюта",
+                before: "Перед значением",
+                after: "После значения",
+                currencyName: "Название валюты"
+            },
+            error: {
+                code: "Код валюты обязательно нужно ввести",
+                alreadyInUse: "Данное имя уже тспользуется. Выберите другое."
+            },
+            create: "Добавить новую валюту",
+            showTitle: "Детальная информацию о валюте",
+            showDescription: "Детальная информацию о валюте"
+        },
+        merchants: {
+            fields: {
+                id: "ID",
+                name: "Имя",
+                descr: "Описание"
+            },
+            errors: {
+                id: "ID обязательно должен быть заполнен",
+                name: "У мерчанта обязательно должно быть имя",
+                alreadyInUse: "Мерчант с таким именем или Id уже существует",
+                noSpaces: "Пробелы запрещены в данном поле"
+            },
+            showTitle: "Детальная инфорация о мерчанте",
+            createNew: "Создать нового мерчанта"
+        },
+        providers: {
+            fields: {
+                name: "Название провайдера",
+                pk: "Публичный ключ",
+                genKey: "Создать ключи",
+                keyMiss: "Ключ отсутсвует",
+                regenKey: "Пересоздать ключи",
+                json_schema: "Схема Json",
+                code: "Методы",
+                enterMethods: "Введите свои методы"
+            },
+            errors: {
+                name: "Имя должно содержать хотя бы один символ",
+                alreadyInUse: "Данное имя уже используется․ Выберите другой."
+            },
+            showTitle: "Детальная информация о провайдере",
+            createNew: "Создать нового провайдера",
+            createTestKeys: "Создать тестовые ключи",
+            attention: "Внимание",
+            warning:
+                "Приватный ключ будет показан только ОДИН раз. Скопируйте, сохраните и отправьте ключ DevOps инженеру",
+            pleaseCreate: "Пожалуйста создайте ключи на странице с таблицей провайдеров",
+            pleaseWait: "Пожалуйста подождите",
+            clickToCopy: "Это ваш приватный ключ. Нажмите на кнопку чтобы скопировать ключ, или скопируйте вручную.",
+            continue: "Продолжить",
+            close: "Закрыть",
+            privateKey: "Приватный ключ"
+        },
+        directions: {
+            fields: {
+                name: "Название направления",
+                active: "Состояние",
+                srcCurr: "Исходная валюта",
+                destCurr: "Конечная валюта",
+                merchant: "Мерчант",
+                id: "Идентификатор направления",
+                auth_data: "Информация об аутентификации",
+                pleaseGen: "Пожалуйста, создайте ключи в провайдерах",
+                stateActive: "Активный",
+                stateInactive: "Не активный",
+                description: "Описание",
+                api_key: "Информация об аутентификации",
+                merchantsDirections: "Направления мерчанта "
+            },
+            errors: {
+                name: "У направления обязательно должно быть имя",
+                src_curr: "Исходная валюта обязательно должна быть выбрана",
+                dst_curr: "Конечная валюта обязательно должна быть выбрана",
+                merchant: "Мерчант обязательно должен быть выбран",
+                provider: "Провайдер обязательно должен быть выбран",
+                authError: "Ошибка при добавлении информации об аутентификации"
+            },
+            create: "Создать новое направление",
+            sourceCurrency: "Исходящая валюта",
+            destinationCurrency: "Конечная валюта",
+            selectSourceCurrency: "Выбрать исходящую валюту",
+            selectDestCurrency: "Выбрать конечную валюту",
+            merchant: "Мерчант",
+            provider: "Провайдер",
+            weight: "Вес",
+            description: "Описание",
+            writeSecretPhrase: "Напишите информацию об аутентификации и нажмите сохранить",
+            secretHelper: "Ожидается валидный JSON объект",
+            note: "Внимание: Вы не можете использовать для направления провайдера, для которого нет ключа",
+            addedSuccess: "Аутентификационная информация была добавлена",
+            pleaseCreate: "Пожалуйста добавьте аутентификационную информацию на странице с таблицей",
+            noProviders: "Нет доступных провайдеров",
+            noMerchants: "Нет доступных мерчантов",
+            noCurrencies: "Нет доступных валют"
         }
     },
     app: {
@@ -164,12 +284,23 @@ const ru: TranslationMessages = {
             bankTransfer: "Банковский перевод",
             cryptoWalletTransfer: "Перевод криптовалюты",
             withdraw: "Вывод в криптовалюте",
-            users: "Пользователи"
+            users: "Пользователи",
+            currencies: "Валюты",
+            merchant: "Мерчанты",
+            providers: "Провайдеры",
+            directions: "Направления"
         },
         ui: {
             actions: {
                 quick_show: "Быстрый просмотр",
-                show: "Просмотр"
+                show: "Просмотр",
+                edit: "Изменить",
+                delete: "Удалить",
+                save: "Сохранить",
+                addSecretKey: "Добавить аутентификационную инфорамцию",
+                changeSecretKey: "Изменить аутентификационную инфорамцию",
+                cancel: "Отменить",
+                areYouSure: "Вы точно хотите удалить элемент?"
             },
             pagination: {
                 next: "Далее",
@@ -177,6 +308,9 @@ const ru: TranslationMessages = {
             },
             textField: {
                 copied: "Скопировано"
+            },
+            delete: {
+                deletedSuccessfully: "Элемент удален успешно"
             }
         },
         theme: {
@@ -223,6 +357,27 @@ const ru: TranslationMessages = {
                     commission: "Комиссия",
                     totalAmount: "Сумма выплаты",
                     allAmount: "Вся сумма %{amount} USD₮"
+                },
+                userCreate: {
+                    name: "Имя",
+                    nameMessage: "Пожалуйста, введите имя мерчанта",
+                    login: "Логин",
+                    loginMessage: "Пожалуйста, введите логин мерчанта",
+                    email: "Адрес эл.почты",
+                    emailMessage: "Неправильный формат адреса",
+                    password: "Пароль",
+                    passwordMessage:
+                        "Пароль должен состоять минимум из 8 символов, включая хотя бы одну строчную и прописную букву, а также специальный символ !@#$%^&*()-_",
+                    publicKey: "Публичный ключ(скопируйте или перенесите файл ключа)",
+                    publicKeyMessage: "Неверный формат публичного ключа",
+                    shopCurrency: "Валюта",
+                    shopCurrencyPlaceholder: "Выберите валюту",
+                    shopCurrencyMessage: "Неизвестная валюта",
+                    shopApiKey: "API ключ",
+                    shopSignKey: "Ключ проверки подписи",
+                    shopBalanceKey: "Ключ доступа к балансу",
+                    keyMessage: "Неверный формат ключа",
+                    createUser: "Создать пользователя"
                 }
             }
         }
@@ -259,7 +414,7 @@ const en: TranslationMessages = {
                     value: "Value"
                 },
                 meta: {
-                    caption: "User"
+                    caption: "Name"
                 }
             },
             showHeader: "Account info",
@@ -270,12 +425,25 @@ const en: TranslationMessages = {
             fields: {
                 id: "ID",
                 name: "Name",
+                login: "Login",
+                email: "Email",
+                currency: "Currency",
                 created_at: "Created at",
                 active: "Active",
-                public_key: "Public key"
+                public_key: "Public key",
+                shop_api_key: "API key",
+                shop_sign_key: "Sign key",
+                shop_balance_key: "Balance key"
             },
+            createButton: "Create user",
             showHeader: "User info",
-            showDescription: "Detailed information about user with ID %{id}"
+            showDescription: "Detailed information about user with ID %{id}",
+            create: {
+                success: "Success",
+                successMessage: "User is created",
+                error: "Error",
+                errorMessage: "Failed to create user"
+            }
         },
         transactions: {
             name: "Transaction |||| Transactions",
@@ -286,7 +454,9 @@ const en: TranslationMessages = {
                 dispute: "Dispute",
                 meta: {
                     external_status: "External status",
-                    parentId: "Parent transaction ID"
+                    parentId: "Parent transaction ID",
+                    customer_payment_id: "Customer payment ID",
+                    customer_id: "Customer ID"
                 },
                 state: {
                     title: "State",
@@ -330,7 +500,6 @@ const en: TranslationMessages = {
             },
             show: {
                 statusButton: "Manual change status",
-                save: "Save",
                 cancel: "Cancel",
                 success: "Success",
                 error: "Error",
@@ -370,7 +539,8 @@ const en: TranslationMessages = {
             filter: {
                 filterById: "Search by ID",
                 filterByAccount: "Search by account",
-                clearFilters: "Clear filters"
+                clearFilters: "Clear filters",
+                filterCustomerPaymentId: "Search by customer payment ID"
             }
         },
         withdraw: {
@@ -390,6 +560,111 @@ const en: TranslationMessages = {
                     hash_link: "Tronscan link"
                 }
             }
+        },
+        currencies: {
+            fields: {
+                currency: "Currency",
+                type: "Type",
+                symbPos: "Symbol Position",
+                symbol: "Symbol",
+                fiat: "FIAT",
+                crypto: "Cryptocurrency",
+                before: "Before value",
+                after: "After value",
+                currencyName: "Currency name"
+            },
+            errors: {
+                code: "Code is required",
+                alreadyInUse: "This name is already in use. Choose another one."
+            },
+            create: "Add new currency",
+            showTitle: "Detailed information about currency",
+            showDescription: "Detailed information about currency"
+        },
+        merchants: {
+            fields: {
+                id: "ID",
+                name: "Name",
+                descr: "Description"
+            },
+            errors: {
+                id: "ID is required",
+                name: "Name is required",
+                alreadyInUse: "Merchant with this id or name is already exists.",
+                noSpaces: "Spaces are not allowed in this field"
+            },
+            showTitle: "Detailed information about merchant",
+            createNew: "Create new merchant"
+        },
+        providers: {
+            fields: {
+                name: "Providers' name",
+                pk: "Public key",
+                genKey: "Generate keys",
+                keyMiss: "The key is missing",
+                regenKey: "Regenerate keys",
+                json_schema: "Json schema",
+                code: "Methods",
+                enterMethods: "Enter your methods"
+            },
+            errors: {
+                name: "Name must contain at least 1 symbol",
+                alreadyInUse: "This name is already in use. Choose another one."
+            },
+            showTitle: "Detailed information about provider",
+            createNew: "Create new provider",
+            createTestKeys: "Create test keys",
+            attention: "Attention",
+            warning: "Private key will be shown ONLY 1 time. Copy, save it and send to DevOps engineer",
+            pleaseCreate: "Please create keys on the page with providers table",
+            pleaseWait: "Please wait",
+            clickToCopy: "This is your private key.\n Click button to copy or copy manually.",
+            continue: "Continue",
+            close: "Close",
+            privateKey: "Private key"
+        },
+        directions: {
+            fields: {
+                name: "Directions name",
+                active: "State",
+                srcCurr: "Source currency",
+                destCurr: "Destination currency",
+                merchant: "Merchant",
+                id: "Directions id",
+                auth_data: "Authentication data",
+                pleaseGen: "Please create keys in providers",
+                stateActive: "Active",
+                stateInactive: "Inactive",
+                description: "Description",
+                api_key: "Auth data",
+                merchantsDirections: "Directions of merchant "
+            },
+            errors: {
+                name: "The direction must have a name",
+                src_curr: "The source currency must be selected",
+                dst_curr: "The destination currency must be selected",
+                merchant: "The merchant must be selected",
+                provider: "The provider must be selected",
+                authError: "An error has occurred while adding authentication information"
+            },
+            create: "Create new direction",
+            sourceCurrency: "Source currency",
+            destinationCurrency: "Destination currency",
+            selectSourceCurrency: "Choose source currency",
+            selectDestCurrency: "Choose destination currency",
+            merchant: "Merchant",
+            weight: "Weight",
+            provider: "Provider",
+            description: "Description",
+            writeSecretPhrase: "Write auth data for direction and click save.",
+            secretHelper: "Expected valid JSON object",
+            enterSecretPhrase: "Enter secret phrase",
+            note: "Note: You cannot use a provider for direction that does not have a key",
+            addedSuccess: "Auth data has been added successfully",
+            pleaseCreate: "Please add auth data on the page with table",
+            noProviders: "No available providers",
+            noMerchants: "No available merchants",
+            noCurrencies: "No available currencies"
         }
     },
     app: {
@@ -401,12 +676,23 @@ const en: TranslationMessages = {
             bankTransfer: "Bank Transfer",
             cryptoWalletTransfer: "Crypto Wallet Transfer",
             withdraw: "Crypto Withdrawal",
-            users: "Users"
+            users: "Users",
+            currencies: "Currencies",
+            merchant: "Merchants",
+            providers: "Providers",
+            directions: "Directions"
         },
         ui: {
             actions: {
                 quick_show: "Quick show",
-                show: "Show"
+                show: "Show",
+                edit: "Edit",
+                delete: "Delete",
+                save: "Save",
+                addSecretKey: "Add auth data",
+                changeSecretKey: "Change auth data",
+                cancel: "Cancel",
+                areYouSure: "Are you sure you want delete this element?"
             },
             pagination: {
                 next: "Next",
@@ -414,6 +700,9 @@ const en: TranslationMessages = {
             },
             textField: {
                 copied: "Copied"
+            },
+            delete: {
+                deletedSuccessfully: "Deleted successfully"
             }
         },
         theme: {
@@ -460,6 +749,27 @@ const en: TranslationMessages = {
                     commission: "Commission",
                     totalAmount: "Total amount",
                     allAmount: "All amount %{amount} USD₮"
+                },
+                userCreate: {
+                    name: "Name",
+                    nameMessage: "Please, enter merchant's name",
+                    login: "Login",
+                    loginMessage: "Please, enter merchant's login",
+                    email: "Email",
+                    emailMessage: "Email is incorrect",
+                    password: "Password",
+                    passwordMessage:
+                        "Password must be at least 8 symbols, including at least one lowercase and uppercase letter, also one special symbol !@#$%^&*()-_",
+                    publicKey: "Public key(copy or drag&drop)",
+                    publicKeyMessage: "Wrong public key format",
+                    shopCurrency: "Currency",
+                    shopCurrencyPlaceholder: "Choose currency",
+                    shopCurrencyMessage: "Unknown currency",
+                    shopApiKey: "API key",
+                    shopSignKey: "Sign key",
+                    shopBalanceKey: "Balance key",
+                    keyMessage: "Key format is wrong",
+                    createUser: "Create user"
                 }
             }
         }

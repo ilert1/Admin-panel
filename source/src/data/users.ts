@@ -1,4 +1,12 @@
-import { fetchUtils, GetListParams, GetListResult, GetOneParams, GetOneResult } from "react-admin";
+import {
+    CreateParams,
+    CreateResult,
+    fetchUtils,
+    GetListParams,
+    GetListResult,
+    GetOneParams,
+    GetOneResult
+} from "react-admin";
 import { BaseDataProvider, BF_MANAGER_URL } from "./base";
 
 export class UsersDataProvider extends BaseDataProvider {
@@ -24,5 +32,13 @@ export class UsersDataProvider extends BaseDataProvider {
         return {
             data: json.data
         };
+    }
+    async create(resource: string, params: CreateParams): Promise<CreateResult> {
+        const { json } = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/${resource}`, {
+            method: "POST",
+            body: JSON.stringify(params.data),
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        });
+        return { data: json.data };
     }
 }

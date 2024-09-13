@@ -124,7 +124,9 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                                     <span className="sr-only">{translate("app.menu.dashboard")}</span>
                                 </NavLink>
                             </TooltipTrigger>
-                            <TooltipContent side="right">{translate("app.menu.dashboard")}</TooltipContent>
+                            <TooltipContent className="border-tooltip-info_bold" side="right">
+                                {translate("app.menu.dashboard")}
+                            </TooltipContent>
                         </Tooltip>
                         {Object.keys(resources).map(resource => (
                             <Tooltip key={resource}>
@@ -136,7 +138,7 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                                         <span className="sr-only">{getResourceLabel(resources[resource].name)}</span>
                                     </NavLink>
                                 </TooltipTrigger>
-                                <TooltipContent side="right">
+                                <TooltipContent className="border-tooltip-info_bold" side="right">
                                     {getResourceLabel(resources[resource].name)}
                                 </TooltipContent>
                             </Tooltip>
@@ -152,7 +154,9 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                                             <span className="sr-only">{translate("app.menu.bankTransfer")}</span>
                                         </NavLink>
                                     </TooltipTrigger>
-                                    <TooltipContent side="right">{translate("app.menu.bankTransfer")}</TooltipContent>
+                                    <TooltipContent className="border-tooltip-info_bold" side="right">
+                                        {translate("app.menu.bankTransfer")}
+                                    </TooltipContent>
                                 </Tooltip>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
@@ -165,7 +169,7 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                                             </span>
                                         </NavLink>
                                     </TooltipTrigger>
-                                    <TooltipContent side="right">
+                                    <TooltipContent className="border-tooltip-info_bold" side="right">
                                         {translate("app.menu.cryptoWalletTransfer")}
                                     </TooltipContent>
                                 </Tooltip>
@@ -185,7 +189,7 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                                     </span>
                                 </NavLink>
                             </TooltipTrigger>
-                            <TooltipContent side="right">
+                            <TooltipContent className="border-tooltip-info_bold" side="right">
                                 {theme === "dark" ? translate("app.theme.dark") : translate("app.theme.light")}
                             </TooltipContent>
                         </Tooltip>

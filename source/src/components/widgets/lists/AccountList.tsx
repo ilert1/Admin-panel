@@ -35,14 +35,14 @@ export const AccountList = () => {
 
     const columns: ColumnDef<Account>[] = [
         {
-            id: "user",
+            id: "name",
             accessorKey: "meta.caption",
             header: translate("resources.accounts.fields.meta.caption"),
             cell: ({ row }) => (
                 <TextField
-                    text={row.getValue("user")}
+                    text={row.getValue("name")}
                     type="internal-link"
-                    link={`/users/${row.original.owner_id}/show`}
+                    link={`/accounts/${row.original.owner_id}/show`}
                 />
             )
         },
@@ -69,7 +69,7 @@ export const AccountList = () => {
                 return (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
+                            <Button variant="secondary" className="h-8 w-8 p-0">
                                 <span className="sr-only">Open menu</span>
                                 <MoreHorizontal className="h-4 w-4" />
                             </Button>

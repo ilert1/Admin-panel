@@ -24,7 +24,7 @@ const useReportDownload = () => {
         if (!startDate || !endDate) {
             toast({
                 description: translate("resources.transactions.download.bothError"),
-                variant: "destructive",
+                variant: "error",
                 title: translate("resources.transactions.download.error")
             });
             return false;
@@ -32,7 +32,7 @@ const useReportDownload = () => {
         if (startDate.getTime() > Date.now() || endDate.getTime() > Date.now()) {
             toast({
                 description: translate("resources.transactions.download.dateExceed"),
-                variant: "destructive",
+                variant: "error",
                 title: translate("resources.transactions.download.error")
             });
             return false;
@@ -43,7 +43,7 @@ const useReportDownload = () => {
         if (!isValidDateRange) {
             toast({
                 description: translate("resources.transactions.download.greaterError"),
-                variant: "destructive",
+                variant: "error",
                 title: translate("resources.transactions.download.error")
             });
         }

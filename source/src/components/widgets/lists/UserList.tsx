@@ -61,7 +61,7 @@ export const UserList = () => {
                 return (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
+                            <Button variant="secondary" className="h-8 w-8 p-0">
                                 <span className="sr-only">Open menu</span>
                                 <MoreHorizontal className="h-4 w-4" />
                             </Button>
@@ -85,6 +85,11 @@ export const UserList = () => {
     } else {
         return (
             <>
+                <div className="mb-4 flex justify-end">
+                    <Button onClick={() => navigate(`/users/create`)}>
+                        {translate("resources.users.createButton")}
+                    </Button>
+                </div>
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />
                 </ListContextProvider>
@@ -100,7 +105,7 @@ export const UserList = () => {
                                 </SheetDescription>
                             </SheetHeader>
 
-                            <UserShow id={userId} />
+                            <UserShow id={userId} isBrief={true} />
                         </ScrollArea>
                     </SheetContent>
                 </Sheet>

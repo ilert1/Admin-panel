@@ -41,6 +41,8 @@ declare namespace Transaction {
         external_status_details: string;
         fail_url: string;
         success_url: string;
+        customer_id: string;
+        customer_payment_id: string;
     };
 
     type State = {
@@ -131,4 +133,62 @@ namespace Users {
         created_at: string;
         deleted_at: string;
     }
+}
+
+namespace Currencies {
+    enum PositionEnum {
+        BEFORE = "before",
+        AFTER = "after"
+    }
+
+    interface Currency {
+        symbol: string | null;
+        position: PositionEnum;
+        is_coin: boolean;
+        code: string;
+        id: string;
+    }
+}
+
+interface Merchant {
+    id: string;
+    name: string;
+    description: string | null;
+    keycloak_id: string | null;
+}
+
+interface Provider {
+    fields_json_schema: string;
+    public_key: string | null;
+    methods: Object<any>;
+    name: string;
+    id: string;
+}
+
+interface IGetKeys {
+    keypair: { private_key: string; public_key: string };
+    provider: Omit<Provider, "id">;
+}
+
+interface Direction {
+    id: string;
+    name: string;
+    description: string | null;
+    src_currency: Omit<Currencies.Currency, "id">;
+    dst_currency: Omit<Currencies.Currency, "id">;
+    merchant: Merchant;
+    provider: Omit<Provider, "id">;
+    auth_data: {};
+    weight: number;
+    fees: {};
+}
+
+interface DirectionCreate {
+    name: string;
+    description: string | null;
+    src_currency: string;
+    dst_currency: string;
+    merchant: string;
+    provider: string;
+    weight: number;
 }

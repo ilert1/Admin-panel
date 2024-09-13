@@ -8,12 +8,14 @@ export const TextField = ({
     label,
     link = "/",
     type = "text",
-    copyValue = false
+    copyValue = false,
+    wrap = false
 }: {
     text: string;
     label?: string | undefined;
     link?: string;
     type?: "text" | "link" | "internal-link";
+    wrap?: boolean;
     copyValue?: boolean;
 }) => {
     const currentText = useMemo(() => (text?.length > 0 ? text : "-"), [text]);
@@ -27,12 +29,20 @@ export const TextField = ({
         });
     }, [currentText]); // eslint-disable-line react-hooks/exhaustive-deps
 
+    const textStyle = () => {
+        if (wrap) {
+            return "overflow-hidden ellipsis max-w-[500px]";
+        }
+
+        return "truncate max-w-[500px]";
+    };
+
     return (
         <div>
             {label && <small className="text-sm text-muted-foreground">{label}</small>}
             {type === "text" && (
                 <p className="leading-5 flex flex-row gap-2">
-                    <span className={copyValue && text?.length > 0 ? "truncate max-w-[500px]" : ""}>{currentText}</span>
+                    <span className={textStyle()}>{currentText}</span>
                     {copyValue && text?.length > 0 && (
                         <span>
                             <Copy className="h-4 w-4 cursor-pointer" onClick={copy} />
