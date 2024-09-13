@@ -10,6 +10,7 @@ export const LoginPage = () => {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
+    const [formEnabled, setFormEnabled] = useState(true);
 
     const { theme } = useTheme();
     const translate = useTranslate();
@@ -17,9 +18,13 @@ export const LoginPage = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        login({ username, password }).catch(() => {
-            setError(translate("app.login.error"));
-        });
+        if (formEnabled) {
+            setFormEnabled(false);
+            login({ username, password }).catch(() => {
+                setError(translate("app.login.error"));
+                setFormEnabled(true);
+            });
+        }
     };
 
     const handleChange =
