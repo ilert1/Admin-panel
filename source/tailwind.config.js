@@ -71,6 +71,7 @@ module.exports = {
                     60: "hsl(var(--orange-60))",
                     70: "hsl(var(--orange-70))"
                 },
+                loginBG: "hsl(var(--loginBG))",
                 secondary: {
                     DEFAULT: "hsl(var(--secondary))",
                     foreground: "hsl(var(--secondary-foreground))"

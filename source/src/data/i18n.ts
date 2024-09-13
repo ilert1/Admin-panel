@@ -382,6 +382,12 @@ const ru: TranslationMessages = {
                     createUser: "Создать пользователя"
                 }
             }
+        },
+        login: {
+            usernameOrEmail: "Логин или e-mail",
+            password: "Пароль",
+            login: "Войти",
+            error: "Неправильный логин или пароль"
         }
     },
     pages: {
@@ -776,6 +782,12 @@ const en: TranslationMessages = {
                     createUser: "Create user"
                 }
             }
+        },
+        login: {
+            usernameOrEmail: "Username or e-mail",
+            password: "Password",
+            login: "Login",
+            error: "Invalid username or password"
         }
     },
     pages: {
