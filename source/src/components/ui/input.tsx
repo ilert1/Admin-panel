@@ -12,7 +12,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         const [showPassword, setShowPassword] = React.useState(false);
         const [isFocused, setIsFocused] = React.useState(false);
-        const [isHoveringInput, setIsHoveringInput] = React.useState(false);
+        // const [isHoveringInput, setIsHoveringInput] = React.useState(false);
 
         const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -34,13 +34,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             }
         };
 
-        const showClearButton = inputValue && (isFocused || isHoveringInput);
+        const showClearButton = inputValue && (isFocused /* || isHoveringInput */);
 
         return (
             <div
                 className="relative flex items-center w-full"
-                onMouseEnter={() => setIsHoveringInput(true)}
-                onMouseLeave={() => setIsHoveringInput(false)}>
+                /* onMouseEnter={() => setIsHoveringInput(true)}
+                onMouseLeave={() => setIsHoveringInput(false)} */>
                 <input
                     type={type === "password" && showPassword ? "text" : type}
                     value={inputValue}
