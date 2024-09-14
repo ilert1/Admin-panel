@@ -12,8 +12,9 @@
                 margin: 0;
                 padding: 0;
                 font-family: sans-serif;
+                background-color: rgba(19, 35, 44, 1);
             }
-            .spinner-container {
+            .loader-container {
                 position: fixed;
                 inset: 0;
                 display: flex;
@@ -25,13 +26,13 @@
                 background-color: rgba(19, 35, 44, 1);
             }
 
-            .spinner {
+            .loader {
                 width: 6rem; /* Equivalent to w-24 */
                 height: 6rem; /* Equivalent to h-24 */
                 animation: spin 1.5s linear infinite;
             }
 
-            .spinner-circle {
+            .loader-circle {
                 stroke-dasharray: 282.7;
                 stroke-dashoffset: 70.68;
             }
@@ -54,7 +55,30 @@
 
     <body>
         <noscript> You need to enable JavaScript to run this app. </noscript>
-        <div id="root"></div>
+        <div id="root">
+            <div class="loader-container">
+                <div class="loader">
+                    <svg viewBox="0 0 100 100">
+                        <defs>
+                            <linearGradient id="spinner-gradient" x1="0%" y1="0%" x2="100%">
+                                <stop offset="28.01%" stop-color="#57CD8C"></stop>
+                                <stop offset="69.22%" stop-color="#237648"></stop>
+                            </linearGradient>
+                        </defs>
+                        <circle
+                            class="loader-circle"
+                            fill="none"
+                            stroke="url(#spinner-gradient)"
+                            cx="50"
+                            cy="50"
+                            r="45"
+                            stroke-width="10"
+                            stroke-linecap="round"
+                        ></circle>
+                    </svg>
+                </div>
+            </div>
+        </div>
     </body>
     <script type="module" src="/src/index.tsx"></script>
 </html>
