@@ -1,32 +1,33 @@
-export const Loading = () => {
+export const InitLoading = () => {
     return (
         <div
             className="fixed inset-0 flex items-center justify-center"
             style={{
-                backgroundImage: `url('/LoginBackground.png')`, // Замените на путь к вашей картинке
+                backgroundImage: 'url("/LoginBackground.png")',
+                backgroundColor: "rgba(19, 35, 44, 1)",
                 backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundColor: "rgba(19, 35, 44, 1)"
-            }}>
-            <RingSpinner />
-        </div>
-    );
-};
-export const LoadingAlertDialog = () => {
-    return (
-        <div
-            className="flex justify-center items-center h-full w-full"
-            style={{
-                backgroundImage: `url('/path/to/your/background-image.jpg')`, // Замените на путь к вашей картинке
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundColor: "rgba(19, 35, 44, 1)"
+                backgroundRepeat: "no-repeat"
             }}>
             <RingSpinner />
         </div>
     );
 };
 
+export const Loading = () => {
+    return (
+        <div className="fixed inset-0 flex items-center justify-center">
+            <RingSpinner />
+        </div>
+    );
+};
+
+export const LoadingAlertDialog = () => {
+    return (
+        <div className="flex justify-center items-center h-full w-full">
+            <RingSpinner />
+        </div>
+    );
+};
 export const RingSpinner = () => {
     return (
         <svg className={`animate-spin w-24 h-24`} viewBox="0 0 100 100">
