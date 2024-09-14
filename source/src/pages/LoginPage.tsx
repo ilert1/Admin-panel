@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useLogin, useTranslate } from "react-admin";
+import { useLogin, useTranslate, useLoading } from "react-admin";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/providers";
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Loading } from "@/components/ui/loading";
 
 export const LoginPage = () => {
     const [username, setUsername] = useState("");
@@ -11,7 +12,7 @@ export const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
     const [formEnabled, setFormEnabled] = useState(true);
-
+    const isLoading = useLoading();
     const { theme } = useTheme();
     const translate = useTranslate();
     const login = useLogin();

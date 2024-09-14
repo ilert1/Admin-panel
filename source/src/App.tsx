@@ -47,6 +47,7 @@ import {
 } from "./components/widgets/show";
 import { CurrencyIcon } from "lucide-react";
 import { CurrencyEdit, MerchantEdit, ProvidersEdit } from "./components/widgets/edit";
+import { Loading } from "./components/ui/loading";
 
 const dataProvider = combineDataProviders((resource: string) => {
     if (resource === "transactions") {
@@ -73,6 +74,7 @@ export const App = () => {
                 <CoreAdminUI
                     dashboard={Dashboard}
                     layout={MainLayout}
+                    loading={Loading}
                     title="Juggler"
                     requireAuth
                     loginPage={LoginPage}>
