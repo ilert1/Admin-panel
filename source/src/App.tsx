@@ -94,6 +94,7 @@ const config: KeycloakConfig = {
 
 export const App = () => {
     const [keycloak, setKeycloak] = useState<Keycloak>();
+    console.log(keycloak);
     const authProvider = useRef<AuthProvider>();
 
     useEffect(() => {
@@ -129,7 +130,11 @@ export const App = () => {
                     i18nProvider={i18nProvider}
                     dataProvider={dataProvider}
                     authProvider={authProvider.current}>
-                    <CoreAdminUI dashboard={Dashboard} layout={MainLayout} title="Juggler" requireAuth>
+                    <CoreAdminUI
+                        // dashboard={Dashboard}
+                        layout={MainLayout}
+                        title="Juggler"
+                        requireAuth>
                         {(permissions: string) => (
                             <>
                                 <Resource

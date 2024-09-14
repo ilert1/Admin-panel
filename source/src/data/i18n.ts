@@ -287,7 +287,7 @@ const ru: TranslationMessages = {
             cryptoWalletTransfer: "Перевод криптовалюты",
             withdraw: "Вывод в криптовалюте",
             users: "Пользователи",
-            currencies: "Валюты",
+            currency: "Валюты",
             merchant: "Мерчанты",
             providers: "Провайдеры",
             directions: "Направления"
@@ -316,8 +316,8 @@ const ru: TranslationMessages = {
             }
         },
         theme: {
-            light: "Включить темную тему",
-            dark: "Включить светлую тему"
+            light: "Светлая тема",
+            dark: "Темная тема"
         },
         widgets: {
             forms: {
@@ -681,7 +681,7 @@ const en: TranslationMessages = {
             cryptoWalletTransfer: "Crypto Wallet Transfer",
             withdraw: "Crypto Withdrawal",
             users: "Users",
-            currencies: "Currencies",
+            currency: "Currencies",
             merchant: "Merchants",
             providers: "Providers",
             directions: "Directions"
@@ -710,8 +710,8 @@ const en: TranslationMessages = {
             }
         },
         theme: {
-            light: "Toggle dark theme",
-            dark: "Toggle light theme"
+            light: "Light theme",
+            dark: "Dark theme"
         },
         widgets: {
             forms: {
