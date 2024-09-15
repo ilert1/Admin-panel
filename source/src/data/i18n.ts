@@ -289,8 +289,8 @@ const ru: TranslationMessages = {
             users: "Пользователи",
             currency: "Валюты",
             merchant: "Мерчанты",
-            providers: "Провайдеры",
-            directions: "Направления"
+            provider: "Провайдеры",
+            direction: "Направления"
         },
         ui: {
             actions: {
@@ -683,8 +683,8 @@ const en: TranslationMessages = {
             users: "Users",
             currency: "Currencies",
             merchant: "Merchants",
-            providers: "Providers",
-            directions: "Directions"
+            provider: "Providers",
+            direction: "Directions"
         },
         ui: {
             actions: {
