@@ -1,10 +1,11 @@
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { MessagesSquareIcon, Send, XIcon } from "lucide-react"; // используем XIcon для кастомной кнопки закрытия
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Avatar } from "../ui/avatar";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Message } from "../ui/Message";
+import { Message, MessageProps } from "./Message";
+import { getMockMessages } from "@/data/mockMessages";
 
 // export interface ChatSheetProps {
 //     open?: boolean;
@@ -12,9 +13,37 @@ import { Message } from "../ui/Message";
 
 export const ChatSheet = () => {
     const [conversationOpen, setConversationOpen] = useState(false);
+    const [messages, setMessages] = useState<MessageProps[]>([]);
     const [message, setMessage] = useState("");
 
-    const handleSendClicked = () => {};
+    useEffect(() => {
+        setMessages(getMockMessages());
+    }, []);
+
+    const handleSendClicked = () => {
+        setMessages(prevMessages => [...prevMessages, { text: message, icon: false, isUserMessage: true }]);
+        setMessage("");
+    };
+
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
+    const addSupportMessage = (text: string) => {
+        setMessages(prevMessages => [...prevMessages, { text, icon: true, isUserMessage: false }]);
+    };
+
+    useEffect(() => {
+        window.addSupportMessage = addSupportMessage;
+
+        // Очистить свойство, когда компонент размонтируется (на случай перезаписи или утечек)
+    }, []);
 
     return (
         <Sheet onOpenChange={() => setConversationOpen(prev => !prev)} open={conversationOpen}>
@@ -44,13 +73,15 @@ export const ChatSheet = () => {
                     </div>
                 </SheetHeader>
                 <SheetDescription className="flex flex-col" style={{ height: "calc(100vh - 144px)" }}>
-                    <div className="bg-neutral-0 flex-auto overflow-y-auto pb-4">
-                        <Message text="Привет! Здесь можно задать любой вопрос asdas das dasd" icon={true} />
-                        <Message
-                            text="Вы можете перейти в раздел “История операций” в боковом меню и увидеть статус всех операций"
-                            isUserMessage={true}
-                            icon={false}
-                        />
+                    <div className="bg-neutral-0 flex-auto overflow-y-auto pb-4" ref={messagesEndRef}>
+                        {messages.map((message, index) => (
+                            <Message
+                                key={index}
+                                text={message.text}
+                                icon={message.icon}
+                                isUserMessage={message.isUserMessage}
+                            />
+                        ))}
                     </div>
                     <div
                         className="h-[92px] bg-neutral-10 px-4 flex items-center gap-4"

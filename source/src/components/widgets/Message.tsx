@@ -1,5 +1,6 @@
-import { TextField } from "./text-field";
-import { MessageIcon } from "./MessageIcon";
+import { TextField } from "../ui/text-field";
+import { MessageIcon } from "../ui/MessageIcon";
+import { MessageTime } from "../ui/MessageTime";
 
 export interface MessageProps {
     text: string;
@@ -9,8 +10,6 @@ export interface MessageProps {
 
 export const Message = (props: MessageProps) => {
     const { text = "", icon, isUserMessage = false } = props;
-    const hours = new Date().getHours().toString().padStart(2, "0");
-    const minutes = new Date().getMinutes().toString().padStart(2, "0");
 
     return (
         <>
@@ -23,9 +22,7 @@ export const Message = (props: MessageProps) => {
                             style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}>
                             <TextField text={text} wrap={true} />
                         </div>
-                        <span className="text-xs text-neutral-500 mt-1">
-                            {hours}:{minutes} AM
-                        </span>
+                        <MessageTime />
                     </div>
                 </div>
             )}
@@ -38,9 +35,7 @@ export const Message = (props: MessageProps) => {
                                 <TextField text={text} wrap={true} />
                             </div>
                         </div>
-                        <span className="text-xs text-neutral-500 mt-1">
-                            {hours}:{minutes} AM
-                        </span>
+                        <MessageTime />
                     </div>
                     {icon && <MessageIcon />}
                 </div>
