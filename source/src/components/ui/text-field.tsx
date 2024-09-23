@@ -33,6 +33,9 @@ export const TextField = ({
         if (wrap) {
             return "overflow-hidden ellipsis max-w-[500px]";
         }
+        // if (wrap) {
+        //     return "break-words whitespace-normal max-w-[500px]";
+        // }
 
         return "truncate max-w-[500px]";
     };

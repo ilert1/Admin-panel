@@ -34,6 +34,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Logo from "@/lib/icons/Logo";
 import LogoPicture from "@/lib/icons/LogoPicture";
 import Blowfish from "@/lib/icons/Blowfish";
+import { ChatSheet } from "@/components/widgets/ChatSheet";
 
 enum SplitLocations {
     show = "show",
@@ -75,7 +76,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     );
 
     const [profileOpen, setProfileOpen] = useState(false);
-    const [conversationOpen, setConversationOpen] = useState(false);
+
     const [langOpen, setLangOpen] = useState(false);
 
     useEffect(() => {
@@ -277,19 +278,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
-                                <DropdownMenu onOpenChange={setConversationOpen} modal={false}>
-                                    <DropdownMenuTrigger asChild>
-                                        <Avatar
-                                            className={
-                                                conversationOpen
-                                                    ? "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
-                                                    : "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-green-50 hover:text-neutral-100 border-2 border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
-                                            }>
-                                            <MessagesSquareIcon className="h-[30px] w-[30px]" />
-                                        </Avatar>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end">Dialog</DropdownMenuContent>
-                                </DropdownMenu>
+                                <ChatSheet />
                                 <DropdownMenu onOpenChange={setLangOpen} modal={false}>
                                     <DropdownMenuTrigger asChild className="">
                                         <Avatar
