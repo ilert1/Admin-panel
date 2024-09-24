@@ -55,10 +55,9 @@ export const ChatSheet = () => {
 
         // Очистить свойство, когда компонент размонтируется (на случай перезаписи или утечек)
     }, []);
-
     return (
-        <Sheet onOpenChange={() => setConversationOpen(prev => !prev)} open={conversationOpen}>
-            <SheetTrigger>
+        <Sheet open={conversationOpen}>
+            <SheetTrigger onClick={() => setConversationOpen(prev => !prev)}>
                 <div>
                     <Avatar
                         className={
@@ -75,7 +74,9 @@ export const ChatSheet = () => {
                 close={false}>
                 <SheetHeader className="p-4 bg-green-60">
                     <div className="flex justify-between items-center ">
-                        <SheetTitle className="text-display-3">Чат с поддержкой</SheetTitle>
+                        <SheetTitle className="text-display-3">
+                            {translate("app.ui.actions.chatWithSupport")}
+                        </SheetTitle>
                         <button
                             onClick={() => setConversationOpen(false)}
                             className="text-gray-500 hover:text-gray-700 transition-colors">
@@ -95,9 +96,7 @@ export const ChatSheet = () => {
                         ))}
                         <div ref={messagesEndRef} />
                     </div>
-                    <div
-                        className="h-[92px] bg-neutral-10 px-4 flex items-center gap-4"
-                        style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}>
+                    <div className="h-[92px] bg-muted px-4 flex items-center gap-4">
                         <Input
                             className="h-[60px] flex-grow"
                             value={message}

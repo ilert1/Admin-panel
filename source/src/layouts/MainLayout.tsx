@@ -212,7 +212,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 </nav>
             </aside>
             <div className="flex w-full flex-col ">
-                <header className="flex h-[84px] items-center gap-4 bg-header px-4 z-100">
+                <header className="flex h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto ">
                     {identity?.data && (
                         <div className="ml-auto flex items-center gap-2 mr-6">
                             <div>
@@ -225,7 +225,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                     {identity.data.fullName ? identity.data.fullName : null}
                                 </span>
                             </div>
-                            <div className="flex items-center gap-8">
+                            <div className="flex items-center gap-8 relative">
                                 <DropdownMenu onOpenChange={setProfileOpen} modal={false}>
                                     <DropdownMenuTrigger asChild>
                                         <Avatar
