@@ -1,59 +1,54 @@
-import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { DayPicker } from "react-day-picker";
-
+import { DayPicker, type DayPickerProps, getDefaultClassNames } from "react-day-picker";
+import "react-day-picker/style.css";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker>;
-const CustomHead = () => (
-    <thead>
-        <tr></tr>
-    </thead>
-);
+function Calendar({ className, classNames, ...props }: DayPickerProps) {
+    const defaultClassNames = getDefaultClassNames();
 
-function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) {
     return (
         <DayPicker
-            showOutsideDays={showOutsideDays}
+            showOutsideDays
+            hideWeekdays
             className={cn("p-3 rounded-lg bg-neutral-0", className)}
             classNames={{
-                months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
-                month: "space-y-4 text-green-50",
-                caption: "flex justify-center pt-1 relative items-center",
+                months: "flex flex-col sm:flex-row space-y-4 sm:space-y-0",
+                month: "text-green-40",
+                month_caption: "flex justify-center pt-1 relative items-center",
                 caption_label: "text-sm font-medium",
-                nav: "space-x-1 flex items-center",
-                nav_button: cn(
+                nav: "flex",
+                button_previous: cn(
                     buttonVariants({ variant: "textBtn" }),
-                    "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 font-bold "
+                    "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 font-bold absolute left-1 z-10"
                 ),
-                nav_button_previous: "absolute left-1",
-                nav_button_next: "absolute right-1",
-                table: "w-full border-collapse space-y-1",
-                head_row: "flex",
-                head_cell: "text-muted-foreground rounded-4 w-9 font-normal text-[0.8rem]",
-                row: "flex w-full mt-2",
-                cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
-                day: cn(
+                button_next: cn(
                     buttonVariants({ variant: "textBtn" }),
-                    "h-9 w-9 p-0 font-normal aria-selected:opacity-100 text-neutral-80 hover:bg-neutral-20 hover:text-neutral-80 focus:bg-green-50 focus:text-neutral-0"
+                    "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 font-bold absolute right-1 z-10"
                 ),
-                day_range_end: "day-range-end",
-                day_selected:
+                selected:
                     "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-                day_today: "bg-accent text-accent-foreground",
-                day_outside:
+                day: "h-5 w-5 p-0 font-normal text-sm text-neutral-10",
+                day_button: "h-5 w-5 m-2",
+                today: "relative z-10 after:absolute after:outline after:outline-1 after:outline-green-40 after:rounded-4 after:top-1 after:bottom-1 after:left-1 after:right-1 after:-z-10",
+                outside:
                     "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
-                day_disabled: "text-muted-foreground opacity-50",
-                day_range_middle: "aria-selected:bg-accent aria-selected:text-accent-foreground",
-                day_hidden: "invisible",
-                weeknumber: "invinsible",
+                range_middle:
+                    "relative after:absolute after:bg-green-20 after:top-1 after:bottom-1 after:left-0 after:right-0 after:-z-10 z-10",
+                range_start:
+                    "relative z-10 after:absolute after:bg-green-50 after:rounded-4 after:top-1 after:bottom-1 after:left-1 after:right-1 after:-z-10 before:absolute before:bg-green-20 before:top-1 before:bottom-1 before:left-3 before:right-0 before:-z-10",
+                range_end:
+                    "relative z-10 after:absolute after:bg-green-50 after:rounded-4 after:top-1 after:bottom-1 after:left-1 after:right-1 after:-z-10 before:absolute before:bg-green-20 before:top-1 before:bottom-1 before:left-0 before:right-3 before:-z-10",
                 ...classNames
             }}
             components={{
-                IconLeft: ({ ...props }) => <ChevronLeft className="h-6 w-6" />,
-                IconRight: ({ ...props }) => <ChevronRight className="h-6 w-6" />,
-                Head: CustomHead
+                Chevron: props => {
+                    // eslint-disable-next-line react/prop-types
+                    if (props.orientation === "left") {
+                        return <ChevronLeft className="h-6 w-6" />;
+                    }
+                    return <ChevronRight className="h-6 w-6" />;
+                }
             }}
             {...props}
         />
