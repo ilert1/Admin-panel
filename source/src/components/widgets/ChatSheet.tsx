@@ -7,10 +7,6 @@ import { Button } from "../ui/button";
 import { Message, MessageProps } from "./Message";
 import { getMockMessages } from "@/data/mockMessages";
 
-// export interface ChatSheetProps {
-//     open?: boolean;
-// }
-
 export const ChatSheet = () => {
     const [conversationOpen, setConversationOpen] = useState(false);
     const [messages, setMessages] = useState<MessageProps[]>([]);
@@ -21,19 +17,32 @@ export const ChatSheet = () => {
     }, []);
 
     const handleSendClicked = () => {
-        setMessages(prevMessages => [...prevMessages, { text: message, icon: false, isUserMessage: true }]);
-        setMessage("");
+        if (message.trim()) {
+            setMessages(prevMessages => [...prevMessages, { text: message, icon: false, isUserMessage: true }]);
+            setMessage("");
+        }
     };
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
+
     const scrollToBottom = () => {
         if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+            setTimeout(() => {
+                messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+            }, 100); // Небольшая задержка для корректной работы
         }
     };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            handleSendClicked();
+        }
+    };
+
     useEffect(() => {
         scrollToBottom();
-    }, [messages]);
+    }, [messages, conversationOpen]);
 
     const addSupportMessage = (text: string) => {
         setMessages(prevMessages => [...prevMessages, { text, icon: true, isUserMessage: false }]);
@@ -44,7 +53,7 @@ export const ChatSheet = () => {
 
         // Очистить свойство, когда компонент размонтируется (на случай перезаписи или утечек)
     }, []);
-
+    console.log(message);
     return (
         <Sheet onOpenChange={() => setConversationOpen(prev => !prev)} open={conversationOpen}>
             <SheetTrigger>
@@ -73,7 +82,7 @@ export const ChatSheet = () => {
                     </div>
                 </SheetHeader>
                 <SheetDescription className="flex flex-col" style={{ height: "calc(100vh - 144px)" }}>
-                    <div className="bg-neutral-0 flex-auto overflow-y-auto pb-4" ref={messagesEndRef}>
+                    <div className="bg-neutral-0 flex-auto overflow-y-auto pb-4">
                         {messages.map((message, index) => (
                             <Message
                                 key={index}
@@ -82,6 +91,7 @@ export const ChatSheet = () => {
                                 isUserMessage={message.isUserMessage}
                             />
                         ))}
+                        <div ref={messagesEndRef} />
                     </div>
                     <div
                         className="h-[92px] bg-neutral-10 px-4 flex items-center gap-4"
@@ -90,11 +100,9 @@ export const ChatSheet = () => {
                             className="h-[60px] flex-grow"
                             value={message}
                             onChange={e => setMessage(e.target.value)}
+                            onKeyDown={handleKeyDown}
                         />
-                        <Button
-                            className="h-[60px] w-[60px]"
-                            disabled={message.length ? false : true}
-                            onClick={handleSendClicked}>
+                        <Button className="h-[60px] w-[60px]" disabled={!message.trim()} onClick={handleSendClicked}>
                             <Send className="w-[40px] h-[40px]" />
                         </Button>
                     </div>

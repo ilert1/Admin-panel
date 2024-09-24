@@ -287,10 +287,10 @@ const ru: TranslationMessages = {
             cryptoWalletTransfer: "Перевод криптовалюты",
             withdraw: "Вывод в криптовалюте",
             users: "Пользователи",
-            currency: "Валюты",
+            currencies: "Валюты",
             merchant: "Мерчанты",
-            provider: "Провайдеры",
-            direction: "Направления"
+            providers: "Провайдеры",
+            directions: "Направления"
         },
         ui: {
             actions: {
@@ -687,10 +687,10 @@ const en: TranslationMessages = {
             cryptoWalletTransfer: "Crypto Wallet Transfer",
             withdraw: "Crypto Withdrawal",
             users: "Users",
-            currency: "Currencies",
+            currencies: "Currencies",
             merchant: "Merchants",
-            provider: "Providers",
-            direction: "Directions"
+            providers: "Providers",
+            directions: "Directions"
         },
         ui: {
             actions: {

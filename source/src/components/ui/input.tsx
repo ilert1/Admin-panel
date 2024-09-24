@@ -5,16 +5,22 @@ import { cn } from "@/lib/utils";
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-    ({ className, type, value, onChange, disabled, ...props }, ref) => {
+    ({ className, type, value: propValue, onChange, disabled, ...props }, ref) => {
         const [inputValue, setInputValue] = React.useState<string | number | readonly string[] | undefined>(
-            value || ""
+            propValue || ""
         );
 
         const [showPassword, setShowPassword] = React.useState(false);
         const [isFocused, setIsFocused] = React.useState(false);
-        // const [isHoveringInput, setIsHoveringInput] = React.useState(false);
 
         const inputRef = React.useRef<HTMLInputElement>(null);
+
+        // Sync internal inputValue with external value prop if provided
+        React.useEffect(() => {
+            if (propValue !== undefined) {
+                setInputValue(propValue);
+            }
+        }, [propValue]);
 
         React.useImperativeHandle(ref, () => inputRef.current!);
 
@@ -34,14 +40,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             }
         };
 
-        const showClearButton = inputValue && isFocused; /* || isHoveringInput */
+        const showClearButton = inputValue && isFocused;
 
         return (
-            <div
-                className="relative flex items-center w-full"
-                /* onMouseEnter={() => setIsHoveringInput(true)}
-                onMouseLeave={() => setIsHoveringInput(false)} */
-            >
+            <div className="relative flex items-center w-full">
                 <input
                     type={type === "password" && showPassword ? "text" : type}
                     value={inputValue}
@@ -60,7 +62,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 {showClearButton && (
                     <button
                         type="button"
-                        onClick={handleClear}
+                        onMouseDown={handleClear}
                         tabIndex={-1}
                         className={cn(
                             "absolute inset-y-0",
