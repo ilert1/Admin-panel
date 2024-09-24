@@ -6,11 +6,13 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Message, MessageProps } from "./Message";
 import { getMockMessages } from "@/data/mockMessages";
+import { useTranslate } from "react-admin";
 
 export const ChatSheet = () => {
     const [conversationOpen, setConversationOpen] = useState(false);
     const [messages, setMessages] = useState<MessageProps[]>([]);
     const [message, setMessage] = useState("");
+    const translate = useTranslate();
 
     useEffect(() => {
         setMessages(getMockMessages());
@@ -53,7 +55,7 @@ export const ChatSheet = () => {
 
         // Очистить свойство, когда компонент размонтируется (на случай перезаписи или утечек)
     }, []);
-    console.log(message);
+
     return (
         <Sheet onOpenChange={() => setConversationOpen(prev => !prev)} open={conversationOpen}>
             <SheetTrigger>
@@ -101,6 +103,7 @@ export const ChatSheet = () => {
                             value={message}
                             onChange={e => setMessage(e.target.value)}
                             onKeyDown={handleKeyDown}
+                            placeholder={translate("app.ui.chatMessagePlaceholder")}
                         />
                         <Button className="h-[60px] w-[60px]" disabled={!message.trim()} onClick={handleSendClicked}>
                             <Send className="w-[40px] h-[40px]" />

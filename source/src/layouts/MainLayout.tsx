@@ -212,7 +212,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 </nav>
             </aside>
             <div className="flex w-full flex-col ">
-                <header className="flex h-[84px] items-center gap-4 bg-header px-4">
+                <header className="flex h-[84px] items-center gap-4 bg-header px-4 z-100">
                     {identity?.data && (
                         <div className="ml-auto flex items-center gap-2 mr-6">
                             <div>

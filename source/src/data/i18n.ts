@@ -313,7 +313,8 @@ const ru: TranslationMessages = {
             },
             delete: {
                 deletedSuccessfully: "Элемент удален успешно"
-            }
+            },
+            chatMessagePlaceholder: "Напишите ваше вообщение здесь..."
         },
         theme: {
             light: "Светлая тема",
@@ -713,7 +714,8 @@ const en: TranslationMessages = {
             },
             delete: {
                 deletedSuccessfully: "Deleted successfully"
-            }
+            },
+            chatMessagePlaceholder: "Write your message here..."
         },
         theme: {
             light: "Light theme",

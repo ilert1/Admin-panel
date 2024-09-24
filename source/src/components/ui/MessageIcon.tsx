@@ -1,4 +1,4 @@
-import Messageicon from "../../../public/BlowFishMessageIcon.svg";
+import Messageicon from "/BlowFishMessageIcon.svg";
 
 export const MessageIcon = () => {
     return (
