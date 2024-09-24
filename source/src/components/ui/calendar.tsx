@@ -1,21 +1,21 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { DayPicker, type DayPickerProps, getDefaultClassNames } from "react-day-picker";
+import { DayPicker, type DayPickerProps } from "react-day-picker";
 import "react-day-picker/style.css";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
 function Calendar({ className, classNames, ...props }: DayPickerProps) {
-    const defaultClassNames = getDefaultClassNames();
-
     return (
         <DayPicker
-            showOutsideDays
+            captionLayout="dropdown"
             hideWeekdays
             className={cn("p-3 rounded-lg bg-neutral-0", className)}
             classNames={{
                 months: "flex flex-col sm:flex-row space-y-4 sm:space-y-0",
                 month: "text-green-40",
                 month_caption: "flex justify-center pt-1 relative items-center",
+                dropdown: "hidden",
+                months_dropdown: "text-red",
                 caption_label: "text-sm font-medium",
                 nav: "flex",
                 button_previous: cn(
@@ -30,9 +30,7 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
                     "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
                 day: "h-5 w-5 p-0 font-normal text-sm text-neutral-10",
                 day_button: "h-5 w-5 m-2",
-                today: "relative z-10 after:absolute after:outline after:outline-1 after:outline-green-40 after:rounded-4 after:top-1 after:bottom-1 after:left-1 after:right-1 after:-z-10",
-                outside:
-                    "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
+                today: "relative z-10 [&:not([aria-selected])]:before:absolute [&:not([aria-selected])]:before:outline [&:not([aria-selected])]:before:outline-1 [&:not([aria-selected])]:before:outline-green-40 [&:not([aria-selected])]:before:rounded-4 [&:not([aria-selected])]:before:top-1 [&:not([aria-selected])]:before:bottom-1 [&:not([aria-selected])]:before:left-1 [&:not([aria-selected])]:before:right-1 [&:not([aria-selected])]:before:-z-10",
                 range_middle:
                     "relative after:absolute after:bg-green-20 after:top-1 after:bottom-1 after:left-0 after:right-0 after:-z-10 z-10",
                 range_start:
