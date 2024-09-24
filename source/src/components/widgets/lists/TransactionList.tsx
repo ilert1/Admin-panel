@@ -489,7 +489,7 @@ export const TransactionList = () => {
                 </ListContextProvider>
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>
                     <SheetContent
-                        className="sm:max-w-[1015px] !top-[84px] !max-h-[571px] w-full p-0 m-0 "
+                        className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px]"
                         style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
                         close={false}>
                         <SheetHeader className="p-[42px] pb-[24px]">
@@ -498,7 +498,7 @@ export const TransactionList = () => {
                                     <SheetTitle className="text-display-1">История операции</SheetTitle>
                                     <button
                                         onClick={() => setShowOpen(false)}
-                                        className="text-gray-500 hover:text-gray-700 transition-colors">
+                                        className="text-gray-500 hover:text-gray-700 transition-colors border-0 outline-0">
                                         <XIcon className="h-[28px] w-[28px]" />
                                     </button>
                                 </div>

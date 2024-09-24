@@ -36,7 +36,9 @@ export function SimpleTable<TData, TValue>({
                                     <TableHead
                                         key={j}
                                         className={
-                                            tableType === TableTypes.COLORED ? "bg-green-50 text-neutral-100" : ""
+                                            tableType === TableTypes.COLORED
+                                                ? "bg-green-50 text-neutral-100 border border-x border-muted"
+                                                : ""
                                         }>
                                         {header.isPlaceholder
                                             ? null
@@ -53,9 +55,15 @@ export function SimpleTable<TData, TValue>({
                             <TableRow
                                 key={i}
                                 data-state={row.getIsSelected() && "selected"}
-                                className={tableType === TableTypes.COLORED ? "bg-neutral-0 text-neutral-100" : ""}>
+                                className={
+                                    tableType === TableTypes.COLORED
+                                        ? "bg-neutral-0 text-neutral-100 border border-muted"
+                                        : ""
+                                }>
                                 {row.getVisibleCells().map((cell, j) => (
-                                    <TableCell key={j}>
+                                    <TableCell
+                                        key={j}
+                                        className={tableType === TableTypes.COLORED ? "border border-muted" : ""}>
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}

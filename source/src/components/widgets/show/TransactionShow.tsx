@@ -102,7 +102,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
         return <Loading />;
     } else if (props.type === "compact") {
         return (
-            <div className="p-[42px] pt-0 flex flex-col gap-6">
+            <div className="p-[42px] pt-0 flex flex-col gap-6 overflow-auto top-[82px]">
                 <div className="flex gap-6">
                     <div className="flex flex-col">
                         <span className="opacity-60 text-title-1">
@@ -123,12 +123,12 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                         <span>{context.record.destination.meta?.caption}</span>
                     </div>
                 </div>
-                <div className="max-h-[160px] overflow-auto">
+                <div className="">
                     <SimpleTable columns={briefHistory} data={history ? history : []} tableType={TableTypes.COLORED} />
                 </div>
                 <div className="flex flex-col gap-2">
                     <span>{translate("resources.transactions.fields.fees")}</span>
-                    <div className="max-h-[100px] overflow-auto">
+                    <div className="">
                         <SimpleTable columns={feesColumns} data={context.record.fees} tableType={TableTypes.COLORED} />
                     </div>
                 </div>
