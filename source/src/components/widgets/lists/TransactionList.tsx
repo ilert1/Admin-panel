@@ -512,7 +512,6 @@ export const TransactionList = () => {
                             <SheetHeader className="mb-2">
                                 <SheetTitle>{translate("resources.transactions.show.storno")}</SheetTitle>
                             </SheetHeader>
-
                             <TransactionStorno accounts={accounts || []} currencies={sortedCurrencies || []} />
                         </ScrollArea>
                     </SheetContent>
