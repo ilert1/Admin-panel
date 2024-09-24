@@ -1,5 +1,5 @@
 interface Window {
-    addSupportMessage: (text: string) => void;
+    addSupportMessage?: (text: string) => void;
 }
 
 type Value = {

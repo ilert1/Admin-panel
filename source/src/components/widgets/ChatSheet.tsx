@@ -8,15 +8,16 @@ import { Message, MessageProps } from "./Message";
 import { getMockMessages } from "@/data/mockMessages";
 import { useTranslate } from "react-admin";
 
-export const ChatSheet = () => {
+export interface ChatSheetProps {
+    locale?: string;
+}
+
+export const ChatSheet = ({ locale = "ru" }: ChatSheetProps) => {
     const [conversationOpen, setConversationOpen] = useState(false);
     const [messages, setMessages] = useState<MessageProps[]>([]);
     const [message, setMessage] = useState("");
-    const translate = useTranslate();
 
-    useEffect(() => {
-        setMessages(getMockMessages());
-    }, []);
+    const translate = useTranslate();
 
     const handleSendClicked = () => {
         if (message.trim()) {
@@ -43,8 +44,12 @@ export const ChatSheet = () => {
     };
 
     useEffect(() => {
+        setMessages(getMockMessages());
+    }, []);
+
+    useEffect(() => {
         scrollToBottom();
-    }, [messages, conversationOpen]);
+    }, [messages, messagesEndRef.current]);
 
     const addSupportMessage = (text: string) => {
         setMessages(prevMessages => [...prevMessages, { text, icon: true, isUserMessage: false }]);
@@ -54,7 +59,11 @@ export const ChatSheet = () => {
         window.addSupportMessage = addSupportMessage;
 
         // Очистить свойство, когда компонент размонтируется (на случай перезаписи или утечек)
+        return () => {
+            window.addSupportMessage ? delete window.addSupportMessage : "";
+        };
     }, []);
+
     return (
         <Sheet open={conversationOpen}>
             <SheetTrigger onClick={() => setConversationOpen(prev => !prev)}>
@@ -84,16 +93,20 @@ export const ChatSheet = () => {
                         </button>
                     </div>
                 </SheetHeader>
-                <SheetDescription className="flex flex-col" style={{ height: "calc(100vh - 144px)" }}>
+                <SheetDescription></SheetDescription>
+                <div className="flex flex-col" style={{ height: "calc(100vh - 144px)" }}>
                     <div className="bg-neutral-0 flex-auto overflow-y-auto pb-4">
-                        {messages.map((message, index) => (
-                            <Message
-                                key={index}
-                                text={message.text}
-                                icon={message.icon}
-                                isUserMessage={message.isUserMessage}
-                            />
-                        ))}
+                        <div className="flex flex-col gap-2 pt-[24px]">
+                            {messages.map((message, index) => (
+                                <Message
+                                    key={index}
+                                    text={message.text}
+                                    icon={message.icon}
+                                    isUserMessage={message.isUserMessage}
+                                    locale={locale}
+                                />
+                            ))}
+                        </div>
                         <div ref={messagesEndRef} />
                     </div>
                     <div className="h-[92px] bg-muted px-4 flex items-center gap-4">
@@ -108,7 +121,7 @@ export const ChatSheet = () => {
                             <Send className="w-[40px] h-[40px]" />
                         </Button>
                     </div>
-                </SheetDescription>
+                </div>
             </SheetContent>
         </Sheet>
     );

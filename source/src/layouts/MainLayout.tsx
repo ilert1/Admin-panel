@@ -278,7 +278,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
-                                <ChatSheet />
+                                <ChatSheet locale={locale} />
                                 <DropdownMenu onOpenChange={setLangOpen} modal={false}>
                                     <DropdownMenuTrigger asChild className="">
                                         <Avatar
