@@ -15,7 +15,6 @@ export interface ChatSheetProps {
 }
 
 export const ChatSheet = ({ locale = "ru", open = false, onOpenChange }: ChatSheetProps) => {
-    // const [conversationOpen, setConversationOpen] = useState(false);
     const [messages, setMessages] = useState<MessageProps[]>([]);
     const [message, setMessage] = useState("");
 
@@ -132,41 +131,3 @@ export const ChatSheet = ({ locale = "ru", open = false, onOpenChange }: ChatShe
         </Sheet>
     );
 };
-
-//     const messagesEndRef = useRef<HTMLDivElement>(null);
-
-//     const scrollToBottom = () => {
-//         if (messagesEndRef.current) {
-//             setTimeout(() => {
-//                 messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-//             }, 100); // Небольшая задержка для корректной работы
-//         }
-//     };
-
-//     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-//         if (e.key === "Enter") {
-//             e.preventDefault();
-//             handleSendClicked();
-//         }
-//     };
-
-//     useEffect(() => {
-//         setMessages(getMockMessages());
-//     }, []);
-
-//     useEffect(() => {
-//         scrollToBottom();
-//     }, [messages, messagesEndRef.current]);
-
-//     const addSupportMessage = (text: string) => {
-//         setMessages(prevMessages => [...prevMessages, { text, icon: true, isUserMessage: false }]);
-//     };
-
-//     useEffect(() => {
-//         window.addSupportMessage = addSupportMessage;
-
-//         // Очистить свойство, когда компонент размонтируется (на случай перезаписи или утечек)
-//         return () => {
-//             window.addSupportMessage ? delete window.addSupportMessage : "";
-//         };
-//     }, []);

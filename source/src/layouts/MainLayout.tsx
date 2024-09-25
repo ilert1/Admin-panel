@@ -81,8 +81,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
 
     const [chatOpen, setChatOpen] = useState(false);
 
-    console.log(profileOpen);
-
     useEffect(() => {
         isSheetOpen
             ? setTimeout(() => {
