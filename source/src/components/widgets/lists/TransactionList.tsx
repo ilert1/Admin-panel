@@ -34,7 +34,7 @@ import { TransactionStorno } from "@/components/widgets/forms";
 import { API_URL } from "@/data/base";
 import { EventBus, EVENT_STORNO } from "@/helpers/event-bus";
 import { TextField } from "@/components/ui/text-field";
-import { DatePicker } from "@/components/ui/date-picker";
+import { DateRangePicker } from "@/components/ui/date-range-picker";
 import useReportDownload from "@/hooks/useReportDownload";
 import { Loading } from "@/components/ui/loading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -208,25 +208,18 @@ const TransactionFilterSidebar = () => {
                         </div>
                     )}
 
-                    <div className="flex flex-col sm:flex-row items-stretch flex-wrap gap-2 sm:gap-3">
-                        <label className="flex gap-2 items-center">
-                            <span>{translate("resources.transactions.download.startDate")}</span>
-                            <DatePicker
-                                placeholder={format(startDate, "dd.MM.yyyy")}
-                                date={startDate}
-                                onChange={setStartDate}
-                            />
-                        </label>
+                    <DateRangePicker
+                        placeholder={format(endDate, "dd.MM.yyyy")}
+                        date={{ from: startDate, to: endDate }}
+                        onChange={date => {
+                            if (date.from) {
+                                setStartDate(date.from);
+                            } else if (date.to) {
+                                setEndDate(date.to);
+                            }
+                        }}
+                    />
 
-                        <label className="flex gap-2 items-center">
-                            <span>{translate("resources.transactions.download.endDate")}</span>
-                            <DatePicker
-                                placeholder={format(endDate, "dd.MM.yyyy")}
-                                date={endDate}
-                                onChange={setEndDate}
-                            />
-                        </label>
-                    </div>
                     {adminOnly && (
                         <div className="flex-1">
                             <Select onValueChange={handleSelectedIdChange}>
