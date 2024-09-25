@@ -10,7 +10,7 @@ import { DateRange } from "react-day-picker";
 export function DatePicker(props: { placeholder: string; date?: Date; onChange?: (date: DateRange) => void }) {
     const [date, setDate] = useState<DateRange | undefined>({
         from: new Date(),
-        to: addDays(new Date(), 10)
+        to: addDays(new Date(), 5)
     });
 
     useEffect(() => {

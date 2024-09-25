@@ -8,7 +8,9 @@ import React, { useEffect, useMemo, useState } from "react";
 function Calendar({ className, classNames, ...props }: DayPickerProps) {
     return (
         <DayPicker
+            autoFocus
             captionLayout="dropdown"
+            startMonth={new Date(2014, 0)}
             hideWeekdays
             className={cn("p-4 rounded-4 bg-neutral-0 border-green-50 border", className)}
             classNames={{
@@ -20,11 +22,11 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
                 nav: "flex",
                 button_previous: cn(
                     buttonVariants({ variant: "textBtn" }),
-                    "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 font-bold absolute left-4 top-5 z-10"
+                    "h-5 w-5 bg-transparent p-0 opacity-50 hover:opacity-100 font-bold absolute left-4 top-5 z-10"
                 ),
                 button_next: cn(
                     buttonVariants({ variant: "textBtn" }),
-                    "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 font-bold absolute right-4 top-5 z-10"
+                    "h-5 w-5 bg-transparent p-0 opacity-50 hover:opacity-100 font-bold absolute right-4 top-5 z-10"
                 ),
                 selected:
                     "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
