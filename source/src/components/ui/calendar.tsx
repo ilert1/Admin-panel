@@ -1,13 +1,21 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { DayPicker, DropdownProps, type DayPickerProps } from "react-day-picker";
+import { DayPicker, DropdownProps, type DayPickerProps, defaultLocale } from "react-day-picker";
 import "react-day-picker/style.css";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import React, { useEffect, useMemo, useState } from "react";
-
+import { useTranslate } from "react-admin";
 function Calendar({ className, classNames, ...props }: DayPickerProps) {
+    const translate = useTranslate();
+
     return (
         <DayPicker
+            locale={{
+                localize: {
+                    ...defaultLocale.localize,
+                    month: n => translate(`datePicker.month.${n}`)
+                }
+            }}
             autoFocus
             captionLayout="dropdown"
             startMonth={new Date(2014, 0)}
