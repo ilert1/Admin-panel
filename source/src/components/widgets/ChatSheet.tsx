@@ -51,26 +51,21 @@ export const ChatSheet = ({ locale = "ru", open = false, onOpenChange }: ChatShe
     }, []);
 
     useEffect(() => {
-        if (messagesEndRef.current) {
-            // Проверяем, когда добавляются новые сообщения, чтобы прослушивать DOM-изменения
-            const observer = new MutationObserver(() => {
-                scrollToBottom();
-            });
+        scrollToBottom();
+    }, [messages, messagesEndRef.current]);
 
-            if (messagesContainerRef.current) {
-                observer.observe(messagesContainerRef.current, {
-                    childList: true,
-                    subtree: true
-                });
-            }
+    const addSupportMessage = (text: string) => {
+        setMessages(prevMessages => [...prevMessages, { text, icon: true, isUserMessage: false }]);
+    };
 
-            // Очищаем observer при размонтировании
-            return () => {
-                observer.disconnect();
-            };
-        }
-    }, [messages]);
+    useEffect(() => {
+        window.addSupportMessage = addSupportMessage;
 
+        // Очистить свойство, когда компонент размонтируется (на случай перезаписи или утечек)
+        return () => {
+            window.addSupportMessage ? delete window.addSupportMessage : "";
+        };
+    }, []);
     return (
         <Sheet open={open}>
             <SheetTrigger onClick={() => onOpenChange(!open)}>
@@ -113,6 +108,7 @@ export const ChatSheet = ({ locale = "ru", open = false, onOpenChange }: ChatShe
                                     text={message.text}
                                     icon={message.icon}
                                     isUserMessage={message.isUserMessage}
+                                    timestamp={message.timestamp}
                                     locale={locale}
                                 />
                             ))}
@@ -136,3 +132,41 @@ export const ChatSheet = ({ locale = "ru", open = false, onOpenChange }: ChatShe
         </Sheet>
     );
 };
+
+//     const messagesEndRef = useRef<HTMLDivElement>(null);
+
+//     const scrollToBottom = () => {
+//         if (messagesEndRef.current) {
+//             setTimeout(() => {
+//                 messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+//             }, 100); // Небольшая задержка для корректной работы
+//         }
+//     };
+
+//     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+//         if (e.key === "Enter") {
+//             e.preventDefault();
+//             handleSendClicked();
+//         }
+//     };
+
+//     useEffect(() => {
+//         setMessages(getMockMessages());
+//     }, []);
+
+//     useEffect(() => {
+//         scrollToBottom();
+//     }, [messages, messagesEndRef.current]);
+
+//     const addSupportMessage = (text: string) => {
+//         setMessages(prevMessages => [...prevMessages, { text, icon: true, isUserMessage: false }]);
+//     };
+
+//     useEffect(() => {
+//         window.addSupportMessage = addSupportMessage;
+
+//         // Очистить свойство, когда компонент размонтируется (на случай перезаписи или утечек)
+//         return () => {
+//             window.addSupportMessage ? delete window.addSupportMessage : "";
+//         };
+//     }, []);

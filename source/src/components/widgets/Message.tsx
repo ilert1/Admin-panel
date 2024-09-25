@@ -7,10 +7,11 @@ export interface MessageProps {
     isUserMessage: boolean; // Если написал пользователь то true, если собеседник - false
     icon?: boolean;
     locale?: string;
+    timestamp?: number;
 }
 
 export const Message = (props: MessageProps) => {
-    const { text = "", icon, isUserMessage = false, locale = "ru" } = props;
+    const { text = "", icon, isUserMessage = false, timestamp = 0, locale = "ru" } = props;
 
     return (
         <>
@@ -21,7 +22,7 @@ export const Message = (props: MessageProps) => {
                         <div className="text-neutral-100 w-fit max-w-xs lg:max-w-md px-4 py-[19px] text-title-2 rounded-r-22 rounded-tl-22 break-words bg-muted">
                             <TextField text={text} wrap={true} />
                         </div>
-                        <MessageTime locale={locale} />
+                        <MessageTime locale={locale} timestamp={timestamp} />
                     </div>
                 </div>
             )}
@@ -34,7 +35,7 @@ export const Message = (props: MessageProps) => {
                                 <TextField text={text} wrap={true} />
                             </div>
                         </div>
-                        <MessageTime locale={locale} />
+                        <MessageTime locale={locale} timestamp={timestamp} />
                     </div>
                     {icon && <MessageIcon />}
                 </div>
