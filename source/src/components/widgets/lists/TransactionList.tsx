@@ -489,7 +489,7 @@ export const TransactionList = () => {
                 </ListContextProvider>
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>
                     <SheetContent
-                        className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px]"
+                        className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px]  overflow-auto"
                         style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
                         close={false}>
                         <SheetHeader className="p-[42px] pb-[24px]">

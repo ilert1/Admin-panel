@@ -126,7 +126,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                 <div className="">
                     <SimpleTable columns={briefHistory} data={history ? history : []} tableType={TableTypes.COLORED} />
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 min-h-[100px]">
                     <span>{translate("resources.transactions.fields.fees")}</span>
                     <div className="">
                         <SimpleTable columns={feesColumns} data={context.record.fees} tableType={TableTypes.COLORED} />

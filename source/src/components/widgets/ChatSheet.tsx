@@ -71,7 +71,7 @@ export const ChatSheet = () => {
                 </div>
             </SheetTrigger>
             <SheetContent
-                className="sm:max-w-[520px] !top-[84px] !max-h-[calc(100vh-84px)] w-full p-0 m-0 "
+                className="sm:max-w-[520px] !top-[84px] !max-h-[calc(100vh-84px)] w-full p-0 m-0"
                 close={false}>
                 <SheetHeader className="p-4 bg-green-60">
                     <div className="flex justify-between items-center ">
