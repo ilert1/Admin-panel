@@ -137,8 +137,7 @@ const ru: TranslationMessages = {
             },
             download: {
                 downloadReportLabel: "Выгрузка отчета",
-                startDate: "Дата с",
-                endDate: "до",
+                dateTitle: "Дата",
                 downloadReportButtonText: "Скачать отчет",
                 bothError: "Начальная дата и конечная дата обязательно должны быть заполнены",
                 greaterError: "Конечная дата не может быть больше чем начальная дата",
@@ -537,8 +536,7 @@ const en: TranslationMessages = {
             },
             download: {
                 downloadReportLabel: "Report download",
-                startDate: "Start date",
-                endDate: "End date",
+                dateTitle: "Date",
                 downloadReportButtonText: "Download report",
                 bothError: "Both start date and end date must be selected",
                 greaterError: "End date must be greater than start date",

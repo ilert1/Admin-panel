@@ -168,10 +168,10 @@ const TransactionFilterSidebar = () => {
 
     return (
         <>
-            <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 flex-wrap justify-between mb-6">
+            <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 sm:gap-3 flex-wrap justify-between mb-6">
                 <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 sm:gap-3 flex-wrap">
-                    <label className="flex gap-2 items-center lg:min-w-96">
-                        <span>{translate("resources.transactions.filter.filterById")}</span>
+                    <label className="flex flex-1 gap-2 items-center lg:min-w-96">
+                        <span className="md:text-nowrap">{translate("resources.transactions.filter.filterById")}</span>
                         <Input
                             className="flex-1 text-sm placeholder:text-neutral-70"
                             placeholder={translate("resources.transactions.fields.id")}
@@ -180,7 +180,9 @@ const TransactionFilterSidebar = () => {
                         />
                     </label>
                     <label className="flex gap-2 items-center lg:min-w-96">
-                        <span>{translate("resources.transactions.filter.filterCustomerPaymentId")}</span>
+                        <span className="md:text-nowrap">
+                            {translate("resources.transactions.filter.filterCustomerPaymentId")}
+                        </span>
                         <Input
                             className="flex-1 text-sm placeholder:text-neutral-70"
                             placeholder={translate("resources.transactions.fields.id")}
@@ -189,7 +191,7 @@ const TransactionFilterSidebar = () => {
                         />
                     </label>
                     {adminOnly && (
-                        <div className="flex-1">
+                        <div className="flex-1 min-w-48">
                             <Select onValueChange={onAccountChanged} value={account}>
                                 <SelectTrigger>
                                     <SelectValue
@@ -221,7 +223,7 @@ const TransactionFilterSidebar = () => {
                     />
 
                     {adminOnly && (
-                        <div className="flex-1">
+                        <div className="flex-1 min-w-48">
                             <Select onValueChange={handleSelectedIdChange}>
                                 <SelectTrigger>
                                     <SelectValue

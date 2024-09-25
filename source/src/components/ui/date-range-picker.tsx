@@ -1,4 +1,4 @@
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, X } from "lucide-react";
 import { addDays, format } from "date-fns";
 
 import { Button } from "@/components/ui/button";
@@ -14,10 +14,14 @@ export function DateRangePicker(props: {
     onChange?: (date: DateRange) => void;
 }) {
     const translate = useTranslate();
+    const initFromDate = new Date();
+    initFromDate.setHours(0, 0, 0, 0);
+    const initToDate = addDays(new Date(), 0);
+    initToDate.setHours(0, 0, 0, 0);
 
     const [date, setDate] = useState<DateRange | undefined>({
-        from: new Date(),
-        to: addDays(new Date(), 5)
+        from: initFromDate,
+        to: initToDate
     });
 
     useEffect(() => {
@@ -36,40 +40,46 @@ export function DateRangePicker(props: {
         <Popover>
             <PopoverTrigger asChild>
                 <div className="flex flex-col sm:flex-row items-stretch flex-wrap gap-2 sm:gap-3">
-                    <div className="flex gap-2 items-center">
-                        <span>{translate("resources.transactions.download.startDate")}</span>
+                    <div className="relative flex gap-2 items-center flex-1">
+                        <span>{translate("resources.transactions.download.dateTitle")}</span>
                         <Button
                             variant={"outline"}
                             className={
-                                "flex flex-1 justify-between items-center gap-3 text-neutral-100 duration-200 px-3 py-2 border-green-40"
+                                "flex flex-1 justify-between items-center gap-3 text-neutral-100 duration-200 px-3 py-2 border-green-40 min-w-52"
                             }>
                             {date?.from ? (
-                                <>{format(date.from, "dd.MM.yyyy")}</>
+                                date.to && date.from.getTime() !== date.to.getTime() ? (
+                                    <>
+                                        {format(date.from, "dd.MM.yyyy")} - {format(date.to, "dd.MM.yyyy")}
+                                    </>
+                                ) : (
+                                    format(date.from, "dd.MM.yyyy")
+                                )
                             ) : (
                                 <span className="mr-2">{props.placeholder}</span>
                             )}
-                            <CalendarIcon className="h-4 w-4 text-green-50 mb-0.5" />
-                        </Button>
-                    </div>
-
-                    <div className="flex gap-2 items-center">
-                        <span>{translate("resources.transactions.download.endDate")}</span>
-                        <Button
-                            variant={"outline"}
-                            className={
-                                "flex flex-1 justify-between items-center gap-3 text-neutral-100 duration-200 px-3 py-2 border-green-40"
-                            }>
-                            {date?.to ? (
-                                <>{format(date.to, "dd.MM.yyyy")}</>
+                            {date?.from?.getUTCDate() === initFromDate.getUTCDate() &&
+                            date?.to?.getUTCDate() === initToDate.getUTCDate() ? (
+                                <CalendarIcon className="h-4 w-4 text-green-50 mb-0.5" />
                             ) : (
-                                <span className="mr-2">{props.placeholder}</span>
+                                <button
+                                    type="button"
+                                    onClick={e => {
+                                        e.preventDefault();
+                                        setDate({ from: initFromDate, to: initToDate });
+                                    }}
+                                    tabIndex={-1}
+                                    className={
+                                        "flex items-center justify-center text-neutral-60 hover:text-neutral-80 transition-colors duration-200"
+                                    }>
+                                    <X className="w-4 h-4" />
+                                </button>
                             )}
-                            <CalendarIcon className="h-4 w-4 text-green-50 mb-0.5" />
                         </Button>
                     </div>
                 </div>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="end">
+            <PopoverContent className="w-auto p-0" align="center">
                 <Calendar defaultMonth={date?.from} mode="range" selected={date} onSelect={setDate} />
             </PopoverContent>
         </Popover>
