@@ -495,7 +495,9 @@ export const TransactionList = () => {
                         <SheetHeader className="p-[42px] pb-[24px]">
                             <div>
                                 <div className="flex justify-between items-center pb-2">
-                                    <SheetTitle className="text-display-1">История операции</SheetTitle>
+                                    <SheetTitle className="text-display-1">
+                                        {translate("app.ui.transactionHistory")}
+                                    </SheetTitle>
                                     <button
                                         onClick={() => setShowOpen(false)}
                                         className="text-gray-500 hover:text-gray-700 transition-colors border-0 outline-0">
