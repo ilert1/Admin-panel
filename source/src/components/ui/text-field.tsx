@@ -63,7 +63,7 @@ export const TextField = ({
             )}
             {type === "internal-link" && (
                 <Link to={link} className="!text-card-foreground transition-colors hover:bg-muted/50">
-                    <p className="font-medium">{text}</p>
+                    <span className="font-medium">{text}</span>
                 </Link>
             )}
         </div>

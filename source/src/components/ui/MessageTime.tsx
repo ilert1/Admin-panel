@@ -1,15 +1,14 @@
-export const MessageTime = () => {
-    const date = new Date();
-    let hours = date.getHours();
-    const minutes = date.getMinutes().toString().padStart(2, "0");
+import moment from "moment";
+import "moment/locale/ru";
+import "moment/locale/es-us";
 
-    const amPm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12;
-    hours = hours ? hours : 12;
+export interface MessageTimeProps {
+    locale: string;
+}
+export const MessageTime = ({ locale }: MessageTimeProps) => {
+    moment.locale(locale === "en" ? "es-us" : "ru");
 
-    return (
-        <span className="text-xs text-neutral-500 mt-1">
-            {hours}:{minutes} {amPm}
-        </span>
-    );
+    const currentTime = moment().format("LT");
+
+    return <span className="text-xs text-neutral-500 mt-1">{currentTime}</span>;
 };
