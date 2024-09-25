@@ -79,6 +79,10 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
 
     const [langOpen, setLangOpen] = useState(false);
 
+    const [chatOpen, setChatOpen] = useState(false);
+
+    console.log(profileOpen);
+
     useEffect(() => {
         isSheetOpen
             ? setTimeout(() => {
@@ -212,7 +216,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 </nav>
             </aside>
             <div className="flex w-full flex-col ">
-                <header className="flex h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto ">
+                <header className="flex h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z">
                     {identity?.data && (
                         <div className="ml-auto flex items-center gap-2 mr-6">
                             <div>
@@ -225,8 +229,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                     {identity.data.fullName ? identity.data.fullName : null}
                                 </span>
                             </div>
-                            <div className="flex items-center gap-8 relative">
-                                <DropdownMenu onOpenChange={setProfileOpen} modal={false}>
+                            <div className="flex items-center gap-8 relative !z-60">
+                                <DropdownMenu open={profileOpen} onOpenChange={setProfileOpen} modal={true}>
                                     <DropdownMenuTrigger asChild>
                                         <Avatar
                                             className={
@@ -239,7 +243,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent
                                         align="end"
-                                        className="p-0 w-56 bg-muted border border-neutral-100">
+                                        className="p-0 w-56 bg-muted border border-neutral-100 z100">
                                         <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
                                             <Avatar className="w-5 h-5">
                                                 <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
@@ -278,8 +282,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
-                                <ChatSheet locale={locale} />
-                                <DropdownMenu onOpenChange={setLangOpen} modal={false}>
+                                <ChatSheet locale={locale} open={chatOpen} onOpenChange={setChatOpen} />
+                                <DropdownMenu open={langOpen} onOpenChange={setLangOpen} modal={true}>
                                     <DropdownMenuTrigger asChild className="">
                                         <Avatar
                                             className={
@@ -290,7 +294,9 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                             <LanguagesIcon className="h-[30px] w-[30px]" />
                                         </Avatar>
                                     </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end" className="p-0 bg-muted border border-neutral-100">
+                                    <DropdownMenuContent
+                                        align="end"
+                                        className="p-0 bg-muted border border-neutral-100 z100">
                                         {getLocales?.().map(locale => (
                                             <DropdownMenuItem
                                                 key={locale.locale}

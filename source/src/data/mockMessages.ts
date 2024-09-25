@@ -30,9 +30,14 @@ const messages = [
         isUserMessage: false
     },
     {
-        text: "Нет, спасибо",
-        icon: false,
-        isUserMessage: true
+        text: "У Вас есть ещё вопросы?",
+        icon: true,
+        isUserMessage: false
+    },
+    {
+        text: "У Вас есть ещё вопросы?",
+        icon: true,
+        isUserMessage: false
     }
 ];
 
