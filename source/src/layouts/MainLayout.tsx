@@ -22,12 +22,12 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
 import {
     HandCoinsIcon,
-    // LayoutDashboardIcon,
     LanguagesIcon,
     BitcoinIcon,
     ChevronLeftCircleIcon,
     ChevronRightCircleIcon,
-    MessagesSquareIcon
+    MessagesSquareIcon,
+    XIcon
 } from "lucide-react";
 import { useTheme } from "@/components/providers";
 import { Toaster } from "@/components/ui/toaster";
@@ -35,6 +35,7 @@ import Logo from "@/lib/icons/Logo";
 import LogoPicture from "@/lib/icons/LogoPicture";
 import Blowfish from "@/lib/icons/Blowfish";
 import { ChatSheet } from "@/components/widgets/ChatSheet";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 enum SplitLocations {
     show = "show",
@@ -106,6 +107,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     const setNextPage = (nextLocation: string) => {
         setPageTitle(translate("app.menu." + nextLocation));
     };
+
+    console.log(chatOpen);
 
     return (
         <div className="flex min-h-screen w-full bg-muted">
@@ -214,7 +217,9 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 </nav>
             </aside>
             <div className="flex w-full flex-col ">
-                <header className="flex h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z">
+                <header
+                    className="flex h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z"
+                    onClick={e => e.stopPropagation()}>
                     {identity?.data && (
                         <div className="ml-auto flex items-center gap-2 mr-6">
                             <div>
@@ -280,7 +285,44 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
-                                <ChatSheet locale={locale} open={chatOpen} onOpenChange={setChatOpen} />
+                                <Sheet
+                                    open={chatOpen}
+                                    onOpenChange={isOpen => {
+                                        console.log("Chat toggle", isOpen);
+                                        setTimeout(() => setChatOpen(isOpen), 100);
+                                    }}
+                                    modal={true}>
+                                    <SheetTrigger asChild>
+                                        <div>
+                                            <Avatar
+                                                className={
+                                                    chatOpen
+                                                        ? "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
+                                                        : "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-green-50 hover:text-neutral-100 border-2 border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
+                                                }>
+                                                <MessagesSquareIcon className="h-[30px] w-[30px]" />
+                                            </Avatar>
+                                        </div>
+                                    </SheetTrigger>
+                                    <SheetContent
+                                        className="sm:max-w-[520px] !top-[84px] !max-h-[calc(100vh-84px)] w-full p-0 m-0"
+                                        close={false}>
+                                        <SheetHeader className="p-4 bg-green-60">
+                                            <div className="flex justify-between items-center ">
+                                                <SheetTitle className="text-display-3">
+                                                    {translate("app.ui.actions.chatWithSupport")}
+                                                </SheetTitle>
+                                                <button
+                                                    onClick={() => setChatOpen(false)}
+                                                    className="text-gray-500 hover:text-gray-700 transition-colors">
+                                                    <XIcon className="h-[28px] w-[28px]" />
+                                                </button>
+                                            </div>
+                                        </SheetHeader>
+                                        <SheetDescription></SheetDescription>
+                                        <ChatSheet locale={locale} />
+                                    </SheetContent>
+                                </Sheet>
                                 <DropdownMenu open={langOpen} onOpenChange={setLangOpen} modal={true}>
                                     <DropdownMenuTrigger asChild className="">
                                         <Avatar
