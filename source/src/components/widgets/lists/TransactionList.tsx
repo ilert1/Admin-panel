@@ -41,7 +41,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
-import { format } from "date-fns";
+import { format, subMonths } from "date-fns";
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
@@ -158,6 +158,9 @@ const TransactionFilterSidebar = () => {
     };
 
     const clearFilters = () => {
+        setStartDate(undefined);
+        setEndDate(undefined);
+        console.log(startDate);
         setId("");
         setAccount("");
         setCustomerPaymentId("");
@@ -211,13 +214,23 @@ const TransactionFilterSidebar = () => {
                     )}
 
                     <DateRangePicker
-                        placeholder={`${format(startDate, "dd.MM.yyyy")} - ${format(endDate, "dd.MM.yyyy")}`}
-                        date={{ from: startDate, to: endDate }}
+                        placeholder={`${format(subMonths(new Date(), 1), "dd.MM.yyyy")} - ${format(
+                            new Date(),
+                            "dd.MM.yyyy"
+                        )}`}
+                        dateRange={{ from: startDate, to: endDate }}
                         onChange={date => {
-                            if (date.from) {
+                            if (date?.from) {
                                 setStartDate(date.from);
-                            } else if (date.to) {
+                            }
+
+                            if (date?.to) {
                                 setEndDate(date.to);
+                            }
+
+                            if (!date) {
+                                setStartDate(undefined);
+                                setEndDate(undefined);
                             }
                         }}
                     />
@@ -249,7 +262,7 @@ const TransactionFilterSidebar = () => {
                         onClick={clearFilters}
                         variant="clearBtn"
                         size="default"
-                        disabled={!id && !account && !customerPaymentId}>
+                        disabled={!id && !account && !customerPaymentId && !startDate}>
                         <span>{translate("resources.transactions.filter.clearFilters")}</span>
                         <XIcon className="size-4" />
                     </Button>

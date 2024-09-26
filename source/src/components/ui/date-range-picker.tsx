@@ -4,26 +4,20 @@ import { format, subYears } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useTranslate } from "react-admin";
 
-export function DateRangePicker(props: {
+export function DateRangePicker({
+    placeholder,
+    dateRange,
+    onChange
+}: {
     placeholder: string;
-    date?: DateRange;
-    onChange?: (date: DateRange) => void;
+    dateRange: DateRange | undefined;
+    onChange: (date: DateRange | undefined) => void;
 }) {
     const translate = useTranslate();
     const initDate = new Date();
-
-    const [date, setDate] = useState<DateRange | undefined>();
-
-    useEffect(() => {
-        console.log(date);
-        if (props.onChange && date) {
-            props.onChange(date);
-        }
-    }, [date, props.onChange]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <Popover>
@@ -36,23 +30,23 @@ export function DateRangePicker(props: {
                             className={
                                 "flex flex-1 justify-between items-center gap-3 text-neutral-100 duration-200 px-3 py-2 border-green-40 min-w-52"
                             }>
-                            {date && date.from ? (
-                                date.to ? (
+                            {dateRange?.from ? (
+                                dateRange.to ? (
                                     <>
-                                        {format(date.from, "dd.MM.yyyy")} - {format(date.to, "dd.MM.yyyy")}
+                                        {format(dateRange.from, "dd.MM.yyyy")} - {format(dateRange.to, "dd.MM.yyyy")}
                                     </>
                                 ) : (
-                                    format(date.from, "dd.MM.yyyy")
+                                    format(dateRange.from, "dd.MM.yyyy")
                                 )
                             ) : (
-                                <span className="text-neutral-80 dark:text-neutral-70">{props.placeholder}</span>
+                                <span className="text-neutral-80 dark:text-neutral-70">{placeholder}</span>
                             )}
 
-                            {date?.from && date?.to ? (
+                            {dateRange?.from && dateRange?.to ? (
                                 <span
                                     onClick={e => {
                                         e.preventDefault();
-                                        setDate(undefined);
+                                        onChange(undefined);
                                     }}
                                     tabIndex={-1}
                                     className={
@@ -75,8 +69,8 @@ export function DateRangePicker(props: {
                     startMonth={subYears(new Date(), 10)}
                     endMonth={new Date(initDate)}
                     mode="range"
-                    selected={date}
-                    onSelect={setDate}
+                    selected={dateRange}
+                    onSelect={onChange}
                 />
             </PopoverContent>
         </Popover>
