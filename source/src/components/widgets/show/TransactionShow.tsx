@@ -6,6 +6,7 @@ import { BooleanField } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
 import { useMemo } from "react";
 import { Loading } from "@/components/ui/loading";
+import { TableTypes } from "../shared/SimpleTable";
 
 export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     const dataProvider = useDataProvider();
@@ -95,18 +96,48 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             header: translate("resources.transactions.fields.meta.external_status")
         }
     ];
+    const briefHistory = historyColumns.slice(0, 5);
 
     if (context.isLoading || context.isFetching || !context.record) {
         return <Loading />;
+    } else if (props.type === "compact") {
+        return (
+            <div className="p-[42px] pt-0 flex flex-col gap-6 overflow-auto top-[82px] overflow-auto">
+                <div className="flex gap-6">
+                    <div className="flex flex-col">
+                        <span className="opacity-60 text-title-1">
+                            {translate("resources.transactions.fields.type")}
+                        </span>
+                        <span>{data?.transactionTypes[context.record.type]?.type_descr}</span>
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="opacity-60 text-title-1">
+                            {translate("resources.transactions.fields.type")}
+                        </span>
+                        <span>{context.record.state.state_description}</span>
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="opacity-60 text-title-1">
+                            {translate("resources.transactions.fields.destination.header")}
+                        </span>
+                        <span>{context.record.destination.meta?.caption}</span>
+                    </div>
+                </div>
+                <div className="">
+                    <SimpleTable columns={briefHistory} data={history ? history : []} tableType={TableTypes.COLORED} />
+                </div>
+                <div className="flex flex-col gap-2 min-h-[100px]">
+                    <span>{translate("resources.transactions.fields.fees")}</span>
+                    <div className="">
+                        <SimpleTable columns={feesColumns} data={context.record.fees} tableType={TableTypes.COLORED} />
+                    </div>
+                </div>
+            </div>
+        );
     } else {
         return (
             <div className="relative w-[540] overflow-x-auto flex flex-col gap-2">
-                <div
-                    className={
-                        props.type === "compact"
-                            ? "flex flex-col gap-2"
-                            : "flex flex-row flex-wrap justify-between gap-2"
-                    }>
+                <div className={"flex flex-row flex-wrap justify-between gap-2"}>
                     <div className="flex flex-col gap-2">
                         <TextField
                             label={translate("resources.transactions.fields.id")}

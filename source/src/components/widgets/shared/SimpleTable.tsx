@@ -4,9 +4,19 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 interface SimpleTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
+    tableType?: TableTypes;
 }
 
-export function SimpleTable<TData, TValue>({ columns, data }: SimpleTableProps<TData, TValue>) {
+export enum TableTypes {
+    DEFAULT = "default",
+    COLORED = "colored"
+}
+
+export function SimpleTable<TData, TValue>({
+    columns,
+    data,
+    tableType = TableTypes.DEFAULT
+}: SimpleTableProps<TData, TValue>) {
     console.log(data);
 
     const table = useReactTable({
@@ -23,7 +33,13 @@ export function SimpleTable<TData, TValue>({ columns, data }: SimpleTableProps<T
                         <TableRow key={i}>
                             {headerGroup.headers.map((header, j) => {
                                 return (
-                                    <TableHead key={j}>
+                                    <TableHead
+                                        key={j}
+                                        className={
+                                            tableType === TableTypes.COLORED
+                                                ? "bg-green-50 text-neutral-100 border border-x border-muted"
+                                                : ""
+                                        }>
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(header.column.columnDef.header, header.getContext())}
@@ -36,9 +52,18 @@ export function SimpleTable<TData, TValue>({ columns, data }: SimpleTableProps<T
                 <TableBody>
                     {table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row, i) => (
-                            <TableRow key={i} data-state={row.getIsSelected() && "selected"}>
+                            <TableRow
+                                key={i}
+                                data-state={row.getIsSelected() && "selected"}
+                                className={
+                                    tableType === TableTypes.COLORED
+                                        ? "bg-neutral-0 text-neutral-100 border border-muted"
+                                        : ""
+                                }>
                                 {row.getVisibleCells().map((cell, j) => (
-                                    <TableCell key={j}>
+                                    <TableCell
+                                        key={j}
+                                        className={tableType === TableTypes.COLORED ? "border border-muted" : ""}>
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}

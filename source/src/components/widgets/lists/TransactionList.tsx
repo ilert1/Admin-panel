@@ -493,21 +493,33 @@ export const TransactionList = () => {
 
                     <DataTable columns={columns} />
                 </ListContextProvider>
-                <Sheet open={showOpen} onOpenChange={setShowOpen}>
+                <Sheet onOpenChange={setShowOpen} open={showOpen}>
                     <SheetContent
-                        className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
-                        side={isMobile ? "bottom" : "right"}>
-                        <ScrollArea className="h-full [&>div>div]:!block">
-                            <SheetHeader className="mb-2">
-                                <SheetTitle>{translate("resources.transactions.showHeader")}</SheetTitle>
+                        className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col"
+                        tabIndex={-1}
+                        style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
+                        close={false}>
+                        {/* Header - фиксированная часть */}
+                        <SheetHeader className="p-[42px] pb-[24px] flex-shrink-0">
+                            <div>
+                                <div className="flex justify-between items-center pb-2">
+                                    <SheetTitle className="text-display-1">
+                                        {translate("app.ui.transactionHistory")}
+                                    </SheetTitle>
+                                    <button
+                                        onClick={() => setShowOpen(false)}
+                                        className="text-gray-500 hover:text-gray-700 transition-colors border-0 outline-0">
+                                        <XIcon className="h-[28px] w-[28px]" />
+                                    </button>
+                                </div>
+                                <TextField text={showTransactionId} copyValue />
+                            </div>
+                        </SheetHeader>
 
-                                <SheetDescription>
-                                    {translate("resources.transactions.showDescription", { id: showTransactionId })}
-                                </SheetDescription>
-                            </SheetHeader>
-
+                        <div className="flex-1 overflow-auto" tabIndex={-1}>
+                            <SheetDescription></SheetDescription>
                             <TransactionShow id={showTransactionId} type="compact" />
-                        </ScrollArea>
+                        </div>
                     </SheetContent>
                 </Sheet>
                 <Sheet open={stornoOpen} onOpenChange={setStornoOpen}>
@@ -518,7 +530,6 @@ export const TransactionList = () => {
                             <SheetHeader className="mb-2">
                                 <SheetTitle>{translate("resources.transactions.show.storno")}</SheetTitle>
                             </SheetHeader>
-
                             <TransactionStorno accounts={accounts || []} currencies={sortedCurrencies || []} />
                         </ScrollArea>
                     </SheetContent>

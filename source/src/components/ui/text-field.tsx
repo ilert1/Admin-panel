@@ -33,6 +33,9 @@ export const TextField = ({
         if (wrap) {
             return "overflow-hidden ellipsis max-w-[500px]";
         }
+        // if (wrap) {
+        //     return "break-words whitespace-normal max-w-[500px]";
+        // }
 
         return "truncate max-w-[500px]";
     };
@@ -60,7 +63,7 @@ export const TextField = ({
             )}
             {type === "internal-link" && (
                 <Link to={link} className="!text-card-foreground transition-colors hover:bg-muted/50">
-                    <p className="font-medium">{text}</p>
+                    <span className="font-medium">{text}</span>
                 </Link>
             )}
         </div>

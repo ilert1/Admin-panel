@@ -5,16 +5,22 @@ import { cn } from "@/lib/utils";
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-    ({ className, type, value, onChange, disabled, ...props }, ref) => {
+    ({ className, type, value: propValue, onChange, disabled, ...props }, ref) => {
         const [inputValue, setInputValue] = React.useState<string | number | readonly string[] | undefined>(
-            value || ""
+            propValue || ""
         );
 
         const [showPassword, setShowPassword] = React.useState(false);
         const [isFocused, setIsFocused] = React.useState(false);
-        // const [isHoveringInput, setIsHoveringInput] = React.useState(false);
 
         const inputRef = React.useRef<HTMLInputElement>(null);
+
+        // Sync internal inputValue with external value prop if provided
+        React.useEffect(() => {
+            if (propValue !== undefined) {
+                setInputValue(propValue);
+            }
+        }, [propValue]);
 
         React.useImperativeHandle(ref, () => inputRef.current!);
 
@@ -34,14 +40,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             }
         };
 
-        const showClearButton = inputValue && isFocused; /* || isHoveringInput */
+        const showClearButton = inputValue && isFocused;
 
         return (
-            <div
-                className="relative flex items-center w-full"
-                /* onMouseEnter={() => setIsHoveringInput(true)}
-                onMouseLeave={() => setIsHoveringInput(false)} */
-            >
+            <div className="relative flex items-center w-full">
                 <input
                     type={type === "password" && showPassword ? "text" : type}
                     value={inputValue}
@@ -52,7 +54,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     className={cn(
                         "flex h-9 w-full rounded-4 text-neutral-80 border border-neutral-40 hover:border-green-50 active:border-green-50 focus:border-green-50 bg-neutral-0 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-60 focus:outline-none disabled:border-neutral-40 disabled:bg-neutral-40 transition duration-200",
                         className,
-                        inputValue || type === "password" ? "pr-12" : "pr-10"
+                        type === "password" ? "pr-12" : "pr-10"
                     )}
                     ref={inputRef}
                     {...props}
@@ -60,7 +62,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 {showClearButton && (
                     <button
                         type="button"
-                        onClick={handleClear}
+                        onMouseDown={handleClear}
                         tabIndex={-1}
                         className={cn(
                             "absolute inset-y-0",

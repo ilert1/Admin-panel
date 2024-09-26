@@ -288,9 +288,12 @@ const ru: TranslationMessages = {
             withdraw: "Вывод в криптовалюте",
             users: "Пользователи",
             currency: "Валюты",
+            currencies: "Валюты",
             merchant: "Мерчанты",
             provider: "Провайдеры",
-            direction: "Направления"
+            providers: "Провайдеры",
+            direction: "Направления",
+            directions: "Направления"
         },
         ui: {
             actions: {
@@ -302,7 +305,8 @@ const ru: TranslationMessages = {
                 addSecretKey: "Добавить аутентификационную инфорамцию",
                 changeSecretKey: "Изменить аутентификационную инфорамцию",
                 cancel: "Отменить",
-                areYouSure: "Вы точно хотите удалить элемент?"
+                areYouSure: "Вы точно хотите удалить элемент?",
+                chatWithSupport: "Чат с поддержкой"
             },
             pagination: {
                 next: "Далее",
@@ -313,7 +317,9 @@ const ru: TranslationMessages = {
             },
             delete: {
                 deletedSuccessfully: "Элемент удален успешно"
-            }
+            },
+            chatMessagePlaceholder: "Сообщение...",
+            transactionHistory: "История операции"
         },
         theme: {
             light: "Светлая тема",
@@ -704,9 +710,12 @@ const en: TranslationMessages = {
             withdraw: "Crypto Withdrawal",
             users: "Users",
             currency: "Currencies",
+            currencies: "Currencies",
             merchant: "Merchants",
             provider: "Providers",
-            direction: "Directions"
+            providers: "Providers",
+            direction: "Directions",
+            directions: "Directions"
         },
         ui: {
             actions: {
@@ -718,7 +727,8 @@ const en: TranslationMessages = {
                 addSecretKey: "Add auth data",
                 changeSecretKey: "Change auth data",
                 cancel: "Cancel",
-                areYouSure: "Are you sure you want delete this element?"
+                areYouSure: "Are you sure you want delete this element?",
+                chatWithSupport: "Chat with support"
             },
             pagination: {
                 next: "Next",
@@ -729,7 +739,9 @@ const en: TranslationMessages = {
             },
             delete: {
                 deletedSuccessfully: "Deleted successfully"
-            }
+            },
+            chatMessagePlaceholder: "Message...",
+            transactionHistory: "Transaction history"
         },
         theme: {
             light: "Light theme",

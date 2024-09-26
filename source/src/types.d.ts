@@ -1,3 +1,7 @@
+interface Window {
+    addSupportMessage?: (text: string) => void;
+}
+
 type Value = {
     quantity: number;
     accuracy: number;
