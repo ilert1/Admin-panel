@@ -186,7 +186,7 @@ const TransactionFilterSidebar = () => {
     return (
         <>
             <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 sm:gap-3 flex-wrap justify-between mb-6">
-                <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 sm:gap-3 flex-wrap">
+                <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
                     <label className="flex flex-1 gap-2 items-center lg:min-w-96">
                         <span className="md:text-nowrap">{translate("resources.transactions.filter.filterById")}</span>
                         <Input
