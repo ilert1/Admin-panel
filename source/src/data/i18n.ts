@@ -137,8 +137,7 @@ const ru: TranslationMessages = {
             },
             download: {
                 downloadReportLabel: "Выгрузка отчета",
-                startDate: "Дата с",
-                endDate: "до",
+                dateTitle: "Дата",
                 downloadReportButtonText: "Скачать отчет",
                 bothError: "Начальная дата и конечная дата обязательно должны быть заполнены",
                 greaterError: "Конечная дата не может быть больше чем начальная дата",
@@ -149,6 +148,7 @@ const ru: TranslationMessages = {
             filter: {
                 filterById: "Поиск по ID",
                 filterByAccount: "Поиск по счету",
+                filterByDate: "Выберите период",
                 clearFilters: "Сбросить фильтры",
                 filterCustomerPaymentId: "Поиск по ID платежа клиента"
             }
@@ -400,6 +400,22 @@ const ru: TranslationMessages = {
         cryptoTransfer: {
             header: "Перевод криптовалюты"
         }
+    },
+    datePicker: {
+        month: {
+            0: "Январь",
+            1: "Февраль",
+            2: "Март",
+            3: "Апрель",
+            4: "Май",
+            5: "Июнь",
+            6: "Июль",
+            7: "Август",
+            8: "Сентябрь",
+            9: "Октябрь",
+            10: "Ноябрь",
+            11: "Декабрь"
+        }
     }
 };
 
@@ -537,8 +553,7 @@ const en: TranslationMessages = {
             },
             download: {
                 downloadReportLabel: "Report download",
-                startDate: "Start date",
-                endDate: "End date",
+                dateTitle: "Date",
                 downloadReportButtonText: "Download report",
                 bothError: "Both start date and end date must be selected",
                 greaterError: "End date must be greater than start date",
@@ -549,6 +564,7 @@ const en: TranslationMessages = {
             filter: {
                 filterById: "Search by ID",
                 filterByAccount: "Search by account",
+                filterByDate: "Select period",
                 clearFilters: "Clear filters",
                 filterCustomerPaymentId: "Search by customer payment ID"
             }
@@ -799,6 +815,22 @@ const en: TranslationMessages = {
         },
         cryptoTransfer: {
             header: "Crypto Wallet Transfer"
+        }
+    },
+    datePicker: {
+        month: {
+            0: "January",
+            1: "February",
+            2: "March",
+            3: "April",
+            4: "May",
+            5: "June",
+            6: "July",
+            7: "August",
+            8: "September",
+            9: "October",
+            10: "November",
+            11: "December"
         }
     }
 };

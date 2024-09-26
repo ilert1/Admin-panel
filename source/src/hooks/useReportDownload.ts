@@ -5,18 +5,16 @@ import { API_URL } from "@/data/base";
 import { format } from "date-fns";
 
 const useReportDownload = () => {
-    const [startDate, setStartDate] = useState<Date>(
-        new Date(new Date().getFullYear(), new Date().getMonth() - 1, new Date().getDate())
-    );
-    const [endDate, setEndDate] = useState<Date>(new Date());
+    const [startDate, setStartDate] = useState<Date>();
+    const [endDate, setEndDate] = useState<Date>();
     const [isDateRangeValid, setIsDateRangeValid] = useState<boolean>(true);
     const [reqId, setReqId] = useState<string>("");
 
     const { toast } = useToast();
     const translate = useTranslate();
 
-    const formattedStartDate = useMemo(() => (startDate ? format(startDate, "yyyy-MM-dd") : ""), [startDate]);
-    const formattedEndDate = useMemo(() => (endDate ? format(endDate, "yyyy-MM-dd") : ""), [endDate]);
+    const formattedStartDate = useMemo(() => (startDate ? format(startDate, "yyyy-MM-dd") : undefined), [startDate]);
+    const formattedEndDate = useMemo(() => (endDate ? format(endDate, "yyyy-MM-dd") : undefined), [endDate]);
 
     const handleSelectedIdChange = (value: string) => {
         setReqId(value);

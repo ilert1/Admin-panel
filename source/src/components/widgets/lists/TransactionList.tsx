@@ -34,14 +34,14 @@ import { TransactionStorno } from "@/components/widgets/forms";
 import { API_URL } from "@/data/base";
 import { EventBus, EVENT_STORNO } from "@/helpers/event-bus";
 import { TextField } from "@/components/ui/text-field";
-import { DatePicker } from "@/components/ui/date-picker";
+import { DateRangePicker } from "@/components/ui/date-range-picker";
 import useReportDownload from "@/hooks/useReportDownload";
 import { Loading } from "@/components/ui/loading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
-import { format } from "date-fns";
+import { DateRange } from "react-day-picker";
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
@@ -157,7 +157,24 @@ const TransactionFilterSidebar = () => {
         onPropertySelected(account, "account");
     };
 
+    const changeDate = (date: DateRange | undefined) => {
+        if (date) {
+            if (date.from) {
+                setStartDate(date.from);
+            }
+
+            if (date.to) {
+                setEndDate(date.to);
+            }
+        } else {
+            setStartDate(undefined);
+            setEndDate(undefined);
+        }
+    };
+
     const clearFilters = () => {
+        setStartDate(undefined);
+        setEndDate(undefined);
         setId("");
         setAccount("");
         setCustomerPaymentId("");
@@ -168,10 +185,10 @@ const TransactionFilterSidebar = () => {
 
     return (
         <>
-            <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 flex-wrap justify-between mb-6">
-                <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 sm:gap-3 flex-wrap">
-                    <label className="flex gap-2 items-center lg:min-w-96">
-                        <span>{translate("resources.transactions.filter.filterById")}</span>
+            <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 sm:gap-3 flex-wrap justify-between mb-6">
+                <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
+                    <label className="flex flex-1 gap-2 items-center lg:min-w-96">
+                        <span className="md:text-nowrap">{translate("resources.transactions.filter.filterById")}</span>
                         <Input
                             className="flex-1 text-sm placeholder:text-neutral-70"
                             placeholder={translate("resources.transactions.fields.id")}
@@ -180,7 +197,9 @@ const TransactionFilterSidebar = () => {
                         />
                     </label>
                     <label className="flex gap-2 items-center lg:min-w-96">
-                        <span>{translate("resources.transactions.filter.filterCustomerPaymentId")}</span>
+                        <span className="md:text-nowrap">
+                            {translate("resources.transactions.filter.filterCustomerPaymentId")}
+                        </span>
                         <Input
                             className="flex-1 text-sm placeholder:text-neutral-70"
                             placeholder={translate("resources.transactions.fields.id")}
@@ -189,7 +208,7 @@ const TransactionFilterSidebar = () => {
                         />
                     </label>
                     {adminOnly && (
-                        <div className="flex-1">
+                        <div className="flex-1 min-w-48">
                             <Select onValueChange={onAccountChanged} value={account}>
                                 <SelectTrigger>
                                     <SelectValue
@@ -208,27 +227,14 @@ const TransactionFilterSidebar = () => {
                         </div>
                     )}
 
-                    <div className="flex flex-col sm:flex-row items-stretch flex-wrap gap-2 sm:gap-3">
-                        <label className="flex gap-2 items-center">
-                            <span>{translate("resources.transactions.download.startDate")}</span>
-                            <DatePicker
-                                placeholder={format(startDate, "dd.MM.yyyy")}
-                                date={startDate}
-                                onChange={setStartDate}
-                            />
-                        </label>
+                    <DateRangePicker
+                        placeholder={translate("resources.transactions.filter.filterByDate")}
+                        dateRange={{ from: startDate, to: endDate }}
+                        onChange={changeDate}
+                    />
 
-                        <label className="flex gap-2 items-center">
-                            <span>{translate("resources.transactions.download.endDate")}</span>
-                            <DatePicker
-                                placeholder={format(endDate, "dd.MM.yyyy")}
-                                date={endDate}
-                                onChange={setEndDate}
-                            />
-                        </label>
-                    </div>
                     {adminOnly && (
-                        <div className="flex-1">
+                        <div className="flex-1 min-w-48">
                             <Select onValueChange={handleSelectedIdChange}>
                                 <SelectTrigger>
                                     <SelectValue
@@ -254,7 +260,7 @@ const TransactionFilterSidebar = () => {
                         onClick={clearFilters}
                         variant="clearBtn"
                         size="default"
-                        disabled={!id && !account && !customerPaymentId}>
+                        disabled={!id && !account && !customerPaymentId && !startDate}>
                         <span>{translate("resources.transactions.filter.clearFilters")}</span>
                         <XIcon className="size-4" />
                     </Button>
