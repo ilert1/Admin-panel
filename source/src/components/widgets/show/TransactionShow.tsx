@@ -102,7 +102,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
         return <Loading />;
     } else if (props.type === "compact") {
         return (
-            <div className="p-[42px] pt-0 flex flex-col gap-6 overflow-auto top-[82px]">
+            <div className="p-[42px] pt-0 flex flex-col gap-6 overflow-auto top-[82px] overflow-auto">
                 <div className="flex gap-6">
                     <div className="flex flex-col">
                         <span className="opacity-60 text-title-1">

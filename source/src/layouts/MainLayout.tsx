@@ -313,8 +313,9 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                                     {translate("app.ui.actions.chatWithSupport")}
                                                 </SheetTitle>
                                                 <button
+                                                    tabIndex={-1}
                                                     onClick={() => setChatOpen(false)}
-                                                    className="text-gray-500 hover:text-gray-700 transition-colors">
+                                                    className="text-gray-500 hover:text-gray-700 transition-colors outline-0 border-0 -tab-1">
                                                     <XIcon className="h-[28px] w-[28px]" />
                                                 </button>
                                             </div>

@@ -489,10 +489,12 @@ export const TransactionList = () => {
                 </ListContextProvider>
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>
                     <SheetContent
-                        className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px]  overflow-auto"
+                        className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col"
+                        tabIndex={-1}
                         style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
                         close={false}>
-                        <SheetHeader className="p-[42px] pb-[24px]">
+                        {/* Header - фиксированная часть */}
+                        <SheetHeader className="p-[42px] pb-[24px] flex-shrink-0">
                             <div>
                                 <div className="flex justify-between items-center pb-2">
                                     <SheetTitle className="text-display-1">
@@ -507,8 +509,11 @@ export const TransactionList = () => {
                                 <TextField text={showTransactionId} copyValue />
                             </div>
                         </SheetHeader>
-                        <SheetDescription></SheetDescription>
-                        <TransactionShow id={showTransactionId} type="compact" />
+
+                        <div className="flex-1 overflow-auto" tabIndex={-1}>
+                            <SheetDescription></SheetDescription>
+                            <TransactionShow id={showTransactionId} type="compact" />
+                        </div>
                     </SheetContent>
                 </Sheet>
                 <Sheet open={stornoOpen} onOpenChange={setStornoOpen}>

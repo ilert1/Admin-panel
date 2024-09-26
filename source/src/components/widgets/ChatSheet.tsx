@@ -18,6 +18,13 @@ export const ChatSheet = ({ locale = "ru" }: ChatSheetProps) => {
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const messagesContainerRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const focusInput = () => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    };
 
     const scrollToBottom = () => {
         if (messagesEndRef.current) {
@@ -30,6 +37,7 @@ export const ChatSheet = ({ locale = "ru" }: ChatSheetProps) => {
         if (message.trim()) {
             setMessages(prevMessages => [...prevMessages, { text: message, icon: false, isUserMessage: true }]);
             setMessage("");
+            focusInput();
         }
     };
 
@@ -37,6 +45,7 @@ export const ChatSheet = ({ locale = "ru" }: ChatSheetProps) => {
         if (e.key === "Enter") {
             e.preventDefault();
             handleSendClicked();
+            focusInput();
         }
     };
 
@@ -62,8 +71,9 @@ export const ChatSheet = ({ locale = "ru" }: ChatSheetProps) => {
         };
     }, []);
     return (
-        <div className="flex flex-col" style={{ height: "calc(100vh - 144px)" }}>
+        <div className="flex flex-col" style={{ height: "calc(100vh - 144px)" }} tabIndex={-1}>
             <div
+                tabIndex={-1}
                 ref={messagesContainerRef}
                 className="bg-neutral-0 flex-auto overflow-y-auto pb-4"
                 style={{ maxHeight: "calc(100vh - 200px)" }}>
@@ -81,13 +91,16 @@ export const ChatSheet = ({ locale = "ru" }: ChatSheetProps) => {
                 </div>
                 <div ref={messagesEndRef} />
             </div>
-            <div className="h-[92px] bg-muted p-4 flex items-center gap-4">
+            <div className="h-[92px] bg-muted p-4 flex items-center gap-4" tabIndex={-1}>
                 <Input
                     className="h-[60px] flex-grow"
                     value={message}
                     onChange={e => setMessage(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder={translate("app.ui.chatMessagePlaceholder")}
+                    ref={inputRef}
+                    autoFocus
+                    tabIndex={1}
                 />
                 <Button className="h-[60px] w-[60px]" disabled={!message.trim()} onClick={handleSendClicked}>
                     <Send className="w-[40px] h-[40px]" />
