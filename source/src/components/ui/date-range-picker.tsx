@@ -68,7 +68,7 @@ export function DateRangePicker({
                     today={initDate}
                     disabled={{ after: initDate }}
                     defaultMonth={initDate}
-                    startMonth={subYears(new Date(), 10)}
+                    startMonth={new Date(2014, 0, 1)}
                     endMonth={new Date(initDate)}
                     mode="range"
                     selected={dateRange}
