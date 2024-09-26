@@ -69,10 +69,11 @@ export function DateRangePicker(props: {
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="center">
                 <Calendar
+                    today={initDate}
                     disabled={{ after: initDate }}
                     defaultMonth={initDate}
                     startMonth={subYears(new Date(), 10)}
-                    endMonth={initDate}
+                    endMonth={new Date(initDate)}
                     mode="range"
                     selected={date}
                     onSelect={setDate}
