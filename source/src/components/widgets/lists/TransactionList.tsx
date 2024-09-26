@@ -211,7 +211,7 @@ const TransactionFilterSidebar = () => {
                     )}
 
                     <DateRangePicker
-                        placeholder={format(endDate, "dd.MM.yyyy")}
+                        placeholder={`${format(startDate, "dd.MM.yyyy")} - ${format(endDate, "dd.MM.yyyy")}`}
                         date={{ from: startDate, to: endDate }}
                         onChange={date => {
                             if (date.from) {

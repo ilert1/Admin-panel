@@ -19,6 +19,7 @@ export function DateRangePicker(props: {
     const [date, setDate] = useState<DateRange | undefined>();
 
     useEffect(() => {
+        console.log(date);
         if (props.onChange && date) {
             props.onChange(date);
         }
@@ -35,7 +36,7 @@ export function DateRangePicker(props: {
                             className={
                                 "flex flex-1 justify-between items-center gap-3 text-neutral-100 duration-200 px-3 py-2 border-green-40 min-w-52"
                             }>
-                            {date?.from ? (
+                            {date && date.from ? (
                                 date.to ? (
                                     <>
                                         {format(date.from, "dd.MM.yyyy")} - {format(date.to, "dd.MM.yyyy")}
@@ -44,7 +45,7 @@ export function DateRangePicker(props: {
                                     format(date.from, "dd.MM.yyyy")
                                 )
                             ) : (
-                                <span className="mr-2">{props.placeholder}</span>
+                                <span className="text-neutral-80 dark:text-neutral-70">{props.placeholder}</span>
                             )}
 
                             {date?.from && date?.to ? (
