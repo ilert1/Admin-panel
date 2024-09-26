@@ -41,7 +41,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
-import { format, subMonths } from "date-fns";
 import { DateRange } from "react-day-picker";
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
@@ -229,10 +228,7 @@ const TransactionFilterSidebar = () => {
                     )}
 
                     <DateRangePicker
-                        placeholder={`${format(subMonths(new Date(), 1), "dd.MM.yyyy")} - ${format(
-                            new Date(),
-                            "dd.MM.yyyy"
-                        )}`}
+                        placeholder={translate("resources.transactions.filter.filterByDate")}
                         dateRange={{ from: startDate, to: endDate }}
                         onChange={changeDate}
                     />

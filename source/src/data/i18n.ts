@@ -148,6 +148,7 @@ const ru: TranslationMessages = {
             filter: {
                 filterById: "Поиск по ID",
                 filterByAccount: "Поиск по счету",
+                filterByDate: "Выберите период",
                 clearFilters: "Сбросить фильтры",
                 filterCustomerPaymentId: "Поиск по ID платежа клиента"
             }
@@ -563,6 +564,7 @@ const en: TranslationMessages = {
             filter: {
                 filterById: "Search by ID",
                 filterByAccount: "Search by account",
+                filterByDate: "Select period",
                 clearFilters: "Clear filters",
                 filterCustomerPaymentId: "Search by customer payment ID"
             }
