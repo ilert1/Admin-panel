@@ -42,6 +42,7 @@ import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
 import { format, subMonths } from "date-fns";
+import { DateRange } from "react-day-picker";
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
@@ -157,10 +158,24 @@ const TransactionFilterSidebar = () => {
         onPropertySelected(account, "account");
     };
 
+    const changeDate = (date: DateRange | undefined) => {
+        if (date) {
+            if (date?.from) {
+                setStartDate(date.from);
+            }
+
+            if (date?.to) {
+                setEndDate(date.to);
+            }
+        } else {
+            setStartDate(undefined);
+            setEndDate(undefined);
+        }
+    };
+
     const clearFilters = () => {
         setStartDate(undefined);
         setEndDate(undefined);
-        console.log(startDate);
         setId("");
         setAccount("");
         setCustomerPaymentId("");
@@ -219,20 +234,7 @@ const TransactionFilterSidebar = () => {
                             "dd.MM.yyyy"
                         )}`}
                         dateRange={{ from: startDate, to: endDate }}
-                        onChange={date => {
-                            if (date?.from) {
-                                setStartDate(date.from);
-                            }
-
-                            if (date?.to) {
-                                setEndDate(date.to);
-                            }
-
-                            if (!date) {
-                                setStartDate(undefined);
-                                setEndDate(undefined);
-                            }
-                        }}
+                        onChange={changeDate}
                     />
 
                     {adminOnly && (
