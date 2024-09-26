@@ -18,10 +18,10 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
             }}
             autoFocus
             captionLayout="dropdown"
-            startMonth={new Date(2014, 0)}
+            showOutsideDays
             hideWeekdays
             className={cn(
-                "p-4 pb-2 rounded-4 bg-neutral-0 dark:border-green-50 border-green-60 border shadow",
+                "p-4 pb-2 rounded-4 bg-neutral-0 dark:border-green-50 border-green-60 border shadow select-none",
                 className
             )}
             classNames={{
@@ -41,11 +41,11 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
                 ),
                 selected:
                     "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-                day: "p-0 text-base font-normal dark:text-neutral-90 text-neutral-80 [&.day-range-end]:text-neutral-0 [&.day-range-start]:text-neutral-0 dark:[&.day-range-end]:text-neutral-100 dark:[&.day-range-start]:text-neutral-100",
-                day_hidden: "invisible",
-                day_outside: "text-muted-foreground opacity-50",
-                day_disabled: "text-muted-foreground opacity-50",
-                day_button: "w-5 h-5 m-2 text-base font-normal flex items-center justify-center",
+                day: "p-0 text-sm font-normal dark:text-neutral-90 text-neutral-80 [&.day-range-end]:text-neutral-0 [&.day-range-start]:text-neutral-0 dark:[&.day-range-end]:text-neutral-100 dark:[&.day-range-start]:text-neutral-100",
+                hidden: "invisible",
+                outside: "text-muted-foreground opacity-40",
+                disabled: "text-muted-foreground opacity-40",
+                day_button: "w-5 h-5 m-2 text-sm font-normal flex items-center justify-center text-inherit",
                 today: "relative z-10 [&:not([aria-selected])]:before:absolute [&:not([aria-selected])]:before:outline [&:not([aria-selected])]:before:outline-1 dark:[&:not([aria-selected])]:before:outline-green-40 [&:not([aria-selected])]:before:outline-green-50 [&:not([aria-selected])]:before:rounded-4 [&:not([aria-selected])]:before:top-1 [&:not([aria-selected])]:before:bottom-1 [&:not([aria-selected])]:before:left-1 [&:not([aria-selected])]:before:right-1 [&:not([aria-selected])]:before:-z-10",
                 range_middle:
                     "relative after:absolute dark:after:bg-green-20 after:bg-green-0 after:top-1 after:bottom-1 after:left-0 after:right-0 after:-z-10 z-10",
@@ -79,10 +79,13 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
                         return options?.map((option, id: number) => (
                             <button
                                 id={`${option.value}`}
-                                onClick={() => handleChange(String(option.value))}
+                                onClick={e =>
+                                    !option.disabled ? handleChange(String(option.value)) : e.preventDefault()
+                                }
                                 className={
                                     "text-sm font-medium dark:text-neutral-90 text-neutral-80 rounded-4 px-1 py-1.5 pointer" +
-                                    (option.value === value ? " bg-green-50 dark:text-neutral-90 text-neutral-0" : "")
+                                    (option.value === value ? " bg-green-50 dark:text-neutral-90 text-neutral-0" : "") +
+                                    (option.disabled ? " text-muted-foreground opacity-40 select-none" : "")
                                 }
                                 key={`${option.value}-${id}`}>
                                 {option.label}
@@ -105,7 +108,7 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
                             </button>
 
                             {showDropdown && (
-                                <div className="absolute overflow-auto top-0 bottom-0 left-0 right-0 grid grid-cols-3 bg-neutral-0 z-30 gap-x-1 gap-y-2 p-2 rounded-4">
+                                <div className="absolute overflow-auto top-0 bottom-0 left-0 right-0 grid grid-cols-3 grid-rows-4 bg-neutral-0 z-30 gap-x-1 gap-y-2 p-2 rounded-4">
                                     {renderItems}
                                 </div>
                             )}
