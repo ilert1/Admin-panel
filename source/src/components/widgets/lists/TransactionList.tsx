@@ -160,11 +160,11 @@ const TransactionFilterSidebar = () => {
 
     const changeDate = (date: DateRange | undefined) => {
         if (date) {
-            if (date?.from) {
+            if (date.from) {
                 setStartDate(date.from);
             }
 
-            if (date?.to) {
+            if (date.to) {
                 setEndDate(date.to);
             }
         } else {
