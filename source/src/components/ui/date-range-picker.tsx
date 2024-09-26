@@ -6,6 +6,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { DateRange } from "react-day-picker";
 import { useTranslate } from "react-admin";
+import { useState } from "react";
 
 export function DateRangePicker({
     placeholder,
@@ -16,11 +17,12 @@ export function DateRangePicker({
     dateRange: DateRange | undefined;
     onChange: (date: DateRange | undefined) => void;
 }) {
+    const [openPopover, setOpenPopover] = useState(false);
     const translate = useTranslate();
     const initDate = new Date();
 
     return (
-        <Popover>
+        <Popover open={openPopover} onOpenChange={setOpenPopover}>
             <PopoverTrigger asChild>
                 <div className="flex flex-col sm:flex-row items-stretch flex-wrap gap-2 sm:gap-3">
                     <div className="relative flex gap-2 items-center flex-1">
@@ -42,7 +44,7 @@ export function DateRangePicker({
                                 <span className="text-neutral-80 dark:text-neutral-70">{placeholder}</span>
                             )}
 
-                            {dateRange?.from && dateRange?.to ? (
+                            {openPopover && dateRange?.from && dateRange?.to ? (
                                 <span
                                     onClick={e => {
                                         e.preventDefault();
