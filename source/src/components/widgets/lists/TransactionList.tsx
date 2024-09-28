@@ -42,6 +42,7 @@ import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
 import { DateRange } from "react-day-picker";
+import BarChart from "@/components/ui/Bar";
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
@@ -479,6 +480,8 @@ export const TransactionList = () => {
             }
         }
     ];
+    const startDate = new Date("2023-07-01");
+    const endDate = new Date("2023-09-15");
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
     } else {
@@ -489,6 +492,9 @@ export const TransactionList = () => {
                         <h1 className="text-3xl mb-6">{translate("app.menu.transactions")}</h1>
 
                         <TransactionFilterSidebar />
+                    </div>
+                    <div>
+                        <BarChart startDate={startDate} endDate={endDate} />
                     </div>
 
                     <DataTable columns={columns} />
