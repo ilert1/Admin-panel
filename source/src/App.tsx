@@ -1,4 +1,11 @@
-import { CustomRoutes, Resource, combineDataProviders, CoreAdminContext, CoreAdminUI } from "react-admin";
+import {
+    CustomRoutes,
+    Resource,
+    combineDataProviders,
+    CoreAdminContext,
+    CoreAdminUI,
+    usePermissions
+} from "react-admin";
 import {
     TransactionDataProvider,
     i18nProvider,

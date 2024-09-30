@@ -9,7 +9,7 @@ import {
     useResourceDefinitions,
     useTranslate
 } from "react-admin";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useMemo, createElement, useState, useEffect } from "react";
 import {
@@ -49,6 +49,13 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
     const location = useLocation();
 
+    const navigate = useNavigate();
+    const [pageTitle, setPageTitle] = useState("");
+
+    const setNextPage = (nextLocation: string) => {
+        setPageTitle(translate("app.menu." + nextLocation));
+    };
+
     const resourceName = useMemo(() => {
         const resources = location.pathname?.split("/")?.filter((s: string) => s?.length > 0);
 
@@ -58,21 +65,24 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 resources.push(tempResource.join("/"));
             }
         });
-
+        setNextPage(resources[0]);
         return resources;
     }, [location]);
 
     const identity = useGetIdentity();
     const logout = useLogout();
+    //TODO for better UX we should set last location in localStorage to save it while user presses browser "refresh" button
+    const handleLogout = () => {
+        location.pathname = "/";
+        logout();
+    };
+
     const { setTheme, theme } = useTheme();
     const [locale, setLocale] = useLocaleState();
     const { getLocales } = useI18nProvider();
 
     const [isSheetOpen, setSheetOpen] = useState(false);
     const [showCaptions, setShowCaptions] = useState(false);
-    const [pageTitle, setPageTitle] = useState(
-        merchantOnly ? translate("app.menu.accounts") : translate("app.menu.transactions")
-    );
 
     const [profileOpen, setProfileOpen] = useState(false);
     const [conversationOpen, setConversationOpen] = useState(false);
@@ -100,12 +110,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
         }
     };
 
-    const setNextPage = (nextLocation: string) => {
-        setPageTitle(translate("app.menu." + nextLocation));
-    };
-
     return (
-        <div className="flex min-h-screen w-full bg-muted">
+        <div className="flex min-h-screen w-full">
             <aside
                 className={
                     isSheetOpen
@@ -210,10 +216,10 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     )}
                 </nav>
             </aside>
-            <div className="flex w-full flex-col ">
-                <header className="flex h-[84px] items-center gap-4 bg-header px-4">
+            <div className="flex w-full flex-col">
+                <header className="flex h-[84px] min-h-[84px] items-center gap-4 bg-header px-4">
                     {identity?.data && (
-                        <div className="ml-auto flex items-center gap-2 mr-6">
+                        <div className="flex items-center justify-end gap-2 mr-24 w-[100vw]">
                             <div>
                                 <span
                                     className={
@@ -272,7 +278,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                         </div>
                                         <DropdownMenuItem
                                             className="pl-4 pr-4 h-[50px] focus:bg-green-50 focus:cursor-pointer text-title-2"
-                                            onClick={logout}>
+                                            onClick={handleLogout}>
                                             {translate("ra.auth.logout")}
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
@@ -316,11 +322,12 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                         </div>
                     )}
                 </header>
-
-                <main className="p-6 container">
-                    <div>{pageTitle}</div>
-                    {children}
-                </main>
+                <div className="h-full bg-muted w-full">
+                    <main className="p-6 container">
+                        <div>{pageTitle}</div>
+                        {children}
+                    </main>
+                </div>
             </div>
             <Toaster />
         </div>

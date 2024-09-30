@@ -14,6 +14,7 @@ const ru: TranslationMessages = {
                 state: "Состояние",
                 type: "Тип",
                 amounts: "Суммы",
+                owner: "Владелец",
                 amount: {
                     id: "ID",
                     shop_currency: "Фиатная валюта",
@@ -414,6 +415,7 @@ const en: TranslationMessages = {
                 state: "State",
                 type: "Type",
                 amounts: "Amounts",
+                owner: "Owner",
                 amount: {
                     id: "ID",
                     shop_currency: "Shop currency",
