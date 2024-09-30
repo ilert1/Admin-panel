@@ -16,6 +16,9 @@ export class TransactionDataProvider extends BaseDataProvider {
         if (params.filter.id) {
             data["id"] = params.filter.id;
         }
+        if (params.filter.customer_payment_id) {
+            data["customer_payment_id"] = params.filter.customer_payment_id;
+        }
         if (params.filter.type) {
             data["type"] = params.filter.type;
         }
