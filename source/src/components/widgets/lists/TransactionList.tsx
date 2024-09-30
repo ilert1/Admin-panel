@@ -208,7 +208,7 @@ const TransactionFilterSidebar = () => {
                         />
                     </label>
                     {adminOnly && (
-                        <div className="flex-1 min-w-48">
+                        <div className="min-w-48 max-w-80 flex-1">
                             <Select onValueChange={onAccountChanged} value={account}>
                                 <SelectTrigger>
                                     <SelectValue
@@ -234,7 +234,7 @@ const TransactionFilterSidebar = () => {
                     />
 
                     {adminOnly && (
-                        <div className="flex-1 min-w-48">
+                        <div className="min-w-48 max-w-80 flex-1">
                             <Select onValueChange={handleSelectedIdChange}>
                                 <SelectTrigger>
                                     <SelectValue
@@ -256,7 +256,7 @@ const TransactionFilterSidebar = () => {
                     )}
 
                     <Button
-                        className="flex items-center gap-1 w-auto h-auto"
+                        className="ml-0 sm:ml-auto flex items-center gap-1 w-auto h-auto"
                         onClick={clearFilters}
                         variant="clearBtn"
                         size="default"
@@ -266,7 +266,12 @@ const TransactionFilterSidebar = () => {
                     </Button>
                 </div>
 
-                <Button onClick={handleDownload} variant="default" size="sm" disabled={reqId ? false : true}>
+                <Button
+                    className="ml-0 sm:ml-auto"
+                    onClick={handleDownload}
+                    variant="default"
+                    size="sm"
+                    disabled={reqId ? false : true}>
                     {translate("resources.transactions.download.downloadReportButtonText")}
                 </Button>
             </div>
