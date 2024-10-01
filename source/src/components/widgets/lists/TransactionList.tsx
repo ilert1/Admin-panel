@@ -42,6 +42,7 @@ import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
 import { DateRange } from "react-day-picker";
+import { SelectItemText } from "@radix-ui/react-select";
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
@@ -153,6 +154,7 @@ const TransactionFilterSidebar = () => {
     };
 
     const onAccountChanged = (account: Account | string) => {
+        console.log(account);
         setAccount(account);
         onPropertySelected(account, "account");
     };
@@ -208,11 +210,16 @@ const TransactionFilterSidebar = () => {
                 </label>
                 {adminOnly && (
                     <div className="min-w-48 max-w-80 flex-1">
-                        <Select onValueChange={onAccountChanged} value={account}>
+                        <Select
+                            onValueChange={val => (val !== "null" ? onAccountChanged(val) : onAccountChanged(""))}
+                            value={account}>
                             <SelectTrigger>
                                 <SelectValue placeholder={translate("resources.transactions.filter.filterByAccount")} />
                             </SelectTrigger>
                             <SelectContent>
+                                <SelectItem value="null">
+                                    {translate("resources.transactions.filter.showAll")}
+                                </SelectItem>
                                 {accounts &&
                                     accounts.map(account => (
                                         <SelectItem key={account.id} value={account}>
@@ -232,12 +239,19 @@ const TransactionFilterSidebar = () => {
 
                 {adminOnly && (
                     <div className="min-w-48 max-w-80 flex-1">
-                        <Select onValueChange={handleSelectedIdChange}>
+                        <Select
+                            onValueChange={val =>
+                                val !== "null" ? handleSelectedIdChange(val) : handleSelectedIdChange("")
+                            }
+                            value={reqId}>
                             <SelectTrigger>
                                 <SelectValue placeholder={translate("resources.transactions.download.accountField")} />
                             </SelectTrigger>
 
                             <SelectContent>
+                                <SelectItem value="null">
+                                    {translate("resources.transactions.filter.notSelected")}
+                                </SelectItem>
                                 {accounts?.map(el => {
                                     return (
                                         <SelectItem key={el.id} value={el.id.toString()}>

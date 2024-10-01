@@ -146,6 +146,8 @@ const ru: TranslationMessages = {
                 accountField: "Выберите аккаунт мерчанта"
             },
             filter: {
+                showAll: "Показать все",
+                notSelected: "Не выбран",
                 filterById: "Поиск по ID",
                 filterByAccount: "Поиск по счету",
                 filterByDate: "Выберите период",
@@ -568,6 +570,8 @@ const en: TranslationMessages = {
                 accountField: "Choose merchant account"
             },
             filter: {
+                showAll: "Show all",
+                notSelected: "Not selected",
                 filterById: "Search by ID",
                 filterByAccount: "Search by account",
                 filterByDate: "Select period",
