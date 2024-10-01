@@ -185,86 +185,80 @@ const TransactionFilterSidebar = () => {
 
     return (
         <>
-            <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 sm:gap-3 flex-wrap justify-between mb-6">
-                <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
-                    <label className="flex flex-1 gap-2 items-center lg:min-w-96">
-                        <span className="md:text-nowrap">{translate("resources.transactions.filter.filterById")}</span>
-                        <Input
-                            className="flex-1 text-sm placeholder:text-neutral-70"
-                            placeholder={translate("resources.transactions.fields.id")}
-                            value={id}
-                            onChange={onIdChanged}
-                        />
-                    </label>
-                    <label className="flex gap-2 items-center lg:min-w-96">
-                        <span className="md:text-nowrap">
-                            {translate("resources.transactions.filter.filterCustomerPaymentId")}
-                        </span>
-                        <Input
-                            className="flex-1 text-sm placeholder:text-neutral-70"
-                            placeholder={translate("resources.transactions.fields.id")}
-                            value={customerPaymentId}
-                            onChange={onCustomerPaymentIdChanged}
-                        />
-                    </label>
-                    {adminOnly && (
-                        <div className="flex-1 min-w-48">
-                            <Select onValueChange={onAccountChanged} value={account}>
-                                <SelectTrigger>
-                                    <SelectValue
-                                        placeholder={translate("resources.transactions.filter.filterByAccount")}
-                                    />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {accounts &&
-                                        accounts.map(account => (
-                                            <SelectItem key={account.id} value={account}>
-                                                {account.meta.caption}
-                                            </SelectItem>
-                                        ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    )}
-
-                    <DateRangePicker
-                        placeholder={translate("resources.transactions.filter.filterByDate")}
-                        dateRange={{ from: startDate, to: endDate }}
-                        onChange={changeDate}
+            <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap mb-6">
+                <label className="flex flex-1 gap-2 items-center lg:min-w-96">
+                    <span className="md:text-nowrap">{translate("resources.transactions.filter.filterById")}</span>
+                    <Input
+                        className="flex-1 text-sm placeholder:text-neutral-70"
+                        placeholder={translate("resources.transactions.fields.id")}
+                        value={id}
+                        onChange={onIdChanged}
                     />
+                </label>
+                <label className="flex gap-2 items-center lg:min-w-96">
+                    <span className="md:text-nowrap">
+                        {translate("resources.transactions.filter.filterCustomerPaymentId")}
+                    </span>
+                    <Input
+                        className="flex-1 text-sm placeholder:text-neutral-70"
+                        placeholder={translate("resources.transactions.fields.id")}
+                        value={customerPaymentId}
+                        onChange={onCustomerPaymentIdChanged}
+                    />
+                </label>
+                {adminOnly && (
+                    <div className="min-w-48 max-w-80 flex-1">
+                        <Select onValueChange={onAccountChanged} value={account}>
+                            <SelectTrigger>
+                                <SelectValue placeholder={translate("resources.transactions.filter.filterByAccount")} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {accounts &&
+                                    accounts.map(account => (
+                                        <SelectItem key={account.id} value={account}>
+                                            {account.meta.caption}
+                                        </SelectItem>
+                                    ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                )}
 
-                    {adminOnly && (
-                        <div className="flex-1 min-w-48">
-                            <Select onValueChange={handleSelectedIdChange}>
-                                <SelectTrigger>
-                                    <SelectValue
-                                        placeholder={translate("resources.transactions.download.accountField")}
-                                    />
-                                </SelectTrigger>
+                <DateRangePicker
+                    placeholder={translate("resources.transactions.filter.filterByDate")}
+                    dateRange={{ from: startDate, to: endDate }}
+                    onChange={changeDate}
+                />
 
-                                <SelectContent>
-                                    {accounts?.map(el => {
-                                        return (
-                                            <SelectItem key={el.id} value={el.id.toString()}>
-                                                {el.meta.caption}
-                                            </SelectItem>
-                                        );
-                                    })}
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    )}
+                {adminOnly && (
+                    <div className="min-w-48 max-w-80 flex-1">
+                        <Select onValueChange={handleSelectedIdChange}>
+                            <SelectTrigger>
+                                <SelectValue placeholder={translate("resources.transactions.download.accountField")} />
+                            </SelectTrigger>
 
-                    <Button
-                        className="flex items-center gap-1 w-auto h-auto"
-                        onClick={clearFilters}
-                        variant="clearBtn"
-                        size="default"
-                        disabled={!id && !account && !customerPaymentId && !startDate}>
-                        <span>{translate("resources.transactions.filter.clearFilters")}</span>
-                        <XIcon className="size-4" />
-                    </Button>
-                </div>
+                            <SelectContent>
+                                {accounts?.map(el => {
+                                    return (
+                                        <SelectItem key={el.id} value={el.id.toString()}>
+                                            {el.meta.caption}
+                                        </SelectItem>
+                                    );
+                                })}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                )}
+
+                <Button
+                    className="ml-0 sm:ml-auto flex items-center gap-1 w-auto h-auto px-0"
+                    onClick={clearFilters}
+                    variant="clearBtn"
+                    size="default"
+                    disabled={!id && !account && !customerPaymentId && !startDate}>
+                    <span>{translate("resources.transactions.filter.clearFilters")}</span>
+                    <XIcon className="size-4" />
+                </Button>
 
                 <Button
                     onClick={handleDownload}
