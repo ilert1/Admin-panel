@@ -110,7 +110,7 @@ const TransactionFilterSidebar = () => {
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
     // TODO: временное решение, нужно расширить компонент селекта для поддержки пагинациц
     const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
-    const { startDate, endDate, handleSelectedIdChange, setStartDate, setEndDate, reqId, handleDownload } =
+    const { startDate, endDate, handleSelectedIdChange, setStartDate, setEndDate, /* reqId, */ handleDownload } =
         useReportDownload();
 
     const [id, setId] = useState(filterValues?.id || "");
@@ -274,7 +274,12 @@ const TransactionFilterSidebar = () => {
                     <XIcon className="size-4" />
                 </Button>
 
-                <Button onClick={handleDownload} variant="default" size="sm" disabled={reqId ? false : true}>
+                <Button
+                    onClick={handleDownload}
+                    variant="default"
+                    size="sm"
+                    // disabled={reqId ? false : true}
+                >
                     {translate("resources.transactions.download.downloadReportButtonText")}
                 </Button>
             </div>

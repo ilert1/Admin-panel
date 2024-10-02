@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useTranslate } from "react-admin";
+import { usePermissions, useTranslate } from "react-admin";
 import { useToast } from "@/components/ui/use-toast";
 import { API_URL } from "@/data/base";
 import { format } from "date-fns";
@@ -19,6 +19,9 @@ const useReportDownload = () => {
     const handleSelectedIdChange = (value: string) => {
         setReqId(value);
     };
+
+    const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
     const validateDates = () => {
         if (!startDate || !endDate) {
@@ -51,8 +54,20 @@ const useReportDownload = () => {
         return isValidDateRange;
     };
 
+    const validateMerchantID = () => {
+        if (adminOnly && !reqId) {
+            toast({
+                description: translate("resources.transactions.download.accountField"),
+                variant: "error",
+                title: translate("resources.transactions.download.error")
+            });
+            return false;
+        }
+        return true;
+    };
+
     const handleDownload = async () => {
-        if (!validateDates()) {
+        if (!validateDates() || !validateMerchantID()) {
             return;
         }
         try {
