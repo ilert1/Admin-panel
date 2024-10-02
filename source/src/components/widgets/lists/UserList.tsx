@@ -1,7 +1,6 @@
 import { ListContextProvider, useListController, useTranslate } from "react-admin";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
-import { BooleanField } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
 import {
     DropdownMenu,
