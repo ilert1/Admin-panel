@@ -179,6 +179,7 @@ const TransactionFilterSidebar = () => {
         setId("");
         setAccount("");
         setCustomerPaymentId("");
+        handleSelectedIdChange("");
         setTypeTabActive("");
         setFilters({}, displayedFilters);
         setPage(1);
@@ -268,17 +269,12 @@ const TransactionFilterSidebar = () => {
                     onClick={clearFilters}
                     variant="clearBtn"
                     size="default"
-                    disabled={!id && !account && !customerPaymentId && !startDate}>
+                    disabled={!id && !account && !customerPaymentId && !startDate && !reqId}>
                     <span>{translate("resources.transactions.filter.clearFilters")}</span>
                     <XIcon className="size-4" />
                 </Button>
 
-                <Button
-                    onClick={handleDownload}
-                    variant="default"
-                    size="sm"
-                    // disabled={reqId ? false : true}
-                >
+                <Button onClick={handleDownload} variant="default" size="sm">
                     {translate("resources.transactions.download.downloadReportButtonText")}
                 </Button>
             </div>
