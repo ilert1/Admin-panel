@@ -187,8 +187,8 @@ const TransactionFilterSidebar = () => {
 
     return (
         <>
-            <div className="flex flex-col items-stretch sm:flex-row sm:items-center gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap mb-6">
-                <label className="flex flex-1 gap-2 items-center lg:min-w-96">
+            <div className="flex flex-col items-stretch sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap mb-6">
+                <label className="flex md:flex-col gap-2 items-center md:items-start">
                     <span className="md:text-nowrap">{translate("resources.transactions.filter.filterById")}</span>
                     <Input
                         className="flex-1 text-sm placeholder:text-neutral-70"
@@ -197,7 +197,8 @@ const TransactionFilterSidebar = () => {
                         onChange={onIdChanged}
                     />
                 </label>
-                <label className="flex gap-2 items-center lg:min-w-96">
+
+                <label className="flex md:flex-col gap-2 items-center md:items-start">
                     <span className="md:text-nowrap">
                         {translate("resources.transactions.filter.filterCustomerPaymentId")}
                     </span>
@@ -208,8 +209,9 @@ const TransactionFilterSidebar = () => {
                         onChange={onCustomerPaymentIdChanged}
                     />
                 </label>
+
                 {adminOnly && (
-                    <div className="min-w-48 max-w-80 flex-1">
+                    <div className="flex-1">
                         <Select
                             onValueChange={val => (val !== "null" ? onAccountChanged(val) : onAccountChanged(""))}
                             value={account}>
@@ -238,7 +240,7 @@ const TransactionFilterSidebar = () => {
                 />
 
                 {adminOnly && (
-                    <div className="min-w-48 max-w-80 flex-1">
+                    <div className="flex-1">
                         <Select
                             onValueChange={val =>
                                 val !== "null" ? handleSelectedIdChange(val) : handleSelectedIdChange("")
