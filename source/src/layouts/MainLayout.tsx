@@ -108,8 +108,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
         setPageTitle(translate("app.menu." + nextLocation));
     };
 
-    console.log(chatOpen);
-
     return (
         <div className="flex min-h-screen w-full bg-muted">
             <aside
