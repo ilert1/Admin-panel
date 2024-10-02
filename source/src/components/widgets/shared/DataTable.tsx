@@ -59,7 +59,7 @@ export function DataTable<TData, TValue>({ columns, pagination = true }: DataTab
                         table.getRowModel().rows.map((row, i) => (
                             <TableRow key={i} data-state={row.getIsSelected() && "selected"} className="border-muted">
                                 {row.getVisibleCells().map((cell, j) => (
-                                    <TableCell key={j} className="text-sm border border-muted ">
+                                    <TableCell key={j} className="text-sm border border-muted text-neutral-100">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}

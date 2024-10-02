@@ -9,7 +9,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
+import { EyeIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { UserShow } from "@/components/widgets/show/UserShow";
@@ -35,6 +35,17 @@ export const UserList = () => {
 
     const columns: ColumnDef<Users.User>[] = [
         {
+            id: "created_at",
+            accessorKey: "created_at",
+            header: translate("resources.users.fields.created_at"),
+            cell: ({ row }) => (
+                <>
+                    <p>{new Date(row.original.created_at).toLocaleDateString()}</p>
+                    <p>{new Date(row.original.created_at).toLocaleTimeString()}</p>
+                </>
+            )
+        },
+        {
             id: "id",
             accessorKey: "id",
             header: translate("resources.users.fields.id"),
@@ -43,18 +54,25 @@ export const UserList = () => {
         {
             id: "name",
             accessorKey: "name",
-            header: translate("resources.users.fields.name")
-        },
-        {
-            id: "created_at",
-            accessorKey: "created_at",
-            header: translate("resources.users.fields.created_at")
+            header: translate("resources.users.fields.name"),
+            cell: ({ row }) => <TextField text={row.original.name} copyValue />
         },
         {
             accessorKey: "active",
             header: translate("resources.users.fields.active"),
-            cell: ({ row }) =>
-                row.original.deleted_at ? <BooleanField value={false} /> : <BooleanField value={true} />
+            cell: ({ row }) => (
+                <div className="flex items-center justify-center text-white">
+                    {row.original.deleted_at ? (
+                        <span className="px-3 py-0.5 bg-red-50 rounded-20 font-normal text-base text-center">
+                            {translate("resources.users.fields.activeStateFalse")}
+                        </span>
+                    ) : (
+                        <span className="px-3 py-0.5 bg-green-50 rounded-20 font-normal text-base text-center">
+                            {translate("resources.users.fields.activeStateTrue")}
+                        </span>
+                    )}
+                </div>
+            )
         },
         {
             id: "actions",
@@ -62,16 +80,18 @@ export const UserList = () => {
                 return (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="secondary" className="h-8 w-8 p-0">
+                            <Button variant="clearBtn" className="w-full p-0">
                                 <span className="sr-only">Open menu</span>
-                                <MoreHorizontal className="h-4 w-4" />
+                                <EyeIcon className="text-green-50 size-7" />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
+                            <DropdownMenuItem onClick={() => openSheet(row.original.id)} className="border-none">
                                 {translate("app.ui.actions.quick_show")}
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => navigate(`/users/${row.original.id}/show`)}>
+                            <DropdownMenuItem
+                                onClick={() => navigate(`/users/${row.original.id}/show`)}
+                                className="border-none">
                                 {translate("app.ui.actions.show")}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
