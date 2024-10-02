@@ -42,7 +42,6 @@ import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
 import { DateRange } from "react-day-picker";
-import { SelectItemText } from "@radix-ui/react-select";
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
@@ -110,7 +109,7 @@ const TransactionFilterSidebar = () => {
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
     // TODO: временное решение, нужно расширить компонент селекта для поддержки пагинациц
     const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
-    const { startDate, endDate, handleSelectedIdChange, setStartDate, setEndDate, /* reqId, */ handleDownload } =
+    const { startDate, endDate, handleSelectedIdChange, setStartDate, setEndDate, reqId, handleDownload } =
         useReportDownload();
 
     const [id, setId] = useState(filterValues?.id || "");
