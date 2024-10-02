@@ -100,7 +100,13 @@ const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; 
     );
 };
 
-const TransactionFilterSidebar = () => {
+const TransactionFilterSidebar = ({
+    typeTabActive,
+    setTypeTabActive
+}: {
+    typeTabActive: string;
+    setTypeTabActive: (type: string) => void;
+}) => {
     const dataProvider = useDataProvider();
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
     const { filterValues, setFilters, displayedFilters } = useListContext();
@@ -116,7 +122,7 @@ const TransactionFilterSidebar = () => {
     const [id, setId] = useState(filterValues?.id || "");
     const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
     const [account, setAccount] = useState(filterValues?.account || "");
-    const [typeTabActive, setTypeTabActive] = useState("");
+    // const [typeTabActive, setTypeTabActive] = useState("");
 
     const chooseClassTabActive = useCallback(
         (type: string) => {
@@ -331,6 +337,7 @@ export const TransactionList = () => {
     const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+    const [typeTabActive, setTypeTabActive] = useState("");
 
     const { data: currencies } = useQuery("currencies", () =>
         fetch(`${API_URL}/dictionaries/curr`, {
@@ -491,10 +498,10 @@ export const TransactionList = () => {
                     <div className="mb-6 mt-5">
                         <h1 className="text-3xl mb-6">{translate("app.menu.transactions")}</h1>
 
-                        <TransactionFilterSidebar />
+                        <TransactionFilterSidebar typeTabActive={typeTabActive} setTypeTabActive={setTypeTabActive} />
                     </div>
-                    <div>
-                        <BarChart startDate={startDate} endDate={endDate} />
+                    <div className="w-full mb-6">
+                        <BarChart startDate={startDate} endDate={endDate} typeTabActive={typeTabActive} />
                     </div>
 
                     <DataTable columns={columns} />
