@@ -45,7 +45,14 @@ const ru: TranslationMessages = {
                 shop_sign_key: "Ключ подписи",
                 shop_balance_key: "Ключ баланса"
             },
-            createButton: "Создать пользователя",
+            createButton: "Добавить пользователя",
+            filter: {
+                showAll: "Показать все",
+                filterByUserId: "Поиск по ID",
+                filterByUsername: "Поиск по имени",
+                filterByUsernamePlaceholder: "Все",
+                filterByActivity: "Активные пользователи"
+            },
             showHeader: "Информация о пользователе",
             showDescription: "Подробная информация о пользователе с ID %{id}",
             create: {
@@ -471,7 +478,14 @@ const en: TranslationMessages = {
                 shop_sign_key: "Sign key",
                 shop_balance_key: "Balance key"
             },
-            createButton: "Create user",
+            filter: {
+                showAll: "Show all",
+                filterByUserId: "Search by ID",
+                filterByUsername: "Search by name",
+                filterByUsernamePlaceholder: "All",
+                filterByActivity: "Active users"
+            },
+            createButton: "Add user",
             showHeader: "User info",
             showDescription: "Detailed information about user with ID %{id}",
             create: {

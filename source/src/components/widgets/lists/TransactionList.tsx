@@ -114,7 +114,7 @@ const TransactionFilterSidebar = () => {
 
     const [id, setId] = useState(filterValues?.id || "");
     const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
-    const [account, setAccount] = useState(filterValues?.account || "");
+    const [account, setAccount] = useState(accounts?.find(account => filterValues?.account === account.id) || "");
     const [typeTabActive, setTypeTabActive] = useState("");
 
     const chooseClassTabActive = useCallback(
