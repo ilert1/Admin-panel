@@ -186,7 +186,7 @@ const TransactionFilterSidebar = () => {
     };
 
     return (
-        <>
+        <div className="mb-6">
             <div className="flex flex-col items-stretch sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap mb-6">
                 <label className="flex md:flex-col gap-2 items-center md:items-start">
                     <span className="md:text-nowrap">{translate("resources.transactions.filter.filterById")}</span>
@@ -329,7 +329,7 @@ const TransactionFilterSidebar = () => {
                     </svg>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
@@ -495,12 +495,7 @@ export const TransactionList = () => {
         return (
             <>
                 <ListContextProvider value={listContext}>
-                    <div className="mb-6 mt-5">
-                        <h1 className="text-3xl mb-6">{translate("app.menu.transactions")}</h1>
-
-                        <TransactionFilterSidebar />
-                    </div>
-
+                    <TransactionFilterSidebar />
                     <DataTable columns={columns} />
                 </ListContextProvider>
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>

@@ -51,7 +51,7 @@ export const Dashboard = () => {
                         to="/crypto-transfer"
                         className="flex w-full flex-col items-center rounded-xl border bg-card p-6 !text-card-foreground shadow transition-colors hover:bg-muted/50 sm:p-10">
                         <BitcoinIcon className="h-10 w-10" />
-                        <p className="font-medium mt-2">{translate("app.menu.cryptoWalletTransfer")}</p>
+                        <p className="font-medium mt-2">{translate("app.menu.cryptoTransfer")}</p>
                     </Link>
                 </>
             )}

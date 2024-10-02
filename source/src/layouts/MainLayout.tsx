@@ -64,6 +64,12 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
         return resources;
     }, [location]);
 
+    const pageTitle = useMemo(() => {
+        if (resourceName.length > 0) {
+            return translate(`app.menu.${resourceName[0].replace(/-./g, x => x[1].toUpperCase())}`);
+        }
+    }, [resourceName, translate]);
+
     const identity = useGetIdentity();
     const logout = useLogout();
     const { setTheme, theme } = useTheme();
@@ -72,9 +78,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
 
     const [isSheetOpen, setSheetOpen] = useState(false);
     const [showCaptions, setShowCaptions] = useState(false);
-    const [pageTitle, setPageTitle] = useState(
-        merchantOnly ? translate("app.menu.accounts") : translate("app.menu.transactions")
-    );
 
     const [profileOpen, setProfileOpen] = useState(false);
 
@@ -102,10 +105,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
         } else {
             setTheme("light");
         }
-    };
-
-    const setNextPage = (nextLocation: string) => {
-        setPageTitle(translate("app.menu." + nextLocation));
     };
 
     return (
@@ -162,9 +161,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                         <NavLink
                             key={resource}
                             to={`/${resource}`}
-                            onClick={() => {
-                                setNextPage(resource);
-                            }}
                             className={
                                 resourceName[0] === resource
                                     ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
@@ -181,7 +177,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     {merchantOnly && (
                         <NavLink
                             to="/bank-transfer"
-                            onClick={() => setNextPage("bankTransfer")}
                             className={
                                 resourceName[0] === "bank-transfer"
                                     ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
@@ -198,7 +193,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     {merchantOnly && (
                         <NavLink
                             to="/crypto-transfer"
-                            onClick={() => setNextPage("cryptoWalletTransfer")}
                             className={
                                 resourceName[0] === "crypto-transfer"
                                     ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
@@ -207,7 +201,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                             <BitcoinIcon />
                             {showCaptions ? (
                                 <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
-                                    {translate("app.menu.cryptoWalletTransfer")}
+                                    {translate("app.menu.cryptoTransfer")}
                                 </span>
                             ) : null}
                         </NavLink>
@@ -352,7 +346,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 </header>
 
                 <main className="p-6 container">
-                    <div>{pageTitle}</div>
+                    <h1 className="text-3xl mb-6">{pageTitle}</h1>
                     {children}
                 </main>
             </div>
