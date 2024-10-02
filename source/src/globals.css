@@ -168,7 +168,7 @@
 
             --neutral-100: 0 0% 100%;
             /* #FFFFFF */
-            --neutral-90: 60 1% 25%;
+            --neutral-90: 0 0% 98%;
             /* #FBFBFB */
             --neutral-80: 0 0% 95%;
             /* #F2F2F2 */
@@ -242,7 +242,7 @@
 
     .dark {
         ::-webkit-scrollbar-track {
-            border: 1px solid hsl(var(--neutral-90));
+            border: 1px solid hsl(60, 1%, 25%);
         }
     }
 }
