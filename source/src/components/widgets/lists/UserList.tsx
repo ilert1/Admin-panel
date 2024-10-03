@@ -1,7 +1,6 @@
-import { ListContextProvider, useListController, useTranslate } from "react-admin";
+import { ListContextProvider, useGetList, useListContext, useListController, useTranslate } from "react-admin";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
-import { BooleanField } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
 import {
     DropdownMenu,
@@ -9,15 +8,137 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
+import { CirclePlus, EyeIcon, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { UserShow } from "@/components/widgets/show/UserShow";
 import { useMediaQuery } from "react-responsive";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "@/components/ui/loading";
+import { Input } from "@/components/ui/input";
+import { debounce } from "lodash";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const UserFilterSidebar = () => {
+    const translate = useTranslate();
+    const navigate = useNavigate();
+    const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
+    const { data: users } = useGetList("users", { pagination: { perPage: 100, page: 1 } });
+
+    const [userInputId, setUserInputId] = useState(filterValues?.id || "");
+    const [username, setUsername] = useState(users?.find(user => filterValues?.user === user.id) || "");
+    const [checkedActivity, setCheckedActivity] = useState(filterValues?.isActive || false);
+
+    const onPropertySelected = debounce((value: Users.User | string | boolean, type: "id" | "user" | "isActive") => {
+        if (value) {
+            if (type === "user") {
+                value = (value as Users.User).id;
+            }
+            setFilters({ ...filterValues, [type]: value }, displayedFilters);
+        } else {
+            Reflect.deleteProperty(filterValues, type);
+            setFilters(filterValues, displayedFilters);
+        }
+        setPage(1);
+    }, 300);
+
+    const onUserInputIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        setUserInputId(e.target.value);
+        onPropertySelected(e.target.value, "id");
+    };
+
+    const onUsernameChanged = (user: Users.User | string) => {
+        setUsername(user);
+        onPropertySelected(user, "user");
+    };
+
+    const onUserActivityChanged = (activity: boolean) => {
+        setCheckedActivity(activity);
+        onPropertySelected(activity, "isActive");
+    };
+
+    const clearFilters = () => {
+        setUserInputId("");
+        setUsername("");
+        setCheckedActivity(false);
+        setFilters({}, displayedFilters);
+        setPage(1);
+    };
+
+    return (
+        <div className="flex flex-col gap-4 mb-6">
+            <div className="flex justify-between items-end">
+                <div className="flex items-end gap-4">
+                    <label className="flex flex-col gap-2 lg:min-w-52">
+                        <span className="font-normal text-base">
+                            {translate("resources.users.filter.filterByUsername")}
+                        </span>
+                        <Select
+                            onValueChange={val => (val !== "null" ? onUsernameChanged(val) : onUsernameChanged(""))}
+                            value={username}>
+                            <SelectTrigger>
+                                <SelectValue
+                                    placeholder={translate("resources.users.filter.filterByUsernamePlaceholder")}
+                                />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="null">{translate("resources.users.filter.showAll")}</SelectItem>
+                                {users &&
+                                    users.map(user => (
+                                        <SelectItem key={user.id} value={user}>
+                                            {user.name}
+                                        </SelectItem>
+                                    ))}
+                            </SelectContent>
+                        </Select>
+                    </label>
+
+                    <label className="flex flex-col gap-2 lg:min-w-52">
+                        <span className="font-normal text-base">
+                            {translate("resources.users.filter.filterByUserId")}
+                        </span>
+                        <Input
+                            className="flex-1 text-sm placeholder:text-neutral-70"
+                            placeholder={translate("resources.users.fields.id")}
+                            value={userInputId}
+                            onChange={onUserInputIdChanged}
+                        />
+                    </label>
+
+                    <Button
+                        className="ml-0 sm:ml-auto flex items-center gap-1 w-auto h-auto px"
+                        onClick={clearFilters}
+                        variant="clearBtn"
+                        size="default"
+                        disabled={!userInputId && !username && !checkedActivity}>
+                        <span>{translate("resources.transactions.filter.clearFilters")}</span>
+                        <XIcon className="size-4" />
+                    </Button>
+                </div>
+
+                <Button
+                    onClick={() => navigate(`/users/create`)}
+                    className="flex items-center justify-center gap-1 font-normal">
+                    <CirclePlus width={16} height={16} />
+                    <span>{translate("resources.users.createButton")}</span>
+                </Button>
+            </div>
+
+            <label
+                onClick={() => onUserActivityChanged(!checkedActivity)}
+                className="flex gap-2 items-center self-start cursor-pointer [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
+                <div className="relative w-4 h-4 rounded-full border transition-all bg-black border-neutral-60 flex justify-center items-center">
+                    {checkedActivity && <div id="checked" className="w-2.5 h-2.5 rounded-full bg-green-50"></div>}
+                </div>
+                <span className="font-normal text-sm text-neutral-40 transition-all">
+                    {translate("resources.users.filter.filterByActivity")}
+                </span>
+            </label>
+        </div>
+    );
+};
 
 export const UserList = () => {
     const [showOpen, setShowOpen] = useState(false);
@@ -35,6 +156,17 @@ export const UserList = () => {
 
     const columns: ColumnDef<Users.User>[] = [
         {
+            id: "created_at",
+            accessorKey: "created_at",
+            header: translate("resources.users.fields.created_at"),
+            cell: ({ row }) => (
+                <>
+                    <p>{new Date(row.original.created_at).toLocaleDateString()}</p>
+                    <p>{new Date(row.original.created_at).toLocaleTimeString()}</p>
+                </>
+            )
+        },
+        {
             id: "id",
             accessorKey: "id",
             header: translate("resources.users.fields.id"),
@@ -43,18 +175,25 @@ export const UserList = () => {
         {
             id: "name",
             accessorKey: "name",
-            header: translate("resources.users.fields.name")
-        },
-        {
-            id: "created_at",
-            accessorKey: "created_at",
-            header: translate("resources.users.fields.created_at")
+            header: translate("resources.users.fields.name"),
+            cell: ({ row }) => <TextField text={row.original.name} copyValue />
         },
         {
             accessorKey: "active",
             header: translate("resources.users.fields.active"),
-            cell: ({ row }) =>
-                row.original.deleted_at ? <BooleanField value={false} /> : <BooleanField value={true} />
+            cell: ({ row }) => (
+                <div className="flex items-center justify-center text-white">
+                    {row.original.deleted_at ? (
+                        <span className="px-3 py-0.5 bg-red-50 rounded-20 font-normal text-base text-center">
+                            {translate("resources.users.fields.activeStateFalse")}
+                        </span>
+                    ) : (
+                        <span className="px-3 py-0.5 bg-green-50 rounded-20 font-normal text-base text-center">
+                            {translate("resources.users.fields.activeStateTrue")}
+                        </span>
+                    )}
+                </div>
+            )
         },
         {
             id: "actions",
@@ -62,16 +201,18 @@ export const UserList = () => {
                 return (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="secondary" className="h-8 w-8 p-0">
+                            <Button variant="clearBtn" className="w-full p-0">
                                 <span className="sr-only">Open menu</span>
-                                <MoreHorizontal className="h-4 w-4" />
+                                <EyeIcon className="text-green-50 size-7" />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
+                            <DropdownMenuItem onClick={() => openSheet(row.original.id)} className="border-none">
                                 {translate("app.ui.actions.quick_show")}
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => navigate(`/users/${row.original.id}/show`)}>
+                            <DropdownMenuItem
+                                onClick={() => navigate(`/users/${row.original.id}/show`)}
+                                className="border-none">
                                 {translate("app.ui.actions.show")}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -86,12 +227,8 @@ export const UserList = () => {
     } else {
         return (
             <>
-                <div className="mb-4 flex justify-end">
-                    <Button onClick={() => navigate(`/users/create`)}>
-                        {translate("resources.users.createButton")}
-                    </Button>
-                </div>
                 <ListContextProvider value={listContext}>
+                    <UserFilterSidebar />
                     <DataTable columns={columns} />
                 </ListContextProvider>
                 <Sheet open={showOpen} onOpenChange={setShowOpen}>

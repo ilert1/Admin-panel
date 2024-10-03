@@ -130,7 +130,7 @@ declare namespace JWT {
     }
 }
 
-namespace Users {
+declare namespace Users {
     interface User {
         id: string;
         name: string;

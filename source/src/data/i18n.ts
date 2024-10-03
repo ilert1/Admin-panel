@@ -31,19 +31,28 @@ const ru: TranslationMessages = {
         users: {
             name: "Пользователь |||| Пользователи",
             fields: {
-                id: "ID",
-                name: "Имя",
+                id: "ID пользователя",
+                name: "Имя пользователя",
                 login: "Логин",
                 email: "Электронная почта",
                 currency: "Валюта",
-                created_at: "Дата создания",
-                active: "Активный",
+                created_at: "Дата и время",
+                active: "Активность",
+                activeStateTrue: "Активен",
+                activeStateFalse: "Не активен",
                 public_key: "Публичный ключ",
                 shop_api_key: "Ключ API",
                 shop_sign_key: "Ключ подписи",
                 shop_balance_key: "Ключ баланса"
             },
-            createButton: "Создать пользователя",
+            createButton: "Добавить пользователя",
+            filter: {
+                showAll: "Показать все",
+                filterByUserId: "Поиск по ID",
+                filterByUsername: "Поиск по имени",
+                filterByUsernamePlaceholder: "Все",
+                filterByActivity: "Активные пользователи"
+            },
             showHeader: "Информация о пользователе",
             showDescription: "Подробная информация о пользователе с ID %{id}",
             create: {
@@ -455,19 +464,28 @@ const en: TranslationMessages = {
         users: {
             name: "User |||| Users",
             fields: {
-                id: "ID",
-                name: "Name",
+                id: "User ID",
+                name: "Username",
                 login: "Login",
                 email: "Email",
                 currency: "Currency",
-                created_at: "Created at",
-                active: "Active",
+                created_at: "Date and time",
+                active: "Activity",
+                activeStateTrue: "Active",
+                activeStateFalse: "Not active",
                 public_key: "Public key",
                 shop_api_key: "API key",
                 shop_sign_key: "Sign key",
                 shop_balance_key: "Balance key"
             },
-            createButton: "Create user",
+            filter: {
+                showAll: "Show all",
+                filterByUserId: "Search by ID",
+                filterByUsername: "Search by name",
+                filterByUsernamePlaceholder: "All",
+                filterByActivity: "Active users"
+            },
+            createButton: "Add user",
             showHeader: "User info",
             showDescription: "Detailed information about user with ID %{id}",
             create: {
