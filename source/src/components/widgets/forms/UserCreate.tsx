@@ -103,22 +103,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <FormItem className="space-y-1">
-                                <FormLabel>
-                                    {translate("app.widgets.forms.userCreate.name")}
-                                    {fieldState.invalid && (
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <TriangleAlert width={14} height={14} />
-                                                </TooltipTrigger>
-
-                                                <TooltipContent className="border-none bottom-0" side="right">
-                                                    <FormMessage />
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
-                                    )}
-                                </FormLabel>
+                                <FormLabel>{translate("app.widgets.forms.userCreate.name")}</FormLabel>
                                 <FormControl>
                                     <Input
                                         className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
@@ -127,8 +112,21 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                                 : ""
                                         }`}
                                         disabled={props.isDisabled}
-                                        {...field}
-                                    />
+                                        {...field}>
+                                        {fieldState.invalid && (
+                                            <TooltipProvider>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <TriangleAlert className="text-red-40" width={14} height={14} />
+                                                    </TooltipTrigger>
+
+                                                    <TooltipContent className="border-none bottom-0" side="left">
+                                                        <FormMessage />
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+                                        )}
+                                    </Input>
                                 </FormControl>
                             </FormItem>
                         )}
@@ -139,22 +137,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <FormItem className="space-y-1">
-                                <FormLabel>
-                                    {translate("app.widgets.forms.userCreate.login")}
-                                    {fieldState.invalid && (
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <TriangleAlert width={14} height={14} />
-                                                </TooltipTrigger>
-
-                                                <TooltipContent className="border-none bottom-0" side="right">
-                                                    <FormMessage />
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
-                                    )}
-                                </FormLabel>
+                                <FormLabel>{translate("app.widgets.forms.userCreate.login")}</FormLabel>
                                 <FormControl>
                                     <Input
                                         className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
@@ -163,8 +146,21 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                                 : ""
                                         }`}
                                         disabled={props.isDisabled}
-                                        {...field}
-                                    />
+                                        {...field}>
+                                        {fieldState.invalid && (
+                                            <TooltipProvider>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <TriangleAlert className="text-red-40" width={14} height={14} />
+                                                    </TooltipTrigger>
+
+                                                    <TooltipContent className="border-none bottom-0" side="left">
+                                                        <FormMessage />
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+                                        )}
+                                    </Input>
                                 </FormControl>
                             </FormItem>
                         )}
@@ -175,22 +171,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <FormItem className="space-y-1">
-                                <FormLabel>
-                                    {translate("app.widgets.forms.userCreate.email")}
-                                    {fieldState.invalid && (
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <TriangleAlert width={14} height={14} />
-                                                </TooltipTrigger>
-
-                                                <TooltipContent className="border-none bottom-0" side="right">
-                                                    <FormMessage />
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
-                                    )}
-                                </FormLabel>
+                                <FormLabel>{translate("app.widgets.forms.userCreate.email")}</FormLabel>
                                 <FormControl>
                                     <Input
                                         className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
@@ -199,8 +180,21 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                                 : ""
                                         }`}
                                         disabled={props.isDisabled}
-                                        {...field}
-                                    />
+                                        {...field}>
+                                        {fieldState.invalid && (
+                                            <TooltipProvider>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <TriangleAlert className="text-red-40" width={14} height={14} />
+                                                    </TooltipTrigger>
+
+                                                    <TooltipContent className="border-none bottom-0" side="left">
+                                                        <FormMessage />
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+                                        )}
+                                    </Input>
                                 </FormControl>
                             </FormItem>
                         )}
@@ -211,22 +205,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <FormItem className="space-y-1">
-                                <FormLabel>
-                                    {translate("app.widgets.forms.userCreate.password")}
-                                    {fieldState.invalid && (
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <TriangleAlert width={14} height={14} />
-                                                </TooltipTrigger>
-
-                                                <TooltipContent className="border-none bottom-0" side="right">
-                                                    <FormMessage />
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
-                                    )}
-                                </FormLabel>
+                                <FormLabel>{translate("app.widgets.forms.userCreate.password")}</FormLabel>
                                 <FormControl>
                                     <Input
                                         type="password"
@@ -236,8 +215,21 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                                 : ""
                                         }`}
                                         disabled={props.isDisabled}
-                                        {...field}
-                                    />
+                                        {...field}>
+                                        {fieldState.invalid && (
+                                            <TooltipProvider>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <TriangleAlert className="text-red-40" width={14} height={14} />
+                                                    </TooltipTrigger>
+
+                                                    <TooltipContent className="border-none bottom-0" side="left">
+                                                        <FormMessage />
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+                                        )}
+                                    </Input>
                                 </FormControl>
                             </FormItem>
                         )}
@@ -248,22 +240,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <FormItem className="space-y-2">
-                                <FormLabel>
-                                    {translate("app.widgets.forms.userCreate.shopCurrency")}
-                                    {fieldState.invalid && (
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <TriangleAlert width={14} height={14} />
-                                                </TooltipTrigger>
-
-                                                <TooltipContent className="border-none bottom-0" side="right">
-                                                    <FormMessage />
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
-                                    )}
-                                </FormLabel>
+                                <FormLabel>{translate("app.widgets.forms.userCreate.shopCurrency")}</FormLabel>
 
                                 <Select
                                     onValueChange={currentValue => {
@@ -278,7 +255,22 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
                                         }`}>
-                                        <SelectValue placeholder={"RUB"} />
+                                        <div className="mr-auto">
+                                            <SelectValue placeholder="RUB" />
+                                        </div>
+                                        {fieldState.invalid && (
+                                            <TooltipProvider>
+                                                <Tooltip>
+                                                    <TooltipTrigger className="ml-3 order-3" asChild>
+                                                        <TriangleAlert className="text-red-40" width={14} height={14} />
+                                                    </TooltipTrigger>
+
+                                                    <TooltipContent className="border-none bottom-0" side="left">
+                                                        <FormMessage />
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+                                        )}
                                     </SelectTrigger>
                                     <SelectContent className="!bg-muted">
                                         {sortedCurrencies &&
@@ -299,22 +291,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                             control={form.control}
                             render={({ field, fieldState }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>
-                                        {translate("app.widgets.forms.userCreate.publicKey")}
-                                        {fieldState.invalid && (
-                                            <TooltipProvider>
-                                                <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <TriangleAlert width={14} height={14} />
-                                                    </TooltipTrigger>
-
-                                                    <TooltipContent className="border-none bottom-0" side="right">
-                                                        <FormMessage />
-                                                    </TooltipContent>
-                                                </Tooltip>
-                                            </TooltipProvider>
-                                        )}
-                                    </FormLabel>
+                                    <FormLabel>{translate("app.widgets.forms.userCreate.publicKey")}</FormLabel>
                                     <FormControl>
                                         <Input
                                             className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
@@ -326,8 +303,25 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                             onChange={e => handleTextChange(e, field)}
                                             onInput={e => handleTextChange(e, field)}
                                             placeholder="Drop file here or type text"
-                                            disabled={props.isDisabled}
-                                        />
+                                            disabled={props.isDisabled}>
+                                            {fieldState.invalid && (
+                                                <TooltipProvider>
+                                                    <Tooltip>
+                                                        <TooltipTrigger asChild>
+                                                            <TriangleAlert
+                                                                className="text-red-40"
+                                                                width={14}
+                                                                height={14}
+                                                            />
+                                                        </TooltipTrigger>
+
+                                                        <TooltipContent className="border-none bottom-0" side="left">
+                                                            <FormMessage />
+                                                        </TooltipContent>
+                                                    </Tooltip>
+                                                </TooltipProvider>
+                                            )}
+                                        </Input>
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -339,22 +333,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <FormItem className="space-y-1">
-                                <FormLabel>
-                                    {translate("app.widgets.forms.userCreate.shopApiKey")}
-                                    {fieldState.invalid && (
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <TriangleAlert width={14} height={14} />
-                                                </TooltipTrigger>
-
-                                                <TooltipContent className="border-none bottom-0" side="right">
-                                                    <FormMessage />
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
-                                    )}
-                                </FormLabel>
+                                <FormLabel>{translate("app.widgets.forms.userCreate.shopApiKey")}</FormLabel>
                                 <FormControl>
                                     <Input
                                         className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
@@ -363,8 +342,21 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                                 : ""
                                         }`}
                                         disabled={props.isDisabled}
-                                        {...field}
-                                    />
+                                        {...field}>
+                                        {fieldState.invalid && (
+                                            <TooltipProvider>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <TriangleAlert className="text-red-40" width={14} height={14} />
+                                                    </TooltipTrigger>
+
+                                                    <TooltipContent className="border-none bottom-0" side="left">
+                                                        <FormMessage />
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+                                        )}
+                                    </Input>
                                 </FormControl>
                             </FormItem>
                         )}
@@ -375,22 +367,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <FormItem className="space-y-1">
-                                <FormLabel>
-                                    {translate("app.widgets.forms.userCreate.shopSignKey")}
-                                    {fieldState.invalid && (
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <TriangleAlert width={14} height={14} />
-                                                </TooltipTrigger>
-
-                                                <TooltipContent className="border-none bottom-0" side="right">
-                                                    <FormMessage />
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
-                                    )}
-                                </FormLabel>
+                                <FormLabel>{translate("app.widgets.forms.userCreate.shopSignKey")}</FormLabel>
                                 <FormControl>
                                     <Input
                                         className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
@@ -399,8 +376,21 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                                 : ""
                                         }`}
                                         disabled={props.isDisabled}
-                                        {...field}
-                                    />
+                                        {...field}>
+                                        {fieldState.invalid && (
+                                            <TooltipProvider>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <TriangleAlert className="text-red-40" width={14} height={14} />
+                                                    </TooltipTrigger>
+
+                                                    <TooltipContent className="border-none bottom-0" side="left">
+                                                        <FormMessage />
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+                                        )}
+                                    </Input>
                                 </FormControl>
                             </FormItem>
                         )}
@@ -411,22 +401,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <FormItem className="space-y-1">
-                                <FormLabel>
-                                    {translate("app.widgets.forms.userCreate.shopBalanceKey")}
-                                    {fieldState.invalid && (
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <TriangleAlert width={14} height={14} />
-                                                </TooltipTrigger>
-
-                                                <TooltipContent className="border-none bottom-0" side="right">
-                                                    <FormMessage />
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
-                                    )}
-                                </FormLabel>
+                                <FormLabel>{translate("app.widgets.forms.userCreate.shopBalanceKey")}</FormLabel>
                                 <FormControl>
                                     <Input
                                         className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
@@ -435,8 +410,21 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                                 : ""
                                         }`}
                                         disabled={props.isDisabled}
-                                        {...field}
-                                    />
+                                        {...field}>
+                                        {fieldState.invalid && (
+                                            <TooltipProvider>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <TriangleAlert className="text-red-40" width={14} height={14} />
+                                                    </TooltipTrigger>
+
+                                                    <TooltipContent className="border-none bottom-0" side="left">
+                                                        <FormMessage />
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+                                        )}
+                                    </Input>
                                 </FormControl>
                             </FormItem>
                         )}

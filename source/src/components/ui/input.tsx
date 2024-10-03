@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-    ({ className, type, value: propValue, onChange, disabled, ...props }, ref) => {
+    ({ className, type, value: propValue, onChange, disabled, children, ...props }, ref) => {
         const [inputValue, setInputValue] = React.useState<string | number | readonly string[] | undefined>(
             propValue || ""
         );
@@ -66,7 +66,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         tabIndex={-1}
                         className={cn(
                             "absolute inset-y-0",
-                            type === "password" ? "right-9" : "right-3",
+                            type === "password" && children
+                                ? "right-16"
+                                : type === "password" || children
+                                ? "right-9"
+                                : "right-3",
                             "flex items-center justify-center text-neutral-60 hover:text-neutral-80 transition-colors duration-200"
                         )}>
                         <X className="w-4 h-4" />
@@ -78,7 +82,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         onClick={() => setShowPassword(!showPassword)}
                         disabled={disabled}
                         tabIndex={-1}
-                        className="absolute right-3 top-0 bottom-0 flex items-center justify-center">
+                        className={`absolute ${
+                            children ? "right-9" : "right-3"
+                        } flex top-0 bottom-0 items-center justify-center`}>
                         {showPassword ? (
                             <EyeOff
                                 className={cn(
@@ -95,6 +101,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                             />
                         )}
                     </button>
+                )}
+                {children && (
+                    <div className="absolute right-3 top-0 bottom-0 flex items-center justify-center">{children}</div>
                 )}
             </div>
         );
