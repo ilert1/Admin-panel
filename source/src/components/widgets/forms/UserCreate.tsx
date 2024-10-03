@@ -9,7 +9,7 @@ import { useMemo, useState } from "react";
 import { DialogClose } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
-import { InfoIcon } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 
 export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisabled: boolean; currencies: any }) => {
     const translate = useTranslate();
@@ -109,10 +109,10 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
-                                                    <InfoIcon width={14} height={14} />
+                                                    <TriangleAlert width={14} height={14} />
                                                 </TooltipTrigger>
 
-                                                <TooltipContent className="border-none" side="right">
+                                                <TooltipContent className="border-none bottom-0" side="right">
                                                     <FormMessage />
                                                 </TooltipContent>
                                             </Tooltip>
@@ -122,7 +122,9 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                 <FormControl>
                                     <Input
                                         className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
-                                            fieldState.invalid ? "border-destructive" : ""
+                                            fieldState.invalid
+                                                ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                : ""
                                         }`}
                                         disabled={props.isDisabled}
                                         {...field}
@@ -143,10 +145,10 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
-                                                    <InfoIcon width={14} height={14} />
+                                                    <TriangleAlert width={14} height={14} />
                                                 </TooltipTrigger>
 
-                                                <TooltipContent className="border-none" side="right">
+                                                <TooltipContent className="border-none bottom-0" side="right">
                                                     <FormMessage />
                                                 </TooltipContent>
                                             </Tooltip>
@@ -156,7 +158,9 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                 <FormControl>
                                     <Input
                                         className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
-                                            fieldState.invalid ? "border-destructive" : ""
+                                            fieldState.invalid
+                                                ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                : ""
                                         }`}
                                         disabled={props.isDisabled}
                                         {...field}
@@ -177,10 +181,10 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
-                                                    <InfoIcon width={14} height={14} />
+                                                    <TriangleAlert width={14} height={14} />
                                                 </TooltipTrigger>
 
-                                                <TooltipContent className="border-none" side="right">
+                                                <TooltipContent className="border-none bottom-0" side="right">
                                                     <FormMessage />
                                                 </TooltipContent>
                                             </Tooltip>
@@ -190,7 +194,9 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                 <FormControl>
                                     <Input
                                         className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
-                                            fieldState.invalid ? "border-destructive" : ""
+                                            fieldState.invalid
+                                                ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                : ""
                                         }`}
                                         disabled={props.isDisabled}
                                         {...field}
@@ -211,10 +217,10 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
-                                                    <InfoIcon width={14} height={14} />
+                                                    <TriangleAlert width={14} height={14} />
                                                 </TooltipTrigger>
 
-                                                <TooltipContent className="border-none" side="right">
+                                                <TooltipContent className="border-none bottom-0" side="right">
                                                     <FormMessage />
                                                 </TooltipContent>
                                             </Tooltip>
@@ -225,7 +231,9 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                     <Input
                                         type="password"
                                         className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
-                                            fieldState.invalid ? "border-destructive" : ""
+                                            fieldState.invalid
+                                                ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                : ""
                                         }`}
                                         disabled={props.isDisabled}
                                         {...field}
@@ -246,10 +254,10 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
-                                                    <InfoIcon width={14} height={14} />
+                                                    <TriangleAlert width={14} height={14} />
                                                 </TooltipTrigger>
 
-                                                <TooltipContent className="border-none" side="right">
+                                                <TooltipContent className="border-none bottom-0" side="right">
                                                     <FormMessage />
                                                 </TooltipContent>
                                             </Tooltip>
@@ -266,7 +274,9 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                     value={valueCurDialog}>
                                     <SelectTrigger
                                         className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
-                                            fieldState.invalid ? "border-destructive" : ""
+                                            fieldState.invalid
+                                                ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                : ""
                                         }`}>
                                         <SelectValue placeholder={"RUB"} />
                                     </SelectTrigger>
@@ -295,10 +305,10 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                             <TooltipProvider>
                                                 <Tooltip>
                                                     <TooltipTrigger asChild>
-                                                        <InfoIcon width={14} height={14} />
+                                                        <TriangleAlert width={14} height={14} />
                                                     </TooltipTrigger>
 
-                                                    <TooltipContent className="border-none" side="right">
+                                                    <TooltipContent className="border-none bottom-0" side="right">
                                                         <FormMessage />
                                                     </TooltipContent>
                                                 </Tooltip>
@@ -308,7 +318,9 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                     <FormControl>
                                         <Input
                                             className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
-                                                fieldState.invalid ? "border-destructive" : ""
+                                                fieldState.invalid
+                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                    : ""
                                             }`}
                                             value={fileContent}
                                             onChange={e => handleTextChange(e, field)}
@@ -333,10 +345,10 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
-                                                    <InfoIcon width={14} height={14} />
+                                                    <TriangleAlert width={14} height={14} />
                                                 </TooltipTrigger>
 
-                                                <TooltipContent className="border-none" side="right">
+                                                <TooltipContent className="border-none bottom-0" side="right">
                                                     <FormMessage />
                                                 </TooltipContent>
                                             </Tooltip>
@@ -346,7 +358,9 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                 <FormControl>
                                     <Input
                                         className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
-                                            fieldState.invalid ? "border-destructive" : ""
+                                            fieldState.invalid
+                                                ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                : ""
                                         }`}
                                         disabled={props.isDisabled}
                                         {...field}
@@ -367,10 +381,10 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
-                                                    <InfoIcon width={14} height={14} />
+                                                    <TriangleAlert width={14} height={14} />
                                                 </TooltipTrigger>
 
-                                                <TooltipContent className="border-none" side="right">
+                                                <TooltipContent className="border-none bottom-0" side="right">
                                                     <FormMessage />
                                                 </TooltipContent>
                                             </Tooltip>
@@ -380,7 +394,9 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                 <FormControl>
                                     <Input
                                         className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
-                                            fieldState.invalid ? "border-destructive" : ""
+                                            fieldState.invalid
+                                                ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                : ""
                                         }`}
                                         disabled={props.isDisabled}
                                         {...field}
@@ -401,10 +417,10 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
-                                                    <InfoIcon width={14} height={14} />
+                                                    <TriangleAlert width={14} height={14} />
                                                 </TooltipTrigger>
 
-                                                <TooltipContent className="border-none" side="right">
+                                                <TooltipContent className="border-none bottom-0" side="right">
                                                     <FormMessage />
                                                 </TooltipContent>
                                             </Tooltip>
@@ -414,7 +430,9 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                 <FormControl>
                                     <Input
                                         className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
-                                            fieldState.invalid ? "border-destructive" : ""
+                                            fieldState.invalid
+                                                ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                : ""
                                         }`}
                                         disabled={props.isDisabled}
                                         {...field}
@@ -430,7 +448,6 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
 
                     <DialogClose asChild>
                         <Button
-                            type="button"
                             variant="clearBtn"
                             className="border border-neutral-50 rounded-4 hover:border-neutral-100">
                             {translate("app.widgets.forms.userCreate.cancelBtn")}

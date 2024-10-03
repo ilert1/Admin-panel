@@ -121,13 +121,13 @@ const UserFilterSidebar = () => {
 
                 <Dialog>
                     <DialogTrigger>
-                        <Button className="flex items-center justify-center gap-1 font-normal">
+                        <div className="whitespace-nowrap rounded-4 text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 duration-200 h-9 px-4 py-2 bg-green-50 text-neutral-100 hover:bg-green-40 active:bg-green-20 disabled:bg-neutral-20 disabled:text-neutral-80 flex items-center justify-center gap-1 font-normal">
                             <CirclePlus width={16} height={16} />
                             <span>{translate("resources.users.createButton")}</span>
-                        </Button>
+                        </div>
                     </DialogTrigger>
 
-                    <DialogContent>
+                    <DialogContent aria-describedby={undefined}>
                         <DialogHeader>
                             <DialogTitle>{translate("app.widgets.forms.userCreate.title")}</DialogTitle>
                         </DialogHeader>
