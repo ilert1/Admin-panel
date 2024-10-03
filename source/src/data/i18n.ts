@@ -378,6 +378,7 @@ const ru: TranslationMessages = {
                     allAmount: "Вся сумма %{amount} USD₮"
                 },
                 userCreate: {
+                    title: "Добавление пользователя",
                     name: "Имя",
                     nameMessage: "Пожалуйста, введите имя мерчанта",
                     login: "Логин",
@@ -396,7 +397,8 @@ const ru: TranslationMessages = {
                     shopSignKey: "Ключ проверки подписи",
                     shopBalanceKey: "Ключ доступа к балансу",
                     keyMessage: "Неверный формат ключа",
-                    createUser: "Создать пользователя"
+                    createUser: "Создать пользователя",
+                    cancelBtn: "Отменить"
                 }
             }
         },
@@ -811,6 +813,7 @@ const en: TranslationMessages = {
                     allAmount: "All amount %{amount} USD₮"
                 },
                 userCreate: {
+                    title: "Adding a user",
                     name: "Name",
                     nameMessage: "Please, enter merchant's name",
                     login: "Login",
@@ -829,7 +832,8 @@ const en: TranslationMessages = {
                     shopSignKey: "Sign key",
                     shopBalanceKey: "Balance key",
                     keyMessage: "Key format is wrong",
-                    createUser: "Create user"
+                    createUser: "Create user",
+                    cancelBtn: "Cancel"
                 }
             }
         },

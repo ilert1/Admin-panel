@@ -107,13 +107,7 @@ export const App = () => {
                                         edit={CurrencyEdit}
                                         icon={CurrencyIcon}
                                     />
-                                    <Resource
-                                        name="users"
-                                        list={UserList}
-                                        show={UserShow}
-                                        icon={UsersIcon}
-                                        create={UserCreate}
-                                    />
+                                    <Resource name="users" list={UserList} show={UserShow} icon={UsersIcon} />
                                     <Resource
                                         name="merchant"
                                         list={MerchantList}
