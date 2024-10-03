@@ -111,8 +111,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     };
 
     return (
-        <div className="flex flex-col h-[100vh] w-[100vw]">
-            <header className="flex min-h-[84px] items-center justify-end gap-4 bg-header pr-6">
+        <div className="flex flex-col w-[100vw] h-[100vh] scrollbar-stable overflow-y-scroll">
+            <header className="flex min-h-[84px] w-full sticky z-[2] items-center justify-end gap-4 bg-header pr-6">
                 {identity?.data && (
                     <div className="flex items-center justify-end gap-2">
                         <div>
@@ -215,7 +215,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     </div>
                 )}
             </header>
-            <div className="flex w-full h-full">
+            <div className="flex grow-[1]">
                 <aside
                     className={
                         isSheetOpen
@@ -320,7 +320,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                         )}
                     </nav>
                 </aside>
-                <main className="overflow-hidden w-full bg-muted mr-auto ml-auto p-8">
+                <main className="w-full h-full bg-muted mr-auto ml-auto p-8">
                     <div>{pageTitle}</div>
                     {children}
                 </main>
