@@ -1,8 +1,4 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -11,10 +7,10 @@ import { Button } from "@/components/ui/button";
 import { useTranslate } from "react-admin";
 import { useMemo, useState } from "react";
 import { DialogClose } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisabled: boolean; currencies: any }) => {
     const translate = useTranslate();
-    const [openCurDialog, setOpenCurDialog] = useState(false);
     const [valueCurDialog, setValueCurDialog] = useState("");
 
     const sortedCurrencies = useMemo(() => {
@@ -99,7 +95,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(props.onSubmit)} className="flex flex-col gap-6">
-                <div className="grid  grid-cols-1 md:grid-cols-2 md:grid-rows-5 gap-y-5 gap-x-4 items-end grid-flow-col">
+                <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-5 md:grid-flow-col gap-y-5 gap-x-4 items-stretch md:items-end">
                     <FormField
                         name="name"
                         control={form.control}
@@ -182,63 +178,25 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                     {translate("app.widgets.forms.userCreate.shopCurrency")}
                                 </FormLabel>
 
-                                <Popover open={openCurDialog} onOpenChange={setOpenCurDialog}>
-                                    <PopoverTrigger asChild>
-                                        <FormControl>
-                                            <Button
-                                                variant="outline"
-                                                role="combobox"
-                                                aria-expanded={openCurDialog}
-                                                className="w-full flex justify-between bg-muted text-sm text-neutral-100 border-neutral-40">
-                                                {valueCurDialog
-                                                    ? sortedCurrencies.find(
-                                                          (cur: any) => cur["alpha-3"] === valueCurDialog
-                                                      )["alpha-3"]
-                                                    : translate("app.widgets.forms.userCreate.shopCurrencyPlaceholder")}
-                                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                            </Button>
-                                        </FormControl>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-[200px] p-0">
-                                        <Command>
-                                            <CommandInput
-                                                placeholder={translate(
-                                                    "app.widgets.forms.userCreate.shopCurrencyPlaceholder"
-                                                )}
-                                            />
-                                            <CommandList>
-                                                <CommandEmpty>
-                                                    {translate("app.widgets.forms.userCreate.shopCurrencyMessage")}
-                                                </CommandEmpty>
-                                                <CommandGroup>
-                                                    {sortedCurrencies.map((cur: any) => (
-                                                        <CommandItem
-                                                            key={cur["alpha-3"]}
-                                                            value={cur["alpha-3"]}
-                                                            onSelect={currentValue => {
-                                                                form.setValue("shop_currency", cur["alpha-3"]);
-                                                                field.onChange(cur["alpha-3"]);
-                                                                setValueCurDialog(
-                                                                    currentValue === valueCurDialog ? "" : currentValue
-                                                                );
-                                                                setOpenCurDialog(false);
-                                                            }}>
-                                                            <Check
-                                                                className={cn(
-                                                                    "mr-2 h-4 w-4",
-                                                                    valueCurDialog === cur["alpha-3"]
-                                                                        ? "opacity-100"
-                                                                        : "opacity-0"
-                                                                )}
-                                                            />
-                                                            {cur["alpha-3"]}
-                                                        </CommandItem>
-                                                    ))}
-                                                </CommandGroup>
-                                            </CommandList>
-                                        </Command>
-                                    </PopoverContent>
-                                </Popover>
+                                <Select
+                                    onValueChange={currentValue => {
+                                        form.setValue("shop_currency", currentValue);
+                                        field.onChange(currentValue);
+                                        setValueCurDialog(currentValue === valueCurDialog ? "" : currentValue);
+                                    }}
+                                    value={valueCurDialog}>
+                                    <SelectTrigger className="bg-muted">
+                                        <SelectValue placeholder={"RUB"} />
+                                    </SelectTrigger>
+                                    <SelectContent className="!bg-muted">
+                                        {sortedCurrencies &&
+                                            sortedCurrencies.map((cur: any) => (
+                                                <SelectItem key={cur["alpha-3"]} value={cur["alpha-3"]}>
+                                                    {cur["alpha-3"]}
+                                                </SelectItem>
+                                            ))}
+                                    </SelectContent>
+                                </Select>
 
                                 <FormMessage />
                             </FormItem>
