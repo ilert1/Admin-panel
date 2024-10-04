@@ -111,7 +111,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     };
 
     return (
-        <div className="flex flex-col w-[100vw] h-[100vh] scrollbar-stable overflow-y-scroll">
+        <div className="flex flex-col w-[100vw] h-[100vh] scrollbar-stable overflow-auto">
             <header className="flex min-h-[84px] w-full sticky z-[2] items-center justify-end gap-4 bg-header pr-6">
                 {identity?.data && (
                     <div className="flex items-center justify-end gap-2">
@@ -320,7 +320,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                         )}
                     </nav>
                 </aside>
-                <main className="w-full h-full bg-muted mr-auto ml-auto p-8">
+                <main className="w-full h-full bg-muted mr-auto ml-auto p-8 grow-[1]">
                     <div>{pageTitle}</div>
                     {children}
                 </main>
