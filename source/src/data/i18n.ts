@@ -157,8 +157,10 @@ const ru: TranslationMessages = {
             filter: {
                 showAll: "Показать все",
                 filterById: "Поиск по ID операции",
+                filterByIdPlaceholder: "ID",
                 filterByAccount: "Мерчант",
-                filterByAccountPlaceholder: "Все",
+                filterAllPlaceholder: "Все",
+                filterByOrderStatus: "Статус ордера",
                 filterByDate: "Выберите период",
                 clearFilters: "Сбросить фильтры",
                 filterCustomerPaymentId: "Поиск по ID платежа клиента"
@@ -590,8 +592,10 @@ const en: TranslationMessages = {
             filter: {
                 showAll: "Show all",
                 filterById: "Search by operation ID",
+                filterByIdPlaceholder: "ID",
                 filterByAccount: "Merchant",
-                filterByAccountPlaceholder: "All",
+                filterAllPlaceholder: "All",
+                filterByOrderStatus: "Order status",
                 filterByDate: "Select period",
                 clearFilters: "Clear filters",
                 filterCustomerPaymentId: "Search by customer payment ID"

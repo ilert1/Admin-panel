@@ -211,7 +211,7 @@ const TransactionFilterSidebar = () => {
                         <span className="md:text-nowrap">{translate("resources.transactions.filter.filterById")}</span>
                         <Input
                             className="flex-1 text-sm placeholder:text-neutral-70"
-                            placeholder={translate("resources.transactions.fields.id")}
+                            placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
                             value={id}
                             onChange={onIdChanged}
                         />
@@ -223,14 +223,16 @@ const TransactionFilterSidebar = () => {
                         </span>
                         <Input
                             className="flex-1 text-sm placeholder:text-neutral-70"
-                            placeholder={translate("resources.transactions.fields.id")}
+                            placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
                             value={customerPaymentId}
                             onChange={onCustomerPaymentIdChanged}
                         />
                     </label>
 
                     <div className="flex md:flex-col gap-2 items-center md:items-start min-w-36">
-                        <span className="md:text-nowrap">Order status</span>
+                        <span className="md:text-nowrap">
+                            {translate("resources.transactions.filter.filterByOrderStatus")}
+                        </span>
                         <Select
                             onValueChange={val =>
                                 val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged("")
@@ -238,7 +240,7 @@ const TransactionFilterSidebar = () => {
                             value={orderStatusFilter}>
                             <SelectTrigger className="text-ellipsis">
                                 <SelectValue
-                                    placeholder={translate("resources.transactions.filter.filterByAccountPlaceholder")}
+                                    placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
                                 />
                             </SelectTrigger>
                             <SelectContent>
@@ -271,9 +273,7 @@ const TransactionFilterSidebar = () => {
                                 value={account}>
                                 <SelectTrigger className="text-ellipsis">
                                     <SelectValue
-                                        placeholder={translate(
-                                            "resources.transactions.filter.filterByAccountPlaceholder"
-                                        )}
+                                        placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
                                     />
                                 </SelectTrigger>
                                 <SelectContent>
