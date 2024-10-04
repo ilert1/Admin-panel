@@ -96,7 +96,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(props.onSubmit)} className="flex flex-col gap-6">
+            <form onSubmit={form.handleSubmit(props.onSubmit)} className="flex flex-col gap-6" autoComplete="off">
                 <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-5 md:grid-flow-col gap-y-5 gap-x-4 items-stretch md:items-end">
                     <FormField
                         name="name"
@@ -106,7 +106,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                 <FormLabel>{translate("app.widgets.forms.userCreate.name")}</FormLabel>
                                 <FormControl>
                                     <Input
-                                        className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
+                                        className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
                                             fieldState.invalid
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
@@ -140,7 +140,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                 <FormLabel>{translate("app.widgets.forms.userCreate.login")}</FormLabel>
                                 <FormControl>
                                     <Input
-                                        className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
+                                        className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
                                             fieldState.invalid
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
@@ -174,7 +174,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                 <FormLabel>{translate("app.widgets.forms.userCreate.email")}</FormLabel>
                                 <FormControl>
                                     <Input
-                                        className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
+                                        className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
                                             fieldState.invalid
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
@@ -209,7 +209,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                 <FormControl>
                                     <Input
                                         type="password"
-                                        className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
+                                        className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
                                             fieldState.invalid
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
@@ -250,13 +250,17 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                     }}
                                     value={valueCurDialog}>
                                     <SelectTrigger
-                                        className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
+                                        className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
                                             fieldState.invalid
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
                                         }`}>
                                         <div className="mr-auto">
-                                            <SelectValue placeholder="RUB" />
+                                            <SelectValue
+                                                placeholder={translate(
+                                                    "app.widgets.forms.userCreate.shopCurrencyPlaceholder"
+                                                )}
+                                            />
                                         </div>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
@@ -272,7 +276,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                             </TooltipProvider>
                                         )}
                                     </SelectTrigger>
-                                    <SelectContent className="!bg-muted">
+                                    <SelectContent className="!dark:bg-muted">
                                         {sortedCurrencies &&
                                             sortedCurrencies.map((cur: any) => (
                                                 <SelectItem key={cur["alpha-3"]} value={cur["alpha-3"]}>
@@ -294,7 +298,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                     <FormLabel>{translate("app.widgets.forms.userCreate.publicKey")}</FormLabel>
                                     <FormControl>
                                         <Input
-                                            className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
+                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted  ${
                                                 fieldState.invalid
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                     : ""
@@ -336,7 +340,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                 <FormLabel>{translate("app.widgets.forms.userCreate.shopApiKey")}</FormLabel>
                                 <FormControl>
                                     <Input
-                                        className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
+                                        className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
                                             fieldState.invalid
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
@@ -370,7 +374,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                 <FormLabel>{translate("app.widgets.forms.userCreate.shopSignKey")}</FormLabel>
                                 <FormControl>
                                     <Input
-                                        className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
+                                        className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
                                             fieldState.invalid
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
@@ -404,7 +408,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                 <FormLabel>{translate("app.widgets.forms.userCreate.shopBalanceKey")}</FormLabel>
                                 <FormControl>
                                     <Input
-                                        className={`bg-muted text-sm text-neutral-100 disabled:bg-muted ${
+                                        className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
                                             fieldState.invalid
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
