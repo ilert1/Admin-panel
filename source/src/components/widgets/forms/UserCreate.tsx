@@ -306,7 +306,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                             value={fileContent}
                                             onChange={e => handleTextChange(e, field)}
                                             onInput={e => handleTextChange(e, field)}
-                                            placeholder="Drop file here or type text"
+                                            placeholder={translate("app.widgets.forms.userCreate.publicKeyPlaceholder")}
                                             disabled={props.isDisabled}>
                                             {fieldState.invalid && (
                                                 <TooltipProvider>

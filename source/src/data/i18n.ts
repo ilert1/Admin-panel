@@ -389,6 +389,7 @@ const ru: TranslationMessages = {
                     passwordMessage:
                         "Пароль должен состоять минимум из 8 символов, включая хотя бы одну строчную и прописную букву, а также специальный символ !@#$%^&*()-_",
                     publicKey: "Публичный ключ(скопируйте или перенесите файл ключа)",
+                    publicKeyPlaceholder: "Перетащите файл сюда или введите текст",
                     publicKeyMessage: "Неверный формат публичного ключа",
                     shopCurrency: "Валюта",
                     shopCurrencyPlaceholder: "Выберите валюту",
@@ -824,6 +825,7 @@ const en: TranslationMessages = {
                     passwordMessage:
                         "Password must be at least 8 symbols, including at least one lowercase and uppercase letter, also one special symbol !@#$%^&*()-_",
                     publicKey: "Public key(copy or drag&drop)",
+                    publicKeyPlaceholder: "Drop file here or type text",
                     publicKeyMessage: "Wrong public key format",
                     shopCurrency: "Currency",
                     shopCurrencyPlaceholder: "Choose currency",
