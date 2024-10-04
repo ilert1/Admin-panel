@@ -205,7 +205,7 @@ const TransactionFilterSidebar = () => {
 
     return (
         <div className="mb-6">
-            <div className="flex flex-col w-full lg:justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap mb-6">
+            <div className="flex flex-col w-full lg:justify-between md:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 mb-6">
                 <div className="flex flex-col sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
                     <label className="flex md:flex-col gap-2 items-center md:items-start">
                         <span className="md:text-nowrap">{translate("resources.transactions.filter.filterById")}</span>
