@@ -111,8 +111,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     };
 
     return (
-        <div className="flex flex-col w-[100vw] h-[100vh] scrollbar-stable overflow-auto">
-            <header className="flex min-h-[84px] w-full sticky z-[2] items-center justify-end gap-4 bg-header pr-6">
+        <div className="flex flex-col min-h-[100vh]">
+            <header className="flex h-[84px] w-full fixed top-0 z-[2] items-center justify-end gap-4 bg-header pr-6">
                 {identity?.data && (
                     <div className="flex items-center justify-end gap-2">
                         <div>
@@ -215,12 +215,12 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     </div>
                 )}
             </header>
-            <div className="flex grow-[1]">
+            <div className="flex mt-[84px] flex-1 bg-muted">
                 <aside
                     className={
                         isSheetOpen
-                            ? "min-w-[280px] w-[280px] flex-col justify-start items-center bg-header transition-all pt-6"
-                            : "min-w-[72px] w-[72px] flex-col justify-start items-center bg-header transition-all pt-6"
+                            ? "min-w-[280px] w-[280px] fixed h-full flex-col justify-start items-center bg-header transition-all pt-6"
+                            : "min-w-[72px] w-[72px] h-full fixed flex-col justify-start items-center bg-header transition-all pt-6"
                     }>
                     {isSheetOpen ? (
                         <div className="flex justify-center items-center h-[63px] gap-6">
@@ -320,7 +320,12 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                         )}
                     </nav>
                 </aside>
-                <main className="w-full h-full bg-muted mr-auto ml-auto p-8 grow-[1]">
+                <main
+                    className={
+                        isSheetOpen
+                            ? " mr-auto ml-[280px] flex-1 p-8 transition-all overflow-y-auto scrollbar-stable"
+                            : " mr-auto ml-[72px] flex-1 p-8 transition-all overflow-y-auto scrollbar-stable"
+                    }>
                     <div>{pageTitle}</div>
                     {children}
                 </main>
