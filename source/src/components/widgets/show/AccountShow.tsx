@@ -4,13 +4,15 @@ import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
+import { TableTypes } from "../shared/SimpleTable";
 
-export const AccountShow = (props: { id: string }) => {
-    const dataProvider = useDataProvider();
-    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
+export const AccountShow = (props: { id: string; type?: "compact" }) => {
+    const { id, type } = props;
     const translate = useTranslate();
 
-    const context = useShowController({ id: props.id });
+    const dataProvider = useDataProvider();
+    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
+    const context = useShowController({ id });
 
     const columns: ColumnDef<Amount>[] = [
         {
@@ -45,8 +47,42 @@ export const AccountShow = (props: { id: string }) => {
         }
     ];
 
+    const historyColumns: ColumnDef<Account>[] = [
+        {
+            id: "caption",
+            accessorKey: "id",
+            header: translate("resources.accounts.fields.amount.id")
+        },
+        {
+            id: "shop_currency",
+            accessorKey: "shop_currency",
+            header: translate("resources.accounts.fields.amount.shop_currency")
+        },
+        {
+            id: "type",
+            accessorKey: "type",
+            header: translate("resources.accounts.fields.amount.type")
+        },
+        {
+            id: "currency",
+            accessorKey: "currency",
+            header: translate("resources.accounts.fields.amount.currency")
+        }
+    ];
+
     if (context.isLoading || !context.record) {
         return <Loading />;
+    }
+    console.log(context.record);
+    if (type === "compact") {
+        return (
+            <>
+                <SimpleTable
+                    columns={historyColumns}
+                    data={context.record.amounts}
+                    tableType={TableTypes.COLORED}></SimpleTable>
+            </>
+        );
     } else {
         return (
             <div className="flex flex-col gap-2">

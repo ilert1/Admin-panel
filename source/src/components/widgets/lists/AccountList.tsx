@@ -8,13 +8,11 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { AccountShow } from "@/components/widgets/show";
 import { useState } from "react";
-import { useMediaQuery } from "react-responsive";
 import { TextField } from "@/components/ui/text-field";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "@/components/ui/loading";
@@ -27,10 +25,12 @@ export const AccountList = () => {
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
 
     const [showOpen, setShowOpen] = useState(false);
-    const [showTransactionId, setShowTransactionId] = useState<string>("");
+    const [showAccountId, setShowAccountId] = useState<string>("");
+    const [showAccountCaption, setShowAccountCaption] = useState<string>("");
 
-    const openSheet = (id: string) => {
-        setShowTransactionId(id);
+    const openSheet = (id: string, caption: string) => {
+        setShowAccountId(id);
+        setShowAccountCaption(caption);
         setShowOpen(true);
     };
 
@@ -76,7 +76,7 @@ export const AccountList = () => {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
+                            <DropdownMenuItem onClick={() => openSheet(row.original.id, row.original.meta.caption)}>
                                 {translate("app.ui.actions.quick_show")}
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => navigate(`/accounts/${row.original.id}/show`)}>
@@ -91,7 +91,7 @@ export const AccountList = () => {
 
     const dataProvider = useDataProvider();
 
-    const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
+    // const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
 
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
@@ -101,7 +101,39 @@ export const AccountList = () => {
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />
                 </ListContextProvider>
-                <Sheet open={showOpen} onOpenChange={setShowOpen}>
+                <Sheet onOpenChange={setShowOpen} open={showOpen}>
+                    <SheetContent
+                        className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col"
+                        tabIndex={-1}
+                        style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
+                        close={false}>
+                        <SheetHeader className="p-[42px] pb-[24px] flex-shrink-0">
+                            <div className="flex flex-col gap-2">
+                                <div className="flex justify-between items-center ">
+                                    <SheetTitle className="!text-display-1">
+                                        {translate("app.ui.accountHistory")}
+                                    </SheetTitle>
+
+                                    <button
+                                        onClick={() => setShowOpen(false)}
+                                        className="text-gray-500 hover:text-gray-700 transition-colors border-0 outline-0">
+                                        <XIcon className="h-[28px] w-[28px]" />
+                                    </button>
+                                </div>
+                                <div className="text-display-2 mb-2">
+                                    <TextField text={showAccountCaption} />
+                                </div>
+                                <TextField text={showAccountId} copyValue />
+                            </div>
+                        </SheetHeader>
+
+                        <div className="flex-1 overflow-auto" tabIndex={-1}>
+                            <SheetDescription></SheetDescription>
+                            <AccountShow id={showAccountId} type="compact" />
+                        </div>
+                    </SheetContent>
+                </Sheet>
+                {/* <Sheet open={showOpen} onOpenChange={setShowOpen}>
                     <SheetContent
                         className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
                         side={isMobile ? "bottom" : "right"}>
@@ -112,10 +144,10 @@ export const AccountList = () => {
                                     {translate("resources.accounts.showDescription", { id: showTransactionId })}
                                 </SheetDescription>
                             </SheetHeader>
-                            <AccountShow id={showTransactionId} />
+                            <AccountShow id={showTransactionId} type="compact" />
                         </ScrollArea>
                     </SheetContent>
-                </Sheet>
+                </Sheet> */}
             </>
         );
     }

@@ -321,7 +321,8 @@ const ru: TranslationMessages = {
                 deletedSuccessfully: "Элемент удален успешно"
             },
             chatMessagePlaceholder: "Сообщение...",
-            transactionHistory: "История операции"
+            transactionHistory: "История операции",
+            accountHistory: "История счета"
         },
         theme: {
             light: "Светлая тема",
@@ -745,7 +746,8 @@ const en: TranslationMessages = {
                 deletedSuccessfully: "Deleted successfully"
             },
             chatMessagePlaceholder: "Message...",
-            transactionHistory: "Transaction history"
+            transactionHistory: "Transaction history",
+            accountHistory: "Account history"
         },
         theme: {
             light: "Light theme",
