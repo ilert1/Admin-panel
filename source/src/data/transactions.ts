@@ -11,6 +11,7 @@ export class TransactionDataProvider extends BaseDataProvider {
             offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
         };
         if (params.filter.account) {
+            console.log(params.filter.account);
             data["accountId"] = params.filter.account;
         }
         if (params.filter.id) {

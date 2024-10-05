@@ -80,7 +80,8 @@ const ru: TranslationMessages = {
                     id: "ID",
                     amount: {
                         currency: "Валюта",
-                        value: "Сумма"
+                        value: "Сумма",
+                        getAmount: "Сумма зачисления"
                     },
                     meta: {
                         caption: "Название"
@@ -91,7 +92,8 @@ const ru: TranslationMessages = {
                     id: "ID",
                     amount: {
                         currency: "Валюта",
-                        value: "Сумма"
+                        value: "Сумма",
+                        sendAmount: "Сумма отправления"
                     },
                     meta: {
                         caption: "Название"
@@ -505,7 +507,8 @@ const en: TranslationMessages = {
                     id: "ID",
                     amount: {
                         currency: "Currency",
-                        value: "Value"
+                        value: "Value",
+                        getAmount: "Amount credited"
                     },
                     meta: {
                         caption: "Name"
@@ -516,7 +519,8 @@ const en: TranslationMessages = {
                     id: "ID",
                     amount: {
                         currency: "Currency",
-                        value: "Value"
+                        value: "Value",
+                        sendAmount: "Amount send"
                     },
                     meta: {
                         caption: "Name"
