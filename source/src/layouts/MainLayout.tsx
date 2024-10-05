@@ -111,8 +111,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     };
 
     return (
-        <div className="flex flex-col min-h-[100vh]">
-            <header className="flex h-[84px] w-full fixed top-0 z-[2] items-center justify-end gap-4 bg-header pr-6">
+        <div className="flex flex-col h-screen">
+            <header className="flex h-[84px] shrink-0 z-[2] items-center justify-end gap-4 bg-header pr-6">
                 {identity?.data && (
                     <div className="flex items-center justify-end gap-2">
                         <div>
@@ -215,7 +215,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     </div>
                 )}
             </header>
-            <div className="flex mt-[84px] flex-1 bg-muted">
+            <div className="flex flex-col grow h-full overflow-hidden">
                 <aside
                     className={
                         isSheetOpen
@@ -323,8 +323,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 <main
                     className={
                         isSheetOpen
-                            ? " mr-auto ml-[280px] flex-1 p-8 transition-all overflow-y-auto scrollbar-stable"
-                            : " mr-auto ml-[72px] flex-1 p-8 transition-all overflow-y-auto scrollbar-stable"
+                            ? " bg-muted grow ml-[280px] overflow-y-auto p-8 scrollbar-stable transition-[margin-left]"
+                            : " bg-muted grow ml-[72px] overflow-y-auto p-8 scrollbar-stable transition-[margin-left]"
                     }>
                     <div>{pageTitle}</div>
                     {children}
