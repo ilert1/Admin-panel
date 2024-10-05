@@ -156,9 +156,11 @@ const ru: TranslationMessages = {
             },
             filter: {
                 showAll: "Показать все",
-                notSelected: "Не выбран",
-                filterById: "Поиск по ID",
-                filterByAccount: "Поиск по счету",
+                filterById: "Поиск по ID операции",
+                filterByIdPlaceholder: "ID",
+                filterByAccount: "Мерчант",
+                filterAllPlaceholder: "Все",
+                filterByOrderStatus: "Статус ордера",
                 filterByDate: "Выберите период",
                 clearFilters: "Сбросить фильтры",
                 filterCustomerPaymentId: "Поиск по ID платежа клиента"
@@ -592,9 +594,11 @@ const en: TranslationMessages = {
             },
             filter: {
                 showAll: "Show all",
-                notSelected: "Not selected",
-                filterById: "Search by ID",
-                filterByAccount: "Search by account",
+                filterById: "Search by operation ID",
+                filterByIdPlaceholder: "ID",
+                filterByAccount: "Merchant",
+                filterAllPlaceholder: "All",
+                filterByOrderStatus: "Order status",
                 filterByDate: "Select period",
                 clearFilters: "Clear filters",
                 filterCustomerPaymentId: "Search by customer payment ID"

@@ -22,6 +22,9 @@ export class TransactionDataProvider extends BaseDataProvider {
         if (params.filter.type) {
             data["type"] = params.filter.type;
         }
+        if (params.filter.orderStatus) {
+            data["orderStatus"] = params.filter.orderStatus;
+        }
         const paramsStr = new URLSearchParams(data).toString();
         const url = `${API_URL}/${resource}?${paramsStr}`;
         const { json } = await fetchUtils.fetchJson(url, {

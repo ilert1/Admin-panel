@@ -117,6 +117,11 @@ const TransactionFilterSidebar = () => {
     const [account, setAccount] = useState(accounts?.find(account => filterValues?.account === account.id) || "");
     const [typeTabActive, setTypeTabActive] = useState("");
 
+    const orderStatusIndex = Object.keys(data.states).find(
+        index => filterValues?.orderStatus === data.states[index].state_description
+    );
+    const [orderStatusFilter, setOrderStatusFilter] = useState(orderStatusIndex ? data.states[orderStatusIndex] : "");
+
     const chooseClassTabActive = useCallback(
         (type: string) => {
             return typeTabActive === type
@@ -127,11 +132,8 @@ const TransactionFilterSidebar = () => {
     );
 
     const onPropertySelected = debounce(
-        (value: Account | string, type: "id" | "customer_payment_id" | "account" | "type") => {
+        (value: string, type: "id" | "customer_payment_id" | "account" | "type" | "orderStatus") => {
             if (value) {
-                if (type === "account") {
-                    value = (value as Account).id;
-                }
                 setFilters({ ...filterValues, [type]: value }, displayedFilters);
             } else {
                 Reflect.deleteProperty(filterValues, type);
@@ -153,9 +155,24 @@ const TransactionFilterSidebar = () => {
     };
 
     const onAccountChanged = (account: Account | string) => {
-        console.log(account);
         setAccount(account);
-        onPropertySelected(account, "account");
+        if (typeof account === "string") {
+            handleSelectedIdChange(account);
+            onPropertySelected(account, "account");
+        } else {
+            handleSelectedIdChange(account.id);
+            onPropertySelected(account.id, "account");
+        }
+    };
+
+    const onOrderStatusChanged = (order: any) => {
+        setOrderStatusFilter(order);
+
+        if (typeof order === "string") {
+            onPropertySelected(order, "orderStatus");
+        } else {
+            onPropertySelected(order.state_description, "orderStatus");
+        }
     };
 
     const changeDate = (date: DateRange | undefined) => {
@@ -179,6 +196,7 @@ const TransactionFilterSidebar = () => {
         setId("");
         setAccount("");
         setCustomerPaymentId("");
+        setOrderStatusFilter("");
         handleSelectedIdChange("");
         setTypeTabActive("");
         setFilters({}, displayedFilters);
@@ -187,94 +205,110 @@ const TransactionFilterSidebar = () => {
 
     return (
         <div className="mb-6">
-            <div className="flex flex-col items-stretch sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap mb-6">
-                <label className="flex md:flex-col gap-2 items-center md:items-start">
-                    <span className="md:text-nowrap">{translate("resources.transactions.filter.filterById")}</span>
-                    <Input
-                        className="flex-1 text-sm placeholder:text-neutral-70"
-                        placeholder={translate("resources.transactions.fields.id")}
-                        value={id}
-                        onChange={onIdChanged}
-                    />
-                </label>
+            <div className="flex flex-col w-full lg:justify-between md:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
+                    <label className="flex md:flex-col gap-2 items-center md:items-start">
+                        <span className="md:text-nowrap">{translate("resources.transactions.filter.filterById")}</span>
+                        <Input
+                            className="flex-1 text-sm placeholder:text-neutral-70"
+                            placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
+                            value={id}
+                            onChange={onIdChanged}
+                        />
+                    </label>
 
-                <label className="flex md:flex-col gap-2 items-center md:items-start">
-                    <span className="md:text-nowrap">
-                        {translate("resources.transactions.filter.filterCustomerPaymentId")}
-                    </span>
-                    <Input
-                        className="flex-1 text-sm placeholder:text-neutral-70"
-                        placeholder={translate("resources.transactions.fields.id")}
-                        value={customerPaymentId}
-                        onChange={onCustomerPaymentIdChanged}
-                    />
-                </label>
+                    <label className="flex md:flex-col gap-2 items-center md:items-start">
+                        <span className="md:text-nowrap">
+                            {translate("resources.transactions.filter.filterCustomerPaymentId")}
+                        </span>
+                        <Input
+                            className="flex-1 text-sm placeholder:text-neutral-70"
+                            placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
+                            value={customerPaymentId}
+                            onChange={onCustomerPaymentIdChanged}
+                        />
+                    </label>
 
-                {adminOnly && (
-                    <div className="flex-1">
+                    <div className="flex md:flex-col gap-2 items-center md:items-start min-w-36">
+                        <span className="md:text-nowrap">
+                            {translate("resources.transactions.filter.filterByOrderStatus")}
+                        </span>
                         <Select
-                            onValueChange={val => (val !== "null" ? onAccountChanged(val) : onAccountChanged(""))}
-                            value={account}>
-                            <SelectTrigger>
-                                <SelectValue placeholder={translate("resources.transactions.filter.filterByAccount")} />
+                            onValueChange={val =>
+                                val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged("")
+                            }
+                            value={orderStatusFilter}>
+                            <SelectTrigger className="text-ellipsis">
+                                <SelectValue
+                                    placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="null">
                                     {translate("resources.transactions.filter.showAll")}
                                 </SelectItem>
-                                {accounts &&
-                                    accounts.map(account => (
-                                        <SelectItem key={account.id} value={account}>
-                                            {account.meta.caption}
+                                {data &&
+                                    Object.keys(data.states).map(index => (
+                                        <SelectItem key={data.states[index].state_int} value={data.states[index]}>
+                                            {data.states[index].state_description}
                                         </SelectItem>
                                     ))}
                             </SelectContent>
                         </Select>
                     </div>
-                )}
 
-                <DateRangePicker
-                    placeholder={translate("resources.transactions.filter.filterByDate")}
-                    dateRange={{ from: startDate, to: endDate }}
-                    onChange={changeDate}
-                />
+                    <DateRangePicker
+                        placeholder={translate("resources.transactions.filter.filterByDate")}
+                        dateRange={{ from: startDate, to: endDate }}
+                        onChange={changeDate}
+                    />
 
-                {adminOnly && (
-                    <div className="flex-1">
-                        <Select
-                            onValueChange={val =>
-                                val !== "null" ? handleSelectedIdChange(val) : handleSelectedIdChange("")
-                            }
-                            value={reqId}>
-                            <SelectTrigger>
-                                <SelectValue placeholder={translate("resources.transactions.download.accountField")} />
-                            </SelectTrigger>
+                    {adminOnly && (
+                        <div className="flex md:flex-col gap-2 items-center md:items-start min-w-40">
+                            <span className="md:text-nowrap">
+                                {translate("resources.transactions.filter.filterByAccount")}
+                            </span>
+                            <Select
+                                onValueChange={val => (val !== "null" ? onAccountChanged(val) : onAccountChanged(""))}
+                                value={account}>
+                                <SelectTrigger className="text-ellipsis">
+                                    <SelectValue
+                                        placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
+                                    />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="null">
+                                        {translate("resources.transactions.filter.showAll")}
+                                    </SelectItem>
+                                    {accounts &&
+                                        accounts.map(account => (
+                                            <SelectItem key={account.id} value={account}>
+                                                {account.meta.caption}
+                                            </SelectItem>
+                                        ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    )}
 
-                            <SelectContent>
-                                <SelectItem value="null">
-                                    {translate("resources.transactions.filter.notSelected")}
-                                </SelectItem>
-                                {accounts?.map(el => {
-                                    return (
-                                        <SelectItem key={el.id} value={el.id.toString()}>
-                                            {el.meta.caption}
-                                        </SelectItem>
-                                    );
-                                })}
-                            </SelectContent>
-                        </Select>
-                    </div>
-                )}
-
-                <Button
-                    className="ml-0 sm:ml-auto flex items-center gap-1 w-auto h-auto px-0"
-                    onClick={clearFilters}
-                    variant="clearBtn"
-                    size="default"
-                    disabled={!id && !account && !customerPaymentId && !startDate && !reqId && !typeTabActive}>
-                    <span>{translate("resources.transactions.filter.clearFilters")}</span>
-                    <XIcon className="size-4" />
-                </Button>
+                    <Button
+                        className="ml-0 flex items-center gap-1 w-auto h-auto px-0"
+                        onClick={clearFilters}
+                        variant="clearBtn"
+                        size="default"
+                        disabled={
+                            !id &&
+                            !account &&
+                            !customerPaymentId &&
+                            !startDate &&
+                            !reqId &&
+                            !typeTabActive &&
+                            !orderStatusFilter
+                        }>
+                        <span>{translate("resources.transactions.filter.clearFilters")}</span>
+                        <XIcon className="size-4" />
+                    </Button>
+                </div>
 
                 <Button onClick={handleDownload} variant="default" size="sm">
                     {translate("resources.transactions.download.downloadReportButtonText")}

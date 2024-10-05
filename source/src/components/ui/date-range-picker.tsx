@@ -25,12 +25,12 @@ export function DateRangePicker({
         <Popover open={openPopover} onOpenChange={setOpenPopover}>
             <PopoverTrigger asChild>
                 <div className="flex flex-col sm:flex-row items-stretch flex-wrap gap-2 sm:gap-3">
-                    <div className="relative flex md:flex-col gap-2 items-center md:items-start lg:min-w-52 flex-1">
+                    <div className="relative flex md:flex-col gap-2 items-center md:items-start flex-1">
                         <span>{translate("resources.transactions.download.dateTitle")}</span>
                         <Button
                             variant={"outline"}
                             className={
-                                "flex flex-1 justify-between items-center gap-3 text-neutral-100 duration-200 px-3 py-2 border-green-40 min-w-52"
+                                "flex flex-1 justify-between items-center gap-3 text-neutral-100 duration-200 px-3 py-2 border-green-40 min-w-56"
                             }>
                             {dateRange?.from ? (
                                 dateRange.to ? (
