@@ -215,6 +215,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                                 : ""
                                         }`}
                                         disabled={props.isDisabled}
+                                        autoComplete="new-password"
                                         {...field}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
