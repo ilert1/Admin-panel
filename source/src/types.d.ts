@@ -45,7 +45,7 @@ declare namespace Transaction {
         external_status_details: string;
         fail_url: string;
         success_url: string;
-        customer_id: string;
+        customer_id?: string;
         customer_payment_id: string;
     };
 
@@ -80,6 +80,7 @@ declare namespace Transaction {
         dispute: boolean;
         fees: [];
         meta: Meta;
+        payload?: any;
         rate_info: RateInfo;
         result: Result;
         source: Account;

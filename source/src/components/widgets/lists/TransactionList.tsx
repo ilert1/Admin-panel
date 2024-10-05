@@ -423,7 +423,18 @@ export const TransactionList = () => {
         {
             accessorKey: "meta.customer_id",
             header: translate("resources.transactions.fields.meta.customer_id"),
-            cell: ({ row }) => <TextField text={row.original.meta.customer_id} />
+            cell: ({ row }) => {
+                console.log(row.original);
+                return (
+                    <TextField
+                        text={
+                            row.original.meta?.customer_id
+                                ? row.original.meta.customer_id
+                                : row.original.payload?.customer_data?.customer_id
+                        }
+                    />
+                );
+            }
         },
         {
             accessorKey: "meta.customer_payment_id",
