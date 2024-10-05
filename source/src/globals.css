@@ -222,6 +222,10 @@
         width: 8px;
     }
 
+    ::-webkit-scrollbar-corner {
+        background-color: hsl(var(--neutral-0));
+    }
+
     ::-webkit-scrollbar-track {
         background: hsl(var(--neutral-0));
     }

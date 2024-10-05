@@ -131,8 +131,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                     <Avatar
                                         className={
                                             profileOpen
-                                                ? "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-50 bg-green-50 transition-all duration-150"
-                                                : "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-40 hover:border-green-50 bg-muted hover:bg-green-50 transition-all duration-150"
+                                                ? "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-50 bg-green-50 transition-colors duration-150"
+                                                : "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-40 hover:border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
                                         }>
                                         <Blowfish />
                                     </Avatar>
@@ -219,8 +219,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 <aside
                     className={
                         isSheetOpen
-                            ? "min-w-[280px] w-[280px] fixed h-full flex-col justify-start items-center bg-header transition-all pt-6"
-                            : "min-w-[72px] w-[72px] h-full fixed flex-col justify-start items-center bg-header transition-all pt-6"
+                            ? "w-[280px] fixed h-full flex-col justify-start items-center bg-header transition-[width] pt-6"
+                            : "w-[72px] h-full fixed flex-col justify-start items-center bg-header transition-[width] pt-6"
                     }>
                     {isSheetOpen ? (
                         <div className="flex justify-center items-center h-[63px] gap-6">
