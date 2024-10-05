@@ -378,6 +378,7 @@ const ru: TranslationMessages = {
                     allAmount: "Вся сумма %{amount} USD₮"
                 },
                 userCreate: {
+                    title: "Добавление пользователя",
                     name: "Имя",
                     nameMessage: "Пожалуйста, введите имя мерчанта",
                     login: "Логин",
@@ -388,6 +389,7 @@ const ru: TranslationMessages = {
                     passwordMessage:
                         "Пароль должен состоять минимум из 8 символов, включая хотя бы одну строчную и прописную букву, а также специальный символ !@#$%^&*()-_",
                     publicKey: "Публичный ключ(скопируйте или перенесите файл ключа)",
+                    publicKeyPlaceholder: "Перетащите файл сюда или введите текст",
                     publicKeyMessage: "Неверный формат публичного ключа",
                     shopCurrency: "Валюта",
                     shopCurrencyPlaceholder: "Выберите валюту",
@@ -396,7 +398,8 @@ const ru: TranslationMessages = {
                     shopSignKey: "Ключ проверки подписи",
                     shopBalanceKey: "Ключ доступа к балансу",
                     keyMessage: "Неверный формат ключа",
-                    createUser: "Создать пользователя"
+                    createUser: "Создать пользователя",
+                    cancelBtn: "Отменить"
                 }
             }
         },
@@ -811,6 +814,7 @@ const en: TranslationMessages = {
                     allAmount: "All amount %{amount} USD₮"
                 },
                 userCreate: {
+                    title: "Adding a user",
                     name: "Name",
                     nameMessage: "Please, enter merchant's name",
                     login: "Login",
@@ -821,6 +825,7 @@ const en: TranslationMessages = {
                     passwordMessage:
                         "Password must be at least 8 symbols, including at least one lowercase and uppercase letter, also one special symbol !@#$%^&*()-_",
                     publicKey: "Public key(copy or drag&drop)",
+                    publicKeyPlaceholder: "Drop file here or type text",
                     publicKeyMessage: "Wrong public key format",
                     shopCurrency: "Currency",
                     shopCurrencyPlaceholder: "Choose currency",
@@ -829,7 +834,8 @@ const en: TranslationMessages = {
                     shopSignKey: "Sign key",
                     shopBalanceKey: "Balance key",
                     keyMessage: "Key format is wrong",
-                    createUser: "Create user"
+                    createUser: "Create user",
+                    cancelBtn: "Cancel"
                 }
             }
         },

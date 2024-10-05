@@ -20,10 +20,11 @@ import { Loading } from "@/components/ui/loading";
 import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { UserCreate } from "../create";
 
 const UserFilterSidebar = () => {
     const translate = useTranslate();
-    const navigate = useNavigate();
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const { data: users } = useGetList("users", { pagination: { perPage: 100, page: 1 } });
 
@@ -118,12 +119,22 @@ const UserFilterSidebar = () => {
                     </Button>
                 </div>
 
-                <Button
-                    onClick={() => navigate(`/users/create`)}
-                    className="flex items-center justify-center gap-1 font-normal">
-                    <CirclePlus width={16} height={16} />
-                    <span>{translate("resources.users.createButton")}</span>
-                </Button>
+                <Dialog>
+                    <DialogTrigger>
+                        <div className="text-white dark:text-neutral-100 whitespace-nowrap rounded-4 text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 duration-200 h-9 px-4 py-2 bg-green-50 hover:bg-green-40 active:bg-green-20 disabled:bg-neutral-20 disabled:text-neutral-80 flex items-center justify-center gap-1 font-normal select-none">
+                            <CirclePlus width={16} height={16} />
+                            <span>{translate("resources.users.createButton")}</span>
+                        </div>
+                    </DialogTrigger>
+
+                    <DialogContent aria-describedby={undefined}>
+                        <DialogHeader>
+                            <DialogTitle>{translate("app.widgets.forms.userCreate.title")}</DialogTitle>
+                        </DialogHeader>
+
+                        <UserCreate />
+                    </DialogContent>
+                </Dialog>
             </div>
 
             <label

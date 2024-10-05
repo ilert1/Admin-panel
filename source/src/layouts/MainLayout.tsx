@@ -210,7 +210,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
             </aside>
             <div className="flex w-full flex-col ">
                 <header
-                    className="flex h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z"
+                    className="flex h-[84px] items-center gap-4 bg-header px-4 relative z-[60] pointer-events-auto"
                     onClick={e => e.stopPropagation()}>
                     {identity?.data && (
                         <div className="ml-auto flex items-center gap-2 mr-6">
@@ -224,7 +224,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                     {identity.data.fullName ? identity.data.fullName : null}
                                 </span>
                             </div>
-                            <div className="flex items-center gap-8 relative !z-60">
+                            <div className="flex items-center gap-8 relative z-[60]">
                                 <DropdownMenu open={profileOpen} onOpenChange={setProfileOpen} modal={true}>
                                     <DropdownMenuTrigger asChild>
                                         <Avatar
@@ -238,7 +238,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent
                                         align="end"
-                                        className="p-0 w-56 bg-muted border border-neutral-100 z100">
+                                        className="p-0 w-56 bg-muted border border-neutral-100 z-[60]">
                                         <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
                                             <Avatar className="w-5 h-5">
                                                 <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
