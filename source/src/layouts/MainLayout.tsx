@@ -36,6 +36,7 @@ import LogoPicture from "@/lib/icons/LogoPicture";
 import Blowfish from "@/lib/icons/Blowfish";
 import { ChatSheet } from "@/components/widgets/ChatSheet";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { debounce } from "lodash";
 
 enum SplitLocations {
     show = "show",
@@ -84,6 +85,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     const [langOpen, setLangOpen] = useState(false);
 
     const [chatOpen, setChatOpen] = useState(false);
+    const debounced = debounce(setChatOpen, 100);
 
     useEffect(() => {
         isSheetOpen
@@ -280,8 +282,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 <Sheet
                                     open={chatOpen}
                                     onOpenChange={isOpen => {
-                                        console.log("Chat toggle", isOpen);
-                                        setTimeout(() => setChatOpen(isOpen), 100);
+                                        debounced(isOpen);
                                     }}
                                     modal={true}>
                                     <SheetTrigger asChild>
