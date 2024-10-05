@@ -193,7 +193,7 @@ export const TransactionList = () => {
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
-    const { startDate, endDate, reqId, handleSelectedIdChange, setStartDate, setEndDate, handleDownload } =
+    const { startDate, endDate, /* reqId, */ handleSelectedIdChange, setStartDate, setEndDate, handleDownload } =
         useReportDownload();
 
     const { data: currencies } = useQuery("currencies", () =>
@@ -383,7 +383,8 @@ export const TransactionList = () => {
                                 onClick={handleDownload}
                                 variant="default"
                                 size="sm"
-                                disabled={reqId ? false : true}>
+                                // disabled={reqId ? false : true}
+                            >
                                 {translate("resources.transactions.download.downloadReportButtonText")}
                             </Button>
                         </div>
