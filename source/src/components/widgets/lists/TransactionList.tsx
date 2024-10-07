@@ -233,9 +233,17 @@ const TransactionFilterSidebar = () => {
                             {translate("resources.transactions.download.downloadReportButtonText")}
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => handleDownloadReport("excel")}>Excel</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDownloadReport("pdf")}>PDF</DropdownMenuItem>
+                    <DropdownMenuContent className="p-0 border-green-50" align="end">
+                        <DropdownMenuItem
+                            className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                            onClick={() => handleDownloadReport("excel")}>
+                            Excel
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                            onClick={() => handleDownloadReport("pdf")}>
+                            PDF
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
