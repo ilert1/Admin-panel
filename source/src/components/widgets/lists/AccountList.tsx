@@ -1,4 +1,10 @@
-import { useDataProvider, ListContextProvider, useListController, useTranslate } from "react-admin";
+import {
+    useDataProvider,
+    ListContextProvider,
+    useListController,
+    useTranslate,
+    RecordContextProvider
+} from "react-admin";
 import { useQuery } from "react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
@@ -9,23 +15,41 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { AccountShow } from "@/components/widgets/show";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { TextField } from "@/components/ui/text-field";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "@/components/ui/loading";
+import { toast } from "sonner";
+import { NumericFormat } from "react-number-format";
+import USDT from "@/lib/icons/USDT";
 
 export const AccountList = () => {
     const listContext = useListController<Account>();
+
+    const totalSum = useMemo(() => {
+        if (listContext.data) {
+            return listContext.data.reduce(
+                (acc, item) =>
+                    acc +
+                    item.amounts.reduce(
+                        (innerAcc, innerItem) => innerAcc + innerItem.value.quantity / innerItem.value.accuracy,
+                        0
+                    ),
+                0
+            );
+        }
+        return 0;
+    }, [listContext.data]);
+    console.log(totalSum);
     const translate = useTranslate();
     const navigate = useNavigate();
 
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
-
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");
 
@@ -36,21 +60,30 @@ export const AccountList = () => {
 
     const columns: ColumnDef<Account>[] = [
         {
-            id: "name",
-            accessorKey: "meta.caption",
-            header: translate("resources.accounts.fields.meta.caption"),
+            id: "owner",
+            accessorFn: row => [row.meta.caption, row.owner_id],
+            header: translate("resources.accounts.fields.owner"),
             cell: ({ row }) => (
-                <TextField
-                    text={row.getValue("name")}
-                    type="internal-link"
-                    link={`/accounts/${row.original.owner_id}/show`}
-                />
+                <RecordContextProvider value={row.original}>
+                    <div className="flex flex-col justify-center gap-1">
+                        <span className="text-title-1">{(row.getValue("owner") as Array<string>)[0]}</span>
+                        <div className="flex flex-start text-neutral-60 dark:text-neutral-70 items-center gap-2">
+                            <Copy
+                                className="h-4 w-4 cursor-pointer"
+                                onClick={() => {
+                                    navigator.clipboard.writeText((row.getValue("owner") as Array<string>)[1]);
+                                    toast.success(translate("app.ui.textField.copied"), {
+                                        dismissible: true,
+                                        duration: 1000
+                                    });
+                                }}
+                            />
+
+                            <span>{(row.getValue("owner") as Array<string>)[1]}</span>
+                        </div>
+                    </div>
+                </RecordContextProvider>
             )
-        },
-        {
-            id: "owner_id",
-            accessorKey: "owner_id",
-            header: translate("resources.accounts.fields.owner_id")
         },
         {
             id: "state",
@@ -65,7 +98,29 @@ export const AccountList = () => {
             cell: ({ row }) => data?.accountTypes?.[row.getValue("type") as string]?.type_descr || ""
         },
         {
-            id: "actions",
+            id: "balance",
+            accessorKey: "amounts",
+            header: translate("resources.accounts.fields.balance"),
+            cell: ({ row }) => (
+                <RecordContextProvider value={row.original}>
+                    {row.original.amounts.map(item => {
+                        return (
+                            <div key={item.id}>
+                                <NumericFormat
+                                    value={item.value.quantity / item.value.accuracy}
+                                    displayType={"text"}
+                                    thousandSeparator=" "
+                                    decimalSeparator=","
+                                />
+                                {` ${item.currency}`}
+                            </div>
+                        );
+                    })}
+                </RecordContextProvider>
+            )
+        },
+        {
+            id: "history",
             cell: ({ row }) => {
                 return (
                     <DropdownMenu>
@@ -99,7 +154,26 @@ export const AccountList = () => {
         return (
             <>
                 <ListContextProvider value={listContext}>
-                    <DataTable columns={columns} />
+                    <div className="flex gap-6 flex-wrap">
+                        <div className="grow-[1]">
+                            <DataTable columns={columns} />
+                        </div>
+                        <div className="flex flex-col gap-4 px-6 py-4 rounded-2xl bg-neutral-0 w-[457px] h-fit">
+                            <h3 className="text-display-3">{translate("resources.accounts.totalBalance")}</h3>
+                            <div className="self-end flex gap-4 items-center">
+                                <h1 className="text-display-1">
+                                    <NumericFormat
+                                        className="whitespace-nowrap"
+                                        value={totalSum}
+                                        displayType={"text"}
+                                        thousandSeparator=" "
+                                        decimalSeparator=","
+                                    />
+                                </h1>
+                                <USDT />
+                            </div>
+                        </div>
+                    </div>
                 </ListContextProvider>
                 <Sheet open={showOpen} onOpenChange={setShowOpen}>
                     <SheetContent

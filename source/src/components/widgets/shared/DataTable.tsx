@@ -57,9 +57,9 @@ export function DataTable<TData, TValue>({ columns, pagination = true }: DataTab
                 <TableBody>
                     {table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row, i) => (
-                            <TableRow key={i} data-state={row.getIsSelected() && "selected"} className="border-muted">
+                            <TableRow key={i} data-state={row.getIsSelected() && "selected"} className="border-muted ">
                                 {row.getVisibleCells().map((cell, j) => (
-                                    <TableCell key={j} className="text-sm border border-muted ">
+                                    <TableCell key={j} className="text-sm border border-muted py-2">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}
