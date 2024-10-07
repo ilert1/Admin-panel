@@ -1,19 +1,23 @@
-import { useDataProvider, useShowController, useTranslate, useGetManyReference } from "react-admin";
+import { useDataProvider, useShowController, useTranslate, useGetManyReference, usePermissions } from "react-admin";
 import { useQuery } from "react-query";
 import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { BooleanField } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
-import { useMemo } from "react";
-import { Loading } from "@/components/ui/loading";
+import { useEffect, useMemo, useState } from "react";
+import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TableTypes } from "../shared/SimpleTable";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
 export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     const dataProvider = useDataProvider();
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
     const translate = useTranslate();
-
+    const { permissions, isLoading } = usePermissions();
     const context = useShowController({ id: props.id });
+
+    const [newState, setNewState] = useState("");
 
     const trnId = useMemo<string>(() => context.record?.id, [context]);
 
@@ -97,12 +101,40 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
         }
     ];
     const briefHistory = historyColumns.slice(0, 5);
+    useEffect(() => {
+        setNewState(context?.record?.state.state_description);
+    }, [context?.record?.state.state_description]);
 
-    if (context.isLoading || context.isFetching || !context.record) {
-        return <Loading />;
+    if (context.isLoading || context.isFetching || !context.record || isLoading) {
+        return <LoadingAlertDialog />;
     } else if (props.type === "compact") {
+        console.log(newState);
         return (
             <div className="p-[42px] pt-0 flex flex-col gap-6 top-[82px] overflow-auto">
+                {permissions === "admin" && (
+                    <div className="flex justify-between">
+                        <div className="flex gap-2 items-center">
+                            <span>{translate("resources.transactions.fields.state.state_description")}</span>
+                            <Select value={newState} onValueChange={setNewState}>
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="Theme" />
+                                </SelectTrigger>
+                                <SelectContent className="bg-neutral-0">
+                                    <SelectItem value="Created">Created</SelectItem>
+                                    <SelectItem value="Processing">Processing</SelectItem>
+                                    <SelectItem value="Fail">Fail</SelectItem>
+                                    <SelectItem value="Success">Success</SelectItem>
+                                    <SelectItem value="FromOutside">FromOutside</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <Button>{translate("app.ui.actions.save")}</Button>
+                        </div>
+                        <div className="flex gap-6">
+                            <Button>{translate("resources.transactions.show.openDispute")}</Button>
+                            <Button variant={"secondary"}>{translate("resources.transactions.show.commit")}</Button>
+                        </div>
+                    </div>
+                )}
                 <div className="flex gap-6">
                     <div className="flex flex-col">
                         <span className="opacity-60 text-title-1">
@@ -112,7 +144,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                     </div>
                     <div className="flex flex-col">
                         <span className="opacity-60 text-title-1">
-                            {translate("resources.transactions.fields.type")}
+                            {translate("resources.transactions.fields.state.state_description")}
                         </span>
                         <span>{context.record.state.state_description}</span>
                     </div>
