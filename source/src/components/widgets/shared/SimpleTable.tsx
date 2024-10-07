@@ -17,8 +17,6 @@ export function SimpleTable<TData, TValue>({
     data,
     tableType = TableTypes.DEFAULT
 }: SimpleTableProps<TData, TValue>) {
-    console.log(data);
-
     const table = useReactTable({
         data,
         columns,
