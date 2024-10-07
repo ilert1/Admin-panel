@@ -118,7 +118,9 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
 
     return (
         <div className="flex flex-col h-screen">
-            <header className="flex h-[84px] shrink-0 z-[2] items-center justify-end gap-4 bg-header pr-6">
+            <header
+                className="flex h-[84px] shrink-0 z-[60] items-center justify-end gap-4 bg-header pr-6 pointer-events-auto"
+                onClick={e => e.stopPropagation()}>
                 {identity?.data && (
                     <div className="flex items-center justify-end gap-2">
                         <div>
@@ -131,7 +133,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 {identity.data.fullName ? identity.data.fullName : null}
                             </span>
                         </div>
-                        <div className="flex items-center gap-8">
+                        <div className="flex items-center gap-8 relative z-[60]">
                             <DropdownMenu onOpenChange={setProfileOpen} modal={false}>
                                 <DropdownMenuTrigger asChild>
                                     <Avatar
@@ -145,7 +147,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent
                                     align="end"
-                                    className="p-0 w-56 bg-muted border border-neutral-100">
+                                    className="p-0 w-56 bg-muted border border-neutral-100 z-[60]">
                                     <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
                                         <Avatar className="w-5 h-5">
                                             <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
@@ -182,6 +184,44 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
+                            <Sheet
+                                open={chatOpen}
+                                onOpenChange={isOpen => {
+                                    debounced(isOpen);
+                                }}
+                                modal={true}>
+                                <SheetTrigger asChild>
+                                    <div>
+                                        <Avatar
+                                            className={
+                                                chatOpen
+                                                    ? "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
+                                                    : "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-green-50 hover:text-neutral-100 border-2 border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
+                                            }>
+                                            <MessagesSquareIcon className="h-[30px] w-[30px]" />
+                                        </Avatar>
+                                    </div>
+                                </SheetTrigger>
+                                <SheetContent
+                                    className="sm:max-w-[520px] !top-[84px] !max-h-[calc(100vh-84px)] w-full p-0 m-0"
+                                    close={false}>
+                                    <SheetHeader className="p-4 bg-green-60">
+                                        <div className="flex justify-between items-center ">
+                                            <SheetTitle className="text-display-3">
+                                                {translate("app.ui.actions.chatWithSupport")}
+                                            </SheetTitle>
+                                            <button
+                                                tabIndex={-1}
+                                                onClick={() => setChatOpen(false)}
+                                                className="text-gray-500 hover:text-gray-700 transition-colors outline-0 border-0 -tab-1">
+                                                <XIcon className="h-[28px] w-[28px]" />
+                                            </button>
+                                        </div>
+                                    </SheetHeader>
+                                    <SheetDescription></SheetDescription>
+                                    <ChatSheet locale={locale} />
+                                </SheetContent>
+                            </Sheet>
                             <DropdownMenu onOpenChange={setLangOpen} modal={false}>
                                 <DropdownMenuTrigger asChild className="">
                                     <Avatar
@@ -193,7 +233,9 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                         <LanguagesIcon className="h-[30px] w-[30px]" />
                                     </Avatar>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end" className="p-0 bg-muted border border-neutral-100">
+                                <DropdownMenuContent
+                                    align="end"
+                                    className="p-0 bg-muted border border-neutral-100 z-[60]">
                                     {getLocales?.().map(locale => (
                                         <DropdownMenuItem
                                             key={locale.locale}
@@ -296,11 +338,9 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     </nav>
                 </aside>
                 <div
-                    className={
-                        isSheetOpen
-                            ? " bg-muted grow ml-[280px] overflow-y-auto p-8 scrollbar-stable transition-[margin-left]"
-                            : " bg-muted grow ml-[72px] overflow-y-auto p-8 scrollbar-stable transition-[margin-left]"
-                    }>
+                    className={` " bg-muted grow ml-[${
+                        isSheetOpen ? "280px" : "72px"
+                    }] overflow-y-auto scrollbar-stable transition-[margin-left]`}>
                     <main className="p-6 container">
                         <h1 className="text-3xl mb-6">{pageTitle}</h1>
                         {children}
