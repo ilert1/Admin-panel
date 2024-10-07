@@ -30,6 +30,10 @@ const ru: TranslationMessages = {
         },
         users: {
             name: "Пользователь |||| Пользователи",
+            user: "Пользователь",
+            edit: "Редактировать",
+            deleteThisUser: "Удалить пользователя?",
+            delete: "Удалить",
             fields: {
                 id: "ID пользователя",
                 name: "Имя пользователя",
@@ -468,6 +472,10 @@ const en: TranslationMessages = {
         },
         users: {
             name: "User |||| Users",
+            user: "User",
+            edit: "Edit",
+            delete: "Delete",
+            deleteThisUser: "Delete user?",
             fields: {
                 id: "User ID",
                 name: "Username",

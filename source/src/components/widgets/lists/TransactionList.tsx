@@ -464,7 +464,6 @@ export const TransactionList = () => {
                         tabIndex={-1}
                         style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
                         close={false}>
-                        {/* Header - фиксированная часть */}
                         <SheetHeader className="p-[42px] pb-[24px] flex-shrink-0">
                             <div>
                                 <div className="flex justify-between items-center pb-2">
