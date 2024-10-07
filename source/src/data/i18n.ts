@@ -9,10 +9,14 @@ const ru: TranslationMessages = {
         accounts: {
             name: "Счет |||| Счета",
             fields: {
+                owner: "Владелец",
+                state: "Статус",
+                type: "Тип счёта",
+                balance: "Баланс счёта",
+                history: "История по счёту",
+
                 id: "ID",
                 owner_id: "ID владельца",
-                state: "Состояние",
-                type: "Тип",
                 amounts: "Суммы",
                 amount: {
                     id: "ID",
@@ -453,10 +457,14 @@ const en: TranslationMessages = {
         accounts: {
             name: "Account |||| Accounts",
             fields: {
+                owner: "Owner",
+                state: "Status",
+                type: "Account type",
+                balance: "Account balance",
+                history: "Account history",
+
                 id: "ID",
                 owner_id: "Owner ID",
-                state: "State",
-                type: "Type",
                 amounts: "Amounts",
                 amount: {
                     id: "ID",

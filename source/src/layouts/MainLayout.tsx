@@ -9,7 +9,7 @@ import {
     useResourceDefinitions,
     useTranslate
 } from "react-admin";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useMemo, createElement, useState, useEffect } from "react";
 import {
@@ -52,6 +52,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
     const location = useLocation();
 
+    const navigate = useNavigate();
+
     const resourceName = useMemo(() => {
         const resources = location.pathname?.split("/")?.filter((s: string) => s?.length > 0);
 
@@ -61,7 +63,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 resources.push(tempResource.join("/"));
             }
         });
-
         return resources;
     }, [location]);
 
@@ -73,6 +74,12 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
 
     const identity = useGetIdentity();
     const logout = useLogout();
+    //TODO for better UX we should set last location in localStorage to save it while user presses browser "refresh" button
+    const handleLogout = () => {
+        location.pathname = "/";
+        logout();
+    };
+
     const { setTheme, theme } = useTheme();
     const [locale, setLocale] = useLocaleState();
     const { getLocales } = useI18nProvider();
@@ -110,12 +117,10 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     };
 
     return (
-        <div className="flex min-h-screen w-full bg-muted">
-            <header
-                className="flex h-[84px] items-center gap-4 bg-header px-4 relative z-[60] pointer-events-auto"
-                onClick={e => e.stopPropagation()}>
+        <div className="flex flex-col h-screen">
+            <header className="flex h-[84px] shrink-0 z-[2] items-center justify-end gap-4 bg-header pr-6">
                 {identity?.data && (
-                    <div className="ml-auto flex items-center gap-2 mr-6">
+                    <div className="flex items-center justify-end gap-2">
                         <div>
                             <span
                                 className={
@@ -126,21 +131,21 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 {identity.data.fullName ? identity.data.fullName : null}
                             </span>
                         </div>
-                        <div className="flex items-center gap-8 relative z-[60]">
-                            <DropdownMenu open={profileOpen} onOpenChange={setProfileOpen} modal={true}>
+                        <div className="flex items-center gap-8">
+                            <DropdownMenu onOpenChange={setProfileOpen} modal={false}>
                                 <DropdownMenuTrigger asChild>
                                     <Avatar
                                         className={
                                             profileOpen
-                                                ? "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-50 bg-green-50 transition-all duration-150"
-                                                : "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-40 hover:border-green-50 bg-muted hover:bg-green-50 transition-all duration-150"
+                                                ? "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-50 bg-green-50 transition-colors duration-150"
+                                                : "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-40 hover:border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
                                         }>
                                         <Blowfish />
                                     </Avatar>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent
                                     align="end"
-                                    className="p-0 w-56 bg-muted border border-neutral-100 z-[60]">
+                                    className="p-0 w-56 bg-muted border border-neutral-100">
                                     <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
                                         <Avatar className="w-5 h-5">
                                             <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
@@ -172,50 +177,12 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                     </div>
                                     <DropdownMenuItem
                                         className="pl-4 pr-4 h-[50px] focus:bg-green-50 focus:cursor-pointer text-title-2"
-                                        onClick={logout}>
+                                        onClick={handleLogout}>
                                         {translate("ra.auth.logout")}
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
-                            <Sheet
-                                open={chatOpen}
-                                onOpenChange={isOpen => {
-                                    debounced(isOpen);
-                                }}
-                                modal={true}>
-                                <SheetTrigger asChild>
-                                    <div>
-                                        <Avatar
-                                            className={
-                                                chatOpen
-                                                    ? "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
-                                                    : "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-green-50 hover:text-neutral-100 border-2 border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
-                                            }>
-                                            <MessagesSquareIcon className="h-[30px] w-[30px]" />
-                                        </Avatar>
-                                    </div>
-                                </SheetTrigger>
-                                <SheetContent
-                                    className="sm:max-w-[520px] !top-[84px] !max-h-[calc(100vh-84px)] w-full p-0 m-0"
-                                    close={false}>
-                                    <SheetHeader className="p-4 bg-green-60">
-                                        <div className="flex justify-between items-center ">
-                                            <SheetTitle className="text-display-3">
-                                                {translate("app.ui.actions.chatWithSupport")}
-                                            </SheetTitle>
-                                            <button
-                                                tabIndex={-1}
-                                                onClick={() => setChatOpen(false)}
-                                                className="text-gray-500 hover:text-gray-700 transition-colors outline-0 border-0 -tab-1">
-                                                <XIcon className="h-[28px] w-[28px]" />
-                                            </button>
-                                        </div>
-                                    </SheetHeader>
-                                    <SheetDescription></SheetDescription>
-                                    <ChatSheet locale={locale} />
-                                </SheetContent>
-                            </Sheet>
-                            <DropdownMenu open={langOpen} onOpenChange={setLangOpen} modal={true}>
+                            <DropdownMenu onOpenChange={setLangOpen} modal={false}>
                                 <DropdownMenuTrigger asChild className="">
                                     <Avatar
                                         className={
@@ -226,9 +193,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                         <LanguagesIcon className="h-[30px] w-[30px]" />
                                     </Avatar>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent
-                                    align="end"
-                                    className="p-0 bg-muted border border-neutral-100 z100">
+                                <DropdownMenuContent align="end" className="p-0 bg-muted border border-neutral-100">
                                     {getLocales?.().map(locale => (
                                         <DropdownMenuItem
                                             key={locale.locale}
@@ -243,112 +208,106 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     </div>
                 )}
             </header>
-            <aside
-                className={
-                    isSheetOpen
-                        ? "min-w-[280px] flex-col justify-start items-center bg-header transition-all pt-[84px]"
-                        : "min-w-[72px] flex-col justify-start items-center bg-header transition-all pt-[84px]"
-                }>
-                {isSheetOpen ? (
-                    <div className="flex justify-center items-center mt-6 h-[63px] gap-6">
-                        <div className="flex items-center w-[189px] m-0 p-0">
-                            <div className="animate-in fade-in-0 transition-opacity duration-700">
-                                <LogoPicture />
+            <div className="flex flex-col grow h-full overflow-hidden">
+                <aside
+                    className={
+                        isSheetOpen
+                            ? "w-[280px] fixed h-full flex-col justify-start items-center bg-header transition-[width] pt-6"
+                            : "w-[72px] h-full fixed flex-col justify-start items-center bg-header transition-[width] pt-6"
+                    }>
+                    {isSheetOpen ? (
+                        <div className="flex justify-center items-center h-[63px] gap-6">
+                            <div className="flex items-center w-[189px] m-0 p-0">
+                                <div className="animate-in fade-in-0 transition-opacity duration-700">
+                                    <LogoPicture />
+                                </div>
+                                <div className="animate-in ml-4 fade-in-0 transition-opacity duration-700">
+                                    <Logo />
+                                </div>
                             </div>
-                            <div className="animate-in ml-4 fade-in-0 transition-opacity duration-700">
-                                <Logo />
-                            </div>
+                            <button className="flex flex-col items-center animate-in fade-in-0 transition-opacity duration-300">
+                                <ChevronLeftCircleIcon
+                                    onClick={() => setSheetOpen(!isSheetOpen)}
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-foreground"
+                                />
+                            </button>
                         </div>
-                        <button className="flex flex-col items-center animate-in fade-in-0 transition-opacity duration-300">
-                            <ChevronLeftCircleIcon
-                                onClick={() => setSheetOpen(!isSheetOpen)}
-                                className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-foreground"
-                            />
-                        </button>
-                    </div>
-                ) : (
-                    <div className="w-[70px] flex justify-center">
-                        <button className="mt-6 h-[63px] ">
-                            <ChevronRightCircleIcon
-                                onClick={() => setSheetOpen(!isSheetOpen)}
-                                className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-foreground"
-                            />
-                        </button>
-                    </div>
-                )}
+                    ) : (
+                        <div className="w-[70px] flex justify-center">
+                            <button className="h-[63px] ">
+                                <ChevronRightCircleIcon
+                                    onClick={() => setSheetOpen(!isSheetOpen)}
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-foreground"
+                                />
+                            </button>
+                        </div>
+                    )}
 
-                <nav className="flex flex-col items-baseline text-base gap-4 mt-6 pl-6">
-                    {/* <Tooltip>
-                            <TooltipTrigger asChild>
-                                <NavLink
-                                    to="/"
-                                    className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
-                                    <LayoutDashboardIcon />
-                                    <span className="sr-only">{translate("app.menu.dashboard")}</span>
-                                </NavLink>
-                            </TooltipTrigger>
-                            <TooltipContent className="border-tooltip-info_bold" side="right">
-                                {translate("app.menu.dashboard")}
-                            </TooltipContent>
-                        </Tooltip> */}
-                    {Object.keys(resources).map(resource => (
-                        <NavLink
-                            key={resource}
-                            to={`/${resource}`}
-                            className={
-                                resourceName[0] === resource
-                                    ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                    : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                            }>
-                            {createElement(resources[resource].icon, {})}
-                            {showCaptions ? (
-                                <span className="animate-in fade-in-0 transition-opacity">
-                                    {getResourceLabel(resources[resource].name)}
-                                </span>
-                            ) : null}
-                        </NavLink>
-                    ))}
-                    {merchantOnly && (
-                        <NavLink
-                            to="/bank-transfer"
-                            className={
-                                resourceName[0] === "bank-transfer"
-                                    ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                    : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                            }>
-                            <HandCoinsIcon />
-                            {showCaptions ? (
-                                <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
-                                    {translate("app.menu.bankTransfer")}
-                                </span>
-                            ) : null}
-                        </NavLink>
-                    )}
-                    {merchantOnly && (
-                        <NavLink
-                            to="/crypto-transfer"
-                            className={
-                                resourceName[0] === "crypto-transfer"
-                                    ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                    : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                            }>
-                            <BitcoinIcon />
-                            {showCaptions ? (
-                                <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
-                                    {translate("app.menu.cryptoTransfer")}
-                                </span>
-                            ) : null}
-                        </NavLink>
-                    )}
-                </nav>
-            </aside>
-            <div className="flex w-full flex-col ">
-                <main className="p-6 container">
-                    <h1 className="text-3xl mb-6">{pageTitle}</h1>
-                    {children}
-                </main>
+                    <nav className="flex flex-col items-baseline text-base gap-4 mt-6 pl-6">
+                        {Object.keys(resources).map(resource => (
+                            <NavLink
+                                key={resource}
+                                to={`/${resource}`}
+                                className={
+                                    resourceName[0] === resource
+                                        ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                        : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                }>
+                                {createElement(resources[resource].icon, {})}
+                                {showCaptions ? (
+                                    <span className="animate-in fade-in-0 transition-opacity">
+                                        {getResourceLabel(resources[resource].name)}
+                                    </span>
+                                ) : null}
+                            </NavLink>
+                        ))}
+                        {merchantOnly && (
+                            <NavLink
+                                to="/bank-transfer"
+                                className={
+                                    resourceName[0] === "bank-transfer"
+                                        ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                        : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                }>
+                                <HandCoinsIcon />
+                                {showCaptions ? (
+                                    <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
+                                        {translate("app.menu.bankTransfer")}
+                                    </span>
+                                ) : null}
+                            </NavLink>
+                        )}
+                        {merchantOnly && (
+                            <NavLink
+                                to="/crypto-transfer"
+                                className={
+                                    resourceName[0] === "crypto-transfer"
+                                        ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                        : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                }>
+                                <BitcoinIcon />
+                                {showCaptions ? (
+                                    <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
+                                        {translate("app.menu.cryptoWalletTransfer")}
+                                    </span>
+                                ) : null}
+                            </NavLink>
+                        )}
+                    </nav>
+                </aside>
+                <div
+                    className={
+                        isSheetOpen
+                            ? " bg-muted grow ml-[280px] overflow-y-auto p-8 scrollbar-stable transition-[margin-left]"
+                            : " bg-muted grow ml-[72px] overflow-y-auto p-8 scrollbar-stable transition-[margin-left]"
+                    }>
+                    <main className="p-6 container">
+                        <div>{pageTitle}</div>
+                        {children}
+                    </main>
+                </div>
+                <Toaster />
             </div>
-            <Toaster />
         </div>
     );
 };

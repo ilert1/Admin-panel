@@ -1,4 +1,11 @@
-import { CustomRoutes, Resource, combineDataProviders, CoreAdminContext, CoreAdminUI } from "react-admin";
+import {
+    CustomRoutes,
+    Resource,
+    combineDataProviders,
+    CoreAdminContext,
+    CoreAdminUI,
+    usePermissions
+} from "react-admin";
 import {
     TransactionDataProvider,
     i18nProvider,
@@ -72,7 +79,6 @@ export const App = () => {
         <ThemeProvider defaultTheme="dark" storageKey="juggler-ui-theme">
             <CoreAdminContext i18nProvider={i18nProvider} dataProvider={dataProvider} authProvider={authProvider}>
                 <CoreAdminUI
-                    dashboard={Dashboard}
                     layout={MainLayout}
                     loading={InitLoading}
                     title="Juggler"
@@ -80,20 +86,40 @@ export const App = () => {
                     loginPage={LoginPage}>
                     {(permissions: string) => (
                         <>
-                            <Resource
-                                name="accounts"
-                                list={AccountList}
-                                show={AccountShow}
-                                create={AccountCreate}
-                                icon={WalletIcon}
-                            />
+                            {permissions === "admin" ? (
+                                <>
+                                    <Resource
+                                        name="transactions"
+                                        list={TransactionList}
+                                        show={TransactionShow}
+                                        icon={ReceiptIcon}
+                                    />
+                                    <Resource
+                                        name="accounts"
+                                        list={AccountList}
+                                        show={AccountShow}
+                                        create={AccountCreate}
+                                        icon={WalletIcon}
+                                    />
+                                </>
+                            ) : (
+                                <>
+                                    <Resource
+                                        name="accounts"
+                                        list={AccountList}
+                                        show={AccountShow}
+                                        create={AccountCreate}
+                                        icon={WalletIcon}
+                                    />
 
-                            <Resource
-                                name="transactions"
-                                list={TransactionList}
-                                show={TransactionShow}
-                                icon={ReceiptIcon}
-                            />
+                                    <Resource
+                                        name="transactions"
+                                        list={TransactionList}
+                                        show={TransactionShow}
+                                        icon={ReceiptIcon}
+                                    />
+                                </>
+                            )}
 
                             <Resource name="withdraw" list={WithdrawList} show={WithdrawShow} icon={WaypointsIcon} />
 
