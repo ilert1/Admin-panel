@@ -1,0 +1,230 @@
+import { ChangeEvent, useCallback, useMemo, useState } from "react";
+import { useDataProvider, useGetList, useListContext, usePermissions, useTranslate } from "react-admin";
+import { useToast } from "@/components/ui/use-toast";
+import { API_URL } from "@/data/base";
+import { format } from "date-fns";
+import { useQuery } from "react-query";
+import { debounce } from "lodash";
+import { DateRange } from "react-day-picker";
+
+const useTransactionFilter = () => {
+    const dataProvider = useDataProvider();
+    const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
+    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
+
+    // TODO: временное решение, нужно расширить компонент селекта для поддержки пагинациц
+    const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
+
+    const [startDate, setStartDate] = useState<Date>();
+    const [endDate, setEndDate] = useState<Date>();
+    const [accountId, setAccountId] = useState<string>("");
+    const [operationId, setOperationId] = useState(filterValues?.id || "");
+    const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
+    const [account, setAccount] = useState(accounts?.find(account => filterValues?.account === account.id) || "");
+    const [typeTabActive, setTypeTabActive] = useState("");
+
+    const orderStatusIndex = Object.keys(data.states).find(
+        index => filterValues?.orderStatus === data.states[index].state_description
+    );
+    const [orderStatusFilter, setOrderStatusFilter] = useState(orderStatusIndex ? data.states[orderStatusIndex] : "");
+
+    const { toast } = useToast();
+    const translate = useTranslate();
+
+    const formattedStartDate = useMemo(() => (startDate ? format(startDate, "yyyy-MM-dd") : undefined), [startDate]);
+    const formattedEndDate = useMemo(() => (endDate ? format(endDate, "yyyy-MM-dd") : undefined), [endDate]);
+
+    const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+
+    const chooseClassTabActive = useCallback(
+        (type: string) => {
+            return typeTabActive === type
+                ? "text-green-50 dark:text-green-40 border-b-2 dark:border-green-40 border-green-50 pb-1 duration-200"
+                : "pb-1 border-b-2 border-transparent duration-200 hover:text-green-40";
+        },
+        [typeTabActive]
+    );
+
+    const onPropertySelected = debounce(
+        (value: string, type: "id" | "customer_payment_id" | "account" | "type" | "orderStatus") => {
+            if (value) {
+                setFilters({ ...filterValues, [type]: value }, displayedFilters);
+            } else {
+                Reflect.deleteProperty(filterValues, type);
+                setFilters(filterValues, displayedFilters);
+            }
+            setPage(1);
+        },
+        300
+    );
+
+    const onOperationIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        setOperationId(e.target.value);
+        onPropertySelected(e.target.value, "id");
+    };
+
+    const onCustomerPaymentIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        setCustomerPaymentId(e.target.value);
+        onPropertySelected(e.target.value, "customer_payment_id");
+    };
+
+    const onAccountChanged = (account: Account | string) => {
+        setAccount(account);
+        if (typeof account === "string") {
+            setAccountId(account);
+            onPropertySelected(account, "account");
+        } else {
+            setAccountId(account.id);
+            onPropertySelected(account.id, "account");
+        }
+    };
+
+    const onOrderStatusChanged = (order: string | { state_description: string }) => {
+        setOrderStatusFilter(order);
+
+        if (typeof order === "string") {
+            onPropertySelected(order, "orderStatus");
+        } else {
+            onPropertySelected(order.state_description, "orderStatus");
+        }
+    };
+
+    const changeDate = (date: DateRange | undefined) => {
+        if (date) {
+            if (date.from) {
+                setStartDate(date.from);
+            }
+
+            if (date.to) {
+                setEndDate(date.to);
+            }
+        } else {
+            setStartDate(undefined);
+            setEndDate(undefined);
+        }
+    };
+
+    const onTabChanged = (value: { type_descr: string; type: string }) => {
+        setTypeTabActive(value.type_descr);
+        onPropertySelected(value.type, "type");
+    };
+
+    const clearFilters = () => {
+        setStartDate(undefined);
+        setEndDate(undefined);
+        setOperationId("");
+        setAccount("");
+        setCustomerPaymentId("");
+        setOrderStatusFilter("");
+        setAccountId("");
+        setTypeTabActive("");
+        setFilters({}, displayedFilters);
+        setPage(1);
+    };
+
+    const validateDates = () => {
+        if (!startDate || !endDate) {
+            toast({
+                description: translate("resources.transactions.download.bothError"),
+                variant: "error",
+                title: translate("resources.transactions.download.error")
+            });
+            return false;
+        }
+        if (startDate.getTime() > Date.now() || endDate.getTime() > Date.now()) {
+            toast({
+                description: translate("resources.transactions.download.dateExceed"),
+                variant: "error",
+                title: translate("resources.transactions.download.error")
+            });
+            return false;
+        }
+        const isValidDateRange = startDate?.getTime() <= endDate?.getTime();
+
+        if (!isValidDateRange) {
+            toast({
+                description: translate("resources.transactions.download.greaterError"),
+                variant: "error",
+                title: translate("resources.transactions.download.error")
+            });
+        }
+
+        return isValidDateRange;
+    };
+
+    const validateMerchantID = () => {
+        if (adminOnly && !accountId) {
+            toast({
+                description: translate("resources.transactions.download.accountField"),
+                variant: "error",
+                title: translate("resources.transactions.download.error")
+            });
+            return false;
+        }
+        return true;
+    };
+
+    const handleDownloadReport = async () => {
+        if (!validateDates() || !validateMerchantID()) {
+            return;
+        }
+        try {
+            const url = `${API_URL}/transactions/report?start_date=${formattedStartDate}&end_date=${formattedEndDate}${
+                accountId ? "&accountId=" + accountId : ""
+            }`;
+
+            const response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/octet-stream",
+                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+
+            const blob = await response.blob();
+            const fileUrl = window.URL.createObjectURL(blob);
+            const filename = `data_${formattedStartDate}_to_${formattedEndDate}.csv`;
+
+            const a = document.createElement("a");
+            a.href = fileUrl;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(fileUrl);
+        } catch (error) {
+            console.error("There was an error downloading the file:", error);
+        }
+    };
+
+    return {
+        translate,
+        data,
+        adminOnly,
+        accounts,
+        accountId,
+        operationId,
+        onOperationIdChanged,
+        customerPaymentId,
+        onCustomerPaymentIdChanged,
+        orderStatusFilter,
+        onOrderStatusChanged,
+        account,
+        onAccountChanged,
+        startDate,
+        endDate,
+        changeDate,
+        typeTabActive,
+        onTabChanged,
+        chooseClassTabActive,
+        handleDownloadReport,
+        clearFilters
+    };
+};
+
+export default useTransactionFilter;
