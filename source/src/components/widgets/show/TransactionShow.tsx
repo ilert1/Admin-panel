@@ -156,18 +156,16 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                                 }>
                                 {translate("resources.transactions.show.openDispute")}
                             </Button>
-
+                            <Button variant={"secondary"} onClick={() => setDialogOpen(true)}>
+                                {translate("resources.transactions.show.commit")}
+                            </Button>
                             <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                                <AlertDialogTrigger>
-                                    <Button variant={"secondary"}>
-                                        {translate("resources.transactions.show.commit")}
-                                    </Button>
-                                </AlertDialogTrigger>
                                 <AlertDialogContent className="w-[350px]">
                                     <AlertDialogHeader>
                                         <AlertDialogTitle className="text-center">
                                             {translate("resources.transactions.show.commitTransaction")}
                                         </AlertDialogTitle>
+                                        <AlertDialogDescription></AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
                                         <div className="flex justify-around gap-[35px] w-full">
