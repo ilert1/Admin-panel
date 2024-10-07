@@ -111,6 +111,138 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
 
     return (
         <div className="flex min-h-screen w-full bg-muted">
+            <header
+                className="flex h-[84px] items-center gap-4 bg-header px-4 relative z-[60] pointer-events-auto"
+                onClick={e => e.stopPropagation()}>
+                {identity?.data && (
+                    <div className="ml-auto flex items-center gap-2 mr-6">
+                        <div>
+                            <span
+                                className={
+                                    profileOpen
+                                        ? "text-green-50 text-title-2 cursor-default"
+                                        : "text-neutral-100 text-title-2 cursor-default"
+                                }>
+                                {identity.data.fullName ? identity.data.fullName : null}
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-8 relative z-[60]">
+                            <DropdownMenu open={profileOpen} onOpenChange={setProfileOpen} modal={true}>
+                                <DropdownMenuTrigger asChild>
+                                    <Avatar
+                                        className={
+                                            profileOpen
+                                                ? "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-50 bg-green-50 transition-all duration-150"
+                                                : "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-40 hover:border-green-50 bg-muted hover:bg-green-50 transition-all duration-150"
+                                        }>
+                                        <Blowfish />
+                                    </Avatar>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                    align="end"
+                                    className="p-0 w-56 bg-muted border border-neutral-100 z-[60]">
+                                    <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
+                                        <Avatar className="w-5 h-5">
+                                            <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
+                                                {identity.data.fullName
+                                                    ? identity.data.fullName[0].toLocaleUpperCase()
+                                                    : ""}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <div className="ml-3 text-neutral-100">
+                                            <div className="text-title-1 cursor-default">{identity.data.fullName}</div>
+                                            {
+                                                //TODO: Set valid email
+                                            }
+                                            <div className="text-note-2 cursor-default">email@gmail.com</div>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
+                                        <Switch
+                                            checked={theme === "dark"}
+                                            onCheckedChange={toggleTheme}
+                                            className="border-green-50 data-[state=checked]:bg-muted data-[state=unchecked]:bg-muted"
+                                        />
+                                        <span className="ml-3 cursor-default">
+                                            {theme === "dark"
+                                                ? translate("app.theme.light")
+                                                : translate("app.theme.dark")}
+                                        </span>
+                                    </div>
+                                    <DropdownMenuItem
+                                        className="pl-4 pr-4 h-[50px] focus:bg-green-50 focus:cursor-pointer text-title-2"
+                                        onClick={logout}>
+                                        {translate("ra.auth.logout")}
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            <Sheet
+                                open={chatOpen}
+                                onOpenChange={isOpen => {
+                                    debounced(isOpen);
+                                }}
+                                modal={true}>
+                                <SheetTrigger asChild>
+                                    <div>
+                                        <Avatar
+                                            className={
+                                                chatOpen
+                                                    ? "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
+                                                    : "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-green-50 hover:text-neutral-100 border-2 border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
+                                            }>
+                                            <MessagesSquareIcon className="h-[30px] w-[30px]" />
+                                        </Avatar>
+                                    </div>
+                                </SheetTrigger>
+                                <SheetContent
+                                    className="sm:max-w-[520px] !top-[84px] !max-h-[calc(100vh-84px)] w-full p-0 m-0"
+                                    close={false}>
+                                    <SheetHeader className="p-4 bg-green-60">
+                                        <div className="flex justify-between items-center ">
+                                            <SheetTitle className="text-display-3">
+                                                {translate("app.ui.actions.chatWithSupport")}
+                                            </SheetTitle>
+                                            <button
+                                                tabIndex={-1}
+                                                onClick={() => setChatOpen(false)}
+                                                className="text-gray-500 hover:text-gray-700 transition-colors outline-0 border-0 -tab-1">
+                                                <XIcon className="h-[28px] w-[28px]" />
+                                            </button>
+                                        </div>
+                                    </SheetHeader>
+                                    <SheetDescription></SheetDescription>
+                                    <ChatSheet locale={locale} />
+                                </SheetContent>
+                            </Sheet>
+                            <DropdownMenu open={langOpen} onOpenChange={setLangOpen} modal={true}>
+                                <DropdownMenuTrigger asChild className="">
+                                    <Avatar
+                                        className={
+                                            langOpen
+                                                ? "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
+                                                : "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 hover:text-neutral-100 border-2 border-neutral-50 hover:border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
+                                        }>
+                                        <LanguagesIcon className="h-[30px] w-[30px]" />
+                                    </Avatar>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                    align="end"
+                                    className="p-0 bg-muted border border-neutral-100 z100">
+                                    {getLocales?.().map(locale => (
+                                        <DropdownMenuItem
+                                            key={locale.locale}
+                                            onClick={() => changeLocale(locale.locale)}
+                                            className="text-title-2 py-[14px] focus:bg-green-50 focus:cursor-pointer pl-4 pr-4">
+                                            {locale.name}
+                                        </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                    </div>
+                )}
+            </header>
             <aside
                 className={
                     isSheetOpen
@@ -211,141 +343,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 </nav>
             </aside>
             <div className="flex w-full flex-col ">
-                <header
-                    className="flex h-[84px] items-center gap-4 bg-header px-4 relative z-[60] pointer-events-auto"
-                    onClick={e => e.stopPropagation()}>
-                    {identity?.data && (
-                        <div className="ml-auto flex items-center gap-2 mr-6">
-                            <div>
-                                <span
-                                    className={
-                                        profileOpen
-                                            ? "text-green-50 text-title-2 cursor-default"
-                                            : "text-neutral-100 text-title-2 cursor-default"
-                                    }>
-                                    {identity.data.fullName ? identity.data.fullName : null}
-                                </span>
-                            </div>
-                            <div className="flex items-center gap-8 relative z-[60]">
-                                <DropdownMenu open={profileOpen} onOpenChange={setProfileOpen} modal={true}>
-                                    <DropdownMenuTrigger asChild>
-                                        <Avatar
-                                            className={
-                                                profileOpen
-                                                    ? "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-50 bg-green-50 transition-all duration-150"
-                                                    : "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-40 hover:border-green-50 bg-muted hover:bg-green-50 transition-all duration-150"
-                                            }>
-                                            <Blowfish />
-                                        </Avatar>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent
-                                        align="end"
-                                        className="p-0 w-56 bg-muted border border-neutral-100 z-[60]">
-                                        <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
-                                            <Avatar className="w-5 h-5">
-                                                <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
-                                                    {identity.data.fullName
-                                                        ? identity.data.fullName[0].toLocaleUpperCase()
-                                                        : ""}
-                                                </AvatarFallback>
-                                            </Avatar>
-                                            <div className="ml-3 text-neutral-100">
-                                                <div className="text-title-1 cursor-default">
-                                                    {identity.data.fullName}
-                                                </div>
-                                                {
-                                                    //TODO: Set valid email
-                                                }
-                                                <div className="text-note-2 cursor-default">email@gmail.com</div>
-                                            </div>
-                                        </div>
-
-                                        <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
-                                            <Switch
-                                                checked={theme === "dark"}
-                                                onCheckedChange={toggleTheme}
-                                                className="border-green-50 data-[state=checked]:bg-muted data-[state=unchecked]:bg-muted"
-                                            />
-                                            <span className="ml-3 cursor-default">
-                                                {theme === "dark"
-                                                    ? translate("app.theme.light")
-                                                    : translate("app.theme.dark")}
-                                            </span>
-                                        </div>
-                                        <DropdownMenuItem
-                                            className="pl-4 pr-4 h-[50px] focus:bg-green-50 focus:cursor-pointer text-title-2"
-                                            onClick={logout}>
-                                            {translate("ra.auth.logout")}
-                                        </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                                <Sheet
-                                    open={chatOpen}
-                                    onOpenChange={isOpen => {
-                                        debounced(isOpen);
-                                    }}
-                                    modal={true}>
-                                    <SheetTrigger asChild>
-                                        <div>
-                                            <Avatar
-                                                className={
-                                                    chatOpen
-                                                        ? "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
-                                                        : "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-green-50 hover:text-neutral-100 border-2 border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
-                                                }>
-                                                <MessagesSquareIcon className="h-[30px] w-[30px]" />
-                                            </Avatar>
-                                        </div>
-                                    </SheetTrigger>
-                                    <SheetContent
-                                        className="sm:max-w-[520px] !top-[84px] !max-h-[calc(100vh-84px)] w-full p-0 m-0"
-                                        close={false}>
-                                        <SheetHeader className="p-4 bg-green-60">
-                                            <div className="flex justify-between items-center ">
-                                                <SheetTitle className="text-display-3">
-                                                    {translate("app.ui.actions.chatWithSupport")}
-                                                </SheetTitle>
-                                                <button
-                                                    tabIndex={-1}
-                                                    onClick={() => setChatOpen(false)}
-                                                    className="text-gray-500 hover:text-gray-700 transition-colors outline-0 border-0 -tab-1">
-                                                    <XIcon className="h-[28px] w-[28px]" />
-                                                </button>
-                                            </div>
-                                        </SheetHeader>
-                                        <SheetDescription></SheetDescription>
-                                        <ChatSheet locale={locale} />
-                                    </SheetContent>
-                                </Sheet>
-                                <DropdownMenu open={langOpen} onOpenChange={setLangOpen} modal={true}>
-                                    <DropdownMenuTrigger asChild className="">
-                                        <Avatar
-                                            className={
-                                                langOpen
-                                                    ? "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
-                                                    : "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 hover:text-neutral-100 border-2 border-neutral-50 hover:border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
-                                            }>
-                                            <LanguagesIcon className="h-[30px] w-[30px]" />
-                                        </Avatar>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent
-                                        align="end"
-                                        className="p-0 bg-muted border border-neutral-100 z100">
-                                        {getLocales?.().map(locale => (
-                                            <DropdownMenuItem
-                                                key={locale.locale}
-                                                onClick={() => changeLocale(locale.locale)}
-                                                className="text-title-2 py-[14px] focus:bg-green-50 focus:cursor-pointer pl-4 pr-4">
-                                                {locale.name}
-                                            </DropdownMenuItem>
-                                        ))}
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                            </div>
-                        </div>
-                    )}
-                </header>
-
                 <main className="p-6 container">
                     <h1 className="text-3xl mb-6">{pageTitle}</h1>
                     {children}
