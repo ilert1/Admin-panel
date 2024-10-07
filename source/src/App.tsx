@@ -47,7 +47,7 @@ import {
 } from "./components/widgets/show";
 import { CurrencyIcon } from "lucide-react";
 import { CurrencyEdit, MerchantEdit, ProvidersEdit } from "./components/widgets/edit";
-import { InitLoading, Loading } from "./components/ui/loading";
+import { InitLoading } from "./components/ui/loading";
 
 const dataProvider = combineDataProviders((resource: string) => {
     if (resource === "transactions") {

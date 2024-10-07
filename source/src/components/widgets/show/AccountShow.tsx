@@ -1,12 +1,18 @@
-import { useDataProvider, useGetManyReference, useListContext, useShowController, useTranslate } from "react-admin";
+import {
+    ListContextProvider,
+    useDataProvider,
+    useGetManyReference,
+    useListController,
+    useShowController,
+    useTranslate
+} from "react-admin";
 import { useQuery } from "react-query";
-import { SimpleTable } from "@/components/widgets/shared";
+import { DataTable, SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
-import { TableTypes } from "../shared/SimpleTable";
 
 export const AccountShow = (props: { id: string; type?: "compact" }) => {
     const { id, type } = props;
@@ -14,9 +20,11 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
 
     const dataProvider = useDataProvider();
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
-    const context = useShowController({ id });
 
-    const trnId = useMemo<string>(() => context.record?.id, [context]);
+    const context = useShowController({ id });
+    const transContext = useListController({ resource: "transactions" });
+
+    console.log(transContext?.data);
 
     const { data: history } = useGetManyReference("transactions", {
         target: "id",
@@ -113,21 +121,9 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
         },
         {
             id: "final",
-            // accessorKey: "state.final",
             accessorKey: "state.final",
             header: translate("resources.transactions.fields.state.final")
         },
-        // {
-        //     id: "type",
-        //     accessorKey: "type",
-        //     header: translate("resources.accounts.fields.amount.type")
-        // },
-        // {
-        //     id: "currency",
-        //     accessorKey: "currency",
-        //     header: translate("resources.accounts.fields.amount.currency")
-        // },
-
         {
             id: "source",
             accessorKey: "source.amount.value.quantity",
@@ -158,12 +154,16 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
     if (context.isLoading || !context.record || !transactions) {
         return <Loading />;
     }
-    console.log(transactions);
-    console.log(data);
+    if (transContext.isLoading || !transContext.data) {
+        return <Loading />;
+    }
     if (type === "compact") {
         return (
             <>
-                <SimpleTable columns={historyColumns} data={transactions} tableType={TableTypes.COLORED}></SimpleTable>
+                {/* <SimpleTable columns={historyColumns} data={transactions} tableType={TableTypes.COLORED}></SimpleTable> */}
+                <ListContextProvider value={transContext}>
+                    <DataTable columns={historyColumns} />
+                </ListContextProvider>
             </>
         );
     } else {
