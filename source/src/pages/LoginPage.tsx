@@ -1,18 +1,16 @@
 import React, { useState } from "react";
-import { useLogin, useTranslate, useLoading } from "react-admin";
+import { useLogin, useTranslate } from "react-admin";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/providers";
-import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Loading } from "@/components/ui/loading";
 
 export const LoginPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
     const [formEnabled, setFormEnabled] = useState(true);
-    const isLoading = useLoading();
     const { theme } = useTheme();
     const translate = useTranslate();
     const login = useLogin();
@@ -21,8 +19,13 @@ export const LoginPage = () => {
         e.preventDefault();
         if (formEnabled) {
             setFormEnabled(false);
-            login({ username, password }).catch(() => {
-                setError(translate("app.login.error"));
+            login({ username, password }).catch(error => {
+                // console.log(reason);
+                if (error.status === 401) {
+                    setError(translate("app.login.logPassError"));
+                } else {
+                    setError(translate("app.login.networkError"));
+                }
                 setFormEnabled(true);
             });
         }
@@ -38,7 +41,7 @@ export const LoginPage = () => {
         <div
             className="relative flex items-center justify-center min-h-screen bg-loginBG overflow-hidden"
             style={{
-                backgroundImage: "url(/LoginBackground.png)",
+                backgroundImage: "url(/LoginBackground.svg)",
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat"
             }}>

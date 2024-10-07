@@ -21,14 +21,15 @@ export const authProvider: AuthProvider = {
                 password: password
             });
 
-            const { json } = await fetchUtils.fetchJson(keycloakUrl, {
+            const response = await fetchUtils.fetchJson(keycloakUrl, {
                 method: "POST",
                 body: body.toString(),
                 headers: new Headers({
                     "Content-Type": "application/x-www-form-urlencoded"
                 })
             });
-            const { access_token, refresh_token } = json;
+            console.log(response.status);
+            const { access_token, refresh_token } = response.json;
 
             localStorage.setItem("access-token", access_token);
             localStorage.setItem("refresh-token", refresh_token);

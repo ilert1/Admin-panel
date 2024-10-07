@@ -409,7 +409,8 @@ const ru: TranslationMessages = {
             usernameOrEmail: "Логин или e-mail",
             password: "Пароль",
             login: "Войти",
-            error: "Неправильный логин или пароль"
+            logPassError: "Неправильный логин или пароль",
+            networkError: "Ошибка сети"
         }
     },
     pages: {
@@ -847,7 +848,8 @@ const en: TranslationMessages = {
             usernameOrEmail: "Username or e-mail",
             password: "Password",
             login: "Login",
-            error: "Invalid username or password"
+            logPassError: "Invalid username or password",
+            networkError: "Network Error"
         }
     },
     pages: {
