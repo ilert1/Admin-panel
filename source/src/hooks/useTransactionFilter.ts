@@ -47,7 +47,7 @@ const useTransactionFilter = () => {
     );
 
     const onPropertySelected = debounce(
-        (value: string, type: "id" | "customer_payment_id" | "account" | "type" | "orderStatus") => {
+        (value: string, type: "id" | "customer_payment_id" | "account" | "type" | "order_status") => {
             if (value) {
                 setFilters({ ...filterValues, [type]: value }, displayedFilters);
             } else {
@@ -71,6 +71,7 @@ const useTransactionFilter = () => {
 
     const onAccountChanged = (account: Account | string) => {
         setAccount(account);
+
         if (typeof account === "string") {
             setAccountId(account);
             onPropertySelected(account, "account");
@@ -84,9 +85,9 @@ const useTransactionFilter = () => {
         setOrderStatusFilter(order);
 
         if (typeof order === "string") {
-            onPropertySelected(order, "orderStatus");
+            onPropertySelected(order, "order_status");
         } else {
-            onPropertySelected(order.state_description, "orderStatus");
+            onPropertySelected(order.state_description, "order_status");
         }
     };
 
@@ -170,9 +171,11 @@ const useTransactionFilter = () => {
             return;
         }
         try {
-            const url = `${API_URL}/transactions/report?start_date=${formattedStartDate}&end_date=${formattedEndDate}${
-                accountId ? "&accountId=" + accountId : ""
-            }`;
+            const url =
+                `${API_URL}/transactions/report?start_date=${formattedStartDate}&end_date=${formattedEndDate}` +
+                Object.keys(filterValues)
+                    .map(item => `&${item}=${filterValues[item]}`)
+                    .join("");
 
             const response = await fetch(url, {
                 method: "GET",
