@@ -31,8 +31,7 @@ const useTransactionFilter = () => {
     const { toast } = useToast();
     const translate = useTranslate();
 
-    const formattedStartDate = useMemo(() => (startDate ? format(startDate, "yyyy-MM-dd") : undefined), [startDate]);
-    const formattedEndDate = useMemo(() => (endDate ? format(endDate, "yyyy-MM-dd") : undefined), [endDate]);
+    const formattedDate = (date: Date) => format(date, "yyyy-MM-dd");
 
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
@@ -47,9 +46,20 @@ const useTransactionFilter = () => {
     );
 
     const onPropertySelected = debounce(
-        (value: string, type: "id" | "customer_payment_id" | "account" | "type" | "order_status") => {
+        (
+            value: string | { from: string; to: string },
+            type: "id" | "customer_payment_id" | "account" | "type" | "order_status" | "date"
+        ) => {
+            console.log(type, value);
             if (value) {
-                setFilters({ ...filterValues, [type]: value }, displayedFilters);
+                if (type === "date" && typeof value !== "string") {
+                    setFilters(
+                        { ...filterValues, ["start_date"]: value.from, ["end_date"]: value.to },
+                        displayedFilters
+                    );
+                } else {
+                    setFilters({ ...filterValues, [type]: value }, displayedFilters);
+                }
             } else {
                 Reflect.deleteProperty(filterValues, type);
                 setFilters(filterValues, displayedFilters);
@@ -93,12 +103,10 @@ const useTransactionFilter = () => {
 
     const changeDate = (date: DateRange | undefined) => {
         if (date) {
-            if (date.from) {
+            if (date.from && date.to) {
                 setStartDate(date.from);
-            }
-
-            if (date.to) {
                 setEndDate(date.to);
+                onPropertySelected({ from: formattedDate(date.from), to: formattedDate(date.to) }, "date");
             }
         } else {
             setStartDate(undefined);
@@ -124,55 +132,30 @@ const useTransactionFilter = () => {
         setPage(1);
     };
 
-    const validateDates = () => {
-        if (!startDate || !endDate) {
-            toast({
-                description: translate("resources.transactions.download.bothError"),
-                variant: "error",
-                title: translate("resources.transactions.download.error")
-            });
-            return false;
-        }
-        if (startDate.getTime() > Date.now() || endDate.getTime() > Date.now()) {
-            toast({
-                description: translate("resources.transactions.download.dateExceed"),
-                variant: "error",
-                title: translate("resources.transactions.download.error")
-            });
-            return false;
-        }
-        const isValidDateRange = startDate?.getTime() <= endDate?.getTime();
-
-        if (!isValidDateRange) {
-            toast({
-                description: translate("resources.transactions.download.greaterError"),
-                variant: "error",
-                title: translate("resources.transactions.download.error")
-            });
-        }
-
-        return isValidDateRange;
-    };
-
-    const validateMerchantID = () => {
+    const handleDownloadReport = async () => {
         if (adminOnly && !accountId) {
             toast({
                 description: translate("resources.transactions.download.accountField"),
                 variant: "error",
                 title: translate("resources.transactions.download.error")
             });
-            return false;
-        }
-        return true;
-    };
 
-    const handleDownloadReport = async () => {
-        if (!validateDates() || !validateMerchantID()) {
             return;
         }
+
+        if (!startDate || !endDate) {
+            toast({
+                description: translate("resources.transactions.download.bothError"),
+                variant: "error",
+                title: translate("resources.transactions.download.error")
+            });
+
+            return;
+        }
+
         try {
             const url =
-                `${API_URL}/transactions/report?start_date=${formattedStartDate}&end_date=${formattedEndDate}` +
+                `${API_URL}/transactions/report?` +
                 Object.keys(filterValues)
                     .map(item => `&${item}=${filterValues[item]}`)
                     .join("");
@@ -191,7 +174,7 @@ const useTransactionFilter = () => {
 
             const blob = await response.blob();
             const fileUrl = window.URL.createObjectURL(blob);
-            const filename = `data_${formattedStartDate}_to_${formattedEndDate}.csv`;
+            const filename = `data_${filterValues["start_date"]}_to_${filterValues["end_date"]}.csv`;
 
             const a = document.createElement("a");
             a.href = fileUrl;

@@ -10,21 +10,15 @@ export class TransactionDataProvider extends BaseDataProvider {
             limit: params.pagination.perPage.toString(),
             offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
         };
-        if (params.filter.account) {
-            data["accountId"] = params.filter.account;
-        }
-        if (params.filter.id) {
-            data["id"] = params.filter.id;
-        }
-        if (params.filter.customer_payment_id) {
-            data["customer_payment_id"] = params.filter.customer_payment_id;
-        }
-        if (params.filter.type) {
-            data["type"] = params.filter.type;
-        }
-        if (params.filter.order_status) {
-            data["order_status"] = params.filter.order_status;
-        }
+
+        Object.keys(params.filter).forEach(filterItem => {
+            if (filterItem === "account") {
+                data["accountId"] = params.filter[filterItem];
+            } else {
+                data[filterItem] = params.filter[filterItem];
+            }
+        });
+
         const paramsStr = new URLSearchParams(data).toString();
         const url = `${API_URL}/${resource}?${paramsStr}`;
         const { json } = await fetchUtils.fetchJson(url, {
