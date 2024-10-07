@@ -5,7 +5,6 @@ import {
     RecordContextProvider,
     useGetList,
     ListContextProvider,
-    useListContext,
     usePermissions
 } from "react-admin";
 import { useQuery } from "react-query";
@@ -25,7 +24,7 @@ import {
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { EyeIcon, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState, useMemo, useEffect, ChangeEvent, useCallback } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { TransactionShow } from "@/components/widgets/show";
 import { useMediaQuery } from "react-responsive";
@@ -35,13 +34,11 @@ import { API_URL } from "@/data/base";
 import { EventBus, EVENT_STORNO } from "@/helpers/event-bus";
 import { TextField } from "@/components/ui/text-field";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
-import useReportDownload from "@/hooks/useReportDownload";
 import { Loading } from "@/components/ui/loading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
-import { DateRange } from "react-day-picker";
+import useTransactionFilter from "@/hooks/useTransactionFilter";
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
@@ -100,108 +97,28 @@ const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; 
 };
 
 const TransactionFilterSidebar = () => {
-    const dataProvider = useDataProvider();
-    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
-    const { filterValues, setFilters, displayedFilters } = useListContext();
-    const translate = useTranslate();
-    const { permissions } = usePermissions();
-    const { setPage } = useListContext();
-    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
-    // TODO: временное решение, нужно расширить компонент селекта для поддержки пагинациц
-    const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
-    const { startDate, endDate, handleSelectedIdChange, setStartDate, setEndDate, reqId, handleDownload } =
-        useReportDownload();
-
-    const [id, setId] = useState(filterValues?.id || "");
-    const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
-    const [account, setAccount] = useState(accounts?.find(account => filterValues?.account === account.id) || "");
-    const [typeTabActive, setTypeTabActive] = useState("");
-
-    const orderStatusIndex = Object.keys(data.states).find(
-        index => filterValues?.orderStatus === data.states[index].state_description
-    );
-    const [orderStatusFilter, setOrderStatusFilter] = useState(orderStatusIndex ? data.states[orderStatusIndex] : "");
-
-    const chooseClassTabActive = useCallback(
-        (type: string) => {
-            return typeTabActive === type
-                ? "text-green-50 dark:text-green-40 border-b-2 dark:border-green-40 border-green-50 pb-1 duration-200"
-                : "pb-1 border-b-2 border-transparent duration-200 hover:text-green-40";
-        },
-        [typeTabActive]
-    );
-
-    const onPropertySelected = debounce(
-        (value: string, type: "id" | "customer_payment_id" | "account" | "type" | "orderStatus") => {
-            if (value) {
-                setFilters({ ...filterValues, [type]: value }, displayedFilters);
-            } else {
-                Reflect.deleteProperty(filterValues, type);
-                setFilters(filterValues, displayedFilters);
-            }
-            setPage(1);
-        },
-        300
-    );
-
-    const onIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
-        setId(e.target.value);
-        onPropertySelected(e.target.value, "id");
-    };
-
-    const onCustomerPaymentIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
-        setCustomerPaymentId(e.target.value);
-        onPropertySelected(e.target.value, "customer_payment_id");
-    };
-
-    const onAccountChanged = (account: Account | string) => {
-        setAccount(account);
-        if (typeof account === "string") {
-            handleSelectedIdChange(account);
-            onPropertySelected(account, "account");
-        } else {
-            handleSelectedIdChange(account.id);
-            onPropertySelected(account.id, "account");
-        }
-    };
-
-    const onOrderStatusChanged = (order: any) => {
-        setOrderStatusFilter(order);
-
-        if (typeof order === "string") {
-            onPropertySelected(order, "orderStatus");
-        } else {
-            onPropertySelected(order.state_description, "orderStatus");
-        }
-    };
-
-    const changeDate = (date: DateRange | undefined) => {
-        if (date) {
-            if (date.from) {
-                setStartDate(date.from);
-            }
-
-            if (date.to) {
-                setEndDate(date.to);
-            }
-        } else {
-            setStartDate(undefined);
-            setEndDate(undefined);
-        }
-    };
-
-    const clearFilters = () => {
-        setStartDate(undefined);
-        setEndDate(undefined);
-        setId("");
-        setAccount("");
-        setCustomerPaymentId("");
-        setOrderStatusFilter("");
-        handleSelectedIdChange("");
-        setTypeTabActive("");
-        setFilters({}, displayedFilters);
-        setPage(1);
-    };
+    const {
+        translate,
+        data,
+        adminOnly,
+        accounts,
+        operationId,
+        onOperationIdChanged,
+        customerPaymentId,
+        onCustomerPaymentIdChanged,
+        orderStatusFilter,
+        onOrderStatusChanged,
+        account,
+        onAccountChanged,
+        startDate,
+        endDate,
+        changeDate,
+        typeTabActive,
+        onTabChanged,
+        chooseClassTabActive,
+        handleDownloadReport,
+        clearFilters
+    } = useTransactionFilter();
 
     return (
         <div className="mb-6">
@@ -212,8 +129,8 @@ const TransactionFilterSidebar = () => {
                         <Input
                             className="flex-1 text-sm placeholder:text-neutral-70"
                             placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
-                            value={id}
-                            onChange={onIdChanged}
+                            value={operationId}
+                            onChange={onOperationIdChanged}
                         />
                     </label>
 
@@ -297,11 +214,11 @@ const TransactionFilterSidebar = () => {
                         variant="clearBtn"
                         size="default"
                         disabled={
-                            !id &&
+                            !operationId &&
                             !account &&
                             !customerPaymentId &&
                             !startDate &&
-                            !reqId &&
+                            !account.id &&
                             !typeTabActive &&
                             !orderStatusFilter
                         }>
@@ -310,9 +227,25 @@ const TransactionFilterSidebar = () => {
                     </Button>
                 </div>
 
-                <Button onClick={handleDownload} variant="default" size="sm">
-                    {translate("resources.transactions.download.downloadReportButtonText")}
-                </Button>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="default" size="sm">
+                            {translate("resources.transactions.download.downloadReportButtonText")}
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="p-0 border-green-50" align="end">
+                        <DropdownMenuItem
+                            className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                            onClick={() => handleDownloadReport("excel")}>
+                            Excel
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                            onClick={() => handleDownloadReport("pdf")}>
+                            PDF
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
 
             <div className="flex items-center justify-between gap-3">
@@ -325,10 +258,7 @@ const TransactionFilterSidebar = () => {
                             key={data?.transactionTypes?.[item].type}
                             className={chooseClassTabActive(data?.transactionTypes?.[item].type_descr)}
                             disabled={typeTabActive === data?.transactionTypes?.[item].type_descr}
-                            onClick={() => {
-                                setTypeTabActive(data?.transactionTypes?.[item].type_descr);
-                                onPropertySelected(data?.transactionTypes?.[item].type, "type");
-                            }}>
+                            onClick={() => onTabChanged(data?.transactionTypes?.[item])}>
                             {data?.transactionTypes?.[item].type_descr}
                         </button>
                     ))}
