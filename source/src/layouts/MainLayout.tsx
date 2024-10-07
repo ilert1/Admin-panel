@@ -302,7 +302,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                             : " bg-muted grow ml-[72px] overflow-y-auto p-8 scrollbar-stable transition-[margin-left]"
                     }>
                     <main className="p-6 container">
-                        <div>{pageTitle}</div>
+                        <h1 className="text-3xl mb-6">{pageTitle}</h1>
                         {children}
                     </main>
                 </div>
