@@ -17,9 +17,6 @@ const useTransactionFilter = () => {
 
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
-    const [accountId, setAccountId] = useState<string>(
-        accounts?.find(account => filterValues?.accountId === account.id).meta.caption || ""
-    );
     const [operationId, setOperationId] = useState(filterValues?.id || "");
     const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
     const [account, setAccount] = useState(accounts?.find(account => filterValues?.accountId === account.id) || "");
@@ -52,7 +49,6 @@ const useTransactionFilter = () => {
             value: string | { from: string; to: string },
             type: "id" | "customer_payment_id" | "accountId" | "type" | "order_status" | "date"
         ) => {
-            console.log(type, value);
             if (value) {
                 if (type === "date" && typeof value !== "string") {
                     setFilters(
@@ -85,10 +81,8 @@ const useTransactionFilter = () => {
         setAccount(account);
 
         if (typeof account === "string") {
-            setAccountId(account);
             onPropertySelected(account, "accountId");
         } else {
-            setAccountId(account.id);
             onPropertySelected(account.id, "accountId");
         }
     };
@@ -128,14 +122,13 @@ const useTransactionFilter = () => {
         setAccount("");
         setCustomerPaymentId("");
         setOrderStatusFilter("");
-        setAccountId("");
         setTypeTabActive("");
         setFilters({}, displayedFilters);
         setPage(1);
     };
 
-    const handleDownloadReport = async () => {
-        if (adminOnly && !accountId) {
+    const handleDownloadReport = async (type: "pdf" | "excel") => {
+        if (adminOnly && !account.id) {
             toast({
                 description: translate("resources.transactions.download.accountField"),
                 variant: "error",
@@ -201,7 +194,6 @@ const useTransactionFilter = () => {
         data,
         adminOnly,
         accounts,
-        accountId,
         operationId,
         onOperationIdChanged,
         customerPaymentId,

@@ -102,7 +102,6 @@ const TransactionFilterSidebar = () => {
         data,
         adminOnly,
         accounts,
-        accountId,
         operationId,
         onOperationIdChanged,
         customerPaymentId,
@@ -219,7 +218,7 @@ const TransactionFilterSidebar = () => {
                             !account &&
                             !customerPaymentId &&
                             !startDate &&
-                            !accountId &&
+                            !account.id &&
                             !typeTabActive &&
                             !orderStatusFilter
                         }>
@@ -228,9 +227,17 @@ const TransactionFilterSidebar = () => {
                     </Button>
                 </div>
 
-                <Button onClick={handleDownloadReport} variant="default" size="sm">
-                    {translate("resources.transactions.download.downloadReportButtonText")}
-                </Button>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="default" size="sm">
+                            {translate("resources.transactions.download.downloadReportButtonText")}
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => handleDownloadReport("excel")}>Excel</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleDownloadReport("pdf")}>PDF</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
 
             <div className="flex items-center justify-between gap-3">
