@@ -13,8 +13,7 @@ import { Button } from "@/components/ui/button";
 import { ChangeEvent, useState } from "react";
 import { UserShow } from "@/components/widgets/show/UserShow";
 import { useMediaQuery } from "react-responsive";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "@/components/ui/loading";
 import { Input } from "@/components/ui/input";
@@ -242,7 +241,29 @@ export const UserList = () => {
                     <UserFilterSidebar />
                     <DataTable columns={columns} />
                 </ListContextProvider>
-                <Sheet open={showOpen} onOpenChange={setShowOpen}>
+                <Sheet onOpenChange={setShowOpen} open={showOpen}>
+                    <SheetContent
+                        className="sm:max-w-[1015px] !max-h-[502px] w-full p-0 m-0 top-[84px] flex flex-col gap-0"
+                        tabIndex={-1}
+                        style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
+                        close={false}>
+                        <div className="p-[42px] pb-[0px] flex-shrink-0">
+                            <div className="flex justify-between items-center pb-2">
+                                <SheetTitle className="!text-display-1">{translate("resources.users.user")}</SheetTitle>
+                                <button
+                                    onClick={() => setShowOpen(false)}
+                                    className="text-gray-500 hover:text-gray-700 transition-colors border-0 outline-0">
+                                    <XIcon className="h-[28px] w-[28px]" />
+                                </button>
+                            </div>
+                        </div>
+                        <div className="flex-1 overflow-auto" tabIndex={-1}>
+                            <SheetDescription></SheetDescription>
+                            <UserShow id={userId} isBrief />
+                        </div>
+                    </SheetContent>
+                </Sheet>
+                {/* <Sheet open={showOpen} onOpenChange={setShowOpen}>
                     <SheetContent
                         className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
                         side={isMobile ? "bottom" : "right"}>
@@ -257,7 +278,7 @@ export const UserList = () => {
                             <UserShow id={userId} isBrief={true} />
                         </ScrollArea>
                     </SheetContent>
-                </Sheet>
+                </Sheet> */}
             </>
         );
     }
