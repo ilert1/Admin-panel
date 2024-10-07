@@ -17,10 +17,12 @@ const useTransactionFilter = () => {
 
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
-    const [accountId, setAccountId] = useState<string>("");
+    const [accountId, setAccountId] = useState<string>(
+        accounts?.find(account => filterValues?.accountId === account.id).meta.caption || ""
+    );
     const [operationId, setOperationId] = useState(filterValues?.id || "");
     const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
-    const [account, setAccount] = useState(accounts?.find(account => filterValues?.account === account.id) || "");
+    const [account, setAccount] = useState(accounts?.find(account => filterValues?.accountId === account.id) || "");
     const [typeTabActive, setTypeTabActive] = useState("");
 
     const orderStatusIndex = Object.keys(data.states).find(
@@ -48,7 +50,7 @@ const useTransactionFilter = () => {
     const onPropertySelected = debounce(
         (
             value: string | { from: string; to: string },
-            type: "id" | "customer_payment_id" | "account" | "type" | "order_status" | "date"
+            type: "id" | "customer_payment_id" | "accountId" | "type" | "order_status" | "date"
         ) => {
             console.log(type, value);
             if (value) {
@@ -84,10 +86,10 @@ const useTransactionFilter = () => {
 
         if (typeof account === "string") {
             setAccountId(account);
-            onPropertySelected(account, "account");
+            onPropertySelected(account, "accountId");
         } else {
             setAccountId(account.id);
-            onPropertySelected(account.id, "account");
+            onPropertySelected(account.id, "accountId");
         }
     };
 
@@ -157,7 +159,13 @@ const useTransactionFilter = () => {
             const url =
                 `${API_URL}/transactions/report?` +
                 Object.keys(filterValues)
-                    .map(item => `&${item}=${filterValues[item]}`)
+                    .map((item, index) => {
+                        if (index > 0) {
+                            return `&${item}=${filterValues[item]}`;
+                        } else {
+                            return `${item}=${filterValues[item]}`;
+                        }
+                    })
                     .join("");
 
             const response = await fetch(url, {

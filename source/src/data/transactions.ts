@@ -12,11 +12,7 @@ export class TransactionDataProvider extends BaseDataProvider {
         };
 
         Object.keys(params.filter).forEach(filterItem => {
-            if (filterItem === "account") {
-                data["accountId"] = params.filter[filterItem];
-            } else {
-                data[filterItem] = params.filter[filterItem];
-            }
+            data[filterItem] = params.filter[filterItem];
         });
 
         const paramsStr = new URLSearchParams(data).toString();
