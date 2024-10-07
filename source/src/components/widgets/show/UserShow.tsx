@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/alertdialog";
 import { BooleanField } from "@/components/ui/boolean-field";
 import { Button } from "@/components/ui/button";
-import { Loading } from "@/components/ui/loading";
+import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useCallback, useState } from "react";
 import { useShowController, useTranslate } from "react-admin";
@@ -30,7 +30,7 @@ export const UserShow = (props: { id: string; isBrief: boolean }) => {
     }, []);
 
     if (context.isLoading || context.isFetching || !context.record) {
-        return <Loading />;
+        return <LoadingAlertDialog />;
     }
     if (isBrief) {
         return (
