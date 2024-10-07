@@ -129,7 +129,8 @@ const ru: TranslationMessages = {
                 openDispute: "Открыть диспут",
                 closeDispute: "Закрыть диспут",
                 disputeOpened: "Диспут открыт",
-                disputeClosed: "Диспут закрыт"
+                disputeClosed: "Диспут закрыт",
+                commitTransaction: "Зафиксировать операцию?"
             },
             list: {
                 filter: {
@@ -571,7 +572,8 @@ const en: TranslationMessages = {
                 openDispute: "Open dispute",
                 closeDispute: "Close dispute",
                 disputeOpened: "Disput opened",
-                disputeClosed: "Disput closed"
+                disputeClosed: "Disput closed",
+                commitTransaction: "Commit the transaction?"
             },
             list: {
                 filter: {

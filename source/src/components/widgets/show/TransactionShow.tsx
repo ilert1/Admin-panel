@@ -9,6 +9,19 @@ import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TableTypes } from "../shared/SimpleTable";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger
+} from "@/components/ui/alertdialog";
+import { useMediaQuery } from "react-responsive";
 
 export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     const dataProvider = useDataProvider();
@@ -16,8 +29,9 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     const translate = useTranslate();
     const { permissions, isLoading } = usePermissions();
     const context = useShowController({ id: props.id });
-
+    const { toast } = useToast();
     const [newState, setNewState] = useState("");
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     const trnId = useMemo<string>(() => context.record?.id, [context]);
 
@@ -31,6 +45,8 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
         if (isNaN(value)) return "-";
         return value.toFixed(Math.log10(accuracy));
     }
+
+    const handleOkClicked = () => {};
 
     const feesColumns: ColumnDef<Transaction.Fee>[] = [
         {
@@ -104,19 +120,19 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     useEffect(() => {
         setNewState(context?.record?.state.state_description);
     }, [context?.record?.state.state_description]);
+    const isMobile = useMediaQuery({ query: `(max-width: 655px)` });
 
     if (context.isLoading || context.isFetching || !context.record || isLoading) {
         return <LoadingAlertDialog />;
     } else if (props.type === "compact") {
-        console.log(newState);
         return (
             <div className="p-[42px] pt-0 flex flex-col gap-6 top-[82px] overflow-auto">
                 {permissions === "admin" && (
-                    <div className="flex justify-between">
+                    <div className={`flex justify-between ${isMobile ? "flex-col gap-4" : "flex-row"}`}>
                         <div className="flex gap-2 items-center">
                             <span>{translate("resources.transactions.fields.state.state_description")}</span>
                             <Select value={newState} onValueChange={setNewState}>
-                                <SelectTrigger className="w-[180px]">
+                                <SelectTrigger className="w-[180px] border-">
                                     <SelectValue placeholder="Theme" />
                                 </SelectTrigger>
                                 <SelectContent className="bg-neutral-0">
@@ -130,8 +146,41 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                             <Button>{translate("app.ui.actions.save")}</Button>
                         </div>
                         <div className="flex gap-6">
-                            <Button>{translate("resources.transactions.show.openDispute")}</Button>
-                            <Button variant={"secondary"}>{translate("resources.transactions.show.commit")}</Button>
+                            <Button
+                                onClick={() =>
+                                    toast({
+                                        title: "Success",
+                                        description: translate("resources.transactions.show.disputeOpened"),
+                                        variant: "success"
+                                    })
+                                }>
+                                {translate("resources.transactions.show.openDispute")}
+                            </Button>
+
+                            <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                                <AlertDialogTrigger>
+                                    <Button variant={"secondary"}>
+                                        {translate("resources.transactions.show.commit")}
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent className="w-[350px]">
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle className="text-center">
+                                            {translate("resources.transactions.show.commitTransaction")}
+                                        </AlertDialogTitle>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <div className="flex justify-around gap-[35px] w-full">
+                                            <AlertDialogAction onClick={handleOkClicked} className="w-40">
+                                                {translate("resources.transactions.show.commit")}
+                                            </AlertDialogAction>
+                                            <AlertDialogCancel className="!ml-0 px-3 w-24">
+                                                {translate("app.ui.actions.cancel")}
+                                            </AlertDialogCancel>
+                                        </div>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
                         </div>
                     </div>
                 )}
