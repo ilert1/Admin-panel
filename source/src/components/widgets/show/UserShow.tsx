@@ -1,7 +1,18 @@
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from "@/components/ui/alertdialog";
 import { BooleanField } from "@/components/ui/boolean-field";
 import { Button } from "@/components/ui/button";
 import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
+import { useCallback, useState } from "react";
 import { useShowController, useTranslate } from "react-admin";
 
 export const UserShow = (props: { id: string; isBrief: boolean }) => {
@@ -9,13 +20,21 @@ export const UserShow = (props: { id: string; isBrief: boolean }) => {
     const { id, isBrief } = props;
     const context = useShowController({ id });
     const localIsBrief = isBrief || false;
+    const [dialogOpen, setDialogOpen] = useState(false);
+
+    const handleDeleteClicked = useCallback(() => {
+        setDialogOpen(true);
+    }, []);
+    const handleOkClicked = useCallback(() => {
+        setDialogOpen(false);
+    }, []);
 
     if (context.isLoading || context.isFetching || !context.record) {
         return <Loading />;
     }
     if (isBrief) {
         return (
-            <div>
+            <div className="relative">
                 <div className="px-[42px] pb-[25px] flex justify-between">
                     <TextField text={id} copyValue />
                     <div className="flex items-center justify-center text-white">
@@ -62,13 +81,43 @@ export const UserShow = (props: { id: string; isBrief: boolean }) => {
                     />
                 </div>
                 <div className="flex justify-end gap-4 px-[42px]">
-                    <Button className="text-title-1">{translate("resources.users.edit")}</Button>
+                    <Button
+                        onClick={
+                            // TODO Для Кости
+                            () => {
+                                return;
+                            }
+                        }
+                        className="text-title-1">
+                        {translate("resources.users.edit")}
+                    </Button>
                     <Button
                         variant={"outline"}
-                        className="border-[1px] border-neutral-50 text-neutral-50 bg-transparent">
+                        className="border-[1px] border-neutral-50 text-neutral-50 bg-transparent"
+                        onClick={handleDeleteClicked}>
                         {translate("resources.users.delete")}
                     </Button>
                 </div>
+                <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                    <AlertDialogContent className="w-[253px] px-[24px] bg-muted">
+                        <AlertDialogHeader>
+                            <AlertDialogTitle className="text-center">
+                                {translate("resources.users.deleteThisUser")}
+                            </AlertDialogTitle>
+                            <AlertDialogDescription></AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <div className="flex justify-around gap-[35px] w-full">
+                                <AlertDialogAction onClick={handleOkClicked}>
+                                    {translate("app.ui.actions.delete")}
+                                </AlertDialogAction>
+                                <AlertDialogCancel className="!ml-0 px-3">
+                                    {translate("app.ui.actions.cancel")}
+                                </AlertDialogCancel>
+                            </div>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
             </div>
         );
     } else {
