@@ -13,7 +13,7 @@ import {
 } from "chart.js";
 import "chartjs-adapter-date-fns";
 import { addDays, format } from "date-fns";
-import { useMediaQuery } from "react-responsive";
+// import { useMediaQuery } from "react-responsive";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -28,11 +28,6 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive }
         labels: [],
         datasets: []
     });
-
-    // Media queries для адаптивного изменения ширины баров
-    const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
-    const isTablet = useMediaQuery({ query: "(min-width: 769px) and (max-width: 1024px)" });
-    const isScreen = useMediaQuery({ query: "(min-width: 1024px) and (max-width: 1500px)" });
 
     useEffect(() => {
         // Генерация массива дат между startDate и endDate
@@ -144,11 +139,7 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive }
             legend: {
                 display: false
             },
-            // title: {
-            //     display: true,
-            //     text: "Транзакции за выбранный период",
-            //     color: "#FFFFFF"
-            // },
+
             tooltip: {
                 callbacks: {
                     labelColor: () => ({
@@ -198,11 +189,11 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive }
     };
 
     const numberOfDays = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+    const chartWidth = numberOfDays * 100;
 
-    let chartWidth = numberOfDays * (isMobile ? 40 : 60);
-    if (isScreen) {
-        chartWidth = Math.min(numberOfDays * 80, window.innerWidth);
-    }
+    // if (isScreen) {
+    //     chartWidth = Math.min(numberOfDays * 80, window.innerWidth);
+    // }
     return (
         <div className="bg-black mr-2 p-5 pb-0">
             <div className="overflow-x-auto scrollbar-x">
@@ -212,7 +203,7 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive }
             </div>
             {/* Кастомная легенда с круглыми элементами */}
             <div className="flex justify-center mt-3 pb-3">
-                <div className="flex items-center justify-center space-x-4">
+                <div className="flex flex-col sm:flex-row items-center justify-center space-x-4">
                     <div className="flex items-center">
                         <div className="w-12 h-5 rounded-full bg-[#008C99]" />
                         <span className="text-white ml-2">Пополнение</span>

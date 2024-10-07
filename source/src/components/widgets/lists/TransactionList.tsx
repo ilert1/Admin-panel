@@ -489,6 +489,7 @@ export const TransactionList = () => {
     ];
     const startDate = new Date("2023-07-01");
     const endDate = new Date("2023-09-15");
+    console.log(data);
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
     } else {
