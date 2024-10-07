@@ -1,133 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8" />
-    <meta
-        name="viewport"
-        content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
-    />
-    <meta
-        name="theme-color"
-        content="#000000"
-    />
-    <link
-        rel="manifest"
-        href="./manifest.json"
-    />
-    <link
-        rel="shortcut icon"
-        href="./favicon.ico"
-    />
-    <title>juggler-gui</title>
-    <style>
-        .z {
-            z-index: 60 !important;
-        }
-
-        .z100 {
-            z-index: 100 !important;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: "Jost", sans-serif;
-            font-optical-sizing: auto;
-            background-color: rgba(19, 35, 44, 1);
-        }
-
-        .loader-container {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-image: url("/LoginBackground.png");
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-color: rgba(19, 35, 44, 1);
-        }
-
-        .loader {
-            width: 6rem;
-            /* Equivalent to w-24 */
-            height: 6rem;
-            /* Equivalent to h-24 */
-            animation: spin 1s linear infinite;
-        }
-
-        .loader-circle {
-            stroke-dasharray: 282.7;
-            stroke-dashoffset: 70.68;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no" />
+        <meta name="theme-color" content="#000000" />
+        <link rel="manifest" href="./manifest.json" />
+        <link rel="shortcut icon" href="./favicon.ico" />
+        <title>juggler-gui</title>
+        <style>
+            .z {
+                z-index: 60 !important;
             }
 
-            100% {
-                transform: rotate(360deg);
+            .z100 {
+                z-index: 100 !important;
             }
-        }
-    </style>
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-    <link
-        href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet"
-    >
-</head>
 
-<body>
-    <noscript> You need to enable JavaScript to run this app. </noscript>
-    <div id="root">
-        <div class="loader-container">
-            <div class="loader">
-                <svg viewBox="0 0 100 100">
-                    <defs>
-                        <linearGradient
-                            id="spinner-gradient"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                        >
-                            <stop
-                                offset="28.01%"
-                                stop-color="#57CD8C"
-                            ></stop>
-                            <stop
-                                offset="69.22%"
-                                stop-color="#237648"
-                            ></stop>
-                        </linearGradient>
-                    </defs>
-                    <circle
-                        class="loader-circle"
-                        fill="none"
-                        stroke="url(#spinner-gradient)"
-                        cx="50"
-                        cy="50"
-                        r="45"
-                        stroke-width="10"
-                        stroke-linecap="round"
-                    ></circle>
-                </svg>
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: "Jost", sans-serif;
+                font-optical-sizing: auto;
+                background-color: rgba(19, 35, 44, 1);
+            }
+
+            .loader-container {
+                position: fixed;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-image: url("/LoginBackground.svg");
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-color: rgba(19, 35, 44, 1);
+            }
+
+            .loader {
+                width: 6rem;
+                /* Equivalent to w-24 */
+                height: 6rem;
+                /* Equivalent to h-24 */
+                animation: spin 1s linear infinite;
+            }
+
+            .loader-circle {
+                stroke-dasharray: 282.7;
+                stroke-dashoffset: 70.68;
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+
+    <body>
+        <noscript> You need to enable JavaScript to run this app. </noscript>
+        <div id="root">
+            <div class="loader-container">
+                <div class="loader">
+                    <svg viewBox="0 0 100 100">
+                        <defs>
+                            <linearGradient id="spinner-gradient" x1="0%" y1="0%" x2="100%">
+                                <stop offset="28.01%" stop-color="#57CD8C"></stop>
+                                <stop offset="69.22%" stop-color="#237648"></stop>
+                            </linearGradient>
+                        </defs>
+                        <circle
+                            class="loader-circle"
+                            fill="none"
+                            stroke="url(#spinner-gradient)"
+                            cx="50"
+                            cy="50"
+                            r="45"
+                            stroke-width="10"
+                            stroke-linecap="round"
+                        ></circle>
+                    </svg>
+                </div>
             </div>
         </div>
-    </div>
-</body>
-<script
-    type="module"
-    src="/src/index.tsx"
-></script>
-
+    </body>
+    <script type="module" src="/src/index.tsx"></script>
 </html>
