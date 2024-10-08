@@ -38,6 +38,7 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
     });
 
     const [transactions, setTransactions] = useState<any[]>([]);
+
     useEffect(() => {
         if (trans) {
             let newMass: any[] = [];
@@ -50,24 +51,24 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
         };
     }, [trans]);
 
-    useEffect(() => {
-        async function getData() {
-            const data = await dataProvider.getList<Transaction.Transaction>("transactions", {
-                sort: {
-                    order: "ASC",
-                    field: "id"
-                },
-                filter: { account: id },
-                pagination: {
-                    page: 1,
-                    perPage: 10
-                }
-            });
-            setTransactions(data.data);
-        }
+    // useEffect(() => {
+    //     async function getData() {
+    //         const data = await dataProvider.getList<Transaction.Transaction>("transactions", {
+    //             sort: {
+    //                 order: "ASC",
+    //                 field: "id"
+    //             },
+    //             filter: { account: id },
+    //             pagination: {
+    //                 page: 1,
+    //                 perPage: 10
+    //             }
+    //         });
+    //         setTransactions(data.data);
+    //     }
 
-        getData();
-    }, [dataProvider, id]);
+    //     getData();
+    // }, [dataProvider, id]);
 
     const columns: ColumnDef<Amount>[] = [
         {
