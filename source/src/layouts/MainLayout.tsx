@@ -338,9 +338,11 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     </nav>
                 </aside>
                 <div
-                    className={` " bg-muted grow ml-[${
-                        isSheetOpen ? "280px" : "72px"
-                    }] overflow-y-auto scrollbar-stable transition-[margin-left]`}>
+                    className={
+                        isSheetOpen
+                            ? " bg-muted grow ml-[280px] overflow-y-auto scrollbar-stable transition-[margin-left]"
+                            : " bg-muted grow ml-[72px] overflow-y-auto scrollbar-stable transition-[margin-left]"
+                    }>
                     <main className="p-6 container">
                         <h1 className="text-3xl mb-6">{pageTitle}</h1>
                         {children}
