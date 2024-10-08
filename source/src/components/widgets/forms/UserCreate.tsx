@@ -10,6 +10,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useTranslate } from "react-admin";
 import { useMemo, useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 
 export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisabled: boolean; currencies: any }) => {
     const translate = useTranslate();
@@ -246,7 +247,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                     <FormItem>
                                         <FormLabel>{translate("app.widgets.forms.userCreate.publicKey")}</FormLabel>
                                         <FormControl>
-                                            <Input
+                                            <Textarea
                                                 value={fileContent}
                                                 onChange={e => handleTextChange(e, field)}
                                                 onInput={e => handleTextChange(e, field)}
