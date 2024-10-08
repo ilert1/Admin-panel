@@ -122,9 +122,9 @@ const TransactionFilterSidebar = () => {
 
     return (
         <div className="mb-6">
-            <div className="flex flex-col w-full lg:justify-between md:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 mb-6">
-                <div className="flex flex-col sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
-                    <label className="flex md:flex-col gap-2 items-center md:items-start">
+            <div className="w-full mb-6">
+                <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
+                    <label className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
                         <span className="md:text-nowrap">{translate("resources.transactions.filter.filterById")}</span>
                         <Input
                             className="flex-1 text-sm placeholder:text-neutral-70"
@@ -134,7 +134,7 @@ const TransactionFilterSidebar = () => {
                         />
                     </label>
 
-                    <label className="flex md:flex-col gap-2 items-center md:items-start">
+                    <label className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
                         <span className="md:text-nowrap">
                             {translate("resources.transactions.filter.filterCustomerPaymentId")}
                         </span>
@@ -146,7 +146,7 @@ const TransactionFilterSidebar = () => {
                         />
                     </label>
 
-                    <div className="flex md:flex-col gap-2 items-center md:items-start min-w-36">
+                    <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start min-w-36">
                         <span className="md:text-nowrap">
                             {translate("resources.transactions.filter.filterByOrderStatus")}
                         </span>
@@ -181,7 +181,7 @@ const TransactionFilterSidebar = () => {
                     />
 
                     {adminOnly && (
-                        <div className="flex md:flex-col gap-2 items-center md:items-start min-w-40">
+                        <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start min-w-40">
                             <span className="md:text-nowrap">
                                 {translate("resources.transactions.filter.filterByAccount")}
                             </span>
@@ -209,7 +209,7 @@ const TransactionFilterSidebar = () => {
                     )}
 
                     <Button
-                        className="ml-0 flex items-center gap-1 w-auto h-auto px-0"
+                        className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7"
                         onClick={clearFilters}
                         variant="clearBtn"
                         size="default"
@@ -225,27 +225,27 @@ const TransactionFilterSidebar = () => {
                         <span>{translate("resources.transactions.filter.clearFilters")}</span>
                         <XIcon className="size-4" />
                     </Button>
-                </div>
 
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="default" size="sm">
-                            {translate("resources.transactions.download.downloadReportButtonText")}
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="p-0 border-green-50" align="end">
-                        <DropdownMenuItem
-                            className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
-                            onClick={() => handleDownloadReport("excel")}>
-                            Excel
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
-                            onClick={() => handleDownloadReport("pdf")}>
-                            PDF
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button className="md:ml-auto" variant="default" size="sm">
+                                {translate("resources.transactions.download.downloadReportButtonText")}
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="p-0 border-green-50" align="end">
+                            <DropdownMenuItem
+                                className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                                onClick={() => handleDownloadReport("excel")}>
+                                Excel
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                                onClick={() => handleDownloadReport("pdf")}>
+                                PDF
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             </div>
 
             <div className="flex items-center justify-between gap-3">
