@@ -8,12 +8,21 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from "@/components/ui/alertdialog";
 import { CirclePlus, EyeIcon, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useState } from "react";
 import { UserShow } from "@/components/widgets/show/UserShow";
-import { useMediaQuery } from "react-responsive";
-import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "@/components/ui/loading";
 import { Input } from "@/components/ui/input";
@@ -21,6 +30,7 @@ import { debounce } from "lodash";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { UserCreate } from "../create";
+import { UserEdit } from "../edit/UserEdit";
 
 const UserFilterSidebar = () => {
     const translate = useTranslate();
@@ -154,7 +164,9 @@ export const UserList = () => {
     const [showOpen, setShowOpen] = useState(false);
     const [userId, setUserId] = useState<string>("");
 
-    const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [showEditUser, setShowEditUser] = useState(false);
+
     const listContext = useListController<Users.User>();
     const translate = useTranslate();
     const navigate = useNavigate();
@@ -258,27 +270,54 @@ export const UserList = () => {
                             </div>
                         </div>
                         <div className="flex-1 overflow-auto" tabIndex={-1}>
-                            <SheetDescription></SheetDescription>
                             <UserShow id={userId} isBrief />
+
+                            <div className="flex justify-end gap-4 px-[42px]">
+                                <Button onClick={() => setShowEditUser(true)} className="text-title-1">
+                                    {translate("resources.users.edit")}
+                                </Button>
+
+                                <Button
+                                    variant={"outline"}
+                                    className="border-[1px] border-neutral-50 text-neutral-50 bg-transparent"
+                                    onClick={() => setDialogOpen(true)}>
+                                    {translate("resources.users.delete")}
+                                </Button>
+                            </div>
                         </div>
                     </SheetContent>
                 </Sheet>
-                {/* <Sheet open={showOpen} onOpenChange={setShowOpen}>
-                    <SheetContent
-                        className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
-                        side={isMobile ? "bottom" : "right"}>
-                        <ScrollArea className="h-full [&>div>div]:!block">
-                            <SheetHeader className="mb-2">
-                                <SheetTitle>{translate("resources.users.showHeader")}</SheetTitle>
-                                <SheetDescription>
-                                    {translate("resources.users.showDescription", { id: userId })}
-                                </SheetDescription>
-                            </SheetHeader>
 
-                            <UserShow id={userId} isBrief={true} />
-                        </ScrollArea>
-                    </SheetContent>
-                </Sheet> */}
+                <Dialog open={showEditUser} onOpenChange={setShowEditUser}>
+                    <DialogContent aria-describedby={undefined}>
+                        <DialogHeader>
+                            <DialogTitle>{translate("app.widgets.forms.userCreate.title")}</DialogTitle>
+                        </DialogHeader>
+
+                        <UserEdit id={userId} />
+                    </DialogContent>
+                </Dialog>
+
+                <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                    <AlertDialogContent className="w-[253px] px-[24px] bg-muted">
+                        <AlertDialogHeader>
+                            <AlertDialogTitle className="text-center">
+                                {translate("resources.users.deleteThisUser")}
+                            </AlertDialogTitle>
+                            <AlertDialogDescription></AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <div className="flex justify-around gap-[35px] w-full">
+                                <AlertDialogAction onClick={() => setDialogOpen(false)}>
+                                    {translate("app.ui.actions.delete")}
+                                </AlertDialogAction>
+                                <AlertDialogCancel className="!ml-0 px-3">
+                                    {translate("app.ui.actions.cancel")}
+                                </AlertDialogCancel>
+                            </div>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
             </>
         );
     }
