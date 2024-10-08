@@ -19,7 +19,8 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
 
     const { data: history } = useGetManyReference("transactions", {
         target: "id",
-        id: trnId
+        id: trnId,
+        filter: {}
     });
 
     function computeValue(quantity: number, accuracy: number) {

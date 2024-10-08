@@ -36,6 +36,7 @@ import LogoPicture from "@/lib/icons/LogoPicture";
 import Blowfish from "@/lib/icons/Blowfish";
 import { ChatSheet } from "@/components/widgets/ChatSheet";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { debounce } from "lodash";
 
 enum SplitLocations {
     show = "show",
@@ -81,6 +82,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     const [langOpen, setLangOpen] = useState(false);
 
     const [chatOpen, setChatOpen] = useState(false);
+    const debounced = debounce(setChatOpen, 120);
 
     useEffect(() => {
         isSheetOpen
@@ -181,7 +183,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     {merchantOnly && (
                         <NavLink
                             to="/bank-transfer"
-                            onClick={() => setNextPage("bankTransfer")}
+                            onClick={e => setNextPage("bankTransfer")}
                             className={
                                 resourceName[0] === "bank-transfer"
                                     ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
@@ -286,9 +288,9 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 <Sheet
                                     open={chatOpen}
                                     onOpenChange={isOpen => {
-                                        console.log("Chat toggle", isOpen);
-                                        setTimeout(() => setChatOpen(isOpen), 100);
+                                        debounced(isOpen);
                                     }}
+                                    // onOpenChange={setChatOpen}
                                     modal={true}>
                                     <SheetTrigger asChild>
                                         <div>

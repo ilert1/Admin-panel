@@ -2,39 +2,53 @@ import {
     ListContextProvider,
     useDataProvider,
     useGetManyReference,
-    useListController,
+    useInfiniteGetList,
     useShowController,
     useTranslate
 } from "react-admin";
 import { useQuery } from "react-query";
 import { DataTable, SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
-import { Loading } from "@/components/ui/loading";
+import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useEffect, useState } from "react";
 import moment from "moment";
+import { TableTypes } from "../shared/SimpleTable";
 
 export const AccountShow = (props: { id: string; type?: "compact" }) => {
     const { id, type } = props;
     const translate = useTranslate();
-
     const dataProvider = useDataProvider();
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
 
     const context = useShowController({ id });
-    const transContext = useListController({ resource: "transactions" });
 
-    console.log(transContext?.data);
-
-    const { data: history } = useGetManyReference("transactions", {
-        target: "id",
-        id,
+    const {
+        data: trans,
+        total,
+        isPending,
+        error,
+        hasNextPage,
+        isFetchingNextPage,
+        fetchNextPage
+    } = useInfiniteGetList("transactions", {
         filter: {
             account: id
         }
     });
 
-    const [transactions, setTransactions] = useState<Transaction.Transaction[]>([]);
+    const [transactions, setTransactions] = useState<any[]>([]);
+    useEffect(() => {
+        if (trans) {
+            let newMass: any[] = [];
+            trans.pages.map(el => (newMass = [...newMass, ...el.data]));
+            console.log(newMass);
+            setTransactions(newMass);
+        }
+        return () => {
+            setTransactions([]);
+        };
+    }, [trans]);
 
     useEffect(() => {
         async function getData() {
@@ -149,21 +163,31 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
             }
         }
     ];
-    console.log(history);
 
     if (context.isLoading || !context.record || !transactions) {
-        return <Loading />;
+        return <LoadingAlertDialog />;
     }
-    if (transContext.isLoading || !transContext.data) {
-        return <Loading />;
+    if (isPending) {
+        return <LoadingAlertDialog />;
     }
+
+    console.log(trans?.pages[0]);
     if (type === "compact") {
         return (
             <>
-                {/* <SimpleTable columns={historyColumns} data={transactions} tableType={TableTypes.COLORED}></SimpleTable> */}
-                <ListContextProvider value={transContext}>
-                    <DataTable columns={historyColumns} />
-                </ListContextProvider>
+                <div className="mx-6">
+                    <SimpleTable
+                        columns={historyColumns}
+                        data={transactions}
+                        tableType={TableTypes.COLORED}></SimpleTable>
+                </div>
+                {hasNextPage && (
+                    <div className="flex items-center justify-center my-5">
+                        <button disabled={isFetchingNextPage} onClick={() => fetchNextPage()}>
+                            Show more
+                        </button>
+                    </div>
+                )}
             </>
         );
     } else {
