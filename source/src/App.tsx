@@ -1,11 +1,4 @@
-import {
-    CustomRoutes,
-    Resource,
-    combineDataProviders,
-    CoreAdminContext,
-    CoreAdminUI,
-    usePermissions
-} from "react-admin";
+import { CustomRoutes, Resource, combineDataProviders, CoreAdminContext, CoreAdminUI } from "react-admin";
 import {
     TransactionDataProvider,
     i18nProvider,
@@ -31,12 +24,10 @@ import {
     CurrencyCreate,
     DirectionCreate,
     MerchantCreate,
-    ProviderCreate,
-    UserCreate
+    ProviderCreate
 } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
 import { PayOutPage, PayOutCryptoPage, LoginPage } from "./pages";
-import { Dashboard } from "./Dashboard";
 import { MainLayout } from "./layouts";
 import { WalletIcon, ReceiptIcon, WaypointsIcon, UsersIcon, StoreIcon, PcCaseIcon, MilestoneIcon } from "lucide-react";
 import { authProvider, ThemeProvider } from "@/components/providers";
@@ -53,8 +44,8 @@ import {
     WithdrawShow
 } from "./components/widgets/show";
 import { CurrencyIcon } from "lucide-react";
-import { CurrencyEdit, MerchantEdit, ProvidersEdit } from "./components/widgets/edit";
-import { InitLoading, Loading } from "./components/ui/loading";
+import { CurrencyEdit, MerchantEdit, ProvidersEdit, UserEdit } from "./components/widgets/edit";
+import { InitLoading } from "./components/ui/loading";
 
 const dataProvider = combineDataProviders((resource: string) => {
     if (resource === "transactions") {

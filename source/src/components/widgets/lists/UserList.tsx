@@ -8,16 +8,6 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
 import { CirclePlus, EyeIcon, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useState } from "react";
@@ -30,7 +20,6 @@ import { debounce } from "lodash";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { UserCreate } from "../create";
-import { UserEdit } from "../edit/UserEdit";
 
 const UserFilterSidebar = () => {
     const translate = useTranslate();
@@ -161,11 +150,8 @@ const UserFilterSidebar = () => {
 };
 
 export const UserList = () => {
-    const [showOpen, setShowOpen] = useState(false);
     const [userId, setUserId] = useState<string>("");
-
-    const [dialogOpen, setDialogOpen] = useState(false);
-    const [showEditUser, setShowEditUser] = useState(false);
+    const [showOpen, setShowOpen] = useState(false);
 
     const listContext = useListController<Users.User>();
     const translate = useTranslate();
@@ -253,8 +239,10 @@ export const UserList = () => {
                     <UserFilterSidebar />
                     <DataTable columns={columns} />
                 </ListContextProvider>
+
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>
                     <SheetContent
+                        aria-describedby={undefined}
                         className="sm:max-w-[1015px] !max-h-[502px] w-full p-0 m-0 top-[84px] flex flex-col gap-0"
                         tabIndex={-1}
                         style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
@@ -269,55 +257,12 @@ export const UserList = () => {
                                 </button>
                             </div>
                         </div>
+
                         <div className="flex-1 overflow-auto" tabIndex={-1}>
                             <UserShow id={userId} isBrief />
-
-                            <div className="flex justify-end gap-4 px-[42px]">
-                                <Button onClick={() => setShowEditUser(true)} className="text-title-1">
-                                    {translate("resources.users.edit")}
-                                </Button>
-
-                                <Button
-                                    variant={"outline"}
-                                    className="border-[1px] border-neutral-50 text-neutral-50 bg-transparent"
-                                    onClick={() => setDialogOpen(true)}>
-                                    {translate("resources.users.delete")}
-                                </Button>
-                            </div>
                         </div>
                     </SheetContent>
                 </Sheet>
-
-                <Dialog open={showEditUser} onOpenChange={setShowEditUser}>
-                    <DialogContent aria-describedby={undefined}>
-                        <DialogHeader>
-                            <DialogTitle>{translate("app.widgets.forms.userCreate.title")}</DialogTitle>
-                        </DialogHeader>
-
-                        <UserEdit id={userId} />
-                    </DialogContent>
-                </Dialog>
-
-                <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                    <AlertDialogContent className="w-[253px] px-[24px] bg-muted">
-                        <AlertDialogHeader>
-                            <AlertDialogTitle className="text-center">
-                                {translate("resources.users.deleteThisUser")}
-                            </AlertDialogTitle>
-                            <AlertDialogDescription></AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                            <div className="flex justify-around gap-[35px] w-full">
-                                <AlertDialogAction onClick={() => setDialogOpen(false)}>
-                                    {translate("app.ui.actions.delete")}
-                                </AlertDialogAction>
-                                <AlertDialogCancel className="!ml-0 px-3">
-                                    {translate("app.ui.actions.cancel")}
-                                </AlertDialogCancel>
-                            </div>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
             </>
         );
     }
