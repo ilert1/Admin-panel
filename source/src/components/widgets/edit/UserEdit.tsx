@@ -21,6 +21,7 @@ import { TriangleAlert } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DialogClose } from "@/components/ui/dialog";
 import { useQuery } from "react-query";
+import { Textarea } from "@/components/ui/textarea";
 
 export const UserEdit = ({ id }: { id: string }) => {
     const dataProvider = useDataProvider();
@@ -161,7 +162,7 @@ export const UserEdit = ({ id }: { id: string }) => {
         <EditContextProvider value={controllerProps}>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" autoComplete="off">
-                    <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-5 md:grid-flow-col gap-y-5 gap-x-4 items-stretch md:items-end">
+                    <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-5 md:grid-flow-col gap-y-4 gap-x-4 items-stretch md:items-end">
                         <FormField
                             name="name"
                             control={form.control}
@@ -370,20 +371,24 @@ export const UserEdit = ({ id }: { id: string }) => {
                             )}
                         />
 
-                        <div onDragOver={e => e.preventDefault()} onDrop={handleFileDrop}>
+                        <div
+                            className="row-span-2 self-stretch"
+                            onDragOver={e => e.preventDefault()}
+                            onDrop={handleFileDrop}>
                             <FormField
                                 name="public_key"
                                 control={form.control}
                                 render={({ field, fieldState }) => (
-                                    <FormItem className="space-y-1">
+                                    <FormItem className="flex flex-col gap-1">
                                         <FormLabel>{translate("app.widgets.forms.userCreate.publicKey")}</FormLabel>
                                         <FormControl>
-                                            <Input
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted  ${
+                                            <Textarea
+                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted h-full resize-none ${
                                                     fieldState.invalid
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                         : ""
                                                 }`}
+                                                rows={5}
                                                 value={fileContent}
                                                 onChange={e => handleTextChange(e, field)}
                                                 onInput={e => handleTextChange(e, field)}
@@ -409,7 +414,7 @@ export const UserEdit = ({ id }: { id: string }) => {
                                                         </Tooltip>
                                                     </TooltipProvider>
                                                 )}
-                                            </Input>
+                                            </Textarea>
                                         </FormControl>
                                     </FormItem>
                                 )}
