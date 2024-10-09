@@ -12,8 +12,7 @@ import { CirclePlus, EyeIcon, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useState } from "react";
 import { UserShow } from "@/components/widgets/show/UserShow";
-import { useMediaQuery } from "react-responsive";
-import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "@/components/ui/loading";
 import { Input } from "@/components/ui/input";
@@ -151,10 +150,9 @@ const UserFilterSidebar = () => {
 };
 
 export const UserList = () => {
-    const [showOpen, setShowOpen] = useState(false);
     const [userId, setUserId] = useState<string>("");
+    const [showOpen, setShowOpen] = useState(false);
 
-    const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
     const listContext = useListController<Users.User>();
     const translate = useTranslate();
     const navigate = useNavigate();
@@ -241,8 +239,10 @@ export const UserList = () => {
                     <UserFilterSidebar />
                     <DataTable columns={columns} />
                 </ListContextProvider>
+
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>
                     <SheetContent
+                        aria-describedby={undefined}
                         className="sm:max-w-[1015px] !max-h-[502px] w-full p-0 m-0 top-[84px] flex flex-col gap-0"
                         tabIndex={-1}
                         style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
@@ -257,28 +257,12 @@ export const UserList = () => {
                                 </button>
                             </div>
                         </div>
+
                         <div className="flex-1 overflow-auto" tabIndex={-1}>
-                            <SheetDescription></SheetDescription>
                             <UserShow id={userId} isBrief />
                         </div>
                     </SheetContent>
                 </Sheet>
-                {/* <Sheet open={showOpen} onOpenChange={setShowOpen}>
-                    <SheetContent
-                        className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
-                        side={isMobile ? "bottom" : "right"}>
-                        <ScrollArea className="h-full [&>div>div]:!block">
-                            <SheetHeader className="mb-2">
-                                <SheetTitle>{translate("resources.users.showHeader")}</SheetTitle>
-                                <SheetDescription>
-                                    {translate("resources.users.showDescription", { id: userId })}
-                                </SheetDescription>
-                            </SheetHeader>
-
-                            <UserShow id={userId} isBrief={true} />
-                        </ScrollArea>
-                    </SheetContent>
-                </Sheet> */}
             </>
         );
     }

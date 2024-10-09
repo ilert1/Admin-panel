@@ -28,6 +28,17 @@ type Account = {
     type: number;
 };
 
+declare namespace Dictionaries {
+    interface Currency {
+        "alpha-3": string;
+        code: number;
+        "minor-unit": number;
+        "name-en": string;
+        "name-ru": string;
+        prior_gr: number;
+    }
+}
+
 declare namespace Transaction {
     type Account = {
         id: string;
@@ -137,6 +148,14 @@ declare namespace Users {
         name: string;
         created_at: string;
         deleted_at: string;
+        login: string;
+        email: string;
+        public_key: string;
+        shop_currency: string;
+        shop_api_key: string;
+        shop_sign_key: string;
+        shop_balance_key: string;
+        password: string;
     }
 }
 

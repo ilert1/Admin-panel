@@ -1,3 +1,7 @@
+import { BooleanField } from "@/components/ui/boolean-field";
+import { LoadingAlertDialog } from "@/components/ui/loading";
+import { TextField } from "@/components/ui/text-field";
+import { useState } from "react";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -8,26 +12,19 @@ import {
     AlertDialogHeader,
     AlertDialogTitle
 } from "@/components/ui/alertdialog";
-import { BooleanField } from "@/components/ui/boolean-field";
-import { Button } from "@/components/ui/button";
-import { LoadingAlertDialog } from "@/components/ui/loading";
-import { TextField } from "@/components/ui/text-field";
-import { useCallback, useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useShowController, useTranslate } from "react-admin";
+import { Button } from "@/components/ui/button";
+import { UserEdit } from "../edit";
 
 export const UserShow = (props: { id: string; isBrief: boolean }) => {
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [showEditUser, setShowEditUser] = useState(false);
+
     const translate = useTranslate();
     const { id, isBrief } = props;
     const context = useShowController({ id });
     const localIsBrief = isBrief || false;
-    const [dialogOpen, setDialogOpen] = useState(false);
-
-    const handleDeleteClicked = useCallback(() => {
-        setDialogOpen(true);
-    }, []);
-    const handleOkClicked = useCallback(() => {
-        setDialogOpen(false);
-    }, []);
 
     if (context.isLoading || context.isFetching || !context.record) {
         return <LoadingAlertDialog />;
@@ -80,35 +77,41 @@ export const UserShow = (props: { id: string; isBrief: boolean }) => {
                         copyValue
                     />
                 </div>
+
                 <div className="flex justify-end gap-4 px-[42px]">
-                    <Button
-                        onClick={
-                            // TODO Для Кости
-                            () => {
-                                return;
-                            }
-                        }
-                        className="text-title-1">
+                    <Button onClick={() => setShowEditUser(true)} className="text-title-1">
                         {translate("resources.users.edit")}
                     </Button>
+
                     <Button
                         variant={"outline"}
                         className="border-[1px] border-neutral-50 text-neutral-50 bg-transparent"
-                        onClick={handleDeleteClicked}>
+                        onClick={() => setDialogOpen(true)}>
                         {translate("resources.users.delete")}
                     </Button>
                 </div>
+
+                <Dialog open={showEditUser} onOpenChange={setShowEditUser}>
+                    <DialogContent aria-describedby={undefined}>
+                        <DialogHeader>
+                            <DialogTitle>Edit user</DialogTitle>
+                        </DialogHeader>
+
+                        <UserEdit record={context.record} id={id} />
+                    </DialogContent>
+                </Dialog>
+
                 <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
                     <AlertDialogContent className="w-[253px] px-[24px] bg-muted">
                         <AlertDialogHeader>
                             <AlertDialogTitle className="text-center">
                                 {translate("resources.users.deleteThisUser")}
                             </AlertDialogTitle>
-                            <AlertDialogDescription></AlertDialogDescription>
+                            <AlertDialogDescription />
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                             <div className="flex justify-around gap-[35px] w-full">
-                                <AlertDialogAction onClick={handleOkClicked}>
+                                <AlertDialogAction onClick={() => setDialogOpen(false)}>
                                     {translate("app.ui.actions.delete")}
                                 </AlertDialogAction>
                                 <AlertDialogCancel className="!ml-0 px-3">

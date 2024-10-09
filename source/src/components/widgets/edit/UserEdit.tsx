@@ -1,28 +1,88 @@
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useTranslate, useDataProvider, useRedirect, useRefresh } from "react-admin";
+import { API_URL } from "@/data/base";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ControllerRenderProps, SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { useTranslate } from "react-admin";
 import { ChangeEvent, DragEvent, useMemo, useState } from "react";
-import { DialogClose } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { DialogClose } from "@/components/ui/dialog";
+import { useQuery } from "react-query";
 import { Textarea } from "@/components/ui/textarea";
 
-export const UserCreateForm = (props: {
-    onSubmit: SubmitHandler<Omit<Users.User, "created_at" | "deleted_at" | "id">>;
-    isDisabled: boolean;
-    currencies: Dictionaries.Currency[];
+export const UserEdit = ({
+    id,
+    record
+}: {
+    id: string;
+    record: Omit<Users.User, "created_at" | "deleted_at" | "id">;
 }) => {
+    const dataProvider = useDataProvider();
     const translate = useTranslate();
+    const redirect = useRedirect();
+    const { toast } = useToast();
+    const refresh = useRefresh();
+
+    const [fileContent, setFileContent] = useState(record?.public_key || "");
     const [valueCurDialog, setValueCurDialog] = useState("");
 
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        try {
+            await dataProvider.update("users", {
+                id,
+                data,
+                previousData: undefined
+            });
+            refresh();
+            redirect("list", "users");
+        } catch (error) {
+            toast({
+                description: translate("resources.currencies.errors.alreadyInUse"),
+                variant: "destructive",
+                title: "Error"
+            });
+        }
+    };
+
+    const { data: currencies } = useQuery<{ data: Dictionaries.Currency[] }>("currencies", () =>
+        fetch(`${API_URL}/dictionaries/curr`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }).then(response => response.json())
+    );
+
     const sortedCurrencies = useMemo(() => {
-        return props.currencies?.sort((a, b) => (a["alpha-3"] > b["alpha-3"] ? 1 : -1)) || [];
-    }, [props.currencies]);
+        return currencies?.data.sort((a, b) => (a["alpha-3"] > b["alpha-3"] ? 1 : -1)) || [];
+    }, [currencies]);
+
+    const handleFileDrop = (e: DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                if (typeof reader.result === "string") {
+                    setFileContent(reader.result.replaceAll("\n", ""));
+                    form.setValue("public_key", reader.result.replaceAll("\n", ""));
+                }
+            };
+            reader.readAsText(file);
+        }
+    };
+    const handleTextChange = (
+        e: ChangeEvent<HTMLTextAreaElement>,
+        field: ControllerRenderProps<z.infer<typeof formSchema>>
+    ) => {
+        setFileContent(e.target.value);
+        form.setValue("public_key", e.target.value);
+        field.onChange(e.target.value);
+    };
 
     const formSchema = z.object({
         name: z.string().min(3, translate("app.widgets.forms.userCreate.nameMessage")).trim(),
@@ -31,12 +91,6 @@ export const UserCreateForm = (props: {
             .string()
             .regex(/^\S+@\S+\.\S+$/, translate("app.widgets.forms.userCreate.emailMessage"))
             .trim(),
-        password: z
-            .string()
-            .regex(
-                /^(?=.*[0-9])(?=.*[!@#$%^&*()-_])[a-zA-Z0-9!@#$%^&*()-_]{8,20}$/,
-                translate("app.widgets.forms.userCreate.passwordMessage")
-            ),
         public_key: z
             .string()
             .startsWith("-----BEGIN PUBLIC KEY-----", translate("app.widgets.forms.userCreate.publicKeyMessage"))
@@ -65,48 +119,21 @@ export const UserCreateForm = (props: {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
-            login: "",
-            email: "",
-            password: "",
-            public_key: "",
-            shop_currency: "",
-            shop_api_key: "",
-            shop_sign_key: "",
-            shop_balance_key: ""
+            name: record?.name || "",
+            login: record?.login || "",
+            email: record?.email || "",
+            public_key: fileContent,
+            shop_currency: record?.shop_currency || "",
+            shop_api_key: record?.shop_api_key || "",
+            shop_sign_key: record?.shop_sign_key || "",
+            shop_balance_key: record?.shop_balance_key || ""
         }
     });
 
-    const [fileContent, setFileContent] = useState("");
-
-    const handleFileDrop = (e: DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        const file = e.dataTransfer.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                if (typeof reader.result === "string") {
-                    setFileContent(reader.result.replaceAll("\n", ""));
-                    form.setValue("public_key", reader.result.replaceAll("\n", ""));
-                }
-            };
-            reader.readAsText(file);
-        }
-    };
-
-    const handleTextChange = (
-        e: ChangeEvent<HTMLTextAreaElement>,
-        field: ControllerRenderProps<z.infer<typeof formSchema>>
-    ) => {
-        setFileContent(e.target.value);
-        form.setValue("public_key", e.target.value);
-        field.onChange(e.target.value);
-    };
-
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(props.onSubmit)} className="flex flex-col gap-6" autoComplete="off">
-                <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-5 md:grid-flow-col gap-y-5 gap-x-4 items-stretch md:items-end">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" autoComplete="off">
+                <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-5 md:grid-flow-col gap-y-4 gap-x-4 items-stretch md:items-end">
                     <FormField
                         name="name"
                         control={form.control}
@@ -120,7 +147,6 @@ export const UserCreateForm = (props: {
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
                                         }`}
-                                        disabled={props.isDisabled}
                                         {...field}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
@@ -154,7 +180,6 @@ export const UserCreateForm = (props: {
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
                                         }`}
-                                        disabled={props.isDisabled}
                                         {...field}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
@@ -188,7 +213,6 @@ export const UserCreateForm = (props: {
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
                                         }`}
-                                        disabled={props.isDisabled}
                                         {...field}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
@@ -209,47 +233,57 @@ export const UserCreateForm = (props: {
                         )}
                     />
 
-                    <FormField
-                        name="password"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <FormItem className="space-y-1">
-                                <FormLabel>{translate("app.widgets.forms.userCreate.password")}</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="password"
-                                        className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                            fieldState.invalid
-                                                ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                : ""
-                                        }`}
-                                        disabled={props.isDisabled}
-                                        autoComplete="new-password"
-                                        {...field}>
-                                        {fieldState.invalid && (
-                                            <TooltipProvider>
-                                                <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <TriangleAlert className="text-red-40" width={14} height={14} />
-                                                    </TooltipTrigger>
+                    <div
+                        className="row-span-2 self-stretch"
+                        onDragOver={e => e.preventDefault()}
+                        onDrop={handleFileDrop}>
+                        <FormField
+                            name="public_key"
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <FormItem className="flex flex-col h-full">
+                                    <FormLabel>{translate("app.widgets.forms.userCreate.publicKey")}</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted h-full resize-none min-h-20 ${
+                                                fieldState.invalid
+                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                    : ""
+                                            }`}
+                                            value={fileContent}
+                                            onChange={e => handleTextChange(e, field)}
+                                            placeholder={translate(
+                                                "app.widgets.forms.userCreate.publicKeyPlaceholder"
+                                            )}>
+                                            {fieldState.invalid && (
+                                                <TooltipProvider>
+                                                    <Tooltip>
+                                                        <TooltipTrigger asChild>
+                                                            <TriangleAlert
+                                                                className="text-red-40"
+                                                                width={14}
+                                                                height={14}
+                                                            />
+                                                        </TooltipTrigger>
 
-                                                    <TooltipContent className="border-none bottom-0" side="left">
-                                                        <FormMessage />
-                                                    </TooltipContent>
-                                                </Tooltip>
-                                            </TooltipProvider>
-                                        )}
-                                    </Input>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
+                                                        <TooltipContent className="border-none bottom-0" side="left">
+                                                            <FormMessage />
+                                                        </TooltipContent>
+                                                    </Tooltip>
+                                                </TooltipProvider>
+                                            )}
+                                        </Textarea>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                    </div>
 
                     <FormField
                         name="shop_currency"
                         control={form.control}
                         render={({ field, fieldState }) => (
-                            <FormItem className="space-y-2">
+                            <FormItem>
                                 <FormLabel>{translate("app.widgets.forms.userCreate.shopCurrency")}</FormLabel>
 
                                 <Select
@@ -299,51 +333,6 @@ export const UserCreateForm = (props: {
                         )}
                     />
 
-                    <div
-                        className="row-span-2 self-stretch"
-                        onDragOver={e => e.preventDefault()}
-                        onDrop={handleFileDrop}>
-                        <FormField
-                            name="public_key"
-                            control={form.control}
-                            render={({ field, fieldState }) => (
-                                <FormItem className="flex flex-col h-full">
-                                    <FormLabel>{translate("app.widgets.forms.userCreate.publicKey")}</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted h-full resize-none min-h-20 ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
-                                            value={fileContent}
-                                            onChange={e => handleTextChange(e, field)}
-                                            placeholder={translate("app.widgets.forms.userCreate.publicKeyPlaceholder")}
-                                            disabled={props.isDisabled}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Textarea>
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
                     <FormField
                         name="shop_api_key"
                         control={form.control}
@@ -357,7 +346,6 @@ export const UserCreateForm = (props: {
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
                                         }`}
-                                        disabled={props.isDisabled}
                                         {...field}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
@@ -391,7 +379,6 @@ export const UserCreateForm = (props: {
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
                                         }`}
-                                        disabled={props.isDisabled}
                                         {...field}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
@@ -425,7 +412,6 @@ export const UserCreateForm = (props: {
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
                                         }`}
-                                        disabled={props.isDisabled}
                                         {...field}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
@@ -448,7 +434,7 @@ export const UserCreateForm = (props: {
                 </div>
 
                 <div className="self-end flex items-center gap-4">
-                    <Button type="submit">{translate("app.widgets.forms.userCreate.createUser")}</Button>
+                    <Button type="submit">Edit user</Button>
 
                     <DialogClose asChild>
                         <Button
