@@ -42,7 +42,7 @@ export const UserEdit = ({ id, record }: { id: string; record: any }) => {
             });
         }
     };
-    // 469c2a56-bef6-4fe1-b790-75e0bfe10743
+
     const { data: currencies } = useQuery("currencies", () =>
         fetch(`${API_URL}/dictionaries/curr`, {
             headers: {
