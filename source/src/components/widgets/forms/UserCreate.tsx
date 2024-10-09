@@ -1,23 +1,27 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { ControllerRenderProps, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useTranslate } from "react-admin";
-import { useMemo, useState } from "react";
+import { ChangeEvent, DragEvent, useMemo, useState } from "react";
 import { DialogClose } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 
-export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisabled: boolean; currencies: any }) => {
+export const UserCreateForm = (props: {
+    onSubmit: SubmitHandler<Omit<Users.User, "created_at" | "deleted_at" | "id">>;
+    isDisabled: boolean;
+    currencies: Dictionaries.Currency[];
+}) => {
     const translate = useTranslate();
     const [valueCurDialog, setValueCurDialog] = useState("");
 
     const sortedCurrencies = useMemo(() => {
-        return props.currencies?.sort((a: any, b: any) => a["alpha-3"] > b["alpha-3"]) || [];
+        return props.currencies?.sort((a, b) => (a["alpha-3"] > b["alpha-3"] ? 1 : -1)) || [];
     }, [props.currencies]);
 
     const formSchema = z.object({
@@ -75,7 +79,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
 
     const [fileContent, setFileContent] = useState("");
 
-    const handleFileDrop = (e: any) => {
+    const handleFileDrop = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         const file = e.dataTransfer.files[0];
         if (file) {
@@ -89,7 +93,11 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
             reader.readAsText(file);
         }
     };
-    const handleTextChange = (e: any, field: any) => {
+
+    const handleTextChange = (
+        e: ChangeEvent<HTMLTextAreaElement>,
+        field: ControllerRenderProps<z.infer<typeof formSchema>>
+    ) => {
         setFileContent(e.target.value);
         form.setValue("public_key", e.target.value);
         field.onChange(e.target.value);
@@ -280,7 +288,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                     </SelectTrigger>
                                     <SelectContent className="!dark:bg-muted">
                                         {sortedCurrencies &&
-                                            sortedCurrencies.map((cur: any) => (
+                                            sortedCurrencies.map(cur => (
                                                 <SelectItem key={cur["alpha-3"]} value={cur["alpha-3"]}>
                                                     {cur["alpha-3"]}
                                                 </SelectItem>
@@ -310,7 +318,6 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                             }`}
                                             value={fileContent}
                                             onChange={e => handleTextChange(e, field)}
-                                            onInput={e => handleTextChange(e, field)}
                                             placeholder={translate("app.widgets.forms.userCreate.publicKeyPlaceholder")}
                                             disabled={props.isDisabled}>
                                             {fieldState.invalid && (

@@ -1,9 +1,9 @@
 import { useTranslate, useDataProvider, useRedirect, useRefresh } from "react-admin";
 import { API_URL } from "@/data/base";
-import { useForm } from "react-hook-form";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useMemo, useState } from "react";
+import { ChangeEvent, DragEvent, useMemo, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
@@ -15,7 +15,13 @@ import { DialogClose } from "@/components/ui/dialog";
 import { useQuery } from "react-query";
 import { Textarea } from "@/components/ui/textarea";
 
-export const UserEdit = ({ id, record }: { id: string; record: any }) => {
+export const UserEdit = ({
+    id,
+    record
+}: {
+    id: string;
+    record: Omit<Users.User, "created_at" | "deleted_at" | "id">;
+}) => {
     const dataProvider = useDataProvider();
     const translate = useTranslate();
     const redirect = useRedirect();
@@ -25,7 +31,7 @@ export const UserEdit = ({ id, record }: { id: string; record: any }) => {
     const [fileContent, setFileContent] = useState(record?.public_key || "");
     const [valueCurDialog, setValueCurDialog] = useState("");
 
-    const onSubmit = async (data: any) => {
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
         try {
             await dataProvider.update("users", {
                 id,
@@ -43,7 +49,7 @@ export const UserEdit = ({ id, record }: { id: string; record: any }) => {
         }
     };
 
-    const { data: currencies } = useQuery("currencies", () =>
+    const { data: currencies } = useQuery<{ data: Dictionaries.Currency[] }>("currencies", () =>
         fetch(`${API_URL}/dictionaries/curr`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -52,10 +58,10 @@ export const UserEdit = ({ id, record }: { id: string; record: any }) => {
     );
 
     const sortedCurrencies = useMemo(() => {
-        return currencies?.data.sort((a: any, b: any) => a["alpha-3"] > b["alpha-3"]) || [];
+        return currencies?.data.sort((a, b) => (a["alpha-3"] > b["alpha-3"] ? 1 : -1)) || [];
     }, [currencies]);
 
-    const handleFileDrop = (e: any) => {
+    const handleFileDrop = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         const file = e.dataTransfer.files[0];
         if (file) {
@@ -69,7 +75,10 @@ export const UserEdit = ({ id, record }: { id: string; record: any }) => {
             reader.readAsText(file);
         }
     };
-    const handleTextChange = (e: any, field: any) => {
+    const handleTextChange = (
+        e: ChangeEvent<HTMLTextAreaElement>,
+        field: ControllerRenderProps<z.infer<typeof formSchema>>
+    ) => {
         setFileContent(e.target.value);
         form.setValue("public_key", e.target.value);
         field.onChange(e.target.value);
@@ -243,7 +252,6 @@ export const UserEdit = ({ id, record }: { id: string; record: any }) => {
                                             }`}
                                             value={fileContent}
                                             onChange={e => handleTextChange(e, field)}
-                                            onInput={e => handleTextChange(e, field)}
                                             placeholder={translate(
                                                 "app.widgets.forms.userCreate.publicKeyPlaceholder"
                                             )}>
@@ -314,7 +322,7 @@ export const UserEdit = ({ id, record }: { id: string; record: any }) => {
                                     </SelectTrigger>
                                     <SelectContent className="!dark:bg-muted">
                                         {sortedCurrencies &&
-                                            sortedCurrencies.map((cur: any) => (
+                                            sortedCurrencies.map(cur => (
                                                 <SelectItem key={cur["alpha-3"]} value={cur["alpha-3"]}>
                                                     {cur["alpha-3"]}
                                                 </SelectItem>
