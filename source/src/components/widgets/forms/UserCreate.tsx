@@ -10,6 +10,7 @@ import { DialogClose } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 
 export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisabled: boolean; currencies: any }) => {
     const translate = useTranslate();
@@ -290,16 +291,19 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                         )}
                     />
 
-                    <div onDragOver={e => e.preventDefault()} onDrop={handleFileDrop}>
+                    <div
+                        className="row-span-2 self-stretch"
+                        onDragOver={e => e.preventDefault()}
+                        onDrop={handleFileDrop}>
                         <FormField
                             name="public_key"
                             control={form.control}
                             render={({ field, fieldState }) => (
-                                <FormItem className="space-y-1">
+                                <FormItem className="flex flex-col h-full">
                                     <FormLabel>{translate("app.widgets.forms.userCreate.publicKey")}</FormLabel>
                                     <FormControl>
-                                        <Input
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted  ${
+                                        <Textarea
+                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted h-full resize-none min-h-20 ${
                                                 fieldState.invalid
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                     : ""
@@ -326,7 +330,7 @@ export const UserCreateForm = (props: { onSubmit: (data: any) => void; isDisable
                                                     </Tooltip>
                                                 </TooltipProvider>
                                             )}
-                                        </Input>
+                                        </Textarea>
                                     </FormControl>
                                 </FormItem>
                             )}
