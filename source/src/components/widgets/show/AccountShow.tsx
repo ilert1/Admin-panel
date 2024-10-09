@@ -1,9 +1,8 @@
-import { Datagrid, List, useInfiniteGetList, useShowController, useTranslate } from "react-admin";
+import { useInfiniteGetList, useShowController, useTranslate } from "react-admin";
 import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
-import { TextField as ReactAdminTextField } from "react-admin";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { TableTypes } from "../shared/SimpleTable";
@@ -146,10 +145,7 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
         }
     ];
 
-    if (context.isLoading || !context.record || !transactions) {
-        return <LoadingAlertDialog />;
-    }
-    if (isPending) {
+    if (context.isLoading || !context.record || !transactions || isPending) {
         return <LoadingAlertDialog />;
     }
 
