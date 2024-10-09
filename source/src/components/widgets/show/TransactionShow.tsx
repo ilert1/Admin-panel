@@ -1,5 +1,4 @@
-import { useDataProvider, useShowController, useTranslate, useGetManyReference } from "react-admin";
-import { useQuery } from "react-query";
+import { useShowController, useTranslate, useGetManyReference } from "react-admin";
 import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { BooleanField } from "@/components/ui/boolean-field";
@@ -7,10 +6,10 @@ import { TextField } from "@/components/ui/text-field";
 import { useMemo } from "react";
 import { Loading } from "@/components/ui/loading";
 import { TableTypes } from "../shared/SimpleTable";
+import fetchDictionaries from "@/helpers/get-dictionaries";
 
 export const TransactionShow = (props: { id: string; type?: "compact" }) => {
-    const dataProvider = useDataProvider();
-    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
+    const data = fetchDictionaries();
     const translate = useTranslate();
 
     const context = useShowController({ id: props.id });
@@ -19,8 +18,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
 
     const { data: history } = useGetManyReference("transactions", {
         target: "id",
-        id: trnId,
-        filter: {}
+        id: trnId
     });
 
     function computeValue(quantity: number, accuracy: number) {

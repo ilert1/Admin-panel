@@ -1,9 +1,8 @@
-import { useDataProvider, useShowController, useTranslate } from "react-admin";
+import { useShowController, useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 
 export const CurrenciesShow = (props: { id: string }) => {
-    const dataProvider = useDataProvider();
     const translate = useTranslate();
     const context = useShowController({ id: props.id });
 

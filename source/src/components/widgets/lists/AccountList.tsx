@@ -1,5 +1,4 @@
-import { useDataProvider, ListContextProvider, useListController, useTranslate } from "react-admin";
-import { useQuery } from "react-query";
+import { ListContextProvider, useListController, useTranslate } from "react-admin";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
 import {
@@ -16,13 +15,13 @@ import { useState } from "react";
 import { TextField } from "@/components/ui/text-field";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "@/components/ui/loading";
+import fetchDictionaries from "@/helpers/get-dictionaries";
 
 export const AccountList = () => {
     const listContext = useListController<Account>();
     const translate = useTranslate();
     const navigate = useNavigate();
-
-    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
+    const data = fetchDictionaries();
 
     const [showOpen, setShowOpen] = useState(false);
     const [showAccountId, setShowAccountId] = useState<string>("");
@@ -89,10 +88,6 @@ export const AccountList = () => {
         }
     ];
 
-    const dataProvider = useDataProvider();
-
-    // const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
-
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
     } else {
@@ -121,7 +116,8 @@ export const AccountList = () => {
                                     </button>
                                 </div>
                                 <div className="text-display-2 mb-2">
-                                    <TextField text={showAccountCaption} />
+                                    {/* <TextField text={showAccountCaption} /> */}
+                                    <span>{showAccountCaption}</span>
                                 </div>
                                 <TextField text={showAccountId} copyValue />
                             </div>
@@ -133,21 +129,6 @@ export const AccountList = () => {
                         </div>
                     </SheetContent>
                 </Sheet>
-                {/* <Sheet open={showOpen} onOpenChange={setShowOpen}>
-                    <SheetContent
-                        className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
-                        side={isMobile ? "bottom" : "right"}>
-                        <ScrollArea className="h-full">
-                            <SheetHeader className="mb-2">
-                                <SheetTitle>{translate("resources.accounts.showHeader")}</SheetTitle>
-                                <SheetDescription>
-                                    {translate("resources.accounts.showDescription", { id: showTransactionId })}
-                                </SheetDescription>
-                            </SheetHeader>
-                            <AccountShow id={showTransactionId} type="compact" />
-                        </ScrollArea>
-                    </SheetContent>
-                </Sheet> */}
             </>
         );
     }

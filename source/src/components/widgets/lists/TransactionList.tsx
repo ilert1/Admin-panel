@@ -1,5 +1,4 @@
 import {
-    useDataProvider,
     useTranslate,
     useListController,
     RecordContextProvider,
@@ -42,6 +41,7 @@ import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
 import { DateRange } from "react-day-picker";
+import fetchDictionaries from "@/helpers/get-dictionaries";
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
@@ -100,8 +100,8 @@ const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; 
 };
 
 const TransactionFilterSidebar = () => {
-    const dataProvider = useDataProvider();
-    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
+    const data = fetchDictionaries();
+
     const { filterValues, setFilters, displayedFilters } = useListContext();
     const translate = useTranslate();
     const { permissions } = usePermissions();
@@ -332,8 +332,7 @@ const TransactionFilterSidebar = () => {
 };
 
 export const TransactionList = () => {
-    const dataProvider = useDataProvider();
-    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
+    const data = fetchDictionaries();
     // TODO: временное решение, нужно расширить компонент селекта для поддержки пагинациц
     const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
     const { permissions } = usePermissions();

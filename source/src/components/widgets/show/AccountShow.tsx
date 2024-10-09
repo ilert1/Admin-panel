@@ -1,25 +1,18 @@
-import {
-    ListContextProvider,
-    useDataProvider,
-    useGetManyReference,
-    useInfiniteGetList,
-    useShowController,
-    useTranslate
-} from "react-admin";
-import { useQuery } from "react-query";
-import { DataTable, SimpleTable } from "@/components/widgets/shared";
+import { Datagrid, List, useInfiniteGetList, useShowController, useTranslate } from "react-admin";
+import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
+import { TextField as ReactAdminTextField } from "react-admin";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { TableTypes } from "../shared/SimpleTable";
+import fetchDictionaries from "@/helpers/get-dictionaries";
 
 export const AccountShow = (props: { id: string; type?: "compact" }) => {
     const { id, type } = props;
     const translate = useTranslate();
-    const dataProvider = useDataProvider();
-    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
+    const data = fetchDictionaries();
 
     const context = useShowController({ id });
 
@@ -30,45 +23,33 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
         error,
         hasNextPage,
         isFetchingNextPage,
+        isFetched,
+        isStale,
         fetchNextPage
-    } = useInfiniteGetList("transactions", {
-        filter: {
-            account: id
+    } = useInfiniteGetList(
+        "transactions",
+        {
+            filter: {
+                account: id
+            }
+        },
+        {
+            cacheTime: 7200,
+            refetchOnWindowFocus: false,
+            refetchOnMount: false
         }
-    });
+    );
 
     const [transactions, setTransactions] = useState<any[]>([]);
 
     useEffect(() => {
         if (trans) {
-            let newMass: any[] = [];
-            trans.pages.map(el => (newMass = [...newMass, ...el.data]));
-            console.log(newMass);
-            setTransactions(newMass);
+            setTransactions(prevTransactions => {
+                const newTransactions = trans.pages.flatMap(page => page.data);
+                return [...prevTransactions, ...newTransactions];
+            });
         }
-        return () => {
-            setTransactions([]);
-        };
     }, [trans]);
-
-    // useEffect(() => {
-    //     async function getData() {
-    //         const data = await dataProvider.getList<Transaction.Transaction>("transactions", {
-    //             sort: {
-    //                 order: "ASC",
-    //                 field: "id"
-    //             },
-    //             filter: { account: id },
-    //             pagination: {
-    //                 page: 1,
-    //                 perPage: 10
-    //             }
-    //         });
-    //         setTransactions(data.data);
-    //     }
-
-    //     getData();
-    // }, [dataProvider, id]);
 
     const columns: ColumnDef<Amount>[] = [
         {
@@ -172,7 +153,6 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
         return <LoadingAlertDialog />;
     }
 
-    console.log(trans?.pages[0]);
     if (type === "compact") {
         return (
             <>
