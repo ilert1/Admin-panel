@@ -47,7 +47,7 @@ const useTransactionFilter = () => {
     const onPropertySelected = debounce(
         (
             value: string | { from: string; to: string },
-            type: "id" | "customer_payment_id" | "accountId" | "type" | "order_status" | "date"
+            type: "id" | "customer_payment_id" | "accountId" | "order_type" | "order_status" | "date"
         ) => {
             if (value) {
                 if (type === "date" && typeof value !== "string") {
@@ -112,7 +112,7 @@ const useTransactionFilter = () => {
 
     const onTabChanged = (value: { type_descr: string; type: string }) => {
         setTypeTabActive(value.type_descr);
-        onPropertySelected(value.type, "type");
+        onPropertySelected(value.type, "order_type");
     };
 
     const clearFilters = () => {
