@@ -31,6 +31,7 @@ import { Icon } from "../shared/Icon";
 export const AccountList = () => {
     const listContext = useListController<Account>();
     const [mockData, setMockData] = useState(listContext.data as Account[]);
+    const [totalSum, setTotalSum] = useState<{ currency: string; amount: number; accuracy: number }[]>();
 
     const { isFetching: isFetchingMock } = useQuery({
         queryKey: ["exist"],
@@ -549,6 +550,23 @@ export const AccountList = () => {
                             ]
                         }
                     ],
+                    totalSum: [
+                        {
+                            currency: "RUB",
+                            amount: 78658913250,
+                            accuracy: 100000
+                        },
+                        {
+                            currency: "USD",
+                            amount: 83475928,
+                            accuracy: 100000
+                        },
+                        {
+                            currency: "USDT",
+                            amount: 9182350347,
+                            accuracy: 100000
+                        }
+                    ],
                     limit: 10,
                     offset: 0,
                     success: true,
@@ -559,6 +577,7 @@ export const AccountList = () => {
                     if (data?.success) {
                         //данные получены успешно
                         setMockData(data?.data);
+                        setTotalSum(data?.totalSum);
                     }
                 }
 
@@ -568,32 +587,6 @@ export const AccountList = () => {
             }
         }
     });
-
-    const totalSum = useMemo(() => {
-        if (mockData) {
-            const currencies: Array<string> = [];
-            mockData.forEach(item =>
-                item.amounts.forEach(innerItem => {
-                    currencies.push(innerItem.currency);
-                })
-            );
-            const uniqueCurrencies: Set<string> = new Set(currencies);
-            const totalAmounts: Array<{ currency: string; amount: number }> = [];
-            uniqueCurrencies.forEach(currency => {
-                let amount = 0;
-                mockData.forEach(item =>
-                    item.amounts.forEach(innerItem => {
-                        if (innerItem.currency === currency) {
-                            amount += innerItem.value.quantity / innerItem.value.accuracy;
-                        }
-                    })
-                );
-                totalAmounts.push({ currency, amount });
-            });
-            return totalAmounts;
-        }
-        return 0;
-    }, [mockData]);
 
     const translate = useTranslate();
     const navigate = useNavigate();
@@ -713,7 +706,7 @@ export const AccountList = () => {
                         <div className="flex flex-col gap-4 px-6 py-4 rounded-2xl bg-neutral-0 w-[457px] h-fit">
                             <h3 className="text-display-3">{translate("resources.accounts.totalBalance")}</h3>
                             <div className="flex flex-col gap-4 items-end">
-                                {totalSum !== 0 ? (
+                                {totalSum ? (
                                     <>
                                         {totalSum.map(currencySum => {
                                             return (
@@ -721,7 +714,7 @@ export const AccountList = () => {
                                                     <h1 className="text-display-1">
                                                         <NumericFormat
                                                             className="whitespace-nowrap"
-                                                            value={currencySum.amount}
+                                                            value={currencySum.amount / currencySum.accuracy}
                                                             displayType={"text"}
                                                             thousandSeparator=" "
                                                             decimalSeparator=","
