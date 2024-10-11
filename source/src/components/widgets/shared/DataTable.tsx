@@ -44,7 +44,7 @@ export function DataTable<TData, TValue>({ columns, pagination = true }: DataTab
                                 return (
                                     <TableHead
                                         key={j}
-                                        className="text-white text-base border border-muted px-4 py-[9px] leading-4">
+                                        className="text-white text-base border border-muted px-4 py-[9px] leading-4 text-center">
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(header.column.columnDef.header, header.getContext())}

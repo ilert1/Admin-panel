@@ -27,7 +27,8 @@ import {
     ChevronLeftCircleIcon,
     ChevronRightCircleIcon,
     MessagesSquareIcon,
-    XIcon
+    XIcon,
+    KeyRound
 } from "lucide-react";
 import { useTheme } from "@/components/providers";
 import { Toaster } from "@/components/ui/toaster";
@@ -37,6 +38,7 @@ import Blowfish from "@/lib/icons/Blowfish";
 import { ChatSheet } from "@/components/widgets/ChatSheet";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { debounce } from "lodash";
+import { Button } from "@/components/ui/button";
 
 enum SplitLocations {
     show = "show",
@@ -115,8 +117,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
             <aside
                 className={
                     isSheetOpen
-                        ? "min-w-[280px] flex-col justify-start items-center bg-header transition-all pt-[84px]"
-                        : "min-w-[72px] flex-col justify-start items-center bg-header transition-all pt-[84px]"
+                        ? "min-w-[280px] flex-col justify-start items-center bg-header transition-all pt-[84px] relative"
+                        : "min-w-[72px] flex-col justify-start items-center bg-header transition-all pt-[84px] relative"
                 }>
                 {isSheetOpen ? (
                     <div className="flex justify-center items-center mt-6 h-[63px] gap-6">
@@ -183,7 +185,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     {merchantOnly && (
                         <NavLink
                             to="/bank-transfer"
-                            onClick={e => setNextPage("bankTransfer")}
+                            onClick={() => setNextPage("bankTransfer")}
                             className={
                                 resourceName[0] === "bank-transfer"
                                     ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
@@ -215,6 +217,13 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                         </NavLink>
                     )}
                 </nav>
+                {isSheetOpen && (
+                    <div className="mx-6">
+                        <Button className="w-[232px] bottom-[24px] pl-6 absolute flex gap-[4px] translate-x-[-100%] animate-in-left transition-transform duration-500 ease-out">
+                            <KeyRound /> {translate("resources.providers.createTestKeys")}
+                        </Button>
+                    </div>
+                )}
             </aside>
             <div className="flex w-full flex-col ">
                 <header

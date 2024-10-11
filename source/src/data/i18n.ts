@@ -212,7 +212,7 @@ const ru: TranslationMessages = {
         },
         providers: {
             fields: {
-                name: "Название провайдера",
+                name: "Провайдер",
                 pk: "Публичный ключ",
                 genKey: "Создать ключи",
                 keyMiss: "Ключ отсутсвует",
@@ -236,7 +236,8 @@ const ru: TranslationMessages = {
             clickToCopy: "Это ваш приватный ключ. Нажмите на кнопку чтобы скопировать ключ, или скопируйте вручную.",
             continue: "Продолжить",
             close: "Закрыть",
-            privateKey: "Приватный ключ"
+            privateKey: "Приватный ключ",
+            deleteProviderQuestion: "Удалить провайдера?"
         },
         directions: {
             fields: {
@@ -639,7 +640,7 @@ const en: TranslationMessages = {
         },
         providers: {
             fields: {
-                name: "Providers' name",
+                name: "Provider",
                 pk: "Public key",
                 genKey: "Generate keys",
                 keyMiss: "The key is missing",
@@ -662,7 +663,8 @@ const en: TranslationMessages = {
             clickToCopy: "This is your private key.\n Click button to copy or copy manually.",
             continue: "Continue",
             close: "Close",
-            privateKey: "Private key"
+            privateKey: "Private key",
+            deleteProviderQuestion: "Delete provider?"
         },
         directions: {
             fields: {

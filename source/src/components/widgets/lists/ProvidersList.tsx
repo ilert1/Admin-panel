@@ -16,7 +16,7 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { CopyCheckIcon, MoreHorizontal } from "lucide-react";
+import { CopyCheckIcon, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useState } from "react";
@@ -48,22 +48,23 @@ export const ProvidersList = () => {
     const translate = useTranslate();
     const navigate = useNavigate();
     const [deleteOne] = useDelete();
-
     const redirect = useRedirect();
 
     const [showOpen, setShowOpen] = useState(false);
+    const [wait, setWait] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [keyShow, setKeyShow] = useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [testKeysShow, setTestKeysShow] = useState(false);
-    const [name, setName] = useState("");
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
 
+    const [name, setName] = useState("");
     const [privateKey, setPrivateKey] = useState("");
     const [publicKey, setPublicKey] = useState("");
 
-    const [wait, setWait] = useState(false);
     const [saveClicked, setSaveClicked] = useState(false);
     const [publicSaveClicked, setPublicSaveClicked] = useState(false);
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
     const [chosenId, setChosenId] = useState("");
     const { toast } = useToast();
     const [showProviderId, setShowProviderId] = useState<string>("");
@@ -160,7 +161,7 @@ export const ProvidersList = () => {
                     if (text.length > 30) {
                         text = text.substring(0, 30) + "...";
                     }
-                    return <TextField text={text} />;
+                    return <TextField text={text} copyValue />;
                 }
             }
         },
@@ -179,6 +180,45 @@ export const ProvidersList = () => {
                                 : ""
                         }
                     />
+                );
+            }
+        },
+        {
+            id: "recreate_field",
+            header: translate("resources.providers.fields.regenKey"),
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center justify-center">
+                        <Button onClick={() => handleClickGenerate(row.original.id)} variant={"clearBtn"}>
+                            <img src="/reload-round.svg" />
+                        </Button>
+                    </div>
+                );
+            }
+        },
+        {
+            id: "update_field",
+            header: translate("app.ui.actions.edit"),
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center justify-center">
+                        <Button onClick={() => setEditDialogOpen(true)} variant={"clearBtn"}>
+                            <Pencil className="text-green-50" />
+                        </Button>
+                    </div>
+                );
+            }
+        },
+        {
+            id: "delete_field",
+            header: translate("app.ui.actions.delete"),
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center justify-center">
+                        <Button onClick={() => handleDeleteClicked(row.original.id)} variant={"clearBtn"}>
+                            <Trash2 className="text-green-50" />
+                        </Button>
+                    </div>
                 );
             }
         },
@@ -240,24 +280,43 @@ export const ProvidersList = () => {
         return (
             <>
                 <div>
-                    <div className="flex flex-end justify-between mb-4">
-                        <Button onClick={handleCreateTestClicked} variant="error">
-                            {translate("resources.providers.createTestKeys")}
-                        </Button>
+                    <div className="flex justify-end justify-between mb-4 mt-[24px]">
                         <Button onClick={handleCreateClick} variant="default">
                             {translate("resources.providers.createNew")}
                         </Button>
-                        <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-                            <AlertDialogContent>
+                        <AlertDialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+                            <AlertDialogContent className="max-w-[716px] bg-muted">
                                 <AlertDialogHeader>
-                                    <AlertDialogTitle>{translate("app.ui.actions.areYouSure")}</AlertDialogTitle>
+                                    <AlertDialogTitle className="text-center">
+                                        {translate("resources.providers.deleteProviderQuestion")}
+                                    </AlertDialogTitle>
                                     <AlertDialogDescription></AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                    <AlertDialogAction onClick={handleDelete}>
-                                        {translate("app.ui.actions.delete")}
-                                    </AlertDialogAction>
-                                    <AlertDialogCancel>{translate("app.ui.actions.cancel")}</AlertDialogCancel>
+                                    <div className="flex justify-around w-full">
+                                        <AlertDialogAction onClick={handleDelete}>
+                                            {translate("app.ui.actions.delete")}
+                                        </AlertDialogAction>
+                                        <AlertDialogCancel>{translate("app.ui.actions.cancel")}</AlertDialogCancel>
+                                    </div>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                        <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+                            <AlertDialogContent className="w-[251px] bg-muted">
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle className="text-center">
+                                        {translate("resources.providers.deleteProviderQuestion")}
+                                    </AlertDialogTitle>
+                                    <AlertDialogDescription></AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <div className="flex justify-around w-full">
+                                        <AlertDialogAction onClick={handleDelete}>
+                                            {translate("app.ui.actions.delete")}
+                                        </AlertDialogAction>
+                                        <AlertDialogCancel>{translate("app.ui.actions.cancel")}</AlertDialogCancel>
+                                    </div>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
                         </AlertDialog>
