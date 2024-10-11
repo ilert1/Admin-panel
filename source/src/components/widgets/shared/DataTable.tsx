@@ -76,7 +76,7 @@ export function DataTable<TData, TValue>({ columns, pagination = true }: DataTab
                     )}
                 </TableBody>
             </Table>
-            {pagination && (
+            {pagination && total > perPage && (
                 <div className="flex w-full items-center justify-between gap-4 overflow-auto p-1 sm:flex-row sm:gap-8">
                     <div className="flex items-center space-x-2">
                         <Button

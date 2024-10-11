@@ -34,6 +34,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Logo from "@/lib/icons/Logo";
 import LogoPicture from "@/lib/icons/LogoPicture";
 import Blowfish from "@/lib/icons/Blowfish";
+import { camelize } from "@/helpers/utils";
 
 enum SplitLocations {
     show = "show",
@@ -49,7 +50,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
     const location = useLocation();
 
-    const navigate = useNavigate();
     const [pageTitle, setPageTitle] = useState("");
 
     const setNextPage = (nextLocation: string) => {
@@ -65,7 +65,12 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 resources.push(tempResource.join("/"));
             }
         });
-        setNextPage(resources[0]);
+
+        if (resources.length === 0 || resources[0] === "") {
+            return "";
+        }
+
+        setNextPage(camelize(resources[0]));
         return resources;
     }, [location]);
 
@@ -323,10 +328,10 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 <main
                     className={
                         isSheetOpen
-                            ? " bg-muted grow ml-[280px] overflow-y-auto p-8 scrollbar-stable transition-[margin-left]"
-                            : " bg-muted grow ml-[72px] overflow-y-auto p-8 scrollbar-stable transition-[margin-left]"
+                            ? " bg-muted grow ml-[280px] overflow-y-auto p-6 scrollbar-stable transition-[margin-left]"
+                            : " bg-muted grow ml-[72px] overflow-y-auto p-6 pr-4 scrollbar-stable transition-[margin-left]"
                     }>
-                    <div>{pageTitle}</div>
+                    <h1 className="text-display-1 pb-6">{pageTitle}</h1>
                     {children}
                 </main>
             </div>

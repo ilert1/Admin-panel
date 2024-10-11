@@ -30,8 +30,11 @@ import { Icon } from "../shared/Icon";
 
 export const AccountList = () => {
     const listContext = useListController<Account>();
+    // TODO: mock properties for emulating query
     const [mockData, setMockData] = useState(listContext.data as Account[]);
     const [totalSum, setTotalSum] = useState<{ currency: string; amount: number; accuracy: number }[]>();
+    const [totalRecords, setTotalRecords] = useState(0);
+    // TODO: mock properties for emulating query
 
     const { isFetching: isFetchingMock } = useQuery({
         queryKey: ["exist"],
@@ -97,7 +100,7 @@ export const AccountList = () => {
                             },
                             amounts: [
                                 {
-                                    id: "c9fcb401-f17f-4451-9169-eb8dd749585d",
+                                    id: "c8fcb401-f17f-4451-9169-eb8dd749585d",
                                     type: "internal",
                                     currency: "USDT",
                                     shop_currency: "RUB",
@@ -161,7 +164,7 @@ export const AccountList = () => {
                             },
                             amounts: [
                                 {
-                                    id: "33c1080f-8086-4aa3-a006-efe060e5320d",
+                                    id: "3c1080f-8086-4aa3-a006-efe060e5320d",
                                     type: "internal",
                                     currency: "USDT",
                                     shop_currency: "RUB",
@@ -570,7 +573,7 @@ export const AccountList = () => {
                     limit: 10,
                     offset: 0,
                     success: true,
-                    total: 92
+                    total: 10
                 };
 
                 if (data) {
@@ -578,6 +581,7 @@ export const AccountList = () => {
                         //данные получены успешно
                         setMockData(data?.data);
                         setTotalSum(data?.totalSum);
+                        setTotalRecords(data.total);
                     }
                 }
 
@@ -691,15 +695,16 @@ export const AccountList = () => {
     const dataProvider = useDataProvider();
 
     const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
-
-    if (isFetchingMock || !listContext.data) {
+    // TODO: for production uncomment commented condition
+    if (isFetchingMock || !listContext.data || !totalRecords) {
         // if (listContext.isLoading || !listContext.data) {
         return <Loading />;
     } else {
         return (
             <>
-                <ListContextProvider value={{ ...listContext, data: mockData }}>
-                    <div className="flex gap-6 flex-wrap">
+                {/* TODO: for production should be removed all except listContext*/}
+                <ListContextProvider value={{ ...listContext, data: mockData, total: totalRecords }}>
+                    <div className="flex gap-6 flex-wrap-reverse items-end">
                         <div className="grow-[1]">
                             <DataTable columns={columns} />
                         </div>
