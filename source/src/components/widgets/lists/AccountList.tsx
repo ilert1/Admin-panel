@@ -669,6 +669,7 @@ export const AccountList = () => {
         },
         {
             id: "history",
+            header: translate("resources.accounts.fields.history"),
             cell: ({ row }) => {
                 return (
                     <DropdownMenu>
