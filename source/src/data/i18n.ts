@@ -229,15 +229,16 @@ const ru: TranslationMessages = {
             createNew: "Создать нового провайдера",
             createTestKeys: "Создать тестовые ключи",
             attention: "Внимание",
-            warning:
-                "Приватный ключ будет показан только ОДИН раз. Скопируйте, сохраните и отправьте ключ DevOps инженеру",
+            warning: "Внимание! Приватный ключ будет показан только один раз.",
+            sendToDevOps: "Скопируйте его и отправьте DevOps инженеру",
             pleaseCreate: "Пожалуйста создайте ключи на странице с таблицей провайдеров",
             pleaseWait: "Пожалуйста подождите",
             clickToCopy: "Это ваш приватный ключ. Нажмите на кнопку чтобы скопировать ключ, или скопируйте вручную.",
             continue: "Продолжить",
             close: "Закрыть",
             privateKey: "Приватный ключ",
-            deleteProviderQuestion: "Удалить провайдера?"
+            deleteProviderQuestion: "Удалить провайдера?",
+            keysCreating: "Создание тестовых ключей"
         },
         directions: {
             fields: {
@@ -657,14 +658,16 @@ const en: TranslationMessages = {
             createNew: "Create new provider",
             createTestKeys: "Create test keys",
             attention: "Attention",
-            warning: "Private key will be shown ONLY 1 time. Copy, save it and send to DevOps engineer",
+            warning: "Attention! Private key will be shown ONLY 1 time",
+            sendToDevOps: "Copy it and send it to DevOps Engineer",
             pleaseCreate: "Please create keys on the page with providers table",
             pleaseWait: "Please wait",
             clickToCopy: "This is your private key.\n Click button to copy or copy manually.",
             continue: "Continue",
             close: "Close",
             privateKey: "Private key",
-            deleteProviderQuestion: "Delete provider?"
+            deleteProviderQuestion: "Delete provider?",
+            keysCreating: "Test keys creating"
         },
         directions: {
             fields: {
