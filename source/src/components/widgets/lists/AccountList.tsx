@@ -673,10 +673,11 @@ export const AccountList = () => {
                 return (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="secondary" className="h-8 w-8 p-0">
-                                <span className="sr-only">Open menu</span>
-                                <MoreHorizontal className="h-4 w-4" />
-                            </Button>
+                            <div className="flex items-center">
+                                <Button variant="secondary" className="h-7 w-7 p-0 bg-transparent">
+                                    <Icon name="eye" isCurrency={false} />
+                                </Button>
+                            </div>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
@@ -726,7 +727,7 @@ export const AccountList = () => {
                                                         />
                                                     </h1>
                                                     <div className="w-10 flex justify-center">
-                                                        <Icon name={currencySum.currency} />
+                                                        <Icon name={currencySum.currency} isCurrency={true} />
                                                     </div>
                                                 </div>
                                             );

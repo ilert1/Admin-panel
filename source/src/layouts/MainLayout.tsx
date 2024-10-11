@@ -309,7 +309,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                         {merchantOnly && (
                             <NavLink
                                 to="/crypto-transfer"
-                                onClick={() => setNextPage("cryptoWalletTransfer")}
+                                onClick={() => setNextPage("cryptoTransfer")}
                                 className={
                                     resourceName[0] === "crypto-transfer"
                                         ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
@@ -318,7 +318,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 <BitcoinIcon />
                                 {showCaptions ? (
                                     <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
-                                        {translate("app.menu.cryptoWalletTransfer")}
+                                        {translate("app.menu.cryptoTransfer")}
                                     </span>
                                 ) : null}
                             </NavLink>
