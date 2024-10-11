@@ -1,6 +1,6 @@
-import { TextField } from "../ui/text-field";
-import { MessageIcon } from "../ui/MessageIcon";
-import { MessageTime } from "../ui/MessageTime";
+import { TextField } from "../../ui/text-field";
+import { MessageIcon } from "../../ui/MessageIcon";
+import { MessageTime } from "../../ui/MessageTime";
 
 export interface MessageProps {
     text: string;
