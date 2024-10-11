@@ -218,7 +218,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                         </NavLink>
                     )}
                 </nav>
-                {isSheetOpen && (
+                {isSheetOpen && permissions === "admin" && (
                     <div className="mx-6">
                         <Button
                             onClick={() => {
