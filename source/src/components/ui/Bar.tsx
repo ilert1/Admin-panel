@@ -13,7 +13,6 @@ import {
 } from "chart.js";
 import "chartjs-adapter-date-fns";
 import { addDays, format } from "date-fns";
-// import { useMediaQuery } from "react-responsive";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -21,29 +20,39 @@ interface BarChartProps {
     startDate: Date;
     endDate: Date;
     typeTabActive: string;
+    open: boolean;
 }
 
-const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive }) => {
+const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, open }) => {
     const [chartData, setChartData] = useState<ChartData<"bar">>({
         labels: [],
         datasets: []
     });
 
+    const [isChartVisible, setIsChartVisible] = useState(open); // Для отображения компонента
+    const [isClosing, setIsClosing] = useState(false); // Для анимации закрытия
+
     useEffect(() => {
-        // Генерация массива дат между startDate и endDate
+        if (open) {
+            setIsChartVisible(true);
+            setIsClosing(false); // Убираем флаг закрытия, если компонент открыт
+        } else {
+            setIsClosing(true); // Включаем анимацию закрытия
+            setTimeout(() => setIsChartVisible(false), 500); // Удаляем график после анимации
+        }
+    }, [open]);
+
+    useEffect(() => {
         const generateLabels = (start: Date, end: Date) => {
             const dates: string[] = [];
             let currentDate = start;
-
             while (currentDate <= end) {
                 dates.push(format(currentDate, "dd.MM.yy"));
                 currentDate = addDays(currentDate, 1);
             }
-
             return dates;
         };
 
-        // Генерация случайных данных для примера
         const generateRandomData = (length: number) => {
             return Array.from({ length }, () => Math.floor(Math.random() * 50));
         };
@@ -127,6 +136,10 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive }
     }, [startDate, endDate, typeTabActive]);
 
     const options: ChartOptions<"bar"> = {
+        animation: {
+            duration: 1000,
+            easing: "easeOutBounce"
+        },
         datasets: {
             bar: {
                 barThickness: "flex",
@@ -139,14 +152,8 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive }
             legend: {
                 display: false
             },
-
             tooltip: {
-                callbacks: {
-                    labelColor: () => ({
-                        borderColor: "#000000",
-                        backgroundColor: "#000000"
-                    })
-                }
+                displayColors: false
             }
         },
         scales: {
@@ -162,7 +169,6 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive }
                 grid: {
                     drawOnChartArea: true,
                     color: "rgba(92, 92, 92, 1)"
-                    // drawTicks: false
                 }
             },
             y: {
@@ -191,11 +197,12 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive }
     const numberOfDays = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
     const chartWidth = numberOfDays * 100;
 
-    // if (isScreen) {
-    //     chartWidth = Math.min(numberOfDays * 80, window.innerWidth);
-    // }
+    if (!isChartVisible) {
+        return null; // Полностью удаляем элемент из DOM
+    }
+
     return (
-        <div className="bg-black mr-2 p-5 pb-0">
+        <div className={`bg-black mr-2 p-5 pb-0 ${isClosing ? "fade-out-up" : "fade-in-down"}`}>
             <div className="overflow-x-auto scrollbar-x">
                 <div style={{ width: chartWidth + "px", height: "561px" }} className="pl-[22px]">
                     <Bar data={chartData} options={options} />

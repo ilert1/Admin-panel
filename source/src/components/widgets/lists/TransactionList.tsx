@@ -102,10 +102,14 @@ const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; 
 
 const TransactionFilterSidebar = ({
     typeTabActive,
-    setTypeTabActive
+    setTypeTabActive,
+    setChartOpen,
+    chartOpen
 }: {
     typeTabActive: string;
+    chartOpen: boolean;
     setTypeTabActive: (type: string) => void;
+    setChartOpen: (state: boolean) => void;
 }) => {
     const dataProvider = useDataProvider();
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
@@ -296,34 +300,15 @@ const TransactionFilterSidebar = ({
                         </button>
                     ))}
                 </div>
-
                 <div className="flex items-center gap-1">
-                    <p className="text-sm text-neutral-50 cursor-pointer hover:text-green-50">
+                    <Button onClick={() => setChartOpen(prev => !prev)} variant={"clearBtn"} className="flex gap-1">
                         {translate("resources.transactions.chart")}
-                    </p>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
-                            stroke="#237648"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
+                        <img
+                            src="/Chart-Icon.svg"
+                            alt=""
+                            className={`${chartOpen ? "bg-green-50 rounded-[4px] transition-all duration-300" : ""}`}
                         />
-                        <path
-                            d="M12 12V3"
-                            stroke="#237648"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                        <path
-                            d="M19.7906 7.5L4.20935 16.5"
-                            stroke="#237648"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                    </svg>
+                    </Button>
                 </div>
             </div>
         </>
@@ -331,14 +316,17 @@ const TransactionFilterSidebar = ({
 };
 
 export const TransactionList = () => {
+    const listContext = useListController<Transaction.Transaction>();
+    const translate = useTranslate();
+    const navigate = useNavigate();
+
     const dataProvider = useDataProvider();
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
+
     // TODO: временное решение, нужно расширить компонент селекта для поддержки пагинациц
     const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
-    const [typeTabActive, setTypeTabActive] = useState("");
-
     const { data: currencies } = useQuery("currencies", () =>
         fetch(`${API_URL}/dictionaries/curr`, {
             headers: {
@@ -346,26 +334,21 @@ export const TransactionList = () => {
             }
         }).then(response => response.json())
     );
-
     const sortedCurrencies = useMemo(() => {
         return currencies?.data?.sort((a: any, b: any) => a.prior_gr - b.prior_gr) || [];
     }, [currencies]);
+    const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
 
-    const listContext = useListController<Transaction.Transaction>();
-    const translate = useTranslate();
-    const navigate = useNavigate();
-
+    const [typeTabActive, setTypeTabActive] = useState("");
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");
+    const [stornoOpen, setStornoOpen] = useState(false);
+    const [chartOpen, setChartOpen] = useState(false);
 
     const openSheet = (id: string) => {
         setShowTransactionId(id);
         setShowOpen(true);
     };
-
-    const [stornoOpen, setStornoOpen] = useState(false);
-
-    const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
@@ -403,10 +386,6 @@ export const TransactionList = () => {
             accessorKey: "state.state_description",
             header: translate("resources.transactions.fields.state.title")
         },
-        // {
-        //     accessorKey: "state.final",
-        //     header: translate("resources.transactions.fields.state.final")
-        // },
         {
             accessorKey: "sourceValue",
             header: translate("resources.transactions.fields.sourceValue"),
@@ -499,10 +478,20 @@ export const TransactionList = () => {
                     <div className="mb-6 mt-5">
                         <h1 className="text-3xl mb-6">{translate("app.menu.transactions")}</h1>
 
-                        <TransactionFilterSidebar typeTabActive={typeTabActive} setTypeTabActive={setTypeTabActive} />
+                        <TransactionFilterSidebar
+                            typeTabActive={typeTabActive}
+                            setTypeTabActive={setTypeTabActive}
+                            setChartOpen={setChartOpen}
+                            chartOpen={chartOpen}
+                        />
                     </div>
                     <div className="w-full mb-6">
-                        <BarChart startDate={startDate} endDate={endDate} typeTabActive={typeTabActive} />
+                        <BarChart
+                            startDate={startDate}
+                            endDate={endDate}
+                            typeTabActive={typeTabActive}
+                            open={chartOpen}
+                        />
                     </div>
 
                     <DataTable columns={columns} />
