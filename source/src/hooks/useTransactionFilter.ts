@@ -7,7 +7,7 @@ import { useQuery } from "react-query";
 import { debounce } from "lodash";
 import { DateRange } from "react-day-picker";
 
-const useTransactionFilter = () => {
+const useTransactionFilter = (typeTabActive : string, setTypeTabActive : (type: string) => void) => {
     const dataProvider = useDataProvider();
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
@@ -20,7 +20,7 @@ const useTransactionFilter = () => {
     const [operationId, setOperationId] = useState(filterValues?.id || "");
     const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
     const [account, setAccount] = useState(accounts?.find(account => filterValues?.accountId === account.id) || "");
-    const [typeTabActive, setTypeTabActive] = useState("");
+    // const [typeTabActive, setTypeTabActive] = useState("");
 
     const orderStatusIndex = Object.keys(data.states).find(
         index => filterValues?.orderStatus === data.states[index].state_description
