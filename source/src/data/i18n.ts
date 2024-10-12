@@ -254,7 +254,8 @@ const ru: TranslationMessages = {
             clickToCopy: "Это ваш приватный ключ. Нажмите на кнопку чтобы скопировать ключ, или скопируйте вручную.",
             continue: "Продолжить",
             close: "Закрыть",
-            privateKey: "Приватный ключ"
+            privateKey: "Приватный ключ",
+            deleteProviderQuestion: "Удалить провайдера?"
         },
         directions: {
             fields: {
@@ -701,7 +702,8 @@ const en: TranslationMessages = {
             clickToCopy: "This is your private key.\n Click button to copy or copy manually.",
             continue: "Continue",
             close: "Close",
-            privateKey: "Private key"
+            privateKey: "Private key",
+            deleteProviderQuestion: "Delete provder?"
         },
         directions: {
             fields: {
