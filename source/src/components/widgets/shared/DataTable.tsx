@@ -8,13 +8,27 @@ import { useEffect } from "react";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
+    data: TData[];
     pagination?: boolean;
+    total?: number;
+    page?: number;
+    perPage?: number;
+    setPage?: (count: number) => void;
+    setPerPage?: (count: number) => void;
 }
 
-export function DataTable<TData, TValue>({ columns, pagination = true }: DataTableProps<TData, TValue>) {
-    const { page, setPage, perPage, setPerPage, total, data } = useListContext();
-    const translate = useTranslate();
+export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
+    const { columns, pagination = true } = props;
+    let data, total, page, perPage, setPage, setPerPage;
+    if (props.total) {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        ({ data, total, page = 1, perPage = 10, setPage = () => {}, setPerPage = () => {} } = props);
+    } else {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        ({ data, total, page, perPage, setPage, setPerPage } = useListContext());
+    }
 
+    const translate = useTranslate();
     const table = useReactTable({
         data,
         columns,
