@@ -148,6 +148,27 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
                     row.original.rate_info.d_currency
                 );
             }
+        },
+        {
+            accessorKey: "rate_info",
+            header: translate("resources.transactions.fields.rateInfo"),
+            cell: ({ row }) => {
+                const rateInfo: Transaction.RateInfo = row.original.rate_info;
+                if (rateInfo) {
+                    return (
+                        <>
+                            <p className="text-neutral-60 dark:text-neutral-70">{`${rateInfo.s_currency} / ${rateInfo.d_currency}:`}</p>
+                            <p>
+                                {((rateInfo.value.quantity || 0) / rateInfo.value.accuracy).toFixed(
+                                    Math.log10(rateInfo.value.accuracy)
+                                )}
+                            </p>
+                        </>
+                    );
+                } else {
+                    return 0;
+                }
+            }
         }
     ];
 
