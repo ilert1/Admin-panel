@@ -332,7 +332,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 <BitcoinIcon />
                                 {showCaptions ? (
                                     <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
-                                        {translate("app.menu.cryptoWalletTransfer")}
+                                        {translate("app.menu.cryptoTransfer")}
                                     </span>
                                 ) : null}
                             </NavLink>
@@ -353,7 +353,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     )}
                 </aside>
                 <div className="bg-muted grow overflow-y-auto scrollbar-stable transition-[margin-left]">
-                    <main className="p-6 container">
+                    <main className="p-6 pr-4 container">
                         <h1 className="text-3xl mb-6">{pageTitle}</h1>
                         {children}
                     </main>

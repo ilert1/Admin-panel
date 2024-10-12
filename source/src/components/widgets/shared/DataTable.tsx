@@ -71,9 +71,9 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                 <TableBody>
                     {table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row, i) => (
-                            <TableRow key={i} data-state={row.getIsSelected() && "selected"} className="border-muted">
+                            <TableRow key={i} data-state={row.getIsSelected() && "selected"} className="border-muted ">
                                 {row.getVisibleCells().map((cell, j) => (
-                                    <TableCell key={j} className="text-sm border border-muted text-neutral-100">
+                                    <TableCell key={j} className="text-sm border border-muted text-neutral-100 py-2">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}
@@ -90,7 +90,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                     )}
                 </TableBody>
             </Table>
-            {pagination && (
+            {pagination && total > perPage && (
                 <div className="flex w-full items-center justify-between gap-4 overflow-auto p-1 sm:flex-row sm:gap-8">
                     <div className="flex items-center space-x-2">
                         <Button

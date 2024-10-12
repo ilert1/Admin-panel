@@ -29,6 +29,7 @@ const ru: TranslationMessages = {
                     caption: "Имя"
                 }
             },
+            totalBalance: "Общий баланс по счетам",
             showHeader: "Информация о счете",
             showDescription: "Подробная информация о счете с ID %{id}"
         },
@@ -463,7 +464,7 @@ const en: TranslationMessages = {
             name: "Account |||| Accounts",
             fields: {
                 owner: "Owner",
-                state: "Status",
+                state: "State",
                 type: "Account type",
                 balance: "Account balance",
                 history: "Account history",
@@ -482,6 +483,7 @@ const en: TranslationMessages = {
                     caption: "Name"
                 }
             },
+            totalBalance: "Total account balance",
             showHeader: "Account info",
             showDescription: "Detailed information about account with ID %{id}"
         },
