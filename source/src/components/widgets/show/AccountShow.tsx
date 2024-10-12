@@ -1,54 +1,60 @@
-import { useInfiniteGetList, useShowController, useTranslate } from "react-admin";
-import { SimpleTable } from "@/components/widgets/shared";
+import { useDataProvider, useGetList, useShowController, useTranslate } from "react-admin";
+import { DataTable, SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useEffect, useState } from "react";
 import moment from "moment";
-import { TableTypes } from "../shared/SimpleTable";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 
 export const AccountShow = (props: { id: string; type?: "compact" }) => {
     const { id, type } = props;
     const translate = useTranslate();
     const data = fetchDictionaries();
+    const dataProvider = useDataProvider();
 
     const context = useShowController({ id });
 
+    const [transactions, setTransactions] = useState<any[]>([]);
+    const [page, setPage] = useState(1);
+    const [perPage, setPerPage] = useState(10);
+
     const {
         data: trans,
-        total,
-        isPending,
-        error,
-        hasNextPage,
-        isFetchingNextPage,
-        isFetched,
-        isStale,
-        fetchNextPage
-    } = useInfiniteGetList(
-        "transactions",
-        {
-            filter: {
-                account: id
-            }
+        isFetching,
+        total = 1
+    } = useGetList("transactions", {
+        filter: {
+            account: id
         },
-        {
-            cacheTime: 7200,
-            refetchOnWindowFocus: false,
-            refetchOnMount: false
+        pagination: {
+            page: 1,
+            perPage: 10
         }
-    );
-
-    const [transactions, setTransactions] = useState<any[]>([]);
+    });
 
     useEffect(() => {
         if (trans) {
-            setTransactions(prevTransactions => {
-                const newTransactions = trans.pages.flatMap(page => page.data);
-                return [...prevTransactions, ...newTransactions];
-            });
+            setTransactions(trans);
         }
     }, [trans]);
+
+    useEffect(() => {
+        const refetch = async () => {
+            const { data } = await dataProvider.getList("transactions", {
+                filter: {
+                    account: id
+                },
+                pagination: {
+                    page: page,
+                    perPage: perPage
+                },
+                sort: { field: "id", order: "ASC" }
+            });
+            setTransactions(data);
+        };
+        refetch();
+    }, [dataProvider, id, page, perPage]);
 
     const columns: ColumnDef<Amount>[] = [
         {
@@ -142,29 +148,47 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
                     row.original.rate_info.d_currency
                 );
             }
+        },
+        {
+            accessorKey: "rate_info",
+            header: translate("resources.transactions.fields.rateInfo"),
+            cell: ({ row }) => {
+                const rateInfo: Transaction.RateInfo = row.original.rate_info;
+                if (rateInfo) {
+                    return (
+                        <>
+                            <p className="text-neutral-60 dark:text-neutral-70">{`${rateInfo.s_currency} / ${rateInfo.d_currency}:`}</p>
+                            <p>
+                                {((rateInfo.value.quantity || 0) / rateInfo.value.accuracy).toFixed(
+                                    Math.log10(rateInfo.value.accuracy)
+                                )}
+                            </p>
+                        </>
+                    );
+                } else {
+                    return 0;
+                }
+            }
         }
     ];
 
-    if (context.isLoading || !context.record || !transactions || isPending) {
+    if (context.isLoading || !context.record || !transactions || isFetching) {
         return <LoadingAlertDialog />;
     }
-
     if (type === "compact") {
         return (
             <>
                 <div className="mx-6">
-                    <SimpleTable
+                    <DataTable
                         columns={historyColumns}
                         data={transactions}
-                        tableType={TableTypes.COLORED}></SimpleTable>
+                        total={total}
+                        page={page}
+                        setPage={setPage}
+                        perPage={perPage}
+                        setPerPage={setPerPage}
+                    />
                 </div>
-                {hasNextPage && (
-                    <div className="flex items-center justify-center my-5">
-                        <button disabled={isFetchingNextPage} onClick={() => fetchNextPage()}>
-                            Show more
-                        </button>
-                    </div>
-                )}
             </>
         );
     } else {
