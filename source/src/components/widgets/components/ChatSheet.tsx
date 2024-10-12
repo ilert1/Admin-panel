@@ -1,7 +1,7 @@
 import { Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
 import { Message, MessageProps } from "./Message";
 import { getMockMessages } from "@/data/mockMessages";
 import { useTranslate } from "react-admin";

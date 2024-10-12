@@ -1,15 +1,12 @@
 import {
-    useDataProvider,
     ListContextProvider,
     useListController,
     useTranslate,
-    Link,
     useRedirect,
     fetchUtils,
     useRefresh,
     useDelete
 } from "react-admin";
-import { useQueryClient } from "react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
 import {
@@ -45,9 +42,9 @@ const API_URL = import.meta.env.VITE_ENIGMA_URL;
 
 export const ProvidersList = () => {
     const listContext = useListController<Provider>();
+
     const { refetch } = useListController<Provider>();
     const refresh = useRefresh();
-    const queryClient = useQueryClient();
     const translate = useTranslate();
     const navigate = useNavigate();
     const [deleteOne] = useDelete();
@@ -136,7 +133,9 @@ export const ProvidersList = () => {
             setWait(false);
             setKeyShow(true);
             setSaveClicked(false);
-        } catch (error) {}
+        } catch (error) {
+            /* empty */
+        }
     };
 
     const columns: ColumnDef<Provider>[] = [

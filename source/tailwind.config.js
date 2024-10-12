@@ -1,6 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-import { scrollbarGutter } from "tailwind-scrollbar-utilities";
-
 module.exports = {
     darkMode: ["class"],
     content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
@@ -154,6 +152,5 @@ module.exports = {
             }
         }
     },
-    plugins: [require("tailwindcss-animate"), scrollbarGutter()]
+    plugins: [require("tailwindcss-animate")]
 };
-// export const plugins = [require("tailwindcss-animate"), scrollbarGutter()];

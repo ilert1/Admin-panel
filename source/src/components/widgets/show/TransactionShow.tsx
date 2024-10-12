@@ -1,5 +1,4 @@
-import { useDataProvider, useShowController, useTranslate, useGetManyReference, usePermissions } from "react-admin";
-import { useQuery } from "react-query";
+import { useShowController, useTranslate, useGetManyReference, usePermissions } from "react-admin";
 import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { BooleanField } from "@/components/ui/boolean-field";
@@ -7,6 +6,7 @@ import { TextField } from "@/components/ui/text-field";
 import { useEffect, useMemo, useState } from "react";
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TableTypes } from "../shared/SimpleTable";
+import fetchDictionaries from "@/helpers/get-dictionaries";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -24,8 +24,7 @@ import {
 import { useMediaQuery } from "react-responsive";
 
 export const TransactionShow = (props: { id: string; type?: "compact" }) => {
-    const dataProvider = useDataProvider();
-    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
+    const data = fetchDictionaries();
     const translate = useTranslate();
     const { permissions, isLoading } = usePermissions();
     const context = useShowController({ id: props.id });

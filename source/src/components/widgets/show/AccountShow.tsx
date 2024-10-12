@@ -1,16 +1,54 @@
-import { useDataProvider, useShowController, useTranslate } from "react-admin";
-import { useQuery } from "react-query";
+import { useInfiniteGetList, useShowController, useTranslate } from "react-admin";
 import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
-import { Loading } from "@/components/ui/loading";
+import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
+import { useEffect, useState } from "react";
+import moment from "moment";
+import { TableTypes } from "../shared/SimpleTable";
+import fetchDictionaries from "@/helpers/get-dictionaries";
 
-export const AccountShow = (props: { id: string }) => {
-    const dataProvider = useDataProvider();
-    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
+export const AccountShow = (props: { id: string; type?: "compact" }) => {
+    const { id, type } = props;
     const translate = useTranslate();
+    const data = fetchDictionaries();
 
-    const context = useShowController({ id: props.id });
+    const context = useShowController({ id });
+
+    const {
+        data: trans,
+        total,
+        isPending,
+        error,
+        hasNextPage,
+        isFetchingNextPage,
+        isFetched,
+        isStale,
+        fetchNextPage
+    } = useInfiniteGetList(
+        "transactions",
+        {
+            filter: {
+                account: id
+            }
+        },
+        {
+            cacheTime: 7200,
+            refetchOnWindowFocus: false,
+            refetchOnMount: false
+        }
+    );
+
+    const [transactions, setTransactions] = useState<any[]>([]);
+
+    useEffect(() => {
+        if (trans) {
+            setTransactions(prevTransactions => {
+                const newTransactions = trans.pages.flatMap(page => page.data);
+                return [...prevTransactions, ...newTransactions];
+            });
+        }
+    }, [trans]);
 
     const columns: ColumnDef<Amount>[] = [
         {
@@ -45,8 +83,90 @@ export const AccountShow = (props: { id: string }) => {
         }
     ];
 
-    if (context.isLoading || !context.record) {
-        return <Loading />;
+    const historyColumns: ColumnDef<Transaction.Transaction>[] = [
+        {
+            id: "created_at",
+            accessorKey: "created_at",
+            header: translate("resources.transactions.fields.created_at"),
+            cell: ({ row }) => {
+                return (
+                    <div>
+                        <span>{moment(row.original.created_at).format("DD.MM.YY")}</span>
+                        <br />
+                        <span>{moment(row.original.created_at).format("hh:mm:ss")}</span>
+                    </div>
+                );
+            }
+        },
+        {
+            id: "id",
+            accessorKey: "id",
+            header: translate("resources.transactions.fields.id")
+        },
+        {
+            id: "type",
+            accessorKey: "type",
+            header: translate("resources.transactions.fields.type"),
+            cell: ({ row }) => data?.transactionTypes[row.original.type]?.type_descr || ""
+        },
+        {
+            id: "state",
+            accessorKey: "state.state_description",
+            header: translate("resources.transactions.fields.state.title")
+        },
+        {
+            id: "final",
+            accessorKey: "state.final",
+            header: translate("resources.transactions.fields.state.final")
+        },
+        {
+            id: "source",
+            accessorKey: "source.amount.value.quantity",
+            header: translate("resources.transactions.fields.source.amount.getAmount"),
+            cell: ({ row }) => {
+                return (
+                    row.original.source.amount.value.quantity / row.original.source.amount.value.accuracy +
+                    " " +
+                    row.original.rate_info.s_currency
+                );
+            }
+        },
+        {
+            id: "destination",
+            accessorKey: "destination.amount.value.quantity",
+            header: translate("resources.transactions.fields.destination.amount.sendAmount"),
+            cell: ({ row }) => {
+                return (
+                    row.original.destination.amount.value.quantity / row.original.destination.amount.value.accuracy +
+                    " " +
+                    row.original.rate_info.d_currency
+                );
+            }
+        }
+    ];
+
+    if (context.isLoading || !context.record || !transactions || isPending) {
+        return <LoadingAlertDialog />;
+    }
+
+    if (type === "compact") {
+        return (
+            <>
+                <div className="mx-6">
+                    <SimpleTable
+                        columns={historyColumns}
+                        data={transactions}
+                        tableType={TableTypes.COLORED}></SimpleTable>
+                </div>
+                {hasNextPage && (
+                    <div className="flex items-center justify-center my-5">
+                        <button disabled={isFetchingNextPage} onClick={() => fetchNextPage()}>
+                            Show more
+                        </button>
+                    </div>
+                )}
+            </>
+        );
     } else {
         return (
             <div className="flex flex-col gap-2">

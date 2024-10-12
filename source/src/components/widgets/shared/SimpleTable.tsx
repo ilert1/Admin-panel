@@ -22,7 +22,7 @@ export function SimpleTable<TData, TValue>({
         columns,
         getCoreRowModel: getCoreRowModel()
     });
-
+    console.log(data);
     return (
         <Table>
             <TableHeader>

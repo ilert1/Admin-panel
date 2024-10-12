@@ -32,35 +32,6 @@ export const MerchantEdit = () => {
     const { toast } = useToast();
     const refresh = useRefresh();
 
-    useEffect(() => {
-        if (record) {
-            form.reset({
-                id: record?.id || "",
-                name: record?.name || "",
-                description: record?.description || "",
-                keycloak_id: record?.keycloak_id || ""
-            });
-        }
-    }, [record]);
-
-    const onSubmit: SubmitHandler<Merchant> = async data => {
-        try {
-            await dataProvider.update("merchant", {
-                id,
-                data,
-                previousData: undefined
-            });
-            refresh();
-            redirect("list", "merchant");
-        } catch (error) {
-            toast({
-                description: translate("resources.currencies.errors.alreadyInUse"),
-                variant: "destructive",
-                title: "Error"
-            });
-        }
-    };
-
     const formSchema = z.object({
         id: z.string().min(1, translate("resources.merchants.errors.id")).trim(),
         name: z.string().min(1, translate("resources.merchants.errors.name")).trim(),
@@ -82,6 +53,35 @@ export const MerchantEdit = () => {
             keycloak_id: record?.keycloak_id || ""
         }
     });
+
+    useEffect(() => {
+        if (record) {
+            form.reset({
+                id: record?.id || "",
+                name: record?.name || "",
+                description: record?.description || "",
+                keycloak_id: record?.keycloak_id || ""
+            });
+        }
+    }, [form, record]);
+
+    const onSubmit: SubmitHandler<Merchant> = async data => {
+        try {
+            await dataProvider.update("merchant", {
+                id,
+                data,
+                previousData: undefined
+            });
+            refresh();
+            redirect("list", "merchant");
+        } catch (error) {
+            toast({
+                description: translate("resources.currencies.errors.alreadyInUse"),
+                variant: "destructive",
+                title: "Error"
+            });
+        }
+    };
 
     if (isLoading || !record) return <Loading />;
 

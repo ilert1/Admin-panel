@@ -27,16 +27,19 @@ import {
     ChevronLeftCircleIcon,
     ChevronRightCircleIcon,
     MessagesSquareIcon,
-    XIcon
+    XIcon,
+    KeyRound
 } from "lucide-react";
 import { useTheme } from "@/components/providers";
 import { Toaster } from "@/components/ui/toaster";
 import Logo from "@/lib/icons/Logo";
 import LogoPicture from "@/lib/icons/LogoPicture";
 import Blowfish from "@/lib/icons/Blowfish";
-import { ChatSheet } from "@/components/widgets/ChatSheet";
+import { ChatSheet } from "@/components/widgets/components/ChatSheet";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { debounce } from "lodash";
+import { Button } from "@/components/ui/button";
+import { TestKeysModal } from "@/components/widgets/components/TestKeysModal";
 
 enum SplitLocations {
     show = "show",
@@ -86,13 +89,12 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
 
     const [isSheetOpen, setSheetOpen] = useState(false);
     const [showCaptions, setShowCaptions] = useState(false);
-
     const [profileOpen, setProfileOpen] = useState(false);
-
     const [langOpen, setLangOpen] = useState(false);
-
     const [chatOpen, setChatOpen] = useState(false);
-    const debounced = debounce(setChatOpen, 100);
+    const [testKeysModalOpen, setTestKeysModalOpen] = useState(false);
+
+    const debounced = debounce(setChatOpen, 120);
 
     useEffect(() => {
         isSheetOpen
@@ -119,10 +121,10 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     return (
         <div className="flex flex-col h-screen">
             <header
-                className="flex h-[84px] shrink-0 z-[60] items-center justify-end gap-4 bg-header pr-6 pointer-events-auto"
+                className="flex flex-shrink-0 h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z"
                 onClick={e => e.stopPropagation()}>
                 {identity?.data && (
-                    <div className="flex items-center justify-end gap-2">
+                    <div className="ml-auto flex items-center gap-2 mr-6">
                         <div>
                             <span
                                 className={
@@ -133,21 +135,21 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 {identity.data.fullName ? identity.data.fullName : null}
                             </span>
                         </div>
-                        <div className="flex items-center gap-8 relative z-[60]">
-                            <DropdownMenu onOpenChange={setProfileOpen} modal={false}>
+                        <div className="flex items-center gap-8 relative !z-60">
+                            <DropdownMenu open={profileOpen} onOpenChange={setProfileOpen} modal={true}>
                                 <DropdownMenuTrigger asChild>
                                     <Avatar
                                         className={
                                             profileOpen
-                                                ? "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-50 bg-green-50 transition-colors duration-150"
-                                                : "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-40 hover:border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
+                                                ? "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-50 bg-green-50 transition-all duration-150"
+                                                : "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-40 hover:border-green-50 bg-muted hover:bg-green-50 transition-all duration-150"
                                         }>
                                         <Blowfish />
                                     </Avatar>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent
                                     align="end"
-                                    className="p-0 w-56 bg-muted border border-neutral-100 z-[60]">
+                                    className="p-0 w-56 bg-muted border border-neutral-100 z100">
                                     <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
                                         <Avatar className="w-5 h-5">
                                             <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
@@ -250,15 +252,15 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     </div>
                 )}
             </header>
-            <div className="flex flex-col grow h-full overflow-hidden">
+            <div className="flex grow h-full overflow-hidden">
                 <aside
                     className={
                         isSheetOpen
-                            ? "w-[280px] fixed h-full flex-col justify-start items-center bg-header transition-[width] pt-6"
-                            : "w-[72px] h-full fixed flex-col justify-start items-center bg-header transition-[width] pt-6"
+                            ? "w-[280px] h-full flex flex-col flex-shrink-0 items-stretch overflow-y-auto overflow-x-hidden scrollbar-stable justify-start items-center bg-header transition-[width] pt-6"
+                            : "w-[72px] h-full flex flex-col flex-shrink-0 items-stretch overflow-y-auto overflow-x-hidden scrollbar-stable justify-start items-center bg-header transition-[width] pt-6"
                     }>
                     {isSheetOpen ? (
-                        <div className="flex justify-center items-center h-[63px] gap-6">
+                        <div className="flex flex-shrink-0 justify-center items-center h-[63px] gap-6">
                             <div className="flex items-center w-[189px] m-0 p-0">
                                 <div className="animate-in fade-in-0 transition-opacity duration-700">
                                     <LogoPicture />
@@ -336,13 +338,21 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                             </NavLink>
                         )}
                     </nav>
+
+                    {isSheetOpen && permissions === "admin" && (
+                        <div className="flex flex-grow items-end my-6 mx-6">
+                            <Button
+                                onClick={() => {
+                                    setTestKeysModalOpen(true);
+                                }}
+                                className="w-full pl-6 flex gap-[4px] translate-x-[-100%] animate-in-left transition-transform duration-500 ease-out">
+                                <KeyRound /> {translate("resources.providers.createTestKeys")}
+                            </Button>
+                            <TestKeysModal open={testKeysModalOpen} onOpenChange={setTestKeysModalOpen} />
+                        </div>
+                    )}
                 </aside>
-                <div
-                    className={
-                        isSheetOpen
-                            ? " bg-muted grow ml-[280px] overflow-y-auto scrollbar-stable transition-[margin-left]"
-                            : " bg-muted grow ml-[72px] overflow-y-auto scrollbar-stable transition-[margin-left]"
-                    }>
+                <div className="bg-muted grow overflow-y-auto scrollbar-stable transition-[margin-left]">
                     <main className="p-6 container">
                         <h1 className="text-3xl mb-6">{pageTitle}</h1>
                         {children}
