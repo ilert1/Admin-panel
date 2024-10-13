@@ -1,16 +1,60 @@
-import { useDataProvider, useShowController, useTranslate } from "react-admin";
-import { useQuery } from "react-query";
-import { SimpleTable } from "@/components/widgets/shared";
+import { useDataProvider, useGetList, useShowController, useTranslate } from "react-admin";
+import { DataTable, SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
-import { Loading } from "@/components/ui/loading";
+import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
+import { useEffect, useState } from "react";
+import moment from "moment";
+import fetchDictionaries from "@/helpers/get-dictionaries";
 
-export const AccountShow = (props: { id: string }) => {
-    const dataProvider = useDataProvider();
-    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
+export const AccountShow = (props: { id: string; type?: "compact" }) => {
+    const { id, type } = props;
     const translate = useTranslate();
+    const data = fetchDictionaries();
+    const dataProvider = useDataProvider();
 
-    const context = useShowController({ id: props.id });
+    const context = useShowController({ id });
+
+    const [transactions, setTransactions] = useState<any[]>([]);
+    const [page, setPage] = useState(1);
+    const [perPage, setPerPage] = useState(10);
+
+    const {
+        data: trans,
+        isFetching,
+        total = 1
+    } = useGetList("transactions", {
+        filter: {
+            account: id
+        },
+        pagination: {
+            page: 1,
+            perPage: 10
+        }
+    });
+
+    useEffect(() => {
+        if (trans) {
+            setTransactions(trans);
+        }
+    }, [trans]);
+
+    useEffect(() => {
+        const refetch = async () => {
+            const { data } = await dataProvider.getList("transactions", {
+                filter: {
+                    account: id
+                },
+                pagination: {
+                    page: page,
+                    perPage: perPage
+                },
+                sort: { field: "id", order: "ASC" }
+            });
+            setTransactions(data);
+        };
+        refetch();
+    }, [dataProvider, id, page, perPage]);
 
     const columns: ColumnDef<Amount>[] = [
         {
@@ -45,8 +89,108 @@ export const AccountShow = (props: { id: string }) => {
         }
     ];
 
-    if (context.isLoading || !context.record) {
-        return <Loading />;
+    const historyColumns: ColumnDef<Transaction.Transaction>[] = [
+        {
+            id: "created_at",
+            accessorKey: "created_at",
+            header: translate("resources.transactions.fields.created_at"),
+            cell: ({ row }) => {
+                return (
+                    <div>
+                        <span>{moment(row.original.created_at).format("DD.MM.YY")}</span>
+                        <br />
+                        <span>{moment(row.original.created_at).format("hh:mm:ss")}</span>
+                    </div>
+                );
+            }
+        },
+        {
+            id: "id",
+            accessorKey: "id",
+            header: translate("resources.transactions.fields.id")
+        },
+        {
+            id: "type",
+            accessorKey: "type",
+            header: translate("resources.transactions.fields.type"),
+            cell: ({ row }) => data?.transactionTypes[row.original.type]?.type_descr || ""
+        },
+        {
+            id: "state",
+            accessorKey: "state.state_description",
+            header: translate("resources.transactions.fields.state.title")
+        },
+        {
+            id: "final",
+            accessorKey: "state.final",
+            header: translate("resources.transactions.fields.state.final")
+        },
+        {
+            id: "source",
+            accessorKey: "source.amount.value.quantity",
+            header: translate("resources.transactions.fields.source.amount.getAmount"),
+            cell: ({ row }) => {
+                return (
+                    row.original.source.amount.value.quantity / row.original.source.amount.value.accuracy +
+                    " " +
+                    row.original.rate_info.s_currency
+                );
+            }
+        },
+        {
+            id: "destination",
+            accessorKey: "destination.amount.value.quantity",
+            header: translate("resources.transactions.fields.destination.amount.sendAmount"),
+            cell: ({ row }) => {
+                return (
+                    row.original.destination.amount.value.quantity / row.original.destination.amount.value.accuracy +
+                    " " +
+                    row.original.rate_info.d_currency
+                );
+            }
+        },
+        {
+            accessorKey: "rate_info",
+            header: translate("resources.transactions.fields.rateInfo"),
+            cell: ({ row }) => {
+                const rateInfo: Transaction.RateInfo = row.original.rate_info;
+                if (rateInfo) {
+                    return (
+                        <>
+                            <p className="text-neutral-60 dark:text-neutral-70">{`${rateInfo.s_currency} / ${rateInfo.d_currency}:`}</p>
+                            <p>
+                                {((rateInfo.value.quantity || 0) / rateInfo.value.accuracy).toFixed(
+                                    Math.log10(rateInfo.value.accuracy)
+                                )}
+                            </p>
+                        </>
+                    );
+                } else {
+                    return 0;
+                }
+            }
+        }
+    ];
+
+    if (context.isLoading || !context.record || !transactions || isFetching) {
+        return <LoadingAlertDialog />;
+    }
+    if (type === "compact") {
+        return (
+            <>
+                <div className="mx-6">
+                    <DataTable
+                        columns={historyColumns}
+                        data={transactions}
+                        total={total}
+                        page={page}
+                        setPage={setPage}
+                        perPage={perPage}
+                        setPerPage={setPerPage}
+                    />
+                </div>
+            </>
+        );
     } else {
         return (
             <div className="flex flex-col gap-2">

@@ -29,6 +29,7 @@ const ru: TranslationMessages = {
                     caption: "Имя"
                 }
             },
+            totalBalance: "Общий баланс по счетам",
             showHeader: "Информация о счете",
             showDescription: "Подробная информация о счете с ID %{id}"
         },
@@ -97,7 +98,8 @@ const ru: TranslationMessages = {
                     id: "ID",
                     amount: {
                         currency: "Валюта",
-                        value: "Сумма"
+                        value: "Сумма",
+                        getAmount: "Сумма зачисления"
                     },
                     meta: {
                         caption: "Название"
@@ -108,7 +110,8 @@ const ru: TranslationMessages = {
                     id: "ID",
                     amount: {
                         currency: "Валюта",
-                        value: "Сумма"
+                        value: "Сумма",
+                        sendAmount: "Сумма отправления"
                     },
                     meta: {
                         caption: "Название"
@@ -230,7 +233,7 @@ const ru: TranslationMessages = {
         },
         providers: {
             fields: {
-                name: "Название провайдера",
+                name: "Провайдер",
                 pk: "Публичный ключ",
                 genKey: "Создать ключи",
                 keyMiss: "Ключ отсутсвует",
@@ -247,15 +250,16 @@ const ru: TranslationMessages = {
             createNew: "Создать нового провайдера",
             createTestKeys: "Создать тестовые ключи",
             attention: "Внимание",
-            warning:
-                "Приватный ключ будет показан только ОДИН раз. Скопируйте, сохраните и отправьте ключ DevOps инженеру",
+            warning: "Внимание! Приватный ключ будет показан только один раз.",
+            sendToDevOps: "Скопируйте его и отправьте DevOps инженеру",
             pleaseCreate: "Пожалуйста создайте ключи на странице с таблицей провайдеров",
             pleaseWait: "Пожалуйста подождите",
             clickToCopy: "Это ваш приватный ключ. Нажмите на кнопку чтобы скопировать ключ, или скопируйте вручную.",
             continue: "Продолжить",
             close: "Закрыть",
             privateKey: "Приватный ключ",
-            deleteProviderQuestion: "Удалить провайдера?"
+            deleteProviderQuestion: "Удалить провайдера?",
+            keysCreating: "Создание тестовых ключей"
         },
         directions: {
             fields: {
@@ -342,7 +346,8 @@ const ru: TranslationMessages = {
                 deletedSuccessfully: "Элемент удален успешно"
             },
             chatMessagePlaceholder: "Сообщение...",
-            transactionHistory: "История операции"
+            transactionHistory: "История операции",
+            accountHistory: "История счета"
         },
         theme: {
             light: "Светлая тема",
@@ -459,7 +464,7 @@ const en: TranslationMessages = {
             name: "Account |||| Accounts",
             fields: {
                 owner: "Owner",
-                state: "Status",
+                state: "State",
                 type: "Account type",
                 balance: "Account balance",
                 history: "Account history",
@@ -478,6 +483,7 @@ const en: TranslationMessages = {
                     caption: "Name"
                 }
             },
+            totalBalance: "Total account balance",
             showHeader: "Account info",
             showDescription: "Detailed information about account with ID %{id}"
         },
@@ -546,7 +552,8 @@ const en: TranslationMessages = {
                     id: "ID",
                     amount: {
                         currency: "Currency",
-                        value: "Value"
+                        value: "Value",
+                        getAmount: "Amount credited"
                     },
                     meta: {
                         caption: "Name"
@@ -557,7 +564,8 @@ const en: TranslationMessages = {
                     id: "ID",
                     amount: {
                         currency: "Currency",
-                        value: "Value"
+                        value: "Value",
+                        sendAmount: "Amount send"
                     },
                     meta: {
                         caption: "Name"
@@ -679,7 +687,7 @@ const en: TranslationMessages = {
         },
         providers: {
             fields: {
-                name: "Providers' name",
+                name: "Provider",
                 pk: "Public key",
                 genKey: "Generate keys",
                 keyMiss: "The key is missing",
@@ -696,14 +704,16 @@ const en: TranslationMessages = {
             createNew: "Create new provider",
             createTestKeys: "Create test keys",
             attention: "Attention",
-            warning: "Private key will be shown ONLY 1 time. Copy, save it and send to DevOps engineer",
+            warning: "Attention! Private key will be shown ONLY 1 time",
+            sendToDevOps: "Copy it and send it to DevOps Engineer",
             pleaseCreate: "Please create keys on the page with providers table",
             pleaseWait: "Please wait",
             clickToCopy: "This is your private key.\n Click button to copy or copy manually.",
             continue: "Continue",
             close: "Close",
             privateKey: "Private key",
-            deleteProviderQuestion: "Delete provder?"
+            deleteProviderQuestion: "Delete provider?",
+            keysCreating: "Test keys creating"
         },
         directions: {
             fields: {
@@ -791,7 +801,8 @@ const en: TranslationMessages = {
                 deletedSuccessfully: "Deleted successfully"
             },
             chatMessagePlaceholder: "Message...",
-            transactionHistory: "Transaction history"
+            transactionHistory: "Transaction history",
+            accountHistory: "Account history"
         },
         theme: {
             light: "Light theme",

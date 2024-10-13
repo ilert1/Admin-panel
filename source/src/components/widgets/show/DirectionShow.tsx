@@ -1,5 +1,4 @@
-import { fetchUtils, useDataProvider, useShowController, useTranslate } from "react-admin";
-import { useQuery } from "react-query";
+import { fetchUtils, useShowController, useTranslate } from "react-admin";
 import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { Loading } from "@/components/ui/loading";
@@ -12,8 +11,6 @@ import { useToast } from "@/components/ui/use-toast";
 const API_URL = import.meta.env.VITE_ENIGMA_URL;
 
 export const DirectionsShow = (props: { id: string }) => {
-    const dataProvider = useDataProvider();
-    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
     const translate = useTranslate();
     const context = useShowController({ id: props.id });
     const [merchantDirections, setMerchantDirections] = useState([]);

@@ -8,6 +8,56 @@
         <link rel="shortcut icon" href="./favicon.ico" />
         <title>juggler-gui</title>
         <style>
+            @keyframes slideInLeft {
+                from {
+                    transform: translateX(-100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+
+            .animate-in-left {
+                animation: slideInLeft 0.5s ease-out forwards;
+            }
+            
+            @keyframes fadeInDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .fade-in-down {
+                animation: fadeInDown 0.5s ease-out forwards;
+            }
+
+            @keyframes fadeOutUp {
+                from {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+            }
+
+            .fade-out-up {
+                animation: fadeOutUp 0.5s ease-out forwards;
+            }
+
+            .scrollbar-x {
+                scrollbar-width: thin;
+                scrollbar-color: rgba(35, 118, 72, 1) rgba(0, 0, 0, 1);
+            }
+
             .z {
                 z-index: 60 !important;
             }

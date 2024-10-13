@@ -74,6 +74,17 @@ module.exports = {
                     60: "hsl(var(--orange-60))",
                     70: "hsl(var(--orange-70))"
                 },
+                extra: {
+                    1: "hsl(var(--extra-1))",
+                    2: "hsl(var(--extra-2))",
+                    3: "hsl(var(--extra-3))",
+                    4: "hsl(var(--extra-4))",
+                    5: "hsl(var(--extra-5))",
+                    6: "hsl(var(--extra-6))",
+                    7: "hsl(var(--extra-7))",
+                    8: "hsl(var(--extra-8))",
+                    9: "hsl(var(--extra-9))"
+                },
                 loginBG: "hsl(var(--loginBG))",
                 secondary: {
                     DEFAULT: "hsl(var(--secondary))",
@@ -156,4 +167,3 @@ module.exports = {
     },
     plugins: [require("tailwindcss-animate"), scrollbarGutter()]
 };
-// export const plugins = [require("tailwindcss-animate"), scrollbarGutter()];
