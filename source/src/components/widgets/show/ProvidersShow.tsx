@@ -24,26 +24,26 @@ export const ProvidersShow = (props: { id: string }) => {
         return (
             <div className="flex flex-col gap-4 ">
                 <div>
-                    <TextField label={translate("resources.providers.fields.name")} text={context.record.name} />
+                    <TextField label={translate("resources.provider.fields.name")} text={context.record.name} />
                 </div>
                 <div>
                     <Label htmlFor="public_key" className="text-muted-foreground">
-                        {translate("resources.providers.fields.pk")}
+                        {translate("resources.provider.fields.pk")}
                     </Label>
                     <Textarea
                         id="public_key"
-                        value={context.record.public_key || translate("resources.providers.pleaseCreate")}
+                        value={context.record.public_key || translate("resources.provider.pleaseCreate")}
                         disabled
                         className="max-w-96 h-80 disabled:cursor-auto"
                     />
                     <TextField
-                        label={translate("resources.providers.fields.json_schema")}
+                        label={translate("resources.provider.fields.json_schema")}
                         text={context.record.fields_json_schema}
                     />
                 </div>
                 <div>
                     <Label htmlFor="editor" className="text-muted-foreground">
-                        {translate("resources.providers.fields.code")}
+                        {translate("resources.provider.fields.code")}
                     </Label>
                     <Editor
                         height="20vh"

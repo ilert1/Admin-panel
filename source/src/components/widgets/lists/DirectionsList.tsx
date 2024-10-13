@@ -127,7 +127,7 @@ export const DirectionsList = () => {
             }
 
             toast({
-                description: translate("resources.directions.addedSuccess"),
+                description: translate("resources.direction.addedSuccess"),
                 variant: "success",
                 title: "Success"
             });
@@ -135,7 +135,7 @@ export const DirectionsList = () => {
         } catch (error: any) {
             console.log(error);
             toast({
-                description: translate("resources.directions.errors."),
+                description: translate("resources.direction.errors."),
                 variant: "destructive",
                 title: "Error"
             });
@@ -160,24 +160,24 @@ export const DirectionsList = () => {
         {
             id: "id",
             accessorKey: "id",
-            header: translate("resources.directions.fields.id")
+            header: translate("resources.direction.fields.id")
         },
         {
             id: "name",
             accessorKey: "name",
-            header: translate("resources.directions.fields.name")
+            header: translate("resources.direction.fields.name")
         },
         {
             id: "active",
             accessorKey: "active",
-            header: translate("resources.directions.fields.active"),
+            header: translate("resources.direction.fields.active"),
             cell: ({ row }) => {
                 return (
                     <TextField
                         text={
                             row.getValue("active")
-                                ? translate("resources.directions.fields.stateActive")
-                                : translate("resources.directions.fields.stateInactive")
+                                ? translate("resources.direction.fields.stateActive")
+                                : translate("resources.direction.fields.stateInactive")
                         }
                     />
                 );
@@ -186,7 +186,7 @@ export const DirectionsList = () => {
         {
             id: "src_currency",
             accessorKey: "src_currency",
-            header: translate("resources.directions.fields.srcCurr"),
+            header: translate("resources.direction.fields.srcCurr"),
             cell: ({ row }) => {
                 const obj: Omit<Currencies.Currency, "id"> = row.getValue("src_currency");
                 return <TextField text={obj.code} />;
@@ -195,7 +195,7 @@ export const DirectionsList = () => {
         {
             id: "dst_currency",
             accessorKey: "dst_currency",
-            header: translate("resources.directions.fields.destCurr"),
+            header: translate("resources.direction.fields.destCurr"),
             cell: ({ row }) => {
                 const obj: Omit<Currencies.Currency, "id"> = row.getValue("dst_currency");
                 return <TextField text={obj.code} />;
@@ -204,7 +204,7 @@ export const DirectionsList = () => {
         {
             id: "merchant",
             accessorKey: "merchant",
-            header: translate("resources.directions.fields.merchant"),
+            header: translate("resources.direction.fields.merchant"),
             cell: ({ row }) => {
                 const obj: Merchant = row.getValue("merchant");
                 return <TextField text={obj.name} />;
@@ -213,7 +213,7 @@ export const DirectionsList = () => {
         {
             id: "provider",
             accessorKey: "provider",
-            header: translate("resources.directions.provider"),
+            header: translate("resources.direction.provider"),
             cell: ({ row }) => {
                 const obj: Provider = row.getValue("provider");
                 return <TextField text={obj.name} />;
@@ -222,7 +222,7 @@ export const DirectionsList = () => {
         {
             id: "weight",
             accessorKey: "weight",
-            header: translate("resources.directions.weight")
+            header: translate("resources.direction.weight")
         },
         {
             id: "actions",
@@ -268,7 +268,7 @@ export const DirectionsList = () => {
             <>
                 <div className="flex flex-end justify-end mb-4">
                     <Button onClick={handleCreateClick} variant="default">
-                        {translate("resources.directions.create")}
+                        {translate("resources.direction.create")}
                     </Button>
                     <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
                         <AlertDialogContent>
@@ -287,8 +287,8 @@ export const DirectionsList = () => {
                     <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
                         <AlertDialogContent>
                             <AlertDialogHeader>
-                                <div>{translate("resources.directions.writeSecretPhrase")}</div>
-                                <div>{translate("resources.directions.secretHelper")}</div>
+                                <div>{translate("resources.direction.writeSecretPhrase")}</div>
+                                <div>{translate("resources.direction.secretHelper")}</div>
                                 <AlertDialogTitle></AlertDialogTitle>
                                 <AlertDialogDescription></AlertDialogDescription>
                             </AlertDialogHeader>
@@ -326,7 +326,7 @@ export const DirectionsList = () => {
                         side={isMobile ? "bottom" : "right"}>
                         <ScrollArea className="h-full">
                             <SheetHeader className="mb-2">
-                                <SheetTitle>{translate("resources.merchants.showTitle")}</SheetTitle>
+                                <SheetTitle>{translate("resources.merchant.showTitle")}</SheetTitle>
                                 <SheetDescription></SheetDescription>
                             </SheetHeader>
                             <DirectionsShow id={showDirectionId} />

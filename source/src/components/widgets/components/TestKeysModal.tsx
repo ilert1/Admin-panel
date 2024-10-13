@@ -62,7 +62,7 @@ export const TestKeysModal = (props: TestKeysModalProps) => {
                         <div className="flex flex-col gap-[24px] max-h-[468px]">
                             <div className="text-center">
                                 <h4 className="text-display-4 text-neutral-100">
-                                    {translate("resources.providers.keysCreating")}
+                                    {translate("resources.provider.keysCreating")}
                                 </h4>
                             </div>
                             {isLoading ? (
@@ -71,7 +71,7 @@ export const TestKeysModal = (props: TestKeysModalProps) => {
                                 <>
                                     <div className="flex flex-col gap-[4px]">
                                         <Label className="text-note-1" htmlFor="private">
-                                            {translate("resources.providers.privateKey")}
+                                            {translate("resources.provider.privateKey")}
                                         </Label>
                                         <div className="flex items-center justify-center gap-[14px]">
                                             <textarea
@@ -90,7 +90,7 @@ export const TestKeysModal = (props: TestKeysModalProps) => {
                                     </div>
                                     <div className="flex flex-col gap-[4px]">
                                         <Label className="text-note-1" htmlFor="public">
-                                            {translate("resources.providers.fields.pk")}
+                                            {translate("resources.provider.fields.pk")}
                                         </Label>
                                         <div className="flex items-center justify-center gap-[14px]">
                                             <textarea
@@ -117,10 +117,10 @@ export const TestKeysModal = (props: TestKeysModalProps) => {
                         <div className="flex justify-between w-full">
                             <div className="flex flex-col">
                                 <span className="text-red-20 text-title-1">
-                                    {translate("resources.providers.warning")}
+                                    {translate("resources.provider.warning")}
                                 </span>
                                 <span className="text-red-20 text-title-1">
-                                    {translate("resources.providers.sendToDevOps")}
+                                    {translate("resources.provider.sendToDevOps")}
                                 </span>
                             </div>
                             <AlertDialogAction
@@ -128,7 +128,7 @@ export const TestKeysModal = (props: TestKeysModalProps) => {
                                     setCopyPrivateClicked(false);
                                     setCopyPublicClicked(false);
                                 }}>
-                                {translate("resources.providers.close")}
+                                {translate("resources.provider.close")}
                             </AlertDialogAction>
                         </div>
                     </AlertDialogFooter>

@@ -79,17 +79,17 @@ export const MerchantList = () => {
         {
             id: "id",
             accessorKey: "id",
-            header: translate("resources.merchants.fields.id")
+            header: translate("resources.merchant.fields.id")
         },
         {
             id: "name",
             accessorKey: "name",
-            header: translate("resources.merchants.fields.name")
+            header: translate("resources.merchant.fields.name")
         },
         {
             id: "description",
             accessorKey: "description",
-            header: translate("resources.merchants.fields.descr")
+            header: translate("resources.merchant.fields.descr")
         },
         {
             id: "keycloak_id",
@@ -138,7 +138,7 @@ export const MerchantList = () => {
             <>
                 <div className="flex flex-end justify-end mb-4">
                     <Button onClick={handleCreateClick} variant="default">
-                        {translate("resources.merchants.createNew")}
+                        {translate("resources.merchant.createNew")}
                     </Button>
                     <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
                         <AlertDialogContent>
@@ -164,9 +164,9 @@ export const MerchantList = () => {
                         side={isMobile ? "bottom" : "right"}>
                         <ScrollArea className="h-full">
                             <SheetHeader className="mb-2">
-                                <SheetTitle>{translate("resources.merchants.showTitle")}</SheetTitle>
+                                <SheetTitle>{translate("resources.merchant.showTitle")}</SheetTitle>
                                 <SheetDescription>
-                                    {/* {translate("resources.currencies.showDescription", { id: showMerchantId })} */}
+                                    {/* {translate("resources.currency.showDescription", { id: showMerchantId })} */}
                                 </SheetDescription>
                             </SheetHeader>
                             <MerchantShow id={showMerchantId} />

@@ -22,7 +22,7 @@ export const ProviderCreate = () => {
     const [editorValue, setEditorValue] = useState("{}");
     const [error, setError] = useState(false);
     const formSchema = z.object({
-        name: z.string().min(1, translate("resources.merchants.errors.name")).trim(),
+        name: z.string().min(1, translate("resources.merchant.errors.name")).trim(),
         public_key: z.string().nullable(),
         fields_json_schema: z.string().optional().default(""),
         methods: z.string()
@@ -61,7 +61,7 @@ export const ProviderCreate = () => {
             redirect("list", "provider");
         } catch (error) {
             toast({
-                description: translate("resources.providers.errors.alreadyInUse"),
+                description: translate("resources.provider.errors.alreadyInUse"),
                 variant: "error",
                 title: translate("resources.transactions.download.error")
             });
@@ -83,7 +83,7 @@ export const ProviderCreate = () => {
                             name="name"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.providers.fields.name")}</FormLabel>
+                                    <FormLabel>{translate("resources.provider.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} />
@@ -98,7 +98,7 @@ export const ProviderCreate = () => {
                             name="fields_json_schema"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.providers.fields.json_schema")}</FormLabel>
+                                    <FormLabel>{translate("resources.provider.fields.json_schema")}</FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} />
@@ -113,7 +113,7 @@ export const ProviderCreate = () => {
                             name="methods"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
-                                    <FormLabel>{translate("resources.providers.fields.code")}</FormLabel>
+                                    <FormLabel>{translate("resources.provider.fields.code")}</FormLabel>
                                     <FormControl>
                                         <Editor
                                             {...field}

@@ -27,7 +27,7 @@ export const DirectionCreate = () => {
             redirect("list", "direction");
         } catch (error) {
             toast({
-                description: translate("resources.providers.errors.alreadyInUse"),
+                description: translate("resources.provider.errors.alreadyInUse"),
                 variant: "destructive",
                 title: "Error"
             });
@@ -35,13 +35,13 @@ export const DirectionCreate = () => {
     };
 
     const formSchema = z.object({
-        name: z.string().min(1, translate("resources.directions.errors.name")).trim(),
+        name: z.string().min(1, translate("resources.direction.errors.name")).trim(),
         active: z.boolean().default(false),
         description: z.string().trim().nullable(),
-        src_currency: z.string().min(1, translate("resources.directions.errors.src_curr")),
-        dst_currency: z.string().min(1, translate("resources.directions.errors.dst_curr")),
-        merchant: z.string().min(1, translate("resources.directions.errors.merchant")),
-        provider: z.string().min(1, translate("resources.directions.errors.provider")),
+        src_currency: z.string().min(1, translate("resources.direction.errors.src_curr")),
+        dst_currency: z.string().min(1, translate("resources.direction.errors.dst_curr")),
+        merchant: z.string().min(1, translate("resources.direction.errors.merchant")),
+        provider: z.string().min(1, translate("resources.direction.errors.provider")),
         weight: z.coerce.number()
     });
 
@@ -67,7 +67,7 @@ export const DirectionCreate = () => {
 
     return (
         <CreateContextProvider value={controllerProps}>
-            <p className="mb-2">{translate("resources.directions.note")}</p>
+            <p className="mb-2">{translate("resources.direction.note")}</p>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="flex flex-wrap">
@@ -76,7 +76,7 @@ export const DirectionCreate = () => {
                             name="name"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.fields.name")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} />
@@ -91,24 +91,24 @@ export const DirectionCreate = () => {
                             name="active"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.fields.active")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.fields.active")}</FormLabel>
                                     <Select
                                         value={field.value ? "true" : "false"}
                                         onValueChange={value => field.onChange(value === "true")}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue
-                                                    placeholder={translate("resources.directions.fields.active")}
+                                                    placeholder={translate("resources.direction.fields.active")}
                                                 />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
                                                 <SelectItem value="true">
-                                                    {translate("resources.directions.fields.stateActive")}
+                                                    {translate("resources.direction.fields.stateActive")}
                                                 </SelectItem>
                                                 <SelectItem value="false">
-                                                    {translate("resources.directions.fields.stateInactive")}
+                                                    {translate("resources.direction.fields.stateInactive")}
                                                 </SelectItem>
                                             </SelectGroup>
                                         </SelectContent>
@@ -122,7 +122,7 @@ export const DirectionCreate = () => {
                             name="src_currency"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.sourceCurrency")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.sourceCurrency")}</FormLabel>
                                     <Select
                                         value={field.value}
                                         onValueChange={field.onChange}
@@ -132,7 +132,7 @@ export const DirectionCreate = () => {
                                                 <SelectValue
                                                     placeholder={
                                                         currenciesDisabled
-                                                            ? translate("resources.directions.noCurrencies")
+                                                            ? translate("resources.direction.noCurrencies")
                                                             : ""
                                                     }
                                                 />
@@ -159,7 +159,7 @@ export const DirectionCreate = () => {
                             name="dst_currency"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.destinationCurrency")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.destinationCurrency")}</FormLabel>
                                     <Select
                                         value={field.value}
                                         onValueChange={field.onChange}
@@ -169,7 +169,7 @@ export const DirectionCreate = () => {
                                                 <SelectValue
                                                     placeholder={
                                                         currenciesDisabled
-                                                            ? translate("resources.directions.noCurrencies")
+                                                            ? translate("resources.direction.noCurrencies")
                                                             : ""
                                                     }
                                                 />
@@ -196,7 +196,7 @@ export const DirectionCreate = () => {
                             name="merchant"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.merchant")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.merchant")}</FormLabel>
                                     <Select
                                         value={field.value}
                                         onValueChange={field.onChange}
@@ -206,7 +206,7 @@ export const DirectionCreate = () => {
                                                 <SelectValue
                                                     placeholder={
                                                         merchantsDisabled
-                                                            ? translate("resources.directions.noMerchants")
+                                                            ? translate("resources.direction.noMerchants")
                                                             : ""
                                                     }
                                                 />
@@ -233,7 +233,7 @@ export const DirectionCreate = () => {
                             name="provider"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.provider")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.provider")}</FormLabel>
                                     <Select
                                         value={field.value}
                                         onValueChange={field.onChange}
@@ -243,7 +243,7 @@ export const DirectionCreate = () => {
                                                 <SelectValue
                                                     placeholder={
                                                         providersDisabled
-                                                            ? translate("resources.directions.noProviders")
+                                                            ? translate("resources.direction.noProviders")
                                                             : ""
                                                     }
                                                 />
@@ -273,7 +273,7 @@ export const DirectionCreate = () => {
                             name="weight"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.weight")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.weight")}</FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} />
@@ -288,7 +288,7 @@ export const DirectionCreate = () => {
                             name="description"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.description")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.description")}</FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} value={field.value ?? ""} />

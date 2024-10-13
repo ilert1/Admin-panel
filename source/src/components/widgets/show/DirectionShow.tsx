@@ -45,24 +45,24 @@ export const DirectionsShow = (props: { id: string }) => {
         {
             id: "id",
             accessorKey: "id",
-            header: translate("resources.directions.fields.id")
+            header: translate("resources.direction.fields.id")
         },
         {
             id: "name",
             accessorKey: "name",
-            header: translate("resources.directions.fields.name")
+            header: translate("resources.direction.fields.name")
         },
         {
             id: "active",
             accessorKey: "active",
-            header: translate("resources.directions.fields.active"),
+            header: translate("resources.direction.fields.active"),
             cell: ({ row }) => {
                 return (
                     <TextField
                         text={
                             row.getValue("active")
-                                ? translate("resources.directions.fields.stateActive")
-                                : translate("resources.directions.fields.stateInactive")
+                                ? translate("resources.direction.fields.stateActive")
+                                : translate("resources.direction.fields.stateInactive")
                         }
                     />
                 );
@@ -71,7 +71,7 @@ export const DirectionsShow = (props: { id: string }) => {
         {
             id: "src_currency",
             accessorKey: "src_currency",
-            header: translate("resources.directions.fields.srcCurr"),
+            header: translate("resources.direction.fields.srcCurr"),
             cell: ({ row }) => {
                 const obj: Omit<Currencies.Currency, "id"> = row.getValue("src_currency");
                 return <TextField text={obj.code} />;
@@ -80,7 +80,7 @@ export const DirectionsShow = (props: { id: string }) => {
         {
             id: "dst_currency",
             accessorKey: "dst_currency",
-            header: translate("resources.directions.fields.destCurr"),
+            header: translate("resources.direction.fields.destCurr"),
             cell: ({ row }) => {
                 const obj: Omit<Currencies.Currency, "id"> = row.getValue("dst_currency");
                 return <TextField text={obj.code} />;
@@ -89,7 +89,7 @@ export const DirectionsShow = (props: { id: string }) => {
         {
             id: "merchant",
             accessorKey: "merchant",
-            header: translate("resources.directions.fields.merchant"),
+            header: translate("resources.direction.fields.merchant"),
             cell: ({ row }) => {
                 const obj: Merchant = row.getValue("merchant");
                 return <TextField text={obj.name} />;
@@ -98,7 +98,7 @@ export const DirectionsShow = (props: { id: string }) => {
         {
             id: "provider",
             accessorKey: "provider",
-            header: translate("resources.directions.provider"),
+            header: translate("resources.direction.provider"),
             cell: ({ row }) => {
                 const obj: Provider = row.getValue("provider");
                 return <TextField text={obj.name} />;
@@ -107,7 +107,7 @@ export const DirectionsShow = (props: { id: string }) => {
         {
             id: "weight",
             accessorKey: "weight",
-            header: translate("resources.directions.weight")
+            header: translate("resources.direction.weight")
         }
     ];
 
@@ -116,42 +116,42 @@ export const DirectionsShow = (props: { id: string }) => {
     } else {
         return (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                <TextField label={translate("resources.directions.fields.id")} text={context.record.id} />
-                <TextField label={translate("resources.directions.fields.name")} text={context.record.name} />
+                <TextField label={translate("resources.direction.fields.id")} text={context.record.id} />
+                <TextField label={translate("resources.direction.fields.name")} text={context.record.name} />
                 <TextField
-                    label={translate("resources.directions.fields.description")}
+                    label={translate("resources.direction.fields.description")}
                     text={context.record.description}
                 />
 
                 <TextField
-                    label={translate("resources.directions.fields.srcCurr")}
+                    label={translate("resources.direction.fields.srcCurr")}
                     text={context.record.src_currency.code}
                 />
                 <TextField
-                    label={translate("resources.directions.fields.destCurr")}
+                    label={translate("resources.direction.fields.destCurr")}
                     text={context.record.dst_currency.code}
                 />
                 <TextField
-                    label={translate("resources.directions.fields.active")}
+                    label={translate("resources.direction.fields.active")}
                     text={
                         context.record.active
-                            ? translate("resources.directions.fields.stateActive")
-                            : translate("resources.directions.fields.stateInactive")
+                            ? translate("resources.direction.fields.stateActive")
+                            : translate("resources.direction.fields.stateInactive")
                     }
                 />
 
-                <TextField label={translate("resources.directions.merchant")} text={context.record.merchant.name} />
-                <TextField label={translate("resources.directions.provider")} text={context.record.provider.name} />
-                <TextField label={translate("resources.directions.weight")} text={String(context.record.weight)} />
+                <TextField label={translate("resources.direction.merchant")} text={context.record.merchant.name} />
+                <TextField label={translate("resources.direction.provider")} text={context.record.provider.name} />
+                <TextField label={translate("resources.direction.weight")} text={String(context.record.weight)} />
 
                 <div className="col-span-1 sm:col-span-2 md:col-span-3">
                     <Label htmlFor="api_key" className="text-muted-foreground">
-                        {translate("resources.directions.fields.api_key")}
+                        {translate("resources.direction.fields.api_key")}
                     </Label>
                     <Textarea
                         id="api_key"
                         value={
-                            JSON.stringify(context.record.auth_data) || translate("resources.directions.pleaseCreate")
+                            JSON.stringify(context.record.auth_data) || translate("resources.direction.pleaseCreate")
                         }
                         disabled
                         className="w-full h-40 disabled:cursor-default"
@@ -159,7 +159,7 @@ export const DirectionsShow = (props: { id: string }) => {
                 </div>
                 <div className="mt-5 w-full col-span-1 sm:col-span-2 md:col-span-3">
                     <small className="text-sm text-muted-foreground">
-                        {translate("resources.directions.fields.merchantsDirections") + context.record.merchant.name}
+                        {translate("resources.direction.fields.merchantsDirections") + context.record.merchant.name}
                     </small>
                     <SimpleTable columns={columns} data={merchantDirections} />
                 </div>

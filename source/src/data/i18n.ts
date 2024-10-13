@@ -7,7 +7,7 @@ const ru: TranslationMessages = {
     ...raRU,
     resources: {
         accounts: {
-            name: "Счет |||| Счета",
+            name: "Счета",
             fields: {
                 owner: "Владелец",
                 state: "Статус",
@@ -34,7 +34,7 @@ const ru: TranslationMessages = {
             showDescription: "Подробная информация о счете с ID %{id}"
         },
         users: {
-            name: "Пользователь |||| Пользователи",
+            name: "Пользователи",
             user: "Пользователь",
             edit: "Редактировать",
             deleteThisUser: "Удалить пользователя?",
@@ -72,7 +72,7 @@ const ru: TranslationMessages = {
             }
         },
         transactions: {
-            name: "Транзакция |||| История операций",
+            name: "История операций",
             fields: {
                 id: "ID операции",
                 created_at: "Дата создания",
@@ -179,7 +179,7 @@ const ru: TranslationMessages = {
             }
         },
         withdraw: {
-            name: "Вывод в криптовалюте |||| Выводы в криптовалюте",
+            name: "Операции с криптовалютой",
             fields: {
                 id: "ID",
                 created_at: "Дата и время создания",
@@ -196,7 +196,8 @@ const ru: TranslationMessages = {
                 }
             }
         },
-        currencies: {
+        currency: {
+            name: "Валюты",
             fields: {
                 currency: "Валюта",
                 type: "Тип",
@@ -216,7 +217,8 @@ const ru: TranslationMessages = {
             showTitle: "Детальная информацию о валюте",
             showDescription: "Детальная информацию о валюте"
         },
-        merchants: {
+        merchant: {
+            name: "Мерчанты",
             fields: {
                 id: "ID",
                 name: "Имя",
@@ -231,7 +233,8 @@ const ru: TranslationMessages = {
             showTitle: "Детальная инфорация о мерчанте",
             createNew: "Создать нового мерчанта"
         },
-        providers: {
+        provider: {
+            name: "Провайдеры",
             fields: {
                 name: "Провайдер",
                 pk: "Публичный ключ",
@@ -261,7 +264,8 @@ const ru: TranslationMessages = {
             deleteProviderQuestion: "Удалить провайдера?",
             keysCreating: "Создание тестовых ключей"
         },
-        directions: {
+        direction: {
+            name: "Направления",
             fields: {
                 name: "Название направления",
                 active: "Состояние",
@@ -306,21 +310,22 @@ const ru: TranslationMessages = {
     },
     app: {
         menu: {
-            accounts: "Счета",
-            transactions: "История операций",
-            payin: "Пополнение",
-            dashboard: "Главная",
-            bankTransfer: "Банковский перевод",
-            cryptoTransfer: "Перевод криптовалюты",
-            withdraw: "Вывод в криптовалюте",
-            users: "Пользователи",
-            currency: "Валюты",
-            currencies: "Валюты",
-            merchant: "Мерчанты",
-            provider: "Провайдеры",
-            providers: "Провайдеры",
-            direction: "Направления",
-            directions: "Направления"
+            merchant: {
+                accounts: "Мои счета",
+                transactions: "История операций",
+                cryptoOperations: "Операции с криптовалютой",
+                bankTransfer: "Банковский перевод"
+            },
+            admin: {
+                accounts: "Счета",
+                transactions: "Операции",
+                withdraw: "Вывод в криптовалюте",
+                users: "Пользователи",
+                currencies: "Валюты",
+                merchant: "Мерчанты",
+                providers: "Провайдеры",
+                directions: "Направления"
+            }
         },
         ui: {
             actions: {
@@ -461,7 +466,7 @@ const en: TranslationMessages = {
     ...raEn,
     resources: {
         accounts: {
-            name: "Account |||| Accounts",
+            name: "Accounts",
             fields: {
                 owner: "Owner",
                 state: "State",
@@ -488,7 +493,7 @@ const en: TranslationMessages = {
             showDescription: "Detailed information about account with ID %{id}"
         },
         users: {
-            name: "User |||| Users",
+            name: "Users",
             user: "User",
             edit: "Edit",
             delete: "Delete",
@@ -526,7 +531,7 @@ const en: TranslationMessages = {
             }
         },
         transactions: {
-            name: "Transaction |||| Transactions",
+            name: "Transactions",
             fields: {
                 id: "ID",
                 created_at: "Created at",
@@ -633,7 +638,7 @@ const en: TranslationMessages = {
             }
         },
         withdraw: {
-            name: "Crypto Withdrawal |||| Crypto Withdrawals",
+            name: "Crypto operations",
             fields: {
                 id: "ID",
                 created_at: "Created at",
@@ -650,7 +655,8 @@ const en: TranslationMessages = {
                 }
             }
         },
-        currencies: {
+        currency: {
+            name: "Currencies",
             fields: {
                 currency: "Currency",
                 type: "Type",
@@ -670,7 +676,8 @@ const en: TranslationMessages = {
             showTitle: "Detailed information about currency",
             showDescription: "Detailed information about currency"
         },
-        merchants: {
+        merchant: {
+            name: "Merchants",
             fields: {
                 id: "ID",
                 name: "Name",
@@ -685,7 +692,8 @@ const en: TranslationMessages = {
             showTitle: "Detailed information about merchant",
             createNew: "Create new merchant"
         },
-        providers: {
+        provider: {
+            name: "Providers",
             fields: {
                 name: "Provider",
                 pk: "Public key",
@@ -715,7 +723,8 @@ const en: TranslationMessages = {
             deleteProviderQuestion: "Delete provider?",
             keysCreating: "Test keys creating"
         },
-        directions: {
+        direction: {
+            name: "Directions",
             fields: {
                 name: "Directions name",
                 active: "State",
@@ -761,21 +770,22 @@ const en: TranslationMessages = {
     },
     app: {
         menu: {
-            accounts: "Accounts",
-            transactions: "Transactions",
-            payin: "Pay in",
-            dashboard: "Dashboard",
-            bankTransfer: "Bank Transfer",
-            cryptoTransfer: "Crypto Wallet Transfer",
-            withdraw: "Crypto Withdrawal",
-            users: "Users",
-            currency: "Currencies",
-            currencies: "Currencies",
-            merchant: "Merchants",
-            provider: "Providers",
-            providers: "Providers",
-            direction: "Directions",
-            directions: "Directions"
+            merchant: {
+                accounts: "My accounts",
+                transactions: "Transactions history",
+                cryptoOperations: "Crypto transactions",
+                bankTransfer: "Bank transfer"
+            },
+            admin: {
+                accounts: "Accounts",
+                transactions: "Transactions",
+                withdraw: "Withdrawal in crypto",
+                users: "Users",
+                currencies: "Currencies",
+                merchant: "Merchants",
+                providers: "Providers",
+                directions: "Directions"
+            }
         },
         ui: {
             actions: {

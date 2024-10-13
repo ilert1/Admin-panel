@@ -24,6 +24,7 @@ import {
     HandCoinsIcon,
     LanguagesIcon,
     BitcoinIcon,
+    CreditCardIcon,
     ChevronLeftCircleIcon,
     ChevronRightCircleIcon,
     MessagesSquareIcon,
@@ -71,7 +72,10 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
 
     const pageTitle = useMemo(() => {
         if (resourceName.length > 0) {
-            return translate(`app.menu.${resourceName[0].replace(/-./g, x => x[1].toUpperCase())}`);
+            if (resourceName[0] === "bank-transfer") {
+                return translate("app.menu.merchant.bankTransfer");
+            }
+            return getResourceLabel(resourceName[0]);
         }
     }, [resourceName, translate]);
 
@@ -256,8 +260,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 <aside
                     className={
                         isSheetOpen
-                            ? "w-[280px] h-full flex flex-col flex-shrink-0 items-stretch overflow-y-auto overflow-x-hidden scrollbar-stable justify-start items-center bg-header transition-[width] pt-6"
-                            : "w-[72px] h-full flex flex-col flex-shrink-0 items-stretch overflow-y-auto overflow-x-hidden scrollbar-stable justify-start items-center bg-header transition-[width] pt-6"
+                            ? "w-[280px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden scrollbar-stable justify-start bg-header transition-[width] pt-6"
+                            : "w-[72px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden scrollbar-stable justify-start bg-header transition-[width] pt-6"
                     }>
                     {isSheetOpen ? (
                         <div className="flex flex-shrink-0 justify-center items-center h-[63px] gap-6">
@@ -313,15 +317,15 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                         ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
                                         : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
                                 }>
-                                <HandCoinsIcon />
+                                <CreditCardIcon />
                                 {showCaptions ? (
                                     <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
-                                        {translate("app.menu.bankTransfer")}
+                                        {translate("app.menu.merchant.bankTransfer")}
                                     </span>
                                 ) : null}
                             </NavLink>
                         )}
-                        {merchantOnly && (
+                        {/* {merchantOnly && (
                             <NavLink
                                 to="/crypto-transfer"
                                 className={
@@ -332,11 +336,11 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 <BitcoinIcon />
                                 {showCaptions ? (
                                     <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
-                                        {translate("app.menu.cryptoTransfer")}
+                                        {translate("app.menu.merchant.cryptoOperations")}
                                     </span>
                                 ) : null}
                             </NavLink>
-                        )}
+                        )} */}
                     </nav>
 
                     {isSheetOpen && permissions === "admin" && (
@@ -346,7 +350,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                     setTestKeysModalOpen(true);
                                 }}
                                 className="w-full pl-6 flex gap-[4px] translate-x-[-100%] animate-in-left transition-transform duration-500 ease-out">
-                                <KeyRound /> {translate("resources.providers.createTestKeys")}
+                                <KeyRound /> {translate("resources.provider.createTestKeys")}
                             </Button>
                             <TestKeysModal open={testKeysModalOpen} onOpenChange={setTestKeysModalOpen} />
                         </div>

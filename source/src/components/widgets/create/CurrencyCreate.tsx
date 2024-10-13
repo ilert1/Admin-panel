@@ -28,7 +28,7 @@ export const CurrencyCreate = () => {
             redirect("list", "currency");
         } catch (error) {
             toast({
-                description: translate("resources.currencies.errors.alreadyInUse"),
+                description: translate("resources.currency.errors.alreadyInUse"),
                 variant: "destructive",
                 title: "Error"
             });
@@ -36,7 +36,7 @@ export const CurrencyCreate = () => {
     };
 
     const formSchema = z.object({
-        code: z.string().min(1, translate("resources.currencies.errors.code")),
+        code: z.string().min(1, translate("resources.currency.errors.code")),
         position: z.enum([PositionEnum.AFTER, PositionEnum.BEFORE]),
         symbol: z.string().trim().nullable(),
         is_coin: z.boolean().default(false)
@@ -64,7 +64,7 @@ export const CurrencyCreate = () => {
                             name="code"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.currencies.fields.currencyName")}</FormLabel>
+                                    <FormLabel>{translate("resources.currency.fields.currencyName")}</FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
@@ -77,24 +77,24 @@ export const CurrencyCreate = () => {
                             name="is_coin"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.currencies.fields.type")}</FormLabel>
+                                    <FormLabel>{translate("resources.currency.fields.type")}</FormLabel>
                                     <Select
                                         onValueChange={value => field.onChange(value === "true")}
                                         value={field.value ? "true" : "false"}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue
-                                                    placeholder={translate("resources.currencies.fields.type")}
+                                                    placeholder={translate("resources.currency.fields.type")}
                                                 />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
                                                 <SelectItem value="false">
-                                                    {translate("resources.currencies.fields.fiat")}
+                                                    {translate("resources.currency.fields.fiat")}
                                                 </SelectItem>
                                                 <SelectItem value="true">
-                                                    {translate("resources.currencies.fields.crypto")}
+                                                    {translate("resources.currency.fields.crypto")}
                                                 </SelectItem>
                                             </SelectGroup>
                                         </SelectContent>
@@ -108,7 +108,7 @@ export const CurrencyCreate = () => {
                             name="symbol"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.currencies.fields.symbol")}</FormLabel>
+                                    <FormLabel>{translate("resources.currency.fields.symbol")}</FormLabel>
                                     <FormControl>
                                         <Input {...field} value={field.value ?? ""} />
                                     </FormControl>
@@ -121,23 +121,23 @@ export const CurrencyCreate = () => {
                             name="position"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.currencies.fields.symbPos")}</FormLabel>
+                                    <FormLabel>{translate("resources.currency.fields.symbPos")}</FormLabel>
                                     <FormControl>
                                         <Select
                                             onValueChange={value => field.onChange(value as PositionEnum)}
                                             value={field.value}>
                                             <SelectTrigger className="">
                                                 <SelectValue
-                                                    placeholder={translate("resources.currencies.fields.symbPos")}
+                                                    placeholder={translate("resources.currency.fields.symbPos")}
                                                 />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectGroup>
                                                     <SelectItem value={PositionEnum.BEFORE}>
-                                                        {translate("resources.currencies.fields.before")}
+                                                        {translate("resources.currency.fields.before")}
                                                     </SelectItem>
                                                     <SelectItem value={PositionEnum.AFTER}>
-                                                        {translate("resources.currencies.fields.after")}
+                                                        {translate("resources.currency.fields.after")}
                                                     </SelectItem>
                                                 </SelectGroup>
                                             </SelectContent>

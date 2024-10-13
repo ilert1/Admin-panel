@@ -11,22 +11,22 @@ export const CurrenciesShow = (props: { id: string }) => {
     } else {
         return (
             <div className="flex flex-col gap-2">
-                <TextField label={translate("resources.currencies.fields.currency")} text={context.record.id} />
+                <TextField label={translate("resources.currency.fields.currency")} text={context.record.id} />
                 <TextField
-                    label={translate("resources.currencies.fields.type")}
+                    label={translate("resources.currency.fields.type")}
                     text={
                         context.record.is_coin
-                            ? translate("resources.currencies.fields.crypto")
-                            : translate("resources.currencies.fields.fiat")
+                            ? translate("resources.currency.fields.crypto")
+                            : translate("resources.currency.fields.fiat")
                     }
                 />
-                <TextField label={translate("resources.currencies.fields.symbol")} text={context.record.symbol} />
+                <TextField label={translate("resources.currency.fields.symbol")} text={context.record.symbol} />
                 <TextField
-                    label={translate("resources.currencies.fields.symbPos")}
+                    label={translate("resources.currency.fields.symbPos")}
                     text={
                         context.record.position === "before"
-                            ? translate("resources.currencies.fields.before")
-                            : translate("resources.currencies.fields.after")
+                            ? translate("resources.currency.fields.before")
+                            : translate("resources.currency.fields.after")
                     }
                 />
             </div>

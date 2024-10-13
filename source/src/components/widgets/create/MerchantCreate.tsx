@@ -29,7 +29,7 @@ export const MerchantCreate = () => {
             await dataProvider.create("merchant", { data });
         } catch (error) {
             toast({
-                description: translate("resources.merchants.errors.alreadyInUse"),
+                description: translate("resources.merchant.errors.alreadyInUse"),
                 variant: "destructive",
                 title: "Error"
             });
@@ -38,14 +38,14 @@ export const MerchantCreate = () => {
     };
 
     const formSchema = z.object({
-        id: z.string().min(1, translate("resources.merchants.errors.id")).trim(),
-        name: z.string().min(1, translate("resources.merchants.errors.name")).trim(),
+        id: z.string().min(1, translate("resources.merchant.errors.id")).trim(),
+        name: z.string().min(1, translate("resources.merchant.errors.name")).trim(),
         description: z.string().trim().nullable(),
         keycloak_id: z
             .string()
             .nullable()
             .refine(value => value === null || !/\s/.test(value), {
-                message: translate("resources.merchants.errors.noSpaces")
+                message: translate("resources.merchant.errors.noSpaces")
             })
     });
 
@@ -71,7 +71,7 @@ export const MerchantCreate = () => {
                             name="id"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.merchants.fields.id")}</FormLabel>
+                                    <FormLabel>{translate("resources.merchant.fields.id")}</FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} />
@@ -86,7 +86,7 @@ export const MerchantCreate = () => {
                             name="name"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.merchants.fields.name")}</FormLabel>
+                                    <FormLabel>{translate("resources.merchant.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} />
@@ -101,7 +101,7 @@ export const MerchantCreate = () => {
                             name="description"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
-                                    <FormLabel>{translate("resources.merchants.fields.descr")}</FormLabel>
+                                    <FormLabel>{translate("resources.merchant.fields.descr")}</FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} value={field.value ?? ""} />

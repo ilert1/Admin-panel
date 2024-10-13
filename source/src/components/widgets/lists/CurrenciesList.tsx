@@ -85,19 +85,19 @@ export const CurrenciesList = () => {
         {
             id: "id",
             accessorKey: "code",
-            header: translate("resources.currencies.fields.currency")
+            header: translate("resources.currency.fields.currency")
         },
         {
             id: "is_coin",
             accessorKey: "is_coin",
-            header: translate("resources.currencies.fields.type"),
+            header: translate("resources.currency.fields.type"),
             cell: ({ row }) => {
                 return (
                     <TextField
                         text={
                             row.getValue("is_coin") === false
-                                ? translate("resources.currencies.fields.fiat")
-                                : translate("resources.currencies.fields.crypto")
+                                ? translate("resources.currency.fields.fiat")
+                                : translate("resources.currency.fields.crypto")
                         }
                     />
                 );
@@ -106,19 +106,19 @@ export const CurrenciesList = () => {
         {
             id: "symbol",
             accessorKey: "symbol",
-            header: translate("resources.currencies.fields.symbol")
+            header: translate("resources.currency.fields.symbol")
         },
         {
             id: "position",
             accessorKey: "position",
-            header: translate("resources.currencies.fields.symbPos"),
+            header: translate("resources.currency.fields.symbPos"),
             cell: ({ row }) => {
                 return (
                     <TextField
                         text={
                             row.getValue("position") === "before"
-                                ? translate("resources.currencies.fields.before")
-                                : translate("resources.currencies.fields.after")
+                                ? translate("resources.currency.fields.before")
+                                : translate("resources.currency.fields.after")
                         }
                     />
                 );
@@ -166,7 +166,7 @@ export const CurrenciesList = () => {
             <>
                 <div className="flex flex-end justify-end mb-4">
                     <Button onClick={handleCreateClick} variant="default">
-                        {translate("resources.currencies.create")}
+                        {translate("resources.currency.create")}
                     </Button>
 
                     <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -195,7 +195,7 @@ export const CurrenciesList = () => {
                         side={isMobile ? "bottom" : "right"}>
                         <ScrollArea className="h-full">
                             <SheetHeader className="mb-2">
-                                <SheetTitle>{translate("resources.currencies.showTitle")}</SheetTitle>
+                                <SheetTitle>{translate("resources.currency.showTitle")}</SheetTitle>
                             </SheetHeader>
                             <CurrenciesShow id={showCurrencyId} />
                         </ScrollArea>

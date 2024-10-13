@@ -14,7 +14,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, XIcon, Copy } from "lucide-react";
+import { MoreHorizontal, XIcon, Copy, EyeIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { AccountShow } from "@/components/widgets/show";
@@ -680,7 +680,7 @@ export const AccountList = () => {
                         <DropdownMenuTrigger asChild>
                             <div className="flex items-center">
                                 <Button variant="secondary" className="h-7 w-7 p-0 bg-transparent">
-                                    <Icon name="eye" isCurrency={false} />
+                                    <EyeIcon className="text-green-50 size-7" />
                                 </Button>
                             </div>
                         </DropdownMenuTrigger>

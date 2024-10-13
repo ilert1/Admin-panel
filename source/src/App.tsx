@@ -29,7 +29,16 @@ import {
 import { Route } from "react-router-dom";
 import { PayOutPage, PayOutCryptoPage, LoginPage } from "./pages";
 import { MainLayout } from "./layouts";
-import { WalletIcon, ReceiptIcon, WaypointsIcon, UsersIcon, StoreIcon, PcCaseIcon, MilestoneIcon } from "lucide-react";
+import {
+    WalletMinimalIcon,
+    HistoryIcon,
+    BitcoinIcon,
+    UsersIcon,
+    BanknoteIcon,
+    StoreIcon,
+    NetworkIcon,
+    SignpostIcon
+} from "lucide-react";
 import { authProvider, ThemeProvider } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
@@ -43,7 +52,6 @@ import {
     UserShow,
     WithdrawShow
 } from "./components/widgets/show";
-import { CurrencyIcon } from "lucide-react";
 import { CurrencyEdit, MerchantEdit, ProvidersEdit, UserEdit } from "./components/widgets/edit";
 import { InitLoading } from "./components/ui/loading";
 
@@ -77,54 +85,35 @@ export const App = () => {
                     loginPage={LoginPage}>
                     {(permissions: string) => (
                         <>
-                            {permissions === "admin" ? (
-                                <>
-                                    <Resource
-                                        name="transactions"
-                                        list={TransactionList}
-                                        show={TransactionShow}
-                                        icon={ReceiptIcon}
-                                    />
-                                    <Resource
-                                        name="accounts"
-                                        list={AccountList}
-                                        show={AccountShow}
-                                        create={AccountCreate}
-                                        icon={WalletIcon}
-                                    />
-                                </>
-                            ) : (
-                                <>
-                                    <Resource
-                                        name="accounts"
-                                        list={AccountList}
-                                        show={AccountShow}
-                                        create={AccountCreate}
-                                        icon={WalletIcon}
-                                    />
+                            <Resource
+                                name="accounts"
+                                list={AccountList}
+                                show={AccountShow}
+                                create={AccountCreate}
+                                icon={WalletMinimalIcon}
+                            />
 
-                                    <Resource
-                                        name="transactions"
-                                        list={TransactionList}
-                                        show={TransactionShow}
-                                        icon={ReceiptIcon}
-                                    />
-                                </>
-                            )}
+                            <Resource
+                                name="transactions"
+                                list={TransactionList}
+                                show={TransactionShow}
+                                icon={HistoryIcon}
+                            />
 
-                            <Resource name="withdraw" list={WithdrawList} show={WithdrawShow} icon={WaypointsIcon} />
+                            <Resource name="withdraw" list={WithdrawList} show={WithdrawShow} icon={BitcoinIcon} />
 
                             {permissions === "admin" && (
                                 <>
+                                    <Resource name="users" list={UserList} show={UserShow} icon={UsersIcon} />
                                     <Resource
                                         name="currency"
                                         list={CurrenciesList}
                                         show={CurrenciesShow}
                                         create={CurrencyCreate}
                                         edit={CurrencyEdit}
-                                        icon={CurrencyIcon}
+                                        icon={BanknoteIcon}
                                     />
-                                    <Resource name="users" list={UserList} show={UserShow} icon={UsersIcon} />
+
                                     <Resource
                                         name="merchant"
                                         list={MerchantList}
@@ -139,13 +128,13 @@ export const App = () => {
                                         show={ProvidersShow}
                                         edit={ProvidersEdit}
                                         create={ProviderCreate}
-                                        icon={PcCaseIcon}
+                                        icon={NetworkIcon}
                                     />
                                     <Resource
                                         name="direction"
                                         list={DirectionsList}
                                         show={DirectionsShow}
-                                        icon={MilestoneIcon}
+                                        icon={SignpostIcon}
                                         create={DirectionCreate}
                                     />
                                 </>

@@ -42,7 +42,7 @@ export const UserEdit = ({
             redirect("list", "users");
         } catch (error) {
             toast({
-                description: translate("resources.currencies.errors.alreadyInUse"),
+                description: translate("resources.currency.errors.alreadyInUse"),
                 variant: "destructive",
                 title: "Error"
             });

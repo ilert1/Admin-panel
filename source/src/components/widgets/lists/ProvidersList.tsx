@@ -143,17 +143,17 @@ export const ProvidersList = () => {
         {
             id: "name",
             accessorKey: "name",
-            header: translate("resources.providers.fields.name")
+            header: translate("resources.provider.fields.name")
         },
         {
             id: "public_key",
             accessorKey: "public_key",
-            header: translate("resources.providers.fields.pk"),
+            header: translate("resources.provider.fields.pk"),
             cell: ({ row }) => {
                 if (!row.getValue("public_key")) {
                     return (
                         <Button onClick={() => handleClickGenerate(row.getValue("name"))}>
-                            {translate("resources.providers.fields.genKey")}
+                            {translate("resources.provider.fields.genKey")}
                         </Button>
                     );
                 } else {
@@ -168,7 +168,7 @@ export const ProvidersList = () => {
         {
             id: "fields_json_schema",
             accessorKey: "fields_json_schema",
-            header: translate("resources.providers.fields.json_schema"),
+            header: translate("resources.provider.fields.json_schema"),
             cell: ({ row }) => {
                 return (
                     <TextField
@@ -185,7 +185,7 @@ export const ProvidersList = () => {
         },
         {
             id: "recreate_field",
-            header: translate("resources.providers.fields.regenKey"),
+            header: translate("resources.provider.fields.regenKey"),
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
@@ -248,7 +248,7 @@ export const ProvidersList = () => {
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleClickGenerate(row.original.id)}>
                                 <p className="text-popover-foreground">
-                                    {translate("resources.providers.fields.regenKey")}
+                                    {translate("resources.provider.fields.regenKey")}
                                 </p>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -282,13 +282,13 @@ export const ProvidersList = () => {
                 <div>
                     <div className="flex justify-end justify-between mb-4 mt-[24px]">
                         <Button onClick={handleCreateClick} variant="default">
-                            {translate("resources.providers.createNew")}
+                            {translate("resources.provider.createNew")}
                         </Button>
                         <AlertDialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
                             <AlertDialogContent className="max-w-[716px] bg-muted">
                                 <AlertDialogHeader>
                                     <AlertDialogTitle className="text-center">
-                                        {translate("resources.providers.deleteProviderQuestion")}
+                                        {translate("resources.provider.deleteProviderQuestion")}
                                     </AlertDialogTitle>
                                     <AlertDialogDescription></AlertDialogDescription>
                                 </AlertDialogHeader>
@@ -306,7 +306,7 @@ export const ProvidersList = () => {
                             <AlertDialogContent className="w-[251px] bg-muted">
                                 <AlertDialogHeader>
                                     <AlertDialogTitle className="text-center">
-                                        {translate("resources.providers.deleteProviderQuestion")}
+                                        {translate("resources.provider.deleteProviderQuestion")}
                                     </AlertDialogTitle>
                                     <AlertDialogDescription></AlertDialogDescription>
                                 </AlertDialogHeader>
@@ -324,14 +324,14 @@ export const ProvidersList = () => {
                         <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
                             <AlertDialogContent>
                                 <AlertDialogHeader>
-                                    <AlertDialogTitle>{translate("resources.providers.attention")}</AlertDialogTitle>
+                                    <AlertDialogTitle>{translate("resources.provider.attention")}</AlertDialogTitle>
                                     <AlertDialogDescription>
-                                        {translate("resources.providers.warning")}
+                                        {translate("resources.provider.warning")}
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                     <AlertDialogAction onClick={handleGen}>
-                                        {translate("resources.providers.continue")}
+                                        {translate("resources.provider.continue")}
                                     </AlertDialogAction>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
@@ -340,7 +340,7 @@ export const ProvidersList = () => {
                         <AlertDialog open={wait} onOpenChange={setWait}>
                             <AlertDialogContent>
                                 <AlertDialogHeader>
-                                    <AlertDialogTitle>{translate("resources.providers.pleaseWait")}</AlertDialogTitle>
+                                    <AlertDialogTitle>{translate("resources.provider.pleaseWait")}</AlertDialogTitle>
                                 </AlertDialogHeader>
                                 <AlertDialogDescription></AlertDialogDescription>
                             </AlertDialogContent>
@@ -353,7 +353,7 @@ export const ProvidersList = () => {
                                         <div className="flex items-center space-x-2">
                                             <div className="relative flex-1">
                                                 <Label htmlFor="private">
-                                                    {translate("resources.providers.privateKey")}
+                                                    {translate("resources.provider.privateKey")}
                                                 </Label>
                                                 <textarea
                                                     value={privateKey}
@@ -362,7 +362,7 @@ export const ProvidersList = () => {
                                                     id="private"
                                                 />
                                                 <Label htmlFor="public">
-                                                    {translate("resources.providers.fields.pk")}
+                                                    {translate("resources.provider.fields.pk")}
                                                 </Label>
                                                 <textarea
                                                     value={publicKey}
@@ -392,7 +392,7 @@ export const ProvidersList = () => {
                                             setSaveClicked(false);
                                             setPublicSaveClicked(false);
                                         }}>
-                                        {translate("resources.providers.close")}
+                                        {translate("resources.provider.close")}
                                     </AlertDialogAction>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
@@ -400,7 +400,7 @@ export const ProvidersList = () => {
                         <AlertDialog open={keyShow} onOpenChange={setKeyShow}>
                             <AlertDialogContent>
                                 <AlertDialogHeader>
-                                    <AlertDialogTitle>{translate("resources.providers.clickToCopy")}</AlertDialogTitle>
+                                    <AlertDialogTitle>{translate("resources.provider.clickToCopy")}</AlertDialogTitle>
                                     <AlertDialogDescription>
                                         <div className="flex items-center space-x-2">
                                             <div className="relative flex-1">
@@ -421,7 +421,7 @@ export const ProvidersList = () => {
                                         onClick={async () => {
                                             await refetch();
                                         }}>
-                                        {translate("resources.providers.close")}
+                                        {translate("resources.provider.close")}
                                     </AlertDialogAction>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
@@ -437,7 +437,7 @@ export const ProvidersList = () => {
                         side={isMobile ? "bottom" : "right"}>
                         <ScrollArea className="h-full">
                             <SheetHeader className="mb-2">
-                                <SheetTitle>{translate("resources.providers.showTitle")}</SheetTitle>
+                                <SheetTitle>{translate("resources.provider.showTitle")}</SheetTitle>
                                 <SheetDescription></SheetDescription>
                             </SheetHeader>
                             <ProvidersShow id={showProviderId} />

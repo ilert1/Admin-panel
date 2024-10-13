@@ -52,13 +52,13 @@ export const DirectionEdit = () => {
     };
 
     const formSchema = z.object({
-        name: z.string().min(1, translate("resources.directions.errors.name")).trim(),
+        name: z.string().min(1, translate("resources.direction.errors.name")).trim(),
         active: z.boolean().default(false),
         description: z.string().trim().nullable(),
-        src_currency: z.string().min(1, translate("resources.directions.errors.src_curr")),
-        dst_currency: z.string().min(1, translate("resources.directions.errors.dst_curr")),
-        merchant: z.string().min(1, translate("resources.directions.errors.merchant")),
-        provider: z.string().min(1, translate("resources.directions.errors.provider")),
+        src_currency: z.string().min(1, translate("resources.direction.errors.src_curr")),
+        dst_currency: z.string().min(1, translate("resources.direction.errors.dst_curr")),
+        merchant: z.string().min(1, translate("resources.direction.errors.merchant")),
+        provider: z.string().min(1, translate("resources.direction.errors.provider")),
         weight: z.number()
     });
     const form = useForm<z.infer<typeof formSchema>>({
@@ -79,7 +79,7 @@ export const DirectionEdit = () => {
 
     return (
         <EditContextProvider value={controllerProps}>
-            <p className="mb-2">{translate("resources.directions.note")}</p>
+            <p className="mb-2">{translate("resources.direction.note")}</p>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="flex flex-wrap">
@@ -88,7 +88,7 @@ export const DirectionEdit = () => {
                             name="name"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.fields.name")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} />
@@ -103,24 +103,24 @@ export const DirectionEdit = () => {
                             name="active"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.fields.active")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.fields.active")}</FormLabel>
                                     <Select
                                         value={field.value ? "true" : "false"} // Преобразуем булево значение в строку
                                         onValueChange={value => field.onChange(value === "true")}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue
-                                                    placeholder={translate("resources.directions.fields.active")}
+                                                    placeholder={translate("resources.direction.fields.active")}
                                                 />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
                                                 <SelectItem value="true">
-                                                    {translate("resources.directions.fields.stateActive")}
+                                                    {translate("resources.direction.fields.stateActive")}
                                                 </SelectItem>
                                                 <SelectItem value="false">
-                                                    {translate("resources.directions.fields.stateInactive")}
+                                                    {translate("resources.direction.fields.stateInactive")}
                                                 </SelectItem>
                                             </SelectGroup>
                                         </SelectContent>
@@ -135,7 +135,7 @@ export const DirectionEdit = () => {
                             name="src_currency"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.sourceCurrency")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.sourceCurrency")}</FormLabel>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
                                             <SelectTrigger>
@@ -163,7 +163,7 @@ export const DirectionEdit = () => {
                             name="dst_currency"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.destinationCurrency")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.destinationCurrency")}</FormLabel>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
                                             <SelectTrigger>
@@ -191,7 +191,7 @@ export const DirectionEdit = () => {
                             name="merchant"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.merchant")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.merchant")}</FormLabel>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
                                             <SelectTrigger>
@@ -219,7 +219,7 @@ export const DirectionEdit = () => {
                             name="provider"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.provider")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.provider")}</FormLabel>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
                                             <SelectTrigger>
@@ -250,7 +250,7 @@ export const DirectionEdit = () => {
                             name="weight"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.weight")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.weight")}</FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} />
@@ -265,7 +265,7 @@ export const DirectionEdit = () => {
                             name="description"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.description")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.description")}</FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} value={field.value ?? ""} />
