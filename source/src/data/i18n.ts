@@ -7,7 +7,12 @@ const ru: TranslationMessages = {
     ...raRU,
     resources: {
         accounts: {
-            name: "Счета",
+            admin: {
+                name: "Счета"
+            },
+            merchant: {
+                name: "Мои счета"
+            },
             fields: {
                 owner: "Владелец",
                 state: "Статус",
@@ -72,7 +77,7 @@ const ru: TranslationMessages = {
             }
         },
         transactions: {
-            name: "История операций",
+            name: "Операции",
             fields: {
                 id: "ID операции",
                 created_at: "Дата создания",
@@ -179,7 +184,7 @@ const ru: TranslationMessages = {
             }
         },
         withdraw: {
-            name: "Операции с криптовалютой",
+            name: "Вывод криптовалюты",
             fields: {
                 id: "ID",
                 created_at: "Дата и время создания",
@@ -466,7 +471,12 @@ const en: TranslationMessages = {
     ...raEn,
     resources: {
         accounts: {
-            name: "Accounts",
+            admin: {
+                name: "Accounts"
+            },
+            merchant: {
+                name: "My accounts"
+            },
             fields: {
                 owner: "Owner",
                 state: "State",
@@ -638,7 +648,7 @@ const en: TranslationMessages = {
             }
         },
         withdraw: {
-            name: "Crypto operations",
+            name: "Сrypto withdrawal",
             fields: {
                 id: "ID",
                 created_at: "Created at",
@@ -924,7 +934,12 @@ const en: TranslationMessages = {
 
 const translations = { ru, en };
 
-export const i18nProvider = polyglotI18nProvider((locale: string) => translations[locale as "ru" | "en"], "en", [
-    { locale: "ru", name: "Русский" },
-    { locale: "en", name: "English" }
-]);
+export const i18nProvider = polyglotI18nProvider(
+    (locale: string) => translations[locale as "ru" | "en"],
+    "en",
+    [
+        { locale: "ru", name: "Русский" },
+        { locale: "en", name: "English" }
+    ],
+    { allowMissing: true }
+);
