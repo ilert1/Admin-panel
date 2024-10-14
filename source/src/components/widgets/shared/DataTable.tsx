@@ -22,7 +22,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
     let data, total, page, perPage, setPage, setPerPage;
     if (props.total) {
         // eslint-disable-next-line @typescript-eslint/no-empty-function
-        ({ data, total, page = 1, perPage = 10, setPage = () => {}, setPerPage = () => {} } = props);
+        ({ data, total = 0, page = 1, perPage = 10, setPage = () => {}, setPerPage = () => {} } = props);
     } else {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         ({ data, total, page, perPage, setPage, setPerPage } = useListContext());
