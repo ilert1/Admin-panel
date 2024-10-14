@@ -67,7 +67,7 @@ export const TestKeysModal = (props: TestKeysModalProps) => {
                                     <Label className="text-note-1 text-neutral-30" htmlFor="private">
                                         {translate("resources.providers.privateKey")}
                                     </Label>
-                                    <div className="flex items-center justify-center gap-[14px]">
+                                    <div className="flex items-center justify-center">
                                         <textarea
                                             value={privateKey}
                                             className="w-full h-24 p-2 border border-neutral-400 rounded resize-none overflow-auto bg-muted text-neutral-70"
