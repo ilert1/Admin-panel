@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Bar } from "react-chartjs-2";
 import {
     Chart as ChartJS,
@@ -159,6 +159,7 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
     useEffect(() => {
         if (open) {
             setIsLoading(true);
+            // Закоммнтируй для бесконечной загрузки
             setTimeout(() => setIsLoading(false), 2000);
         }
     }, [open]);
@@ -223,16 +224,23 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
 
     const numberOfDays = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
     const chartWidth = numberOfDays * 115;
-    console.log();
+
+    const maxHeight = open ? "300vh" : "0vh";
+
     if (!isChartVisible) {
         return null;
     }
     return isLoading ? (
-        <div className="min-h-[637px] flex items-center">
+        <div className={`transition-max-height flex items-center h-[637px]`} style={{ maxHeight }}>
             <LoadingAlertDialog />
         </div>
     ) : (
-        <div className={`bg-black mr-2 p-5 pb-0 ${isClosing ? "fade-out-up" : "fade-in-down"}`}>
+        <div
+            className={`bg-black mr-2 p-5 pb-0 transition-max-height`}
+            style={{
+                transition: "max-height 0.6s ease",
+                maxHeight: maxHeight
+            }}>
             <div className="overflow-x-auto">
                 <div style={{ width: chartWidth + "px" }} className="pl-[22px] h-[561px] ">
                     <Bar data={chartData} options={options} />
