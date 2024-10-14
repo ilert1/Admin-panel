@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Bar } from "react-chartjs-2";
 import {
     Chart as ChartJS,
@@ -13,6 +13,7 @@ import {
 } from "chart.js";
 import "chartjs-adapter-date-fns";
 import { addDays, format } from "date-fns";
+import { LoadingAlertDialog } from "./loading";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -24,25 +25,24 @@ interface BarChartProps {
 }
 
 const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, open }) => {
-    const [chartData, setChartData] = useState<ChartData<"bar">>({
-        labels: [],
-        datasets: []
-    });
-
-    const [isChartVisible, setIsChartVisible] = useState(open); // Для отображения компонента
-    const [isClosing, setIsClosing] = useState(false); // Для анимации закрытия
+    const [isChartVisible, setIsChartVisible] = useState(open);
+    const [isClosing, setIsClosing] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (open) {
             setIsChartVisible(true);
-            setIsClosing(false); // Убираем флаг закрытия, если компонент открыт
+            setIsClosing(false);
         } else {
-            setIsClosing(true); // Включаем анимацию закрытия
-            setTimeout(() => setIsChartVisible(false), 500); // Удаляем график после анимации
+            setIsClosing(true);
+            setTimeout(() => setIsChartVisible(false), 500);
         }
     }, [open]);
 
-    useEffect(() => {
+    // useMemo для предотвращения лишних пересчетов данных графика
+    const chartData = useMemo(() => {
+        if (!open) return { labels: [], datasets: [] };
+
         const generateLabels = (start: Date, end: Date) => {
             const dates: string[] = [];
             let currentDate = start;
@@ -58,7 +58,8 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
         };
 
         const labels = generateLabels(startDate, endDate);
-        let newChartData = null;
+
+        let newChartData: ChartData<"bar">;
         switch (typeTabActive) {
             case "Deposit":
                 newChartData = {
@@ -102,6 +103,20 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
                     ]
                 };
                 break;
+            case "Transfer":
+                newChartData = {
+                    labels,
+                    datasets: [
+                        {
+                            label: "Перевод средств",
+                            data: generateRandomData(labels.length),
+                            backgroundColor: "#764b92",
+                            borderColor: "#764b92",
+                            borderWidth: 1
+                        }
+                    ]
+                };
+                break;
             default:
                 newChartData = {
                     labels,
@@ -126,24 +141,36 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
                             backgroundColor: "#D8F3E4",
                             borderColor: "#D8F3E4",
                             borderWidth: 1
+                        },
+                        {
+                            label: "Перевод средств",
+                            data: generateRandomData(labels.length),
+                            backgroundColor: "#764b92",
+                            borderColor: "#764b92",
+                            borderWidth: 1
                         }
                     ]
                 };
                 break;
         }
+        return newChartData;
+    }, [startDate, endDate, typeTabActive, open]);
 
-        setChartData(newChartData);
-    }, [startDate, endDate, typeTabActive]);
+    useEffect(() => {
+        if (open) {
+            setIsLoading(true);
+            setTimeout(() => setIsLoading(false), 2000);
+        }
+    }, [open]);
 
     const options: ChartOptions<"bar"> = {
         animation: {
-            duration: 1000,
-            easing: "easeOutBounce"
+            easing: "easeOutQuart"
         },
         datasets: {
             bar: {
                 barThickness: "flex",
-                barPercentage: typeTabActive ? (typeTabActive === "Transfer" ? 0.8 : 0.4) : 0.8
+                barPercentage: typeTabActive ? 0.4 : 0.9
             }
         },
         responsive: true,
@@ -195,22 +222,24 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
     };
 
     const numberOfDays = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-    const chartWidth = numberOfDays * 100;
-
+    const chartWidth = numberOfDays * 115;
+    console.log();
     if (!isChartVisible) {
-        return null; // Полностью удаляем элемент из DOM
+        return null;
     }
-
-    return (
+    return isLoading ? (
+        <div className="min-h-[637px] flex items-center">
+            <LoadingAlertDialog />
+        </div>
+    ) : (
         <div className={`bg-black mr-2 p-5 pb-0 ${isClosing ? "fade-out-up" : "fade-in-down"}`}>
-            <div className="overflow-x-auto scrollbar-x">
-                <div style={{ width: chartWidth + "px", height: "561px" }} className="pl-[22px]">
+            <div className="overflow-x-auto">
+                <div style={{ width: chartWidth + "px" }} className="pl-[22px] h-[561px] ">
                     <Bar data={chartData} options={options} />
                 </div>
             </div>
-            {/* Кастомная легенда с круглыми элементами */}
             <div className="flex justify-center mt-3 pb-3">
-                <div className="flex flex-col sm:flex-row items-center justify-center space-x-4">
+                <div className="flex flex-col md:flex-row items-center justify-center space-x-4">
                     <div className="flex items-center">
                         <div className="w-12 h-5 rounded-full bg-[#008C99]" />
                         <span className="text-white ml-2">Пополнение</span>
@@ -222,6 +251,10 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
                     <div className="flex items-center">
                         <div className="w-12 h-5 rounded-full bg-[#D8F3E4]" />
                         <span className="text-white ml-2">Выплата вознаграждения</span>
+                    </div>
+                    <div className="flex items-center">
+                        <div className="w-12 h-5 rounded-full bg-[#764b92]" />
+                        <span className="text-white ml-2">Перевод средств</span>
                     </div>
                 </div>
             </div>
