@@ -1,6 +1,7 @@
 import {
     AlertDialog,
     AlertDialogAction,
+    AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
     AlertDialogFooter,
@@ -37,7 +38,6 @@ export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
                 }
             }
         );
-        setChosenId("");
     };
 
     return (

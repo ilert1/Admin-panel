@@ -239,7 +239,8 @@ const ru: TranslationMessages = {
             privateKey: "Приватный ключ",
             deleteProviderQuestion: "Удалить провайдера?",
             keysCreating: "Создание тестовых ключей",
-            realKeysCreating: "Создание ключей"
+            realKeysCreating: "Создание ключей",
+            editingProvider: "Редактирование провайдера"
         },
         directions: {
             fields: {
@@ -669,7 +670,8 @@ const en: TranslationMessages = {
             privateKey: "Private key",
             deleteProviderQuestion: "Delete provider?",
             keysCreating: "Test keys creating",
-            realKeysCreating: "Keys generation"
+            realKeysCreating: "Keys generation",
+            editingProvider: "Editing provider"
         },
         directions: {
             fields: {
