@@ -5,20 +5,20 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { DateRange } from "react-day-picker";
-import { useTranslate } from "react-admin";
 import { useState } from "react";
 
 export function DateRangePicker({
+    title,
     placeholder,
     dateRange,
     onChange
 }: {
+    title: string;
     placeholder: string;
     dateRange: DateRange | undefined;
     onChange: (date: DateRange | undefined) => void;
 }) {
     const [openPopover, setOpenPopover] = useState(false);
-    const translate = useTranslate();
     const initDate = new Date();
 
     return (
@@ -26,7 +26,7 @@ export function DateRangePicker({
             <PopoverTrigger asChild>
                 <div className="flex flex-col sm:flex-row items-stretch flex-wrap gap-2 sm:gap-3">
                     <div className="relative flex md:flex-col gap-2 items-center md:items-start flex-1">
-                        <span>{translate("resources.transactions.download.dateTitle")}</span>
+                        <span>{title}</span>
                         <Button
                             variant={"outline"}
                             className={

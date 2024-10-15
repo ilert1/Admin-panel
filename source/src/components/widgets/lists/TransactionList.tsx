@@ -38,7 +38,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import useTransactionFilter from "@/hooks/useTransactionFilter";
-import { DateRange } from "react-day-picker";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import BarChart from "@/components/ui/Bar";
 
@@ -187,6 +186,7 @@ const TransactionFilterSidebar = ({
                     </div>
 
                     <DateRangePicker
+                        title={translate("resources.transactions.download.dateTitle")}
                         placeholder={translate("resources.transactions.filter.filterByDate")}
                         dateRange={{ from: startDate, to: endDate }}
                         onChange={changeDate}
