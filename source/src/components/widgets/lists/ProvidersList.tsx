@@ -16,7 +16,7 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { CopyCheckIcon, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useState } from "react";
@@ -36,14 +36,11 @@ import {
     AlertDialogTitle
 } from "@/components/ui/alertdialog";
 import { useToast } from "@/components/ui/use-toast";
-import { Label } from "@/components/ui/label";
-
-const API_URL = import.meta.env.VITE_ENIGMA_URL;
+import { KeysModal } from "../components/KeysModal";
 
 export const ProvidersList = () => {
     const listContext = useListController<Provider>();
 
-    const { refetch } = useListController<Provider>();
     const refresh = useRefresh();
     const translate = useTranslate();
     const navigate = useNavigate();
@@ -51,19 +48,11 @@ export const ProvidersList = () => {
     const redirect = useRedirect();
 
     const [showOpen, setShowOpen] = useState(false);
-    const [wait, setWait] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
-    const [keyShow, setKeyShow] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [testKeysShow, setTestKeysShow] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
 
     const [name, setName] = useState("");
-    const [privateKey, setPrivateKey] = useState("");
-    const [publicKey, setPublicKey] = useState("");
-
-    const [saveClicked, setSaveClicked] = useState(false);
-    const [publicSaveClicked, setPublicSaveClicked] = useState(false);
 
     const [chosenId, setChosenId] = useState("");
     const { toast } = useToast();
@@ -71,19 +60,6 @@ export const ProvidersList = () => {
 
     const handleCreateClick = () => {
         redirect("create", "provider");
-    };
-
-    const handleCreateTestClicked = async () => {
-        setWait(true);
-
-        const { json } = await fetchUtils.fetchJson(`${API_URL}/pki/keygen`, {
-            method: "POST",
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
-        setPrivateKey(json.data.private_key);
-        setPublicKey(json.data.public_key);
-        setWait(false);
-        setTestKeysShow(true);
     };
 
     const handleDeleteClicked = async (id: string) => {
@@ -120,23 +96,6 @@ export const ProvidersList = () => {
     const handleClickGenerate = async (name: string) => {
         setName(name);
         setDialogOpen(true);
-    };
-
-    const handleGen = async () => {
-        setDialogOpen(false);
-        setWait(true);
-        try {
-            const { json } = await fetchUtils.fetchJson(`${API_URL}/provider/${name}`, {
-                method: "PATCH",
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-            });
-            setPrivateKey(json.data.keypair.private_key);
-            setWait(false);
-            setKeyShow(true);
-            setSaveClicked(false);
-        } catch (error) {
-            /* empty */
-        }
     };
 
     const columns: ColumnDef<Provider>[] = [
@@ -258,20 +217,6 @@ export const ProvidersList = () => {
         }
     ];
 
-    const handleCopy = () => {
-        setSaveClicked(true);
-        navigator.clipboard.writeText(privateKey).then(() => {
-            console.log("Text copied to clipboard");
-        });
-    };
-
-    const handlePublicCopy = () => {
-        setPublicSaveClicked(true);
-        navigator.clipboard.writeText(publicKey).then(() => {
-            console.log("Text copied to clipboard");
-        });
-    };
-
     const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
 
     if (listContext.isLoading || !listContext.data) {
@@ -320,112 +265,7 @@ export const ProvidersList = () => {
                                 </AlertDialogFooter>
                             </AlertDialogContent>
                         </AlertDialog>
-                        {/* Attention for user */}
-                        <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>{translate("resources.providers.attention")}</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        {translate("resources.providers.warning")}
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogAction onClick={handleGen}>
-                                        {translate("resources.providers.continue")}
-                                    </AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
-                        {/* Wait dialog */}
-                        <AlertDialog open={wait} onOpenChange={setWait}>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>{translate("resources.providers.pleaseWait")}</AlertDialogTitle>
-                                </AlertDialogHeader>
-                                <AlertDialogDescription></AlertDialogDescription>
-                            </AlertDialogContent>
-                        </AlertDialog>
-                        {/* Showing key */}
-                        <AlertDialog open={testKeysShow} onOpenChange={setTestKeysShow}>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogDescription>
-                                        <div className="flex items-center space-x-2">
-                                            <div className="relative flex-1">
-                                                <Label htmlFor="private">
-                                                    {translate("resources.providers.privateKey")}
-                                                </Label>
-                                                <textarea
-                                                    value={privateKey}
-                                                    className="w-full h-24 p-2 border border-neutral-400 rounded resize-none overflow-auto"
-                                                    readOnly
-                                                    id="private"
-                                                />
-                                                <Label htmlFor="public">
-                                                    {translate("resources.providers.fields.pk")}
-                                                </Label>
-                                                <textarea
-                                                    value={publicKey}
-                                                    className="w-full h-24 p-2 border border-neutral-400 rounded resize-none overflow-auto"
-                                                    readOnly
-                                                    id="public"
-                                                />
-                                            </div>
-                                            <div className="flex flex-col justify-around h-56">
-                                                <Button
-                                                    onClick={handleCopy}
-                                                    variant={saveClicked ? "default" : "textBtn"}>
-                                                    <CopyCheckIcon className="w-4 h-4" />
-                                                </Button>
-                                                <Button
-                                                    onClick={handlePublicCopy}
-                                                    variant={publicSaveClicked ? "default" : "textBtn"}>
-                                                    <CopyCheckIcon className="w-4 h-4" />
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogAction
-                                        onClick={() => {
-                                            setSaveClicked(false);
-                                            setPublicSaveClicked(false);
-                                        }}>
-                                        {translate("resources.providers.close")}
-                                    </AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
-                        <AlertDialog open={keyShow} onOpenChange={setKeyShow}>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>{translate("resources.providers.clickToCopy")}</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        <div className="flex items-center space-x-2">
-                                            <div className="relative flex-1">
-                                                <textarea
-                                                    value={privateKey}
-                                                    className="w-full h-24 p-2 border border-neutral-400 rounded resize-none overflow-auto"
-                                                    readOnly
-                                                />
-                                            </div>
-                                            <Button onClick={handleCopy} variant={saveClicked ? "default" : "textBtn"}>
-                                                <CopyCheckIcon className="w-4 h-4" />
-                                            </Button>
-                                        </div>
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogAction
-                                        onClick={async () => {
-                                            await refetch();
-                                        }}>
-                                        {translate("resources.providers.close")}
-                                    </AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
+                        <KeysModal open={dialogOpen} onOpenChange={setDialogOpen} isTest={false} name={name} />
                     </div>
                 </div>
                 <ListContextProvider value={listContext}>

@@ -238,7 +238,8 @@ const ru: TranslationMessages = {
             close: "Закрыть",
             privateKey: "Приватный ключ",
             deleteProviderQuestion: "Удалить провайдера?",
-            keysCreating: "Создание тестовых ключей"
+            keysCreating: "Создание тестовых ключей",
+            realKeysCreating: "Создание ключей"
         },
         directions: {
             fields: {
@@ -667,7 +668,8 @@ const en: TranslationMessages = {
             close: "Close",
             privateKey: "Private key",
             deleteProviderQuestion: "Delete provider?",
-            keysCreating: "Test keys creating"
+            keysCreating: "Test keys creating",
+            realKeysCreating: "Keys generation"
         },
         directions: {
             fields: {

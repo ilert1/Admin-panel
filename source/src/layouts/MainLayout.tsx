@@ -39,7 +39,7 @@ import { ChatSheet } from "@/components/widgets/components/ChatSheet";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { debounce } from "lodash";
 import { Button } from "@/components/ui/button";
-import { TestKeysModal } from "@/components/widgets/components/TestKeysModal";
+import { KeysModal } from "@/components/widgets/components/KeysModal";
 
 enum SplitLocations {
     show = "show",
@@ -227,7 +227,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                             className="w-[232px] bottom-[24px] pl-6 absolute flex gap-[4px] translate-x-[-100%] animate-in-left transition-transform duration-500 ease-out">
                             <KeyRound /> {translate("resources.providers.createTestKeys")}
                         </Button>
-                        <TestKeysModal open={testKeysModalOpen} onOpenChange={setTestKeysModalOpen} />
+                        <KeysModal open={testKeysModalOpen} onOpenChange={setTestKeysModalOpen} />
                     </div>
                 )}
             </aside>
