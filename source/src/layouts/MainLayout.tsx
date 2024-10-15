@@ -349,8 +349,9 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 onClick={() => {
                                     setTestKeysModalOpen(true);
                                 }}
-                                className="w-full pl-6 flex gap-[4px] translate-x-[-100%] animate-in-left transition-transform duration-500 ease-out">
-                                <KeyRound /> {translate("resources.provider.createTestKeys")}
+                                className="w-full pl-6 flex gap-[4px] translate-x-[-100%] animate-in-left transition-transform duration-500 ease-out text-title-1">
+                                <KeyRound className="w-[16px] h-[16px]" />
+                                <span>{translate("resources.providers.createTestKeys")}</span>
                             </Button>
                             <TestKeysModal open={testKeysModalOpen} onOpenChange={setTestKeysModalOpen} />
                         </div>
