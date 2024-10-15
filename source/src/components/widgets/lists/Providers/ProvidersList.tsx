@@ -1,12 +1,4 @@
-import {
-    ListContextProvider,
-    useListController,
-    useTranslate,
-    useRedirect,
-    fetchUtils,
-    useRefresh,
-    useDelete
-} from "react-admin";
+import { ListContextProvider, useListController, useTranslate, useRedirect } from "react-admin";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
 import {
@@ -24,38 +16,26 @@ import { useMediaQuery } from "react-responsive";
 import { TextField } from "@/components/ui/text-field";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "@/components/ui/loading";
-import { ProvidersShow } from "../show/ProvidersShow";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
-import { useToast } from "@/components/ui/use-toast";
-import { KeysModal } from "../components/KeysModal";
+import { ProvidersShow } from "../../show/ProvidersShow";
+
+import { KeysModal } from "../../components/KeysModal";
+import { DeleteProviderDialog } from "./DeleteProviderDialog";
 
 export const ProvidersList = () => {
     const listContext = useListController<Provider>();
 
-    const refresh = useRefresh();
     const translate = useTranslate();
     const navigate = useNavigate();
-    const [deleteOne] = useDelete();
+
     const redirect = useRedirect();
 
     const [showOpen, setShowOpen] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [editDialogOpen, setEditDialogOpen] = useState(false);
 
     const [name, setName] = useState("");
 
     const [chosenId, setChosenId] = useState("");
-    const { toast } = useToast();
     const [showProviderId, setShowProviderId] = useState<string>("");
 
     const handleCreateClick = () => {
@@ -67,27 +47,6 @@ export const ProvidersList = () => {
         setDeleteDialogOpen(true);
     };
 
-    const handleDelete = async () => {
-        await deleteOne(
-            "provider",
-            { id: chosenId },
-            {
-                onSuccess: async () => {
-                    toast({
-                        description: translate("app.ui.delete.deletedSuccessfully"),
-                        variant: "success",
-                        title: "Success"
-                    });
-                    refresh();
-                },
-                onError: error => {
-                    console.error("Ошибка удаления:", error);
-                }
-            }
-        );
-        setChosenId("");
-    };
-
     const openSheet = (id: string) => {
         setShowProviderId(id);
         setShowOpen(true);
@@ -97,7 +56,6 @@ export const ProvidersList = () => {
         setName(name);
         setDialogOpen(true);
     };
-
     const columns: ColumnDef<Provider>[] = [
         {
             id: "name",
@@ -229,7 +187,7 @@ export const ProvidersList = () => {
                         <Button onClick={handleCreateClick} variant="default">
                             {translate("resources.providers.createNew")}
                         </Button>
-                        <AlertDialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+                        {/* <AlertDialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
                             <AlertDialogContent className="max-w-[716px] bg-muted">
                                 <AlertDialogHeader>
                                     <AlertDialogTitle className="text-center">
@@ -246,25 +204,8 @@ export const ProvidersList = () => {
                                     </div>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
-                        </AlertDialog>
-                        <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-                            <AlertDialogContent className="w-[251px] bg-muted">
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle className="text-center">
-                                        {translate("resources.providers.deleteProviderQuestion")}
-                                    </AlertDialogTitle>
-                                    <AlertDialogDescription></AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <div className="flex justify-around w-full">
-                                        <AlertDialogAction onClick={handleDelete}>
-                                            {translate("app.ui.actions.delete")}
-                                        </AlertDialogAction>
-                                        <AlertDialogCancel>{translate("app.ui.actions.cancel")}</AlertDialogCancel>
-                                    </div>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
+                        </AlertDialog> */}
+                        <DeleteProviderDialog open={} onOpenChange={} deleteId={chosenId} />
                         <KeysModal open={dialogOpen} onOpenChange={setDialogOpen} isTest={false} name={name} />
                     </div>
                 </div>
