@@ -1,7 +1,6 @@
 import {
     CoreLayoutProps,
     useGetIdentity,
-    useGetResourceLabel,
     useI18nProvider,
     useLocaleState,
     useLogout,
@@ -41,6 +40,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { debounce } from "lodash";
 import { Button } from "@/components/ui/button";
 import { TestKeysModal } from "@/components/widgets/components/TestKeysModal";
+import { useGetResLabel } from "@/hooks/useGetResLabel";
 
 enum SplitLocations {
     show = "show",
@@ -50,7 +50,7 @@ enum SplitLocations {
 
 export const MainLayout = ({ children }: CoreLayoutProps) => {
     const resources = useResourceDefinitions();
-    const getResourceLabel = useGetResourceLabel();
+    const getResLabel = useGetResLabel();
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
@@ -75,7 +75,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
             if (resourceName[0] === "bank-transfer") {
                 return translate("app.menu.merchant.bankTransfer");
             }
-            return getResourceLabel(resourceName[0]);
+            return getResLabel(resourceName[0], permissions);
         }
     }, [resourceName, translate]);
 
@@ -304,7 +304,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 {createElement(resources[resource].icon, {})}
                                 {showCaptions ? (
                                     <span className="animate-in fade-in-0 transition-opacity">
-                                        {getResourceLabel(resources[resource].name)}
+                                        {getResLabel(resources[resource].name, permissions)}
                                     </span>
                                 ) : null}
                             </NavLink>
