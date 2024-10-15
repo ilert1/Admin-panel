@@ -58,7 +58,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                                 return (
                                     <TableHead
                                         key={j}
-                                        className="text-white text-base border border-muted px-4 py-[9px] leading-4 text-center">
+                                        className="text-white text-base border border-muted px-4 py-[9px] leading-4 text-left">
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(header.column.columnDef.header, header.getContext())}
