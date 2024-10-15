@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Bar } from "react-chartjs-2";
 import {
     Chart as ChartJS,
@@ -14,6 +14,7 @@ import {
 import "chartjs-adapter-date-fns";
 import { addDays, format } from "date-fns";
 import { LoadingAlertDialog } from "./loading";
+import { useTranslate } from "react-admin";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -26,16 +27,14 @@ interface BarChartProps {
 
 const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, open }) => {
     const [isChartVisible, setIsChartVisible] = useState(open);
-    const [isClosing, setIsClosing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const translate = useTranslate();
 
     useEffect(() => {
         if (open) {
             setIsChartVisible(true);
-            setIsClosing(false);
         } else {
-            setIsClosing(true);
-            setTimeout(() => setIsChartVisible(false), 500);
+            setTimeout(() => setIsChartVisible(false), 1200);
         }
     }, [open]);
 
@@ -66,7 +65,7 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
                     labels,
                     datasets: [
                         {
-                            label: "Пополнение",
+                            label: translate("resources.transactions.types.deposit"),
                             data: generateRandomData(labels.length),
                             backgroundColor: "#008C99",
                             borderColor: "#008C99",
@@ -80,7 +79,7 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
                     labels,
                     datasets: [
                         {
-                            label: "Вывод средств",
+                            label: translate("resources.transactions.types.withdrawal"),
                             data: generateRandomData(labels.length),
                             backgroundColor: "#57CD8C",
                             borderColor: "#57CD8C",
@@ -94,7 +93,7 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
                     labels,
                     datasets: [
                         {
-                            label: "Выплата вознаграждения",
+                            label: translate("resources.transactions.types.reward"),
                             data: generateRandomData(labels.length),
                             backgroundColor: "#D8F3E4",
                             borderColor: "#D8F3E4",
@@ -108,7 +107,7 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
                     labels,
                     datasets: [
                         {
-                            label: "Перевод средств",
+                            label: translate("resources.transactions.types.transfer"),
                             data: generateRandomData(labels.length),
                             backgroundColor: "#764b92",
                             borderColor: "#764b92",
@@ -122,28 +121,28 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
                     labels,
                     datasets: [
                         {
-                            label: "Пополнение",
+                            label: translate("resources.transactions.types.deposit"),
                             data: generateRandomData(labels.length),
                             backgroundColor: "#008C99",
                             borderColor: "#008C99",
                             borderWidth: 1
                         },
                         {
-                            label: "Вывод средств",
+                            label: translate("resources.transactions.types.withdrawal"),
                             data: generateRandomData(labels.length),
                             backgroundColor: "#57CD8C",
                             borderColor: "#57CD8C",
                             borderWidth: 1
                         },
                         {
-                            label: "Выплата вознаграждения",
+                            label: translate("resources.transactions.types.reward"),
                             data: generateRandomData(labels.length),
                             backgroundColor: "#D8F3E4",
                             borderColor: "#D8F3E4",
                             borderWidth: 1
                         },
                         {
-                            label: "Перевод средств",
+                            label: translate("resources.transactions.types.transfer"),
                             data: generateRandomData(labels.length),
                             backgroundColor: "#764b92",
                             borderColor: "#764b92",
@@ -225,21 +224,19 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
     const numberOfDays = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
     const chartWidth = numberOfDays * 115;
 
-    const maxHeight = open ? "300vh" : "0vh";
+    const maxHeight = open ? "300vh" : "0px";
 
-    if (!isChartVisible) {
-        return null;
-    }
     return isLoading ? (
-        <div className={`transition-max-height flex items-center h-[637px]`} style={{ maxHeight }}>
+        <div className={`flex items-center h-[637px] ${open ? "clicked" : "not-clicked"}`}>
             <LoadingAlertDialog />
         </div>
     ) : (
         <div
-            className={`bg-black mr-2 p-5 pb-0 transition-max-height`}
+            className={`bg-black mr-2 ${isLoading && open ? "pb-0 pt-0" : "p-5"} pb-0 ${
+                open ? "clicked" : "not-clicked"
+            }`}
             style={{
-                transition: "max-height 0.6s ease",
-                maxHeight: maxHeight
+                maxHeight
             }}>
             <div className="overflow-x-auto">
                 <div style={{ width: chartWidth + "px" }} className="pl-[22px] h-[561px] ">
@@ -250,19 +247,27 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
                 <div className="flex flex-col md:flex-row items-center justify-center space-x-4">
                     <div className="flex items-center">
                         <div className="w-12 h-5 rounded-full bg-[#008C99]" />
-                        <span className="text-white ml-2">Пополнение</span>
+                        <span className="ml-2 text-title-1 text-neutral-50">
+                            {translate("resources.transactions.types.deposit")}
+                        </span>
                     </div>
                     <div className="flex items-center">
                         <div className="w-12 h-5 rounded-full bg-[#57CD8C]" />
-                        <span className="text-white ml-2">Вывод средств</span>
+                        <span className="text-title-1 text-neutral-50 ml-2">
+                            {translate("resources.transactions.types.withdrawal")}
+                        </span>
                     </div>
                     <div className="flex items-center">
                         <div className="w-12 h-5 rounded-full bg-[#D8F3E4]" />
-                        <span className="text-white ml-2">Выплата вознаграждения</span>
+                        <span className="text-title-1 text-neutral-50 ml-2">
+                            {translate("resources.transactions.types.reward")}
+                        </span>
                     </div>
                     <div className="flex items-center">
                         <div className="w-12 h-5 rounded-full bg-[#764b92]" />
-                        <span className="text-white ml-2">Перевод средств</span>
+                        <span className="text-title-1 text-neutral-50 ml-2">
+                            {translate("resources.transactions.types.transfer")}
+                        </span>
                     </div>
                 </div>
             </div>

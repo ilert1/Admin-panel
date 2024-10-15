@@ -8,9 +8,15 @@
         <link rel="shortcut icon" href="./favicon.ico" />
         <title>juggler-gui</title>
         <style>
-            .transition-max-height {
-                transition: max-height 0.6s ease;
+            .not-clicked {
                 overflow: hidden;
+                max-height: 0;
+                transition: max-height 0.8s ease;
+                padding: 0 !important;
+            }
+            .clicked {
+                max-height: 1000px;
+                transition: max-height 0.6s ease;
             }
 
             @keyframes slideInLeft {
@@ -26,36 +32,6 @@
 
             .animate-in-left {
                 animation: slideInLeft 0.5s ease-out forwards;
-            }
-
-            @keyframes fadeInDown {
-                from {
-                    opacity: 0;
-                    transform: translateY(-20px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            .fade-in-down {
-                animation: fadeInDown 0.5s ease-out forwards;
-            }
-
-            @keyframes fadeOutUp {
-                from {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-                to {
-                    opacity: 0;
-                    transform: translateY(-20px);
-                }
-            }
-
-            .fade-out-up {
-                animation: fadeOutUp 0.5s ease-out forwards;
             }
 
             .scrollbar-x {
