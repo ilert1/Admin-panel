@@ -52,7 +52,7 @@ import {
     UserShow,
     WithdrawShow
 } from "./components/widgets/show";
-import { CurrencyEdit, MerchantEdit, ProvidersEdit, UserEdit } from "./components/widgets/edit";
+import { CurrencyEdit, MerchantEdit, ProvidersEdit } from "./components/widgets/edit";
 import { InitLoading } from "./components/ui/loading";
 
 const dataProvider = combineDataProviders((resource: string) => {
