@@ -1,9 +1,7 @@
 import {
-    useDataProvider,
     ListContextProvider,
     useListController,
     useTranslate,
-    Link,
     useRedirect,
     fetchUtils,
     useRefresh,
@@ -133,9 +131,11 @@ export const ProvidersList = () => {
                 user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
             });
             setPrivateKey(json.data.keypair.private_key);
+            setPublicKey(json.data.keypair.public_key);
             setWait(false);
             setKeyShow(true);
             setSaveClicked(false);
+            setPublicSaveClicked(false);
         } catch (error) {}
     };
 
@@ -344,17 +344,43 @@ export const ProvidersList = () => {
                                 <AlertDialogHeader>
                                     <AlertDialogTitle>{translate("resources.providers.clickToCopy")}</AlertDialogTitle>
                                     <AlertDialogDescription>
-                                        <div className="flex items-center space-x-2">
-                                            <div className="relative flex-1">
-                                                <textarea
-                                                    value={privateKey}
-                                                    className="w-full h-24 p-2 border border-neutral-400 rounded resize-none overflow-auto"
-                                                    readOnly
-                                                />
+                                        <div className="flex flex-col gap-2">
+                                            <Label htmlFor="private">Private key</Label>
+                                            <div className="flex items-center space-x-2">
+                                                <div className="relative flex-1">
+                                                    <div className="flex flex-col gap-2">
+                                                        <textarea
+                                                            value={privateKey}
+                                                            id="private"
+                                                            className="w-full h-24 p-2 border border-neutral-400 rounded resize-none overflow-auto"
+                                                            readOnly
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <Button
+                                                    onClick={handleCopy}
+                                                    variant={saveClicked ? "default" : "textBtn"}>
+                                                    <CopyCheckIcon className="w-4 h-4" />
+                                                </Button>
                                             </div>
-                                            <Button onClick={handleCopy} variant={saveClicked ? "default" : "textBtn"}>
-                                                <CopyCheckIcon className="w-4 h-4" />
-                                            </Button>
+                                            <Label htmlFor="private">Public key</Label>
+                                            <div className="flex items-center space-x-2">
+                                                <div className="relative flex-1">
+                                                    <div className="flex flex-col gap-2">
+                                                        <textarea
+                                                            value={publicKey}
+                                                            id="public"
+                                                            className="w-full h-24 p-2 border border-neutral-400 rounded resize-none overflow-auto"
+                                                            readOnly
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <Button
+                                                    onClick={handlePublicCopy}
+                                                    variant={publicSaveClicked ? "default" : "textBtn"}>
+                                                    <CopyCheckIcon className="w-4 h-4" />
+                                                </Button>
+                                            </div>
                                         </div>
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
