@@ -12,11 +12,78 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { WithdrawShow } from "@/components/widgets/show";
-import { MoreHorizontal } from "lucide-react";
+import { EyeIcon, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
 import { Loading } from "@/components/ui/loading";
 import { useNavigate } from "react-router-dom";
+import { DateRangePicker } from "@/components/ui/date-range-picker";
+import { Input } from "@/components/ui/input";
+import useWithdrawFilter from "@/hooks/useWithdrawFilter";
+
+const WithdrawFilterSidebar = () => {
+    const {
+        translate,
+        operationId,
+        onOperationIdChanged,
+        startDate,
+        endDate,
+        changeDate,
+        handleDownloadReport,
+        clearFilters
+    } = useWithdrawFilter();
+
+    return (
+        <div className="w-full mb-6 flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
+            <label className="flex flex-1 md:flex-col gap-2 items-center md:items-start md:max-w-96">
+                <span className="md:text-nowrap">{translate("resources.withdraw.filter.filterById")}</span>
+                <Input
+                    className="flex-1 text-sm placeholder:text-neutral-70"
+                    placeholder={translate("resources.withdraw.filter.filterByIdPlaceholder")}
+                    value={operationId}
+                    onChange={onOperationIdChanged}
+                />
+            </label>
+
+            <DateRangePicker
+                title={translate("resources.withdraw.filter.filterByDate")}
+                placeholder={translate("resources.withdraw.filter.filterByDatePlaceholder")}
+                dateRange={{ from: startDate, to: endDate }}
+                onChange={changeDate}
+            />
+
+            <Button
+                className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7"
+                onClick={clearFilters}
+                variant="clearBtn"
+                size="default"
+                disabled={!operationId && !startDate}>
+                <span>{translate("resources.withdraw.filter.clearFilters")}</span>
+                <XIcon className="size-4" />
+            </Button>
+
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button className="md:ml-auto" variant="default" size="sm">
+                        {translate("resources.withdraw.download.downloadReportButtonText")}
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="p-0 border-green-50" align="end">
+                    <DropdownMenuItem
+                        className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                        onClick={() => handleDownloadReport("excel")}>
+                        Excel
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                        onClick={() => handleDownloadReport("pdf")}>
+                        PDF
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
+    );
+};
 
 export const WithdrawList = () => {
     const listContext = useListController<Transaction.Transaction>();
@@ -34,17 +101,24 @@ export const WithdrawList = () => {
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
+            accessorKey: "created_at",
+            header: translate("resources.withdraw.fields.created_at"),
+            cell: ({ row }) => (
+                <>
+                    <p>{new Date(row.original.created_at).toLocaleDateString()}</p>
+                    <p>{new Date(row.original.created_at).toLocaleTimeString()}</p>
+                </>
+            )
+        },
+        {
             accessorKey: "id",
             header: translate("resources.withdraw.fields.id"),
             cell: ({ row }) => <TextField text={row.original.id} copyValue />
         },
         {
-            accessorKey: "created_at",
-            header: translate("resources.withdraw.fields.created_at")
-        },
-        {
             accessorKey: "destination.id",
-            header: translate("resources.withdraw.fields.destination.id")
+            header: translate("resources.withdraw.fields.destination.id"),
+            cell: ({ row }) => <TextField text={row.original.destination.id} copyValue />
         },
         {
             accessorKey: "destination.amount.value",
@@ -60,19 +134,15 @@ export const WithdrawList = () => {
             }
         },
         {
-            accessorKey: "destination.amount.currency",
-            header: translate("resources.withdraw.fields.destination.amount.currency")
-        },
-        {
             id: "actions",
             cell: ({ row }) => {
                 return (
                     <RecordContextProvider value={row.original}>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="secondary" className="h-8 w-8 p-0">
+                                <Button variant="clearBtn" className="w-full p-0">
                                     <span className="sr-only">Open menu</span>
-                                    <MoreHorizontal className="h-4 w-4" />
+                                    <EyeIcon className="text-green-50 size-7" />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
@@ -96,7 +166,11 @@ export const WithdrawList = () => {
         return (
             <>
                 <ListContextProvider value={listContext}>
-                    <DataTable columns={columns} />
+                    <WithdrawFilterSidebar />
+
+                    <h3 className="mb-4 text-xl text-neutral-100">{translate("resources.withdraw.tableTitle")}</h3>
+
+                    <DataTable columns={columns} data={[]} />
                 </ListContextProvider>
                 <Sheet open={showOpen} onOpenChange={setShowOpen}>
                     <SheetContent

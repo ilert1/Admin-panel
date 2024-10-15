@@ -185,6 +185,7 @@ const ru: TranslationMessages = {
         },
         withdraw: {
             name: "Вывод криптовалюты",
+            tableTitle: "Отчет по выводам в криптовалюте",
             fields: {
                 id: "ID",
                 created_at: "Дата и время создания",
@@ -199,6 +200,18 @@ const ru: TranslationMessages = {
                     hash: "Хеш",
                     hash_link: "Ссылка Tronscan"
                 }
+            },
+            download: {
+                downloadReportButtonText: "Скачать отчет",
+                bothError: "Начальная дата и конечная дата обязательно должны быть заполнены",
+                error: "Ошибка"
+            },
+            filter: {
+                filterById: "Поиск по ID",
+                filterByIdPlaceholder: "ID",
+                filterByDate: "Дата",
+                filterByDatePlaceholder: "Выберите дату",
+                clearFilters: "Сбросить фильтры"
             }
         },
         currency: {
@@ -649,6 +662,7 @@ const en: TranslationMessages = {
         },
         withdraw: {
             name: "Сrypto withdrawal",
+            tableTitle: "Report on cryptocurrency withdrawals",
             fields: {
                 id: "ID",
                 created_at: "Created at",
@@ -663,6 +677,18 @@ const en: TranslationMessages = {
                     hash: "Hash",
                     hash_link: "Tronscan link"
                 }
+            },
+            download: {
+                downloadReportButtonText: "Download report",
+                bothError: "Both start date and end date must be selected",
+                error: "Error"
+            },
+            filter: {
+                filterById: "Search by ID",
+                filterByIdPlaceholder: "ID",
+                filterByDate: "Date",
+                filterByDatePlaceholder: "Select period",
+                clearFilters: "Clear filters"
             }
         },
         currency: {
