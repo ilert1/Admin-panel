@@ -471,7 +471,7 @@ export const TransactionList = () => {
                             chartOpen={chartOpen}
                         />
                     </div>
-                    <div className="w-full mb-6">
+                    <div className="w-full mb-6 overflow-y-hidden">
                         <BarChart
                             startDate={startDate}
                             endDate={endDate}
