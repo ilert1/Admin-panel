@@ -49,7 +49,7 @@ export const CurrencyCreate = () => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             code: "",
-            position: PositionEnum.BEFORE,
+            position: undefined,
             symbol: "",
             is_coin: false
         }
@@ -191,7 +191,6 @@ export const CurrencyCreate = () => {
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -214,7 +213,7 @@ export const CurrencyCreate = () => {
                                                 }`}>
                                                 <div className="mr-auto">
                                                     <SelectValue
-                                                        placeholder={translate("resources.currency.fields.symbPos")}
+                                                        placeholder={translate("resources.currency.fields.before")}
                                                     />
                                                 </div>
                                                 {fieldState.invalid && (
@@ -250,7 +249,6 @@ export const CurrencyCreate = () => {
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
