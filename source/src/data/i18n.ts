@@ -232,7 +232,10 @@ const ru: TranslationMessages = {
                 crypto: "Криптовалюта",
                 before: "Перед значением",
                 after: "После значения",
-                currencyName: "Название валюты"
+                currencyName: "Название валюты",
+                example: "Пример",
+                edit: "Изменить",
+                delete: "Удалить"
             },
             error: {
                 code: "Код валюты обязательно нужно ввести",
@@ -240,6 +243,7 @@ const ru: TranslationMessages = {
             },
             create: "Добавить валюту",
             createDialogTitle: "Добавление валюты",
+            editDialogTitle: "Редактирование валюты",
             showTitle: "Детальная информацию о валюте",
             showDescription: "Детальная информацию о валюте"
         },
@@ -717,7 +721,10 @@ const en: TranslationMessages = {
                 crypto: "Cryptocurrency",
                 before: "Before value",
                 after: "After value",
-                currencyName: "Currency name"
+                currencyName: "Currency name",
+                example: "Example",
+                edit: "Edit",
+                delete: "Delete"
             },
             errors: {
                 code: "Code is required",
@@ -725,6 +732,7 @@ const en: TranslationMessages = {
             },
             create: "Add currency",
             createDialogTitle: "Adding a currency",
+            editDialogTitle: "Edit currency",
             showTitle: "Detailed information about currency",
             showDescription: "Detailed information about currency"
         },

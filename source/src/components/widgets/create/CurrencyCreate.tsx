@@ -1,4 +1,4 @@
-import { useCreateController, CreateContextProvider, useRedirect, useTranslate, useDataProvider } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -17,18 +17,17 @@ enum PositionEnum {
     AFTER = "after"
 }
 
-export const CurrencyCreate = () => {
+export const CurrencyCreate = ({ close }: { close: (val: boolean) => void }) => {
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController();
 
     const translate = useTranslate();
-    const redirect = useRedirect();
 
     const onSubmit: SubmitHandler<Omit<Currencies.Currency, "id">> = async data => {
         data.code = data.code.toUpperCase();
         try {
             await dataProvider.create("currency", { data: data });
-            redirect("list", "currency");
+            close(false);
         } catch (error) {
             toast({
                 description: translate("resources.currency.errors.alreadyInUse"),
