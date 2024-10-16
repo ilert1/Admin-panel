@@ -16,14 +16,12 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { TextField } from "@/components/ui/text-field";
 import { useNavigate } from "react-router-dom";
-import { DirectionsShow } from "../show";
+import { DirectionsShow } from "../../show";
 import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 
 import {
@@ -40,25 +38,26 @@ import { useToast } from "@/components/ui/use-toast";
 import * as monaco from "monaco-editor";
 import { Editor } from "@monaco-editor/react";
 import { useTheme } from "@/components/providers";
+import { useGetDirectionsColumns } from "./Columns";
 
 const API_URL = import.meta.env.VITE_ENIGMA_URL;
 
 export const DirectionsList = () => {
     const listContext = useListController<Direction>();
+
     const translate = useTranslate();
-    const navigate = useNavigate();
-
-    const [showOpen, setShowOpen] = useState(false);
-    const [showDirectionId, setShowDirectionId] = useState<string>("");
+    const { toast } = useToast();
     const refresh = useRefresh();
-    const [dialogOpen, setDialogOpen] = useState(false);
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-    const [chosenId, setChosenId] = useState("");
+    const [dialogOpen, setDialogOpen] = useState(false);
+
     const [code, setCode] = useState("{}");
     const [hasErrors, setHasErrors] = useState(false);
     const { theme } = useTheme();
     const [isValid, setIsValid] = useState(false);
+
+    const { columns, chosenId, quickShowOpen, deleteDialogOpen, setDeleteDialogOpen, setQuickShowOpen } =
+        useGetDirectionsColumns();
 
     const handleEditorDidMount = (editor: any, monaco: any) => {
         monaco.editor.setTheme(`vs-${theme}`);
@@ -89,8 +88,6 @@ export const DirectionsList = () => {
         setHasErrors(markers.length > 0);
     };
 
-    const { toast } = useToast();
-
     const handleAddPassClicked = (id: string) => {
         setChosenId(id);
         setDialogOpen(true);
@@ -110,7 +107,6 @@ export const DirectionsList = () => {
 
     const handleGen = async () => {
         const data = JSON.parse(code);
-        setChosenId("");
         setCode("{}");
         console.log(data);
         try {
@@ -142,120 +138,10 @@ export const DirectionsList = () => {
         }
     };
 
-    const handleDelete = async (id: string) => {
-        setChosenId(id);
-        setDeleteDialogOpen(true);
-    };
-
-    const openSheet = (id: string) => {
-        setShowDirectionId(id);
-        setShowOpen(true);
-    };
     const redirect = useRedirect();
     const handleCreateClick = () => {
         redirect("create", "direction");
     };
-
-    const columns: ColumnDef<Direction>[] = [
-        {
-            id: "id",
-            accessorKey: "id",
-            header: translate("resources.direction.fields.id")
-        },
-        {
-            id: "name",
-            accessorKey: "name",
-            header: translate("resources.direction.fields.name")
-        },
-        {
-            id: "active",
-            accessorKey: "active",
-            header: translate("resources.direction.fields.active"),
-            cell: ({ row }) => {
-                return (
-                    <TextField
-                        text={
-                            row.getValue("active")
-                                ? translate("resources.direction.fields.stateActive")
-                                : translate("resources.direction.fields.stateInactive")
-                        }
-                    />
-                );
-            }
-        },
-        {
-            id: "src_currency",
-            accessorKey: "src_currency",
-            header: translate("resources.direction.fields.srcCurr"),
-            cell: ({ row }) => {
-                const obj: Omit<Currencies.Currency, "id"> = row.getValue("src_currency");
-                return <TextField text={obj.code} />;
-            }
-        },
-        {
-            id: "dst_currency",
-            accessorKey: "dst_currency",
-            header: translate("resources.direction.fields.destCurr"),
-            cell: ({ row }) => {
-                const obj: Omit<Currencies.Currency, "id"> = row.getValue("dst_currency");
-                return <TextField text={obj.code} />;
-            }
-        },
-        {
-            id: "merchant",
-            accessorKey: "merchant",
-            header: translate("resources.direction.fields.merchant"),
-            cell: ({ row }) => {
-                const obj: Merchant = row.getValue("merchant");
-                return <TextField text={obj.name} />;
-            }
-        },
-        {
-            id: "provider",
-            accessorKey: "provider",
-            header: translate("resources.direction.provider"),
-            cell: ({ row }) => {
-                const obj: Provider = row.getValue("provider");
-                return <TextField text={obj.name} />;
-            }
-        },
-        {
-            id: "weight",
-            accessorKey: "weight",
-            header: translate("resources.direction.weight")
-        },
-        {
-            id: "actions",
-            cell: ({ row }) => {
-                return (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="textBtn" className="h-8 w-8 p-0">
-                                <span className="sr-only">Open menu</span>
-                                <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
-                                {translate("app.ui.actions.quick_show")}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => navigate(`/direction/${row.original.id}/show`)}>
-                                {translate("app.ui.actions.show")}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete(row.original.id)}>
-                                <p className="text-popover-foreground">{translate("app.ui.actions.delete")}</p>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleAddPassClicked(row.original.id)}>
-                                {row.original.auth_data === undefined
-                                    ? translate("app.ui.actions.addSecretKey")
-                                    : translate("app.ui.actions.changeSecretKey")}
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                );
-            }
-        }
-    ];
 
     const dataProvider = useDataProvider();
 
@@ -320,7 +206,7 @@ export const DirectionsList = () => {
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />
                 </ListContextProvider>
-                <Sheet open={showOpen} onOpenChange={setShowOpen}>
+                <Sheet open={quickShowOpen} onOpenChange={setQuickShowOpen}>
                     <SheetContent
                         className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
                         side={isMobile ? "bottom" : "right"}>
@@ -329,7 +215,7 @@ export const DirectionsList = () => {
                                 <SheetTitle>{translate("resources.merchant.showTitle")}</SheetTitle>
                                 <SheetDescription></SheetDescription>
                             </SheetHeader>
-                            <DirectionsShow id={showDirectionId} />
+                            <DirectionsShow id={chosenId} />
                         </ScrollArea>
                     </SheetContent>
                 </Sheet>

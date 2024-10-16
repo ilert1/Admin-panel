@@ -5,4 +5,4 @@ export { UserList } from "./UserList";
 export { MerchantList } from "./MerchantList";
 export { CurrenciesList } from "./CurrenciesList";
 export { ProvidersList } from "./ProvidersList";
-export { DirectionsList } from "./DirectionsList";
+export { DirectionsList } from "./DirectionList";

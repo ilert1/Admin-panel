@@ -297,7 +297,8 @@ const ru: TranslationMessages = {
                 stateInactive: "Не активный",
                 description: "Описание",
                 api_key: "Информация об аутентификации",
-                merchantsDirections: "Направления мерчанта "
+                merchantsDirections: "Направления мерчанта ",
+                isActive: "Активность"
             },
             errors: {
                 name: "У направления обязательно должно быть имя",
@@ -774,7 +775,8 @@ const en: TranslationMessages = {
                 stateInactive: "Inactive",
                 description: "Description",
                 api_key: "Auth data",
-                merchantsDirections: "Directions of merchant "
+                merchantsDirections: "Directions of merchant ",
+                isActive: "Activity"
             },
             errors: {
                 name: "The direction must have a name",
