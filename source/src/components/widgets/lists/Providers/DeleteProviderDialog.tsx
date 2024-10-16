@@ -1,15 +1,14 @@
+import { Button } from "@/components/ui/button";
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
-import { useDelete, useTranslate } from "react-admin";
+import { useDelete, useRefresh, useTranslate } from "react-admin";
 
 interface DeleteProviderDialogProps {
     open?: boolean;
@@ -18,9 +17,9 @@ interface DeleteProviderDialogProps {
 }
 export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
     const translate = useTranslate();
-    const { open, deleteId, onOpenChange } = props;
+    const { open, deleteId, onOpenChange = () => {} } = props;
     const [deleteOne] = useDelete();
-
+    const refresh = useRefresh();
     const handleDelete = async () => {
         await deleteOne(
             "provider",
@@ -38,26 +37,33 @@ export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
                 }
             }
         );
+        onOpenChange(false);
+        refresh();
     };
 
     return (
-        <AlertDialog open={open} onOpenChange={onOpenChange}>
-            <AlertDialogContent className="w-[251px] bg-muted">
-                <AlertDialogHeader>
-                    <AlertDialogTitle className="text-center">
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent className="w-[251px] bg-muted">
+                <DialogHeader>
+                    <DialogTitle className="text-center">
                         {translate("resources.providers.deleteProviderQuestion")}
-                    </AlertDialogTitle>
-                    <AlertDialogDescription></AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
+                    </DialogTitle>
+                    <DialogDescription></DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
                     <div className="flex justify-around w-full">
-                        <AlertDialogAction onClick={handleDelete}>
-                            {translate("app.ui.actions.delete")}
-                        </AlertDialogAction>
-                        <AlertDialogCancel>{translate("app.ui.actions.cancel")}</AlertDialogCancel>
+                        <Button onClick={handleDelete}>{translate("app.ui.actions.delete")}</Button>
+                        <Button
+                            variant={"outline"}
+                            onClick={() => {
+                                onOpenChange(false);
+                                refresh();
+                            }}>
+                            {translate("app.ui.actions.cancel")}
+                        </Button>
                     </div>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 };

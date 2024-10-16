@@ -1,11 +1,11 @@
 import {
-    AlertDialog,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
 import { useRefresh, useTranslate } from "react-admin";
 import { ProviderCreate } from "../../create";
 
@@ -18,22 +18,22 @@ export const CreateProviderDialog = (props: CreateProviderDialogProps) => {
     const refresh = useRefresh();
     const translate = useTranslate();
     return (
-        <AlertDialog open={open} onOpenChange={onOpenChange}>
-            <AlertDialogContent className="max-w-[716px] bg-muted">
-                <AlertDialogHeader>
-                    <AlertDialogTitle className="text-center">
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent className="max-w-[716px] bg-muted">
+                <DialogHeader>
+                    <DialogTitle className="text-center">
                         {translate("resources.providers.editingProvider")}
-                    </AlertDialogTitle>
-                    <AlertDialogDescription></AlertDialogDescription>
+                    </DialogTitle>
+                    <DialogDescription></DialogDescription>
                     <ProviderCreate
                         onClose={() => {
                             onOpenChange(false);
                             refresh();
                         }}
                     />
-                </AlertDialogHeader>
-                <AlertDialogFooter></AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+                </DialogHeader>
+                <DialogFooter></DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 };

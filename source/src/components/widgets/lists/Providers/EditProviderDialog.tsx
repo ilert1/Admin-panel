@@ -1,11 +1,11 @@
 import {
-    AlertDialog,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
 import { ProvidersEdit } from "../../edit";
 import { useRefresh, useTranslate } from "react-admin";
 
@@ -21,13 +21,13 @@ export const EditProviderDialog = (props: EditProviderDialogProps) => {
 
     const { open, id, onOpenChange = () => {} } = props;
     return (
-        <AlertDialog open={open} onOpenChange={onOpenChange}>
-            <AlertDialogContent className="max-w-[716px] bg-muted">
-                <AlertDialogHeader>
-                    <AlertDialogTitle className="text-center">
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent className="max-w-[716px] bg-muted">
+                <DialogHeader>
+                    <DialogTitle className="text-center">
                         {translate("resources.providers.editingProvider")}
-                    </AlertDialogTitle>
-                    <AlertDialogDescription></AlertDialogDescription>
+                    </DialogTitle>
+                    <DialogDescription></DialogDescription>
                     <ProvidersEdit
                         id={id}
                         onClose={() => {
@@ -35,9 +35,9 @@ export const EditProviderDialog = (props: EditProviderDialogProps) => {
                             refresh();
                         }}
                     />
-                </AlertDialogHeader>
-                <AlertDialogFooter></AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+                </DialogHeader>
+                <DialogFooter></DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 };
