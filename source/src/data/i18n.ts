@@ -238,7 +238,8 @@ const ru: TranslationMessages = {
                 code: "Код валюты обязательно нужно ввести",
                 alreadyInUse: "Данное имя уже тспользуется. Выберите другое."
             },
-            create: "Добавить новую валюту",
+            create: "Добавить валюту",
+            createDialogTitle: "Добавление валюты",
             showTitle: "Детальная информацию о валюте",
             showDescription: "Детальная информацию о валюте"
         },
@@ -722,7 +723,8 @@ const en: TranslationMessages = {
                 code: "Code is required",
                 alreadyInUse: "This name is already in use. Choose another one."
             },
-            create: "Add new currency",
+            create: "Add currency",
+            createDialogTitle: "Adding a currency",
             showTitle: "Detailed information about currency",
             showDescription: "Detailed information about currency"
         },

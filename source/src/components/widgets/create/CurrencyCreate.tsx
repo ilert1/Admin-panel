@@ -8,6 +8,9 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { TriangleAlert } from "lucide-react";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 enum PositionEnum {
     BEFORE = "before",
@@ -57,38 +60,127 @@ export const CurrencyCreate = () => {
     return (
         <CreateContextProvider value={controllerProps}>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <div className="flex flex-wrap">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
+                    <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:grid-flow-col gap-y-5 gap-x-4 md:items-end">
                         <FormField
                             control={form.control}
                             name="code"
-                            render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                            render={({ field, fieldState }) => (
+                                <FormItem className="space-y-1">
                                     <FormLabel>{translate("resources.currency.fields.currencyName")}</FormLabel>
                                     <FormControl>
-                                        <Input {...field} />
+                                        <Input
+                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                                fieldState.invalid
+                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                    : ""
+                                            }`}
+                                            {...field}>
+                                            {fieldState.invalid && (
+                                                <TooltipProvider>
+                                                    <Tooltip>
+                                                        <TooltipTrigger asChild>
+                                                            <TriangleAlert
+                                                                className="text-red-40"
+                                                                width={14}
+                                                                height={14}
+                                                            />
+                                                        </TooltipTrigger>
+
+                                                        <TooltipContent className="border-none bottom-0" side="left">
+                                                            <FormMessage />
+                                                        </TooltipContent>
+                                                    </Tooltip>
+                                                </TooltipProvider>
+                                            )}
+                                        </Input>
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
+
+                        <FormField
+                            control={form.control}
+                            name="symbol"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="space-y-1">
+                                    <FormLabel>{translate("resources.currency.fields.symbol")}</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                                fieldState.invalid
+                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                    : ""
+                                            }`}
+                                            {...field}
+                                            value={field.value ?? ""}>
+                                            {fieldState.invalid && (
+                                                <TooltipProvider>
+                                                    <Tooltip>
+                                                        <TooltipTrigger asChild>
+                                                            <TriangleAlert
+                                                                className="text-red-40"
+                                                                width={14}
+                                                                height={14}
+                                                            />
+                                                        </TooltipTrigger>
+
+                                                        <TooltipContent className="border-none bottom-0" side="left">
+                                                            <FormMessage />
+                                                        </TooltipContent>
+                                                    </Tooltip>
+                                                </TooltipProvider>
+                                            )}
+                                        </Input>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
                         <FormField
                             control={form.control}
                             name="is_coin"
-                            render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                            render={({ field, fieldState }) => (
+                                <FormItem className="space-y-1">
                                     <FormLabel>{translate("resources.currency.fields.type")}</FormLabel>
                                     <Select
                                         onValueChange={value => field.onChange(value === "true")}
                                         value={field.value ? "true" : "false"}>
                                         <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue
-                                                    placeholder={translate("resources.currency.fields.type")}
-                                                />
+                                            <SelectTrigger
+                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                                    fieldState.invalid
+                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                        : ""
+                                                }`}>
+                                                <div className="mr-auto">
+                                                    <SelectValue
+                                                        placeholder={translate("resources.currency.fields.type")}
+                                                    />
+                                                </div>
+                                                {fieldState.invalid && (
+                                                    <TooltipProvider>
+                                                        <Tooltip>
+                                                            <TooltipTrigger className="ml-3 order-3" asChild>
+                                                                <TriangleAlert
+                                                                    className="text-red-40"
+                                                                    width={14}
+                                                                    height={14}
+                                                                />
+                                                            </TooltipTrigger>
+
+                                                            <TooltipContent
+                                                                className="border-none bottom-0"
+                                                                side="left">
+                                                                <FormMessage />
+                                                            </TooltipContent>
+                                                        </Tooltip>
+                                                    </TooltipProvider>
+                                                )}
                                             </SelectTrigger>
                                         </FormControl>
-                                        <SelectContent>
+
+                                        <SelectContent className="!dark:bg-muted">
                                             <SelectGroup>
                                                 <SelectItem value="false">
                                                     {translate("resources.currency.fields.fiat")}
@@ -103,35 +195,50 @@ export const CurrencyCreate = () => {
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="symbol"
-                            render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.currency.fields.symbol")}</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} value={field.value ?? ""} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+
                         <FormField
                             control={form.control}
                             name="position"
-                            render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                            render={({ field, fieldState }) => (
+                                <FormItem className="space-y-1">
                                     <FormLabel>{translate("resources.currency.fields.symbPos")}</FormLabel>
                                     <FormControl>
                                         <Select
                                             onValueChange={value => field.onChange(value as PositionEnum)}
                                             value={field.value}>
-                                            <SelectTrigger className="">
-                                                <SelectValue
-                                                    placeholder={translate("resources.currency.fields.symbPos")}
-                                                />
+                                            <SelectTrigger
+                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted  ${
+                                                    fieldState.invalid
+                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                        : ""
+                                                }`}>
+                                                <div className="mr-auto">
+                                                    <SelectValue
+                                                        placeholder={translate("resources.currency.fields.symbPos")}
+                                                    />
+                                                </div>
+                                                {fieldState.invalid && (
+                                                    <TooltipProvider>
+                                                        <Tooltip>
+                                                            <TooltipTrigger className="ml-3 order-3" asChild>
+                                                                <TriangleAlert
+                                                                    className="text-red-40"
+                                                                    width={14}
+                                                                    height={14}
+                                                                />
+                                                            </TooltipTrigger>
+
+                                                            <TooltipContent
+                                                                className="border-none bottom-0"
+                                                                side="left">
+                                                                <FormMessage />
+                                                            </TooltipContent>
+                                                        </Tooltip>
+                                                    </TooltipProvider>
+                                                )}
                                             </SelectTrigger>
-                                            <SelectContent>
+
+                                            <SelectContent className="!dark:bg-muted">
                                                 <SelectGroup>
                                                     <SelectItem value={PositionEnum.BEFORE}>
                                                         {translate("resources.currency.fields.before")}
@@ -147,11 +254,20 @@ export const CurrencyCreate = () => {
                                 </FormItem>
                             )}
                         />
-                        <div className="w-1/4 p-2 ml-auto">
-                            <Button type="submit" variant="default" className="w-full">
-                                {translate("app.ui.actions.save")}
+                    </div>
+
+                    <div className="self-end flex items-center gap-4">
+                        <Button type="submit" variant="default">
+                            {translate("app.ui.actions.save")}
+                        </Button>
+
+                        <DialogClose asChild>
+                            <Button
+                                variant="clearBtn"
+                                className="border border-neutral-50 rounded-4 hover:border-neutral-100">
+                                {translate("app.ui.actions.cancel")}
                             </Button>
-                        </div>
+                        </DialogClose>
                     </div>
                 </form>
             </Form>

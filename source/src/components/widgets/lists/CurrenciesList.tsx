@@ -1,11 +1,4 @@
-import {
-    useDataProvider,
-    ListContextProvider,
-    useListController,
-    useTranslate,
-    useRedirect,
-    useRefresh
-} from "react-admin";
+import { useDataProvider, ListContextProvider, useListController, useTranslate, useRefresh } from "react-admin";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
 import {
@@ -15,7 +8,7 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MoreHorizontal } from "lucide-react";
+import { CirclePlus, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useState } from "react";
@@ -35,6 +28,9 @@ import {
     AlertDialogTitle
 } from "@/components/ui/alertdialog";
 import { useToast } from "@/components/ui/use-toast";
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
+import { DialogTitle } from "@radix-ui/react-dialog";
+import { CurrencyCreate } from "../create";
 
 export const CurrenciesList = () => {
     const listContext = useListController<Currencies.Currency>();
@@ -42,9 +38,9 @@ export const CurrenciesList = () => {
     const navigate = useNavigate();
     const translate = useTranslate();
     const refresh = useRefresh();
-    const redirect = useRedirect();
 
     const [showOpen, setShowOpen] = useState(false);
+    const [showAddCurrencyDialog, setShowAddCurrencyDialog] = useState(false);
     const [showCurrencyId, setShowCurrencyId] = useState<string>("");
     const [dialogOpen, setDialogOpen] = useState(false);
     const [chosenId, setChosenId] = useState("");
@@ -75,10 +71,6 @@ export const CurrenciesList = () => {
         });
         setChosenId("");
         refresh();
-    };
-
-    const handleCreateClick = () => {
-        redirect("create", "currency");
     };
 
     const columns: ColumnDef<Currencies.Currency>[] = [
@@ -165,30 +157,47 @@ export const CurrenciesList = () => {
         return (
             <>
                 <div className="flex flex-end justify-end mb-4">
-                    <Button onClick={handleCreateClick} variant="default">
-                        {translate("resources.currency.create")}
+                    <Button
+                        onClick={() => setShowAddCurrencyDialog(true)}
+                        className="flex items-center justify-center gap-1 font-normal">
+                        <CirclePlus width={16} height={16} />
+                        <span>{translate("resources.currency.create")}</span>
                     </Button>
 
-                    <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>{translate("app.ui.actions.areYouSure")}</AlertDialogTitle>
-                                <AlertDialogDescription></AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogAction onClick={handleOkClicked}>
-                                    {translate("app.ui.actions.delete")}
-                                </AlertDialogAction>
-                                <AlertDialogCancel onClick={handleCancelClicked}>
-                                    {translate("app.ui.actions.cancel")}
-                                </AlertDialogCancel>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
+                    <Dialog open={showAddCurrencyDialog} onOpenChange={setShowAddCurrencyDialog}>
+                        <DialogContent className="flex flex-col gap-6" aria-describedby={undefined}>
+                            <DialogHeader>
+                                <DialogTitle className="text-xl">
+                                    {translate("resources.currency.createDialogTitle")}
+                                </DialogTitle>
+                            </DialogHeader>
+
+                            <CurrencyCreate />
+                        </DialogContent>
+                    </Dialog>
                 </div>
+
+                <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>{translate("app.ui.actions.areYouSure")}</AlertDialogTitle>
+                            <AlertDialogDescription></AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogAction onClick={handleOkClicked}>
+                                {translate("app.ui.actions.delete")}
+                            </AlertDialogAction>
+                            <AlertDialogCancel onClick={handleCancelClicked}>
+                                {translate("app.ui.actions.cancel")}
+                            </AlertDialogCancel>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+
                 <ListContextProvider value={listContext}>
-                    <DataTable columns={columns} />
+                    <DataTable columns={columns} data={[]} />
                 </ListContextProvider>
+
                 <Sheet open={showOpen} onOpenChange={setShowOpen}>
                     <SheetContent
                         className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}

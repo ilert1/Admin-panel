@@ -19,13 +19,7 @@ import {
     ProvidersList,
     DirectionsList
 } from "@/components/widgets/lists";
-import {
-    AccountCreate,
-    CurrencyCreate,
-    DirectionCreate,
-    MerchantCreate,
-    ProviderCreate
-} from "@/components/widgets/create";
+import { AccountCreate, DirectionCreate, MerchantCreate, ProviderCreate } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
 import { PayOutPage, PayOutCryptoPage, LoginPage } from "./pages";
 import { MainLayout } from "./layouts";
@@ -52,7 +46,7 @@ import {
     UserShow,
     WithdrawShow
 } from "./components/widgets/show";
-import { CurrencyEdit, MerchantEdit, ProvidersEdit } from "./components/widgets/edit";
+import { MerchantEdit, ProvidersEdit } from "./components/widgets/edit";
 import { InitLoading } from "./components/ui/loading";
 
 const dataProvider = combineDataProviders((resource: string) => {
@@ -109,8 +103,6 @@ export const App = () => {
                                         name="currency"
                                         list={CurrenciesList}
                                         show={CurrenciesShow}
-                                        create={CurrencyCreate}
-                                        edit={CurrencyEdit}
                                         icon={BanknoteIcon}
                                     />
 
