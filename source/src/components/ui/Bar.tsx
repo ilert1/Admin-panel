@@ -227,7 +227,7 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
     const maxHeight = open ? "300vh" : "0px";
 
     return isLoading ? (
-        <div className={`flex items-center h-[637px] ${open ? "clicked" : "not-clicked"}`}>
+        <div className={`bg-black flex items-center h-[637px] ${open ? "clicked" : "not-clicked"}`}>
             <LoadingAlertDialog />
         </div>
     ) : (
