@@ -159,7 +159,7 @@ declare namespace Users {
     }
 }
 
-namespace Currencies {
+declare namespace Currencies {
     enum PositionEnum {
         BEFORE = "before",
         AFTER = "after"
