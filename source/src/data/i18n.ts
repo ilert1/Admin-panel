@@ -181,6 +181,13 @@ const ru: TranslationMessages = {
                 filterByDate: "Выберите период",
                 clearFilters: "Сбросить фильтры",
                 filterCustomerPaymentId: "Поиск по ID платежа клиента"
+            },
+            types: {
+                all: "Все операции",
+                deposit: "Пополнение",
+                withdrawal: "Вывод средств",
+                transfer: "Перевод средств",
+                reward: "Выплата вознаграждения"
             }
         },
         withdraw: {
@@ -658,6 +665,13 @@ const en: TranslationMessages = {
                 filterByDate: "Select period",
                 clearFilters: "Clear filters",
                 filterCustomerPaymentId: "Search by customer payment ID"
+            },
+            types: {
+                all: "All transactions",
+                deposit: "Deposit",
+                withdrawal: "Withdrawal",
+                transfer: "Transfer",
+                reward: "Reward"
             }
         },
         withdraw: {

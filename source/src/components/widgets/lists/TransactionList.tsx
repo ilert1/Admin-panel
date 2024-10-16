@@ -40,6 +40,7 @@ import { useNavigate } from "react-router-dom";
 import useTransactionFilter from "@/hooks/useTransactionFilter";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import BarChart from "@/components/ui/Bar";
+import { debounce } from "lodash";
 
 const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
     const {
@@ -130,6 +131,7 @@ const TransactionFilterSidebar = ({
         handleDownloadReport,
         clearFilters
     } = useTransactionFilter(typeTabActive, setTypeTabActive);
+    const debounced = debounce(setChartOpen, 200);
 
     return (
         <div className="mb-6">
@@ -276,7 +278,7 @@ const TransactionFilterSidebar = ({
                     ))}
                 </div>
                 <div className="flex items-center gap-1">
-                    <Button onClick={() => setChartOpen(prev => !prev)} variant={"clearBtn"} className="flex gap-1">
+                    <Button onClick={() => debounced(prev => !prev)} variant={"clearBtn"} className="flex gap-1">
                         {translate("resources.transactions.chart")}
                         <img
                             src="/Chart-Icon.svg"
@@ -295,9 +297,6 @@ export const TransactionList = () => {
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
     const navigate = useNavigate();
-
-    // const dataProvider = useDataProvider();
-    // const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
 
     // TODO: временное решение, нужно расширить компонент селекта для поддержки пагинациц
     const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
@@ -472,7 +471,7 @@ export const TransactionList = () => {
                             chartOpen={chartOpen}
                         />
                     </div>
-                    <div className="w-full mb-6">
+                    <div className="w-full mb-6 overflow-y-hidden">
                         <BarChart
                             startDate={startDate}
                             endDate={endDate}
