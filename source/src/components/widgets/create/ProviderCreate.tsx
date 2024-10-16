@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { useCreateController, CreateContextProvider, useRedirect, useTranslate, useDataProvider } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -11,7 +12,13 @@ import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 import { Editor } from "@monaco-editor/react";
 import { useTheme } from "@/components/providers";
 
-export const ProviderCreate = () => {
+export interface ProviderCreateProps {
+    onClose?: () => void;
+}
+
+export const ProviderCreate = (props: ProviderCreateProps) => {
+    const { onClose = () => {} } = props;
+
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController();
     const { toast } = useToast();
@@ -21,6 +28,7 @@ export const ProviderCreate = () => {
     const redirect = useRedirect();
     const [editorValue, setEditorValue] = useState("{}");
     const [error, setError] = useState(false);
+
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.merchants.errors.name")).trim(),
         public_key: z.string().nullable(),
@@ -66,9 +74,11 @@ export const ProviderCreate = () => {
                 title: translate("resources.transactions.download.error")
             });
         }
+        onClose();
     };
     const handleEditorDidMount = (editor: any, monaco: any) => {
         monaco.editor.setTheme(`vs-${theme}`);
+        monaco.editor.set;
     };
 
     if (controllerProps.isLoading || theme.length === 0) return <Loading />;
@@ -83,7 +93,11 @@ export const ProviderCreate = () => {
                             name="name"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.providers.fields.name")}</FormLabel>
+                                    <FormLabel>
+                                        <span className="!text-note-1 !text-neutral-30">
+                                            {translate("resources.providers.fields._name")}
+                                        </span>
+                                    </FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} />
@@ -98,7 +112,11 @@ export const ProviderCreate = () => {
                             name="fields_json_schema"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.providers.fields.json_schema")}</FormLabel>
+                                    <FormLabel>
+                                        <span className="!text-note-1 !text-neutral-30">
+                                            {translate("resources.providers.fields.json_schema")}
+                                        </span>
+                                    </FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} />
@@ -113,10 +131,15 @@ export const ProviderCreate = () => {
                             name="methods"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
-                                    <FormLabel>{translate("resources.providers.fields.code")}</FormLabel>
+                                    <FormLabel>
+                                        <span className="!text-note-1 !text-neutral-30">
+                                            {translate("resources.providers.fields.code")}
+                                        </span>
+                                    </FormLabel>
                                     <FormControl>
                                         <Editor
                                             {...field}
+                                            className="font-title-1"
                                             height="20vh"
                                             defaultLanguage="json"
                                             value={editorValue}
@@ -128,7 +151,8 @@ export const ProviderCreate = () => {
                                                 setError(markers.length > 0);
                                             }}
                                             options={{
-                                                theme: `vs-${theme}`
+                                                theme: `vs-${theme}`,
+                                                fontFamily: '"Helvetica Neue", Arial, sans-serif'
                                             }}
                                             loading={<LoadingAlertDialog />}
                                             onMount={handleEditorDidMount}
@@ -138,9 +162,16 @@ export const ProviderCreate = () => {
                                 </FormItem>
                             )}
                         />
-                        <div className="w-1/4 p-2 ml-auto">
-                            <Button type="submit" variant="default" className="w-full" disabled={error}>
+                        <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
+                            <Button type="submit" variant="default" className="w-1/2" disabled={error}>
                                 {translate("app.ui.actions.save")}
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="flex-1 border-neutral-50 text-neutral-50 bg-muted w-1/2"
+                                onClick={onClose}>
+                                {translate("app.ui.actions.cancel")}
                             </Button>
                         </div>
                     </div>

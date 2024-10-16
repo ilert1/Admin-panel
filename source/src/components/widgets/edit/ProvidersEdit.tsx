@@ -94,7 +94,11 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
                             name="fields_json_schema"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
-                                    <FormLabel>{translate("resources.providers.fields.json_schema")}</FormLabel>
+                                    <FormLabel>
+                                        <span className="!text-note-1 !text-neutral-30">
+                                            {translate("resources.providers.fields.json_schema")}
+                                        </span>
+                                    </FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} />
@@ -109,7 +113,11 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
                             name="methods"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
-                                    <FormLabel>{translate("resources.providers.fields.code")}</FormLabel>
+                                    <FormLabel>
+                                        <span className="!text-note-1 !text-neutral-30">
+                                            {translate("resources.providers.fields.code")}
+                                        </span>
+                                    </FormLabel>
                                     <FormControl>
                                         <Editor
                                             {...field}

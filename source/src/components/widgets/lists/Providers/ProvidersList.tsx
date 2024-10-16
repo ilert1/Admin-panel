@@ -1,4 +1,4 @@
-import { ListContextProvider, useListController, useTranslate, useRedirect } from "react-admin";
+import { ListContextProvider, useListController, useTranslate, useRedirect, useRefresh } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
@@ -12,14 +12,19 @@ import { useGetProvidersColumns } from "./Columns";
 import { EditProviderDialog } from "./EditProviderDialog";
 import { useState } from "react";
 import { CirclePlus } from "lucide-react";
+import { CreateProviderDialog } from "./CreateProviderDialog";
 
 export const ProvidersList = () => {
     const listContext = useListController<Provider>();
     const translate = useTranslate();
+    const refresh = useRefresh();
     const redirect = useRedirect();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
+    const handleRefresh = () => {
+        refresh();
+    };
     const handleCreateClicked = () => {
         setCreateDialogOpen(true);
     };
@@ -39,10 +44,6 @@ export const ProvidersList = () => {
         setDialogOpen
     } = useGetProvidersColumns();
 
-    const handleCreateClick = () => {
-        redirect("create", "provider");
-    };
-
     const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
 
     if (listContext.isLoading || !listContext.data) {
@@ -53,23 +54,25 @@ export const ProvidersList = () => {
                 <div>
                     <div className="flex justify-end justify-between mb-4 mt-[24px]">
                         <div className="flex w-full justify-end">
-                            <Button onClick={handleCreateClick} variant="default" className="flex gap-[4px]">
+                            <Button onClick={handleCreateClicked} variant="default" className="flex gap-[4px]">
                                 <CirclePlus className="w-[16px] h-[16px]" />
                                 <span className="text-title-1">{translate("resources.providers.createNew")}</span>
                             </Button>
                         </div>
-                        <EditProviderDialog
-                            setEditDialogOpen={setEditDialogOpen}
-                            id={chosenId}
-                            open={editDialogOpen}
-                            onOpenChange={setEditDialogOpen}
-                        />
+                        <CreateProviderDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+                        <EditProviderDialog id={chosenId} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
                         <DeleteProviderDialog
                             open={deleteDialogOpen}
                             onOpenChange={setDeleteDialogOpen}
                             deleteId={chosenId}
                         />
-                        <KeysModal open={dialogOpen} onOpenChange={setDialogOpen} isTest={false} name={providerName} />
+                        <KeysModal
+                            open={dialogOpen}
+                            onOpenChange={setDialogOpen}
+                            isTest={false}
+                            name={providerName}
+                            refresh={handleRefresh}
+                        />
                     </div>
                 </div>
                 <ListContextProvider value={listContext}>

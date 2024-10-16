@@ -19,11 +19,12 @@ export interface KeysModalProps {
     onOpenChange?: (state: boolean) => void;
     isTest?: boolean;
     name?: string;
+    refresh?: () => void;
 }
 
 export const KeysModal = (props: KeysModalProps) => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const { open = false, onOpenChange = () => {}, isTest = true, name = "" } = props;
+    const { open = false, onOpenChange = () => {}, refresh = () => {}, isTest = true, name = "" } = props;
     const translate = useTranslate();
 
     const [copyPrivateClicked, setCopyPrivateClicked] = useState(false);
@@ -141,6 +142,7 @@ export const KeysModal = (props: KeysModalProps) => {
                                     setCopyPrivateClicked(false);
                                     setCopyPublicClicked(false);
                                     onOpenChange(false);
+                                    refresh();
                                 }}>
                                 {translate("resources.providers.close")}
                             </Button>

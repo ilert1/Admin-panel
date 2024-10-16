@@ -6,20 +6,17 @@ import {
     AlertDialogHeader,
     AlertDialogTitle
 } from "@/components/ui/alertdialog";
-import { ProvidersEdit } from "../../edit";
 import { useRefresh, useTranslate } from "react-admin";
+import { ProviderCreate } from "../../create";
 
-interface EditProviderDialogProps {
+interface CreateProviderDialogProps {
     open?: boolean;
     onOpenChange?: (state: boolean) => void;
-    id?: string;
 }
-
-export const EditProviderDialog = (props: EditProviderDialogProps) => {
+export const CreateProviderDialog = (props: CreateProviderDialogProps) => {
+    const { open, onOpenChange = () => {} } = props;
     const refresh = useRefresh();
     const translate = useTranslate();
-
-    const { open, id, onOpenChange = () => {} } = props;
     return (
         <AlertDialog open={open} onOpenChange={onOpenChange}>
             <AlertDialogContent className="max-w-[716px] bg-muted">
@@ -28,8 +25,7 @@ export const EditProviderDialog = (props: EditProviderDialogProps) => {
                         {translate("resources.providers.editingProvider")}
                     </AlertDialogTitle>
                     <AlertDialogDescription></AlertDialogDescription>
-                    <ProvidersEdit
-                        id={id}
+                    <ProviderCreate
                         onClose={() => {
                             onOpenChange(false);
                             refresh();

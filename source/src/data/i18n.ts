@@ -212,6 +212,7 @@ const ru: TranslationMessages = {
         },
         providers: {
             fields: {
+                _name: "Название",
                 name: "Провайдер",
                 pk: "Публичный ключ",
                 genKey: "Создать ключи",
@@ -643,6 +644,7 @@ const en: TranslationMessages = {
         },
         providers: {
             fields: {
+                _name: "Name",
                 name: "Provider",
                 pk: "Public key",
                 genKey: "Generate keys",
