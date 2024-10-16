@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router-dom";
@@ -39,6 +39,9 @@ import * as monaco from "monaco-editor";
 import { Editor } from "@monaco-editor/react";
 import { useTheme } from "@/components/providers";
 import { useGetDirectionsColumns } from "./Columns";
+import { PlusCircle, XIcon } from "lucide-react";
+import { TextField } from "@/components/ui/text-field";
+import { ShowSheet } from "./ShowSheet";
 
 const API_URL = import.meta.env.VITE_ENIGMA_URL;
 
@@ -153,8 +156,9 @@ export const DirectionsList = () => {
         return (
             <>
                 <div className="flex flex-end justify-end mb-4">
-                    <Button onClick={handleCreateClick} variant="default">
-                        {translate("resources.direction.create")}
+                    <Button onClick={handleCreateClick} variant="default" className="flex gap-[4px] items-center">
+                        <PlusCircle className="h-[16px] w-[16px]" />
+                        <span className="text-title-1">{translate("resources.direction.create")}</span>
                     </Button>
                     <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
                         <AlertDialogContent>
@@ -206,19 +210,7 @@ export const DirectionsList = () => {
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />
                 </ListContextProvider>
-                <Sheet open={quickShowOpen} onOpenChange={setQuickShowOpen}>
-                    <SheetContent
-                        className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
-                        side={isMobile ? "bottom" : "right"}>
-                        <ScrollArea className="h-full">
-                            <SheetHeader className="mb-2">
-                                <SheetTitle>{translate("resources.merchant.showTitle")}</SheetTitle>
-                                <SheetDescription></SheetDescription>
-                            </SheetHeader>
-                            <DirectionsShow id={chosenId} />
-                        </ScrollArea>
-                    </SheetContent>
-                </Sheet>
+                <ShowSheet id={chosenId} open={quickShowOpen} onOpenChange={setQuickShowOpen} />
             </>
         );
     }

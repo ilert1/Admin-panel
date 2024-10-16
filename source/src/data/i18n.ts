@@ -283,6 +283,7 @@ const ru: TranslationMessages = {
             keysCreating: "Создание тестовых ключей"
         },
         direction: {
+            direction: "Направление",
             name: "Направления",
             fields: {
                 name: "Название направления",
@@ -293,8 +294,8 @@ const ru: TranslationMessages = {
                 id: "Идентификатор направления",
                 auth_data: "Информация об аутентификации",
                 pleaseGen: "Пожалуйста, создайте ключи в провайдерах",
-                stateActive: "Активный",
-                stateInactive: "Не активный",
+                stateActive: "Активно",
+                stateInactive: "Не активно",
                 description: "Описание",
                 api_key: "Информация об аутентификации",
                 merchantsDirections: "Направления мерчанта ",
@@ -308,7 +309,7 @@ const ru: TranslationMessages = {
                 provider: "Провайдер обязательно должен быть выбран",
                 authError: "Ошибка при добавлении информации об аутентификации"
             },
-            create: "Создать новое направление",
+            create: "Добавить направление",
             sourceCurrency: "Исходящая валюта",
             destinationCurrency: "Конечная валюта",
             selectSourceCurrency: "Выбрать исходящую валюту",
@@ -762,6 +763,7 @@ const en: TranslationMessages = {
         },
         direction: {
             name: "Directions",
+            direction: "Direction",
             fields: {
                 name: "Directions name",
                 active: "State",
@@ -786,7 +788,7 @@ const en: TranslationMessages = {
                 provider: "The provider must be selected",
                 authError: "An error has occurred while adding authentication information"
             },
-            create: "Create new direction",
+            create: "Add direction",
             sourceCurrency: "Source currency",
             destinationCurrency: "Destination currency",
             selectSourceCurrency: "Choose source currency",

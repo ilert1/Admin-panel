@@ -101,11 +101,11 @@ export const useGetDirectionsColumns = () => {
                 return (
                     <div className="flex items-center justify-center text-white">
                         {row.original.active ? (
-                            <span className="px-3 py-0.5 bg-red-50 rounded-20 font-normal text-base text-center">
+                            <span className="px-3 py-0.5 bg-red-50 rounded-20 font-normal text-title-2 text-center whitespace-nowrap">
                                 {translate("resources.direction.fields.stateInactive")}
                             </span>
                         ) : (
-                            <span className="px-3 py-0.5 bg-green-50 rounded-20 font-normal text-base text-center">
+                            <span className="px-3 py-0.5 bg-green-50 rounded-20 font-normal text-title-2 text-center whitespace-nowrap">
                                 {translate("resources.direction.fields.stateActive")}
                             </span>
                         )}
@@ -126,7 +126,11 @@ export const useGetDirectionsColumns = () => {
                             </div>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
+                            <DropdownMenuItem
+                                onClick={() => {
+                                    setChosenId(row.original.id);
+                                    openSheet(row.original.id);
+                                }}>
                                 {translate("app.ui.actions.quick_show")}
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => navigate(`/accounts/${row.original.id}/show`)}>

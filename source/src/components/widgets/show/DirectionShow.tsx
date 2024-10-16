@@ -7,10 +7,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import { Button } from "@/components/ui/button";
 
 const API_URL = import.meta.env.VITE_ENIGMA_URL;
 
-export const DirectionsShow = (props: { id: string }) => {
+export const DirectionsShow = (props: { id: string; type: string }) => {
     const translate = useTranslate();
     const context = useShowController({ id: props.id });
     const [merchantDirections, setMerchantDirections] = useState([]);
@@ -113,6 +114,61 @@ export const DirectionsShow = (props: { id: string }) => {
 
     if (context.isLoading || !context.record) {
         return <Loading />;
+    }
+    if (props.type === "compact") {
+        return (
+            <div className="px-[42px] ">
+                <TextField text={context.record.id} copyValue />
+                <div className="flex flex-col gap-[24px] pt-[24px]">
+                    <div className="grid grid-cols-2">
+                        <div className="flex flex-col gap-[24px] ml-[32px]">
+                            <TextField
+                                label={translate("resources.direction.fields.name")}
+                                text={context.record.name}
+                            />
+                            <TextField
+                                label={translate("resources.direction.fields.srcCurr")}
+                                text={context.record.src_currency.code}
+                            />
+                            <TextField
+                                label={translate("resources.direction.fields.destCurr")}
+                                text={context.record.dst_currency.code}
+                            />
+                        </div>
+                        <div className="flex flex-col gap-[24px] ml-[32px]">
+                            <TextField
+                                label={translate("resources.direction.merchant")}
+                                text={context.record.merchant.name}
+                            />
+                            <TextField
+                                label={translate("resources.direction.provider")}
+                                text={context.record.provider.name}
+                            />
+                            <TextField
+                                label={translate("resources.direction.provider")}
+                                text={JSON.stringify(context.record.auth_data)}
+                                copyValue={JSON.stringify(context.record.auth_data).length === 0 ? false : true}
+                            />
+                        </div>
+                    </div>
+                    <div className="flex justify-end gap-[16px]">
+                        <Button className="" onClick={() => {}}>
+                            {translate("app.ui.actions.edit")}
+                        </Button>
+                        <Button className="bg-muted" variant={"outline"} onClick={() => {}}>
+                            {translate("app.ui.actions.changeSecretKey")}
+                        </Button>
+                        <Button className="" onClick={() => {}}>
+                            {translate("app.ui.actions.delete")}
+                        </Button>
+                    </div>
+                    <div></div>
+                    <div className="flex justify-end">
+                        <Button></Button>
+                    </div>
+                </div>
+            </div>
+        );
     } else {
         return (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
