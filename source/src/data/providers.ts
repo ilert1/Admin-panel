@@ -65,7 +65,6 @@ export class ProvidersDataProvider extends BaseDataProvider {
     }
 
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
-        console.log(params.id);
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
             user: { authenticated: true, token: localStorage.getItem("access-token") as string }
         });
