@@ -18,7 +18,7 @@ import { Loading } from "@/components/ui/loading";
 import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { UserCreate } from "../create";
 
 const UserFilterSidebar = () => {
@@ -29,6 +29,8 @@ const UserFilterSidebar = () => {
     const [userInputId, setUserInputId] = useState(filterValues?.id || "");
     const [username, setUsername] = useState(users?.find(user => filterValues?.user === user.id) || "");
     const [checkedActivity, setCheckedActivity] = useState(filterValues?.isActive || false);
+
+    const [showAddUserDialog, setShowAddUserDialog] = useState(false);
 
     const onPropertySelected = debounce((value: Users.User | string | boolean, type: "id" | "user" | "isActive") => {
         if (value) {
@@ -117,14 +119,14 @@ const UserFilterSidebar = () => {
                     </Button>
                 </div>
 
-                <Dialog>
-                    <DialogTrigger>
-                        <div className="text-white dark:text-neutral-100 whitespace-nowrap rounded-4 text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 duration-200 h-9 px-4 py-2 bg-green-50 hover:bg-green-40 active:bg-green-20 disabled:bg-neutral-20 disabled:text-neutral-80 flex items-center justify-center gap-1 font-normal select-none">
-                            <CirclePlus width={16} height={16} />
-                            <span>{translate("resources.users.createButton")}</span>
-                        </div>
-                    </DialogTrigger>
+                <Button
+                    onClick={() => setShowAddUserDialog(true)}
+                    className="flex items-center justify-center gap-1 font-normal">
+                    <CirclePlus width={16} height={16} />
+                    <span>{translate("resources.users.createButton")}</span>
+                </Button>
 
+                <Dialog open={showAddUserDialog} onOpenChange={setShowAddUserDialog}>
                     <DialogContent aria-describedby={undefined}>
                         <DialogHeader>
                             <DialogTitle>{translate("app.widgets.forms.userCreate.title")}</DialogTitle>
@@ -237,7 +239,7 @@ export const UserList = () => {
             <>
                 <ListContextProvider value={listContext}>
                     <UserFilterSidebar />
-                    <DataTable columns={columns} />
+                    <DataTable columns={columns} data={[]} />
                 </ListContextProvider>
 
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>
