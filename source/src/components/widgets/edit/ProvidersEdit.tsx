@@ -23,8 +23,6 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const { id, onClose = () => {} } = params;
 
-    console.log(id);
-
     const { record, isLoading } = useEditController({ resource: "provider", id });
 
     const controllerProps = useEditController({ resource: "provider", id });
@@ -36,6 +34,7 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
     const { theme } = useTheme();
 
     const formSchema = z.object({
+        name: z.string().min(1, translate("resources.providers.errors.name")).trim(),
         public_key: z.string().nullable(),
         fields_json_schema: z.string().optional().default(""),
         methods: z.string()
@@ -44,6 +43,7 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            name: record?.name || "",
             public_key: record?.public_key || "",
             fields_json_schema: record?.fields_json_schema || "",
             methods: JSON.stringify(record?.methods) || ""
@@ -53,6 +53,7 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
     useEffect(() => {
         if (record) {
             form.reset({
+                name: record.name || "",
                 public_key: record.public_key || "",
                 fields_json_schema: record.fields_json_schema || "",
                 methods: JSON.stringify(record.methods, null, 2) || ""
@@ -91,9 +92,29 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
                     <div className="flex flex-wrap">
                         <FormField
                             control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem className="w-1/2 p-2">
+                                    <FormLabel>
+                                        <span className="!text-note-1 !text-neutral-30">
+                                            {translate("resources.providers.fields._name")}
+                                        </span>
+                                    </FormLabel>
+                                    <FormControl>
+                                        <div>
+                                            <Input {...field} disabled />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
                             name="fields_json_schema"
                             render={({ field }) => (
-                                <FormItem className="w-full p-2">
+                                <FormItem className="w-1/2 p-2">
                                     <FormLabel>
                                         <span className="!text-note-1 !text-neutral-30">
                                             {translate("resources.providers.fields.json_schema")}
