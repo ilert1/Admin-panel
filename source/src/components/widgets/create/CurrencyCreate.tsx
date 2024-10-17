@@ -17,7 +17,7 @@ enum PositionEnum {
     AFTER = "after"
 }
 
-export const CurrencyCreate = ({ close }: { close: (val: boolean) => void }) => {
+export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => {
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController();
 
@@ -27,7 +27,7 @@ export const CurrencyCreate = ({ close }: { close: (val: boolean) => void }) => 
         data.code = data.code.toUpperCase();
         try {
             await dataProvider.create("currency", { data: data });
-            close(false);
+            closeDialog();
         } catch (error) {
             toast({
                 description: translate("resources.currency.errors.alreadyInUse"),

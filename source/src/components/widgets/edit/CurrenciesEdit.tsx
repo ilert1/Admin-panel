@@ -16,7 +16,13 @@ enum PositionEnum {
     AFTER = "after"
 }
 
-export const CurrencyEdit = ({ record, close }: { record: Currencies.Currency; close: (val: boolean) => void }) => {
+export const CurrencyEdit = ({
+    record,
+    closeDialog
+}: {
+    record: Currencies.Currency | undefined;
+    closeDialog: () => void;
+}) => {
     const dataProvider = useDataProvider();
 
     const translate = useTranslate();
@@ -25,11 +31,11 @@ export const CurrencyEdit = ({ record, close }: { record: Currencies.Currency; c
     const onSubmit: SubmitHandler<Omit<Currencies.Currency, "id">> = async data => {
         try {
             await dataProvider.update("currency", {
-                id: record.id,
+                id: record?.id,
                 data: data,
                 previousData: undefined
             });
-            close(false);
+            closeDialog();
         } catch (error) {
             toast({
                 description: translate("resources.currency.errors.alreadyInUse"),

@@ -17,8 +17,7 @@ import {
     AlertDialogTitle
 } from "@/components/ui/alertdialog";
 import { useToast } from "@/components/ui/use-toast";
-import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
-import { DialogTitle, DialogTrigger } from "@radix-ui/react-dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CurrencyCreate } from "../create";
 import { CurrencyEdit } from "../edit";
 
@@ -28,6 +27,8 @@ export const CurrenciesList = () => {
     const translate = useTranslate();
     const refresh = useRefresh();
 
+    const [chosenCurrency, setChosenCurrency] = useState<Currencies.Currency | undefined>(undefined);
+    const [showEditDialog, setShowEditDialog] = useState(false);
     const [showAddCurrencyDialog, setShowAddCurrencyDialog] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [chosenId, setChosenId] = useState("");
@@ -55,7 +56,7 @@ export const CurrenciesList = () => {
         {
             id: "id",
             accessorKey: "code",
-            header: () => <div className="flex justify-center">{translate("resources.currency.fields.currency")}</div>
+            header: translate("resources.currency.fields.currency")
         },
         {
             id: "is_coin",
@@ -76,12 +77,12 @@ export const CurrenciesList = () => {
         {
             id: "symbol",
             accessorKey: "symbol",
-            header: () => <div className="flex justify-center">{translate("resources.currency.fields.symbol")}</div>
+            header: translate("resources.currency.fields.symbol")
         },
         {
             id: "position",
             accessorKey: "position",
-            header: () => <div className="flex justify-center">{translate("resources.currency.fields.symbPos")}</div>,
+            header: translate("resources.currency.fields.symbPos"),
             cell: ({ row }) => {
                 return (
                     <TextField
@@ -96,7 +97,7 @@ export const CurrenciesList = () => {
         },
         {
             id: "exmaple",
-            header: () => <div className="flex justify-center">{translate("resources.currency.fields.example")}</div>,
+            header: translate("resources.currency.fields.example"),
             cell: ({ row }) => {
                 return row.original.position === "before" ? `${row.original.symbol}100` : `100${row.original.symbol}`;
             }
@@ -104,33 +105,19 @@ export const CurrenciesList = () => {
         {
             id: "actionEdit",
             header: () => <div className="flex justify-center">{translate("resources.currency.fields.edit")}</div>,
-            cell: function Cell({ row }) {
-                const [showEdit, setShowEdit] = useState(false);
-
+            cell: ({ row }) => {
                 return (
-                    <Dialog open={showEdit} onOpenChange={setShowEdit}>
-                        <DialogTrigger asChild>
-                            <Button variant="textBtn" className="h-8 w-8 p-0">
-                                <PencilIcon className="h-6 w-6" />
-                            </Button>
-                        </DialogTrigger>
-
-                        <DialogContent className="flex flex-col gap-6" aria-describedby={undefined}>
-                            <DialogHeader>
-                                <DialogTitle className="text-xl">
-                                    {translate("resources.currency.editDialogTitle")}
-                                </DialogTitle>
-                            </DialogHeader>
-
-                            <CurrencyEdit
-                                record={row.original}
-                                close={val => {
-                                    setShowEdit(val);
-                                    refresh();
-                                }}
-                            />
-                        </DialogContent>
-                    </Dialog>
+                    <div className="flex justify-center">
+                        <Button
+                            onClick={() => {
+                                setChosenCurrency(row.original);
+                                setShowEditDialog(true);
+                            }}
+                            variant="textBtn"
+                            className="h-8 w-8 p-0">
+                            <PencilIcon className="h-6 w-6" />
+                        </Button>
+                    </div>
                 );
             }
         },
@@ -173,8 +160,8 @@ export const CurrenciesList = () => {
                             </DialogHeader>
 
                             <CurrencyCreate
-                                close={val => {
-                                    setShowAddCurrencyDialog(val);
+                                closeDialog={() => {
+                                    setShowAddCurrencyDialog(false);
                                     refresh();
                                 }}
                             />
@@ -198,6 +185,25 @@ export const CurrenciesList = () => {
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
+
+                <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
+                    <DialogContent className="flex flex-col gap-6" aria-describedby={undefined}>
+                        <DialogHeader>
+                            <DialogTitle className="text-xl">
+                                {translate("resources.currency.editDialogTitle")}
+                            </DialogTitle>
+                        </DialogHeader>
+
+                        <CurrencyEdit
+                            record={chosenCurrency}
+                            closeDialog={() => {
+                                setShowEditDialog(false);
+                                setChosenCurrency(undefined);
+                                refresh();
+                            }}
+                        />
+                    </DialogContent>
+                </Dialog>
 
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} data={[]} />
