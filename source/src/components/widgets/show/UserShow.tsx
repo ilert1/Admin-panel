@@ -97,7 +97,7 @@ export const UserShow = (props: { id: string; isBrief: boolean }) => {
                             <DialogTitle>Edit user</DialogTitle>
                         </DialogHeader>
 
-                        <UserEdit record={context.record} id={id} />
+                        <UserEdit record={context.record} id={id} closeDialog={() => setShowEditUser(false)} />
                     </DialogContent>
                 </Dialog>
 

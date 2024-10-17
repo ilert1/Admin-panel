@@ -1,84 +1,51 @@
-import {
-    useDataProvider,
-    ListContextProvider,
-    useListController,
-    useTranslate,
-    useRedirect,
-    useRefresh
-} from "react-admin";
+import { useDataProvider, ListContextProvider, useListController, useTranslate, useRefresh } from "react-admin";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { MoreHorizontal } from "lucide-react";
+import { CirclePlus, Pen, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useState } from "react";
-import { useMediaQuery } from "react-responsive";
 import { TextField } from "@/components/ui/text-field";
-import { useNavigate } from "react-router-dom";
-import { CurrenciesShow } from "../show";
-import { Loading } from "@/components/ui/loading";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
+import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 import { useToast } from "@/components/ui/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { CurrencyCreate } from "../create";
+import { CurrencyEdit } from "../edit";
 
 export const CurrenciesList = () => {
     const listContext = useListController<Currencies.Currency>();
 
-    const navigate = useNavigate();
     const translate = useTranslate();
     const refresh = useRefresh();
-    const redirect = useRedirect();
-
-    const [showOpen, setShowOpen] = useState(false);
-    const [showCurrencyId, setShowCurrencyId] = useState<string>("");
-    const [dialogOpen, setDialogOpen] = useState(false);
-    const [chosenId, setChosenId] = useState("");
     const { toast } = useToast();
 
-    const openSheet = (id: string) => {
-        setShowCurrencyId(id);
-        setShowOpen(true);
-    };
+    const [chosenCurrency, setChosenCurrency] = useState<Currencies.Currency | undefined>(undefined);
 
-    const handleDelete = async (id: string) => {
-        setChosenId(id);
-        setDialogOpen(true);
-    };
+    const [showEditDialog, setShowEditDialog] = useState(false);
+    const [showAddCurrencyDialog, setShowAddCurrencyDialog] = useState(false);
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
-    const handleCancelClicked = () => {
-        setChosenId("");
-    };
+    const handleOkClicked = async (id: string) => {
+        try {
+            await dataProvider.delete("currency", {
+                id
+            });
 
-    const handleOkClicked = async () => {
-        await dataProvider.delete("currency", {
-            id: chosenId
-        });
-        toast({
-            description: translate("app.ui.delete.deletedSuccessfully"),
-            variant: "success",
-            title: "Success"
-        });
-        setChosenId("");
-        refresh();
-    };
+            toast({
+                description: translate("app.ui.delete.deletedSuccessfully"),
+                variant: "success",
+                title: "Success"
+            });
 
-    const handleCreateClick = () => {
-        redirect("create", "currency");
+            setChosenCurrency(undefined);
+            setShowDeleteDialog(false);
+            refresh();
+        } catch (error) {
+            toast({
+                description: translate("resources.currency.errors.alreadyInUse"),
+                variant: "destructive",
+                title: "Error"
+            });
+        }
     };
 
     const columns: ColumnDef<Currencies.Currency>[] = [
@@ -125,31 +92,47 @@ export const CurrenciesList = () => {
             }
         },
         {
-            id: "actions",
+            id: "exmaple",
+            header: translate("resources.currency.fields.example"),
+            cell: ({ row }) => {
+                return row.original.position === "before" ? `${row.original.symbol}100` : `100${row.original.symbol}`;
+            }
+        },
+        {
+            id: "actionEdit",
+            header: () => <div className="flex justify-center">{translate("resources.currency.fields.edit")}</div>,
             cell: ({ row }) => {
                 return (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="textBtn" className="h-8 w-8 p-0">
-                                <span className="sr-only">Open menu</span>
-                                <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
-                                {translate("app.ui.actions.quick_show")}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => navigate(`/currency/${row.original.id}/show`)}>
-                                {translate("app.ui.actions.show")}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => navigate(`/currency/${row.original.id}/edit/`)}>
-                                {translate("app.ui.actions.edit")}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete(row.original.id)}>
-                                <p className="text-popover-foreground">{translate("app.ui.actions.delete")}</p>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <div className="flex justify-center">
+                        <Button
+                            onClick={() => {
+                                setChosenCurrency(row.original);
+                                setShowEditDialog(true);
+                            }}
+                            variant="textBtn"
+                            className="h-8 w-8 p-0">
+                            <Pen className="h-6 w-6" />
+                        </Button>
+                    </div>
+                );
+            }
+        },
+        {
+            id: "actionDelete",
+            header: () => <div className="flex justify-center">{translate("resources.currency.fields.delete")}</div>,
+            cell: ({ row }) => {
+                return (
+                    <div className="flex justify-center">
+                        <Button
+                            onClick={() => {
+                                setChosenCurrency(row.original);
+                                setShowDeleteDialog(true);
+                            }}
+                            variant="textBtn"
+                            className="h-8 w-8 p-0">
+                            <Trash2 className="h-6 w-6" />
+                        </Button>
+                    </div>
                 );
             }
         }
@@ -157,50 +140,88 @@ export const CurrenciesList = () => {
 
     const dataProvider = useDataProvider();
 
-    const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
-
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
     } else {
         return (
             <>
                 <div className="flex flex-end justify-end mb-4">
-                    <Button onClick={handleCreateClick} variant="default">
-                        {translate("resources.currency.create")}
+                    <Button
+                        onClick={() => setShowAddCurrencyDialog(true)}
+                        className="flex items-center justify-center gap-1 font-normal">
+                        <CirclePlus width={16} height={16} />
+                        <span>{translate("resources.currency.create")}</span>
                     </Button>
-
-                    <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>{translate("app.ui.actions.areYouSure")}</AlertDialogTitle>
-                                <AlertDialogDescription></AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogAction onClick={handleOkClicked}>
-                                    {translate("app.ui.actions.delete")}
-                                </AlertDialogAction>
-                                <AlertDialogCancel onClick={handleCancelClicked}>
-                                    {translate("app.ui.actions.cancel")}
-                                </AlertDialogCancel>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
                 </div>
+
+                <Dialog open={showAddCurrencyDialog} onOpenChange={setShowAddCurrencyDialog}>
+                    <DialogContent className="flex flex-col gap-6" aria-describedby={undefined}>
+                        <DialogHeader>
+                            <DialogTitle className="text-xl">
+                                {translate("resources.currency.createDialogTitle")}
+                            </DialogTitle>
+                        </DialogHeader>
+
+                        <CurrencyCreate
+                            closeDialog={() => {
+                                setShowAddCurrencyDialog(false);
+                                refresh();
+                            }}
+                        />
+                    </DialogContent>
+                </Dialog>
+
+                <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
+                    <DialogContent className="flex flex-col gap-6" aria-describedby={undefined}>
+                        <DialogHeader>
+                            <DialogTitle className="text-xl">
+                                {translate("resources.currency.editDialogTitle")}
+                            </DialogTitle>
+                        </DialogHeader>
+
+                        <CurrencyEdit
+                            record={chosenCurrency}
+                            closeDialog={() => {
+                                setShowEditDialog(false);
+                                setChosenCurrency(undefined);
+                                refresh();
+                            }}
+                        />
+                    </DialogContent>
+                </Dialog>
+
+                <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+                    <DialogContent className="flex flex-col gap-4 w-auto" aria-describedby={undefined}>
+                        <DialogHeader>
+                            <DialogTitle className="text-xl">
+                                {translate("resources.currency.deleteDialogTitle")}
+                            </DialogTitle>
+                        </DialogHeader>
+
+                        {chosenCurrency?.id ? (
+                            <div className="flex items-center gap-8">
+                                <Button onClick={() => handleOkClicked(chosenCurrency.id)} variant="default">
+                                    {translate("app.ui.actions.delete")}
+                                </Button>
+                                <Button
+                                    onClick={() => {
+                                        setShowDeleteDialog(false);
+                                        setChosenCurrency(undefined);
+                                    }}
+                                    variant="secondary"
+                                    className="border border-green-50 rounded-4 hover:border-green-40">
+                                    {translate("app.ui.actions.cancel")}
+                                </Button>
+                            </div>
+                        ) : (
+                            <LoadingAlertDialog />
+                        )}
+                    </DialogContent>
+                </Dialog>
+
                 <ListContextProvider value={listContext}>
-                    <DataTable columns={columns} />
+                    <DataTable columns={columns} data={[]} />
                 </ListContextProvider>
-                <Sheet open={showOpen} onOpenChange={setShowOpen}>
-                    <SheetContent
-                        className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
-                        side={isMobile ? "bottom" : "right"}>
-                        <ScrollArea className="h-full">
-                            <SheetHeader className="mb-2">
-                                <SheetTitle>{translate("resources.currency.showTitle")}</SheetTitle>
-                            </SheetHeader>
-                            <CurrenciesShow id={showCurrencyId} />
-                        </ScrollArea>
-                    </SheetContent>
-                </Sheet>
             </>
         );
     }

@@ -1,53 +1,41 @@
-import { useEditController, EditContextProvider, useRedirect, useTranslate, useDataProvider } from "react-admin";
+import { useTranslate, useDataProvider } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
-import { Loading } from "@/components/ui/loading";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useParams } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
+import { DialogClose } from "@/components/ui/dialog";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { TriangleAlert } from "lucide-react";
 
 enum PositionEnum {
     BEFORE = "before",
     AFTER = "after"
 }
 
-export const CurrencyEdit = () => {
+export const CurrencyEdit = ({
+    record,
+    closeDialog
+}: {
+    record: Currencies.Currency | undefined;
+    closeDialog: () => void;
+}) => {
     const dataProvider = useDataProvider();
-    const controllerProps = useEditController();
-    controllerProps.mutationMode = "pessimistic";
-
-    const { record, isLoading } = useEditController();
-
-    const { id } = useParams();
 
     const translate = useTranslate();
-    const redirect = useRedirect();
     const { toast } = useToast();
-
-    useEffect(() => {
-        if (record) {
-            form.reset({
-                code: record?.code || "",
-                position: record?.position || PositionEnum.BEFORE,
-                symbol: record?.symbol || "",
-                is_coin: record?.is_coin || false
-            });
-        }
-    }, [record]);
 
     const onSubmit: SubmitHandler<Omit<Currencies.Currency, "id">> = async data => {
         try {
             await dataProvider.update("currency", {
-                id: id,
+                id: record?.id,
                 data: data,
                 previousData: undefined
             });
-            redirect("list", "currency");
+            closeDialog();
         } catch (error) {
             toast({
                 description: translate("resources.currency.errors.alreadyInUse"),
@@ -73,117 +61,153 @@ export const CurrencyEdit = () => {
             is_coin: record?.is_coin || false
         }
     });
-    if (isLoading || !record) return <Loading />;
 
     return (
-        <EditContextProvider value={controllerProps}>
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <div className="flex flex-wrap">
-                        <FormField
-                            control={form.control}
-                            name="code"
-                            render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.currency.fields.currencyName")}</FormLabel>
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
+                <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:grid-flow-col gap-y-5 gap-x-4 md:items-end">
+                    <FormField
+                        control={form.control}
+                        name="code"
+                        render={({ field }) => (
+                            <FormItem className="space-y-1">
+                                <FormLabel>{translate("resources.currency.fields.currencyName")}</FormLabel>
+                                <FormControl>
+                                    <Input {...field} disabled />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="symbol"
+                        render={({ field, fieldState }) => (
+                            <FormItem className="space-y-1">
+                                <FormLabel>{translate("resources.currency.fields.symbol")}</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                            fieldState.invalid
+                                                ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                : ""
+                                        }`}
+                                        {...field}
+                                        value={field.value ?? ""}>
+                                        {fieldState.invalid && (
+                                            <TooltipProvider>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <TriangleAlert className="text-red-40" width={14} height={14} />
+                                                    </TooltipTrigger>
+
+                                                    <TooltipContent className="border-none bottom-0" side="left">
+                                                        <FormMessage />
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+                                        )}
+                                    </Input>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="is_coin"
+                        render={({ field, fieldState }) => (
+                            <FormItem className="space-y-1">
+                                <FormLabel>{translate("resources.currency.fields.type")}</FormLabel>
+                                <Select
+                                    onValueChange={value => field.onChange(value === "true")}
+                                    value={field.value ? "true" : "false"}>
                                     <FormControl>
-                                        <Input {...field} disabled />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="is_coin"
-                            render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.currency.fields.type")}</FormLabel>
-                                    <Select
-                                        onValueChange={value => field.onChange(value === "true")}
-                                        value={field.value ? "true" : "false"}>
-                                        <FormControl>
-                                            <SelectTrigger>
+                                        <SelectTrigger
+                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                                fieldState.invalid
+                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                    : ""
+                                            }`}>
+                                            <div className="mr-auto">
                                                 <SelectValue
                                                     placeholder={translate("resources.currency.fields.type")}
                                                 />
-                                            </SelectTrigger>
-                                        </FormControl>
+                                            </div>
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectItem value="false">
+                                                {translate("resources.currency.fields.fiat")}
+                                            </SelectItem>
+                                            <SelectItem value="true">
+                                                {translate("resources.currency.fields.crypto")}
+                                            </SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="position"
+                        render={({ field, fieldState }) => (
+                            <FormItem className="space-y-1">
+                                <FormLabel>{translate("resources.currency.fields.symbPos")}</FormLabel>
+                                <FormControl>
+                                    <Select
+                                        onValueChange={value => field.onChange(value as PositionEnum)}
+                                        value={field.value}>
+                                        <SelectTrigger
+                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                                fieldState.invalid
+                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                    : ""
+                                            }`}>
+                                            <div className="mr-auto">
+                                                <SelectValue
+                                                    placeholder={translate("resources.currency.fields.symbPos")}
+                                                />
+                                            </div>
+                                        </SelectTrigger>
                                         <SelectContent>
                                             <SelectGroup>
-                                                <SelectItem value="false">
-                                                    {translate("resources.currency.fields.fiat")}
+                                                <SelectItem value={PositionEnum.BEFORE}>
+                                                    {translate("resources.currency.fields.before")}
                                                 </SelectItem>
-                                                <SelectItem value="true">
-                                                    {translate("resources.currency.fields.crypto")}
+                                                <SelectItem value={PositionEnum.AFTER}>
+                                                    {translate("resources.currency.fields.after")}
                                                 </SelectItem>
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="symbol"
-                            render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.currency.fields.symbol")}</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} value={field.value ?? ""} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="position"
-                            render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.currency.fields.symbPos")}</FormLabel>
-                                    <FormControl>
-                                        <Select
-                                            onValueChange={value => field.onChange(value as PositionEnum)}
-                                            value={field.value}>
-                                            <SelectTrigger className="">
-                                                <SelectValue
-                                                    placeholder={translate("resources.currency.fields.symbPos")}
-                                                />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectGroup>
-                                                    <SelectItem value={PositionEnum.BEFORE}>
-                                                        {translate("resources.currency.fields.before")}
-                                                    </SelectItem>
-                                                    <SelectItem value={PositionEnum.AFTER}>
-                                                        {translate("resources.currency.fields.after")}
-                                                    </SelectItem>
-                                                </SelectGroup>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
 
-                        <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
-                            <Button
-                                type="button"
-                                variant="error"
-                                className="flex-1"
-                                onClick={() => redirect("list", "currency")}>
-                                {translate("app.ui.actions.cancel")}
-                            </Button>
-                            <Button type="submit" variant="default" className="flex-1">
-                                {translate("app.ui.actions.save")}
-                            </Button>
-                        </div>
-                    </div>
-                </form>
-            </Form>
-        </EditContextProvider>
+                <div className="self-end flex items-center gap-4">
+                    <Button type="submit" variant="default" className="flex-1">
+                        {translate("app.ui.actions.save")}
+                    </Button>
+
+                    <DialogClose asChild>
+                        <Button
+                            variant="clearBtn"
+                            className="border border-neutral-50 rounded-4 hover:border-neutral-100">
+                            {translate("app.ui.actions.cancel")}
+                        </Button>
+                    </DialogClose>
+                </div>
+            </form>
+        </Form>
     );
 };

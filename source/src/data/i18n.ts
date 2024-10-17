@@ -232,13 +232,19 @@ const ru: TranslationMessages = {
                 crypto: "Криптовалюта",
                 before: "Перед значением",
                 after: "После значения",
-                currencyName: "Название валюты"
+                currencyName: "Название валюты",
+                example: "Пример",
+                edit: "Изменить",
+                delete: "Удалить"
             },
             error: {
                 code: "Код валюты обязательно нужно ввести",
                 alreadyInUse: "Данное имя уже тспользуется. Выберите другое."
             },
-            create: "Добавить новую валюту",
+            create: "Добавить валюту",
+            createDialogTitle: "Добавление валюты",
+            editDialogTitle: "Редактирование валюты",
+            deleteDialogTitle: "Удалить валюту?",
             showTitle: "Детальная информацию о валюте",
             showDescription: "Детальная информацию о валюте"
         },
@@ -716,13 +722,19 @@ const en: TranslationMessages = {
                 crypto: "Cryptocurrency",
                 before: "Before value",
                 after: "After value",
-                currencyName: "Currency name"
+                currencyName: "Currency name",
+                example: "Example",
+                edit: "Edit",
+                delete: "Delete"
             },
             errors: {
                 code: "Code is required",
                 alreadyInUse: "This name is already in use. Choose another one."
             },
-            create: "Add new currency",
+            create: "Add currency",
+            createDialogTitle: "Adding a currency",
+            editDialogTitle: "Edit currency",
+            deleteDialogTitle: "Delete a currency?",
             showTitle: "Detailed information about currency",
             showDescription: "Detailed information about currency"
         },
