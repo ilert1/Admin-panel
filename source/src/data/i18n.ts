@@ -244,6 +244,7 @@ const ru: TranslationMessages = {
             create: "Добавить валюту",
             createDialogTitle: "Добавление валюты",
             editDialogTitle: "Редактирование валюты",
+            deleteDialogTitle: "Удалить валюту?",
             showTitle: "Детальная информацию о валюте",
             showDescription: "Детальная информацию о валюте"
         },
@@ -733,6 +734,7 @@ const en: TranslationMessages = {
             create: "Add currency",
             createDialogTitle: "Adding a currency",
             editDialogTitle: "Edit currency",
+            deleteDialogTitle: "Delete a currency?",
             showTitle: "Detailed information about currency",
             showDescription: "Detailed information about currency"
         },

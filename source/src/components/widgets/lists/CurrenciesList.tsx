@@ -5,17 +5,7 @@ import { CirclePlus, PencilIcon, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { TextField } from "@/components/ui/text-field";
-import { Loading } from "@/components/ui/loading";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
+import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 import { useToast } from "@/components/ui/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CurrencyCreate } from "../create";
@@ -26,30 +16,36 @@ export const CurrenciesList = () => {
 
     const translate = useTranslate();
     const refresh = useRefresh();
-
-    const [chosenCurrency, setChosenCurrency] = useState<Currencies.Currency | undefined>(undefined);
-    const [showEditDialog, setShowEditDialog] = useState(false);
-    const [showAddCurrencyDialog, setShowAddCurrencyDialog] = useState(false);
-    const [dialogOpen, setDialogOpen] = useState(false);
-    const [chosenId, setChosenId] = useState("");
     const { toast } = useToast();
 
-    const handleDelete = async (id: string) => {
-        setChosenId(id);
-        setDialogOpen(true);
-    };
+    const [chosenCurrency, setChosenCurrency] = useState<Currencies.Currency | undefined>(undefined);
 
-    const handleOkClicked = async () => {
-        await dataProvider.delete("currency", {
-            id: chosenId
-        });
-        toast({
-            description: translate("app.ui.delete.deletedSuccessfully"),
-            variant: "success",
-            title: "Success"
-        });
-        setChosenId("");
-        refresh();
+    const [showEditDialog, setShowEditDialog] = useState(false);
+    const [showAddCurrencyDialog, setShowAddCurrencyDialog] = useState(false);
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
+    const handleOkClicked = async (id: string) => {
+        try {
+            await dataProvider.delete("currency", {
+                id
+            });
+
+            toast({
+                description: translate("app.ui.delete.deletedSuccessfully"),
+                variant: "success",
+                title: "Success"
+            });
+
+            setChosenCurrency(undefined);
+            setShowDeleteDialog(false);
+            refresh();
+        } catch (error) {
+            toast({
+                description: translate("resources.currency.errors.alreadyInUse"),
+                variant: "destructive",
+                title: "Error"
+            });
+        }
     };
 
     const columns: ColumnDef<Currencies.Currency>[] = [
@@ -127,7 +123,13 @@ export const CurrenciesList = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex justify-center">
-                        <Button onClick={() => handleDelete(row.original.id)} variant="textBtn" className="h-8 w-8 p-0">
+                        <Button
+                            onClick={() => {
+                                setChosenCurrency(row.original);
+                                setShowDeleteDialog(true);
+                            }}
+                            variant="textBtn"
+                            className="h-8 w-8 p-0">
                             <Trash2 className="h-6 w-6" />
                         </Button>
                     </div>
@@ -150,41 +152,24 @@ export const CurrenciesList = () => {
                         <CirclePlus width={16} height={16} />
                         <span>{translate("resources.currency.create")}</span>
                     </Button>
-
-                    <Dialog open={showAddCurrencyDialog} onOpenChange={setShowAddCurrencyDialog}>
-                        <DialogContent className="flex flex-col gap-6" aria-describedby={undefined}>
-                            <DialogHeader>
-                                <DialogTitle className="text-xl">
-                                    {translate("resources.currency.createDialogTitle")}
-                                </DialogTitle>
-                            </DialogHeader>
-
-                            <CurrencyCreate
-                                closeDialog={() => {
-                                    setShowAddCurrencyDialog(false);
-                                    refresh();
-                                }}
-                            />
-                        </DialogContent>
-                    </Dialog>
                 </div>
 
-                <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                    <AlertDialogContent>
-                        <AlertDialogHeader>
-                            <AlertDialogTitle>{translate("app.ui.actions.areYouSure")}</AlertDialogTitle>
-                            <AlertDialogDescription></AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                            <AlertDialogAction onClick={handleOkClicked}>
-                                {translate("app.ui.actions.delete")}
-                            </AlertDialogAction>
-                            <AlertDialogCancel onClick={() => setChosenId("")}>
-                                {translate("app.ui.actions.cancel")}
-                            </AlertDialogCancel>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
+                <Dialog open={showAddCurrencyDialog} onOpenChange={setShowAddCurrencyDialog}>
+                    <DialogContent className="flex flex-col gap-6" aria-describedby={undefined}>
+                        <DialogHeader>
+                            <DialogTitle className="text-xl">
+                                {translate("resources.currency.createDialogTitle")}
+                            </DialogTitle>
+                        </DialogHeader>
+
+                        <CurrencyCreate
+                            closeDialog={() => {
+                                setShowAddCurrencyDialog(false);
+                                refresh();
+                            }}
+                        />
+                    </DialogContent>
+                </Dialog>
 
                 <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
                     <DialogContent className="flex flex-col gap-6" aria-describedby={undefined}>
@@ -202,6 +187,35 @@ export const CurrenciesList = () => {
                                 refresh();
                             }}
                         />
+                    </DialogContent>
+                </Dialog>
+
+                <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+                    <DialogContent className="flex flex-col gap-4 w-auto" aria-describedby={undefined}>
+                        <DialogHeader>
+                            <DialogTitle className="text-xl">
+                                {translate("resources.currency.deleteDialogTitle")}
+                            </DialogTitle>
+                        </DialogHeader>
+
+                        {chosenCurrency?.id ? (
+                            <div className="flex items-center gap-8">
+                                <Button onClick={() => handleOkClicked(chosenCurrency.id)} variant="default">
+                                    {translate("app.ui.actions.delete")}
+                                </Button>
+                                <Button
+                                    onClick={() => {
+                                        setShowDeleteDialog(false);
+                                        setChosenCurrency(undefined);
+                                    }}
+                                    variant="secondary"
+                                    className="border border-green-50 rounded-4 hover:border-green-40">
+                                    {translate("app.ui.actions.cancel")}
+                                </Button>
+                            </div>
+                        ) : (
+                            <LoadingAlertDialog />
+                        )}
                     </DialogContent>
                 </Dialog>
 
