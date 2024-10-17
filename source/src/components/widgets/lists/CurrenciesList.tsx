@@ -1,7 +1,7 @@
 import { useDataProvider, ListContextProvider, useListController, useTranslate, useRefresh } from "react-admin";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
-import { CirclePlus, PencilIcon, Trash2 } from "lucide-react";
+import { CirclePlus, Pen, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { TextField } from "@/components/ui/text-field";
@@ -111,7 +111,7 @@ export const CurrenciesList = () => {
                             }}
                             variant="textBtn"
                             className="h-8 w-8 p-0">
-                            <PencilIcon className="h-6 w-6" />
+                            <Pen className="h-6 w-6" />
                         </Button>
                     </div>
                 );
