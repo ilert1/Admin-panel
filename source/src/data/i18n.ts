@@ -372,6 +372,20 @@ const ru: TranslationMessages = {
             transactionHistory: "История операции",
             accountHistory: "История счета"
         },
+        errors: {
+            401: { text: "Ошибка авторизации" },
+            403: { text: "Доступ запрещен" },
+            404: { text: "Страница не найдена" },
+            408: { text: "Превышено время ожидания запроса" },
+            409: { text: "Конфликт запроса" },
+            413: { text: "Объем передаваемых данных слишком большой" },
+            415: { text: "Тип медиа не поддерживается", hint: "Попробуйте загрузить медиа в другом формате" },
+            429: { text: "Слишком большое количество запросов", hint: "Попробуйте повторить запрос позднее" },
+            500: { text: "Внутренняя ошибка сервера", hint: "Попробуйте повторить запрос позднее" },
+            502: { text: "Некорректный шлюз", hint: "Попробуйте изменить запрос" },
+            503: { text: "Сервис недоступен", hint: "Попробуйте повторить запрос позднее" },
+            504: { text: "Превышено время ожидания запроса" }
+        },
         theme: {
             light: "Светлая тема",
             dark: "Темная тема"
@@ -849,6 +863,20 @@ const en: TranslationMessages = {
             chatMessagePlaceholder: "Message...",
             transactionHistory: "Transaction history",
             accountHistory: "Account history"
+        },
+        errors: {
+            401: { text: "Unauthorized" },
+            403: { text: "Access is denied" },
+            404: { text: "Page not found" },
+            408: { text: "Request timeout" },
+            409: { text: "Conflict" },
+            413: { text: "Payload too large" },
+            415: { text: "Unsupported media type", hint: "Try uploading the media in a different format" },
+            429: { text: "Too many requests", hint: "Please try again later" },
+            500: { text: "Internal server error", hint: "Please try again later" },
+            502: { text: "Bad gateway", hint: "Please modify your request" },
+            503: { text: "Service unavailable", hint: "Please try again later" },
+            504: { text: "Timeout" }
         },
         theme: {
             light: "Light theme",
