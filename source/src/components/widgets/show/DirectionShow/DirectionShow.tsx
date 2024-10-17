@@ -1,11 +1,10 @@
-import { fetchUtils, useShowController, useTranslate } from "react-admin";
+import { useShowController, useTranslate } from "react-admin";
 import { SimpleTable } from "@/components/widgets/shared";
 import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
 import { QuickShowDirections } from "./QuickShow/QuickShowDirections";
 import { useGetDirectionsShowColumns } from "./Columns";
 import { fetchMerchantDirections } from "./fetchMerchantDirections";
@@ -17,16 +16,18 @@ export interface DirectionsShowProps {
 
 export const DirectionsShow = (props: DirectionsShowProps) => {
     const { id, type } = props;
-    const { columns } = useGetDirectionsShowColumns();
-    const context = useShowController<Directions.Direction>({ id });
 
+    const context = useShowController<Directions.Direction>({ id });
     const translate = useTranslate();
+
+    const { columns } = useGetDirectionsShowColumns();
+
     const [merchantDirections, setMerchantDirections] = useState<Directions.Direction[]>([]);
 
     useEffect(() => {
         async function refetch() {
             if (context) {
-                setMerchantDirections(await fetchMerchantDirections(context));
+                setMerchantDirections(await fetchMerchantDirections({ context }));
             }
         }
         refetch();

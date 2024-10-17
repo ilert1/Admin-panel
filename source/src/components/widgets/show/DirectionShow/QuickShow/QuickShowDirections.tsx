@@ -3,6 +3,7 @@ import { TextField } from "@/components/ui/text-field";
 import { FeeCard } from "@/components/widgets/components/FeeCard";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { CircleChevronRight } from "lucide-react";
+import { useState } from "react";
 import { ShowControllerResult, useTranslate } from "react-admin";
 
 interface QuickShowProps {
@@ -13,10 +14,27 @@ export const QuickShowDirections = (props: QuickShowProps) => {
 
     const data = fetchDictionaries();
     const translate = useTranslate();
+    // const [deleteOne] = useDelete();
+
+    const [createNew, setCreateNew] = useState(false);
 
     if (!context.record) return;
 
     const fees = context.record?.fees;
+
+    const handleCreateClicked = () => {
+        if (createNew) {
+            // TODO блокировать создание нового пока старый открыт
+        }
+        setCreateNew(true);
+    };
+    // const handleDelete = (id: string) => {
+    // deleteOne("");
+    // Заглушка
+    // };
+
+    // if (!context.record) return;
+
     return (
         <div className="px-[42px] ">
             <div className="flex justify-between">
@@ -94,7 +112,7 @@ export const QuickShowDirections = (props: QuickShowProps) => {
                     <FeeCard account="Test4" currency="Test4" feeAmount={14} feeType="Test4" description="Test4" />
                 </div>
                 <div className="flex justify-end">
-                    <Button className="flex gap-[4px]" onClick={() => {}}>
+                    <Button className="flex gap-[4px]" onClick={handleCreateClicked}>
                         <CircleChevronRight className="w-[16px] h-[16px]" />
                         <span>{translate("resources.direction.fees.addFee")}</span>
                     </Button>
