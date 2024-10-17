@@ -1,4 +1,4 @@
-import { useTranslate, useDataProvider, useRedirect, useRefresh } from "react-admin";
+import { useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { API_URL } from "@/data/base";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -17,14 +17,15 @@ import { Textarea } from "@/components/ui/textarea";
 
 export const UserEdit = ({
     id,
-    record
+    record,
+    closeDialog
 }: {
     id: string;
     record: Omit<Users.User, "created_at" | "deleted_at" | "id">;
+    closeDialog: () => void;
 }) => {
     const dataProvider = useDataProvider();
     const translate = useTranslate();
-    const redirect = useRedirect();
     const { toast } = useToast();
     const refresh = useRefresh();
 
@@ -39,7 +40,7 @@ export const UserEdit = ({
                 previousData: undefined
             });
             refresh();
-            redirect("list", "users");
+            closeDialog();
         } catch (error) {
             toast({
                 description: translate("resources.currency.errors.alreadyInUse"),
