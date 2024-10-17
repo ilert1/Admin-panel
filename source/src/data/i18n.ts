@@ -301,6 +301,15 @@ const ru: TranslationMessages = {
                 merchantsDirections: "Направления мерчанта ",
                 isActive: "Активность"
             },
+            fees: {
+                fees: "Комиссии",
+                accountNumber: "Номер счета",
+                feeAmount: "Размер комиссии",
+                feeType: "Тип комиссии",
+                currency: "Валюта",
+                descr: "Описание",
+                addFee: "Добавить комиссию"
+            },
             errors: {
                 name: "У направления обязательно должно быть имя",
                 src_curr: "Исходная валюта обязательно должна быть выбрана",
@@ -779,6 +788,15 @@ const en: TranslationMessages = {
                 api_key: "Auth data",
                 merchantsDirections: "Directions of merchant ",
                 isActive: "Activity"
+            },
+            fees: {
+                fees: "Fees",
+                accountNumber: "Account number",
+                feeAmount: "Fee amount",
+                feeType: "Fee type",
+                currency: "Currency",
+                descr: "Description",
+                addFee: "Add fee"
             },
             errors: {
                 name: "The direction must have a name",

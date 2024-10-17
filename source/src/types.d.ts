@@ -236,3 +236,49 @@ interface DirectionCreate {
     provider: string;
     weight: number;
 }
+
+namespace Dictionaries {
+    interface State {
+        state_int: number;
+        state_description: string;
+        final: boolean;
+    }
+
+    interface TypeDescriptor {
+        type: number;
+        type_descr: string;
+    }
+
+    interface AccountStates {
+        [key: string]: TypeDescriptor;
+    }
+
+    interface AccountTypes {
+        [key: string]: TypeDescriptor;
+    }
+
+    interface FeeTypes {
+        [key: string]: TypeDescriptor;
+    }
+
+    interface ParticipantTypes {
+        [key: string]: TypeDescriptor;
+    }
+
+    interface States {
+        [key: string]: State;
+    }
+
+    interface TransactionTypes {
+        [key: string]: TypeDescriptor;
+    }
+
+    interface DataObject {
+        accountStates: AccountStates;
+        accountTypes: AccountTypes;
+        feeTypes: FeeTypes;
+        participantType: ParticipantTypes;
+        states: States;
+        transactionTypes: TransactionTypes;
+    }
+}
