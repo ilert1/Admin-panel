@@ -26,7 +26,8 @@ import {
     ChevronRightCircleIcon,
     MessagesSquareIcon,
     XIcon,
-    KeyRound
+    KeyRound,
+    ChevronLeft
 } from "lucide-react";
 import { useTheme } from "@/components/providers";
 import { Toaster } from "@/components/ui/toaster";
@@ -39,6 +40,8 @@ import { debounce } from "lodash";
 import { Button } from "@/components/ui/button";
 import { TestKeysModal } from "@/components/widgets/components/TestKeysModal";
 import { useGetResLabel } from "@/hooks/useGetResLabel";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { TooltipArrow } from "@radix-ui/react-tooltip";
 
 enum SplitLocations {
     show = "show",
@@ -289,37 +292,80 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
 
                     <nav className="flex flex-col items-baseline text-base gap-4 mt-6 pl-6">
                         {Object.keys(resources).map(resource => (
-                            <NavLink
-                                key={resource}
-                                to={`/${resource}`}
-                                className={
-                                    resourceName[0] === resource
-                                        ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                        : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                }>
-                                {createElement(resources[resource].icon, {})}
-                                {showCaptions ? (
-                                    <span className="animate-in fade-in-0 transition-opacity">
+                            <TooltipProvider key={resource}>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <NavLink
+                                            to={`/${resource}`}
+                                            className={
+                                                resourceName[0] === resource
+                                                    ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                                    : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                            }>
+                                            {createElement(resources[resource].icon, {})}
+                                            {showCaptions ? (
+                                                <span className="animate-in fade-in-0 transition-opacity">
+                                                    {getResLabel(resources[resource].name, permissions)}
+                                                </span>
+                                            ) : null}
+                                        </NavLink>
+                                    </TooltipTrigger>
+
+                                    <TooltipContent
+                                        className={
+                                            showCaptions
+                                                ? "hidden"
+                                                : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 after:rotate-45"
+                                        }
+                                        sideOffset={12}
+                                        side="right">
                                         {getResLabel(resources[resource].name, permissions)}
-                                    </span>
-                                ) : null}
-                            </NavLink>
+                                        <ChevronLeft
+                                            className="absolute -left-[13px] top-1.5 text-green-40"
+                                            width={20}
+                                            height={20}
+                                        />
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                         ))}
                         {merchantOnly && (
-                            <NavLink
-                                to="/bank-transfer"
-                                className={
-                                    resourceName[0] === "bank-transfer"
-                                        ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                        : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                }>
-                                <CreditCardIcon />
-                                {showCaptions ? (
-                                    <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <NavLink
+                                            to="/bank-transfer"
+                                            className={
+                                                resourceName[0] === "bank-transfer"
+                                                    ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                                    : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                            }>
+                                            <CreditCardIcon />
+                                            {showCaptions ? (
+                                                <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
+                                                    {translate("app.menu.merchant.bankTransfer")}
+                                                </span>
+                                            ) : null}
+                                        </NavLink>
+                                    </TooltipTrigger>
+
+                                    <TooltipContent
+                                        className={
+                                            showCaptions
+                                                ? "hidden"
+                                                : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 after:rotate-45"
+                                        }
+                                        sideOffset={12}
+                                        side="right">
                                         {translate("app.menu.merchant.bankTransfer")}
-                                    </span>
-                                ) : null}
-                            </NavLink>
+                                        <ChevronLeft
+                                            className="absolute -left-[13px] top-1.5 text-green-40"
+                                            width={20}
+                                            height={20}
+                                        />
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                         )}
                         {/* {merchantOnly && (
                             <NavLink
@@ -341,18 +387,42 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
 
                     {permissions === "admin" && (
                         <div className="flex flex-grow items-end m-6">
-                            <Button
-                                className={showCaptions ? "w-full pl-6 flex gap-[4px] text-title-1" : "p-2.5"}
-                                onClick={() => {
-                                    setTestKeysModalOpen(true);
-                                }}>
-                                <KeyRound className="w-[16px] h-[16px]" />
-                                {showCaptions ? (
-                                    <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            className={
+                                                showCaptions ? "w-full pl-6 flex gap-[4px] text-title-1" : "p-2.5"
+                                            }
+                                            onClick={() => {
+                                                setTestKeysModalOpen(true);
+                                            }}>
+                                            <KeyRound className="w-[16px] h-[16px]" />
+                                            {showCaptions ? (
+                                                <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
+                                                    {translate("resources.provider.createTestKeys")}
+                                                </span>
+                                            ) : null}
+                                        </Button>
+                                    </TooltipTrigger>
+
+                                    <TooltipContent
+                                        className={
+                                            showCaptions
+                                                ? "hidden"
+                                                : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 after:rotate-45"
+                                        }
+                                        side="right"
+                                        sideOffset={12}>
                                         {translate("resources.provider.createTestKeys")}
-                                    </span>
-                                ) : null}
-                            </Button>
+                                        <ChevronLeft
+                                            className="absolute -left-[13px] top-1.5 text-green-40"
+                                            width={20}
+                                            height={20}
+                                        />
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                         </div>
                     )}
                 </aside>
