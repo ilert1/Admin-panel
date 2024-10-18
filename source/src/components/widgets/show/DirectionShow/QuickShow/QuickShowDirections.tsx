@@ -5,7 +5,8 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 import { CircleChevronRight } from "lucide-react";
 import { useState } from "react";
 import { ShowControllerResult, useTranslate } from "react-admin";
-import { DeleteDirectionDialog } from "./DeleteDirectionDialog";
+import { DeleteDirectionDialog, EditDirectionDialog } from "./Forms";
+import { EditAuthData } from "./Forms/EditAuthData";
 
 interface QuickShowProps {
     context: ShowControllerResult<Directions.Direction>;
@@ -20,10 +21,8 @@ export const QuickShowDirections = (props: QuickShowProps) => {
 
     const [createNew, setCreateNew] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-
-    if (!context.record) return;
-
-    const fees = context.record?.fees;
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [changeAuthDataClicked, setChangeAuthDataClicked] = useState(false);
 
     const handleCreateClicked = () => {
         if (createNew) {
@@ -35,6 +34,15 @@ export const QuickShowDirections = (props: QuickShowProps) => {
     const handleDeleteClicked = () => {
         setDeleteDialogOpen(prev => !prev);
     };
+    const handleEditClicked = () => {
+        setEditDialogOpen(prev => !prev);
+    };
+    const handleChangeAuthDataClicked = () => {
+        setChangeAuthDataClicked(prev => !prev);
+    };
+
+    if (!context.record) return;
+    const fees = context.record?.fees;
 
     return (
         <div className="px-[42px] ">
@@ -82,10 +90,10 @@ export const QuickShowDirections = (props: QuickShowProps) => {
                     </div>
                 </div>
                 <div className="flex justify-end gap-[16px]">
-                    <Button className="" onClick={() => {}}>
+                    <Button className="" onClick={handleEditClicked}>
                         {translate("app.ui.actions.edit")}
                     </Button>
-                    <Button className="bg-muted" variant={"outline"} onClick={() => {}}>
+                    <Button className="bg-muted" variant={"outline"} onClick={handleChangeAuthDataClicked}>
                         {translate("app.ui.actions.changeSecretKey")}
                     </Button>
                     <Button className="" onClick={handleDeleteClicked}>
@@ -125,6 +133,8 @@ export const QuickShowDirections = (props: QuickShowProps) => {
                 onQuickShowOpenChange={onOpenChange}
                 id={id}
             />
+            <EditDirectionDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} id={id} />
+            <EditAuthData open={changeAuthDataClicked} onOpenChange={setChangeAuthDataClicked} id={id} />
         </div>
     );
 };

@@ -1,5 +1,4 @@
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { TextField } from "@/components/ui/text-field";
+import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { XIcon } from "lucide-react";
 import { DirectionsShow } from "../../show";
 import { useTranslate } from "react-admin";

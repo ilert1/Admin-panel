@@ -3,7 +3,6 @@ import {
     ListContextProvider,
     useListController,
     useTranslate,
-    useRedirect,
     fetchUtils,
     useRefresh
 } from "react-admin";

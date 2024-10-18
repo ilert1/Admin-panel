@@ -42,18 +42,17 @@ export const DeleteDirectionDialog = (props: DeleteDirectionDialogProps) => {
             <DialogContent className="w-[251px] bg-muted">
                 <DialogHeader>
                     <DialogTitle className="text-center">
-                        {translate("resources.providers.deleteProviderQuestion")}
+                        {translate("resources.direction.deleteDirection")}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
                     <div className="flex justify-around w-full">
-                        <Button onClick={() => handleDelete}>{translate("app.ui.actions.delete")}</Button>
+                        <Button onClick={handleDelete}>{translate("app.ui.actions.delete")}</Button>
                         <Button
                             variant={"outline"}
                             onClick={() => {
                                 onOpenChange(false);
-                                refresh();
                             }}>
                             {translate("app.ui.actions.cancel")}
                         </Button>

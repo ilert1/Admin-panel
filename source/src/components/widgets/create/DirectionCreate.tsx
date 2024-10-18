@@ -21,7 +21,7 @@ export const DirectionCreate = () => {
     const translate = useTranslate();
     const redirect = useRedirect();
 
-    const onSubmit: SubmitHandler<DirectionCreate> = async data => {
+    const onSubmit: SubmitHandler<Directions.DirectionCreate> = async data => {
         try {
             await dataProvider.create("direction", { data });
             redirect("list", "direction");

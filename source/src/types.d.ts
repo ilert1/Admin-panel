@@ -211,6 +211,7 @@ namespace Directions {
     interface Fees {
         [key: string]: Fee;
     }
+
     interface Direction {
         id: string;
         name: string;
@@ -225,16 +226,17 @@ namespace Directions {
         auth_data: object;
         fees: Fees | Record<string, never> | null;
     }
-}
 
-interface DirectionCreate {
-    name: string;
-    description: string | null;
-    src_currency: string;
-    dst_currency: string;
-    merchant: string;
-    provider: string;
-    weight: number;
+    interface DirectionCreate {
+        name: string;
+        description: string | null;
+        src_currency: string;
+        dst_currency: string;
+        merchant: string;
+        provider: string;
+        weight: number;
+        // fees: Fees | Record<string, never> | null;
+    }
 }
 
 namespace Dictionaries {

@@ -26,12 +26,7 @@ export const CreateDirectionDialog = (props: CreateDirectionDialogProps) => {
                     <DialogDescription></DialogDescription>
                     <DirectionCreate />
                 </DialogHeader>
-                <DialogFooter>
-                    {/* <DialogAction onClick={handleOkClicked}> */}
-                    {/* {translate("app.ui.actions.delete")} */}
-                    {/* </DialogAction> */}
-                    {/* <DialogCancel>{translate("app.ui.actions.cancel")}</DialogCancel> */}
-                </DialogFooter>
+                <DialogFooter></DialogFooter>
             </DialogContent>
         </Dialog>
     );

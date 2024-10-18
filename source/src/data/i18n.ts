@@ -319,14 +319,15 @@ const ru: TranslationMessages = {
                 authError: "Ошибка при добавлении информации об аутентификации"
             },
             create: "Добавить направление",
-            sourceCurrency: "Исходящая валюта",
-            destinationCurrency: "Конечная валюта",
+            sourceCurrency: "Валюта отправителя",
+            destinationCurrency: "Валюта получателя",
             selectSourceCurrency: "Выбрать исходящую валюту",
             selectDestCurrency: "Выбрать конечную валюту",
             merchant: "Мерчант",
             provider: "Провайдер",
             weight: "Вес",
             description: "Описание",
+            changeAuthDataHeader: "Изменение аутификационной информации",
             writeSecretPhrase: "Напишите информацию об аутентификации и нажмите сохранить",
             secretHelper: "Ожидается валидный JSON объект",
             note: "Внимание: Вы не можете использовать для направления провайдера, для которого нет ключа",
@@ -335,7 +336,8 @@ const ru: TranslationMessages = {
             noProviders: "Нет доступных провайдеров",
             noMerchants: "Нет доступных мерчантов",
             noCurrencies: "Нет доступных валют",
-            deleteDirection: "Удалить направление"
+            deleteDirection: "Удалить направление?",
+            editingDirection: "Редактирование направление"
         }
     },
     app: {
@@ -816,6 +818,7 @@ const en: TranslationMessages = {
             weight: "Weight",
             provider: "Provider",
             description: "Description",
+            changeAuthDataHeader: "Editing authentication data",
             writeSecretPhrase: "Write auth data for direction and click save.",
             secretHelper: "Expected valid JSON object",
             enterSecretPhrase: "Enter secret phrase",
@@ -825,7 +828,8 @@ const en: TranslationMessages = {
             noProviders: "No available providers",
             noMerchants: "No available merchants",
             noCurrencies: "No available currencies",
-            deleteDirection: "Delete direction"
+            deleteDirection: "Delete direction?",
+            editingDirection: "Editing direction"
         }
     },
     app: {
