@@ -56,7 +56,7 @@ export const TestKeysModal = (props: TestKeysModalProps) => {
                     <div className="flex flex-col gap-[24px] max-h-[468px] w-full">
                         <div className="text-center">
                             <h4 className="text-display-4 text-neutral-100">
-                                {translate("resources.providers.keysCreating")}
+                                {translate("resources.provider.keysCreating")}
                             </h4>
                         </div>
                         {isLoading ? (
@@ -65,7 +65,7 @@ export const TestKeysModal = (props: TestKeysModalProps) => {
                             <>
                                 <div className="flex flex-col gap-[4px]">
                                     <Label className="text-note-1 text-neutral-30" htmlFor="private">
-                                        {translate("resources.providers.privateKey")}
+                                        {translate("resources.provider.privateKey")}
                                     </Label>
                                     <div className="flex items-center justify-center">
                                         <textarea
@@ -92,7 +92,7 @@ export const TestKeysModal = (props: TestKeysModalProps) => {
                                 </div>
                                 <div className="flex flex-col gap-[4px]">
                                     <Label className="text-note-1 text-neutral-30" htmlFor="public">
-                                        {translate("resources.providers.fields.pk")}
+                                        {translate("resources.provider.fields.pk")}
                                     </Label>
                                     <div className="flex items-center justify-center">
                                         <textarea
@@ -138,7 +138,7 @@ export const TestKeysModal = (props: TestKeysModalProps) => {
                                     setCopyPublicClicked(false);
                                     onOpenChange(false);
                                 }}>
-                                {translate("resources.providers.close")}
+                                {translate("resources.provider.close")}
                             </Button>
                         </div>
                     </DialogFooter>
