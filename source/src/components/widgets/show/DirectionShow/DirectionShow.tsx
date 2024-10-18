@@ -12,10 +12,11 @@ import { fetchMerchantDirections } from "./fetchMerchantDirections";
 export interface DirectionsShowProps {
     id: string;
     type: string;
+    onOpenChange: (state: boolean) => void;
 }
 
 export const DirectionsShow = (props: DirectionsShowProps) => {
-    const { id, type } = props;
+    const { id, type, onOpenChange } = props;
 
     const context = useShowController<Directions.Direction>({ id });
     const translate = useTranslate();
@@ -38,7 +39,7 @@ export const DirectionsShow = (props: DirectionsShowProps) => {
     }
 
     if (type === "compact") {
-        return <QuickShowDirections context={context} />;
+        return <QuickShowDirections context={context} onOpenChange={onOpenChange} id={id} />;
     } else {
         return (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

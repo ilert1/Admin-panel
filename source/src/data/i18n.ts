@@ -334,7 +334,8 @@ const ru: TranslationMessages = {
             pleaseCreate: "Пожалуйста добавьте аутентификационную информацию на странице с таблицей",
             noProviders: "Нет доступных провайдеров",
             noMerchants: "Нет доступных мерчантов",
-            noCurrencies: "Нет доступных валют"
+            noCurrencies: "Нет доступных валют",
+            deleteDirection: "Удалить направление"
         }
     },
     app: {
@@ -823,7 +824,8 @@ const en: TranslationMessages = {
             pleaseCreate: "Please add auth data on the page with table",
             noProviders: "No available providers",
             noMerchants: "No available merchants",
-            noCurrencies: "No available currencies"
+            noCurrencies: "No available currencies",
+            deleteDirection: "Delete direction"
         }
     },
     app: {

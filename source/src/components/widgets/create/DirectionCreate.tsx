@@ -79,7 +79,7 @@ export const DirectionCreate = () => {
                                     <FormLabel>{translate("resources.direction.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} />
+                                            <Input {...field} className="bg-muted" />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -276,7 +276,7 @@ export const DirectionCreate = () => {
                                     <FormLabel>{translate("resources.direction.weight")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} />
+                                            <Input {...field} value={field.value ?? 0} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />

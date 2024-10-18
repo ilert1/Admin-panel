@@ -5,18 +5,21 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 import { CircleChevronRight } from "lucide-react";
 import { useState } from "react";
 import { ShowControllerResult, useTranslate } from "react-admin";
+import { DeleteDirectionDialog } from "./DeleteDirectionDialog";
 
 interface QuickShowProps {
     context: ShowControllerResult<Directions.Direction>;
+    onOpenChange: (state: boolean) => void;
+    id: string;
 }
 export const QuickShowDirections = (props: QuickShowProps) => {
-    const { context } = props;
+    const { context, id, onOpenChange } = props;
 
     const data = fetchDictionaries();
     const translate = useTranslate();
-    // const [deleteOne] = useDelete();
 
     const [createNew, setCreateNew] = useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     if (!context.record) return;
 
@@ -28,12 +31,10 @@ export const QuickShowDirections = (props: QuickShowProps) => {
         }
         setCreateNew(true);
     };
-    // const handleDelete = (id: string) => {
-    // deleteOne("");
-    // Заглушка
-    // };
 
-    // if (!context.record) return;
+    const handleDeleteClicked = () => {
+        setDeleteDialogOpen(prev => !prev);
+    };
 
     return (
         <div className="px-[42px] ">
@@ -87,7 +88,7 @@ export const QuickShowDirections = (props: QuickShowProps) => {
                     <Button className="bg-muted" variant={"outline"} onClick={() => {}}>
                         {translate("app.ui.actions.changeSecretKey")}
                     </Button>
-                    <Button className="" onClick={() => {}}>
+                    <Button className="" onClick={handleDeleteClicked}>
                         {translate("app.ui.actions.delete")}
                     </Button>
                 </div>
@@ -118,6 +119,12 @@ export const QuickShowDirections = (props: QuickShowProps) => {
                     </Button>
                 </div>
             </div>
+            <DeleteDirectionDialog
+                open={deleteDialogOpen}
+                onOpenChange={setDeleteDialogOpen}
+                onQuickShowOpenChange={onOpenChange}
+                id={id}
+            />
         </div>
     );
 };

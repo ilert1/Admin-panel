@@ -7,21 +7,10 @@ import {
     fetchUtils,
     useRefresh
 } from "react-admin";
-import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { useNavigate } from "react-router-dom";
-import { DirectionsShow } from "../../show";
 import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 
 import {
@@ -39,20 +28,21 @@ import * as monaco from "monaco-editor";
 import { Editor } from "@monaco-editor/react";
 import { useTheme } from "@/components/providers";
 import { useGetDirectionsColumns } from "./Columns";
-import { PlusCircle, XIcon } from "lucide-react";
-import { TextField } from "@/components/ui/text-field";
+import { PlusCircle } from "lucide-react";
 import { ShowSheet } from "./ShowSheet";
+import { CreateDirectionDialog } from "./CreateDirectionDialog";
 
 const API_URL = import.meta.env.VITE_ENIGMA_URL;
 
 export const DirectionsList = () => {
-    const listContext = useListController<Direction>();
+    const listContext = useListController<Directions.Direction>();
 
     const translate = useTranslate();
     const { toast } = useToast();
     const refresh = useRefresh();
 
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const [code, setCode] = useState("{}");
     const [hasErrors, setHasErrors] = useState(false);
@@ -141,9 +131,8 @@ export const DirectionsList = () => {
         }
     };
 
-    const redirect = useRedirect();
     const handleCreateClick = () => {
-        redirect("create", "direction");
+        setCreateDialogOpen(true);
     };
 
     const dataProvider = useDataProvider();
@@ -160,6 +149,7 @@ export const DirectionsList = () => {
                         <PlusCircle className="h-[16px] w-[16px]" />
                         <span className="text-title-1">{translate("resources.direction.create")}</span>
                     </Button>
+                    <CreateDirectionDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
                     <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
                         <AlertDialogContent>
                             <AlertDialogHeader>

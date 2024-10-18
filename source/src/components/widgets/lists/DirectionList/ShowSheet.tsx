@@ -39,7 +39,7 @@ export const ShowSheet: React.FC<ShowSheetProps> = props => {
                     </div>
 
                     <div className="flex-1 overflow-auto" tabIndex={-1}>
-                        <DirectionsShow id={id} type="compact" />
+                        <DirectionsShow id={id} type="compact" onOpenChange={onOpenChange} />
                     </div>
                     <SheetDescription></SheetDescription>
                 </SheetContent>
