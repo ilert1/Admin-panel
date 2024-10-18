@@ -291,7 +291,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
 
                     <nav className="flex flex-col items-baseline text-base gap-4 mt-6 pl-6">
                         {Object.keys(resources).map(resource => (
-                            <TooltipProvider key={resource}>
+                            <TooltipProvider key={resource} delayDuration={100}>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
                                         <NavLink
@@ -329,7 +329,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                             </TooltipProvider>
                         ))}
                         {merchantOnly && (
-                            <TooltipProvider>
+                            <TooltipProvider delayDuration={100}>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
                                         <NavLink
@@ -385,8 +385,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     </nav>
 
                     {permissions === "admin" && (
-                        <div className="flex flex-grow items-end mx-[18px] mb-6">
-                            <TooltipProvider>
+                        <div className="flex flex-grow items-end ml-[18px] mr-[10px] mb-6">
+                            <TooltipProvider delayDuration={100}>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
                                         <Button
