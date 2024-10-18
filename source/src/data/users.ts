@@ -16,15 +16,11 @@ export class UsersDataProvider extends BaseDataProvider {
             limit: params.pagination.perPage.toString(),
             offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
         };
-        if (params.filter.id) {
-            data["id"] = params.filter.id;
-        }
-        if (params.filter.user) {
-            data["userId"] = params.filter.user;
-        }
-        if (params.filter.isActive) {
-            data["active"] = params.filter.isActive;
-        }
+
+        Object.keys(params.filter).forEach(filterItem => {
+            data[filterItem] = params.filter[filterItem];
+        });
+
         const paramsStr = new URLSearchParams(data).toString();
         const { json } = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/${resource}?${paramsStr}`, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }

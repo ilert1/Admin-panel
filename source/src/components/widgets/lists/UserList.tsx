@@ -1,4 +1,4 @@
-import { ListContextProvider, useGetList, useListContext, useListController, useTranslate } from "react-admin";
+import { ListContextProvider, useListContext, useListController, useTranslate } from "react-admin";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
 import { TextField } from "@/components/ui/text-field";
@@ -17,26 +17,21 @@ import { useNavigate } from "react-router-dom";
 import { Loading } from "@/components/ui/loading";
 import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { UserCreate } from "../create";
 
 const UserFilterSidebar = () => {
     const translate = useTranslate();
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-    const { data: users } = useGetList("users", { pagination: { perPage: 100, page: 1 } });
 
     const [userInputId, setUserInputId] = useState(filterValues?.id || "");
-    const [username, setUsername] = useState(users?.find(user => filterValues?.user === user.id) || "");
-    const [checkedActivity, setCheckedActivity] = useState(filterValues?.isActive || false);
+    const [username, setUsername] = useState(filterValues?.name || "");
+    const [checkedActivity, setCheckedActivity] = useState(filterValues?.active || false);
 
     const [showAddUserDialog, setShowAddUserDialog] = useState(false);
 
-    const onPropertySelected = debounce((value: Users.User | string | boolean, type: "id" | "user" | "isActive") => {
+    const onPropertySelected = debounce((value: Users.User | string, type: "id" | "name" | "state") => {
         if (value) {
-            if (type === "user") {
-                value = (value as Users.User).id;
-            }
             setFilters({ ...filterValues, [type]: value }, displayedFilters);
         } else {
             Reflect.deleteProperty(filterValues, type);
@@ -50,14 +45,18 @@ const UserFilterSidebar = () => {
         onPropertySelected(e.target.value, "id");
     };
 
-    const onUsernameChanged = (user: Users.User | string) => {
-        setUsername(user);
-        onPropertySelected(user, "user");
+    const onUsernameChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        setUsername(e.target.value);
+        onPropertySelected(e.target.value, "name");
     };
 
     const onUserActivityChanged = (activity: boolean) => {
         setCheckedActivity(activity);
-        onPropertySelected(activity, "isActive");
+        if (activity) {
+            onPropertySelected("1", "state");
+        } else {
+            onPropertySelected("", "state");
+        }
     };
 
     const clearFilters = () => {
@@ -76,24 +75,12 @@ const UserFilterSidebar = () => {
                         <span className="font-normal text-base">
                             {translate("resources.users.filter.filterByUsername")}
                         </span>
-                        <Select
-                            onValueChange={val => (val !== "null" ? onUsernameChanged(val) : onUsernameChanged(""))}
-                            value={username}>
-                            <SelectTrigger>
-                                <SelectValue
-                                    placeholder={translate("resources.users.filter.filterByUsernamePlaceholder")}
-                                />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="null">{translate("resources.users.filter.showAll")}</SelectItem>
-                                {users &&
-                                    users.map(user => (
-                                        <SelectItem key={user.id} value={user}>
-                                            {user.name}
-                                        </SelectItem>
-                                    ))}
-                            </SelectContent>
-                        </Select>
+                        <Input
+                            className="flex-1 text-sm placeholder:text-neutral-70"
+                            placeholder={translate("resources.users.filter.filterByUsernamePlaceholder")}
+                            value={username}
+                            onChange={onUsernameChanged}
+                        />
                     </label>
 
                     <label className="flex flex-col gap-2 lg:min-w-52">
