@@ -30,7 +30,7 @@ const UserFilterSidebar = () => {
 
     const [showAddUserDialog, setShowAddUserDialog] = useState(false);
 
-    const onPropertySelected = debounce((value: Users.User | string | boolean, type: "id" | "name" | "active") => {
+    const onPropertySelected = debounce((value: Users.User | string, type: "id" | "name" | "state") => {
         if (value) {
             setFilters({ ...filterValues, [type]: value }, displayedFilters);
         } else {
@@ -52,7 +52,11 @@ const UserFilterSidebar = () => {
 
     const onUserActivityChanged = (activity: boolean) => {
         setCheckedActivity(activity);
-        onPropertySelected(activity, "active");
+        if (activity) {
+            onPropertySelected("1", "state");
+        } else {
+            onPropertySelected("", "state");
+        }
     };
 
     const clearFilters = () => {
