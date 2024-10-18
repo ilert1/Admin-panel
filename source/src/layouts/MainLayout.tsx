@@ -8,7 +8,7 @@ import {
     useResourceDefinitions,
     useTranslate
 } from "react-admin";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useMemo, createElement, useState, useEffect } from "react";
 import {
@@ -20,9 +20,7 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
 import {
-    HandCoinsIcon,
     LanguagesIcon,
-    BitcoinIcon,
     CreditCardIcon,
     ChevronLeftCircleIcon,
     ChevronRightCircleIcon,
@@ -55,8 +53,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     const { permissions } = usePermissions();
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
     const location = useLocation();
-
-    const navigate = useNavigate();
 
     const resourceName = useMemo(() => {
         const resources = location.pathname?.split("/")?.filter((s: string) => s?.length > 0);
@@ -343,28 +339,35 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                         )} */}
                     </nav>
 
-                    {isSheetOpen && permissions === "admin" && (
-                        <div className="flex flex-grow items-end my-6 mx-6">
+                    {permissions === "admin" && (
+                        <div className="flex flex-grow items-end m-6">
                             <Button
+                                className={showCaptions ? "w-full pl-6 flex gap-[4px] text-title-1" : "p-2.5"}
                                 onClick={() => {
                                     setTestKeysModalOpen(true);
-                                }}
-                                className="w-full pl-6 flex gap-[4px] translate-x-[-100%] animate-in-left transition-transform duration-500 ease-out text-title-1">
+                                }}>
                                 <KeyRound className="w-[16px] h-[16px]" />
-                                <span>{translate("resources.provider.createTestKeys")}</span>
+                                {showCaptions ? (
+                                    <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
+                                        {translate("resources.provider.createTestKeys")}
+                                    </span>
+                                ) : null}
                             </Button>
-                            <TestKeysModal open={testKeysModalOpen} onOpenChange={setTestKeysModalOpen} />
                         </div>
                     )}
                 </aside>
+
                 <div className="bg-muted grow overflow-y-auto scrollbar-stable transition-[margin-left]">
                     <main className="p-6 pr-4 container">
                         <h1 className="text-3xl mb-6">{pageTitle}</h1>
                         {children}
                     </main>
                 </div>
+
                 <Toaster />
             </div>
+
+            <TestKeysModal open={testKeysModalOpen} onOpenChange={setTestKeysModalOpen} />
         </div>
     );
 };
