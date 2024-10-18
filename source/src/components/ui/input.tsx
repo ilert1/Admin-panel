@@ -40,7 +40,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             }
         };
 
-        const showClearButton = inputValue && isFocused;
+        const showClearButton = (typeof inputValue === "number" && inputValue === 0) || (inputValue && isFocused);
 
         return (
             <div className="relative flex items-center w-full">
