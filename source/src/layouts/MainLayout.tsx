@@ -385,7 +385,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     </nav>
 
                     {permissions === "admin" && (
-                        <div className="flex flex-grow items-end ml-[18px] mr-[10px] mb-6">
+                        <div className="flex flex-grow items-end ml-[18px] mr-[10px] mb-6 mt-4">
                             <TooltipProvider delayDuration={100}>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
