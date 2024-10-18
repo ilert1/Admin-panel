@@ -64,7 +64,7 @@ const ru: TranslationMessages = {
                 showAll: "Показать все",
                 filterByUserId: "Поиск по ID",
                 filterByUsername: "Поиск по имени",
-                filterByUsernamePlaceholder: "Все",
+                filterByUsernamePlaceholder: "Имя",
                 filterByActivity: "Активные пользователи"
             },
             showHeader: "Информация о пользователе",
@@ -553,7 +553,7 @@ const en: TranslationMessages = {
                 showAll: "Show all",
                 filterByUserId: "Search by ID",
                 filterByUsername: "Search by name",
-                filterByUsernamePlaceholder: "All",
+                filterByUsernamePlaceholder: "Name",
                 filterByActivity: "Active users"
             },
             createButton: "Add user",
