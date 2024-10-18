@@ -41,7 +41,6 @@ import { Button } from "@/components/ui/button";
 import { TestKeysModal } from "@/components/widgets/components/TestKeysModal";
 import { useGetResLabel } from "@/hooks/useGetResLabel";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { TooltipArrow } from "@radix-ui/react-tooltip";
 
 enum SplitLocations {
     show = "show",
