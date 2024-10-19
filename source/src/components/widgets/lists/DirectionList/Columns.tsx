@@ -42,7 +42,7 @@ export const useGetDirectionsColumns = () => {
             accessorKey: "id",
             header: translate("resources.direction.fields.id"),
             cell: ({ row }) => {
-                return <TextField text={row.original.id} copyValue />;
+                return <TextField text={row.original.id} wrap copyValue />;
             }
         },
         {
@@ -69,7 +69,7 @@ export const useGetDirectionsColumns = () => {
             header: translate("resources.direction.fields.merchant"),
             cell: ({ row }) => {
                 const obj: Merchant = row.getValue("merchant");
-                return <TextField text={obj.name} />;
+                return <TextField text={obj.name} wrap />;
             }
         },
         {
@@ -78,7 +78,7 @@ export const useGetDirectionsColumns = () => {
             header: translate("resources.direction.provider"),
             cell: ({ row }) => {
                 const obj: Provider = row.getValue("provider");
-                return <TextField text={obj.name} />;
+                return <TextField text={obj.name} wrap />;
             }
         },
         {
