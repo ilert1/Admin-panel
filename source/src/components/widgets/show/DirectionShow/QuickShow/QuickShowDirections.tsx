@@ -58,12 +58,12 @@ export const QuickShowDirections = (props: QuickShowProps) => {
                 <TextField text={context.record.id} copyValue />
                 <div className="flex items-center justify-center text-white">
                     {context.record.active ? (
-                        <span className="px-3 py-0.5 bg-red-50 rounded-20 font-normal text-title-2 text-center whitespace-nowrap">
-                            {translate("resources.direction.fields.stateInactive")}
-                        </span>
-                    ) : (
                         <span className="px-3 py-0.5 bg-green-50 rounded-20 font-normal text-title-2 text-center whitespace-nowrap">
                             {translate("resources.direction.fields.stateActive")}
+                        </span>
+                    ) : (
+                        <span className="px-3 py-0.5 bg-red-50 rounded-20 font-normal text-title-2 text-center whitespace-nowrap">
+                            {translate("resources.direction.fields.stateInactive")}
                         </span>
                     )}
                 </div>
