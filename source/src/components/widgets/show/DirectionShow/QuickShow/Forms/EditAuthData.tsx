@@ -47,8 +47,6 @@ export const EditAuthData = (props: EditAuthDataProps) => {
         setCode("{}");
         try {
             const body = JSON.stringify({
-                ...oldData,
-                account_id: "123",
                 auth_data: data
             });
             const { json } = await fetchUtils.fetchJson(`${API_URL}/direction/${id}`, {
