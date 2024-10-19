@@ -84,23 +84,6 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
         monaco.editor.setTheme(`vs-${theme}`);
     };
 
-    const formSchema = z.object({
-        name: z.string().min(1, translate("resources.merchant.errors.name")).trim(),
-        public_key: z.string().nullable(),
-        fields_json_schema: z.string().optional().default(""),
-        methods: z.string()
-    });
-
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            name: record?.name || "",
-            public_key: record?.public_key || "",
-            fields_json_schema: record?.fields_json_schema || "",
-            methods: JSON.stringify(record?.methods) || ""
-        }
-    });
-
     if (isLoading || !record) return <Loading />;
     return (
         <EditContextProvider value={controllerProps}>

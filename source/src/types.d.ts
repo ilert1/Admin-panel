@@ -185,7 +185,7 @@ interface Merchant {
 interface Provider {
     fields_json_schema: string;
     public_key: string | null;
-    methods: object;
+    methods: Object<any>;
     name: string;
     id: string;
 }
