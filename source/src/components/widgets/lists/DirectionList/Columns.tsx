@@ -42,7 +42,7 @@ export const useGetDirectionsColumns = () => {
             accessorKey: "id",
             header: translate("resources.direction.fields.id"),
             cell: ({ row }) => {
-                return <TextField text={row.original.id} copyValue />;
+                return <TextField text={row.original.id} wrap copyValue />;
             }
         },
         {
