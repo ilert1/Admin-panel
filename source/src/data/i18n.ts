@@ -267,6 +267,7 @@ const ru: TranslationMessages = {
         provider: {
             name: "Провайдеры",
             fields: {
+                _name: "Название",
                 name: "Провайдер",
                 pk: "Публичный ключ",
                 genKey: "Создать ключи",
@@ -293,7 +294,9 @@ const ru: TranslationMessages = {
             close: "Закрыть",
             privateKey: "Приватный ключ",
             deleteProviderQuestion: "Удалить провайдера?",
-            keysCreating: "Создание тестовых ключей"
+            keysCreating: "Создание тестовых ключей",
+            realKeysCreating: "Создание ключей",
+            editingProvider: "Редактирование провайдера"
         },
         direction: {
             direction: "Направление",
@@ -773,6 +776,7 @@ const en: TranslationMessages = {
         provider: {
             name: "Providers",
             fields: {
+                _name: "Name",
                 name: "Provider",
                 pk: "Public key",
                 genKey: "Generate keys",
@@ -799,7 +803,9 @@ const en: TranslationMessages = {
             close: "Close",
             privateKey: "Private key",
             deleteProviderQuestion: "Delete provider?",
-            keysCreating: "Test keys creating"
+            keysCreating: "Test keys creating",
+            realKeysCreating: "Keys generation",
+            editingProvider: "Editing provider"
         },
         direction: {
             name: "Directions",

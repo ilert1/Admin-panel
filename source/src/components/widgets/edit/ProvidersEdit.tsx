@@ -1,8 +1,7 @@
-import { useParams } from "react-router-dom";
 import { useEditController, EditContextProvider, useTranslate, useRedirect, useDataProvider } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 import { z } from "zod";
@@ -12,20 +11,44 @@ import { Editor } from "@monaco-editor/react";
 import { useTheme } from "@/components/providers";
 import { useToast } from "@/components/ui/use-toast";
 
-export const ProvidersEdit = () => {
+export interface ProviderEditParams {
+    id?: string;
+    onClose?: () => void;
+}
+
+export const ProvidersEdit: FC<ProviderEditParams> = params => {
     const dataProvider = useDataProvider();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [error, setError] = useState(false);
-    const { record, isLoading } = useEditController();
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const { id, onClose = () => {} } = params;
 
-    const { id } = useParams();
+    const { record, isLoading } = useEditController({ resource: "provider", id });
 
-    const controllerProps = useEditController();
+    const controllerProps = useEditController({ resource: "provider", id });
     controllerProps.mutationMode = "pessimistic";
 
     const translate = useTranslate();
     const redirect = useRedirect();
-    const { theme } = useTheme();
     const { toast } = useToast();
+    const { theme } = useTheme();
+
+    const formSchema = z.object({
+        name: z.string().min(1, translate("resources.providers.errors.name")).trim(),
+        public_key: z.string().nullable(),
+        fields_json_schema: z.string().optional().default(""),
+        methods: z.string()
+    });
+
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            name: record?.name || "",
+            public_key: record?.public_key || "",
+            fields_json_schema: record?.fields_json_schema || "",
+            methods: JSON.stringify(record?.methods) || ""
+        }
+    });
 
     useEffect(() => {
         if (record) {
@@ -36,7 +59,7 @@ export const ProvidersEdit = () => {
                 methods: JSON.stringify(record.methods, null, 2) || ""
             });
         }
-    }, [record]);
+    }, [form, record]);
 
     const onSubmit: SubmitHandler<Omit<Omit<Provider, "id">, "name">> = async data => {
         data.methods = JSON.parse(data.methods);
@@ -54,6 +77,7 @@ export const ProvidersEdit = () => {
                 title: "Error"
             });
         }
+        onClose();
     };
 
     const handleEditorDidMount = (editor: any, monaco: any) => {
@@ -88,7 +112,11 @@ export const ProvidersEdit = () => {
                             name="name"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.provider.fields.name")}</FormLabel>
+                                    <FormLabel>
+                                        <span className="!text-note-1 !text-neutral-30">
+                                            {translate("resources.providers.fields._name")}
+                                        </span>
+                                    </FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} disabled />
@@ -98,12 +126,17 @@ export const ProvidersEdit = () => {
                                 </FormItem>
                             )}
                         />
+
                         <FormField
                             control={form.control}
                             name="fields_json_schema"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.provider.fields.json_schema")}</FormLabel>
+                                    <FormLabel>
+                                        <span className="!text-note-1 !text-neutral-30">
+                                            {translate("resources.providers.fields.json_schema")}
+                                        </span>
+                                    </FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} />
@@ -118,7 +151,11 @@ export const ProvidersEdit = () => {
                             name="methods"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
-                                    <FormLabel>{translate("resources.provider.fields.code")}</FormLabel>
+                                    <FormLabel>
+                                        <span className="!text-note-1 !text-neutral-30">
+                                            {translate("resources.providers.fields.code")}
+                                        </span>
+                                    </FormLabel>
                                     <FormControl>
                                         <Editor
                                             {...field}
@@ -136,15 +173,15 @@ export const ProvidersEdit = () => {
                             )}
                         />
                         <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
-                            <Button
-                                type="button"
-                                variant="error"
-                                className="flex-1"
-                                onClick={() => redirect("list", "provider")}>
-                                {translate("app.ui.actions.cancel")}
-                            </Button>
                             <Button type="submit" variant="default" className="flex-1">
                                 {translate("app.ui.actions.save")}
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="flex-1 border-neutral-50 text-neutral-50 bg-muted"
+                                onClick={onClose}>
+                                {translate("app.ui.actions.cancel")}
                             </Button>
                         </div>
                     </div>

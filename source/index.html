@@ -6,6 +6,12 @@
         <meta name="theme-color" content="#000000" />
         <link rel="manifest" href="./manifest.json" />
         <link rel="shortcut icon" href="./favicon.ico" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
         <title>juggler-gui</title>
         <style>
             .not-clicked {
@@ -39,6 +45,13 @@
                 scrollbar-color: rgba(35, 118, 72, 1) rgba(0, 0, 0, 1);
             }
 
+            * {
+                font-family: "Jost", sans-serif;
+            }
+            .monaco-editor * {
+                font-family: sans-serif !important;
+                font-size: 16px;
+            }
             .z {
                 z-index: 60 !important;
             }

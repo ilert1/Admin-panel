@@ -41,6 +41,7 @@ import { Button } from "@/components/ui/button";
 import { TestKeysModal } from "@/components/widgets/components/TestKeysModal";
 import { useGetResLabel } from "@/hooks/useGetResLabel";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { KeysModal } from "@/components/widgets/components/KeysModal";
 
 enum SplitLocations {
     show = "show",
