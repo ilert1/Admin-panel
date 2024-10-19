@@ -4,7 +4,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { Loading } from "@/components/ui/loading";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
 import { useParams } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -103,7 +111,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                     <FormLabel>{translate("resources.direction.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} />
+                                            <Input {...field} variant={SelectType.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -118,7 +126,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                     <FormLabel>{translate("resources.direction.sourceCurrency")}</FormLabel>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue />
                                             </SelectTrigger>
                                         </FormControl>
@@ -126,7 +134,10 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                             <SelectGroup>
                                                 {currencies?.data.map((currency: Currencies.Currency) => {
                                                     return (
-                                                        <SelectItem key={currency.code} value={currency.code}>
+                                                        <SelectItem
+                                                            key={currency.code}
+                                                            value={currency.code}
+                                                            variant={SelectType.GRAY}>
                                                             {currency.code}
                                                         </SelectItem>
                                                     );
@@ -146,7 +157,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                     <FormLabel>{translate("resources.direction.merchant")}</FormLabel>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue />
                                             </SelectTrigger>
                                         </FormControl>
@@ -154,7 +165,10 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                             <SelectGroup>
                                                 {merchants?.data.map((merchant: Merchant) => {
                                                     return (
-                                                        <SelectItem key={merchant.name} value={merchant.id}>
+                                                        <SelectItem
+                                                            key={merchant.name}
+                                                            value={merchant.id}
+                                                            variant={SelectType.GRAY}>
                                                             {merchant.name}
                                                         </SelectItem>
                                                     );
@@ -174,7 +188,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                     <FormLabel>{translate("resources.direction.destinationCurrency")}</FormLabel>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue />
                                             </SelectTrigger>
                                         </FormControl>
@@ -182,7 +196,10 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                             <SelectGroup>
                                                 {currencies?.data.map((currency: Currencies.Currency) => {
                                                     return (
-                                                        <SelectItem key={currency.code} value={currency.code}>
+                                                        <SelectItem
+                                                            key={currency.code}
+                                                            value={currency.code}
+                                                            variant={SelectType.GRAY}>
                                                             {currency.code}
                                                         </SelectItem>
                                                     );
@@ -203,7 +220,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                     <FormLabel>{translate("resources.direction.provider")}</FormLabel>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue />
                                             </SelectTrigger>
                                         </FormControl>
@@ -212,6 +229,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                                 {providers?.data.map((provider: Provider) => {
                                                     return (
                                                         <SelectItem
+                                                            variant={SelectType.GRAY}
                                                             key={provider.name}
                                                             value={provider.name}
                                                             disabled={provider.public_key ? false : true}>
@@ -236,7 +254,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                         value={field.value ? "true" : "false"} // Преобразуем булево значение в строку
                                         onValueChange={value => field.onChange(value === "true")}>
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={translate("resources.direction.fields.active")}
                                                 />
@@ -244,10 +262,10 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                <SelectItem value="true">
+                                                <SelectItem value="true" variant={SelectType.GRAY}>
                                                     {translate("resources.direction.fields.stateActive")}
                                                 </SelectItem>
-                                                <SelectItem value="false">
+                                                <SelectItem value="false" variant={SelectType.GRAY}>
                                                     {translate("resources.direction.fields.stateInactive")}
                                                 </SelectItem>
                                             </SelectGroup>
@@ -265,7 +283,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                     <FormLabel>{translate("resources.direction.weight")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} />
+                                            <Input {...field} variant={SelectType.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -280,7 +298,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                     <FormLabel>{translate("resources.direction.description")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} value={field.value ?? ""} />
+                                            <Input {...field} value={field.value ?? ""} variant={SelectType.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />

@@ -1,13 +1,21 @@
-import { useCreateController, CreateContextProvider, useRedirect, useTranslate, useDataProvider } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+import { Input, InputTypes } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loading } from "@/components/ui/loading";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
 import { useFetchDataForDirections } from "@/hooks";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -82,7 +90,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                     <FormLabel>{translate("resources.direction.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} className="bg-muted" />
+                                            <Input {...field} className="bg-muted" variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -99,7 +107,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         value={field.value ? "true" : "false"}
                                         onValueChange={value => field.onChange(value === "true")}>
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={translate("resources.direction.fields.active")}
                                                 />
@@ -107,10 +115,10 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                <SelectItem value="true">
+                                                <SelectItem value="true" variant={SelectType.GRAY}>
                                                     {translate("resources.direction.fields.stateActive")}
                                                 </SelectItem>
-                                                <SelectItem value="false">
+                                                <SelectItem value="false" variant={SelectType.GRAY}>
                                                     {translate("resources.direction.fields.stateInactive")}
                                                 </SelectItem>
                                             </SelectGroup>
@@ -131,7 +139,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         onValueChange={field.onChange}
                                         disabled={currenciesDisabled}>
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={
                                                         currenciesDisabled
@@ -145,7 +153,10 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                             <SelectGroup>
                                                 {!currenciesDisabled
                                                     ? currencies.data.map(currency => (
-                                                          <SelectItem key={currency.code} value={currency.code}>
+                                                          <SelectItem
+                                                              key={currency.code}
+                                                              value={currency.code}
+                                                              variant={SelectType.GRAY}>
                                                               {currency.code}
                                                           </SelectItem>
                                                       ))
@@ -168,7 +179,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         onValueChange={field.onChange}
                                         disabled={currenciesDisabled}>
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={
                                                         currenciesDisabled
@@ -182,7 +193,10 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                             <SelectGroup>
                                                 {!currenciesDisabled
                                                     ? currencies.data.map(currency => (
-                                                          <SelectItem key={currency.code} value={currency.code}>
+                                                          <SelectItem
+                                                              key={currency.code}
+                                                              value={currency.code}
+                                                              variant={SelectType.GRAY}>
                                                               {currency.code}
                                                           </SelectItem>
                                                       ))
@@ -205,7 +219,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         onValueChange={field.onChange}
                                         disabled={merchantsDisabled}>
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={
                                                         merchantsDisabled
@@ -219,7 +233,10 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                             <SelectGroup>
                                                 {!merchantsDisabled
                                                     ? merchants.data.map(merchant => (
-                                                          <SelectItem key={merchant.name} value={merchant.id}>
+                                                          <SelectItem
+                                                              key={merchant.name}
+                                                              value={merchant.id}
+                                                              variant={SelectType.GRAY}>
                                                               {merchant.name}
                                                           </SelectItem>
                                                       ))
@@ -242,7 +259,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         onValueChange={field.onChange}
                                         disabled={providersDisabled}>
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={
                                                         providersDisabled
@@ -259,7 +276,8 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                                           <SelectItem
                                                               key={provider.name}
                                                               value={provider.name}
-                                                              disabled={provider.public_key ? false : true}>
+                                                              disabled={provider.public_key ? false : true}
+                                                              variant={SelectType.GRAY}>
                                                               {provider.name}
                                                           </SelectItem>
                                                       ))
@@ -279,7 +297,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                     <FormLabel>{translate("resources.direction.weight")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} value={field.value ?? 0} />
+                                            <Input {...field} value={field.value ?? 0} variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -294,7 +312,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                     <FormLabel>{translate("resources.direction.description")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} value={field.value ?? ""} />
+                                            <Input {...field} value={field.value ?? ""} variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
