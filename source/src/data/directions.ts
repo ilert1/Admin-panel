@@ -46,16 +46,18 @@ export class DirectionsDataProvider extends BaseDataProvider {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
             user: { authenticated: true, token: localStorage.getItem("access-token") as string }
         });
-        const destId = json?.data?.destination?.id;
-        const sourceId = json?.data?.source?.id;
+        // TODO:  Не понял зачем эти 2 поля. Пока оставлю как комментарий, потом разберусь
 
-        const dest = await fetchUtils.fetchJson(`${API_URL}/${resource}/${destId}`, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
+        // const destId = json?.data?.destination?.id;
+        // const sourceId = json?.data?.source?.id;
 
-        const source = await fetchUtils.fetchJson(`${API_URL}/${resource}/${sourceId}`, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
+        // const dest = await fetchUtils.fetchJson(`${API_URL}/${resource}/${destId}`, {
+        //     user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        // });
+
+        // const source = await fetchUtils.fetchJson(`${API_URL}/${resource}/${sourceId}`, {
+        //     user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        // });
 
         if (!json.success) {
             throw new Error(json.error);
@@ -64,9 +66,9 @@ export class DirectionsDataProvider extends BaseDataProvider {
         return {
             data: {
                 id: json.data.name,
-                ...json.data,
-                destination: { ...json.data.destination, meta: dest.json?.data?.meta || {} },
-                source: { ...json.data.source, meta: source.json?.data?.meta || {} }
+                ...json.data
+                // destination: { ...json.data.destination, meta: dest.json?.data?.meta || {} },
+                // source: { ...json.data.source, meta: source.json?.data?.meta || {} }
             }
         };
     }

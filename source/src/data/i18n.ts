@@ -296,6 +296,7 @@ const ru: TranslationMessages = {
             keysCreating: "Создание тестовых ключей"
         },
         direction: {
+            direction: "Направление",
             name: "Направления",
             fields: {
                 name: "Название направления",
@@ -306,11 +307,21 @@ const ru: TranslationMessages = {
                 id: "Идентификатор направления",
                 auth_data: "Информация об аутентификации",
                 pleaseGen: "Пожалуйста, создайте ключи в провайдерах",
-                stateActive: "Активный",
-                stateInactive: "Не активный",
+                stateActive: "Активно",
+                stateInactive: "Не активно",
                 description: "Описание",
                 api_key: "Информация об аутентификации",
-                merchantsDirections: "Направления мерчанта "
+                merchantsDirections: "Направления мерчанта ",
+                isActive: "Активность"
+            },
+            fees: {
+                fees: "Комиссии",
+                accountNumber: "Номер счета",
+                feeAmount: "Размер комиссии",
+                feeType: "Тип комиссии",
+                currency: "Валюта",
+                descr: "Описание",
+                addFee: "Добавить комиссию"
             },
             errors: {
                 name: "У направления обязательно должно быть имя",
@@ -320,15 +331,17 @@ const ru: TranslationMessages = {
                 provider: "Провайдер обязательно должен быть выбран",
                 authError: "Ошибка при добавлении информации об аутентификации"
             },
-            create: "Создать новое направление",
-            sourceCurrency: "Исходящая валюта",
-            destinationCurrency: "Конечная валюта",
+            create: "Добавить направление",
+            sourceCurrency: "Валюта отправителя",
+            destinationCurrency: "Валюта получателя",
             selectSourceCurrency: "Выбрать исходящую валюту",
             selectDestCurrency: "Выбрать конечную валюту",
             merchant: "Мерчант",
             provider: "Провайдер",
             weight: "Вес",
             description: "Описание",
+            authInfo: "Информация об аутинтификации",
+            changeAuthDataHeader: "Изменение аутентификационной информации",
             writeSecretPhrase: "Напишите информацию об аутентификации и нажмите сохранить",
             secretHelper: "Ожидается валидный JSON объект",
             note: "Внимание: Вы не можете использовать для направления провайдера, для которого нет ключа",
@@ -336,7 +349,10 @@ const ru: TranslationMessages = {
             pleaseCreate: "Пожалуйста добавьте аутентификационную информацию на странице с таблицей",
             noProviders: "Нет доступных провайдеров",
             noMerchants: "Нет доступных мерчантов",
-            noCurrencies: "Нет доступных валют"
+            noCurrencies: "Нет доступных валют",
+            deleteDirection: "Удалить направление?",
+            editingDirection: "Редактирование направления",
+            creatingDirection: "Добавление направления"
         }
     },
     app: {
@@ -787,6 +803,7 @@ const en: TranslationMessages = {
         },
         direction: {
             name: "Directions",
+            direction: "Direction",
             fields: {
                 name: "Directions name",
                 active: "State",
@@ -800,7 +817,17 @@ const en: TranslationMessages = {
                 stateInactive: "Inactive",
                 description: "Description",
                 api_key: "Auth data",
-                merchantsDirections: "Directions of merchant "
+                merchantsDirections: "Directions of merchant ",
+                isActive: "Activity"
+            },
+            fees: {
+                fees: "Fees",
+                accountNumber: "Account number",
+                feeAmount: "Fee amount",
+                feeType: "Fee type",
+                currency: "Currency",
+                descr: "Description",
+                addFee: "Add fee"
             },
             errors: {
                 name: "The direction must have a name",
@@ -810,7 +837,7 @@ const en: TranslationMessages = {
                 provider: "The provider must be selected",
                 authError: "An error has occurred while adding authentication information"
             },
-            create: "Create new direction",
+            create: "Add direction",
             sourceCurrency: "Source currency",
             destinationCurrency: "Destination currency",
             selectSourceCurrency: "Choose source currency",
@@ -819,6 +846,8 @@ const en: TranslationMessages = {
             weight: "Weight",
             provider: "Provider",
             description: "Description",
+            authInfo: "Authentication data",
+            changeAuthDataHeader: "Editing authentication data",
             writeSecretPhrase: "Write auth data for direction and click save.",
             secretHelper: "Expected valid JSON object",
             enterSecretPhrase: "Enter secret phrase",
@@ -827,7 +856,10 @@ const en: TranslationMessages = {
             pleaseCreate: "Please add auth data on the page with table",
             noProviders: "No available providers",
             noMerchants: "No available merchants",
-            noCurrencies: "No available currencies"
+            noCurrencies: "No available currencies",
+            deleteDirection: "Delete direction?",
+            editingDirection: "Editing direction",
+            creatingDirection: "Creating direction"
         }
     },
     app: {

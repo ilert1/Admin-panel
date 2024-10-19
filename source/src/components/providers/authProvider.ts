@@ -28,9 +28,7 @@ export const authProvider: AuthProvider = {
                     "Content-Type": "application/x-www-form-urlencoded"
                 })
             });
-            console.log(response.status);
             const { access_token, refresh_token } = response.json;
-
             localStorage.setItem("access-token", access_token);
             localStorage.setItem("refresh-token", refresh_token);
 

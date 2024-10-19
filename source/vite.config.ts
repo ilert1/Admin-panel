@@ -23,24 +23,3 @@ export default defineConfig({
         include: ["chart.js"]
     }
 });
-
-/* 
-
-            .scrollbar-x::-webkit-scrollbar {
-                height: 12px;
-            }
-
-            .scrollbar-x::-webkit-scrollbar-track {
-                background-color: rgba(179, 179, 179, 1);
-                border-radius: 8px;
-            }
-
-            .scrollbar-x::-webkit-scrollbar-thumb {
-                background-color: rgba(35, 118, 72, 1);
-                border-radius: 8px 0px 0px 0px;
-                border: 2px solid rgba(35, 118, 72, 1);
-            }
-
-            .scrollbar-x::-webkit-scrollbar-thumb:hover {
-                background-color: rgba(35, 118, 72, 0.8);
-            } */

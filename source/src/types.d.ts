@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 interface Window {
     addSupportMessage?: (text: string) => void;
 }
@@ -184,7 +185,7 @@ interface Merchant {
 interface Provider {
     fields_json_schema: string;
     public_key: string | null;
-    methods: Object<any>;
+    methods: object;
     name: string;
     id: string;
 }
@@ -193,26 +194,93 @@ interface IGetKeys {
     keypair: { private_key: string; public_key: string };
     provider: Omit<Provider, "id">;
 }
+namespace Directions {
+    interface FeeValue {
+        accuracy: number;
+        quantity: number;
+    }
 
-interface Direction {
-    id: string;
-    name: string;
-    description: string | null;
-    src_currency: Omit<Currencies.Currency, "id">;
-    dst_currency: Omit<Currencies.Currency, "id">;
-    merchant: Merchant;
-    provider: Omit<Provider, "id">;
-    auth_data: {};
-    weight: number;
-    fees: {};
+    interface Fee {
+        id: string;
+        type: number;
+        value: FeeValue;
+        currency: string;
+        recipient: string;
+    }
+
+    interface Fees {
+        [key: string]: Fee;
+    }
+
+    interface Direction {
+        id: string;
+        name: string;
+        merchant: Merchant;
+        account_id: "string";
+        active: boolean;
+        description: string | null;
+        weight: number;
+        src_currency: Omit<Currencies.Currency, "id">;
+        dst_currency: Omit<Currencies.Currency, "id">;
+        provider: Omit<Provider, "id">;
+        auth_data: object;
+        fees: Fees | Record<string, never> | null;
+    }
+
+    interface DirectionCreate {
+        name: string;
+        description: string | null;
+        src_currency: string;
+        dst_currency: string;
+        merchant: string;
+        provider: string;
+        weight: number;
+        // fees: Fees | Record<string, never> | null;
+    }
 }
 
-interface DirectionCreate {
-    name: string;
-    description: string | null;
-    src_currency: string;
-    dst_currency: string;
-    merchant: string;
-    provider: string;
-    weight: number;
+namespace Dictionaries {
+    interface State {
+        state_int: number;
+        state_description: string;
+        final: boolean;
+    }
+
+    interface TypeDescriptor {
+        type: number;
+        type_descr: string;
+    }
+
+    interface AccountStates {
+        [key: string]: TypeDescriptor;
+    }
+
+    interface AccountTypes {
+        [key: string]: TypeDescriptor;
+    }
+
+    interface FeeTypes {
+        [key: string]: TypeDescriptor;
+    }
+
+    interface ParticipantTypes {
+        [key: string]: TypeDescriptor;
+    }
+
+    interface States {
+        [key: string]: State;
+    }
+
+    interface TransactionTypes {
+        [key: string]: TypeDescriptor;
+    }
+
+    interface DataObject {
+        accountStates: AccountStates;
+        accountTypes: AccountTypes;
+        feeTypes: FeeTypes;
+        participantType: ParticipantTypes;
+        states: States;
+        transactionTypes: TransactionTypes;
+    }
 }

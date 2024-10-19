@@ -2,10 +2,22 @@ import { X, Eye, EyeOff } from "lucide-react";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
+export type BasicInputProps = React.InputHTMLAttributes<HTMLInputElement>;
+
+export enum InputTypes {
+    DEFAULT = "default",
+    GRAY = "gray"
+}
+
+interface InputProps extends BasicInputProps {
+    variant?: InputTypes;
+}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-    ({ className, type, value: propValue, onChange, disabled, children, ...props }, ref) => {
+    (
+        { className, type, value: propValue, onChange, disabled, children, variant = InputTypes.DEFAULT, ...props },
+        ref
+    ) => {
         const [inputValue, setInputValue] = React.useState<string | number | readonly string[] | undefined>(
             propValue || ""
         );
@@ -40,7 +52,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             }
         };
 
-        const showClearButton = inputValue && isFocused;
+        const showClearButton = (typeof inputValue === "number" && inputValue === 0) || (inputValue && isFocused);
 
         return (
             <div className="relative flex items-center w-full">
@@ -52,7 +64,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     onBlur={() => setIsFocused(false)}
                     disabled={disabled}
                     className={cn(
-                        "flex h-9 w-full rounded-4 text-neutral-80 border border-neutral-40 hover:border-green-50 active:border-green-50 focus:border-green-50 bg-neutral-0 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-50 focus:outline-none disabled:bg-neutral-70 transition duration-200",
+                        `flex h-9 w-full rounded-4 text-neutral-80 border border-neutral-40 hover:border-green-50 active:border-green-50 focus:border-green-50 bg-neutral-0 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-50 focus:outline-none disabled:border-neutral-40 disabled:bg-neutral-40 transition duration-200 ${
+                            variant === InputTypes.GRAY ? "bg-muted" : ""
+                        }`,
                         className,
                         type === "password" ? "pr-12" : "pr-10"
                     )}

@@ -12,28 +12,38 @@ const SelectGroup = SelectPrimitive.Group;
 
 const SelectValue = SelectPrimitive.Value;
 
-const SelectTrigger = React.forwardRef<
-    React.ElementRef<typeof SelectPrimitive.Trigger>,
-    React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => {
-    return (
-        <SelectPrimitive.Trigger
-            ref={ref}
-            className={cn(
-                "flex h-9 w-full items-center justify-between text-start border border-neutral-40 rounded-4 hover:border-green-20 bg-neutral-0 px-3 py-2 text-sm ring-offset-background [&:is([data-state='open'])]:border-green-50 active:border-green-50 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 focus:outline-none [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180",
-                className
-            )}
-            {...props}>
-            {children}
-            <SelectPrimitive.Icon asChild>
-                <ChevronDown
-                    id="selectToggleIcon"
-                    className="h-4 w-4 text-green-50 dark:text-green-40 transition-transform"
-                />
-            </SelectPrimitive.Icon>
-        </SelectPrimitive.Trigger>
-    );
-});
+export enum SelectType {
+    DEFAULT = "default",
+    GRAY = "gray"
+}
+
+interface SelectTriggerProps extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> {
+    variant?: string;
+}
+
+const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Trigger>, SelectTriggerProps>(
+    ({ className, children, variant = SelectType.DEFAULT, ...props }, ref) => {
+        return (
+            <SelectPrimitive.Trigger
+                ref={ref}
+                className={cn(
+                    `${
+                        variant === SelectType.GRAY ? "!bg-muted" : ""
+                    } flex h-9 w-full items-center justify-between text-start border border-neutral-40 rounded-4 hover:border-green-20 bg-neutral-0 px-3 py-2 text-sm ring-offset-background [&:is([data-state='open'])]:border-green-50 active:border-green-50 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 focus:outline-none [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180`,
+                    className
+                )}
+                {...props}>
+                {children}
+                <SelectPrimitive.Icon asChild>
+                    <ChevronDown
+                        id="selectToggleIcon"
+                        className="h-4 w-4 text-green-50 dark:text-green-40 transition-transform"
+                    />
+                </SelectPrimitive.Icon>
+            </SelectPrimitive.Trigger>
+        );
+    }
+);
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
 const SelectContent = React.forwardRef<
@@ -67,28 +77,32 @@ const SelectLabel = React.forwardRef<
 >(({ className, ...props }, ref) => <SelectPrimitive.Label ref={ref} className={className} {...props} />);
 SelectLabel.displayName = SelectPrimitive.Label.displayName;
 
-const SelectItem = React.forwardRef<
-    React.ElementRef<typeof SelectPrimitive.Item>,
-    React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
->(({ className, children, ...props }, ref) => (
-    <SelectPrimitive.Item
-        ref={ref}
-        className={cn(
-            "relative cursor-pointer flex w-full select-none items-center py-2 pl-8 pr-2 text-sm outline-none focus:bg-green-50 focus:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-            className
-        )}
-        {...props}>
-        <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-            <SelectPrimitive.ItemIndicator>
-                <Check className="h-4 w-4" />
-            </SelectPrimitive.ItemIndicator>
-        </span>
+interface SelectItemProps extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> {
+    variant?: string;
+}
 
-        <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
-    </SelectPrimitive.Item>
-));
+const SelectItem = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Item>, SelectItemProps>(
+    ({ className, children, variant = SelectType.DEFAULT, ...props }, ref) => (
+        <SelectPrimitive.Item
+            ref={ref}
+            className={cn(
+                `${
+                    variant === SelectType.GRAY ? "bg-muted" : ""
+                } relative cursor-pointer flex w-full select-none items-center py-2 pl-8 pr-2 text-sm outline-none focus:bg-green-50 focus:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-50`,
+                className
+            )}
+            {...props}>
+            <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+                <SelectPrimitive.ItemIndicator>
+                    <Check className="h-4 w-4" />
+                </SelectPrimitive.ItemIndicator>
+            </span>
+
+            <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+        </SelectPrimitive.Item>
+    )
+);
 SelectItem.displayName = SelectPrimitive.Item.displayName;
-
 const SelectSeparator = React.forwardRef<
     React.ElementRef<typeof SelectPrimitive.Separator>,
     React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
