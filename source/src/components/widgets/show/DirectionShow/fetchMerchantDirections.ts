@@ -19,7 +19,7 @@ export const fetchMerchantDirections = async (props: FetchMerchantDirectionsProp
         }
         data = json.data;
     } catch (error) {
-        /* empty */
+        console.error("Error fetching merchant directions:", error);
     }
 
     return data;

@@ -3,7 +3,7 @@ import { TextField } from "@/components/ui/text-field";
 import { FeeCard } from "@/components/widgets/components/FeeCard";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { CircleChevronRight } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ShowControllerResult, useTranslate } from "react-admin";
 import { DeleteDirectionDialog, EditDirectionDialog } from "./Forms";
 import { EditAuthData } from "./Forms/EditAuthData";
@@ -24,6 +24,8 @@ export const QuickShowDirections = (props: QuickShowProps) => {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [changeAuthDataClicked, setChangeAuthDataClicked] = useState(false);
 
+    const [fees, setFees] = useState<Directions.Fees>();
+
     const handleCreateClicked = () => {
         if (createNew) {
             // TODO блокировать создание нового пока старый открыт
@@ -31,19 +33,25 @@ export const QuickShowDirections = (props: QuickShowProps) => {
         setCreateNew(true);
     };
 
-    const handleDeleteClicked = () => {
+    const handleDeleteClicked = useCallback(() => {
         setDeleteDialogOpen(prev => !prev);
-    };
-    const handleEditClicked = () => {
+    }, []);
+
+    const handleEditClicked = useCallback(() => {
         setEditDialogOpen(prev => !prev);
-    };
-    const handleChangeAuthDataClicked = () => {
+    }, []);
+
+    const handleChangeAuthDataClicked = useCallback(() => {
         setChangeAuthDataClicked(prev => !prev);
-    };
+    }, []);
+
+    useEffect(() => {
+        if (context?.record?.fees) {
+            setFees(context?.record?.fees);
+        }
+    }, [context.record]);
 
     if (!context.record) return;
-    const fees = context.record?.fees;
-
     return (
         <div className="px-[42px] ">
             <div className="flex justify-between">
@@ -83,7 +91,7 @@ export const QuickShowDirections = (props: QuickShowProps) => {
                             text={context.record.provider.name}
                         />
                         <TextField
-                            label={translate("resources.direction.provider")}
+                            label={translate("resources.direction.authInfo")}
                             text={JSON.stringify(context.record.auth_data)}
                             copyValue={JSON.stringify(context.record.auth_data).length === 0 ? false : true}
                         />

@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
@@ -8,24 +7,23 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { DirectionEdit } from "@/components/widgets/edit";
-import { useRefresh, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 
 export interface EditDirectionDialogProps {
     open: boolean;
-    onOpenChange: (state: boolean) => void;
     id: string;
+    onOpenChange: (state: boolean) => void;
 }
 export const EditDirectionDialog = (props: EditDirectionDialogProps) => {
     const { open, id, onOpenChange } = props;
 
-    const refresh = useRefresh();
     const translate = useTranslate();
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="w-[716px] h-[464px] bg-muted pb-0">
                 <DialogHeader>
-                    <DialogTitle className="text-center">
+                    <DialogTitle className="text-center mb-[24px]">
                         {translate("resources.direction.editingDirection")}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>

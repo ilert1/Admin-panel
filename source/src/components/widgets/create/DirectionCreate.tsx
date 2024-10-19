@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { useFetchDataForDirections } from "@/hooks";
 import { useToast } from "@/components/ui/use-toast";
 
-export const DirectionCreate = () => {
+export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
     const { currencies, merchants, providers, isLoading: loadingData } = useFetchDataForDirections();
 
@@ -19,12 +19,10 @@ export const DirectionCreate = () => {
     const controllerProps = useCreateController();
     const { toast } = useToast();
     const translate = useTranslate();
-    const redirect = useRedirect();
 
     const onSubmit: SubmitHandler<Directions.DirectionCreate> = async data => {
         try {
             await dataProvider.create("direction", { data });
-            redirect("list", "direction");
         } catch (error) {
             toast({
                 description: translate("resources.provider.errors.alreadyInUse"),
@@ -59,7 +57,12 @@ export const DirectionCreate = () => {
         }
     });
 
-    if (isLoading || loadingData) return <Loading />;
+    if (isLoading || loadingData)
+        return (
+            <div className="h-[140px]">
+                <Loading />
+            </div>
+        );
 
     const currenciesDisabled = !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0);
     const merchantsDisabled = !(merchants && Array.isArray(merchants.data) && merchants?.data?.length > 0);
@@ -67,7 +70,7 @@ export const DirectionCreate = () => {
 
     return (
         <CreateContextProvider value={controllerProps}>
-            <p className="mb-2">{translate("resources.direction.note")}</p>
+            {/* <p className="mb-2">{translate("resources.direction.note")}</p> */}
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="flex flex-wrap">
@@ -298,9 +301,18 @@ export const DirectionCreate = () => {
                                 </FormItem>
                             )}
                         />
-                        <div className="p-2 ml-auto w-1/2 md:w-1/4">
-                            <Button type="submit" variant="default" className="w-full">
+                        <div className="flex gap-[16px] p-2 ml-auto w-1/3">
+                            <Button type="submit" variant="default" className="flex-1">
                                 {translate("app.ui.actions.save")}
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="deleteGray"
+                                className="flex-1"
+                                onClick={() => {
+                                    onOpenChange(false);
+                                }}>
+                                {translate("app.ui.actions.cancel")}
                             </Button>
                         </div>
                     </div>

@@ -91,7 +91,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
 
     return (
         <EditContextProvider value={controllerProps}>
-            <p className="mb-2">{translate("resources.direction.note")}</p>
+            {/* <p className="mb-2">{translate("resources.direction.note")}</p> */}
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
                     <div className="flex flex-wrap">

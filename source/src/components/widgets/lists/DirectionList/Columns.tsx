@@ -12,8 +12,7 @@ import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 import { useNavigate } from "react-router-dom";
-// export interface UseGetDirectionsColumnsProps {}
-// props: UseGetDirectionsColumnsProps
+
 export const useGetDirectionsColumns = () => {
     const translate = useTranslate();
     const navigate = useNavigate();
@@ -21,19 +20,13 @@ export const useGetDirectionsColumns = () => {
     const [chosenId, setChosenId] = useState("");
 
     const [quickShowOpen, setQuickShowOpen] = useState(false);
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-
-    const handleDelete = async (id: string) => {
-        setChosenId(id);
-        setDeleteDialogOpen(true);
-    };
 
     const openSheet = (id: string) => {
         setChosenId(id);
         setQuickShowOpen(true);
     };
 
-    const columns: ColumnDef<Direction>[] = [
+    const columns: ColumnDef<Directions.Direction>[] = [
         {
             id: "index",
             header: "№",
@@ -142,5 +135,5 @@ export const useGetDirectionsColumns = () => {
             }
         }
     ];
-    return { columns, chosenId, quickShowOpen, deleteDialogOpen, setDeleteDialogOpen, setQuickShowOpen };
+    return { columns, chosenId, quickShowOpen, setQuickShowOpen };
 };

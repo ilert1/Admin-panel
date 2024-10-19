@@ -4,7 +4,7 @@ import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { QuickShowDirections } from "./QuickShow/QuickShowDirections";
 import { useGetDirectionsShowColumns } from "./Columns";
 import { fetchMerchantDirections } from "./fetchMerchantDirections";
@@ -22,22 +22,24 @@ export const DirectionsShow = (props: DirectionsShowProps) => {
     const translate = useTranslate();
 
     const { columns } = useGetDirectionsShowColumns();
-
     const [merchantDirections, setMerchantDirections] = useState<Directions.Direction[]>([]);
+    const merchantId = useMemo(() => context?.record?.merchant?.id, [context]);
 
     useEffect(() => {
-        async function refetch() {
-            if (context) {
-                setMerchantDirections(await fetchMerchantDirections({ context }));
+        const refetch = async () => {
+            if (merchantId) {
+                const directions = await fetchMerchantDirections({ context });
+                setMerchantDirections(directions);
             }
-        }
+        };
+
         refetch();
-    }, [context, context.record]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [merchantId]);
 
     if (context.isLoading || !context.record) {
         return <Loading />;
     }
-
     if (type === "compact") {
         return <QuickShowDirections context={context} onOpenChange={onOpenChange} id={id} />;
     } else {

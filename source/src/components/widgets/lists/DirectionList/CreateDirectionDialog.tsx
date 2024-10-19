@@ -22,9 +22,9 @@ export const CreateDirectionDialog = (props: CreateDirectionDialogProps) => {
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>{translate("app.ui.actions.areYouSure")}</DialogTitle>
+                    <DialogTitle className="mb-4">{translate("resources.direction.creatingDirection")}</DialogTitle>
                     <DialogDescription></DialogDescription>
-                    <DirectionCreate />
+                    <DirectionCreate onOpenChange={onOpenChange} />
                 </DialogHeader>
                 <DialogFooter></DialogFooter>
             </DialogContent>
