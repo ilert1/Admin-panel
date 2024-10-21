@@ -9,7 +9,7 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Loading } from "@/components/ui/loading";
 
 import { useParams } from "react-router-dom";
@@ -19,6 +19,7 @@ import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "
 import { useToast } from "@/components/ui/use-toast";
 import { FeeCard } from "../components/FeeCard";
 import fetchDictionaries from "@/helpers/get-dictionaries";
+import { CircleChevronRight } from "lucide-react";
 
 interface MerchantEditProps {
     id?: string;
@@ -39,9 +40,10 @@ export const MerchantEdit = (props: MerchantEditProps) => {
     const { record, isLoading } = useEditController({ resource: "merchant", id });
 
     const translate = useTranslate();
-    const redirect = useRedirect();
     const { toast } = useToast();
     const refresh = useRefresh();
+
+    const [addNewFeeClicked, setAddNewFeeClicked] = useState(false);
 
     const formSchema = z.object({
         id: z.string().min(1, translate("resources.merchant.errors.id")).trim(),
@@ -53,7 +55,18 @@ export const MerchantEdit = (props: MerchantEditProps) => {
             .refine(value => value === null || !/\s/.test(value), {
                 message: translate("resources.merchant.errors.noSpaces")
             }),
-        fees: 
+        fees: z.record(
+            z.object({
+                id: z.string(),
+                type: z.number(),
+                value: z.object({
+                    accuracy: z.number(),
+                    quantity: z.number()
+                }),
+                currency: z.string(),
+                recipient: z.string()
+            })
+        )
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -73,7 +86,8 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                 id: record?.id || "",
                 name: record?.name || "",
                 description: record?.description || "",
-                keycloak_id: record?.keycloak_id || ""
+                keycloak_id: record?.keycloak_id || "",
+                fees: record?.fees || {}
             });
         }
     }, [form, record]);
@@ -86,7 +100,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                 previousData: undefined
             });
             refresh();
-            redirect("list", "merchant");
+            onOpenChange(false);
         } catch (error) {
             toast({
                 description: translate("resources.currency.errors.alreadyInUse"),
@@ -167,28 +181,71 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                             control={form.control}
                             name="fees"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full p-2">
                                     <FormLabel>Keycloak ID</FormLabel>
                                     <FormControl>
                                         <div className="flex flex-col bg-neutral-0 px-[32px] rounded-[8px]">
                                             <h3 className="text-display-3 mt-[16px] mb-[16px]">
                                                 {translate("resources.direction.fees.fees")}
                                             </h3>
-                                            {field.value && field.value?.length !== 0
-                                                ? Object.keys(field.value).map(key => {
-                                                      console.log(field.value);
-                                                      const fee = field.value[key];
-                                                      return (
-                                                          <FeeCard
-                                                              key={fee.id}
-                                                              account={fee.id}
-                                                              currency={fee.currency}
-                                                              feeAmount={fee.value.quantity}
-                                                              feeType={data.feeTypes[fee.type]?.type_descr || ""}
-                                                          />
-                                                      );
-                                                  })
-                                                : ""}
+                                            <div className="max-h-[40vh] overflow-auto">
+                                                {field.value && Object.keys(field.value).length !== 0
+                                                    ? Object.keys(field.value).map(key => {
+                                                          console.log(field.value);
+                                                          const fee = field.value[key];
+                                                          return (
+                                                              <FeeCard
+                                                                  key={fee.id}
+                                                                  account={fee.id}
+                                                                  currency={fee.currency}
+                                                                  feeAmount={fee.value.quantity}
+                                                                  feeType={data.feeTypes[fee.type]?.type_descr || ""}
+                                                              />
+                                                          );
+                                                      })
+                                                    : ""}
+                                                <FeeCard
+                                                    account="Test1"
+                                                    currency="Test1"
+                                                    feeAmount={11}
+                                                    feeType="Test1"
+                                                    description="Test1"
+                                                />
+                                                <FeeCard
+                                                    account="Test2"
+                                                    currency="Test2"
+                                                    feeAmount={12}
+                                                    feeType="Test2"
+                                                    description="Test2"
+                                                />
+                                                <FeeCard
+                                                    account="Test3"
+                                                    currency="Test3"
+                                                    feeAmount={13}
+                                                    feeType="Test3"
+                                                    description="Test3"
+                                                />
+                                                <FeeCard
+                                                    account="Test3"
+                                                    currency="Test3"
+                                                    feeAmount={13}
+                                                    feeType="Test3"
+                                                    description="Test3"
+                                                />
+                                                <FeeCard
+                                                    account="Test3"
+                                                    currency="Test3"
+                                                    feeAmount={13}
+                                                    feeType="Test3"
+                                                    description="Test3"
+                                                />
+                                            </div>
+                                            <div className="flex justify-end">
+                                                <Button className="my-6 w-1/4 flex gap-[4px]">
+                                                    <CircleChevronRight className="w-[16px] h-[16px]" />
+                                                    {translate("resources.direction.fees.addFee")}
+                                                </Button>
+                                            </div>
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -196,15 +253,15 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                             )}
                         />
                         <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
+                            <Button type="submit" variant="default" className="flex-1">
+                                {translate("app.ui.actions.save")}
+                            </Button>
                             <Button
                                 type="button"
-                                variant="error"
+                                variant="deleteGray"
                                 className="flex-1"
                                 onClick={() => onOpenChange(false)}>
                                 {translate("app.ui.actions.cancel")}
-                            </Button>
-                            <Button type="submit" variant="default" className="flex-1">
-                                {translate("app.ui.actions.save")}
                             </Button>
                         </div>
                     </div>

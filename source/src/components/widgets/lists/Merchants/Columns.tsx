@@ -49,7 +49,7 @@ export const useGetMerchantsColumns = () => {
         {
             id: "keycloak_id",
             accessorKey: "keycloak_id",
-            header: "Keyclaok ID"
+            header: "Keycloak ID"
         },
         // {
         //     id: "update_field",
