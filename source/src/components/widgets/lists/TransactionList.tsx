@@ -1,11 +1,4 @@
-import {
-    useTranslate,
-    useListController,
-    RecordContextProvider,
-    useGetList,
-    ListContextProvider,
-    usePermissions
-} from "react-admin";
+import { useTranslate, useListController, useGetList, ListContextProvider } from "react-admin";
 import { useQuery } from "react-query";
 import { DataTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
@@ -13,7 +6,6 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
     DropdownMenuSub,
     DropdownMenuSubTrigger,
@@ -36,7 +28,6 @@ import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { useNavigate } from "react-router-dom";
 import useTransactionFilter from "@/hooks/useTransactionFilter";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import BarChart from "@/components/ui/Bar";
@@ -312,12 +303,9 @@ export const TransactionList = () => {
     const data = fetchDictionaries();
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
-    const navigate = useNavigate();
 
     // TODO: временное решение, нужно расширить компонент селекта для поддержки пагинациц
     const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
-    const { permissions } = usePermissions();
-    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
     const { data: currencies } = useQuery("currencies", () =>
         fetch(`${API_URL}/dictionaries/curr`, {
             headers: {
@@ -438,32 +426,36 @@ export const TransactionList = () => {
             id: "actions",
             cell: ({ row }) => {
                 return (
-                    <RecordContextProvider value={row.original}>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="clearBtn" className="w-full p-0">
-                                    <span className="sr-only">Open menu</span>
-                                    <EyeIcon className="text-green-50 size-7" />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuItem onClick={() => openSheet(row.original.id)} className="border-none">
-                                    {translate("app.ui.actions.quick_show")}
-                                </DropdownMenuItem>
-                                <DropdownMenuItem
-                                    onClick={() => navigate(`/transactions/${row.original.id}/show`)}
-                                    className="border-none">
-                                    {translate("app.ui.actions.show")}
-                                </DropdownMenuItem>
-                                {adminOnly && <DropdownMenuSeparator />}
-                                <TransactionActions
-                                    dictionaries={data}
-                                    stornoOpen={() => setStornoOpen(true)}
-                                    stornoClose={() => setStornoOpen(false)}
-                                />
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </RecordContextProvider>
+                    <Button onClick={() => openSheet(row.original.id)} variant="clearBtn" className="w-full p-0">
+                        <span className="sr-only">Open menu</span>
+                        <EyeIcon className="text-green-50 size-7" />
+                    </Button>
+                    // <RecordContextProvider value={row.original}>
+                    //     <DropdownMenu>
+                    //         <DropdownMenuTrigger asChild>
+                    //             <Button variant="clearBtn" className="w-full p-0">
+                    //                 <span className="sr-only">Open menu</span>
+                    //                 <EyeIcon className="text-green-50 size-7" />
+                    //             </Button>
+                    //         </DropdownMenuTrigger>
+                    //         <DropdownMenuContent align="end">
+                    //             <DropdownMenuItem onClick={() => openSheet(row.original.id)} className="border-none">
+                    //                 {translate("app.ui.actions.quick_show")}
+                    //             </DropdownMenuItem>
+                    //             <DropdownMenuItem
+                    //                 onClick={() => navigate(`/transactions/${row.original.id}/show`)}
+                    //                 className="border-none">
+                    //                 {translate("app.ui.actions.show")}
+                    //             </DropdownMenuItem>
+                    //             {adminOnly && <DropdownMenuSeparator />}
+                    //             <TransactionActions
+                    //                 dictionaries={data}
+                    //                 stornoOpen={() => setStornoOpen(true)}
+                    //                 stornoClose={() => setStornoOpen(false)}
+                    //             />
+                    //         </DropdownMenuContent>
+                    //     </DropdownMenu>
+                    // </RecordContextProvider>
                 );
             }
         }
