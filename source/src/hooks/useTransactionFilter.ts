@@ -135,7 +135,7 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         setPage(1);
     };
 
-    const handleDownloadReport = async (type: "pdf" | "excel") => {
+    const handleDownloadReport = async (type: "pdf" | "csv") => {
         if (adminOnly && !account) {
             toast({
                 description: translate("resources.transactions.download.accountField"),
@@ -158,16 +158,12 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
 
         try {
             const url =
-                `${API_URL}/transactions/report?` +
+                `${API_URL}/transactions/report?format=${type}&` +
                 Object.keys(filterValues)
-                    .map((item, index) => {
-                        if (index > 0) {
-                            return `&${item}=${filterValues[item]}`;
-                        } else {
-                            return `${item}=${filterValues[item]}`;
-                        }
+                    .map(item => {
+                        return `${item}=${filterValues[item]}`;
                     })
-                    .join("");
+                    .join("&");
 
             const response = await fetch(url, {
                 method: "GET",
@@ -183,7 +179,9 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
 
             const blob = await response.blob();
             const fileUrl = window.URL.createObjectURL(blob);
-            const filename = `data_${filterValues["start_date"]}_to_${filterValues["end_date"]}.csv`;
+            const filename = `data_${filterValues["start_date"]}_to_${filterValues["end_date"]}.${
+                type === "csv" ? "csv" : "pdf"
+            }`;
 
             const a = document.createElement("a");
             a.href = fileUrl;
