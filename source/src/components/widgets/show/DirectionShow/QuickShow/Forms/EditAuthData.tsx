@@ -22,25 +22,14 @@ const API_URL = import.meta.env.VITE_ENIGMA_URL;
 export const EditAuthData = (props: EditAuthDataProps) => {
     const { open, id, onOpenChange } = props;
 
-    const dataProider = useDataProvider();
     const translate = useTranslate();
     const { toast } = useToast();
     const refresh = useRefresh();
 
-    const [oldData, setOldData] = useState({});
+
     const [code, setCode] = useState("{}");
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(false);
-
-    useEffect(() => {
-        async function getDirection() {
-            const oldData = await dataProider.getOne("direction", { id });
-            delete oldData.data.id;
-            delete oldData.data.fees;
-            setOldData(oldData.data);
-        }
-        getDirection();
-    }, [dataProider, id]);
 
     const handleSaveClicked = async () => {
         const data = JSON.parse(code);

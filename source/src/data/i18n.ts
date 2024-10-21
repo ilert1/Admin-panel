@@ -275,7 +275,8 @@ const ru: TranslationMessages = {
                 regenKey: "Пересоздать ключи",
                 json_schema: "Схема Json",
                 code: "Методы",
-                enterMethods: "Введите свои методы"
+                enterMethods: "Введите свои методы",
+                methods: "Методы"
             },
             errors: {
                 name: "Имя должно содержать хотя бы один символ",
@@ -784,7 +785,8 @@ const en: TranslationMessages = {
                 regenKey: "Regenerate keys",
                 json_schema: "Json schema",
                 code: "Methods",
-                enterMethods: "Enter your methods"
+                enterMethods: "Enter your methods",
+                methods: "Methods"
             },
             errors: {
                 name: "Name must contain at least 1 symbol",

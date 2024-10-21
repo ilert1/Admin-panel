@@ -7,13 +7,14 @@ interface MonacoEditorProps {
     height?: string;
     width?: string;
     code: string;
+    disabled?: boolean;
     setCode: (value: string) => void;
     onErrorsChange: (hasErrors: boolean) => void;
     onValidChange: (isValid: boolean) => void;
 }
 
 export const MonacoEditor = (props: MonacoEditorProps) => {
-    const { height = "20vh", width = "400px", code, setCode, onErrorsChange, onValidChange } = props;
+    const { height = "20vh", width = "400px", code, disabled = false, setCode, onErrorsChange, onValidChange } = props;
 
     const validateCode = useCallback(
         (value: string) => {
@@ -98,7 +99,8 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
                     quickSuggestions: false,
                     glyphMargin: false,
                     lineNumbersMinChars: 2,
-                    lineDecorationsWidth: 1
+                    lineDecorationsWidth: 1,
+                    readOnly: disabled
                 }}
                 beforeMount={handleEditorDidMount}
             />
