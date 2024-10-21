@@ -389,7 +389,8 @@ const ru: TranslationMessages = {
                 changeSecretKey: "Изменить аутентификационную инфорамцию",
                 cancel: "Отменить",
                 areYouSure: "Вы точно хотите удалить элемент?",
-                chatWithSupport: "Чат с поддержкой"
+                chatWithSupport: "Чат с поддержкой",
+                close: "Закрыть"
             },
             pagination: {
                 next: "Далее",
@@ -900,7 +901,8 @@ const en: TranslationMessages = {
                 changeSecretKey: "Change auth data",
                 cancel: "Cancel",
                 areYouSure: "Are you sure you want delete this element?",
-                chatWithSupport: "Chat with support"
+                chatWithSupport: "Chat with support",
+                close: "Close"
             },
             pagination: {
                 next: "Next",

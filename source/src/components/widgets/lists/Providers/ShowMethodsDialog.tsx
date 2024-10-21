@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
@@ -35,7 +36,7 @@ export const ShowMethodsDialog = (props: ShowMethodDialogProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-[468px] max-h-[286px] bg-muted">
+            <DialogContent className="max-w-[478px] max-h-[295px] bg-muted">
                 <DialogHeader>
                     <DialogTitle className="text-center"></DialogTitle>
                     <DialogDescription></DialogDescription>
@@ -50,7 +51,17 @@ export const ShowMethodsDialog = (props: ShowMethodDialogProps) => {
                         />
                     </div>
                 </DialogHeader>
-                <DialogFooter></DialogFooter>
+                <DialogFooter>
+                    <div className="flex justify-end w-full pr-1">
+                        <Button
+                            variant={"outline"}
+                            onClick={() => {
+                                onOpenChange(false);
+                            }}>
+                            {translate("app.ui.actions.close")}
+                        </Button>
+                    </div>
+                </DialogFooter>
             </DialogContent>
         </Dialog>
     );
