@@ -28,7 +28,7 @@ export const ShowMethodsDialog = (props: ShowMethodDialogProps) => {
     useEffect(() => {
         async function fetch() {
             const { data } = await dataProvider.getOne("provider", { id });
-            console.log(data.methods);
+            // console.log(data.methods);
             setCode(JSON.stringify(data.methods, null, 2));
         }
         fetch();
