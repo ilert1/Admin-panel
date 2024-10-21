@@ -1,4 +1,4 @@
-import { ChangeEvent, UIEvent, useCallback, useMemo, useState } from "react";
+import { ChangeEvent, UIEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useDataProvider, useInfiniteGetList, useListContext, usePermissions, useTranslate } from "react-admin";
 import { useToast } from "@/components/ui/use-toast";
 import { API_URL } from "@/data/base";
@@ -26,6 +26,13 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
     const [operationId, setOperationId] = useState(filterValues?.id || "");
     const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
     const [account, setAccount] = useState("");
+
+    useEffect(() => {
+        if (filterValues?.accountId) {
+            onPropertySelected("", "accountId");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const orderStatusIndex = Object.keys(data.states).find(
         index => filterValues?.orderStatus === data.states[index].state_description
