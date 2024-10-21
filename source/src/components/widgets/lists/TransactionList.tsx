@@ -326,7 +326,9 @@ export const TransactionList = () => {
         }).then(response => response.json())
     );
     const sortedCurrencies = useMemo(() => {
-        return currencies?.data?.sort((a: any, b: any) => a.prior_gr - b.prior_gr) || [];
+        return (
+            currencies?.data?.sort((a: Currencies.Currency, b: Currencies.Currency) => a.prior_gr - b.prior_gr) || []
+        );
     }, [currencies]);
     const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
 
