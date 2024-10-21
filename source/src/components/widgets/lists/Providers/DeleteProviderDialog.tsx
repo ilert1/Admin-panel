@@ -46,7 +46,7 @@ export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
             <DialogContent className="w-[251px] bg-muted">
                 <DialogHeader>
                     <DialogTitle className="text-center">
-                        {translate("resources.providers.deleteProviderQuestion")}
+                        {translate("resources.provider.deleteProviderQuestion")}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
                 </DialogHeader>

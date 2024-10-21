@@ -297,7 +297,8 @@ const ru: TranslationMessages = {
             deleteProviderQuestion: "Удалить провайдера?",
             keysCreating: "Создание тестовых ключей",
             realKeysCreating: "Создание ключей",
-            editingProvider: "Редактирование провайдера"
+            editingProvider: "Редактирование провайдера",
+            creatingProvider: "Создание провайдера"
         },
         direction: {
             direction: "Направление",
@@ -808,7 +809,8 @@ const en: TranslationMessages = {
             deleteProviderQuestion: "Delete provider?",
             keysCreating: "Test keys creating",
             realKeysCreating: "Keys generation",
-            editingProvider: "Editing provider"
+            editingProvider: "Editing provider",
+            creatingProvider: "Creating provider"
         },
         direction: {
             name: "Directions",
