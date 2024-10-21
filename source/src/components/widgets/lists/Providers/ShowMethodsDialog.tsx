@@ -48,6 +48,7 @@ export const ShowMethodsDialog = (props: ShowMethodDialogProps) => {
                             setCode={() => {}}
                             onErrorsChange={() => {}}
                             onValidChange={() => {}}
+                            disabled
                         />
                     </div>
                 </DialogHeader>
