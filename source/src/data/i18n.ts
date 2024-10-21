@@ -262,7 +262,8 @@ const ru: TranslationMessages = {
                 noSpaces: "Пробелы запрещены в данном поле"
             },
             showTitle: "Детальная инфорация о мерчанте",
-            createNew: "Создать нового мерчанта"
+            createNew: "Создать нового мерчанта",
+            delete: "Удалить мерчанта?"
         },
         provider: {
             name: "Провайдеры",
@@ -771,7 +772,8 @@ const en: TranslationMessages = {
                 noSpaces: "Spaces are not allowed in this field"
             },
             showTitle: "Detailed information about merchant",
-            createNew: "Create new merchant"
+            createNew: "Create new merchant",
+            delete: "Delete merchant?"
         },
         provider: {
             name: "Providers",

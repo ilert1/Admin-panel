@@ -7,26 +7,27 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { toast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { useDelete, useRefresh, useTranslate } from "react-admin";
-
-interface DeleteProviderDialogProps {
-    open?: boolean;
-    onOpenChange?: (state: boolean) => void;
-    deleteId?: string;
+interface DeleteMerchantDialogProps {
+    id: string;
+    open: boolean;
+    onOpenChange: (state: boolean) => void;
 }
-export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
+export const DeleteMerchantDialog = (props: DeleteMerchantDialogProps) => {
+    const { id, open, onOpenChange } = props;
+
     const translate = useTranslate();
-    const { open, deleteId, onOpenChange = () => {} } = props;
-    const [deleteOne] = useDelete();
     const refresh = useRefresh();
+    const [deleteOne] = useDelete();
+    const { toast } = useToast();
 
     const handleDelete = async () => {
         await deleteOne(
-            "provider",
-            { id: deleteId },
+            "merchant",
+            { id },
             {
-                onSuccess: async () => {
+                onSuccess: () => {
                     toast({
                         description: translate("app.ui.delete.deletedSuccessfully"),
                         variant: "success",
@@ -38,17 +39,15 @@ export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
                 }
             }
         );
-        onOpenChange(false);
         refresh();
+        onOpenChange(false);
     };
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="w-[251px] bg-muted">
                 <DialogHeader>
-                    <DialogTitle className="text-center">
-                        {translate("resources.providers.deleteProviderQuestion")}
-                    </DialogTitle>
+                    <DialogTitle className="text-center">{translate("resources.merchant.delete")}</DialogTitle>
                     <DialogDescription></DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
@@ -58,7 +57,6 @@ export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
                             variant={"outline"}
                             onClick={() => {
                                 onOpenChange(false);
-                                refresh();
                             }}>
                             {translate("app.ui.actions.cancel")}
                         </Button>

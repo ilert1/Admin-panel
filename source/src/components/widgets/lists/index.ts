@@ -2,7 +2,7 @@ export { AccountList } from "./AccountList";
 export { TransactionList } from "./TransactionList";
 export { WithdrawList } from "./WithdrawList";
 export { UserList } from "./UserList";
-export { MerchantList } from "./MerchantList";
+export { MerchantList } from "./Merchants";
 export { CurrenciesList } from "./CurrenciesList";
 export { ProvidersList } from "./Providers/ProvidersList";
 export { DirectionsList } from "./DirectionList/DirectionsList";

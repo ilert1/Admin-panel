@@ -17,16 +17,27 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
+import { FeeCard } from "../components/FeeCard";
+import fetchDictionaries from "@/helpers/get-dictionaries";
 
-export const MerchantEdit = () => {
+interface MerchantEditProps {
+    id?: string;
+    onOpenChange?: onOpenChange;
+}
+
+export const MerchantEdit = (props: MerchantEditProps) => {
+    const params = useParams();
+    const id = props.id || params.id;
+    const data = fetchDictionaries();
+
+    const { onOpenChange } = props;
     const dataProvider = useDataProvider();
 
-    const controllerProps = useEditController();
+    const controllerProps = useEditController({ resource: "merchant", id });
     controllerProps.mutationMode = "pessimistic";
 
-    const { record, isLoading } = useEditController();
+    const { record, isLoading } = useEditController({ resource: "merchant", id });
 
-    const { id } = useParams();
     const translate = useTranslate();
     const redirect = useRedirect();
     const { toast } = useToast();
@@ -41,7 +52,8 @@ export const MerchantEdit = () => {
             .nullable()
             .refine(value => value === null || !/\s/.test(value), {
                 message: translate("resources.merchant.errors.noSpaces")
-            })
+            }),
+        fees: 
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -50,7 +62,8 @@ export const MerchantEdit = () => {
             id: record?.id || "",
             name: record?.name || "",
             description: record?.description || "",
-            keycloak_id: record?.keycloak_id || ""
+            keycloak_id: record?.keycloak_id || "",
+            fees: record?.fees || {}
         }
     });
 
@@ -124,7 +137,7 @@ export const MerchantEdit = () => {
                             control={form.control}
                             name="description"
                             render={({ field }) => (
-                                <FormItem className="w-full p-2">
+                                <FormItem className="w-1/2 p-2">
                                     <FormLabel>{translate("resources.merchant.fields.descr")}</FormLabel>
                                     <FormControl>
                                         <div>
@@ -139,11 +152,43 @@ export const MerchantEdit = () => {
                             control={form.control}
                             name="keycloak_id"
                             render={({ field }) => (
-                                <FormItem className="w-full p-2">
+                                <FormItem className="w-1/2 p-2">
                                     <FormLabel>Keycloak ID</FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} value={field.value ?? ""} />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="fees"
+                            render={({ field }) => (
+                                <FormItem className="w-1/2 p-2">
+                                    <FormLabel>Keycloak ID</FormLabel>
+                                    <FormControl>
+                                        <div className="flex flex-col bg-neutral-0 px-[32px] rounded-[8px]">
+                                            <h3 className="text-display-3 mt-[16px] mb-[16px]">
+                                                {translate("resources.direction.fees.fees")}
+                                            </h3>
+                                            {field.value && field.value?.length !== 0
+                                                ? Object.keys(field.value).map(key => {
+                                                      console.log(field.value);
+                                                      const fee = field.value[key];
+                                                      return (
+                                                          <FeeCard
+                                                              key={fee.id}
+                                                              account={fee.id}
+                                                              currency={fee.currency}
+                                                              feeAmount={fee.value.quantity}
+                                                              feeType={data.feeTypes[fee.type]?.type_descr || ""}
+                                                          />
+                                                      );
+                                                  })
+                                                : ""}
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -155,7 +200,7 @@ export const MerchantEdit = () => {
                                 type="button"
                                 variant="error"
                                 className="flex-1"
-                                onClick={() => redirect("list", "merchant")}>
+                                onClick={() => onOpenChange(false)}>
                                 {translate("app.ui.actions.cancel")}
                             </Button>
                             <Button type="submit" variant="default" className="flex-1">
