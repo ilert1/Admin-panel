@@ -19,7 +19,7 @@ import {
     ProvidersList,
     DirectionsList
 } from "@/components/widgets/lists";
-import { AccountCreate, DirectionCreate, MerchantCreate, ProviderCreate } from "@/components/widgets/create";
+import { MerchantCreate } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
 import { PayOutPage, PayOutCryptoPage, LoginPage } from "./pages";
 import { MainLayout } from "./layouts";
@@ -36,17 +36,7 @@ import {
 import { authProvider, ThemeProvider } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
-import {
-    AccountShow,
-    CurrenciesShow,
-    DirectionsShow,
-    MerchantShow,
-    ProvidersShow,
-    TransactionShow,
-    UserShow,
-    WithdrawShow
-} from "./components/widgets/show";
-import { MerchantEdit, ProvidersEdit } from "./components/widgets/edit";
+import { MerchantEdit } from "./components/widgets/edit";
 import { InitLoading } from "./components/ui/loading";
 
 const dataProvider = combineDataProviders((resource: string) => {
@@ -79,56 +69,23 @@ export const App = () => {
                     loginPage={LoginPage}>
                     {(permissions: string) => (
                         <>
-                            <Resource
-                                name="accounts"
-                                list={AccountList}
-                                show={AccountShow}
-                                create={AccountCreate}
-                                icon={WalletMinimalIcon}
-                            />
-
-                            <Resource
-                                name="transactions"
-                                list={TransactionList}
-                                show={TransactionShow}
-                                icon={HistoryIcon}
-                            />
-
-                            <Resource name="withdraw" list={WithdrawList} show={WithdrawShow} icon={BitcoinIcon} />
+                            <Resource name="accounts" list={AccountList} icon={WalletMinimalIcon} />
+                            <Resource name="transactions" list={TransactionList} icon={HistoryIcon} />
+                            <Resource name="withdraw" list={WithdrawList} icon={BitcoinIcon} />
 
                             {permissions === "admin" && (
                                 <>
-                                    <Resource name="users" list={UserList} show={UserShow} icon={UsersIcon} />
-                                    <Resource
-                                        name="currency"
-                                        list={CurrenciesList}
-                                        show={CurrenciesShow}
-                                        icon={BanknoteIcon}
-                                    />
-
+                                    <Resource name="users" list={UserList} icon={UsersIcon} />
+                                    <Resource name="currency" list={CurrenciesList} icon={BanknoteIcon} />
                                     <Resource
                                         name="merchant"
                                         list={MerchantList}
-                                        show={MerchantShow}
                                         create={MerchantCreate}
                                         edit={MerchantEdit}
                                         icon={StoreIcon}
                                     />
-                                    <Resource
-                                        name="provider"
-                                        list={ProvidersList}
-                                        show={ProvidersShow}
-                                        edit={ProvidersEdit}
-                                        create={ProviderCreate}
-                                        icon={NetworkIcon}
-                                    />
-                                    <Resource
-                                        name="direction"
-                                        list={DirectionsList}
-                                        show={DirectionsShow}
-                                        icon={SignpostIcon}
-                                        create={DirectionCreate}
-                                    />
+                                    <Resource name="provider" list={ProvidersList} icon={NetworkIcon} />
+                                    <Resource name="direction" list={DirectionsList} icon={SignpostIcon} />
                                 </>
                             )}
 
