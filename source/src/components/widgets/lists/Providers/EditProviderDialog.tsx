@@ -24,9 +24,7 @@ export const EditProviderDialog = (props: EditProviderDialogProps) => {
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-w-[716px] bg-muted">
                 <DialogHeader>
-                    <DialogTitle className="text-center">
-                        {translate("resources.providers.editingProvider")}
-                    </DialogTitle>
+                    <DialogTitle className="text-center">{translate("resources.provider.editingProvider")}</DialogTitle>
                     <DialogDescription></DialogDescription>
                     <ProvidersEdit
                         id={id}

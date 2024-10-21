@@ -71,7 +71,7 @@ export class MerchantsDataProvider extends BaseDataProvider {
         if (!json.success) {
             throw new Error(json.error);
         }
-        console.log(json);
+        // console.log(json);
         return {
             data: {
                 ...json.data,

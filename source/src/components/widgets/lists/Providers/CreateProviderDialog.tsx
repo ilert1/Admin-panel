@@ -22,7 +22,7 @@ export const CreateProviderDialog = (props: CreateProviderDialogProps) => {
             <DialogContent className="max-w-[716px] bg-muted">
                 <DialogHeader>
                     <DialogTitle className="text-center">
-                        {translate("resources.providers.editingProvider")}
+                        {translate("resources.provider.creatingProvider")}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
                     <ProviderCreate

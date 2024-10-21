@@ -38,7 +38,6 @@ import { ChatSheet } from "@/components/widgets/components/ChatSheet";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { debounce } from "lodash";
 import { Button } from "@/components/ui/button";
-import { TestKeysModal } from "@/components/widgets/components/TestKeysModal";
 import { useGetResLabel } from "@/hooks/useGetResLabel";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { KeysModal } from "@/components/widgets/components/KeysModal";
@@ -76,7 +75,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
             }
             return getResLabel(resourceName[0], permissions);
         }
-    }, [resourceName, translate]);
+    }, [getResLabel, permissions, resourceName, translate]);
 
     const identity = useGetIdentity();
     const logout = useLogout();
@@ -437,7 +436,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 <Toaster />
             </div>
 
-            <TestKeysModal open={testKeysModalOpen} onOpenChange={setTestKeysModalOpen} />
+            <KeysModal open={testKeysModalOpen} onOpenChange={setTestKeysModalOpen} isTest />
         </div>
     );
 };

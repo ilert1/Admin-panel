@@ -29,7 +29,6 @@ export const useCreateTestKeys = (isModalOpen: boolean, isTest: boolean, name: s
                         method: "PATCH",
                         user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
                     });
-                    console.log(json);
                     setPrivateKey(json.data.keypair.private_key);
                     setPublicKey(json.data.keypair.public_key);
                     setIsLoading(false);
