@@ -254,7 +254,7 @@ const TransactionFilterSidebar = ({
                         <DropdownMenuContent className="p-0 border-green-50" align="end">
                             <DropdownMenuItem
                                 className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
-                                onClick={() => handleDownloadReport("excel")}>
+                                onClick={() => handleDownloadReport("csv")}>
                                 Excel
                             </DropdownMenuItem>
                             <DropdownMenuItem
@@ -314,7 +314,9 @@ export const TransactionList = () => {
         }).then(response => response.json())
     );
     const sortedCurrencies = useMemo(() => {
-        return currencies?.data?.sort((a: any, b: any) => a.prior_gr - b.prior_gr) || [];
+        return (
+            currencies?.data?.sort((a: Currencies.Currency, b: Currencies.Currency) => a.prior_gr - b.prior_gr) || []
+        );
     }, [currencies]);
     const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
 

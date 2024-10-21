@@ -172,6 +172,7 @@ declare namespace Currencies {
         is_coin: boolean;
         code: string;
         id: string;
+        prior_gr: number;
     }
 }
 
