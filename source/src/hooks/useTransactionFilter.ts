@@ -1,5 +1,5 @@
-import { ChangeEvent, useCallback, useMemo, useState } from "react";
-import { useDataProvider, useGetList, useListContext, usePermissions, useTranslate } from "react-admin";
+import { ChangeEvent, UIEvent, useCallback, useMemo, useState } from "react";
+import { useDataProvider, useInfiniteGetList, useListContext, usePermissions, useTranslate } from "react-admin";
 import { useToast } from "@/components/ui/use-toast";
 import { API_URL } from "@/data/base";
 import { format } from "date-fns";
@@ -7,20 +7,25 @@ import { useQuery } from "react-query";
 import { debounce } from "lodash";
 import { DateRange } from "react-day-picker";
 
-const useTransactionFilter = (typeTabActive : string, setTypeTabActive : (type: string) => void) => {
+const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: string) => void) => {
     const dataProvider = useDataProvider();
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
 
-    // TODO: временное решение, нужно расширить компонент селекта для поддержки пагинациц
-    const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
+    const {
+        data: accountsData,
+        isFetchingNextPage,
+        hasNextPage,
+        fetchNextPage: accountsNextPage
+    } = useInfiniteGetList("accounts", {
+        pagination: { perPage: 25, page: 1 }
+    });
 
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
     const [operationId, setOperationId] = useState(filterValues?.id || "");
     const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
-    const [account, setAccount] = useState(accounts?.find(account => filterValues?.accountId === account.id) || "");
-    // const [typeTabActive, setTypeTabActive] = useState("");
+    const [account, setAccount] = useState("");
 
     const orderStatusIndex = Object.keys(data.states).find(
         index => filterValues?.orderStatus === data.states[index].state_description
@@ -34,6 +39,7 @@ const useTransactionFilter = (typeTabActive : string, setTypeTabActive : (type: 
 
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+    const accountsLoadingProcess = useMemo(() => isFetchingNextPage && hasNextPage, [isFetchingNextPage, hasNextPage]);
 
     const chooseClassTabActive = useCallback(
         (type: string) => {
@@ -77,14 +83,9 @@ const useTransactionFilter = (typeTabActive : string, setTypeTabActive : (type: 
         onPropertySelected(e.target.value, "customer_payment_id");
     };
 
-    const onAccountChanged = (account: Account | string) => {
+    const onAccountChanged = (account: string) => {
         setAccount(account);
-
-        if (typeof account === "string") {
-            onPropertySelected(account, "accountId");
-        } else {
-            onPropertySelected(account.id, "accountId");
-        }
+        onPropertySelected(account, "accountId");
     };
 
     const onOrderStatusChanged = (order: string | { state_description: string }) => {
@@ -128,7 +129,7 @@ const useTransactionFilter = (typeTabActive : string, setTypeTabActive : (type: 
     };
 
     const handleDownloadReport = async (type: "pdf" | "excel") => {
-        if (adminOnly && !account.id) {
+        if (adminOnly && !account) {
             toast({
                 description: translate("resources.transactions.download.accountField"),
                 variant: "error",
@@ -189,11 +190,21 @@ const useTransactionFilter = (typeTabActive : string, setTypeTabActive : (type: 
         }
     };
 
+    const accountScrollHandler = async (e: UIEvent<HTMLDivElement>) => {
+        const target = e.target as HTMLElement;
+
+        if (target.scrollHeight - target.scrollTop === target.clientHeight) {
+            accountsNextPage();
+        }
+    };
+
     return {
         translate,
         data,
         adminOnly,
-        accounts,
+        accountsData,
+        accountScrollHandler,
+        accountsLoadingProcess,
         operationId,
         onOperationIdChanged,
         customerPaymentId,

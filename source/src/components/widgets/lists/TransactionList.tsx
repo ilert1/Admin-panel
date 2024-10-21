@@ -33,7 +33,7 @@ import { API_URL } from "@/data/base";
 import { EventBus, EVENT_STORNO } from "@/helpers/event-bus";
 import { TextField } from "@/components/ui/text-field";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
-import { Loading } from "@/components/ui/loading";
+import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
@@ -113,7 +113,9 @@ const TransactionFilterSidebar = ({
         translate,
         data,
         adminOnly,
-        accounts,
+        accountsData,
+        accountScrollHandler,
+        accountsLoadingProcess,
         operationId,
         onOperationIdChanged,
         customerPaymentId,
@@ -125,7 +127,6 @@ const TransactionFilterSidebar = ({
         startDate,
         endDate,
         changeDate,
-        // typeTabActive,
         onTabChanged,
         chooseClassTabActive,
         handleDownloadReport,
@@ -163,6 +164,7 @@ const TransactionFilterSidebar = ({
                         <span className="md:text-nowrap">
                             {translate("resources.transactions.filter.filterByOrderStatus")}
                         </span>
+
                         <Select
                             onValueChange={val =>
                                 val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged("")
@@ -173,10 +175,12 @@ const TransactionFilterSidebar = ({
                                     placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
                                 />
                             </SelectTrigger>
+
                             <SelectContent>
                                 <SelectItem value="null">
                                     {translate("resources.transactions.filter.showAll")}
                                 </SelectItem>
+
                                 {data &&
                                     Object.keys(data.states).map(index => (
                                         <SelectItem key={data.states[index].state_int} value={data.states[index]}>
@@ -199,6 +203,7 @@ const TransactionFilterSidebar = ({
                             <span className="md:text-nowrap">
                                 {translate("resources.transactions.filter.filterByAccount")}
                             </span>
+
                             <Select
                                 onValueChange={val => (val !== "null" ? onAccountChanged(val) : onAccountChanged(""))}
                                 value={account}>
@@ -207,16 +212,25 @@ const TransactionFilterSidebar = ({
                                         placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
                                     />
                                 </SelectTrigger>
-                                <SelectContent>
+
+                                <SelectContent align="start" onScrollCapture={accountScrollHandler}>
                                     <SelectItem value="null">
                                         {translate("resources.transactions.filter.showAll")}
                                     </SelectItem>
-                                    {accounts &&
-                                        accounts.map(account => (
-                                            <SelectItem key={account.id} value={account}>
-                                                {account.meta.caption}
+
+                                    {accountsData?.pages.map(page => {
+                                        return page.data.map(account => (
+                                            <SelectItem key={account.id} value={account.id}>
+                                                <p className="truncate max-w-36">{account.meta.caption}</p>
                                             </SelectItem>
-                                        ))}
+                                        ));
+                                    })}
+
+                                    {accountsLoadingProcess && (
+                                        <SelectItem value="null" disabled className="flex max-h-8">
+                                            <LoadingAlertDialog className="-scale-[.25]" />
+                                        </SelectItem>
+                                    )}
                                 </SelectContent>
                             </Select>
                         </div>
@@ -232,7 +246,7 @@ const TransactionFilterSidebar = ({
                             !account &&
                             !customerPaymentId &&
                             !startDate &&
-                            !account.id &&
+                            !account &&
                             !typeTabActive &&
                             !orderStatusFilter
                         }>
@@ -267,6 +281,7 @@ const TransactionFilterSidebar = ({
                     <button className={chooseClassTabActive("")} onClick={clearFilters} disabled={typeTabActive === ""}>
                         All operations
                     </button>
+
                     {Object.keys(data?.transactionTypes).map(item => (
                         <button
                             key={data?.transactionTypes?.[item].type}
@@ -277,6 +292,7 @@ const TransactionFilterSidebar = ({
                         </button>
                     ))}
                 </div>
+
                 <div className="flex items-center gap-1">
                     <Button onClick={() => debounced(prev => !prev)} variant={"clearBtn"} className="flex gap-1">
                         {translate("resources.transactions.chart")}
@@ -480,7 +496,7 @@ export const TransactionList = () => {
                         />
                     </div>
 
-                    <DataTable data={data} columns={columns} />
+                    <DataTable data={[]} columns={columns} />
                 </ListContextProvider>
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>
                     <SheetContent
