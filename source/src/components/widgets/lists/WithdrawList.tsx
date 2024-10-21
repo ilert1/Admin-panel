@@ -7,12 +7,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState } from "react";
-import { useMediaQuery } from "react-responsive";
-import { WithdrawShow } from "@/components/widgets/show";
-import { EyeIcon, XIcon } from "lucide-react";
+import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
 import { Loading } from "@/components/ui/loading";
@@ -88,15 +83,6 @@ export const WithdrawList = () => {
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
 
-    const [showOpen, setShowOpen] = useState(false);
-    const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
-    const [showTransactionId, setShowTransactionId] = useState<string>("");
-
-    const openSheet = (id: string) => {
-        setShowTransactionId(id);
-        setShowOpen(true);
-    };
-
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
             accessorKey: "created_at",
@@ -130,17 +116,6 @@ export const WithdrawList = () => {
                     row.original.destination.amount.currency || ""
                 }`;
             }
-        },
-        {
-            id: "actions",
-            cell: ({ row }) => {
-                return (
-                    <Button onClick={() => openSheet(row.original.id)} variant="clearBtn" className="w-full p-0">
-                        <span className="sr-only">Open menu</span>
-                        <EyeIcon className="text-green-50 size-7" />
-                    </Button>
-                );
-            }
         }
     ];
 
@@ -148,30 +123,13 @@ export const WithdrawList = () => {
         return <Loading />;
     } else {
         return (
-            <>
-                <ListContextProvider value={listContext}>
-                    <WithdrawFilterSidebar />
+            <ListContextProvider value={listContext}>
+                <WithdrawFilterSidebar />
 
-                    <h3 className="mb-4 text-xl text-neutral-100">{translate("resources.withdraw.tableTitle")}</h3>
+                <h3 className="mb-4 text-xl text-neutral-100">{translate("resources.withdraw.tableTitle")}</h3>
 
-                    <DataTable columns={columns} data={[]} />
-                </ListContextProvider>
-                <Sheet open={showOpen} onOpenChange={setShowOpen}>
-                    <SheetContent
-                        className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
-                        side={isMobile ? "bottom" : "right"}>
-                        <ScrollArea className="h-full [&>div>div]:!block">
-                            <SheetHeader className="mb-2">
-                                <SheetTitle>{translate("resources.transactions.showHeader")}</SheetTitle>
-                                <SheetDescription>
-                                    {translate("resources.transactions.showDescription", { id: showTransactionId })}
-                                </SheetDescription>
-                            </SheetHeader>
-                            <WithdrawShow id={showTransactionId} />
-                        </ScrollArea>
-                    </SheetContent>
-                </Sheet>
-            </>
+                <DataTable columns={columns} data={[]} />
+            </ListContextProvider>
         );
     }
 };
