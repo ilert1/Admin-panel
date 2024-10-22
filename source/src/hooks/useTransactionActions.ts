@@ -1,10 +1,9 @@
-import { useRecordContext, useTranslate, usePermissions, useRefresh } from "react-admin";
+import { useTranslate, usePermissions, useRefresh } from "react-admin";
 import { API_URL, BF_MANAGER_URL } from "@/data/base";
 import { useMemo, useCallback } from "react";
 import { toast } from "sonner";
 
-export const useTransactionActions = (data: any) => {
-    const record = useRecordContext();
+export const useTransactionActions = (data: Dictionaries.DataObject, record: Transaction.Transaction) => {
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const refresh = useRefresh();

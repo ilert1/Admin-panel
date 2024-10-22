@@ -1,28 +1,17 @@
-import { useTranslate, useListController, useGetList, ListContextProvider } from "react-admin";
-import { useQuery } from "react-query";
+import { useTranslate, useListController, ListContextProvider } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuTrigger,
-    DropdownMenuSub,
-    DropdownMenuSubTrigger,
-    DropdownMenuPortal,
-    DropdownMenuSubContent
+    DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { EyeIcon, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState, useMemo, useEffect } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { useState } from "react";
 import { TransactionShow } from "@/components/widgets/show";
-import { useMediaQuery } from "react-responsive";
-import { useTransactionActions } from "@/hooks";
-import { TransactionStorno } from "@/components/widgets/forms";
-import { API_URL } from "@/data/base";
-import { EventBus, EVENT_STORNO } from "@/helpers/event-bus";
 import { TextField } from "@/components/ui/text-field";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
@@ -32,62 +21,6 @@ import useTransactionFilter from "@/hooks/useTransactionFilter";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import BarChart from "@/components/ui/Bar";
 import { debounce } from "lodash";
-
-const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
-    const {
-        switchDispute,
-        showDispute,
-        disputeCaption,
-        showState,
-        switchState,
-        stateCaption,
-        states,
-        showCommit,
-        commitCaption,
-        commitTransaction,
-        showStorno,
-        stornoCaption,
-        makeStorno
-    } = useTransactionActions(props.dictionaries);
-
-    useEffect(() => {
-        EventBus.getInstance().registerUnique(
-            EVENT_STORNO,
-            (data: {
-                sourceValue: string;
-                destValue: string;
-                source: string;
-                currency: string;
-                destination: string;
-            }) => {
-                makeStorno(data);
-                props?.stornoClose?.();
-            }
-        );
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-    return (
-        <>
-            {showDispute && <DropdownMenuItem onClick={switchDispute}>{disputeCaption}</DropdownMenuItem>}
-            {showState && (
-                <DropdownMenuSub>
-                    <DropdownMenuSubTrigger>{stateCaption}</DropdownMenuSubTrigger>
-                    <DropdownMenuPortal>
-                        <DropdownMenuSubContent>
-                            {states.map((state, i) => (
-                                <DropdownMenuItem key={i} onClick={() => switchState(state.state_int)}>
-                                    {state.state_description}
-                                </DropdownMenuItem>
-                            ))}
-                        </DropdownMenuSubContent>
-                    </DropdownMenuPortal>
-                </DropdownMenuSub>
-            )}
-            {showCommit && <DropdownMenuItem onClick={commitTransaction}>{commitCaption}</DropdownMenuItem>}
-            {showStorno && <DropdownMenuItem onClick={() => props?.stornoOpen?.()}>{stornoCaption}</DropdownMenuItem>}
-        </>
-    );
-};
 
 const TransactionFilterSidebar = ({
     typeTabActive,
@@ -304,26 +237,9 @@ export const TransactionList = () => {
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
 
-    // TODO: временное решение, нужно расширить компонент селекта для поддержки пагинациц
-    const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
-    const { data: currencies } = useQuery("currencies", () =>
-        fetch(`${API_URL}/dictionaries/curr`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
-        }).then(response => response.json())
-    );
-    const sortedCurrencies = useMemo(() => {
-        return (
-            currencies?.data?.sort((a: Currencies.Currency, b: Currencies.Currency) => a.prior_gr - b.prior_gr) || []
-        );
-    }, [currencies]);
-    const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
-
     const [typeTabActive, setTypeTabActive] = useState("");
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");
-    const [stornoOpen, setStornoOpen] = useState(false);
     const [chartOpen, setChartOpen] = useState(false);
 
     const openSheet = (id: string) => {
@@ -518,18 +434,6 @@ export const TransactionList = () => {
                             <SheetDescription></SheetDescription>
                             <TransactionShow id={showTransactionId} type="compact" />
                         </div>
-                    </SheetContent>
-                </Sheet>
-                <Sheet open={stornoOpen} onOpenChange={setStornoOpen}>
-                    <SheetContent
-                        className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
-                        side={isMobile ? "bottom" : "right"}>
-                        <ScrollArea className="h-full [&>div>div]:!block">
-                            <SheetHeader className="mb-2">
-                                <SheetTitle>{translate("resources.transactions.show.storno")}</SheetTitle>
-                            </SheetHeader>
-                            <TransactionStorno accounts={accounts || []} currencies={sortedCurrencies || []} />
-                        </ScrollArea>
                     </SheetContent>
                 </Sheet>
             </>
