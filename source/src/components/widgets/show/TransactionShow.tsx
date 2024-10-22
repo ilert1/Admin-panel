@@ -185,7 +185,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                                     </SelectContent>
                                 </Select>
 
-                                <Button onClick={() => switchState(Number(newState))}>
+                                <Button onClick={() => switchState(Number(newState))} disabled={!newState}>
                                     {translate("app.ui.actions.save")}
                                 </Button>
                             </div>
