@@ -93,7 +93,8 @@ const ru: TranslationMessages = {
                     title: "Состояние",
                     final: "Финальная",
                     state_int: "Код",
-                    state_description: "Статус"
+                    state_description: "Статус",
+                    state_changed: "Статус измене на:"
                 },
                 rateInfo: "Курс",
                 createdAt: "Дата и время",
@@ -605,7 +606,8 @@ const en: TranslationMessages = {
                     title: "State",
                     final: "Is final",
                     state_int: "Code",
-                    state_description: "Status"
+                    state_description: "Status",
+                    state_changed: "Status changed to:"
                 },
                 rateInfo: "Rate",
                 createdAt: "Created at",
