@@ -20,6 +20,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { FeeCard } from "../components/FeeCard";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { CircleChevronRight } from "lucide-react";
+import { AddFeeCard } from "../components/AddFeeCard";
 
 interface MerchantEditProps {
     id?: string;
@@ -93,6 +94,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
     }, [form, record]);
 
     const onSubmit: SubmitHandler<Merchant> = async data => {
+        console.log(data);
         try {
             await dataProvider.update("merchant", {
                 id,
@@ -111,11 +113,11 @@ export const MerchantEdit = (props: MerchantEditProps) => {
     };
 
     if (isLoading || !record) return <Loading />;
-
+    const fees = record.fees;
     return (
         <EditContextProvider value={controllerProps}>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <form className="space-y-6">
                     <div className="flex flex-wrap">
                         <FormField
                             control={form.control}
@@ -177,7 +179,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                                 </FormItem>
                             )}
                         />
-                        <FormField
+                        {/* <FormField
                             control={form.control}
                             name="fees"
                             render={({ field }) => (
@@ -211,34 +213,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                                                     feeType="Test1"
                                                     description="Test1"
                                                 />
-                                                <FeeCard
-                                                    account="Test2"
-                                                    currency="Test2"
-                                                    feeAmount={12}
-                                                    feeType="Test2"
-                                                    description="Test2"
-                                                />
-                                                <FeeCard
-                                                    account="Test3"
-                                                    currency="Test3"
-                                                    feeAmount={13}
-                                                    feeType="Test3"
-                                                    description="Test3"
-                                                />
-                                                <FeeCard
-                                                    account="Test3"
-                                                    currency="Test3"
-                                                    feeAmount={13}
-                                                    feeType="Test3"
-                                                    description="Test3"
-                                                />
-                                                <FeeCard
-                                                    account="Test3"
-                                                    currency="Test3"
-                                                    feeAmount={13}
-                                                    feeType="Test3"
-                                                    description="Test3"
-                                                />
+                                                <AddFeeCard />
                                             </div>
                                             <div className="flex justify-end">
                                                 <Button className="my-6 w-1/4 flex gap-[4px]">
@@ -251,22 +226,47 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                                     <FormMessage />
                                 </FormItem>
                             )}
-                        />
-                        <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
-                            <Button type="submit" variant="default" className="flex-1">
-                                {translate("app.ui.actions.save")}
-                            </Button>
-                            <Button
-                                type="button"
-                                variant="deleteGray"
-                                className="flex-1"
-                                onClick={() => onOpenChange(false)}>
-                                {translate("app.ui.actions.cancel")}
-                            </Button>
-                        </div>
+                        /> */}
                     </div>
                 </form>
             </Form>
+            <div className="flex flex-col bg-neutral-0 px-[32px] rounded-[8px] w-full mx-[10px] mt-[10px]">
+                <h3 className="text-display-3 mt-[16px] mb-[16px]">{translate("resources.direction.fees.fees")}</h3>
+                <div className="max-h-[40vh] overflow-auto">
+                    {fees && Object.keys(fees).length !== 0
+                        ? Object.keys(fees).map(key => {
+                              console.log(fees);
+                              const fee = fees[key];
+                              return (
+                                  <FeeCard
+                                      key={fee.id}
+                                      account={fee.id}
+                                      currency={fee.currency}
+                                      feeAmount={fee.value.quantity}
+                                      feeType={data.feeTypes[fee.type]?.type_descr || ""}
+                                  />
+                              );
+                          })
+                        : ""}
+                    <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
+                    <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
+                    <AddFeeCard id={record.id} onOpenChange={onOpenChange} />
+                </div>
+                <div className="flex justify-end">
+                    <Button className="my-6 w-1/4 flex gap-[4px]">
+                        <CircleChevronRight className="w-[16px] h-[16px]" />
+                        {translate("resources.direction.fees.addFee")}
+                    </Button>
+                </div>
+            </div>
+            <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
+                <Button onClick={form.handleSubmit(onSubmit)} variant="default" className="flex-1">
+                    {translate("app.ui.actions.save")}
+                </Button>
+                <Button type="button" variant="deleteGray" className="flex-1" onClick={() => onOpenChange(false)}>
+                    {translate("app.ui.actions.cancel")}
+                </Button>
+            </div>
         </EditContextProvider>
     );
 };
