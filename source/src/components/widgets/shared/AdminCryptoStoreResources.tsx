@@ -1,5 +1,5 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { ChevronDown, ChevronLeft, Vault, WalletCards } from "lucide-react";
+import { ChevronDown, ChevronLeft, LockKeyhole, Vault, WalletCards } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 import { NavLink } from "react-router-dom";
@@ -65,6 +65,7 @@ const BitcoinWalletIcon = () => (
 export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: boolean }) => {
     const translate = useTranslate();
     const [openAccordion, setOpenAccordion] = useState(true);
+
     const customViewRoutes = {
         name: "manage",
         icon: <BitcoinWalletIcon />,
@@ -72,17 +73,20 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
             {
                 name: "manageStore",
                 path: "/manageStore",
-                icon: <Vault />
+                icon: <Vault />,
+                showLock: true
             },
             {
                 name: "manageWallets",
                 path: "/manageWallets",
-                icon: <DoubleWalletsIcon />
+                icon: <DoubleWalletsIcon />,
+                showLock: false
             },
             {
                 name: "manageTransactions",
                 path: "/manageTransactions",
-                icon: <WalletCards />
+                icon: <WalletCards />,
+                showLock: false
             }
         ]
     };
@@ -100,7 +104,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                             {customViewRoutes.icon}
 
                             {showCaptions && (
-                                <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
+                                <span className="animate-in fade-in-0 transition-opacity p-0 m-0 leading-[22px]">
                                     {translate(`resources.${customViewRoutes.name}.name`)}
                                 </span>
                             )}
@@ -127,16 +131,18 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
 
             {showCaptions && openAccordion && (
                 <div className="flex flex-col gap-4 bg-muted py-1 pl-4 mr-1">
-                    {customViewRoutes.childrens.map((route, index) => (
+                    {customViewRoutes.childrens.map((customRoute, index) => (
                         <NavLink
                             key={index}
-                            to={route.path}
+                            to={customRoute.path}
                             className="flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2 [&:hover>svg>path]:stroke-green-40 [&>svg>path]:transition-all">
-                            {route.icon}
+                            {customRoute.icon}
 
-                            <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
-                                {translate(`resources.${route.name}.name`)}
+                            <span className="animate-in fade-in-0 transition-opacity p-0 m-0 leading-[22px]">
+                                {translate(`resources.${customRoute.name}.name`)}
                             </span>
+
+                            {customRoute.showLock && <LockKeyhole className="ml-3" />}
                         </NavLink>
                     ))}
                 </div>
