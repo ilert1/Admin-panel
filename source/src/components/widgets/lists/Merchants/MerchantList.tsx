@@ -5,18 +5,29 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Loading } from "@/components/ui/loading";
 
-import { useGetMerchantsColumns } from "./Columns";
+import { useGetMerchantColumns } from "./Columns";
 import { DeleteMerchantDialog } from "./DeleteMerchantDialog";
 import { EditMerchantDialog } from "./EditMerchantDialog";
+import { ShowMerchantSheet } from "./ShowMerchantSheet";
+import { CreateMerchantDialog } from "./CreateMerchantDialog";
 
 export const MerchantList = () => {
     const listContext = useListController<Merchant>();
     const translate = useTranslate();
 
-    const { columns, chosenId, editDialogOpen, deleteDialogOpen, setEditDialogOpen, setDeleteDialogOpen } =
-        useGetMerchantsColumns();
+    const {
+        columns,
+        chosenId,
+        editDialogOpen,
+        deleteDialogOpen,
+        showSheetOpen,
+        setEditDialogOpen,
+        setDeleteDialogOpen,
+        setShowSheetOpen
+    } = useGetMerchantColumns();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
+
     const handleCreateClick = () => {
         setCreateDialogOpen(true);
     };
@@ -28,24 +39,12 @@ export const MerchantList = () => {
             <>
                 <div className="flex flex-end justify-end mb-4">
                     <Button onClick={handleCreateClick} variant="default">
-                        {translate("resources.merchants.createNew")}
+                        {translate("resources.merchant.createNew")}
                     </Button>
-
-                    {/* <AlertDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
-                        <AlertDialogContent className="min-w-[716px] bg-muted">
-                            <AlertDialogHeader>
-                                <AlertDialogTitle className="text-center">
-                                    {translate("resources.merchants.createNew")}
-                                </AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    <MerchantCreate setOpen={setCreateDialogOpen} />
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter></AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog> */}
-                    <DeleteMerchantDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} id={chosenId} />
+                    <CreateMerchantDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+                    <DeleteMerchantDialog id={chosenId} open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} />
                     <EditMerchantDialog id={chosenId} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
+                    <ShowMerchantSheet id={chosenId} open={showSheetOpen} onOpenChange={setShowSheetOpen} />
                 </div>
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />
@@ -54,19 +53,3 @@ export const MerchantList = () => {
         );
     }
 };
-
-//  <Sheet open={showOpen} onOpenChange={setShowOpen}>
-// <SheetContent
-//     className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
-//     side={isMobile ? "bottom" : "right"}>
-//     <ScrollArea className="h-full">
-//         <SheetHeader className="mb-2">
-//             <SheetTitle>{translate("resources.merchants.showTitle")}</SheetTitle>
-//             <SheetDescription>
-//                 {/* {translate("resources.currencies.showDescription", { id: showMerchantId })} */}
-//             </SheetDescription>
-//         </SheetHeader>
-//         <MerchantShow id={showMerchantId} />
-//     </ScrollArea>
-// </SheetContent>
-// </Sheet>

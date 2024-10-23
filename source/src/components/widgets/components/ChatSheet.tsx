@@ -28,7 +28,6 @@ export const ChatSheet = ({ locale = "ru" }: ChatSheetProps) => {
 
     const scrollToBottom = () => {
         if (messagesEndRef.current) {
-            console.log("Scrolling to bottom");
             messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
     };
