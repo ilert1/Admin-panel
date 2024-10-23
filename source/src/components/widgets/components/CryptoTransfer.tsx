@@ -2,27 +2,12 @@ import { useMemo, useState } from "react";
 import { useTranslate } from "react-admin";
 import { BF_MANAGER_URL, API_URL } from "@/data/base";
 import { CryptoTransferForm } from "@/components/widgets/forms";
-import { toast } from "sonner";
 import { parseJWT } from "@/helpers/jwt";
 import { useQuery } from "react-query";
 
 export const CryptoTransfer = () => {
     const translate = useTranslate();
-    const success = (message: string) => {
-        toast.success(translate("resources.transactions.show.success"), {
-            dismissible: true,
-            description: message,
-            duration: 3000
-        });
-    };
-
-    const error = (message: string) => {
-        toast.error(translate("resources.transactions.show.error"), {
-            dismissible: true,
-            description: message,
-            duration: 3000
-        });
-    };
+    const [transferState, setTransferState] = useState<"process" | "success" | "error">("process");
 
     const merchantId = useMemo(() => {
         const token = localStorage.getItem("access-token");
@@ -78,13 +63,10 @@ export const CryptoTransfer = () => {
             .then(response => response.json())
             .then(json => {
                 if (json.success) {
-                    success(translate("resources.transactions.show.success"));
+                    setTransferState("success");
                 } else {
-                    error(json.error || "Unknown error");
+                    setTransferState("error");
                 }
-            })
-            .catch(e => {
-                error(e.message);
             })
             .finally(() => {
                 setLocalLoading(false);
@@ -93,9 +75,15 @@ export const CryptoTransfer = () => {
     };
 
     return (
-        <div>
+        <div className="flex flex-col gap-4">
             <h4 className="text-display-4 text-neutral-100">{translate("resources.withdraw.cryptoTransferTitle")}</h4>
-            <CryptoTransferForm loading={isLoading} create={createTransfer} balance={balance || 0} />
+            <CryptoTransferForm
+                loading={isLoading}
+                create={createTransfer}
+                balance={balance || 0}
+                transferState={transferState}
+                setTransferState={setTransferState}
+            />
         </div>
     );
 };

@@ -1,4 +1,10 @@
-import { useTranslate, useListController, ListContextProvider, RecordContextProvider } from "react-admin";
+import {
+    useTranslate,
+    useListController,
+    ListContextProvider,
+    RecordContextProvider,
+    usePermissions
+} from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import {
@@ -9,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { WithdrawShow } from "@/components/widgets/show";
 import { EyeIcon, XIcon } from "lucide-react";
@@ -90,6 +96,8 @@ export const WithdrawList = () => {
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
     const navigate = useNavigate();
+    const { permissions } = usePermissions();
+    const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
 
     const [showOpen, setShowOpen] = useState(false);
     const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
@@ -166,16 +174,28 @@ export const WithdrawList = () => {
     } else {
         return (
             <>
-                <div>
-                    <ListContextProvider value={listContext}>
-                        <WithdrawFilterSidebar />
+                <ListContextProvider value={listContext}>
+                    <div className="flex flex-col">
+                        <div className="max-w-[1060px]">
+                            <WithdrawFilterSidebar />
+                        </div>
+                        <div className="flex gap-6 flex-wrap-reverse items-end">
+                            <div className="grow-[1]">
+                                <h3 className="mb-4 text-xl text-neutral-100">
+                                    {translate("resources.withdraw.tableTitle")}
+                                </h3>
+                                <DataTable columns={columns} data={[]} />
+                            </div>
 
-                        <h3 className="mb-4 text-xl text-neutral-100">{translate("resources.withdraw.tableTitle")}</h3>
+                            {merchantOnly && (
+                                <div className="w-[476px] max-w-[476px] h-fit">
+                                    <CryptoTransfer />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </ListContextProvider>
 
-                        <DataTable columns={columns} data={[]} />
-                    </ListContextProvider>
-                    <CryptoTransfer />
-                </div>
                 <Sheet open={showOpen} onOpenChange={setShowOpen}>
                     <SheetContent
                         className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
