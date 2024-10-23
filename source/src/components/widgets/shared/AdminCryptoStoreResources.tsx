@@ -133,7 +133,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
             </TooltipProvider>
 
             {showCaptions && openAccordion && (
-                <div className="flex flex-col gap-4 bg-muted py-1 pl-4 mr-1">
+                <div className="flex flex-col gap-4 bg-muted py-1 pl-4 mr-[2px]">
                     {customViewRoutes.childrens.map((customRoute, index) => (
                         <NavLink
                             key={index}
