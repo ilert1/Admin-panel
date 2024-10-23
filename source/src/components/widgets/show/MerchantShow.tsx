@@ -60,7 +60,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                 </div>
                 <div className="flex flex-col bg-neutral-0 px-[32px] rounded-[8px] w-full mx-[10px] mt-[10px] overflow-hidden">
                     <h3 className="text-display-3 mt-[16px] mb-[16px]">{translate("resources.direction.fees.fees")}</h3>
-                    <div className="max-h-[42vh] overflow-auto">
+                    <div className="max-h-[42vh] overflow-auto pr-[10px]">
                         {fees && Object.keys(fees).length !== 0
                             ? Object.keys(fees).map(key => {
                                   const fee = fees[key];
