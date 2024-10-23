@@ -9,7 +9,7 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Loading } from "@/components/ui/loading";
 
 import { useParams } from "react-router-dom";
@@ -21,15 +21,16 @@ import { FeeCard } from "../components/FeeCard";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { CircleChevronRight } from "lucide-react";
 import { AddFeeCard } from "../components/AddFeeCard";
+import { FeesResource } from "@/data";
 
 interface MerchantEditProps {
     id?: string;
-    onOpenChange?: onOpenChange;
+    onOpenChange: (state: boolean) => void;
 }
 
 export const MerchantEdit = (props: MerchantEditProps) => {
     const params = useParams();
-    const id = props.id || params.id;
+    const id = props.id || params.id || "";
     const data = fetchDictionaries();
 
     const { onOpenChange } = props;
@@ -37,8 +38,9 @@ export const MerchantEdit = (props: MerchantEditProps) => {
 
     const controllerProps = useEditController({ resource: "merchant", id });
     controllerProps.mutationMode = "pessimistic";
-
     const { record, isLoading } = useEditController({ resource: "merchant", id });
+
+    const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const translate = useTranslate();
     const { toast } = useToast();
@@ -58,18 +60,17 @@ export const MerchantEdit = (props: MerchantEditProps) => {
             }),
         fees: z.record(
             z.object({
-                id: z.string(),
                 type: z.number(),
                 value: z.object({
                     accuracy: z.number(),
                     quantity: z.number()
                 }),
                 currency: z.string(),
-                recipient: z.string()
+                description: z.string().trim().nullable(),
+                direction: z.string()
             })
         )
     });
-
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -92,6 +93,12 @@ export const MerchantEdit = (props: MerchantEditProps) => {
             });
         }
     }, [form, record]);
+
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [addNewFeeClicked]);
 
     const onSubmit: SubmitHandler<Merchant> = async data => {
         console.log(data);
@@ -121,13 +128,13 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                     <div className="flex flex-wrap">
                         <FormField
                             control={form.control}
-                            name="id"
+                            name="name"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.merchant.fields.id")}</FormLabel>
+                                    <FormLabel>{translate("resources.merchant.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} disabled />
+                                            <Input {...field} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -136,13 +143,13 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                         />
                         <FormField
                             control={form.control}
-                            name="name"
+                            name="id"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.merchant.fields.name")}</FormLabel>
+                                    <FormLabel>{translate("resources.merchant.fields.id")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} />
+                                            <Input {...field} disabled />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -179,54 +186,6 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                                 </FormItem>
                             )}
                         />
-                        {/* <FormField
-                            control={form.control}
-                            name="fees"
-                            render={({ field }) => (
-                                <FormItem className="w-full p-2">
-                                    <FormLabel>Keycloak ID</FormLabel>
-                                    <FormControl>
-                                        <div className="flex flex-col bg-neutral-0 px-[32px] rounded-[8px]">
-                                            <h3 className="text-display-3 mt-[16px] mb-[16px]">
-                                                {translate("resources.direction.fees.fees")}
-                                            </h3>
-                                            <div className="max-h-[40vh] overflow-auto">
-                                                {field.value && Object.keys(field.value).length !== 0
-                                                    ? Object.keys(field.value).map(key => {
-                                                          console.log(field.value);
-                                                          const fee = field.value[key];
-                                                          return (
-                                                              <FeeCard
-                                                                  key={fee.id}
-                                                                  account={fee.id}
-                                                                  currency={fee.currency}
-                                                                  feeAmount={fee.value.quantity}
-                                                                  feeType={data.feeTypes[fee.type]?.type_descr || ""}
-                                                              />
-                                                          );
-                                                      })
-                                                    : ""}
-                                                <FeeCard
-                                                    account="Test1"
-                                                    currency="Test1"
-                                                    feeAmount={11}
-                                                    feeType="Test1"
-                                                    description="Test1"
-                                                />
-                                                <AddFeeCard />
-                                            </div>
-                                            <div className="flex justify-end">
-                                                <Button className="my-6 w-1/4 flex gap-[4px]">
-                                                    <CircleChevronRight className="w-[16px] h-[16px]" />
-                                                    {translate("resources.direction.fees.addFee")}
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        /> */}
                     </div>
                 </form>
             </Form>
@@ -244,16 +203,28 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                                       currency={fee.currency}
                                       feeAmount={fee.value.quantity}
                                       feeType={data.feeTypes[fee.type]?.type_descr || ""}
+                                      id={id}
+                                      resource={FeesResource.MERCHANT}
                                   />
                               );
                           })
                         : ""}
                     <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
                     <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
-                    <AddFeeCard id={record.id} onOpenChange={onOpenChange} />
+                    <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
+                    <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
+                    <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
+                    {addNewFeeClicked && (
+                        <AddFeeCard
+                            id={record.name}
+                            onOpenChange={setAddNewFeeClicked}
+                            resource={FeesResource.MERCHANT}
+                        />
+                    )}
+                    <div ref={messagesEndRef} />
                 </div>
                 <div className="flex justify-end">
-                    <Button className="my-6 w-1/4 flex gap-[4px]">
+                    <Button onClick={() => setAddNewFeeClicked(true)} className="my-6 w-1/4 flex gap-[4px]">
                         <CircleChevronRight className="w-[16px] h-[16px]" />
                         {translate("resources.direction.fees.addFee")}
                     </Button>

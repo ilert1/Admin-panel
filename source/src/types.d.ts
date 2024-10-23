@@ -180,6 +180,7 @@ interface Merchant {
     name: string;
     description: string | null;
     keycloak_id: string | null;
+    fees: Fees | Record<string, never> | null;
 }
 
 interface Provider {
@@ -206,6 +207,16 @@ namespace Directions {
         value: FeeValue;
         currency: string;
         recipient: string;
+        description: string;
+    }
+
+    interface FeeCreate {
+        type: number | string;
+        value: number;
+        currency: string;
+        description: string;
+        recipient: string;
+        direction: string | number;
     }
 
     interface Fees {
@@ -216,7 +227,7 @@ namespace Directions {
         id: string;
         name: string;
         merchant: Merchant;
-        account_id: "string";
+        account_id: string;
         active: boolean;
         description: string | null;
         weight: number;

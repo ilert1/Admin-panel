@@ -250,6 +250,7 @@ const ru: TranslationMessages = {
         },
         merchant: {
             name: "Мерчанты",
+            merchant: "Мерчант",
             fields: {
                 id: "ID",
                 name: "Имя",
@@ -263,6 +264,8 @@ const ru: TranslationMessages = {
             },
             showTitle: "Детальная инфорация о мерчанте",
             createNew: "Создать нового мерчанта",
+            creatingMerchant: "Создание нового мерчанта",
+            editingMerchant: "Редактирование мерчанта",
             delete: "Удалить мерчанта?"
         },
         provider: {
@@ -325,7 +328,8 @@ const ru: TranslationMessages = {
                 feeType: "Тип комиссии",
                 currency: "Валюта",
                 descr: "Описание",
-                addFee: "Добавить комиссию"
+                addFee: "Добавить комиссию",
+                direction: "Направление"
             },
             errors: {
                 name: "У направления обязательно должно быть имя",
@@ -760,6 +764,7 @@ const en: TranslationMessages = {
         },
         merchant: {
             name: "Merchants",
+            merchant: "Merchant",
             fields: {
                 id: "ID",
                 name: "Name",
@@ -773,6 +778,8 @@ const en: TranslationMessages = {
             },
             showTitle: "Detailed information about merchant",
             createNew: "Create new merchant",
+            editingMerchant: "Editing merchant",
+            creatingMerchant: "Creating new merchant",
             delete: "Delete merchant?"
         },
         provider: {
@@ -835,7 +842,8 @@ const en: TranslationMessages = {
                 feeType: "Fee type",
                 currency: "Currency",
                 descr: "Description",
-                addFee: "Add fee"
+                addFee: "Add fee",
+                direction: "Direction"
             },
             errors: {
                 name: "The direction must have a name",

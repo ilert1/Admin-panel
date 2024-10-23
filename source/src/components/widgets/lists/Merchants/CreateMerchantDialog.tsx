@@ -7,27 +7,25 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { MerchantEdit } from "../../edit";
+import { MerchantCreate } from "../../create";
 
-interface EditMerchantDialogProps {
-    id: string;
+interface CreateMerchantDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
-export const EditMerchantDialog = (props: EditMerchantDialogProps) => {
-    const { id, open, onOpenChange } = props;
+export const CreateMerchantDialog = (props: CreateMerchantDialogProps) => {
+    const { open, onOpenChange } = props;
 
     const translate = useTranslate();
-
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="w-[716px] max-h-[90vh] bg-muted pb-0 overflow-hidden">
+            <DialogContent className="min-w-[716px] bg-muted">
                 <DialogHeader>
-                    <DialogTitle className="text-center mb-[24px]">
-                        {translate("resources.merchant.editingMerchant")}
+                    <DialogTitle className="text-center">
+                        {translate("resources.merchant.creatingMerchant")}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
-                    <MerchantEdit id={id} onOpenChange={onOpenChange} />
+                    <MerchantCreate onOpenChange={onOpenChange} />
                 </DialogHeader>
                 <DialogFooter></DialogFooter>
             </DialogContent>

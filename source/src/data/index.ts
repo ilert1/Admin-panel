@@ -1,3 +1,5 @@
+import feesDataProvider, { FeesResource } from "./fees";
+
 export { i18nProvider } from "./i18n";
 export { BaseDataProvider } from "./base";
 export { TransactionDataProvider } from "./transactions";
@@ -6,3 +8,4 @@ export { CurrenciesDataProvider } from "./currencies";
 export { DirectionsDataProvider } from "./directions";
 export { ProvidersDataProvider } from "./providers";
 export { MerchantsDataProvider } from "./merchants";
+export { feesDataProvider, FeesResource };
