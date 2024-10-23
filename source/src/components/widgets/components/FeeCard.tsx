@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { TextField } from "@/components/ui/text-field";
+import { feesDataProvider, FeesResource } from "@/data";
 import { useTranslate } from "react-admin";
 
 interface FeeCardProps {
@@ -8,11 +9,24 @@ interface FeeCardProps {
     feeAmount: number;
     feeType: string;
     currency: string;
+    resource: FeesResource;
+    id: string;
     description?: string;
 }
 export const FeeCard = (props: FeeCardProps) => {
-    const { account, feeAmount, feeType, currency, description = "" } = props;
+    const { account, feeAmount, feeType, currency, id, resource, description = "" } = props;
     const translate = useTranslate();
+
+    const feeDataProvider = feesDataProvider({ resource, id });
+
+    const handleDelete = () => {
+        try {
+            feeDataProvider.removeFee(account);
+        } catch (error) {
+            // TODO
+        }
+    };
+
     return (
         <div className="mb-[16px]">
             <div className="bg-neutral-0 border border-neutral-70 rounded-[8px] px-[8px] pt-[16px] pb-[8px]">
@@ -49,7 +63,9 @@ export const FeeCard = (props: FeeCardProps) => {
                     </div>
                 </div>
                 <div className="flex justify-end mt-6">
-                    <Button variant={"deleteGray"}>{translate("app.ui.actions.delete")}</Button>
+                    <Button variant={"deleteGray"} onClick={handleDelete}>
+                        {translate("app.ui.actions.delete")}
+                    </Button>
                 </div>
             </div>
         </div>

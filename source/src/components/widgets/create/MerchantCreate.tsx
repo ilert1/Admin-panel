@@ -1,4 +1,11 @@
-import { useCreateController, CreateContextProvider, useRedirect, useTranslate, useDataProvider } from "react-admin";
+import {
+    useCreateController,
+    CreateContextProvider,
+    useRedirect,
+    useTranslate,
+    useDataProvider,
+    useRefresh
+} from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -8,14 +15,34 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "@/components/ui/use-toast";
+import { useEffect, useRef, useState } from "react";
+import { AddFeeCard } from "../components/AddFeeCard";
+import { feesDataProvider, FeesResource } from "@/data";
+import { FeeCard } from "../components/FeeCard";
+import fetchDictionaries from "@/helpers/get-dictionaries";
+import { CircleChevronRight } from "lucide-react";
 
-export const MerchantCreate = () => {
+export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
     const { isLoading } = useCreateController({ resource: "merchant" });
     const controllerProps = useCreateController();
+    const data = fetchDictionaries();
+    const feeDataProvider = feesDataProvider({ id: "", resource: FeesResource.MERCHANT });
 
     const translate = useTranslate();
     const redirect = useRedirect();
+    const refresh = useRefresh();
+
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const [fees, setFees] = useState<Directions.FeeCreate[]>([]);
+    const [addNewFeeClicked, setAddNewFeeClicked] = useState(false);
+
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [addNewFeeClicked]);
 
     const onSubmit: SubmitHandler<Merchant> = async data => {
         if (data?.description?.length === 0) {
@@ -24,9 +51,15 @@ export const MerchantCreate = () => {
         if (data?.keycloak_id?.length === 0) {
             data.keycloak_id = null;
         }
-
         try {
-            await dataProvider.create("merchant", { data });
+            const info = await dataProvider.create("merchant", { data });
+            feeDataProvider.setId(info.data.id);
+
+            fees.map(async el => {
+                await feeDataProvider.addFee(el);
+            });
+            refresh();
+            onOpenChange(false);
         } catch (error) {
             toast({
                 description: translate("resources.merchant.errors.alreadyInUse"),
@@ -46,7 +79,16 @@ export const MerchantCreate = () => {
             .nullable()
             .refine(value => value === null || !/\s/.test(value), {
                 message: translate("resources.merchant.errors.noSpaces")
+            }),
+        fees: z.record(
+            z.object({
+                type: z.number(),
+                value: z.number(),
+                currency: z.string(),
+                recipient: z.string(),
+                direction: z.string()
             })
+        )
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -55,7 +97,8 @@ export const MerchantCreate = () => {
             id: "",
             name: "",
             description: "",
-            keycloak_id: ""
+            keycloak_id: "",
+            fees: {}
         }
     });
 
@@ -66,21 +109,6 @@ export const MerchantCreate = () => {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="flex flex-wrap">
-                        <FormField
-                            control={form.control}
-                            name="id"
-                            render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.merchant.fields.id")}</FormLabel>
-                                    <FormControl>
-                                        <div>
-                                            <Input {...field} />
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
                         <FormField
                             control={form.control}
                             name="name"
@@ -98,9 +126,24 @@ export const MerchantCreate = () => {
                         />
                         <FormField
                             control={form.control}
+                            name="id"
+                            render={({ field }) => (
+                                <FormItem className="w-1/2 p-2">
+                                    <FormLabel>{translate("resources.merchant.fields.id")}</FormLabel>
+                                    <FormControl>
+                                        <div>
+                                            <Input {...field} />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="description"
                             render={({ field }) => (
-                                <FormItem className="w-full p-2">
+                                <FormItem className="w-1/2 p-2">
                                     <FormLabel>{translate("resources.merchant.fields.descr")}</FormLabel>
                                     <FormControl>
                                         <div>
@@ -115,7 +158,7 @@ export const MerchantCreate = () => {
                             control={form.control}
                             name="keycloak_id"
                             render={({ field }) => (
-                                <FormItem className="w-full p-2">
+                                <FormItem className="w-1/2 p-2">
                                     <FormLabel>Keycloak ID</FormLabel>
                                     <FormControl>
                                         <div>
@@ -126,14 +169,51 @@ export const MerchantCreate = () => {
                                 </FormItem>
                             )}
                         />
-                        <div className="w-1/4 p-2 ml-auto">
-                            <Button type="submit" variant="default" className="w-full">
-                                {translate("app.ui.actions.save")}
-                            </Button>
-                        </div>
                     </div>
                 </form>
             </Form>
+            <div className="flex flex-col bg-neutral-0 px-[32px] rounded-[8px] w-full mx-[10px] mt-[10px]">
+                <h3 className="text-display-3 mt-[16px] mb-[16px]">{translate("resources.direction.fees.fees")}</h3>
+                <div className="max-h-[40vh] overflow-auto pr-[10px]">
+                    {fees &&
+                        fees.map(el => {
+                            return (
+                                <FeeCard
+                                    key={el.recipient}
+                                    account={""}
+                                    currency={el.currency}
+                                    feeAmount={el.value}
+                                    feeType={data.feeTypes[el.type]?.type_descr || ""}
+                                    id={""}
+                                    resource={FeesResource.MERCHANT}
+                                />
+                            );
+                        })}
+                    {addNewFeeClicked && (
+                        <AddFeeCard
+                            id={""}
+                            onOpenChange={setAddNewFeeClicked}
+                            resource={FeesResource.MERCHANT}
+                            setFees={setFees}
+                        />
+                    )}
+                    <div ref={messagesEndRef} />
+                </div>
+                <div className="flex justify-end">
+                    <Button onClick={() => setAddNewFeeClicked(true)} className="my-6 w-1/4 flex gap-[4px]">
+                        <CircleChevronRight className="w-[16px] h-[16px]" />
+                        {translate("resources.direction.fees.addFee")}
+                    </Button>
+                </div>
+            </div>
+            <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
+                <Button onClick={form.handleSubmit(onSubmit)} variant="default" className="flex-1">
+                    {translate("app.ui.actions.save")}
+                </Button>
+                <Button type="button" variant="deleteGray" className="flex-1" onClick={() => onOpenChange(false)}>
+                    {translate("app.ui.actions.cancel")}
+                </Button>
+            </div>
         </CreateContextProvider>
     );
 };

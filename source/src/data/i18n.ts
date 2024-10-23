@@ -251,10 +251,12 @@ const ru: TranslationMessages = {
         },
         merchant: {
             name: "Мерчанты",
+            merchant: "Мерчант",
             fields: {
                 id: "ID",
                 name: "Имя",
-                descr: "Описание"
+                descr: "Описание",
+                fees: "Комиссии"
             },
             errors: {
                 id: "ID обязательно должен быть заполнен",
@@ -263,7 +265,10 @@ const ru: TranslationMessages = {
                 noSpaces: "Пробелы запрещены в данном поле"
             },
             showTitle: "Детальная инфорация о мерчанте",
-            createNew: "Создать нового мерчанта"
+            createNew: "Создать нового мерчанта",
+            creatingMerchant: "Создание нового мерчанта",
+            editingMerchant: "Редактирование мерчанта",
+            delete: "Удалить мерчанта?"
         },
         provider: {
             name: "Провайдеры",
@@ -327,7 +332,8 @@ const ru: TranslationMessages = {
                 feeType: "Тип комиссии",
                 currency: "Валюта",
                 descr: "Описание",
-                addFee: "Добавить комиссию"
+                addFee: "Добавить комиссию",
+                direction: "Направление"
             },
             errors: {
                 name: "У направления обязательно должно быть имя",
@@ -764,10 +770,12 @@ const en: TranslationMessages = {
         },
         merchant: {
             name: "Merchants",
+            merchant: "Merchant",
             fields: {
                 id: "ID",
                 name: "Name",
-                descr: "Description"
+                descr: "Description",
+                fees: "Fees"
             },
             errors: {
                 id: "ID is required",
@@ -776,7 +784,10 @@ const en: TranslationMessages = {
                 noSpaces: "Spaces are not allowed in this field"
             },
             showTitle: "Detailed information about merchant",
-            createNew: "Create new merchant"
+            createNew: "Create new merchant",
+            editingMerchant: "Editing merchant",
+            creatingMerchant: "Creating new merchant",
+            delete: "Delete merchant?"
         },
         provider: {
             name: "Providers",
@@ -840,7 +851,8 @@ const en: TranslationMessages = {
                 feeType: "Fee type",
                 currency: "Currency",
                 descr: "Description",
-                addFee: "Add fee"
+                addFee: "Add fee",
+                direction: "Direction"
             },
             errors: {
                 name: "The direction must have a name",
