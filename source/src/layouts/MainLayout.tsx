@@ -90,8 +90,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     const [locale, setLocale] = useLocaleState();
     const { getLocales } = useI18nProvider();
 
-    const [isSheetOpen, setSheetOpen] = useState(false);
-    const [showCaptions, setShowCaptions] = useState(false);
+    const [isSheetOpen, setSheetOpen] = useState(true);
+    const [showCaptions, setShowCaptions] = useState(true);
     const [profileOpen, setProfileOpen] = useState(false);
     const [langOpen, setLangOpen] = useState(false);
     const [chatOpen, setChatOpen] = useState(false);
