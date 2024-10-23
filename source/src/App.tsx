@@ -38,6 +38,7 @@ import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 import { MerchantEdit } from "./components/widgets/edit";
 import { InitLoading } from "./components/ui/loading";
+import { ManageStore } from "./pages/ManageStore";
 
 const dataProvider = combineDataProviders((resource: string) => {
     if (resource === "transactions") {
@@ -94,9 +95,9 @@ export const App = () => {
                                 {permissions === "merchant" && (
                                     <Route path="/crypto-transfer" element={<PayOutCryptoPage />} />
                                 )}
-                                {permissions === "admin" && <Route path="/manager/store" element={<></>} />}
-                                {permissions === "admin" && <Route path="/manager/wallets" element={<></>} />}
-                                {permissions === "admin" && <Route path="/manager/transactions" element={<></>} />}
+                                {permissions === "admin" && <Route path="/manageStore" element={<ManageStore />} />}
+                                {permissions === "admin" && <Route path="/manageWallets" element={<></>} />}
+                                {permissions === "admin" && <Route path="/manageTransactions" element={<></>} />}
                                 <Route path="/login" element={<LoginPage />} />
                             </CustomRoutes>
                         </>

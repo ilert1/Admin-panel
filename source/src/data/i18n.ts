@@ -370,7 +370,23 @@ const ru: TranslationMessages = {
             name: "Управление криптокошельками"
         },
         manageStore: {
-            name: "Хранилище"
+            name: "Хранилище",
+            titleClosed: "Распечатка хранилища",
+            buttonForOpen: "Распечатать",
+            buttonForClosed: "Запечатать",
+            buttonForCancel: "Отменить распечатку",
+            buttonForEnterKey: "Ввести часть ключа",
+            buttonForSend: "Отправить",
+            titleOpened: "Хранилище открыто",
+            key: "Ключ",
+            unsealed: {
+                errorTitle: "Ошибка распечатывания хранилища",
+                errorSubtitle: "Попробуйте снова",
+                allKeys: "Всего частей ключа",
+                requiredKeys: "Необходимо для открытия",
+                enteredKeys: "Введено частей ключа",
+                toFinishKeys: "До распечатывания осталось"
+            }
         },
         manageWallets: {
             name: "Кошельки"
@@ -902,7 +918,23 @@ const en: TranslationMessages = {
             name: "Managing сryptocurrencies"
         },
         manageStore: {
-            name: "Storage"
+            name: "Storage",
+            titleClosed: "Printout of the repository",
+            buttonForOpen: "Print it out",
+            buttonForClosed: "Seal it",
+            buttonForCancel: "Cancel the printout",
+            buttonForEnterKey: "Enter a part of the key",
+            buttonForSend: "Send",
+            titleOpened: "The vault is open",
+            key: "Key",
+            unsealed: {
+                errorTitle: "Storage printing error",
+                errorSubtitle: "Try again",
+                allKeys: "Total key parts",
+                requiredKeys: "Required for opening",
+                enteredKeys: "Key parts entered",
+                toFinishKeys: "There is still time before printing"
+            }
         },
         manageWallets: {
             name: "Wallets"
