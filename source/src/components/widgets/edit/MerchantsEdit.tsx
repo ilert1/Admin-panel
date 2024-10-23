@@ -1,11 +1,4 @@
-import {
-    useEditController,
-    EditContextProvider,
-    useRedirect,
-    useTranslate,
-    useDataProvider,
-    useRefresh
-} from "react-admin";
+import { useEditController, EditContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";

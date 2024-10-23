@@ -1,30 +1,13 @@
+import { FeeCard } from "../components/FeeCard";
+import { FeesResource } from "@/data";
+import fetchDictionaries from "@/helpers/get-dictionaries";
+import { Button } from "@/components/ui/button";
+import { CircleChevronRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { AddFeeCard } from "../components/AddFeeCard";
 import { useShowController, useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
-import { FeeCard } from "../components/FeeCard";
-import { FeesResource } from "@/data";
-import fetchDictionaries from "@/helpers/get-dictionaries";
-import { Button } from "@/components/ui/button";
-import { CircleChevronRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { AddFeeCard } from "../components/AddFeeCard";
-
-interface MerchantShowProps {
-    id: string;
-    type: string;
-}
-
-export const MerchantShow = (props: MerchantShowProps) => {
-    const { id, type } = props;
-
-    const data = fetchDictionaries();
-import { FeeCard } from "../components/FeeCard";
-import { FeesResource } from "@/data";
-import fetchDictionaries from "@/helpers/get-dictionaries";
-import { Button } from "@/components/ui/button";
-import { CircleChevronRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { AddFeeCard } from "../components/AddFeeCard";
 
 interface MerchantShowProps {
     id: string;
@@ -48,7 +31,6 @@ export const MerchantShow = (props: MerchantShowProps) => {
             }
         }
     }, [addNewFeeClicked]);
-
 
     useEffect(() => {
         if (messagesEndRef.current) {
