@@ -41,6 +41,7 @@ import { Button } from "@/components/ui/button";
 import { useGetResLabel } from "@/hooks/useGetResLabel";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { KeysModal } from "@/components/widgets/components/KeysModal";
+import { AdminCryptoStoreResources } from "@/components/widgets/shared";
 
 enum SplitLocations {
     show = "show",
@@ -302,11 +303,11 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                                     : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
                                             }>
                                             {createElement(resources[resource].icon, {})}
-                                            {showCaptions ? (
+                                            {showCaptions && (
                                                 <span className="animate-in fade-in-0 transition-opacity">
                                                     {getResLabel(resources[resource].name, permissions)}
                                                 </span>
-                                            ) : null}
+                                            )}
                                         </NavLink>
                                     </TooltipTrigger>
 
@@ -340,11 +341,11 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                                     : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
                                             }>
                                             <CreditCardIcon />
-                                            {showCaptions ? (
+                                            {showCaptions && (
                                                 <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
                                                     {translate("app.menu.merchant.bankTransfer")}
                                                 </span>
-                                            ) : null}
+                                            )}
                                         </NavLink>
                                     </TooltipTrigger>
 
@@ -366,6 +367,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 </Tooltip>
                             </TooltipProvider>
                         )}
+                        {permissions === "admin" && <AdminCryptoStoreResources showCaptions={showCaptions} />}
                         {/* {merchantOnly && (
                             <NavLink
                                 to="/crypto-transfer"

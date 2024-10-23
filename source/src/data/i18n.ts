@@ -359,6 +359,18 @@ const ru: TranslationMessages = {
             deleteDirection: "Удалить направление?",
             editingDirection: "Редактирование направления",
             creatingDirection: "Добавление направления"
+        },
+        manage: {
+            name: "Управление криптокошельками"
+        },
+        manageStore: {
+            name: "Хранилище"
+        },
+        manageWallets: {
+            name: "Кошельки"
+        },
+        manageTransactions: {
+            name: "Криптотранзакции"
         }
     },
     app: {
@@ -873,6 +885,18 @@ const en: TranslationMessages = {
             deleteDirection: "Delete direction?",
             editingDirection: "Editing direction",
             creatingDirection: "Creating direction"
+        },
+        manage: {
+            name: "Managing сryptocurrencies"
+        },
+        manageStore: {
+            name: "Storage"
+        },
+        manageWallets: {
+            name: "Wallets"
+        },
+        manageTransactions: {
+            name: "Cryptotransactions"
         }
     },
     app: {
