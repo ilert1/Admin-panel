@@ -11,7 +11,7 @@ import { z } from "zod";
 
 export const ManageStore = () => {
     const translate = useTranslate();
-    const [storeState, setStoreState] = useState<"sealed" | "unsealed" | "waiting">("unsealed");
+    const [storeState, setStoreState] = useState<"sealed" | "unsealed" | "waiting">("sealed");
     const [stepForUnsealed, setStepForUnsealed] = useState<0 | 1 | "error">(0);
     const [keyText, setKeyText] = useState("");
 

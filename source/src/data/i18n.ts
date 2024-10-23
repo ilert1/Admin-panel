@@ -919,21 +919,21 @@ const en: TranslationMessages = {
         },
         manageStore: {
             name: "Storage",
-            titleClosed: "Printout of the repository",
-            buttonForOpen: "Print it out",
-            buttonForClosed: "Seal it",
-            buttonForCancel: "Cancel the printout",
-            buttonForEnterKey: "Enter a part of the key",
-            buttonForSend: "Send",
-            titleOpened: "The vault is open",
+            titleClosed: "Storage sealed",
+            buttonForOpen: "Unseal",
+            buttonForClosed: "Seal",
+            buttonForCancel: "Cancel unsealing",
+            buttonForEnterKey: "Enter key shard",
+            buttonForSend: "Submit",
+            titleOpened: "Storage unsealed",
             key: "Key",
             unsealed: {
-                errorTitle: "Storage printing error",
-                errorSubtitle: "Try again",
-                allKeys: "Total key parts",
-                requiredKeys: "Required for opening",
-                enteredKeys: "Key parts entered",
-                toFinishKeys: "There is still time before printing"
+                errorTitle: "Storage unsealing error",
+                errorSubtitle: "Please try again",
+                allKeys: "Total key shards",
+                requiredKeys: "Required to unseal",
+                enteredKeys: "Entered key shards",
+                toFinishKeys: "Shards remaining to unseal"
             }
         },
         manageWallets: {
