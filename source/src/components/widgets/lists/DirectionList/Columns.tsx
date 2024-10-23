@@ -81,7 +81,9 @@ export const useGetDirectionsColumns = () => {
         {
             id: "active",
             accessorKey: "active",
-            header: translate("resources.direction.fields.isActive"),
+            header: () => {
+                return <div className="text-center">{translate("resources.direction.fields.isActive")}</div>;
+            },
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center text-white">

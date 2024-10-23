@@ -53,7 +53,9 @@ export const useGetMerchantColumns = () => {
         },
         {
             id: "show_field",
-            header: translate("resources.merchant.fields.fees"),
+            header: () => {
+                return <div className="text-center">{translate("resources.merchant.fields.fees")}</div>;
+            },
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
@@ -70,7 +72,9 @@ export const useGetMerchantColumns = () => {
         },
         {
             id: "update_field",
-            header: translate("app.ui.actions.edit"),
+            header: () => {
+                return <div className="text-center">{translate("app.ui.actions.edit")}</div>;
+            },
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
@@ -83,7 +87,9 @@ export const useGetMerchantColumns = () => {
         },
         {
             id: "delete_field",
-            header: translate("app.ui.actions.delete"),
+            header: () => {
+                return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
+            },
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
