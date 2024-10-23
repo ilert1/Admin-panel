@@ -10,6 +10,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Loading } from "@/components/ui/loading";
 
 import { useParams } from "react-router-dom";
@@ -22,14 +23,17 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 import { CircleChevronRight } from "lucide-react";
 import { AddFeeCard } from "../components/AddFeeCard";
 import { FeesResource } from "@/data";
+import { FeesResource } from "@/data";
 
 interface MerchantEditProps {
     id?: string;
+    onOpenChange: (state: boolean) => void;
     onOpenChange: (state: boolean) => void;
 }
 
 export const MerchantEdit = (props: MerchantEditProps) => {
     const params = useParams();
+    const id = props.id || params.id || "";
     const id = props.id || params.id || "";
     const data = fetchDictionaries();
 
@@ -39,6 +43,8 @@ export const MerchantEdit = (props: MerchantEditProps) => {
     const controllerProps = useEditController({ resource: "merchant", id });
     controllerProps.mutationMode = "pessimistic";
     const { record, isLoading } = useEditController({ resource: "merchant", id });
+
+    const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -66,6 +72,8 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                     quantity: z.number()
                 }),
                 currency: z.string(),
+                description: z.string().trim().nullable(),
+                direction: z.string()
                 description: z.string().trim().nullable(),
                 direction: z.string()
             })
@@ -144,6 +152,21 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                         />
                         <FormField
                             control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem className="w-1/2 p-2">
+                                    <FormLabel>{translate("resources.merchant.fields.name")}</FormLabel>
+                                    <FormControl>
+                                        <div>
+                                            <Input {...field} />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="id"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
@@ -205,6 +228,8 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                                       feeType={data.feeTypes[fee.type]?.type_descr || ""}
                                       id={id}
                                       resource={FeesResource.MERCHANT}
+                                      id={id}
+                                      resource={FeesResource.MERCHANT}
                                   />
                               );
                           })
@@ -222,8 +247,20 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                         />
                     )}
                     <div ref={messagesEndRef} />
+                    <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
+                    <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
+                    <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
+                    {addNewFeeClicked && (
+                        <AddFeeCard
+                            id={record.name}
+                            onOpenChange={setAddNewFeeClicked}
+                            resource={FeesResource.MERCHANT}
+                        />
+                    )}
+                    <div ref={messagesEndRef} />
                 </div>
                 <div className="flex justify-end">
+                    <Button onClick={() => setAddNewFeeClicked(true)} className="my-6 w-1/4 flex gap-[4px]">
                     <Button onClick={() => setAddNewFeeClicked(true)} className="my-6 w-1/4 flex gap-[4px]">
                         <CircleChevronRight className="w-[16px] h-[16px]" />
                         {translate("resources.direction.fees.addFee")}

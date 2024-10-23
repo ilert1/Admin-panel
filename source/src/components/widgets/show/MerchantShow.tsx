@@ -18,8 +18,36 @@ export const MerchantShow = (props: MerchantShowProps) => {
     const { id, type } = props;
 
     const data = fetchDictionaries();
+import { FeeCard } from "../components/FeeCard";
+import { FeesResource } from "@/data";
+import fetchDictionaries from "@/helpers/get-dictionaries";
+import { Button } from "@/components/ui/button";
+import { CircleChevronRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { AddFeeCard } from "../components/AddFeeCard";
+
+interface MerchantShowProps {
+    id: string;
+    type: string;
+}
+
+export const MerchantShow = (props: MerchantShowProps) => {
+    const { id, type } = props;
+
+    const data = fetchDictionaries();
     const translate = useTranslate();
     const context = useShowController({ id: props.id });
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const [addNewFeeClicked, setAddNewFeeClicked] = useState(false);
+
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            if (addNewFeeClicked) {
+                messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    }, [addNewFeeClicked]);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const [addNewFeeClicked, setAddNewFeeClicked] = useState(false);
