@@ -149,7 +149,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                 {translate(`resources.${customRoute.name}.name`)}
                             </span>
 
-                            {customRoute.showLock && <LockKeyhole className="ml-3" />}
+                            {customRoute.showLock && <LockKeyhole className="ml-auto w-full max-w-6 mr-5" />}
                         </NavLink>
                     ))}
                 </div>
