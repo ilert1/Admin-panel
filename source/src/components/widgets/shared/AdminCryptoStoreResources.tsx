@@ -106,10 +106,10 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <button
-                            onClick={() => {
-                                if (showCaptions) setOpenAccordion(!openAccordion);
-                            }}
-                            className="pointer text-left flex items-center gap-3 hover:text-green-40 [&:hover>svg>path]:stroke-green-40 [&>svg>path]:transition-all animate-in fade-in-0 transition-colors duration-150">
+                            onClick={() => setOpenAccordion(!openAccordion)}
+                            className={`pointer text-left flex items-center hover:text-green-40 [&:hover>svg>path]:stroke-green-40 [&>svg>path]:transition-all animate-in fade-in-0 transition-colors duration-150 ${
+                                showCaptions ? "gap-3" : ""
+                            }`}>
                             {customViewRoutes.icon}
 
                             {showCaptions && (
@@ -118,13 +118,11 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                 </span>
                             )}
 
-                            {showCaptions && (
-                                <ChevronDown
-                                    className={`w-full max-w-6 mr-6 transition-transform ${
-                                        openAccordion ? "rotate-180" : ""
-                                    }`}
-                                />
-                            )}
+                            <ChevronDown
+                                className={`transition-transform ${openAccordion ? "rotate-180" : ""} ${
+                                    showCaptions ? "w-full max-w-6 mr-6" : ""
+                                }`}
+                            />
                         </button>
                     </TooltipTrigger>
 
@@ -138,8 +136,8 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                 </Tooltip>
             </TooltipProvider>
 
-            {showCaptions && openAccordion && (
-                <div className="flex flex-col gap-4 bg-muted py-1 pl-4 mr-[2px]">
+            {openAccordion && (
+                <div className={`flex flex-col gap-4 bg-muted py-1  mr-[1px] ${showCaptions ? "pl-4" : "-ml-6 pl-6"}`}>
                     {customViewRoutes.childrens.map((customRoute, index) => (
                         <NavLink
                             key={index}
@@ -149,13 +147,17 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                     ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2 [&>svg>path]:stroke-green-40 [&>svg>path]:transition-all"
                                     : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2 [&:hover>svg>path]:stroke-green-40 [&>svg>path]:transition-all"
                             }>
-                            {customRoute.icon}
+                            {(!customRoute.showLock || (customRoute.showLock && showCaptions)) && customRoute.icon}
 
-                            <span className="animate-in fade-in-0 transition-opacity p-0 m-0 leading-[22px]">
-                                {translate(`resources.${customRoute.name}.name`)}
-                            </span>
+                            {showCaptions && (
+                                <span className="animate-in fade-in-0 transition-opacity p-0 m-0 leading-[22px]">
+                                    {translate(`resources.${customRoute.name}.name`)}
+                                </span>
+                            )}
 
-                            {customRoute.showLock && <LockKeyhole className="ml-auto w-full max-w-6 mr-5" />}
+                            {customRoute.showLock && (
+                                <LockKeyhole className={showCaptions ? "ml-auto w-full max-w-6 mr-5" : ""} />
+                            )}
                         </NavLink>
                     ))}
                 </div>
