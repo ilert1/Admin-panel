@@ -254,7 +254,8 @@ const ru: TranslationMessages = {
             fields: {
                 id: "ID",
                 name: "Имя",
-                descr: "Описание"
+                descr: "Описание",
+                fees: "Комиссии"
             },
             errors: {
                 id: "ID обязательно должен быть заполнен",
@@ -768,7 +769,8 @@ const en: TranslationMessages = {
             fields: {
                 id: "ID",
                 name: "Name",
-                descr: "Description"
+                descr: "Description",
+                fees: "Fees"
             },
             errors: {
                 id: "ID is required",

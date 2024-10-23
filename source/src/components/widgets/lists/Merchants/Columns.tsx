@@ -31,7 +31,7 @@ export const useGetMerchantColumns = () => {
         {
             id: "id",
             accessorKey: "id",
-            header: translate("resources.merchant.fields.merchant"),
+            header: translate("resources.merchant.merchant"),
             cell: ({ row }) => {
                 return (
                     <div>
