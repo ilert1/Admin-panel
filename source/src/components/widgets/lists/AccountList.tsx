@@ -1,31 +1,15 @@
-import {
-    useDataProvider,
-    ListContextProvider,
-    useListController,
-    useTranslate,
-    RecordContextProvider
-} from "react-admin";
+import { ListContextProvider, useListController, useTranslate, RecordContextProvider } from "react-admin";
 import { useQuery } from "react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, XIcon, Copy, EyeIcon } from "lucide-react";
+import { XIcon, Copy, EyeIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { AccountShow } from "@/components/widgets/show";
 import { useState } from "react";
 import { TextField } from "@/components/ui/text-field";
-import { useNavigate } from "react-router-dom";
 import { Loading } from "@/components/ui/loading";
 import fetchDictionaries from "@/helpers/get-dictionaries";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useMemo } from "react";
-import { useMediaQuery } from "react-responsive";
 import { toast } from "sonner";
 import { NumericFormat } from "react-number-format";
 import { Icon } from "../shared/Icon";
@@ -595,7 +579,6 @@ export const AccountList = () => {
     });
 
     const translate = useTranslate();
-    const navigate = useNavigate();
     const data = fetchDictionaries();
 
     const [showOpen, setShowOpen] = useState(false);
@@ -676,29 +659,18 @@ export const AccountList = () => {
             header: translate("resources.accounts.fields.history"),
             cell: ({ row }) => {
                 return (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <div className="flex items-center">
-                                <Button variant="secondary" className="h-7 w-7 p-0 bg-transparent">
-                                    <EyeIcon className="text-green-50 size-7" />
-                                </Button>
-                            </div>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => openSheet(row.original.id, row.original.meta.caption)}>
-                                {translate("app.ui.actions.quick_show")}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => navigate(`/accounts/${row.original.id}/show`)}>
-                                {translate("app.ui.actions.show")}
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <Button
+                        variant="secondary"
+                        onClick={() => openSheet(row.original.id, row.original.meta.caption)}
+                        className="flex items-center h-7 w-7 p-0 bg-transparent">
+                        <EyeIcon className="text-green-50 size-7" />
+                    </Button>
                 );
             }
         }
     ];
 
-    const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
+    // const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
     // TODO: for production uncomment commented condition
     if (isFetchingMock || !listContext.data || !totalRecords) {
         // if (listContext.isLoading || !listContext.data) {
@@ -710,7 +682,7 @@ export const AccountList = () => {
                 <ListContextProvider value={{ ...listContext, data: mockData, total: totalRecords }}>
                     <div className="flex gap-6 flex-wrap-reverse items-end">
                         <div className="grow-[1]">
-                            <DataTable data={data} columns={columns} />
+                            <DataTable columns={columns} />
                         </div>
                         <div className="flex flex-col gap-4 px-6 py-4 rounded-2xl bg-neutral-0 w-[457px] h-fit">
                             <h3 className="text-display-3">{translate("resources.accounts.totalBalance")}</h3>

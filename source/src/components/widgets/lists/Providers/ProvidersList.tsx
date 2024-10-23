@@ -1,4 +1,4 @@
-import { ListContextProvider, useListController, useTranslate, useRedirect, useRefresh } from "react-admin";
+import { ListContextProvider, useListController, useTranslate, useRefresh } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
@@ -13,12 +13,12 @@ import { EditProviderDialog } from "./EditProviderDialog";
 import { useState } from "react";
 import { CirclePlus } from "lucide-react";
 import { CreateProviderDialog } from "./CreateProviderDialog";
+import { ShowMethodsDialog } from "./ShowMethodsDialog";
 
 export const ProvidersList = () => {
     const listContext = useListController<Provider>();
     const translate = useTranslate();
     const refresh = useRefresh();
-    const redirect = useRedirect();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
@@ -31,13 +31,13 @@ export const ProvidersList = () => {
 
     const {
         chosenId,
-        showProviderId,
         dialogOpen,
         deleteDialogOpen,
         showOpen,
-        providerName,
         columns,
         editDialogOpen,
+        showMethodsOpen,
+        setSowMethodsOpen,
         setEditDialogOpen,
         setDeleteDialogOpen,
         setShowOpen,
@@ -56,7 +56,7 @@ export const ProvidersList = () => {
                         <div className="flex w-full justify-end">
                             <Button onClick={handleCreateClicked} variant="default" className="flex gap-[4px]">
                                 <CirclePlus className="w-[16px] h-[16px]" />
-                                <span className="text-title-1">{translate("resources.providers.createNew")}</span>
+                                <span className="text-title-1">{translate("resources.provider.createNew")}</span>
                             </Button>
                         </div>
                         <CreateProviderDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
@@ -70,9 +70,10 @@ export const ProvidersList = () => {
                             open={dialogOpen}
                             onOpenChange={setDialogOpen}
                             isTest={false}
-                            name={providerName}
+                            name={chosenId}
                             refresh={handleRefresh}
                         />
+                        <ShowMethodsDialog id={chosenId} open={showMethodsOpen} onOpenChange={setSowMethodsOpen} />
                     </div>
                 </div>
                 <ListContextProvider value={listContext}>
@@ -87,7 +88,7 @@ export const ProvidersList = () => {
                                 <SheetTitle>{translate("resources.providers.showTitle")}</SheetTitle>
                                 <SheetDescription></SheetDescription>
                             </SheetHeader>
-                            <ProvidersShow id={showProviderId} />
+                            <ProvidersShow id={chosenId} />
                         </ScrollArea>
                     </SheetContent>
                 </Sheet>

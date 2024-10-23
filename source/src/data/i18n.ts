@@ -93,7 +93,8 @@ const ru: TranslationMessages = {
                     title: "Состояние",
                     final: "Финальная",
                     state_int: "Код",
-                    state_description: "Статус"
+                    state_description: "Статус",
+                    state_changed: "Статус измене на:"
                 },
                 rateInfo: "Курс",
                 createdAt: "Дата и время",
@@ -280,7 +281,8 @@ const ru: TranslationMessages = {
                 regenKey: "Пересоздать ключи",
                 json_schema: "Схема Json",
                 code: "Методы",
-                enterMethods: "Введите свои методы"
+                enterMethods: "Введите свои методы",
+                methods: "Методы"
             },
             errors: {
                 name: "Имя должно содержать хотя бы один символ",
@@ -301,7 +303,8 @@ const ru: TranslationMessages = {
             deleteProviderQuestion: "Удалить провайдера?",
             keysCreating: "Создание тестовых ключей",
             realKeysCreating: "Создание ключей",
-            editingProvider: "Редактирование провайдера"
+            editingProvider: "Редактирование провайдера",
+            creatingProvider: "Создание провайдера"
         },
         direction: {
             direction: "Направление",
@@ -394,7 +397,8 @@ const ru: TranslationMessages = {
                 changeSecretKey: "Изменить аутентификационную инфорамцию",
                 cancel: "Отменить",
                 areYouSure: "Вы точно хотите удалить элемент?",
-                chatWithSupport: "Чат с поддержкой"
+                chatWithSupport: "Чат с поддержкой",
+                close: "Закрыть"
             },
             pagination: {
                 next: "Далее",
@@ -608,7 +612,8 @@ const en: TranslationMessages = {
                     title: "State",
                     final: "Is final",
                     state_int: "Code",
-                    state_description: "Status"
+                    state_description: "Status",
+                    state_changed: "Status changed to:"
                 },
                 rateInfo: "Rate",
                 createdAt: "Created at",
@@ -795,7 +800,8 @@ const en: TranslationMessages = {
                 regenKey: "Regenerate keys",
                 json_schema: "Json schema",
                 code: "Methods",
-                enterMethods: "Enter your methods"
+                enterMethods: "Enter your methods",
+                methods: "Methods"
             },
             errors: {
                 name: "Name must contain at least 1 symbol",
@@ -816,7 +822,8 @@ const en: TranslationMessages = {
             deleteProviderQuestion: "Delete provider?",
             keysCreating: "Test keys creating",
             realKeysCreating: "Keys generation",
-            editingProvider: "Editing provider"
+            editingProvider: "Editing provider",
+            creatingProvider: "Creating provider"
         },
         direction: {
             name: "Directions",
@@ -910,7 +917,8 @@ const en: TranslationMessages = {
                 changeSecretKey: "Change auth data",
                 cancel: "Cancel",
                 areYouSure: "Are you sure you want delete this element?",
-                chatWithSupport: "Chat with support"
+                chatWithSupport: "Chat with support",
+                close: "Close"
             },
             pagination: {
                 next: "Next",

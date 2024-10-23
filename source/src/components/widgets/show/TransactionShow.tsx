@@ -3,13 +3,12 @@ import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { BooleanField } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TableTypes } from "../shared/SimpleTable";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -18,19 +17,61 @@ import {
     AlertDialogDescription,
     AlertDialogFooter,
     AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger
+    AlertDialogTitle
 } from "@/components/ui/alertdialog";
 import { useMediaQuery } from "react-responsive";
+import { useTransactionActions } from "@/hooks";
 
 export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     const data = fetchDictionaries();
     const translate = useTranslate();
     const { permissions, isLoading } = usePermissions();
     const context = useShowController({ id: props.id });
-    const { toast } = useToast();
     const [newState, setNewState] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
+
+    // const [stornoOpen, setStornoOpen] = useState(false);
+    // const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
+    // const { data: currencies } = useQuery("currencies", () =>
+    //     fetch(`${API_URL}/dictionaries/curr`, {
+    //         headers: {
+    //             Authorization: `Bearer ${localStorage.getItem("access-token")}`
+    //         }
+    //     }).then(response => response.json())
+    // );
+    // const sortedCurrencies = useMemo(() => {
+    //     return (
+    //         currencies?.data?.sort((a: Currencies.Currency, b: Currencies.Currency) => a.prior_gr - b.prior_gr) || []
+    //     );
+    // }, [currencies]);
+
+    const {
+        switchDispute,
+        showDispute,
+        disputeCaption,
+        showState,
+        switchState,
+        states,
+        showCommit,
+        commitCaption,
+        commitTransaction
+    } = useTransactionActions(data, context.record);
+
+    // useEffect(() => {
+    //     EventBus.getInstance().registerUnique(
+    //         EVENT_STORNO,
+    //         (data: {
+    //             sourceValue: string;
+    //             destValue: string;
+    //             source: string;
+    //             currency: string;
+    //             destination: string;
+    //         }) => {
+    //             makeStorno(data);
+    //             setStornoOpen(false);
+    //         }
+    //     );
+    // }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const trnId = useMemo<string>(() => context.record?.id, [context]);
 
@@ -44,8 +85,6 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
         if (isNaN(value)) return "-";
         return value.toFixed(Math.log10(accuracy));
     }
-
-    const handleOkClicked = () => {};
 
     const feesColumns: ColumnDef<Transaction.Fee>[] = [
         {
@@ -116,9 +155,6 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
         }
     ];
     const briefHistory = historyColumns.slice(0, 5);
-    useEffect(() => {
-        setNewState(context?.record?.state.state_description);
-    }, [context?.record?.state.state_description]);
     const isMobile = useMediaQuery({ query: `(max-width: 655px)` });
 
     if (context.isLoading || context.isFetching || !context.record || isLoading) {
@@ -128,56 +164,81 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             <div className="p-[42px] pt-0 flex flex-col gap-6 top-[82px] overflow-auto">
                 {permissions === "admin" && (
                     <div className={`flex justify-between ${isMobile ? "flex-col gap-4" : "flex-row"}`}>
-                        <div className="flex gap-2 items-center">
-                            <span>{translate("resources.transactions.fields.state.state_description")}</span>
-                            <Select value={newState} onValueChange={setNewState}>
-                                <SelectTrigger className="w-[180px] border-">
-                                    <SelectValue placeholder="Theme" />
-                                </SelectTrigger>
-                                <SelectContent className="bg-neutral-0">
-                                    <SelectItem value="Created">Created</SelectItem>
-                                    <SelectItem value="Processing">Processing</SelectItem>
-                                    <SelectItem value="Fail">Fail</SelectItem>
-                                    <SelectItem value="Success">Success</SelectItem>
-                                    <SelectItem value="FromOutside">FromOutside</SelectItem>
-                                </SelectContent>
-                            </Select>
-                            <Button>{translate("app.ui.actions.save")}</Button>
-                        </div>
+                        {showState && (
+                            <div className="flex gap-2 items-center">
+                                <span>{translate("resources.transactions.fields.state.state_description")}</span>
+                                <Select value={newState} onValueChange={setNewState}>
+                                    <SelectTrigger className="w-[180px] border-">
+                                        <SelectValue
+                                            placeholder={translate(
+                                                "resources.transactions.fields.state.state_description"
+                                            )}
+                                        />
+                                    </SelectTrigger>
+
+                                    <SelectContent className="bg-neutral-0">
+                                        {states.map(state => (
+                                            <SelectItem key={state.state_int} value={state.state_int.toString()}>
+                                                {state.state_description}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+
+                                <Button onClick={() => switchState(Number(newState))} disabled={!newState}>
+                                    {translate("app.ui.actions.save")}
+                                </Button>
+                            </div>
+                        )}
+
                         <div className="flex gap-6">
-                            <Button
-                                onClick={() =>
-                                    toast({
-                                        title: "Success",
-                                        description: translate("resources.transactions.show.disputeOpened"),
-                                        variant: "success"
-                                    })
-                                }>
-                                {translate("resources.transactions.show.openDispute")}
-                            </Button>
-                            <Button variant={"secondary"} onClick={() => setDialogOpen(true)}>
-                                {translate("resources.transactions.show.commit")}
-                            </Button>
-                            <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                                <AlertDialogContent className="w-[350px]">
-                                    <AlertDialogHeader>
-                                        <AlertDialogTitle className="text-center">
-                                            {translate("resources.transactions.show.commitTransaction")}
-                                        </AlertDialogTitle>
-                                        <AlertDialogDescription></AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                        <div className="flex justify-around gap-[35px] w-full">
-                                            <AlertDialogAction onClick={handleOkClicked} className="w-40">
-                                                {translate("resources.transactions.show.commit")}
-                                            </AlertDialogAction>
-                                            <AlertDialogCancel className="!ml-0 px-3 w-24">
-                                                {translate("app.ui.actions.cancel")}
-                                            </AlertDialogCancel>
-                                        </div>
-                                    </AlertDialogFooter>
-                                </AlertDialogContent>
-                            </AlertDialog>
+                            {showDispute && <Button onClick={switchDispute}>{disputeCaption}</Button>}
+
+                            {showCommit && (
+                                <>
+                                    <Button variant={"secondary"} onClick={() => setDialogOpen(true)}>
+                                        {commitCaption}
+                                    </Button>
+
+                                    <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                                        <AlertDialogContent className="w-[350px]">
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle className="text-center">
+                                                    {translate("resources.transactions.show.commitTransaction")}
+                                                </AlertDialogTitle>
+                                                <AlertDialogDescription></AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <div className="flex justify-around gap-[35px] w-full">
+                                                    <AlertDialogAction onClick={commitTransaction} className="w-40">
+                                                        {translate("resources.transactions.show.commit")}
+                                                    </AlertDialogAction>
+                                                    <AlertDialogCancel className="!ml-0 px-3 w-24">
+                                                        {translate("app.ui.actions.cancel")}
+                                                    </AlertDialogCancel>
+                                                </div>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
+                                </>
+                            )}
+
+                            {/* <Sheet open={stornoOpen} onOpenChange={setStornoOpen}>
+                                <SheetContent
+                                    className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
+                                    side={isMobile ? "bottom" : "right"}>
+                                    <ScrollArea className="h-full [&>div>div]:!block">
+                                        <SheetHeader className="mb-2">
+                                            <SheetTitle>{translate("resources.transactions.show.storno")}</SheetTitle>
+                                        </SheetHeader>
+
+                                        <TransactionStorno
+                                            accounts={accounts || []}
+                                            currencies={sortedCurrencies || []}
+                                        />
+                                    </ScrollArea>
+                                </SheetContent>
+                            </Sheet> */}
                         </div>
                     </div>
                 )}

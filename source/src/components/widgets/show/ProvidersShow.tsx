@@ -1,22 +1,16 @@
 import { useShowController, useTranslate } from "react-admin";
-import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
+import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Editor } from "@monaco-editor/react";
-import { useTheme } from "@/components/providers";
 import { useState } from "react";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
 
 export const ProvidersShow = (props: { id: string }) => {
     const translate = useTranslate();
     const context = useShowController({ id: props.id });
-    const { theme } = useTheme();
-    const [isEditorReady, setIsEditorReady] = useState(false);
 
-    const handleEditorDidMount = (editor: any, monaco: any) => {
-        monaco.editor.setTheme(`vs-${theme}`);
-        setIsEditorReady(true);
-    };
+    const [code, setCode] = useState("{}");
 
     if (context.isLoading || !context.record) {
         return <Loading />;
@@ -45,15 +39,13 @@ export const ProvidersShow = (props: { id: string }) => {
                     <Label htmlFor="editor" className="text-muted-foreground">
                         {translate("resources.provider.fields.code")}
                     </Label>
-                    <Editor
-                        height="20vh"
-                        defaultLanguage="json"
-                        value={JSON.stringify(context.record.methods)}
-                        loading={<LoadingAlertDialog />}
-                        options={{
-                            readOnly: true
-                        }}
-                        onMount={handleEditorDidMount}
+                    <MonacoEditor
+                        height="144px"
+                        width="100%"
+                        code={code}
+                        setCode={setCode}
+                        onErrorsChange={() => {}}
+                        onValidChange={() => {}}
                     />
                 </div>
             </div>

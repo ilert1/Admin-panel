@@ -3,13 +3,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { FC, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
+import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Editor } from "@monaco-editor/react";
-import { useTheme } from "@/components/providers";
 import { useToast } from "@/components/ui/use-toast";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
 
 export interface ProviderEditParams {
     id?: string;
@@ -31,10 +30,12 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
     const translate = useTranslate();
     const redirect = useRedirect();
     const { toast } = useToast();
-    const { theme } = useTheme();
+
+    const [hasErrors, setHasErrors] = useState(false);
+    const [isValid, setIsValid] = useState(false);
 
     const formSchema = z.object({
-        name: z.string().min(1, translate("resources.providers.errors.name")).trim(),
+        name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
         public_key: z.string().nullable(),
         fields_json_schema: z.string().optional().default(""),
         methods: z.string()
@@ -80,10 +81,6 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
         onClose();
     };
 
-    const handleEditorDidMount = (editor: any, monaco: any) => {
-        monaco.editor.setTheme(`vs-${theme}`);
-    };
-
     if (isLoading || !record) return <Loading />;
     return (
         <EditContextProvider value={controllerProps}>
@@ -97,7 +94,7 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
                                 <FormItem className="w-1/2 p-2">
                                     <FormLabel>
                                         <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.providers.fields._name")}
+                                            {translate("resources.provider.fields._name")}
                                         </span>
                                     </FormLabel>
                                     <FormControl>
@@ -117,7 +114,7 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
                                 <FormItem className="w-1/2 p-2">
                                     <FormLabel>
                                         <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.providers.fields.json_schema")}
+                                            {translate("resources.provider.fields.json_schema")}
                                         </span>
                                     </FormLabel>
                                     <FormControl>
@@ -136,19 +133,17 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
                                 <FormItem className="w-full p-2">
                                     <FormLabel>
                                         <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.providers.fields.code")}
+                                            {translate("resources.provider.fields.code")}
                                         </span>
                                     </FormLabel>
                                     <FormControl>
-                                        <Editor
-                                            {...field}
-                                            height="20vh"
-                                            defaultLanguage="json"
-                                            onValidate={markers => {
-                                                setError(markers.length > 0);
-                                            }}
-                                            loading={<LoadingAlertDialog />}
-                                            onMount={handleEditorDidMount}
+                                        <MonacoEditor
+                                            height="144px"
+                                            width="100%"
+                                            onErrorsChange={setHasErrors}
+                                            onValidChange={setIsValid}
+                                            code={field.value}
+                                            setCode={field.onChange}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -156,7 +151,7 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
                             )}
                         />
                         <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
-                            <Button type="submit" variant="default" className="flex-1">
+                            <Button disabled={hasErrors && isValid} type="submit" variant="default" className="flex-1">
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button

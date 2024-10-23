@@ -60,8 +60,8 @@ export const KeysModal = (props: KeysModalProps) => {
                         <div className="text-center">
                             <h4 className="text-display-4 text-neutral-100">
                                 {isTest
-                                    ? translate("resources.providers.keysCreating")
-                                    : translate("resources.providers.realKeysCreating")}
+                                    ? translate("resources.provider.keysCreating")
+                                    : translate("resources.provider.realKeysCreating")}
                             </h4>
                         </div>
                         {isLoading ? (
@@ -70,9 +70,9 @@ export const KeysModal = (props: KeysModalProps) => {
                             <>
                                 <div className="flex flex-col gap-[4px]">
                                     <Label className="text-note-1 text-neutral-30" htmlFor="private">
-                                        {translate("resources.providers.privateKey")}
+                                        {translate("resources.provider.privateKey")}
                                     </Label>
-                                    <div className="flex items-center justify-center">
+                                    <div className="flex items-center justify-center gap-2">
                                         <textarea
                                             value={privateKey}
                                             className="w-full h-24 p-2 border border-neutral-400 rounded resize-none overflow-auto bg-muted text-neutral-70"
@@ -97,9 +97,9 @@ export const KeysModal = (props: KeysModalProps) => {
                                 </div>
                                 <div className="flex flex-col gap-[4px]">
                                     <Label className="text-note-1 text-neutral-30" htmlFor="public">
-                                        {translate("resources.providers.fields.pk")}
+                                        {translate("resources.provider.fields.pk")}
                                     </Label>
-                                    <div className="flex items-center justify-center">
+                                    <div className="flex items-center justify-center gap-2">
                                         <textarea
                                             value={publicKey}
                                             className="w-full h-24 p-2 border border-neutral-400 rounded resize-none overflow-auto bg-muted text-neutral-70"
@@ -131,10 +131,10 @@ export const KeysModal = (props: KeysModalProps) => {
                         <div className="flex justify-between w-full">
                             <div className="flex flex-col">
                                 <span className="text-red-20 text-title-1">
-                                    {translate("resources.providers.warning")}
+                                    {translate("resources.provider.warning")}
                                 </span>
                                 <span className="text-red-20 text-title-1">
-                                    {translate("resources.providers.sendToDevOps")}
+                                    {translate("resources.provider.sendToDevOps")}
                                 </span>
                             </div>
                             <Button
@@ -144,7 +144,7 @@ export const KeysModal = (props: KeysModalProps) => {
                                     onOpenChange(false);
                                     refresh();
                                 }}>
-                                {translate("resources.providers.close")}
+                                {translate("resources.provider.close")}
                             </Button>
                         </div>
                     </DialogFooter>

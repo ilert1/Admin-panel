@@ -36,7 +36,6 @@ import {
     AlertDialogTitle
 } from "@/components/ui/alertdialog";
 import { useToast } from "@/components/ui/use-toast";
-import { Label } from "@/components/ui/label";
 
 const API_URL = import.meta.env.VITE_ENIGMA_URL;
 
@@ -49,41 +48,22 @@ export const ProvidersList = () => {
     const navigate = useNavigate();
     const [deleteOne] = useDelete();
     const redirect = useRedirect();
+    const { toast } = useToast();
 
     const [showOpen, setShowOpen] = useState(false);
     const [wait, setWait] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [keyShow, setKeyShow] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [testKeysShow, setTestKeysShow] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
-
     const [name, setName] = useState("");
     const [privateKey, setPrivateKey] = useState("");
-    const [publicKey, setPublicKey] = useState("");
-
     const [saveClicked, setSaveClicked] = useState(false);
-    const [publicSaveClicked, setPublicSaveClicked] = useState(false);
-
     const [chosenId, setChosenId] = useState("");
-    const { toast } = useToast();
-    const [showProviderId, setShowProviderId] = useState<string>("");
+    const [showProviderId, setShowProviderId] = useState("");
 
     const handleCreateClick = () => {
         redirect("create", "provider");
-    };
-
-    const handleCreateTestClicked = async () => {
-        setWait(true);
-
-        const { json } = await fetchUtils.fetchJson(`${API_URL}/pki/keygen`, {
-            method: "POST",
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
-        setPrivateKey(json.data.private_key);
-        setPublicKey(json.data.public_key);
-        setWait(false);
-        setTestKeysShow(true);
     };
 
     const handleDeleteClicked = async (id: string) => {
@@ -199,7 +179,7 @@ export const ProvidersList = () => {
         {
             id: "update_field",
             header: translate("app.ui.actions.edit"),
-            cell: ({ row }) => {
+            cell: () => {
                 return (
                     <div className="flex items-center justify-center">
                         <Button onClick={() => setEditDialogOpen(true)} variant={"clearBtn"}>
@@ -265,13 +245,6 @@ export const ProvidersList = () => {
         });
     };
 
-    const handlePublicCopy = () => {
-        setPublicSaveClicked(true);
-        navigator.clipboard.writeText(publicKey).then(() => {
-            console.log("Text copied to clipboard");
-        });
-    };
-
     const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
 
     if (listContext.isLoading || !listContext.data) {
@@ -280,7 +253,7 @@ export const ProvidersList = () => {
         return (
             <>
                 <div>
-                    <div className="flex justify-end justify-between mb-4 mt-[24px]">
+                    <div className="flex justify-between mb-4 mt-[24px]">
                         <Button onClick={handleCreateClick} variant="default">
                             {translate("resources.provider.createNew")}
                         </Button>
@@ -345,58 +318,7 @@ export const ProvidersList = () => {
                                 <AlertDialogDescription></AlertDialogDescription>
                             </AlertDialogContent>
                         </AlertDialog>
-                        {/* Showing key */}
-                        <AlertDialog open={testKeysShow} onOpenChange={setTestKeysShow}>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogDescription>
-                                        <div className="flex items-center space-x-2">
-                                            <div className="relative flex-1">
-                                                <Label htmlFor="private">
-                                                    {translate("resources.provider.privateKey")}
-                                                </Label>
-                                                <textarea
-                                                    value={privateKey}
-                                                    className="w-full h-24 p-2 border border-neutral-400 rounded resize-none overflow-auto"
-                                                    readOnly
-                                                    id="private"
-                                                />
-                                                <Label htmlFor="public">
-                                                    {translate("resources.provider.fields.pk")}
-                                                </Label>
-                                                <textarea
-                                                    value={publicKey}
-                                                    className="w-full h-24 p-2 border border-neutral-400 rounded resize-none overflow-auto"
-                                                    readOnly
-                                                    id="public"
-                                                />
-                                            </div>
-                                            <div className="flex flex-col justify-around h-56">
-                                                <Button
-                                                    onClick={handleCopy}
-                                                    variant={saveClicked ? "default" : "textBtn"}>
-                                                    <CopyCheckIcon className="w-4 h-4" />
-                                                </Button>
-                                                <Button
-                                                    onClick={handlePublicCopy}
-                                                    variant={publicSaveClicked ? "default" : "textBtn"}>
-                                                    <CopyCheckIcon className="w-4 h-4" />
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogAction
-                                        onClick={() => {
-                                            setSaveClicked(false);
-                                            setPublicSaveClicked(false);
-                                        }}>
-                                        {translate("resources.provider.close")}
-                                    </AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
+
                         <AlertDialog open={keyShow} onOpenChange={setKeyShow}>
                             <AlertDialogContent>
                                 <AlertDialogHeader>

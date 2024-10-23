@@ -1,21 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Button } from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
-import { useNavigate } from "react-router-dom";
 
 export const useGetDirectionsColumns = () => {
     const translate = useTranslate();
-    const navigate = useNavigate();
 
     const [chosenId, setChosenId] = useState("");
 
@@ -110,27 +102,15 @@ export const useGetDirectionsColumns = () => {
             id: "actions",
             cell: ({ row }) => {
                 return (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <div className="flex items-center">
-                                <Button variant="secondary" className="h-7 w-7 p-0 bg-transparent">
-                                    <EyeIcon className="text-green-50 size-7" />
-                                </Button>
-                            </div>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem
-                                onClick={() => {
-                                    setChosenId(row.original.id);
-                                    openSheet(row.original.id);
-                                }}>
-                                {translate("app.ui.actions.quick_show")}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => navigate(`/accounts/${row.original.id}/show`)}>
-                                {translate("app.ui.actions.show")}
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <Button
+                        onClick={() => {
+                            setChosenId(row.original.id);
+                            openSheet(row.original.id);
+                        }}
+                        variant="secondary"
+                        className="h-7 w-7 p-0 bg-transparent flex items-center">
+                        <EyeIcon className="text-green-50 size-7" />
+                    </Button>
                 );
             }
         }

@@ -8,9 +8,9 @@ import { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
-import { Editor } from "@monaco-editor/react";
+import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
 
 export interface ProviderCreateProps {
     onClose?: () => void;
@@ -26,8 +26,8 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
 
     const translate = useTranslate();
     const redirect = useRedirect();
-    const [editorValue, setEditorValue] = useState("{}");
-    const [error, setError] = useState(false);
+    const [hasErrors, setHasErrors] = useState(false);
+    const [isValid, setIsValid] = useState(false);
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.merchant.errors.name")).trim(),
@@ -76,10 +76,6 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
         }
         onClose();
     };
-    const handleEditorDidMount = (editor: any, monaco: any) => {
-        monaco.editor.setTheme(`vs-${theme}`);
-        monaco.editor.set;
-    };
 
     if (controllerProps.isLoading || theme.length === 0) return <Loading />;
 
@@ -95,7 +91,7 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
                                 <FormItem className="w-1/2 p-2">
                                     <FormLabel>
                                         <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.providers.fields._name")}
+                                            {translate("resources.provider.fields._name")}
                                         </span>
                                     </FormLabel>
                                     <FormControl>
@@ -114,7 +110,7 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
                                 <FormItem className="w-1/2 p-2">
                                     <FormLabel>
                                         <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.providers.fields.json_schema")}
+                                            {translate("resources.provider.fields.json_schema")}
                                         </span>
                                     </FormLabel>
                                     <FormControl>
@@ -129,41 +125,31 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
                         <FormField
                             control={form.control}
                             name="methods"
-                            render={({ field }) => (
-                                <FormItem className="w-full p-2">
-                                    <FormLabel>
-                                        <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.providers.fields.code")}
-                                        </span>
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Editor
-                                            {...field}
-                                            className="font-title-1"
-                                            height="20vh"
-                                            defaultLanguage="json"
-                                            value={editorValue}
-                                            onChange={value => {
-                                                setEditorValue(value || "{}");
-                                                field.onChange(value);
-                                            }}
-                                            onValidate={markers => {
-                                                setError(markers.length > 0);
-                                            }}
-                                            options={{
-                                                theme: `vs-${theme}`,
-                                                fontFamily: '"Helvetica Neue", Arial, sans-serif'
-                                            }}
-                                            loading={<LoadingAlertDialog />}
-                                            onMount={handleEditorDidMount}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                            render={({ field }) => {
+                                return (
+                                    <FormItem className="w-full p-2">
+                                        <FormLabel>
+                                            <span className="!text-note-1 !text-neutral-30">
+                                                {translate("resources.provider.fields.code")}
+                                            </span>
+                                        </FormLabel>
+                                        <FormControl>
+                                            <MonacoEditor
+                                                height="144px"
+                                                width="100%"
+                                                onErrorsChange={setHasErrors}
+                                                onValidChange={setIsValid}
+                                                code={field.value || "{}"}
+                                                setCode={field.onChange}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                );
+                            }}
                         />
                         <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
-                            <Button type="submit" variant="default" className="w-1/2" disabled={error}>
+                            <Button type="submit" variant="default" className="w-1/2" disabled={hasErrors && isValid}>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button

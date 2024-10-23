@@ -2,18 +2,11 @@ import { ListContextProvider, useListContext, useListController, useTranslate } 
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
 import { TextField } from "@/components/ui/text-field";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
 import { CirclePlus, EyeIcon, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useState } from "react";
 import { UserShow } from "@/components/widgets/show/UserShow";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
-import { useNavigate } from "react-router-dom";
 import { Loading } from "@/components/ui/loading";
 import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
@@ -144,7 +137,6 @@ export const UserList = () => {
 
     const listContext = useListController<Users.User>();
     const translate = useTranslate();
-    const navigate = useNavigate();
 
     const openSheet = (id: string) => {
         setUserId(id);
@@ -196,24 +188,10 @@ export const UserList = () => {
             id: "actions",
             cell: ({ row }) => {
                 return (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="clearBtn" className="w-full p-0">
-                                <span className="sr-only">Open menu</span>
-                                <EyeIcon className="text-green-50 size-7" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => openSheet(row.original.id)} className="border-none">
-                                {translate("app.ui.actions.quick_show")}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                                onClick={() => navigate(`/users/${row.original.id}/show`)}
-                                className="border-none">
-                                {translate("app.ui.actions.show")}
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <Button onClick={() => openSheet(row.original.id)} variant="clearBtn" className="w-full p-0">
+                        <span className="sr-only">Open menu</span>
+                        <EyeIcon className="text-green-50 size-7" />
+                    </Button>
                 );
             }
         }

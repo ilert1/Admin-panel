@@ -1,102 +1,26 @@
-import {
-    useTranslate,
-    useListController,
-    RecordContextProvider,
-    useGetList,
-    ListContextProvider,
-    usePermissions
-} from "react-admin";
-import { useQuery } from "react-query";
+import { useTranslate, useListController, ListContextProvider } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-    DropdownMenuSub,
-    DropdownMenuSubTrigger,
-    DropdownMenuPortal,
-    DropdownMenuSubContent
+    DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { EyeIcon, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState, useMemo, useEffect } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { useState } from "react";
 import { TransactionShow } from "@/components/widgets/show";
-import { useMediaQuery } from "react-responsive";
-import { useTransactionActions } from "@/hooks";
-import { TransactionStorno } from "@/components/widgets/forms";
-import { API_URL } from "@/data/base";
-import { EventBus, EVENT_STORNO } from "@/helpers/event-bus";
 import { TextField } from "@/components/ui/text-field";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
-import { Loading } from "@/components/ui/loading";
+import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { useNavigate } from "react-router-dom";
 import useTransactionFilter from "@/hooks/useTransactionFilter";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import BarChart from "@/components/ui/Bar";
 import { debounce } from "lodash";
-
-const TransactionActions = (props: { dictionaries: any; stornoOpen: () => void; stornoClose: () => void }) => {
-    const {
-        switchDispute,
-        showDispute,
-        disputeCaption,
-        showState,
-        switchState,
-        stateCaption,
-        states,
-        showCommit,
-        commitCaption,
-        commitTransaction,
-        showStorno,
-        stornoCaption,
-        makeStorno
-    } = useTransactionActions(props.dictionaries);
-
-    useEffect(() => {
-        EventBus.getInstance().registerUnique(
-            EVENT_STORNO,
-            (data: {
-                sourceValue: string;
-                destValue: string;
-                source: string;
-                currency: string;
-                destination: string;
-            }) => {
-                makeStorno(data);
-                props?.stornoClose?.();
-            }
-        );
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-    return (
-        <>
-            {showDispute && <DropdownMenuItem onClick={switchDispute}>{disputeCaption}</DropdownMenuItem>}
-            {showState && (
-                <DropdownMenuSub>
-                    <DropdownMenuSubTrigger>{stateCaption}</DropdownMenuSubTrigger>
-                    <DropdownMenuPortal>
-                        <DropdownMenuSubContent>
-                            {states.map((state, i) => (
-                                <DropdownMenuItem key={i} onClick={() => switchState(state.state_int)}>
-                                    {state.state_description}
-                                </DropdownMenuItem>
-                            ))}
-                        </DropdownMenuSubContent>
-                    </DropdownMenuPortal>
-                </DropdownMenuSub>
-            )}
-            {showCommit && <DropdownMenuItem onClick={commitTransaction}>{commitCaption}</DropdownMenuItem>}
-            {showStorno && <DropdownMenuItem onClick={() => props?.stornoOpen?.()}>{stornoCaption}</DropdownMenuItem>}
-        </>
-    );
-};
 
 const TransactionFilterSidebar = ({
     typeTabActive,
@@ -113,7 +37,9 @@ const TransactionFilterSidebar = ({
         translate,
         data,
         adminOnly,
-        accounts,
+        accountsData,
+        accountScrollHandler,
+        accountsLoadingProcess,
         operationId,
         onOperationIdChanged,
         customerPaymentId,
@@ -125,7 +51,6 @@ const TransactionFilterSidebar = ({
         startDate,
         endDate,
         changeDate,
-        // typeTabActive,
         onTabChanged,
         chooseClassTabActive,
         handleDownloadReport,
@@ -163,6 +88,7 @@ const TransactionFilterSidebar = ({
                         <span className="md:text-nowrap">
                             {translate("resources.transactions.filter.filterByOrderStatus")}
                         </span>
+
                         <Select
                             onValueChange={val =>
                                 val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged("")
@@ -173,10 +99,12 @@ const TransactionFilterSidebar = ({
                                     placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
                                 />
                             </SelectTrigger>
+
                             <SelectContent>
                                 <SelectItem value="null">
                                     {translate("resources.transactions.filter.showAll")}
                                 </SelectItem>
+
                                 {data &&
                                     Object.keys(data.states).map(index => (
                                         <SelectItem key={data.states[index].state_int} value={data.states[index]}>
@@ -199,6 +127,7 @@ const TransactionFilterSidebar = ({
                             <span className="md:text-nowrap">
                                 {translate("resources.transactions.filter.filterByAccount")}
                             </span>
+
                             <Select
                                 onValueChange={val => (val !== "null" ? onAccountChanged(val) : onAccountChanged(""))}
                                 value={account}>
@@ -207,16 +136,25 @@ const TransactionFilterSidebar = ({
                                         placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
                                     />
                                 </SelectTrigger>
-                                <SelectContent>
+
+                                <SelectContent align="start" onScrollCapture={accountScrollHandler}>
                                     <SelectItem value="null">
                                         {translate("resources.transactions.filter.showAll")}
                                     </SelectItem>
-                                    {accounts &&
-                                        accounts.map(account => (
-                                            <SelectItem key={account.id} value={account}>
-                                                {account.meta.caption}
+
+                                    {accountsData?.pages.map(page => {
+                                        return page.data.map(account => (
+                                            <SelectItem key={account.id} value={account.id}>
+                                                <p className="truncate max-w-36">{account.meta.caption}</p>
                                             </SelectItem>
-                                        ))}
+                                        ));
+                                    })}
+
+                                    {accountsLoadingProcess && (
+                                        <SelectItem value="null" disabled className="flex max-h-8">
+                                            <LoadingAlertDialog className="-scale-[.25]" />
+                                        </SelectItem>
+                                    )}
                                 </SelectContent>
                             </Select>
                         </div>
@@ -232,7 +170,7 @@ const TransactionFilterSidebar = ({
                             !account &&
                             !customerPaymentId &&
                             !startDate &&
-                            !account.id &&
+                            !account &&
                             !typeTabActive &&
                             !orderStatusFilter
                         }>
@@ -249,7 +187,7 @@ const TransactionFilterSidebar = ({
                         <DropdownMenuContent className="p-0 border-green-50" align="end">
                             <DropdownMenuItem
                                 className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
-                                onClick={() => handleDownloadReport("excel")}>
+                                onClick={() => handleDownloadReport("csv")}>
                                 Excel
                             </DropdownMenuItem>
                             <DropdownMenuItem
@@ -267,6 +205,7 @@ const TransactionFilterSidebar = ({
                     <button className={chooseClassTabActive("")} onClick={clearFilters} disabled={typeTabActive === ""}>
                         All operations
                     </button>
+
                     {Object.keys(data?.transactionTypes).map(item => (
                         <button
                             key={data?.transactionTypes?.[item].type}
@@ -277,6 +216,7 @@ const TransactionFilterSidebar = ({
                         </button>
                     ))}
                 </div>
+
                 <div className="flex items-center gap-1">
                     <Button onClick={() => debounced(prev => !prev)} variant={"clearBtn"} className="flex gap-1">
                         {translate("resources.transactions.chart")}
@@ -296,28 +236,10 @@ export const TransactionList = () => {
     const data = fetchDictionaries();
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
-    const navigate = useNavigate();
-
-    // TODO: временное решение, нужно расширить компонент селекта для поддержки пагинациц
-    const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
-    const { permissions } = usePermissions();
-    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
-    const { data: currencies } = useQuery("currencies", () =>
-        fetch(`${API_URL}/dictionaries/curr`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
-        }).then(response => response.json())
-    );
-    const sortedCurrencies = useMemo(() => {
-        return currencies?.data?.sort((a: any, b: any) => a.prior_gr - b.prior_gr) || [];
-    }, [currencies]);
-    const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
 
     const [typeTabActive, setTypeTabActive] = useState("");
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");
-    const [stornoOpen, setStornoOpen] = useState(false);
     const [chartOpen, setChartOpen] = useState(false);
 
     const openSheet = (id: string) => {
@@ -422,32 +344,36 @@ export const TransactionList = () => {
             id: "actions",
             cell: ({ row }) => {
                 return (
-                    <RecordContextProvider value={row.original}>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="clearBtn" className="w-full p-0">
-                                    <span className="sr-only">Open menu</span>
-                                    <EyeIcon className="text-green-50 size-7" />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuItem onClick={() => openSheet(row.original.id)} className="border-none">
-                                    {translate("app.ui.actions.quick_show")}
-                                </DropdownMenuItem>
-                                <DropdownMenuItem
-                                    onClick={() => navigate(`/transactions/${row.original.id}/show`)}
-                                    className="border-none">
-                                    {translate("app.ui.actions.show")}
-                                </DropdownMenuItem>
-                                {adminOnly && <DropdownMenuSeparator />}
-                                <TransactionActions
-                                    dictionaries={data}
-                                    stornoOpen={() => setStornoOpen(true)}
-                                    stornoClose={() => setStornoOpen(false)}
-                                />
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </RecordContextProvider>
+                    <Button onClick={() => openSheet(row.original.id)} variant="clearBtn" className="w-full p-0">
+                        <span className="sr-only">Open menu</span>
+                        <EyeIcon className="text-green-50 size-7" />
+                    </Button>
+                    // <RecordContextProvider value={row.original}>
+                    //     <DropdownMenu>
+                    //         <DropdownMenuTrigger asChild>
+                    //             <Button variant="clearBtn" className="w-full p-0">
+                    //                 <span className="sr-only">Open menu</span>
+                    //                 <EyeIcon className="text-green-50 size-7" />
+                    //             </Button>
+                    //         </DropdownMenuTrigger>
+                    //         <DropdownMenuContent align="end">
+                    //             <DropdownMenuItem onClick={() => openSheet(row.original.id)} className="border-none">
+                    //                 {translate("app.ui.actions.quick_show")}
+                    //             </DropdownMenuItem>
+                    //             <DropdownMenuItem
+                    //                 onClick={() => navigate(`/transactions/${row.original.id}/show`)}
+                    //                 className="border-none">
+                    //                 {translate("app.ui.actions.show")}
+                    //             </DropdownMenuItem>
+                    //             {adminOnly && <DropdownMenuSeparator />}
+                    //             <TransactionActions
+                    //                 dictionaries={data}
+                    //                 stornoOpen={() => setStornoOpen(true)}
+                    //                 stornoClose={() => setStornoOpen(false)}
+                    //             />
+                    //         </DropdownMenuContent>
+                    //     </DropdownMenu>
+                    // </RecordContextProvider>
                 );
             }
         }
@@ -480,7 +406,7 @@ export const TransactionList = () => {
                         />
                     </div>
 
-                    <DataTable data={data} columns={columns} />
+                    <DataTable data={[]} columns={columns} />
                 </ListContextProvider>
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>
                     <SheetContent
@@ -508,18 +434,6 @@ export const TransactionList = () => {
                             <SheetDescription></SheetDescription>
                             <TransactionShow id={showTransactionId} type="compact" />
                         </div>
-                    </SheetContent>
-                </Sheet>
-                <Sheet open={stornoOpen} onOpenChange={setStornoOpen}>
-                    <SheetContent
-                        className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
-                        side={isMobile ? "bottom" : "right"}>
-                        <ScrollArea className="h-full [&>div>div]:!block">
-                            <SheetHeader className="mb-2">
-                                <SheetTitle>{translate("resources.transactions.show.storno")}</SheetTitle>
-                            </SheetHeader>
-                            <TransactionStorno accounts={accounts || []} currencies={sortedCurrencies || []} />
-                        </ScrollArea>
                     </SheetContent>
                 </Sheet>
             </>
