@@ -27,7 +27,7 @@ import {
     ProviderCreate
 } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
-import { PayOutPage, PayOutCryptoPage, LoginPage } from "./pages";
+import { PayOutPage, LoginPage } from "./pages";
 import { MainLayout } from "./layouts";
 import {
     WalletMinimalIcon,
@@ -142,9 +142,6 @@ export const App = () => {
 
                             <CustomRoutes>
                                 {permissions === "merchant" && <Route path="/bank-transfer" element={<PayOutPage />} />}
-                                {permissions === "merchant" && (
-                                    <Route path="/crypto-transfer" element={<PayOutCryptoPage />} />
-                                )}
                                 <Route path="/login" element={<LoginPage />} />
                             </CustomRoutes>
                         </>

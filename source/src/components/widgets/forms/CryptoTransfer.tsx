@@ -5,12 +5,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useTranslate } from "react-admin";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TextField } from "@/components/ui/text-field";
 
-export const PayOutCryptoForm = (props: { loading: boolean; balance: number; create: (data: any) => void }) => {
+export const CryptoTransferForm = (props: { loading: boolean; balance: number; create: (data: any) => void }) => {
     const translate = useTranslate();
-
+    const [checked, setChecked] = useState<boolean | "indeterminate">(false);
     const formSchema = z.object({
         address: z.string().regex(/T[A-Za-z1-9]{33}/, translate("app.widgets.forms.cryptoTransfer.addressMessage")),
         amount: z
@@ -56,15 +56,14 @@ export const PayOutCryptoForm = (props: { loading: boolean; balance: number; cre
         });
     }
 
-    function setAllAmount() {
-        // TODO: эта херня пишет варнинг на пол экрана хз почему
-        form.setValue("amount", props.balance?.toString() || "");
-    }
+    useEffect(() => {
+        if (checked && checked !== "indeterminate") form.setValue("amount", props.balance?.toString() || "");
+    }, [checked]);
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="">
+                <div className="flex flex-col w-[476px] px-6 pt-4 bg-neutral-0 rounded-2xl gap-4">
                     <div className="flex-1">
                         <FormField
                             disabled={props.loading}
@@ -72,7 +71,9 @@ export const PayOutCryptoForm = (props: { loading: boolean; balance: number; cre
                             name="address"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>{translate("app.widgets.forms.cryptoTransfer.address")}</FormLabel>
+                                    <FormLabel className="text-note-1">
+                                        {translate("app.widgets.forms.cryptoTransfer.address")}
+                                    </FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
@@ -88,7 +89,9 @@ export const PayOutCryptoForm = (props: { loading: boolean; balance: number; cre
                             name="amount"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>{translate("app.widgets.forms.cryptoTransfer.amount")} (USD₮)</FormLabel>
+                                    <FormLabel className="text-note-1">
+                                        {translate("app.widgets.forms.cryptoTransfer.amount")}
+                                    </FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
@@ -97,26 +100,40 @@ export const PayOutCryptoForm = (props: { loading: boolean; balance: number; cre
                             )}
                         />
                     </div>
-                    <div className="flex-1 flex flex-col justify-end md:items-start">
-                        <Button disabled={props.loading} variant="link" onClick={setAllAmount}>
-                            {translate("app.widgets.forms.cryptoTransfer.allAmount", { amount: props.balance })}
-                        </Button>
-                    </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     <div className="flex-1">
-                        <TextField label={translate("app.widgets.forms.cryptoTransfer.commission")} text="2 USD₮" />
+                        <div className="flex-1 flex gap-2 items-center">
+                            <label
+                                onClick={() => setChecked(!checked)}
+                                className="flex gap-2 items-center self-start cursor-pointer [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
+                                <div className="relative w-4 h-4 rounded-full border transition-all bg-black border-neutral-60 flex justify-center items-center">
+                                    {checked && (
+                                        <div id="checked" className="w-2.5 h-2.5 rounded-full bg-green-50"></div>
+                                    )}
+                                </div>
+                                <span className="font-normal text-sm text-neutral-40 transition-all">
+                                    {translate("app.widgets.forms.cryptoTransfer.allAmount", { amount: props.balance })}
+                                </span>
+                            </label>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            <div className="flex-1">
+                                <TextField
+                                    label={translate("app.widgets.forms.cryptoTransfer.commission")}
+                                    text="2 USD₮"
+                                />
+                            </div>
+                            <div className="flex-1">
+                                <TextField
+                                    label={translate("app.widgets.forms.cryptoTransfer.totalAmount")}
+                                    text={totalAmount + " USD₮"}
+                                />
+                            </div>
+                        </div>
                     </div>
-                    <div className="flex-1">
-                        <TextField
-                            label={translate("app.widgets.forms.cryptoTransfer.totalAmount")}
-                            text={totalAmount + " USD₮"}
-                        />
-                    </div>
+                    <Button disabled={props.loading} type="submit">
+                        {translate("app.widgets.forms.payin.createOrder")}
+                    </Button>
                 </div>
-                <Button disabled={props.loading} type="submit">
-                    {translate("app.widgets.forms.payin.createOrder")}
-                </Button>
             </form>
         </Form>
     );

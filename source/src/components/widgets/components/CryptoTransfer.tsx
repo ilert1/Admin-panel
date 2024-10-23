@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
 import { useTranslate } from "react-admin";
 import { BF_MANAGER_URL, API_URL } from "@/data/base";
-import { PayOutCryptoForm } from "@/components/widgets/forms";
+import { CryptoTransferForm } from "@/components/widgets/forms";
 import { toast } from "sonner";
 import { parseJWT } from "@/helpers/jwt";
 import { useQuery } from "react-query";
 
-export const PayOutCryptoPage = () => {
+export const CryptoTransfer = () => {
     const translate = useTranslate();
     const success = (message: string) => {
         toast.success(translate("resources.transactions.show.success"), {
@@ -56,7 +56,7 @@ export const PayOutCryptoPage = () => {
     const [localLoading, setLocalLoading] = useState(false);
     const isLoading = useMemo(() => balanceLoading || localLoading, [balanceLoading, localLoading]);
 
-    const createPayOut = (data: any) => {
+    const createTransfer = (data: any) => {
         setLocalLoading(true);
         fetch(`${BF_MANAGER_URL}/v1/withdraw/create`, {
             method: "POST",
@@ -94,7 +94,8 @@ export const PayOutCryptoPage = () => {
 
     return (
         <div>
-            <PayOutCryptoForm loading={isLoading} create={createPayOut} balance={balance || 0} />
+            <h4 className="text-display-4 text-neutral-100">{translate("resources.withdraw.cryptoTransferTitle")}</h4>
+            <CryptoTransferForm loading={isLoading} create={createTransfer} balance={balance || 0} />
         </div>
     );
 };

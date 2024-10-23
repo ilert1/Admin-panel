@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { Input } from "@/components/ui/input";
 import useWithdrawFilter from "@/hooks/useWithdrawFilter";
+import { CryptoTransfer } from "../components/CryptoTransfer";
 
 const WithdrawFilterSidebar = () => {
     const {
@@ -165,13 +166,16 @@ export const WithdrawList = () => {
     } else {
         return (
             <>
-                <ListContextProvider value={listContext}>
-                    <WithdrawFilterSidebar />
+                <div>
+                    <ListContextProvider value={listContext}>
+                        <WithdrawFilterSidebar />
 
-                    <h3 className="mb-4 text-xl text-neutral-100">{translate("resources.withdraw.tableTitle")}</h3>
+                        <h3 className="mb-4 text-xl text-neutral-100">{translate("resources.withdraw.tableTitle")}</h3>
 
-                    <DataTable columns={columns} data={[]} />
-                </ListContextProvider>
+                        <DataTable columns={columns} data={[]} />
+                    </ListContextProvider>
+                    <CryptoTransfer />
+                </div>
                 <Sheet open={showOpen} onOpenChange={setShowOpen}>
                     <SheetContent
                         className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
