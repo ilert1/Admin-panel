@@ -17,13 +17,6 @@ const feesDataProvider = (props: FeesDataProviderProps) => {
     const setId = (newId: string) => {
         id = newId;
     };
-const feesDataProvider = (props: FeesDataProviderProps) => {
-    const { resource } = props;
-    let { id } = props;
-
-    const setId = (newId: string) => {
-        id = newId;
-    };
 
     const addFee = async (body: Directions.FeeCreate) => {
         body.recipient = resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee";
@@ -40,7 +33,6 @@ const feesDataProvider = (props: FeesDataProviderProps) => {
 
     const removeFee = async (fee_id: string) => {
         const json = await fetchUtils.fetchJson(`${API_URL}/${resource}/${id}/fee/${fee_id}`, {
-        const json = await fetchUtils.fetchJson(`${API_URL}/${resource}/${id}/fee/${fee_id}`, {
             method: "DELETE",
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
@@ -48,13 +40,9 @@ const feesDataProvider = (props: FeesDataProviderProps) => {
             throw new Error("Wrong id or fee id");
         }
         return json.json.data;
-        return json.json.data;
     };
 
     return { addFee, removeFee, setId };
-    return { addFee, removeFee, setId };
 };
-
-export default feesDataProvider;
 
 export default feesDataProvider;

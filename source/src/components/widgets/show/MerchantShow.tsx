@@ -48,9 +48,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
             }
         }
     }, [addNewFeeClicked]);
-    const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    const [addNewFeeClicked, setAddNewFeeClicked] = useState(false);
 
     useEffect(() => {
         if (messagesEndRef.current) {
