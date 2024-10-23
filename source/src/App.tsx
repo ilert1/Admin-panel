@@ -94,6 +94,9 @@ export const App = () => {
                                 {permissions === "merchant" && (
                                     <Route path="/crypto-transfer" element={<PayOutCryptoPage />} />
                                 )}
+                                {permissions === "admin" && <Route path="/manager/store" element={<></>} />}
+                                {permissions === "admin" && <Route path="/manager/wallets" element={<></>} />}
+                                {permissions === "admin" && <Route path="/manager/transactions" element={<></>} />}
                                 <Route path="/login" element={<LoginPage />} />
                             </CustomRoutes>
                         </>
