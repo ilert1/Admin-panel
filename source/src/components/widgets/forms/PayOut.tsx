@@ -68,27 +68,8 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
 
     const form = useForm<z.infer<typeof finalFormSchema>>({
         resolver: zodResolver(finalFormSchema),
-        defaultValues: {
-            payMethod: "",
-            value: "",
-            ...Object.keys(dynamicFormSchema).reduce((acc: { [key: string]: string }, curr) => {
-                acc[curr] = "";
-                return acc;
-            }, {})
-        }
+        defaultValues: { ...finalFormSchema }
     });
-
-    useEffect(() => {
-        form.reset({
-            payMethod: form.getValues("payMethod") || "",
-            value: form.getValues("value") || "",
-            ...Object.keys(dynamicFormSchema).reduce((acc: { [key: string]: string }, curr) => {
-                acc[curr] = form.getValues(curr) || "";
-                return acc;
-            }, {})
-        });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dynamicFormSchema]);
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         if (payMethod) {
