@@ -6,7 +6,7 @@ import { z, ZodTypeAny } from "zod";
 import { Button } from "@/components/ui/button";
 import { useLocaleState, useTranslate } from "react-admin";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
