@@ -3,3 +3,4 @@ export { ProviderCreate } from "./ProviderCreate";
 export { MerchantCreate } from "./MerchantCreate";
 export { DirectionCreate } from "./DirectionCreate";
 export { UserCreate } from "./UserCreate";
+export { CreateWallet } from "./CreateWallet";

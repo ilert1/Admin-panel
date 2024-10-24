@@ -296,3 +296,20 @@ namespace Dictionaries {
         transactionTypes: TransactionTypes;
     }
 }
+enum WalletTypes {
+    INTERNAL = "internal",
+    LINKED = "linked",
+    EXTERNAL = "external"
+}
+
+interface Wallet {
+    id: string;
+    description: string | null;
+    type: WalletTypes;
+    blockchain: string;
+    network: string;
+    address: string;
+    currency: string;
+    account_id: string;
+    minimal_ballance_limit: number;
+}
