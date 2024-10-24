@@ -40,7 +40,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
         }
     }, [addNewFeeClicked]);
 
-    if (context.isLoading || !context.record) {
+    if (context.isLoading || !context.record || !data) {
         return <Loading />;
     }
     const fees = context.record.fees;
@@ -77,11 +77,6 @@ export const MerchantShow = (props: MerchantShowProps) => {
                                   );
                               })
                             : ""}
-                        <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
-                        <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
-                        <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
-                        <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
-                        <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
                         {addNewFeeClicked && (
                             <AddFeeCard
                                 id={context.record.name}

@@ -20,11 +20,12 @@ export interface AddFeeCardProps {
     id: string;
     resource: FeesResource;
     onOpenChange: (state: boolean) => void;
+    fees?: Directions.FeeCreate[];
     setFees?: React.Dispatch<React.SetStateAction<Directions.FeeCreate[]>>;
 }
 
 export const AddFeeCard = (props: AddFeeCardProps) => {
-    const { id, resource, onOpenChange, setFees } = props;
+    const { id, resource, onOpenChange, fees, setFees } = props;
 
     const { toast } = useToast();
     const translate = useTranslate();
@@ -41,12 +42,18 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const onSubmit = async (data: any) => {
         data.type = Number(data.type);
         data.direction = Number(data.direction);
+        console.log(fees);
         if (setFees) {
+            if (fees?.length) {
+                data.innerId = fees[fees.length - 1].innerId + 1;
+            } else {
+                data.innerId = 1;
+            }
             setFees((prev: any) => [...prev, data]);
             onOpenChange(false);
         } else {
             try {
-                feeDataProvider.addFee(data);
+                await feeDataProvider.addFee(data);
                 refresh();
                 onOpenChange(false);
             } catch (error) {

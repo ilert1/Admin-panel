@@ -44,6 +44,15 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
         }
     }, [addNewFeeClicked]);
 
+    const handleDeleteFee = (id: string) => {
+        console.log(id);
+        const newFees = fees.filter(el => {
+            console.log(el);
+            return el.innerId !== id;
+        });
+        setFees(newFees);
+    };
+
     const onSubmit: SubmitHandler<Merchant> = async data => {
         if (data?.description?.length === 0) {
             data.description = null;
@@ -56,6 +65,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
             feeDataProvider.setId(info.data.id);
 
             fees.map(async el => {
+                delete el.innerId;
                 await feeDataProvider.addFee(el);
             });
             refresh();
@@ -103,7 +113,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
     });
 
     if (isLoading) return <Loading />;
-
+    console.log(fees);
     return (
         <CreateContextProvider value={controllerProps}>
             <Form {...form}>
@@ -179,13 +189,15 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                         fees.map(el => {
                             return (
                                 <FeeCard
-                                    key={el.recipient}
+                                    key={el.innerId}
                                     account={""}
                                     currency={el.currency}
                                     feeAmount={el.value}
                                     feeType={data.feeTypes[el.type]?.type_descr || ""}
                                     id={""}
                                     resource={FeesResource.MERCHANT}
+                                    innerId={el.innerId}
+                                    deleteFunction={handleDeleteFee}
                                 />
                             );
                         })}
@@ -195,6 +207,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                             onOpenChange={setAddNewFeeClicked}
                             resource={FeesResource.MERCHANT}
                             setFees={setFees}
+                            fees={fees}
                         />
                     )}
                     <div ref={messagesEndRef} />

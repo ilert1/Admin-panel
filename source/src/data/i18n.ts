@@ -333,7 +333,8 @@ const ru: TranslationMessages = {
                 currency: "Валюта",
                 descr: "Описание",
                 addFee: "Добавить комиссию",
-                direction: "Направление"
+                direction: "Направление",
+                deleteFee: "Удалить комиссию?"
             },
             errors: {
                 name: "У направления обязательно должно быть имя",
@@ -852,7 +853,8 @@ const en: TranslationMessages = {
                 currency: "Currency",
                 descr: "Description",
                 addFee: "Add fee",
-                direction: "Direction"
+                direction: "Direction",
+                deleteFee: "Delete fee?"
             },
             errors: {
                 name: "The direction must have a name",

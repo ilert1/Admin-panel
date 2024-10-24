@@ -218,6 +218,7 @@ namespace Directions {
         description: string;
         recipient: string;
         direction: string | number;
+        innerId?: string;
     }
 
     interface Fees {

@@ -202,11 +202,6 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                               );
                           })
                         : ""}
-                    <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
-                    <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
-                    <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
-                    <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
-                    <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
                     {addNewFeeClicked && (
                         <AddFeeCard
                             id={record.name}
