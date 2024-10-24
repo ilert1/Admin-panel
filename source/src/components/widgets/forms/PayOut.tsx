@@ -6,21 +6,22 @@ import { z, ZodTypeAny } from "zod";
 import { Button } from "@/components/ui/button";
 import { useLocaleState, useTranslate } from "react-admin";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
 
-export const PayOutForm = (props: {
+interface IProps {
     currencies: Dictionaries.Currency[] | undefined;
     payMethods: PayOut.PayMethod[] | undefined;
     loading: boolean;
     create: (data: { payMethod: PayOut.PayMethod; [key: string]: string | PayOut.PayMethod }) => void;
-}) => {
+}
+
+export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) => {
     const translate = useTranslate();
     const [payMethodId, setPayMethodId] = useState<string | null>(null);
     const [locale] = useLocaleState();
-    const { currencies, payMethods } = props;
 
     const formSchema = z.object<{ [key: string]: ZodTypeAny }>({
         payMethod: z.string().min(1, translate("app.widgets.forms.payout.payMethodMessage")),
@@ -62,7 +63,8 @@ export const PayOutForm = (props: {
         }
 
         return schema;
-    }, [dynamicFormSchema, formSchema]); //eslint-disable-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dynamicFormSchema, formSchema]);
 
     const form = useForm<z.infer<typeof finalFormSchema>>({
         resolver: zodResolver(finalFormSchema),
@@ -76,9 +78,22 @@ export const PayOutForm = (props: {
         }
     });
 
+    useEffect(() => {
+        console.log(form);
+        form.reset({
+            payMethod: form.getValues("payMethod") || "",
+            value: form.getValues("value") || "",
+            ...Object.keys(dynamicFormSchema).reduce((acc: { [key: string]: string }, curr) => {
+                acc[curr] = form.getValues(curr) || "";
+                return acc;
+            }, {})
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dynamicFormSchema]);
+
     function onSubmit(values: z.infer<typeof formSchema>) {
         if (payMethod) {
-            props.create({ ...values, payMethod });
+            create({ ...values, payMethod });
         }
     }
 
@@ -88,17 +103,18 @@ export const PayOutForm = (props: {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex-1">
                         <FormField
-                            disabled={props.loading}
+                            disabled={loading}
                             control={form.control}
                             name="payMethod"
                             render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormLabel>{translate("app.widgets.forms.payout.payMethod")}</FormLabel>
                                     <Select
-                                        disabled={props.loading}
+                                        disabled={loading}
                                         onValueChange={e => {
-                                            setPayMethodId(e);
+                                            form.setValue("payMethod", e);
                                             field.onChange(e);
+                                            setPayMethodId(e);
                                         }}
                                         value={field.value}>
                                         <FormControl>
@@ -152,7 +168,7 @@ export const PayOutForm = (props: {
 
                     <div className="flex-1">
                         <FormField
-                            disabled={props.loading}
+                            disabled={loading}
                             control={form.control}
                             name="value"
                             render={({ field, fieldState }) => (
@@ -194,7 +210,7 @@ export const PayOutForm = (props: {
 
                     {additionalFields.map((f, i: number) => (
                         <FormField
-                            disabled={props.loading}
+                            disabled={loading}
                             key={i}
                             control={form.control}
                             name={f.name}
@@ -237,7 +253,7 @@ export const PayOutForm = (props: {
                 </div>
 
                 <div className="flex items-center justify-end gap-4">
-                    <Button disabled={props.loading} type="submit">
+                    <Button disabled={loading} type="submit">
                         {translate("app.widgets.forms.payin.createOrder")}
                     </Button>
 
