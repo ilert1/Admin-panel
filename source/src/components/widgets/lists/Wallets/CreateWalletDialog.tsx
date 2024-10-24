@@ -21,7 +21,7 @@ export const CreateWalletDialog = (props: CreateWalletDialogProps) => {
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="w-[716px] ">
                 <DialogHeader>
-                    <DialogTitle className="mb-4">{translate("resources.direction.creatingDirection")}</DialogTitle>
+                    <DialogTitle className="mb-4">{translate("resources.manageWallets.creatingWallet")}</DialogTitle>
                     <DialogDescription></DialogDescription>
                     <CreateWallet onOpenChange={onOpenChange} />
                 </DialogHeader>

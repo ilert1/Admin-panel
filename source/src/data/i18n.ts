@@ -380,12 +380,11 @@ const ru: TranslationMessages = {
                 blockchain: "Блокчейн",
                 contactType: "Тип контакта в блокчейне",
                 minRemaini: "Минимальная остаточная сумма",
-                //                 Internal wallet ID
-                // Blockchain
-                // Contact type in blockchain
-                // Minimum remaining amount
+
                 more: "Подробнее"
-            }
+            },
+            creatingWallet: "Добавление кошелька",
+            createWallet: "Создать кошелек"
         },
         manageTransactions: {
             name: "Криптотранзакции"
@@ -928,7 +927,9 @@ const en: TranslationMessages = {
             },
             errors: {
                 id: "Id is required field"
-            }
+            },
+            creatingWallet: "Adding wallet",
+            createWallet: "Create wallet"
         },
         manageTransactions: {
             name: "Cryptotransactions"

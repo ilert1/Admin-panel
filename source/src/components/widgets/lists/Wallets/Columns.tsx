@@ -58,7 +58,7 @@ export const useGetWalletsColumns = () => {
             accessorKey: "description",
             header: translate("resources.manageWallets.fields.currency"),
             cell: ({ row }) => {
-                return <TextField text={row.original.description} wrap />;
+                return <TextField text={row.original.description || ""} wrap />;
             }
         },
         {
@@ -71,18 +71,22 @@ export const useGetWalletsColumns = () => {
         },
         {
             id: "actions",
-            header: translate("resources.manageWallets.fields.more"),
+            header: () => {
+                return <div className="text-center">{translate("resources.manageWallets.fields.more")}</div>;
+            },
             cell: ({ row }) => {
                 return (
-                    <Button
-                        onClick={() => {
-                            setChosenId(row.original.id);
-                            openSheet(row.original.id);
-                        }}
-                        variant="secondary"
-                        className="h-7 w-7 p-0 bg-transparent flex items-center">
-                        <EyeIcon className="text-green-50 size-7" />
-                    </Button>
+                    <div className="flex items-center justify-center">
+                        <Button
+                            onClick={() => {
+                                setChosenId(row.original.id);
+                                openSheet(row.original.id);
+                            }}
+                            variant="secondary"
+                            className="h-7 w-7 p-0 bg-transparent flex items-center">
+                            <EyeIcon className="text-green-50 size-7" />
+                        </Button>
+                    </div>
                 );
             }
         }
