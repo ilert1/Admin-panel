@@ -161,7 +161,11 @@ module.exports = {
                 "note-2": ["10px", { lineHeight: "12px", fontWeight: 400 }]
             },
             gridTemplateColumns: {
-                "1/9": "10% 90%"
+                "1/9": "10% 90%",
+                "stretch-first": "1fr auto"
+            },
+            gridTemplateRows: {
+                "stretch-last": "auto 1fr"
             }
         }
     },

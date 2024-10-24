@@ -68,7 +68,7 @@ export const CryptoTransferForm = (props: {
         if (checked && checked !== "indeterminate") form.setValue("amount", props.balance?.toString() || "");
     }, [checked]);
 
-    if (props.transferState === "process") {
+    if (props.transferState === "process")
         return (
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="">
@@ -200,15 +200,18 @@ export const CryptoTransferForm = (props: {
                 </form>
             </Form>
         );
-    } else if (props.transferState === "success")
+    else if (props.transferState === "success" || props.transferState === "error")
         return (
             <div className="flex flex-col w-[476px] h-[308px] px-6 py-4 bg-neutral-0 rounded-2xl gap-6 justify-center items-center">
                 <div className="flex flex-col gap-2 items-center">
                     <div className="w-[114px]">
-                        <Icon name="BlowFishCheck" />
+                        {props.transferState === "success" && <Icon name="BlowFishCheck" />}
+                        {props.transferState === "error" && <Icon name="BlowFishCross" />}
                     </div>
                     <span className="text-title-2">
-                        {translate("app.widgets.forms.cryptoTransfer.transferSuccess")}
+                        {props.transferState === "success"
+                            ? translate("app.widgets.forms.cryptoTransfer.transferSuccess")
+                            : translate("app.widgets.forms.cryptoTransfer.transferError")}
                     </span>
                 </div>
                 <div>
@@ -220,32 +223,12 @@ export const CryptoTransferForm = (props: {
                             props.setTransferState("process");
                         }}
                         size="sm">
-                        {translate("app.widgets.forms.cryptoTransfer.successButton")}
+                        {props.transferState === "success"
+                            ? translate("app.widgets.forms.cryptoTransfer.successButton")
+                            : translate("app.widgets.forms.cryptoTransfer.errorButton")}
                     </Button>
                 </div>
             </div>
         );
-    else if (props.transferState === "error")
-        return (
-            <div className="flex flex-col w-[476px] h-[308px] px-6 py-4 bg-neutral-0 rounded-2xl gap-6 justify-center items-center">
-                <div className="flex flex-col gap-2 items-center">
-                    <div className="w-[114px]">
-                        <Icon name="BlowFishCross" />
-                    </div>
-                    <span className="text-title-2">{translate("app.widgets.forms.cryptoTransfer.transferError")}</span>
-                </div>
-                <div>
-                    <Button
-                        className="md:ml-auto"
-                        type="button"
-                        variant="default"
-                        onClick={() => {
-                            props.setTransferState("process");
-                        }}
-                        size="sm">
-                        {translate("app.widgets.forms.cryptoTransfer.errorButton")}
-                    </Button>
-                </div>
-            </div>
-        );
+    else return <></>;
 };

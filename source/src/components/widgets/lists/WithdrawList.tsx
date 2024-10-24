@@ -175,24 +175,23 @@ export const WithdrawList = () => {
         return (
             <>
                 <ListContextProvider value={listContext}>
-                    <div className="flex flex-col">
-                        <div className="max-w-[1060px]">
+                    <div className="grid gap-x-6 lg:grid-cols-1 [grid-template-rows: auto 1fr 1fr;] grid-cols-1 lg:grid-rows-1 lg:grid-flow-col">
+                        <div>
                             <WithdrawFilterSidebar />
                         </div>
-                        <div className="flex gap-6 flex-wrap-reverse items-end">
-                            <div className="grow-[1]">
-                                <h3 className="mb-4 text-xl text-neutral-100">
-                                    {translate("resources.withdraw.tableTitle")}
-                                </h3>
-                                <DataTable columns={columns} data={[]} />
-                            </div>
 
-                            {merchantOnly && (
-                                <div className="w-[476px] max-w-[476px] h-fit">
-                                    <CryptoTransfer />
-                                </div>
-                            )}
+                        <div>
+                            <h3 className="mb-4 text-xl text-neutral-100">
+                                {translate("resources.withdraw.tableTitle")}
+                            </h3>
+                            <DataTable columns={columns} data={[]} />
                         </div>
+
+                        {merchantOnly && (
+                            <div className="w-[476px] mb-6 row-start-1 lg:col-start-2 lg:row-start-2">
+                                <CryptoTransfer />
+                            </div>
+                        )}
                     </div>
                 </ListContextProvider>
 
