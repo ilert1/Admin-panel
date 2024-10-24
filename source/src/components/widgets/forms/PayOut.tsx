@@ -8,6 +8,8 @@ import { useLocaleState, useTranslate } from "react-admin";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useMemo, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { TriangleAlert } from "lucide-react";
 
 export const PayOutForm = (props: {
     currencies: Dictionaries.Currency[] | undefined;
@@ -89,7 +91,7 @@ export const PayOutForm = (props: {
                             disabled={props.loading}
                             control={form.control}
                             name="payMethod"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormLabel>{translate("app.widgets.forms.payout.payMethod")}</FormLabel>
                                     <Select
@@ -100,10 +102,38 @@ export const PayOutForm = (props: {
                                         }}
                                         value={field.value}>
                                         <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue
-                                                    placeholder={translate("app.widgets.forms.payout.selectPayMethod")}
-                                                />
+                                            <SelectTrigger
+                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted/50 ${
+                                                    fieldState.invalid
+                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                        : ""
+                                                }`}>
+                                                <div className="mr-auto">
+                                                    <SelectValue
+                                                        placeholder={translate(
+                                                            "app.widgets.forms.payout.selectPayMethod"
+                                                        )}
+                                                    />
+                                                </div>
+                                                {fieldState.invalid && (
+                                                    <TooltipProvider>
+                                                        <Tooltip>
+                                                            <TooltipTrigger className="ml-3 order-3" asChild>
+                                                                <TriangleAlert
+                                                                    className="text-red-40"
+                                                                    width={14}
+                                                                    height={14}
+                                                                />
+                                                            </TooltipTrigger>
+
+                                                            <TooltipContent
+                                                                className="border-none bottom-0"
+                                                                side="left">
+                                                                <FormMessage />
+                                                            </TooltipContent>
+                                                        </Tooltip>
+                                                    </TooltipProvider>
+                                                )}
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
@@ -115,7 +145,6 @@ export const PayOutForm = (props: {
                                                 ))}
                                         </SelectContent>
                                     </Select>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -126,15 +155,38 @@ export const PayOutForm = (props: {
                             disabled={props.loading}
                             control={form.control}
                             name="value"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormLabel>
                                         {translate("app.widgets.forms.payout.value", { currency: currency || "" })}
                                     </FormLabel>
                                     <FormControl>
-                                        <Input {...field} />
+                                        <Input
+                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted/50 ${
+                                                fieldState.invalid
+                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                    : ""
+                                            }`}
+                                            {...field}>
+                                            {fieldState.invalid && (
+                                                <TooltipProvider>
+                                                    <Tooltip>
+                                                        <TooltipTrigger asChild>
+                                                            <TriangleAlert
+                                                                className="text-red-40"
+                                                                width={14}
+                                                                height={14}
+                                                            />
+                                                        </TooltipTrigger>
+
+                                                        <TooltipContent className="border-none bottom-0" side="left">
+                                                            <FormMessage />
+                                                        </TooltipContent>
+                                                    </Tooltip>
+                                                </TooltipProvider>
+                                            )}
+                                        </Input>
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -146,15 +198,38 @@ export const PayOutForm = (props: {
                             key={i}
                             control={form.control}
                             name={f.name}
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormLabel>
                                         {translate(`app.widgets.forms.payout.${dynamicFormSchema[f.name]}`)}
                                     </FormLabel>
                                     <FormControl>
-                                        <Input {...field} />
+                                        <Input
+                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted/50 ${
+                                                fieldState.invalid
+                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                    : ""
+                                            }`}
+                                            {...field}>
+                                            {fieldState.invalid && (
+                                                <TooltipProvider>
+                                                    <Tooltip>
+                                                        <TooltipTrigger asChild>
+                                                            <TriangleAlert
+                                                                className="text-red-40"
+                                                                width={14}
+                                                                height={14}
+                                                            />
+                                                        </TooltipTrigger>
+
+                                                        <TooltipContent className="border-none bottom-0" side="left">
+                                                            <FormMessage />
+                                                        </TooltipContent>
+                                                    </Tooltip>
+                                                </TooltipProvider>
+                                            )}
+                                        </Input>
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
