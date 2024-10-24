@@ -440,7 +440,11 @@ const ru: TranslationMessages = {
                     createOrder: "Создать ордер"
                 },
                 payout: {
+                    title: "Банковский перевод",
                     payMethod: "Метод оплаты",
+                    phone: "Номер телефона",
+                    cardInfo: "Номер карты",
+                    accountLastDigits: "Последние цифры номера",
                     selectPayMethod: "Выберите метод оплаты",
                     payMethodMessage: "Пожалуйста, выберите метод оплаты",
                     valueMessage: "Некорректное значение",
@@ -960,7 +964,11 @@ const en: TranslationMessages = {
                     createOrder: "Create order"
                 },
                 payout: {
+                    title: "Bank transfer",
                     payMethod: "Pay method",
+                    phone: "Phone number",
+                    cardInfo: "Card number",
+                    accountLastDigits: "Last four digits",
                     selectPayMethod: "Select pay method",
                     payMethodMessage: "Please, select pay method",
                     value: "Destination value %{currency}",
