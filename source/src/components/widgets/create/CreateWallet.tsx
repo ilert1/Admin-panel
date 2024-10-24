@@ -238,13 +238,11 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 <FormControl>
                                     <div>
                                         <Label />
-                                        {/* <textarea className="w-full" {...field} value={field.value ?? ""}></textarea> */}
                                         <textarea
                                             {...field}
                                             value={field.value ?? ""}
                                             placeholder={translate("resources.manageWallets.fields.descr")}
                                             className="w-full h-24 p-2 border border-neutral-40 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1"
-                                            readOnly
                                         />
                                     </div>
                                 </FormControl>
