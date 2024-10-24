@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
+
     const success = (message: string) => {
         toast.success(translate("resources.transactions.show.success"), {
             dismissible: true,
@@ -82,6 +83,7 @@ export const PayOutPage = () => {
             .then(json => {
                 if (json.success) {
                     success(translate("pages.payout.success"));
+                    window.open(json.data.payment_url, "_blank", "rel=noopener noreferrer");
                 } else {
                     error(json.error || "Unknown error");
                 }
