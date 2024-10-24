@@ -79,7 +79,6 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
     });
 
     useEffect(() => {
-        console.log(form);
         form.reset({
             payMethod: form.getValues("payMethod") || "",
             value: form.getValues("value") || "",
