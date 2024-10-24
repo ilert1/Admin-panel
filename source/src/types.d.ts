@@ -29,8 +29,43 @@ type Account = {
     type: number;
 };
 
+declare namespace PayOut {
+    interface Response {
+        success: boolean;
+        data: PayMethod[];
+    }
+    interface PayMethod {
+        bank: string;
+        bankName: string;
+        compareAccountLast4DigitsEnabled: boolean;
+        compareCardLast4DigitsEnabled: boolean;
+        customerFields: PayField[];
+        enabled: boolean;
+        fiatCurrency: string;
+        fiatCurrencySymbol: string;
+        fiatCurrencySymbolPosition: string;
+        fields: PayField[];
+        parallelGroupOrdersEnabled: boolean;
+        paymentType: string;
+        paymentTypeName: string;
+    }
+
+    interface PayField {
+        hidden: boolean | null;
+        maxLength: boolean | null;
+        name: string;
+        pattern: boolean | null;
+        patternExample: boolean | null;
+        readonly: boolean | null;
+        required: boolean | null;
+        type: string;
+        unique: boolean | null;
+    }
+}
+
 declare namespace Dictionaries {
     interface Currency {
+        [key: string]: string;
         "alpha-3": string;
         code: number;
         "minor-unit": number;
