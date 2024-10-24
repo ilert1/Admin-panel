@@ -6,3 +6,4 @@ export { MerchantList } from "./MerchantList";
 export { CurrenciesList } from "./CurrenciesList";
 export { ProvidersList } from "./Providers/ProvidersList";
 export { DirectionsList } from "./DirectionList/DirectionsList";
+export { WalletsList } from "./Wallets";

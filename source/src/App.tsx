@@ -17,7 +17,8 @@ import {
     CurrenciesList,
     MerchantList,
     ProvidersList,
-    DirectionsList
+    DirectionsList,
+    WalletsList
 } from "@/components/widgets/lists";
 import { MerchantCreate } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
@@ -86,6 +87,7 @@ export const App = () => {
                                     />
                                     <Resource name="provider" list={ProvidersList} icon={NetworkIcon} />
                                     <Resource name="direction" list={DirectionsList} icon={SignpostIcon} />
+                                    <Resource name="manageWallets" list={WalletsList} />
                                 </>
                             )}
 

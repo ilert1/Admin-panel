@@ -367,7 +367,25 @@ const ru: TranslationMessages = {
             name: "Хранилище"
         },
         manageWallets: {
-            name: "Кошельки"
+            name: "Кошельки",
+            wallet: "Кошелек",
+            fields: {
+                walletType: "Тип кошелька",
+                walletAddress: "Адрес кошелька",
+                accountNumber: "Номер счёта",
+                merchantId: "ID мерчанта",
+                currency: "Валюта",
+                descr: "Описание",
+                internalId: "Внутренний ID кошелька",
+                blockchain: "Блокчейн",
+                contactType: "Тип контакта в блокчейне",
+                minRemaini: "Минимальная остаточная сумма",
+                //                 Internal wallet ID
+                // Blockchain
+                // Contact type in blockchain
+                // Minimum remaining amount
+                more: "Подробнее"
+            }
         },
         manageTransactions: {
             name: "Криптотранзакции"
@@ -893,7 +911,24 @@ const en: TranslationMessages = {
             name: "Storage"
         },
         manageWallets: {
-            name: "Wallets"
+            name: "Wallets",
+            wallet: "Wallet",
+            fields: {
+                walletType: "Wallet type",
+                walletAddress: "Wallet address",
+                accountNumber: "Account number",
+                merchantId: "Merchant ID",
+                currency: "Currency",
+                descr: "Description",
+                more: "More",
+                internalId: "Internal wallet ID",
+                blockchain: "Blockchain",
+                contactType: "Contact type in blockchain",
+                minRemaini: "Minimum remaining amount"
+            },
+            errors: {
+                id: "Id is required field"
+            }
         },
         manageTransactions: {
             name: "Cryptotransactions"
