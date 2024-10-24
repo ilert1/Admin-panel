@@ -26,7 +26,6 @@ export interface AddFeeCardProps {
 
 export const AddFeeCard = (props: AddFeeCardProps) => {
     const { id, resource, onOpenChange, fees, setFees } = props;
-
     const { toast } = useToast();
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -42,7 +41,6 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const onSubmit = async (data: any) => {
         data.type = Number(data.type);
         data.direction = Number(data.direction);
-        console.log(fees);
         if (setFees) {
             if (fees?.length) {
                 data.innerId = fees[fees.length - 1].innerId + 1;
@@ -57,6 +55,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                 refresh();
                 onOpenChange(false);
             } catch (error) {
+                console.log(error);
                 toast({
                     description: translate("resources.provider.errors.alreadyInUse"),
                     variant: "destructive",
@@ -210,6 +209,12 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                                         ? currencies.data.map((currency: any) => (
                                                                               <SelectItem
                                                                                   key={currency.code}
+                                                                                  disabled={
+                                                                                      !(
+                                                                                          currency.code === "TRY" ||
+                                                                                          currency.code === "USDT"
+                                                                                      )
+                                                                                  }
                                                                                   value={currency.code}>
                                                                                   {currency.code}
                                                                               </SelectItem>

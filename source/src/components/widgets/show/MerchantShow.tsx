@@ -79,7 +79,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                             : ""}
                         {addNewFeeClicked && (
                             <AddFeeCard
-                                id={context.record.name}
+                                id={context.record.id}
                                 onOpenChange={setAddNewFeeClicked}
                                 resource={FeesResource.MERCHANT}
                             />

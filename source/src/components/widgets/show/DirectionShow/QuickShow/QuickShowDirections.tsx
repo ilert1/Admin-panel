@@ -3,10 +3,13 @@ import { TextField } from "@/components/ui/text-field";
 import { FeeCard } from "@/components/widgets/components/FeeCard";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { CircleChevronRight } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ShowControllerResult, useTranslate } from "react-admin";
 import { DeleteDirectionDialog, EditDirectionDialog } from "./Forms";
 import { EditAuthData } from "./Forms/EditAuthData";
+import { FeesResource } from "@/data";
+import { AddFeeCard } from "@/components/widgets/components/AddFeeCard";
+import { LoadingAlertDialog } from "@/components/ui/loading";
 
 interface QuickShowProps {
     context: ShowControllerResult<Directions.Direction>;
@@ -23,8 +26,11 @@ export const QuickShowDirections = (props: QuickShowProps) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [changeAuthDataClicked, setChangeAuthDataClicked] = useState(false);
+    const [addNewFeeClicked, setAddNewFeeClicked] = useState(false);
 
     const [fees, setFees] = useState<Directions.Fees>();
+
+    const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const handleCreateClicked = () => {
         if (createNew) {
@@ -51,7 +57,15 @@ export const QuickShowDirections = (props: QuickShowProps) => {
         }
     }, [context.record]);
 
-    if (!context.record) return;
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            if (addNewFeeClicked) {
+                messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    }, [addNewFeeClicked]);
+
+    if (!context.record || !data) return <LoadingAlertDialog />;
     return (
         <div className="px-[42px] ">
             <div className="flex justify-between">
@@ -108,30 +122,35 @@ export const QuickShowDirections = (props: QuickShowProps) => {
                         {translate("app.ui.actions.delete")}
                     </Button>
                 </div>
-                <div className="flex flex-col bg-neutral-0 px-[32px] rounded-[8px]">
+                <div className="flex flex-col bg-neutral-0 px-[32px] rounded-[8px] w-full mx-[10px] mt-[10px]">
                     <h3 className="text-display-3 mt-[16px] mb-[16px]">{translate("resources.direction.fees.fees")}</h3>
-                    {fees &&
-                        Object.keys(fees).map(key => {
-                            const fee = fees[key];
-                            return (
-                                <FeeCard
-                                    key={fee.id}
-                                    account={fee.id}
-                                    currency={fee.currency}
-                                    feeAmount={fee.value.quantity}
-                                    feeType={data.feeTypes[fee.type]?.type_descr || ""}
-                                />
-                            );
-                        })}
-                    <FeeCard account="Test1" currency="Test1" feeAmount={11} feeType="Test1" description="Test1" />
-                    <FeeCard account="Test2" currency="Test2" feeAmount={12} feeType="Test2" description="Test2" />
-                    <FeeCard account="Test3" currency="Test3" feeAmount={13} feeType="Test3" description="Test3" />
-                    <FeeCard account="Test4" currency="Test4" feeAmount={14} feeType="Test4" description="Test4" />
+                    <div className="max-h-[40vh] overflow-auto pr-[10px]">
+                        {fees && Object.keys(fees).length !== 0
+                            ? Object.keys(fees).map(key => {
+                                  const fee = fees[key];
+                                  return (
+                                      <FeeCard
+                                          key={fee.id}
+                                          account={fee.id}
+                                          currency={fee.currency}
+                                          feeAmount={fee.value.quantity}
+                                          feeType={data.feeTypes[fee.type]?.type_descr || ""}
+                                          id={id}
+                                          resource={FeesResource.DIRECTION}
+                                      />
+                                  );
+                              })
+                            : ""}
+                        {addNewFeeClicked && (
+                            <AddFeeCard id={id} onOpenChange={setAddNewFeeClicked} resource={FeesResource.DIRECTION} />
+                        )}
+                        <div ref={messagesEndRef} />
+                    </div>
                 </div>
                 <div className="flex justify-end">
-                    <Button className="flex gap-[4px]" onClick={handleCreateClicked}>
+                    <Button onClick={() => setAddNewFeeClicked(true)} className="my-6 w-1/4 flex gap-[4px]">
                         <CircleChevronRight className="w-[16px] h-[16px]" />
-                        <span>{translate("resources.direction.fees.addFee")}</span>
+                        {translate("resources.direction.fees.addFee")}
                     </Button>
                 </div>
             </div>

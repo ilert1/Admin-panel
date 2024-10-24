@@ -96,22 +96,24 @@ export const FeeCard = (props: FeeCardProps) => {
                 </div>
             </div>
 
-            <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-                <AlertDialogContent className="w-[251px] bg-muted z-200">
-                    <AlertDialogHeader>
-                        <AlertDialogTitle className="text-center">
-                            {translate("resources.direction.fees.deleteFee")}
-                        </AlertDialogTitle>
-                        <AlertDialogDescription></AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <div className="flex justify-around w-full">
-                            <Button onClick={handleDelete}>{translate("app.ui.actions.delete")}</Button>
-                            <AlertDialogCancel>{translate("app.ui.actions.cancel")}</AlertDialogCancel>
-                        </div>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+            <div className="">
+                <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+                    <AlertDialogContent className="w-[251px] bg-muted !z-[200]">
+                        <AlertDialogHeader>
+                            <AlertDialogTitle className="text-center">
+                                {translate("resources.direction.fees.deleteFee")}
+                            </AlertDialogTitle>
+                            <AlertDialogDescription></AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <div className="flex justify-around w-full">
+                                <Button onClick={handleDelete}>{translate("app.ui.actions.delete")}</Button>
+                                <AlertDialogCancel>{translate("app.ui.actions.cancel")}</AlertDialogCancel>
+                            </div>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            </div>
         </>
     );
 };

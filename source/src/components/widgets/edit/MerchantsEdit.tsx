@@ -96,6 +96,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
     }, [addNewFeeClicked]);
 
     const onSubmit: SubmitHandler<Merchant> = async data => {
+        data.fees = record.fees;
         try {
             await dataProvider.update("merchant", {
                 id,
@@ -113,7 +114,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
         }
     };
 
-    if (isLoading || !record) return <Loading />;
+    if (isLoading || !record || !data) return <Loading />;
     const fees = record.fees;
     return (
         <EditContextProvider value={controllerProps}>
@@ -204,7 +205,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                         : ""}
                     {addNewFeeClicked && (
                         <AddFeeCard
-                            id={record.name}
+                            id={record.id}
                             onOpenChange={setAddNewFeeClicked}
                             resource={FeesResource.MERCHANT}
                         />
