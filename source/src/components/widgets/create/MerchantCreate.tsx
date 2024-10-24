@@ -45,9 +45,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
     }, [addNewFeeClicked]);
 
     const handleDeleteFee = (id: string) => {
-        console.log(id);
         const newFees = fees.filter(el => {
-            console.log(el);
             return el.innerId !== id;
         });
         setFees(newFees);
@@ -113,7 +111,6 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
     });
 
     if (isLoading) return <Loading />;
-    console.log(fees);
     return (
         <CreateContextProvider value={controllerProps}>
             <Form {...form}>

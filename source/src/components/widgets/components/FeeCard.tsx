@@ -39,7 +39,6 @@ export const FeeCard = (props: FeeCardProps) => {
 
     const handleDelete = async () => {
         if (innerId && deleteFunction) {
-            console.log(innerId);
             deleteFunction(innerId);
         } else {
             try {
@@ -51,7 +50,6 @@ export const FeeCard = (props: FeeCardProps) => {
             }
         }
     };
-
     return (
         <>
             <div className="mb-[16px]">

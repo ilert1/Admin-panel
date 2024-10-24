@@ -69,7 +69,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                                           key={fee.id}
                                           account={fee.id}
                                           currency={fee.currency}
-                                          feeAmount={fee.value.quantity}
+                                          feeAmount={fee.value.quantity / fee.value.accuracy}
                                           feeType={data.feeTypes[fee.type]?.type_descr || ""}
                                           id={id}
                                           resource={FeesResource.MERCHANT}
