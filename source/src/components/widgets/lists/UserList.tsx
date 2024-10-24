@@ -169,7 +169,9 @@ export const UserList = () => {
         },
         {
             accessorKey: "active",
-            header: translate("resources.users.fields.active"),
+            header: () => {
+                return <div className="text-center">{translate("resources.users.fields.active")}</div>;
+            },
             cell: ({ row }) => (
                 <div className="flex items-center justify-center text-white">
                     {row.original.deleted_at ? (

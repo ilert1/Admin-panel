@@ -84,7 +84,9 @@ export const useGetProvidersColumns = () => {
         },
         {
             id: "show_methods",
-            header: translate("resources.provider.fields.methods"),
+            header: () => {
+                return <div className="text-center">{translate("resources.provider.fields.methods")}</div>;
+            },
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
@@ -100,7 +102,9 @@ export const useGetProvidersColumns = () => {
         },
         {
             id: "recreate_field",
-            header: translate("resources.provider.fields.regenKey"),
+            header: () => {
+                return <div className="text-center">{translate("resources.provider.fields.regenKey")}</div>;
+            },
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
@@ -113,7 +117,9 @@ export const useGetProvidersColumns = () => {
         },
         {
             id: "update_field",
-            header: translate("app.ui.actions.edit"),
+            header: () => {
+                return <div className="text-center">{translate("app.ui.actions.edit")}</div>;
+            },
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
@@ -126,7 +132,9 @@ export const useGetProvidersColumns = () => {
         },
         {
             id: "delete_field",
-            header: translate("app.ui.actions.delete"),
+            header: () => {
+                return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
+            },
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
