@@ -11,7 +11,7 @@ export const UserCreate = () => {
     const navigate = useNavigate();
     const contrProps = useCreateController();
 
-    const onSuccess = (data: any) => {
+    const onSuccess = (data: Users.User) => {
         toast.success(translate("resources.users.create.success"), {
             dismissible: true,
             duration: 3000,
@@ -28,15 +28,17 @@ export const UserCreate = () => {
         });
     };
 
-    const { isLoading: currenciesLoading, data: currencies } = useQuery("currencies", () =>
-        fetch(`${API_URL}/dictionaries/curr`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
-        }).then(response => response.json())
+    const { isLoading: currenciesLoading, data: currencies } = useQuery<{ data: Dictionaries.Currency[] }>(
+        "currencies",
+        () =>
+            fetch(`${API_URL}/dictionaries/curr`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }).then(response => response.json())
     );
 
-    const createUserRecord = (data: any) => {
+    const createUserRecord = (data: Omit<Users.User, "created_at" | "deleted_at" | "id">) => {
         if (contrProps.save !== undefined) {
             contrProps.save(data, { onSuccess, onError });
         }
@@ -44,17 +46,15 @@ export const UserCreate = () => {
 
     const isDisabled = useMemo(() => currenciesLoading || contrProps.saving, [contrProps.saving, currenciesLoading]);
 
-    return (
-        <CreateContextProvider value={contrProps}>
-            {contrProps.save !== undefined ? (
+    if (contrProps.save !== undefined) {
+        return (
+            <CreateContextProvider value={contrProps}>
                 <UserCreateForm
                     onSubmit={createUserRecord}
                     currencies={currencies?.data || []}
                     isDisabled={isDisabled !== undefined ? isDisabled : false}
                 />
-            ) : (
-                <>{navigate(`/${contrProps.resource}`)}</>
-            )}
-        </CreateContextProvider>
-    );
+            </CreateContextProvider>
+        );
+    }
 };

@@ -1,7 +1,6 @@
 import {
     CoreLayoutProps,
     useGetIdentity,
-    useGetResourceLabel,
     useI18nProvider,
     useLocaleState,
     useLogout,
@@ -11,38 +10,37 @@ import {
 } from "react-admin";
 import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import { useMemo, createElement, useState } from "react";
-import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbSeparator
-} from "@/components/ui/breadcrumb";
+import { useMemo, createElement, useState, useEffect } from "react";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Switch } from "@/components/ui/switch";
 import {
-    HandCoinsIcon,
-    PanelLeftIcon,
-    MoonIcon,
-    SunIcon,
-    LayoutDashboardIcon,
     LanguagesIcon,
-    BitcoinIcon
+    CreditCardIcon,
+    ChevronLeftCircleIcon,
+    ChevronRightCircleIcon,
+    MessagesSquareIcon,
+    XIcon,
+    KeyRound,
+    ChevronLeft
 } from "lucide-react";
 import { useTheme } from "@/components/providers";
-import { camelize } from "@/helpers/utils";
 import { Toaster } from "@/components/ui/toaster";
+import Logo from "@/lib/icons/Logo";
+import LogoPicture from "@/lib/icons/LogoPicture";
+import Blowfish from "@/lib/icons/Blowfish";
+import { ChatSheet } from "@/components/widgets/components/ChatSheet";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { debounce } from "lodash";
+import { Button } from "@/components/ui/button";
+import { useGetResLabel } from "@/hooks/useGetResLabel";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { KeysModal } from "@/components/widgets/components/KeysModal";
 
 enum SplitLocations {
     show = "show",
@@ -50,14 +48,9 @@ enum SplitLocations {
     new = "new"
 }
 
-enum TransferLocations {
-    bank = "bank-transfer",
-    crypto = "crypto-transfer"
-}
-
-export const MainLayout = ({ children, title }: CoreLayoutProps) => {
+export const MainLayout = ({ children }: CoreLayoutProps) => {
     const resources = useResourceDefinitions();
-    const getResourceLabel = useGetResourceLabel();
+    const getResLabel = useGetResLabel();
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
@@ -72,29 +65,46 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
                 resources.push(tempResource.join("/"));
             }
         });
-
         return resources;
     }, [location]);
 
-    const resourceLabel = (item: string) => {
-        if (Object.values<string>(TransferLocations).includes(item)) {
-            return translate(`pages.${camelize(item)}.header`);
-        } else if (item.includes("/show")) {
-            return item.replace("/show", "");
-        } else if (item) {
-            return translate(`resources.${camelize(item)}.name`, { _: item, smart_count: 2 });
-        } else {
-            return null;
+    const pageTitle = useMemo(() => {
+        if (resourceName.length > 0) {
+            if (resourceName[0] === "bank-transfer") {
+                return translate("app.menu.merchant.bankTransfer");
+            }
+            return getResLabel(resourceName[0], permissions);
         }
-    };
+    }, [getResLabel, permissions, resourceName, translate]);
 
     const identity = useGetIdentity();
     const logout = useLogout();
+    //TODO for better UX we should set last location in localStorage to save it while user presses browser "refresh" button
+    const handleLogout = () => {
+        location.pathname = "/";
+        logout();
+    };
+
     const { setTheme, theme } = useTheme();
     const [locale, setLocale] = useLocaleState();
     const { getLocales } = useI18nProvider();
 
     const [isSheetOpen, setSheetOpen] = useState(false);
+    const [showCaptions, setShowCaptions] = useState(false);
+    const [profileOpen, setProfileOpen] = useState(false);
+    const [langOpen, setLangOpen] = useState(false);
+    const [chatOpen, setChatOpen] = useState(false);
+    const [testKeysModalOpen, setTestKeysModalOpen] = useState(false);
+
+    const debounced = debounce(setChatOpen, 120);
+
+    useEffect(() => {
+        isSheetOpen
+            ? setTimeout(() => {
+                  setShowCaptions(isSheetOpen);
+              }, 150)
+            : setShowCaptions(isSheetOpen);
+    }, [isSheetOpen]);
 
     const changeLocale = (value: string) => {
         if (locale !== value) {
@@ -111,216 +121,322 @@ export const MainLayout = ({ children, title }: CoreLayoutProps) => {
     };
 
     return (
-        <TooltipProvider delayDuration={200}>
-            <div className="flex min-h-screen w-full flex-col bg-muted/40">
-                <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col justify-between border-r bg-background sm:flex">
-                    <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <NavLink
-                                    to="/"
-                                    className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
-                                    <LayoutDashboardIcon />
-                                    <span className="sr-only">{translate("app.menu.dashboard")}</span>
-                                </NavLink>
-                            </TooltipTrigger>
-                            <TooltipContent className="border-tooltip-info_bold" side="right">
-                                {translate("app.menu.dashboard")}
-                            </TooltipContent>
-                        </Tooltip>
+        <div className="flex flex-col h-screen">
+            <header
+                className="flex flex-shrink-0 h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z"
+                onClick={e => e.stopPropagation()}>
+                {identity?.data && (
+                    <div className="ml-auto flex items-center gap-2 mr-6">
+                        <div>
+                            <span
+                                className={
+                                    profileOpen
+                                        ? "text-green-50 text-title-2 cursor-default"
+                                        : "text-neutral-100 text-title-2 cursor-default"
+                                }>
+                                {identity.data.fullName ? identity.data.fullName : null}
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-8 relative !z-60">
+                            <DropdownMenu open={profileOpen} onOpenChange={setProfileOpen} modal={true}>
+                                <DropdownMenuTrigger asChild>
+                                    <Avatar
+                                        className={
+                                            profileOpen
+                                                ? "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-50 bg-green-50 transition-all duration-150"
+                                                : "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-40 hover:border-green-50 bg-muted hover:bg-green-50 transition-all duration-150"
+                                        }>
+                                        <Blowfish />
+                                    </Avatar>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                    align="end"
+                                    className="p-0 w-56 bg-muted border border-neutral-100 z100">
+                                    <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
+                                        <Avatar className="w-5 h-5">
+                                            <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
+                                                {identity.data.fullName
+                                                    ? identity.data.fullName[0].toLocaleUpperCase()
+                                                    : ""}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <div className="ml-3 text-neutral-100">
+                                            <div className="text-title-1 cursor-default">{identity.data.fullName}</div>
+                                            {
+                                                //TODO: Set valid email
+                                            }
+                                            <div className="text-note-2 cursor-default">email@gmail.com</div>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
+                                        <Switch
+                                            checked={theme === "dark"}
+                                            onCheckedChange={toggleTheme}
+                                            className="border-green-50 data-[state=checked]:bg-muted data-[state=unchecked]:bg-muted"
+                                        />
+                                        <span className="ml-3 cursor-default">
+                                            {theme === "dark"
+                                                ? translate("app.theme.light")
+                                                : translate("app.theme.dark")}
+                                        </span>
+                                    </div>
+                                    <DropdownMenuItem
+                                        className="pl-4 pr-4 h-[50px] focus:bg-green-50 focus:cursor-pointer text-title-2"
+                                        onClick={handleLogout}>
+                                        {translate("ra.auth.logout")}
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            <Sheet
+                                open={chatOpen}
+                                onOpenChange={isOpen => {
+                                    debounced(isOpen);
+                                }}
+                                modal={true}>
+                                <SheetTrigger asChild>
+                                    <div>
+                                        <Avatar
+                                            className={
+                                                chatOpen
+                                                    ? "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
+                                                    : "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-green-50 hover:text-neutral-100 border-2 border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
+                                            }>
+                                            <MessagesSquareIcon className="h-[30px] w-[30px]" />
+                                        </Avatar>
+                                    </div>
+                                </SheetTrigger>
+                                <SheetContent
+                                    className="sm:max-w-[520px] !top-[84px] !max-h-[calc(100vh-84px)] w-full p-0 m-0"
+                                    close={false}>
+                                    <SheetHeader className="p-4 bg-green-60">
+                                        <div className="flex justify-between items-center ">
+                                            <SheetTitle className="text-display-3">
+                                                {translate("app.ui.actions.chatWithSupport")}
+                                            </SheetTitle>
+                                            <button
+                                                tabIndex={-1}
+                                                onClick={() => setChatOpen(false)}
+                                                className="text-gray-500 hover:text-gray-700 transition-colors outline-0 border-0 -tab-1">
+                                                <XIcon className="h-[28px] w-[28px]" />
+                                            </button>
+                                        </div>
+                                    </SheetHeader>
+                                    <SheetDescription></SheetDescription>
+                                    <ChatSheet locale={locale} />
+                                </SheetContent>
+                            </Sheet>
+                            <DropdownMenu onOpenChange={setLangOpen} modal={false}>
+                                <DropdownMenuTrigger asChild className="">
+                                    <Avatar
+                                        className={
+                                            langOpen
+                                                ? "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
+                                                : "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 hover:text-neutral-100 border-2 border-neutral-50 hover:border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
+                                        }>
+                                        <LanguagesIcon className="h-[30px] w-[30px]" />
+                                    </Avatar>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                    align="end"
+                                    className="p-0 bg-muted border border-neutral-100 z-[60]">
+                                    {getLocales?.().map(locale => (
+                                        <DropdownMenuItem
+                                            key={locale.locale}
+                                            onClick={() => changeLocale(locale.locale)}
+                                            className="text-title-2 py-[14px] focus:bg-green-50 focus:cursor-pointer pl-4 pr-4">
+                                            {locale.name}
+                                        </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                    </div>
+                )}
+            </header>
+            <div className="flex grow h-full overflow-hidden">
+                <aside
+                    className={
+                        isSheetOpen
+                            ? "w-[280px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden scrollbar-stable justify-start bg-header transition-[width] pt-6"
+                            : "w-[72px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden scrollbar-stable justify-start bg-header transition-[width] pt-6"
+                    }>
+                    {isSheetOpen ? (
+                        <div className="flex flex-shrink-0 justify-center items-center h-[63px] gap-6">
+                            <div className="flex items-center w-[189px] m-0 p-0">
+                                <div className="animate-in fade-in-0 transition-opacity duration-700">
+                                    <LogoPicture />
+                                </div>
+                                <div className="animate-in ml-4 fade-in-0 transition-opacity duration-700">
+                                    <Logo />
+                                </div>
+                            </div>
+                            <button className="flex flex-col items-center animate-in fade-in-0 transition-opacity duration-300">
+                                <ChevronLeftCircleIcon
+                                    onClick={() => setSheetOpen(!isSheetOpen)}
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-foreground"
+                                />
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="w-[70px] flex justify-center">
+                            <button className="h-[63px] ">
+                                <ChevronRightCircleIcon
+                                    onClick={() => setSheetOpen(!isSheetOpen)}
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-foreground"
+                                />
+                            </button>
+                        </div>
+                    )}
+
+                    <nav className="flex flex-col items-baseline text-base gap-4 mt-6 pl-6">
                         {Object.keys(resources).map(resource => (
-                            <Tooltip key={resource}>
-                                <TooltipTrigger asChild>
-                                    <NavLink
-                                        to={`/${resource}`}
-                                        className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
-                                        {createElement(resources[resource].icon)}
-                                        <span className="sr-only">{getResourceLabel(resources[resource].name)}</span>
-                                    </NavLink>
-                                </TooltipTrigger>
-                                <TooltipContent className="border-tooltip-info_bold" side="right">
-                                    {getResourceLabel(resources[resource].name)}
-                                </TooltipContent>
-                            </Tooltip>
+                            <TooltipProvider key={resource} delayDuration={100}>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <NavLink
+                                            to={`/${resource}`}
+                                            className={
+                                                resourceName[0] === resource
+                                                    ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                                    : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                            }>
+                                            {createElement(resources[resource].icon, {})}
+                                            {showCaptions ? (
+                                                <span className="animate-in fade-in-0 transition-opacity">
+                                                    {getResLabel(resources[resource].name, permissions)}
+                                                </span>
+                                            ) : null}
+                                        </NavLink>
+                                    </TooltipTrigger>
+
+                                    <TooltipContent
+                                        className={
+                                            showCaptions
+                                                ? "hidden"
+                                                : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 after:rotate-45"
+                                        }
+                                        sideOffset={12}
+                                        side="right">
+                                        {getResLabel(resources[resource].name, permissions)}
+                                        <ChevronLeft
+                                            className="absolute -left-[13px] top-1.5 text-green-40"
+                                            width={20}
+                                            height={20}
+                                        />
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                         ))}
                         {merchantOnly && (
-                            <>
+                            <TooltipProvider delayDuration={100}>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
                                         <NavLink
                                             to="/bank-transfer"
-                                            className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
-                                            <HandCoinsIcon />
-                                            <span className="sr-only">{translate("app.menu.bankTransfer")}</span>
+                                            className={
+                                                resourceName[0] === "bank-transfer"
+                                                    ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                                    : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                            }>
+                                            <CreditCardIcon />
+                                            {showCaptions ? (
+                                                <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
+                                                    {translate("app.menu.merchant.bankTransfer")}
+                                                </span>
+                                            ) : null}
                                         </NavLink>
                                     </TooltipTrigger>
-                                    <TooltipContent className="border-tooltip-info_bold" side="right">
-                                        {translate("app.menu.bankTransfer")}
+
+                                    <TooltipContent
+                                        className={
+                                            showCaptions
+                                                ? "hidden"
+                                                : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 after:rotate-45"
+                                        }
+                                        sideOffset={12}
+                                        side="right">
+                                        {translate("app.menu.merchant.bankTransfer")}
+                                        <ChevronLeft
+                                            className="absolute -left-[13px] top-1.5 text-green-40"
+                                            width={20}
+                                            height={20}
+                                        />
                                     </TooltipContent>
                                 </Tooltip>
+                            </TooltipProvider>
+                        )}
+                        {/* {merchantOnly && (
+                            <NavLink
+                                to="/crypto-transfer"
+                                className={
+                                    resourceName[0] === "crypto-transfer"
+                                        ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                        : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                }>
+                                <BitcoinIcon />
+                                {showCaptions ? (
+                                    <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
+                                        {translate("app.menu.merchant.cryptoOperations")}
+                                    </span>
+                                ) : null}
+                            </NavLink>
+                        )} */}
+                    </nav>
+
+                    {permissions === "admin" && (
+                        <div className="flex flex-grow items-end ml-[18px] mr-[10px] mb-6 mt-4">
+                            <TooltipProvider delayDuration={100}>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
-                                        <NavLink
-                                            to="/crypto-transfer"
-                                            className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
-                                            <BitcoinIcon />
-                                            <span className="sr-only">
-                                                {translate("app.menu.cryptoWalletTransfer")}
-                                            </span>
-                                        </NavLink>
+                                        <Button
+                                            className={
+                                                showCaptions ? "w-full pl-6 flex gap-[4px] text-title-1" : "p-2.5"
+                                            }
+                                            onClick={() => {
+                                                setTestKeysModalOpen(true);
+                                            }}>
+                                            <KeyRound className="w-[16px] h-[16px]" />
+                                            {showCaptions ? (
+                                                <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
+                                                    {translate("resources.provider.createTestKeys")}
+                                                </span>
+                                            ) : null}
+                                        </Button>
                                     </TooltipTrigger>
-                                    <TooltipContent className="border-tooltip-info_bold" side="right">
-                                        {translate("app.menu.cryptoWalletTransfer")}
+
+                                    <TooltipContent
+                                        className={
+                                            showCaptions
+                                                ? "hidden"
+                                                : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 after:rotate-45"
+                                        }
+                                        side="right"
+                                        sideOffset={12}>
+                                        {translate("resources.provider.createTestKeys")}
+                                        <ChevronLeft
+                                            className="absolute -left-[13px] top-1.5 text-green-40"
+                                            width={20}
+                                            height={20}
+                                        />
                                     </TooltipContent>
                                 </Tooltip>
-                            </>
-                        )}
-                    </nav>
-                    <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <NavLink
-                                    to="#"
-                                    onClick={toggleTheme}
-                                    className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
-                                    {theme === "light" ? <SunIcon /> : <MoonIcon />}
-                                    <span className="sr-only">
-                                        {theme === "dark" ? translate("app.theme.dark") : translate("app.theme.light")}
-                                    </span>
-                                </NavLink>
-                            </TooltipTrigger>
-                            <TooltipContent className="border-tooltip-info_bold" side="right">
-                                {theme === "dark" ? translate("app.theme.dark") : translate("app.theme.light")}
-                            </TooltipContent>
-                        </Tooltip>
-                    </nav>
+                            </TooltipProvider>
+                        </div>
+                    )}
                 </aside>
-                <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
-                    <header className="sticky top-0 z-30 sm:z-0 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-                        <Sheet open={isSheetOpen} onOpenChange={setSheetOpen}>
-                            <SheetTrigger asChild>
-                                <Button size="icon" variant="outline" className="sm:hidden">
-                                    <PanelLeftIcon className="h-5 w-5" />
-                                </Button>
-                            </SheetTrigger>
-                            <SheetContent side="left" className="sm:max-w-xs flex flex-col justify-between">
-                                <nav className="grid gap-6 text-lg font-medium">
-                                    <NavLink
-                                        to="/"
-                                        onClick={() => setSheetOpen(false)}
-                                        className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                                        <LayoutDashboardIcon className="h-5 w-5" />
-                                        {translate("app.menu.dashboard")}
-                                    </NavLink>
-                                    {Object.keys(resources).map(resource => (
-                                        <NavLink
-                                            key={resource}
-                                            to={`/${resource}`}
-                                            onClick={() => setSheetOpen(false)}
-                                            className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                                            {createElement(resources[resource].icon, {
-                                                className: "h-5 w-5"
-                                            })}
-                                            {getResourceLabel(resources[resource].name)}
-                                        </NavLink>
-                                    ))}
-                                    {merchantOnly && (
-                                        <>
-                                            <NavLink
-                                                to="/bank-transfer"
-                                                onClick={() => setSheetOpen(false)}
-                                                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                                                <HandCoinsIcon className="h-5 w-5" />
-                                                {translate("app.menu.bankTransfer")}
-                                            </NavLink>
-                                            <NavLink
-                                                to="/crypto-transfer"
-                                                onClick={() => setSheetOpen(false)}
-                                                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                                                <BitcoinIcon className="h-5 w-5" />
-                                                {translate("app.menu.cryptoWalletTransfer")}
-                                            </NavLink>
-                                        </>
-                                    )}
-                                </nav>
-                                <nav className="grid gap-6 text-lg font-medium">
-                                    <NavLink
-                                        to="#"
-                                        onClick={toggleTheme}
-                                        className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                                        {theme === "light" ? <SunIcon /> : <MoonIcon />}
-                                        {theme === "dark" ? translate("app.theme.dark") : translate("app.theme.light")}
-                                    </NavLink>
-                                </nav>
-                            </SheetContent>
-                        </Sheet>
-                        <Breadcrumb className="hidden sm:flex">
-                            <BreadcrumbList>
-                                <BreadcrumbItem>
-                                    <BreadcrumbLink asChild>
-                                        <NavLink to="/">{title}</NavLink>
-                                    </BreadcrumbLink>
-                                </BreadcrumbItem>
-                                {resourceName.map((item, index) => (
-                                    <div
-                                        className="flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5"
-                                        key={index}>
-                                        <BreadcrumbSeparator />
-                                        <BreadcrumbItem>
-                                            <BreadcrumbLink asChild>
-                                                <NavLink to={`/${resourceName.slice(0, index + 1).join("/")}`}>
-                                                    {resourceLabel(item)}
-                                                </NavLink>
-                                            </BreadcrumbLink>
-                                        </BreadcrumbItem>
-                                    </div>
-                                ))}
-                            </BreadcrumbList>
-                        </Breadcrumb>
-                        {identity?.data && (
-                            <div className="relative ml-auto flex flex-row gap-2">
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Avatar className="cursor-pointer">
-                                            <AvatarFallback>
-                                                <LanguagesIcon className="h-5 w-5" />
-                                            </AvatarFallback>
-                                        </Avatar>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end">
-                                        {getLocales?.().map(locale => (
-                                            <DropdownMenuItem
-                                                key={locale.locale}
-                                                onClick={() => changeLocale(locale.locale)}>
-                                                {locale.name}
-                                            </DropdownMenuItem>
-                                        ))}
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Avatar className="cursor-pointer">
-                                            <AvatarImage src={identity.data.avatar} />
-                                            <AvatarFallback>
-                                                {identity.data.fullName?.[0]?.toUpperCase()}
-                                            </AvatarFallback>
-                                        </Avatar>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end">
-                                        <DropdownMenuLabel>{identity.data.fullName}</DropdownMenuLabel>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem onClick={logout}>
-                                            {translate("ra.auth.logout")}
-                                        </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                            </div>
-                        )}
-                    </header>
-                    <main className="p-4 sm:px-6 sm:py-0 container">{children}</main>
+
+                <div className="bg-muted grow overflow-y-auto scrollbar-stable transition-[margin-left] relative">
+                    <main className="p-6 pr-4 container">
+                        {resourceName[0] !== "bank-transfer" && <h1 className="text-3xl mb-6">{pageTitle}</h1>}
+                        {children}
+                    </main>
                 </div>
+
+                <Toaster />
             </div>
-            <Toaster />
-        </TooltipProvider>
+
+            <KeysModal open={testKeysModalOpen} onOpenChange={setTestKeysModalOpen} isTest />
+        </div>
     );
 };

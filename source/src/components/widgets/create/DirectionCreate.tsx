@@ -1,17 +1,25 @@
-import { useCreateController, CreateContextProvider, useRedirect, useTranslate, useDataProvider } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+import { Input, InputTypes } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loading } from "@/components/ui/loading";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
 import { useFetchDataForDirections } from "@/hooks";
 import { useToast } from "@/components/ui/use-toast";
 
-export const DirectionCreate = () => {
+export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
     const { currencies, merchants, providers, isLoading: loadingData } = useFetchDataForDirections();
 
@@ -19,15 +27,13 @@ export const DirectionCreate = () => {
     const controllerProps = useCreateController();
     const { toast } = useToast();
     const translate = useTranslate();
-    const redirect = useRedirect();
 
-    const onSubmit: SubmitHandler<DirectionCreate> = async data => {
+    const onSubmit: SubmitHandler<Directions.DirectionCreate> = async data => {
         try {
             await dataProvider.create("direction", { data });
-            redirect("list", "direction");
         } catch (error) {
             toast({
-                description: translate("resources.providers.errors.alreadyInUse"),
+                description: translate("resources.provider.errors.alreadyInUse"),
                 variant: "destructive",
                 title: "Error"
             });
@@ -35,13 +41,13 @@ export const DirectionCreate = () => {
     };
 
     const formSchema = z.object({
-        name: z.string().min(1, translate("resources.directions.errors.name")).trim(),
+        name: z.string().min(1, translate("resources.direction.errors.name")).trim(),
         active: z.boolean().default(false),
         description: z.string().trim().nullable(),
-        src_currency: z.string().min(1, translate("resources.directions.errors.src_curr")),
-        dst_currency: z.string().min(1, translate("resources.directions.errors.dst_curr")),
-        merchant: z.string().min(1, translate("resources.directions.errors.merchant")),
-        provider: z.string().min(1, translate("resources.directions.errors.provider")),
+        src_currency: z.string().min(1, translate("resources.direction.errors.src_curr")),
+        dst_currency: z.string().min(1, translate("resources.direction.errors.dst_curr")),
+        merchant: z.string().min(1, translate("resources.direction.errors.merchant")),
+        provider: z.string().min(1, translate("resources.direction.errors.provider")),
         weight: z.coerce.number()
     });
 
@@ -59,7 +65,12 @@ export const DirectionCreate = () => {
         }
     });
 
-    if (isLoading || loadingData) return <Loading />;
+    if (isLoading || loadingData)
+        return (
+            <div className="h-[140px]">
+                <Loading />
+            </div>
+        );
 
     const currenciesDisabled = !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0);
     const merchantsDisabled = !(merchants && Array.isArray(merchants.data) && merchants?.data?.length > 0);
@@ -67,7 +78,7 @@ export const DirectionCreate = () => {
 
     return (
         <CreateContextProvider value={controllerProps}>
-            <p className="mb-2">{translate("resources.directions.note")}</p>
+            {/* <p className="mb-2">{translate("resources.direction.note")}</p> */}
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="flex flex-wrap">
@@ -76,10 +87,10 @@ export const DirectionCreate = () => {
                             name="name"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.fields.name")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} />
+                                            <Input {...field} className="bg-muted" variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -91,24 +102,24 @@ export const DirectionCreate = () => {
                             name="active"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.fields.active")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.fields.active")}</FormLabel>
                                     <Select
                                         value={field.value ? "true" : "false"}
                                         onValueChange={value => field.onChange(value === "true")}>
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
-                                                    placeholder={translate("resources.directions.fields.active")}
+                                                    placeholder={translate("resources.direction.fields.active")}
                                                 />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                <SelectItem value="true">
-                                                    {translate("resources.directions.fields.stateActive")}
+                                                <SelectItem value="true" variant={SelectType.GRAY}>
+                                                    {translate("resources.direction.fields.stateActive")}
                                                 </SelectItem>
-                                                <SelectItem value="false">
-                                                    {translate("resources.directions.fields.stateInactive")}
+                                                <SelectItem value="false" variant={SelectType.GRAY}>
+                                                    {translate("resources.direction.fields.stateInactive")}
                                                 </SelectItem>
                                             </SelectGroup>
                                         </SelectContent>
@@ -122,17 +133,17 @@ export const DirectionCreate = () => {
                             name="src_currency"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.sourceCurrency")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.sourceCurrency")}</FormLabel>
                                     <Select
                                         value={field.value}
                                         onValueChange={field.onChange}
                                         disabled={currenciesDisabled}>
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={
                                                         currenciesDisabled
-                                                            ? translate("resources.directions.noCurrencies")
+                                                            ? translate("resources.direction.noCurrencies")
                                                             : ""
                                                     }
                                                 />
@@ -142,7 +153,10 @@ export const DirectionCreate = () => {
                                             <SelectGroup>
                                                 {!currenciesDisabled
                                                     ? currencies.data.map(currency => (
-                                                          <SelectItem key={currency.code} value={currency.code}>
+                                                          <SelectItem
+                                                              key={currency.code}
+                                                              value={currency.code}
+                                                              variant={SelectType.GRAY}>
                                                               {currency.code}
                                                           </SelectItem>
                                                       ))
@@ -159,17 +173,17 @@ export const DirectionCreate = () => {
                             name="dst_currency"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.destinationCurrency")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.destinationCurrency")}</FormLabel>
                                     <Select
                                         value={field.value}
                                         onValueChange={field.onChange}
                                         disabled={currenciesDisabled}>
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={
                                                         currenciesDisabled
-                                                            ? translate("resources.directions.noCurrencies")
+                                                            ? translate("resources.direction.noCurrencies")
                                                             : ""
                                                     }
                                                 />
@@ -179,7 +193,10 @@ export const DirectionCreate = () => {
                                             <SelectGroup>
                                                 {!currenciesDisabled
                                                     ? currencies.data.map(currency => (
-                                                          <SelectItem key={currency.code} value={currency.code}>
+                                                          <SelectItem
+                                                              key={currency.code}
+                                                              value={currency.code}
+                                                              variant={SelectType.GRAY}>
                                                               {currency.code}
                                                           </SelectItem>
                                                       ))
@@ -196,17 +213,17 @@ export const DirectionCreate = () => {
                             name="merchant"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.merchant")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.merchant")}</FormLabel>
                                     <Select
                                         value={field.value}
                                         onValueChange={field.onChange}
                                         disabled={merchantsDisabled}>
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={
                                                         merchantsDisabled
-                                                            ? translate("resources.directions.noMerchants")
+                                                            ? translate("resources.direction.noMerchants")
                                                             : ""
                                                     }
                                                 />
@@ -216,7 +233,10 @@ export const DirectionCreate = () => {
                                             <SelectGroup>
                                                 {!merchantsDisabled
                                                     ? merchants.data.map(merchant => (
-                                                          <SelectItem key={merchant.name} value={merchant.id}>
+                                                          <SelectItem
+                                                              key={merchant.name}
+                                                              value={merchant.id}
+                                                              variant={SelectType.GRAY}>
                                                               {merchant.name}
                                                           </SelectItem>
                                                       ))
@@ -233,17 +253,17 @@ export const DirectionCreate = () => {
                             name="provider"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.provider")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.provider")}</FormLabel>
                                     <Select
                                         value={field.value}
                                         onValueChange={field.onChange}
                                         disabled={providersDisabled}>
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={
                                                         providersDisabled
-                                                            ? translate("resources.directions.noProviders")
+                                                            ? translate("resources.direction.noProviders")
                                                             : ""
                                                     }
                                                 />
@@ -256,7 +276,8 @@ export const DirectionCreate = () => {
                                                           <SelectItem
                                                               key={provider.name}
                                                               value={provider.name}
-                                                              disabled={provider.public_key ? false : true}>
+                                                              disabled={provider.public_key ? false : true}
+                                                              variant={SelectType.GRAY}>
                                                               {provider.name}
                                                           </SelectItem>
                                                       ))
@@ -273,10 +294,10 @@ export const DirectionCreate = () => {
                             name="weight"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.weight")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.weight")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} />
+                                            <Input {...field} value={field.value ?? 0} variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -288,19 +309,28 @@ export const DirectionCreate = () => {
                             name="description"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.directions.description")}</FormLabel>
+                                    <FormLabel>{translate("resources.direction.description")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} value={field.value ?? ""} />
+                                            <Input {...field} value={field.value ?? ""} variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-                        <div className="p-2 ml-auto w-1/2 md:w-1/4">
-                            <Button type="submit" variant="default" className="w-full">
+                        <div className="flex gap-[16px] p-2 ml-auto w-1/3">
+                            <Button type="submit" variant="default" className="flex-1">
                                 {translate("app.ui.actions.save")}
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="deleteGray"
+                                className="flex-1"
+                                onClick={() => {
+                                    onOpenChange(false);
+                                }}>
+                                {translate("app.ui.actions.cancel")}
                             </Button>
                         </div>
                     </div>

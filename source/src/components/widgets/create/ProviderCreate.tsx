@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { useCreateController, CreateContextProvider, useRedirect, useTranslate, useDataProvider } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -8,10 +9,16 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
-import { Editor } from "@monaco-editor/react";
 import { useTheme } from "@/components/providers";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
 
-export const ProviderCreate = () => {
+export interface ProviderCreateProps {
+    onClose?: () => void;
+}
+
+export const ProviderCreate = (props: ProviderCreateProps) => {
+    const { onClose = () => {} } = props;
+
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController();
     const { toast } = useToast();
@@ -19,10 +26,11 @@ export const ProviderCreate = () => {
 
     const translate = useTranslate();
     const redirect = useRedirect();
-    const [editorValue, setEditorValue] = useState("{}");
-    const [error, setError] = useState(false);
+    const [hasErrors, setHasErrors] = useState(false);
+    const [isValid, setIsValid] = useState(false);
+
     const formSchema = z.object({
-        name: z.string().min(1, translate("resources.merchants.errors.name")).trim(),
+        name: z.string().min(1, translate("resources.merchant.errors.name")).trim(),
         public_key: z.string().nullable(),
         fields_json_schema: z.string().optional().default(""),
         methods: z.string()
@@ -61,14 +69,12 @@ export const ProviderCreate = () => {
             redirect("list", "provider");
         } catch (error) {
             toast({
-                description: translate("resources.providers.errors.alreadyInUse"),
+                description: translate("resources.provider.errors.alreadyInUse"),
                 variant: "error",
                 title: translate("resources.transactions.download.error")
             });
         }
-    };
-    const handleEditorDidMount = (editor: any, monaco: any) => {
-        monaco.editor.setTheme(`vs-${theme}`);
+        onClose();
     };
 
     if (controllerProps.isLoading || theme.length === 0) return <Loading />;
@@ -83,7 +89,11 @@ export const ProviderCreate = () => {
                             name="name"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.providers.fields.name")}</FormLabel>
+                                    <FormLabel>
+                                        <span className="!text-note-1 !text-neutral-30">
+                                            {translate("resources.provider.fields._name")}
+                                        </span>
+                                    </FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} />
@@ -98,7 +108,11 @@ export const ProviderCreate = () => {
                             name="fields_json_schema"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.providers.fields.json_schema")}</FormLabel>
+                                    <FormLabel>
+                                        <span className="!text-note-1 !text-neutral-30">
+                                            {translate("resources.provider.fields.json_schema")}
+                                        </span>
+                                    </FormLabel>
                                     <FormControl>
                                         <div>
                                             <Input {...field} />
@@ -111,36 +125,39 @@ export const ProviderCreate = () => {
                         <FormField
                             control={form.control}
                             name="methods"
-                            render={({ field }) => (
-                                <FormItem className="w-full p-2">
-                                    <FormLabel>{translate("resources.providers.fields.code")}</FormLabel>
-                                    <FormControl>
-                                        <Editor
-                                            {...field}
-                                            height="20vh"
-                                            defaultLanguage="json"
-                                            value={editorValue}
-                                            onChange={value => {
-                                                setEditorValue(value || "{}");
-                                                field.onChange(value);
-                                            }}
-                                            onValidate={markers => {
-                                                setError(markers.length > 0);
-                                            }}
-                                            options={{
-                                                theme: `vs-${theme}`
-                                            }}
-                                            loading={<Loading />}
-                                            onMount={handleEditorDidMount}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                            render={({ field }) => {
+                                return (
+                                    <FormItem className="w-full p-2">
+                                        <FormLabel>
+                                            <span className="!text-note-1 !text-neutral-30">
+                                                {translate("resources.provider.fields.code")}
+                                            </span>
+                                        </FormLabel>
+                                        <FormControl>
+                                            <MonacoEditor
+                                                height="144px"
+                                                width="100%"
+                                                onErrorsChange={setHasErrors}
+                                                onValidChange={setIsValid}
+                                                code={field.value || "{}"}
+                                                setCode={field.onChange}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                );
+                            }}
                         />
-                        <div className="w-1/4 p-2 ml-auto">
-                            <Button type="submit" variant="default" className="w-full" disabled={error}>
+                        <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
+                            <Button type="submit" variant="default" className="w-1/2" disabled={hasErrors && isValid}>
                                 {translate("app.ui.actions.save")}
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="flex-1 border-neutral-50 text-neutral-50 bg-muted w-1/2"
+                                onClick={onClose}>
+                                {translate("app.ui.actions.cancel")}
                             </Button>
                         </div>
                     </div>

@@ -1,0 +1,1 @@
+export { MerchantList } from "./MerchantList";

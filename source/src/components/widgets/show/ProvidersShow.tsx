@@ -3,20 +3,14 @@ import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Editor } from "@monaco-editor/react";
-import { useTheme } from "@/components/providers";
 import { useState } from "react";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
 
 export const ProvidersShow = (props: { id: string }) => {
     const translate = useTranslate();
     const context = useShowController({ id: props.id });
-    const { theme } = useTheme();
-    const [isEditorReady, setIsEditorReady] = useState(false);
 
-    const handleEditorDidMount = (editor: any, monaco: any) => {
-        monaco.editor.setTheme(`vs-${theme}`);
-        setIsEditorReady(true);
-    };
+    const [code, setCode] = useState("{}");
 
     if (context.isLoading || !context.record) {
         return <Loading />;
@@ -24,36 +18,34 @@ export const ProvidersShow = (props: { id: string }) => {
         return (
             <div className="flex flex-col gap-4 ">
                 <div>
-                    <TextField label={translate("resources.providers.fields.name")} text={context.record.name} />
+                    <TextField label={translate("resources.provider.fields.name")} text={context.record.name} />
                 </div>
                 <div>
                     <Label htmlFor="public_key" className="text-muted-foreground">
-                        {translate("resources.providers.fields.pk")}
+                        {translate("resources.provider.fields.pk")}
                     </Label>
                     <Textarea
                         id="public_key"
-                        value={context.record.public_key || translate("resources.providers.pleaseCreate")}
+                        value={context.record.public_key || translate("resources.provider.pleaseCreate")}
                         disabled
                         className="max-w-96 h-80 disabled:cursor-auto"
                     />
                     <TextField
-                        label={translate("resources.providers.fields.json_schema")}
+                        label={translate("resources.provider.fields.json_schema")}
                         text={context.record.fields_json_schema}
                     />
                 </div>
                 <div>
                     <Label htmlFor="editor" className="text-muted-foreground">
-                        {translate("resources.providers.fields.code")}
+                        {translate("resources.provider.fields.code")}
                     </Label>
-                    <Editor
-                        height="20vh"
-                        defaultLanguage="json"
-                        value={JSON.stringify(context.record.methods)}
-                        loading={<Loading />}
-                        options={{
-                            readOnly: true
-                        }}
-                        onMount={handleEditorDidMount}
+                    <MonacoEditor
+                        height="144px"
+                        width="100%"
+                        code={code}
+                        setCode={setCode}
+                        onErrorsChange={() => {}}
+                        onValidChange={() => {}}
                     />
                 </div>
             </div>

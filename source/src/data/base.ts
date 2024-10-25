@@ -21,10 +21,17 @@ export const BF_MANAGER_URL = import.meta.env.VITE_BF_MANAGER_URL;
 
 export class BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
-        const paramsStr = new URLSearchParams({
+        const data: any = {
             limit: params.pagination.perPage.toString(),
             offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
-        }).toString();
+        };
+
+        Object.keys(params.filter).forEach(filterItem => {
+            data[filterItem] = params.filter[filterItem];
+        });
+
+        const paramsStr = new URLSearchParams(data).toString();
+
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}?${paramsStr}`, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });

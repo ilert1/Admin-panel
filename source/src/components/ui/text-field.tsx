@@ -15,8 +15,8 @@ export const TextField = ({
     label?: string | undefined;
     link?: string;
     type?: "text" | "link" | "internal-link";
-    wrap?: boolean;
     copyValue?: boolean;
+    wrap?: boolean;
 }) => {
     const currentText = useMemo(() => (text?.length > 0 ? text : "-"), [text]);
     const translate = useTranslate();
@@ -33,6 +33,9 @@ export const TextField = ({
         if (wrap) {
             return "overflow-hidden ellipsis max-w-[500px]";
         }
+        // if (wrap) {
+        //     return "break-words whitespace-normal max-w-[500px]";
+        // }
 
         return "truncate max-w-[500px]";
     };
@@ -42,12 +45,15 @@ export const TextField = ({
             {label && <small className="text-sm text-muted-foreground">{label}</small>}
             {type === "text" && (
                 <p className="leading-5 flex flex-row gap-2">
-                    <span className={textStyle()}>{currentText}</span>
                     {copyValue && text?.length > 0 && (
                         <span>
-                            <Copy className="h-4 w-4 cursor-pointer" onClick={copy} />
+                            <Copy
+                                className="h-4 w-4 cursor-pointer text-neutral-60 dark:text-neutral-40"
+                                onClick={copy}
+                            />
                         </span>
                     )}
+                    <span className={textStyle()}>{currentText}</span>
                 </p>
             )}
             {type === "link" && (
@@ -57,7 +63,7 @@ export const TextField = ({
             )}
             {type === "internal-link" && (
                 <Link to={link} className="!text-card-foreground transition-colors hover:bg-muted/50">
-                    <p className="font-medium">{text}</p>
+                    <span className="font-medium">{text}</span>
                 </Link>
             )}
         </div>
