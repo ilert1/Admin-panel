@@ -85,6 +85,7 @@ export const CryptoTransferForm = (props: {
                                         </FormLabel>
                                         <FormControl>
                                             <Input
+                                                autoComplete="off"
                                                 placeholder="TRC"
                                                 className={`${
                                                     fieldState.invalid
@@ -130,6 +131,7 @@ export const CryptoTransferForm = (props: {
                                         </FormLabel>
                                         <FormControl>
                                             <Input
+                                                autoComplete="off"
                                                 className={`${
                                                     fieldState.invalid
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
