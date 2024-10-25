@@ -7,3 +7,4 @@ export { CurrenciesList } from "./CurrenciesList";
 export { ProvidersList } from "./Providers/ProvidersList";
 export { DirectionsList } from "./DirectionList/DirectionsList";
 export { WalletsList } from "./Wallets";
+export { WalletTransactionsList } from "./WalletTransactions";

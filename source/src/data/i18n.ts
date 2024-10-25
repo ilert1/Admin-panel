@@ -409,7 +409,30 @@ const ru: TranslationMessages = {
             createWallet: "Создать кошелек"
         },
         manageTransactions: {
-            name: "Криптотранзакции"
+            name: "Криптотранзакции",
+            allTransactions: "Все операции",
+            deletedTransactions: "Удаленные операции",
+            fields: {
+                created_at: "Создана",
+                updated_at: "Обновлена",
+                deleted_at: "Удалена",
+                src_wallet: "Кошелёк списания",
+                id: "ID операции",
+                dst_wallet: "Кошелёк зачисления",
+                amount: "Сумма операции",
+                type: "Тип операции",
+                state: "Статус платежа",
+                merchant_id: "ID мерчанта",
+                tx_id: "ID в блокчейне",
+                currency: "Валюта"
+            },
+            filterBar: {
+                searchById: "Поиск по ID операции",
+                created_at: "Дата создания",
+                updated_at: "Дата обновления",
+                paymentStatus: "Статус платежа",
+                resetFilters: "Сбросить фильтры"
+            }
         }
     },
     app: {
@@ -976,7 +999,30 @@ const en: TranslationMessages = {
             createWallet: "Create wallet"
         },
         manageTransactions: {
-            name: "Cryptotransactions"
+            name: "Cryptotransactions",
+            allTransactions: "All transactions",
+            deletedTransactions: "Deleted transactions",
+            fields: {
+                created_at: "Created at",
+                updated_at: "Updated at",
+                deleted_at: "Deleted at",
+                src_wallet: "Source wallet",
+                id: "Transaction ID",
+                dst_wallet: "Destination wallet",
+                amount: "Transaction amount",
+                type: "Transaction type",
+                state: "Payment status",
+                merchant_id: "Merchant ID",
+                tx_id: "ID in blockchain",
+                currency: "Currency"
+            },
+            filterBar: {
+                searchById: "Search by transaction ID",
+                paymentStatus: "Payment status",
+                created_at: "Creation date",
+                updated_at: "Update date",
+                resetFilters: "Reset filters"
+            }
         }
     },
     app: {
