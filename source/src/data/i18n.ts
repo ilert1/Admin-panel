@@ -194,6 +194,7 @@ const ru: TranslationMessages = {
         withdraw: {
             name: "Вывод криптовалюты",
             tableTitle: "Отчет по выводам в криптовалюте",
+            cryptoTransferTitle: "Перевод криптовалюты",
             fields: {
                 id: "ID",
                 created_at: "Дата и время создания",
@@ -456,15 +457,20 @@ const ru: TranslationMessages = {
                     success: "Вывод успешно создан"
                 },
                 cryptoTransfer: {
-                    address: "Адрес TRC20",
-                    addressMessage: "Неверный адрес",
-                    amount: "Сумма",
-                    amountMessage: "Некорректное значение",
+                    address: "Адрес получателя TRC20",
+                    addressMessage: "Неверный адрес получателя TRC-20",
+                    amount: "Сумма, USD₮",
+                    amountMessage: "Введите корректное значение (например, 99.564)",
                     amountMinMessage: "Сумма должна быть минимум 2 USD₮",
                     amountMaxMessage: "Сумма должна быть максимум %{amount} USD₮",
                     commission: "Комиссия",
                     totalAmount: "Сумма выплаты",
-                    allAmount: "Вся сумма %{amount} USD₮"
+                    allAmount: "Перевести всю сумму (%{amount} USD₮)",
+                    createTransfer: "Перевести",
+                    transferSuccess: "Перевод осуществлён!",
+                    transferError: "Недостаточно средств на счёте",
+                    successButton: "Перевести ещё",
+                    errorButton: "Попробовать снова"
                 },
                 userCreate: {
                     title: "Добавление пользователя",
@@ -720,6 +726,7 @@ const en: TranslationMessages = {
         withdraw: {
             name: "Сrypto withdrawal",
             tableTitle: "Report on cryptocurrency withdrawals",
+            cryptoTransferTitle: "Crypto transfer",
             fields: {
                 id: "ID",
                 created_at: "Created at",
@@ -983,15 +990,20 @@ const en: TranslationMessages = {
                     success: "Payout successfully created"
                 },
                 cryptoTransfer: {
-                    address: "TRC20 address",
-                    addressMessage: "Wrong address",
-                    amount: "Amount",
-                    amountMessage: "Wrong value",
+                    address: "TRC20 recipient address",
+                    addressMessage: "Invalid TRC-20 recipient address",
+                    amount: "Amount, USD₮",
+                    amountMessage: "Insert correct amount (e.g. 99.564)",
                     amountMinMessage: "Amount should be at least 2 USD₮",
                     amountMaxMessage: "Amount should be less than %{amount} USD₮",
                     commission: "Commission",
                     totalAmount: "Total amount",
-                    allAmount: "All amount %{amount} USD₮"
+                    allAmount: "Transfer the entire amount (%{amount} USD₮)",
+                    createTransfer: "Transfer",
+                    transferSuccess: "Transfer is successful!",
+                    transferError: "Insufficient funds in the account",
+                    successButton: "Transfer more",
+                    errorButton: "Try again"
                 },
                 userCreate: {
                     title: "Adding a user",
