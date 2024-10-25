@@ -45,9 +45,9 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
 
     const dynamicFormSchema = useMemo<Record<string, z.ZodType<{ [key: string]: ZodTypeAny }>>>(() => {
         const schema: Record<string, z.ZodType<{ [key: string]: ZodTypeAny }>> = {};
-
+        console.log(additionalFields);
         for (const option of additionalFields) {
-            Object.assign(schema, { [option.name]: option.name });
+            Object.assign(schema, { [option.type]: option.type });
         }
 
         return schema;
@@ -193,11 +193,11 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                             disabled={loading}
                             key={i}
                             control={form.control}
-                            name={f.name}
+                            name={f.type}
                             render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormLabel>
-                                        {translate(`app.widgets.forms.payout.${dynamicFormSchema[f.name]}`)}
+                                        {translate(`app.widgets.forms.payout.${dynamicFormSchema[f.type]}`)}
                                     </FormLabel>
                                     <FormControl>
                                         <Input

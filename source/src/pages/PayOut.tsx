@@ -55,6 +55,7 @@ export const PayOutPage = () => {
 
     const createPayOut = (data: { payMethod: PayOut.PayMethod; [key: string]: string | PayOut.PayMethod }) => {
         const { payMethod, ...rest } = data;
+        console.log(data);
         setLocalLoading(true);
         fetch(`${BF_MANAGER_URL}/v1/payout/create`, {
             method: "POST",
@@ -66,12 +67,16 @@ export const PayOutPage = () => {
                             quantity: +rest.value * 100,
                             accuracy: 100
                         }
+                    },
+                    requisites: [
+                        {
+                            bank_name: payMethod.bank,
+                            ...Object.fromEntries(Object.entries(rest).filter(([key]) => key !== "value"))
+                        }
+                    ],
+                    meta: {
+                        payment_type: payMethod.paymentType
                     }
-                },
-                meta: {
-                    ...rest,
-                    paymentType: payMethod.paymentType,
-                    customerBank: payMethod.bank
                 }
             }),
             headers: {
