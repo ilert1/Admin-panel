@@ -1,22 +1,8 @@
-import {
-    HandCoinsIcon,
-    WalletIcon,
-    ReceiptIcon,
-    WaypointsIcon,
-    BitcoinIcon,
-    UsersIcon,
-    CurrencyIcon,
-    StoreIcon,
-    PcCaseIcon,
-    MilestoneIcon
-} from "lucide-react";
 import { useMemo } from "react";
-import { usePermissions, useTranslate } from "react-admin";
-import { Link } from "react-admin";
-import { Navigate, useNavigate } from "react-router-dom";
-export const Dashboard = () => {
-    const translate = useTranslate();
+import { usePermissions } from "react-admin";
+import { useNavigate } from "react-router-dom";
 
+export const Dashboard = () => {
     const { isLoading, permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
     const navigate = useNavigate();

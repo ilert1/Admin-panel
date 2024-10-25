@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
+
     const success = (message: string) => {
         toast.success(translate("resources.transactions.show.success"), {
             dismissible: true,
@@ -27,7 +28,7 @@ export const PayOutPage = () => {
 
     const currency = useMemo(() => accounts?.[0]?.amounts?.[0]?.shop_currency, [accounts]);
 
-    const { data: currencies } = useQuery("currencies", () =>
+    const { data: currencies } = useQuery<{ data: Dictionaries.Currency[] }>("currencies", () =>
         fetch(`${API_URL}/dictionaries/curr`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -35,7 +36,7 @@ export const PayOutPage = () => {
         }).then(response => response.json())
     );
 
-    const { isLoading: initialLoading, data: payMethods } = useQuery(
+    const { isLoading: initialLoading, data: payMethods } = useQuery<PayOut.Response, unknown, PayOut.PayMethod[] | []>(
         ["paymethods", currency],
         () => {
             return fetch(`${BF_MANAGER_URL}/v1/payout/paymethods?currency=${currency}`, {
@@ -45,32 +46,37 @@ export const PayOutPage = () => {
             }).then(response => response.json());
         },
         {
-            select: (data: any) => data?.data || []
+            select: data => data?.data || []
         }
     );
 
     const [localLoading, setLocalLoading] = useState(false);
     const isLoading = useMemo(() => initialLoading || localLoading, [initialLoading, localLoading]);
 
-    const createPayOut = (data: any) => {
+    const createPayOut = (data: { payMethod: PayOut.PayMethod; [key: string]: string | PayOut.PayMethod }) => {
         const { payMethod, ...rest } = data;
+        console.log(data);
         setLocalLoading(true);
         fetch(`${BF_MANAGER_URL}/v1/payout/create`, {
             method: "POST",
             body: JSON.stringify({
                 destination: {
                     amount: {
-                        currency: payMethod?.fiatCurrency,
+                        currency: payMethod.fiatCurrency,
                         value: {
                             quantity: +rest.value * 100,
                             accuracy: 100
                         }
+                    },
+                    requisites: [
+                        {
+                            bank_name: payMethod.bank,
+                            ...Object.fromEntries(Object.entries(rest).filter(([key]) => key !== "value"))
+                        }
+                    ],
+                    meta: {
+                        payment_type: payMethod.paymentType
                     }
-                },
-                meta: {
-                    ...rest,
-                    paymentType: payMethod?.paymentType,
-                    customerBank: payMethod?.bank
                 }
             }),
             headers: {
@@ -82,6 +88,7 @@ export const PayOutPage = () => {
             .then(json => {
                 if (json.success) {
                     success(translate("pages.payout.success"));
+                    window.open(json.data.payment_url, "_blank", "rel=noopener noreferrer");
                 } else {
                     error(json.error || "Unknown error");
                 }
@@ -95,13 +102,17 @@ export const PayOutPage = () => {
     };
 
     return (
-        <div>
-            <PayOutForm
-                currencies={currencies?.data || []}
-                payMethods={payMethods}
-                loading={isLoading}
-                create={createPayOut}
-            />
+        <div className="flex items-center justify-center md:absolute md:top-0 md:bottom-20 md:left-0 md:right-0">
+            <div className="p-[30px] rounded-16 bg-neutral-0 max-w-[700px] w-full md:mx-4">
+                <h1 className="mb-6 text-xl text-center">{translate("app.widgets.forms.payout.title")}</h1>
+
+                <PayOutForm
+                    currencies={currencies?.data}
+                    payMethods={payMethods}
+                    loading={isLoading}
+                    create={createPayOut}
+                />
+            </div>
         </div>
     );
 };
