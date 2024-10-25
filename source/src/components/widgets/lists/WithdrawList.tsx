@@ -94,7 +94,7 @@ const WithdrawFilterSidebar = () => {
 export const WithdrawList = () => {
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const { permissions } = usePermissions();
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
 
@@ -149,7 +149,12 @@ export const WithdrawList = () => {
         return (
             <>
                 <ListContextProvider value={listContext}>
-                    <div className="grid gap-x-6 lg:grid-cols-1 [grid-template-rows: auto 1fr 1fr;] grid-cols-1 lg:grid-rows-1 lg:grid-flow-col">
+                    <div
+                        className={
+                            merchantOnly
+                                ? "grid gap-x-6 lg:grid-cols-1 [grid-template-rows: auto 1fr 1fr;] grid-cols-1 lg:grid-rows-1 lg:grid-flow-col"
+                                : "flex flex-col"
+                        }>
                         <div>
                             <WithdrawFilterSidebar />
                         </div>
