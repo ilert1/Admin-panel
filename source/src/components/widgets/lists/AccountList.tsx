@@ -33,7 +33,7 @@ export const AccountList = () => {
     const columns: ColumnDef<Account>[] = [
         {
             id: "owner",
-            accessorFn: row => [row.meta.caption, row.owner_id],
+            accessorFn: row => [row.meta?.caption ? row.meta.caption : "", row.owner_id ? row.owner_id : ""],
             header: translate("resources.accounts.fields.owner"),
             cell: ({ row }) => (
                 <RecordContextProvider value={row.original}>

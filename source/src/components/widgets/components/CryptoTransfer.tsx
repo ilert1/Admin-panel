@@ -68,6 +68,9 @@ export const CryptoTransfer = () => {
                     setTransferState("error");
                 }
             })
+            .catch(() => {
+                setTransferState("error");
+            })
             .finally(() => {
                 setLocalLoading(false);
                 refetch();

@@ -16,7 +16,7 @@ export const TextField = ({
     link?: string;
     type?: "text" | "link" | "internal-link";
     copyValue?: boolean;
-    wrap?: boolean;
+    wrap?: boolean | "break-all";
 }) => {
     const currentText = useMemo(() => (text?.length > 0 ? text : "-"), [text]);
     const translate = useTranslate();
@@ -30,8 +30,10 @@ export const TextField = ({
     }, [currentText]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const textStyle = () => {
-        if (wrap) {
+        if (wrap === true) {
             return "overflow-hidden ellipsis max-w-[500px]";
+        } else if (wrap === "break-all") {
+            return "overflow-hidden break-all max-w-[500px]";
         }
         // if (wrap) {
         //     return "break-words whitespace-normal max-w-[500px]";
