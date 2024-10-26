@@ -119,10 +119,10 @@ export const AccountList = () => {
                         <div className="grow-[1]">
                             <DataTable columns={columns} />
                         </div>
-                        <div className="flex flex-col gap-4 px-6 py-4 rounded-2xl bg-neutral-0 w-[457px] h-fit">
+                        {/* <div className="flex flex-col gap-4 px-6 py-4 rounded-2xl bg-neutral-0 w-[457px] h-fit">
                             <h3 className="text-display-3">{translate("resources.accounts.totalBalance")}</h3>
                             <div className="flex flex-col gap-4 items-end">
-                                {/* {listContext.data.totalSum ? (
+                               {listContext.data.totalSum ? (
                                     <>
                                         {totalSum.map(currencySum => {
                                             return (
@@ -145,9 +145,9 @@ export const AccountList = () => {
                                     </>
                                 ) : (
                                     <></>
-                                )} */}
+                                )} 
                             </div>
-                        </div>
+                        </div>*/}
                     </div>
                 </ListContextProvider>
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>
