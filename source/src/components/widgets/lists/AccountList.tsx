@@ -33,7 +33,7 @@ export const AccountList = () => {
     const columns: ColumnDef<Account>[] = [
         {
             id: "owner",
-            accessorFn: row => [row.meta.caption, row.owner_id],
+            accessorFn: row => [row.meta?.caption, row.owner_id],
             header: translate("resources.accounts.fields.owner"),
             cell: ({ row }) => (
                 <RecordContextProvider value={row.original}>
@@ -100,7 +100,7 @@ export const AccountList = () => {
                 return (
                     <Button
                         variant="secondary"
-                        onClick={() => openSheet(row.original.id, row.original.meta.caption)}
+                        onClick={() => openSheet(row.original.id, row.original.meta?.caption)}
                         className="flex items-center h-7 w-7 p-0 bg-transparent">
                         <EyeIcon className="text-green-50 size-7" />
                     </Button>
