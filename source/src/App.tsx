@@ -1,4 +1,5 @@
 import { CustomRoutes, Resource, combineDataProviders, CoreAdminContext, CoreAdminUI } from "react-admin";
+import { createBrowserHistory as createHistory } from "history";
 import {
     TransactionDataProvider,
     i18nProvider,
@@ -26,7 +27,7 @@ import {
     MerchantCreate,
     ProviderCreate
 } from "@/components/widgets/create";
-import { Route } from "react-router-dom";
+import { Route, Router, RouterProvider, useNavigate } from "react-router-dom";
 import { PayOutPage, PayOutCryptoPage, LoginPage } from "./pages";
 import { MainLayout } from "./layouts";
 import {
@@ -54,6 +55,7 @@ import {
 } from "./components/widgets/show";
 import { CurrencyEdit, MerchantEdit, ProvidersEdit } from "./components/widgets/edit";
 import { InitLoading } from "./components/ui/loading";
+import { NotFound } from "./components/widgets/shared/NotFound";
 
 const dataProvider = combineDataProviders((resource: string) => {
     if (resource === "transactions") {
@@ -73,11 +75,17 @@ const dataProvider = combineDataProviders((resource: string) => {
     }
 });
 
+const history = createHistory();
 export const App = () => {
     return (
         <ThemeProvider defaultTheme="dark" storageKey="juggler-ui-theme">
-            <CoreAdminContext i18nProvider={i18nProvider} dataProvider={dataProvider} authProvider={authProvider}>
+            <CoreAdminContext
+                history={history}
+                i18nProvider={i18nProvider}
+                dataProvider={dataProvider}
+                authProvider={authProvider}>
                 <CoreAdminUI
+                    catchAll={NotFound}
                     layout={MainLayout}
                     loading={InitLoading}
                     title="Juggler"
@@ -142,15 +150,16 @@ export const App = () => {
 
                             <CustomRoutes>
                                 {permissions === "merchant" && <Route path="/bank-transfer" element={<PayOutPage />} />}
-                                {permissions === "merchant" && (
+                                {/* {permissions === "merchant" && (
                                     <Route path="/crypto-transfer" element={<PayOutCryptoPage />} />
-                                )}
+                                )} */}
                                 <Route path="/login" element={<LoginPage />} />
                             </CustomRoutes>
                         </>
                     )}
                 </CoreAdminUI>
             </CoreAdminContext>
+
             <Toaster />
         </ThemeProvider>
     );

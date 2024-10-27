@@ -1,6 +1,5 @@
 import {
     CoreLayoutProps,
-    Layout,
     useGetIdentity,
     useI18nProvider,
     useLocaleState,
@@ -9,7 +8,7 @@ import {
     useResourceDefinitions,
     useTranslate
 } from "react-admin";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useMemo, createElement, useState, useEffect } from "react";
 import {
@@ -21,9 +20,7 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
 import {
-    HandCoinsIcon,
     LanguagesIcon,
-    BitcoinIcon,
     CreditCardIcon,
     ChevronLeftCircleIcon,
     ChevronRightCircleIcon,
@@ -42,7 +39,6 @@ import { debounce } from "lodash";
 import { Button } from "@/components/ui/button";
 import { TestKeysModal } from "@/components/widgets/components/TestKeysModal";
 import { useGetResLabel } from "@/hooks/useGetResLabel";
-import { MyError } from "@/components/widgets/shared/MyError";
 
 enum SplitLocations {
     show = "show",
@@ -58,19 +54,19 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
     const location = useLocation();
 
-    const navigate = useNavigate();
-
     const resourceName = useMemo(() => {
-        const resources = location.pathname?.split("/")?.filter((s: string) => s?.length > 0);
-
+        const urlParts = location.pathname?.split("/")?.filter((s: string) => s?.length > 0);
         Object.values(SplitLocations).forEach(item => {
-            if (resources.includes(item)) {
-                const tempResource = resources.splice(resources.indexOf(item) - 1, 2);
-                resources.push(tempResource.join("/"));
+            if (urlParts.includes(item)) {
+                const tempResource = urlParts.splice(urlParts.indexOf(item) - 1, 2);
+                urlParts.push(tempResource.join("/"));
             }
         });
-        return resources;
-    }, [location]);
+        const isWrongResource =
+            Object.keys(resources).length !==
+            new Set([...Object.keys(resources), urlParts[0] !== "" && urlParts[0]]).size;
+        return isWrongResource ? ["error"] : urlParts;
+    }, [location, resources]);
 
     const pageTitle = useMemo(() => {
         if (resourceName.length > 0) {
@@ -125,212 +121,209 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     };
 
     return (
-        <Layout error={MyError}>
-            <div className="flex flex-col h-screen">
-                <header
-                    className="flex flex-shrink-0 h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z"
-                    onClick={e => e.stopPropagation()}>
-                    {identity?.data && (
-                        <div className="ml-auto flex items-center gap-2 mr-6">
-                            <div>
-                                <span
-                                    className={
-                                        profileOpen
-                                            ? "text-green-50 text-title-2 cursor-default"
-                                            : "text-neutral-100 text-title-2 cursor-default"
-                                    }>
-                                    {identity.data.fullName ? identity.data.fullName : null}
-                                </span>
-                            </div>
-                            <div className="flex items-center gap-8 relative !z-60">
-                                <DropdownMenu open={profileOpen} onOpenChange={setProfileOpen} modal={true}>
-                                    <DropdownMenuTrigger asChild>
-                                        <Avatar
-                                            className={
-                                                profileOpen
-                                                    ? "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-50 bg-green-50 transition-all duration-150"
-                                                    : "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-40 hover:border-green-50 bg-muted hover:bg-green-50 transition-all duration-150"
-                                            }>
-                                            <Blowfish />
+        <div className="flex flex-col h-screen">
+            <header
+                className="flex flex-shrink-0 h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z"
+                onClick={e => e.stopPropagation()}>
+                {identity?.data && (
+                    <div className="ml-auto flex items-center gap-2 mr-6">
+                        <div>
+                            <span
+                                className={
+                                    profileOpen
+                                        ? "text-green-50 text-title-2 cursor-default"
+                                        : "text-neutral-100 text-title-2 cursor-default"
+                                }>
+                                {identity.data.fullName ? identity.data.fullName : null}
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-8 relative !z-60">
+                            <DropdownMenu open={profileOpen} onOpenChange={setProfileOpen} modal={true}>
+                                <DropdownMenuTrigger asChild>
+                                    <Avatar
+                                        className={
+                                            profileOpen
+                                                ? "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-50 bg-green-50 transition-all duration-150"
+                                                : "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-40 hover:border-green-50 bg-muted hover:bg-green-50 transition-all duration-150"
+                                        }>
+                                        <Blowfish />
+                                    </Avatar>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                    align="end"
+                                    className="p-0 w-56 bg-muted border border-neutral-100 z100">
+                                    <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
+                                        <Avatar className="w-5 h-5">
+                                            <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
+                                                {identity.data.fullName
+                                                    ? identity.data.fullName[0].toLocaleUpperCase()
+                                                    : ""}
+                                            </AvatarFallback>
                                         </Avatar>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent
-                                        align="end"
-                                        className="p-0 w-56 bg-muted border border-neutral-100 z100">
-                                        <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
-                                            <Avatar className="w-5 h-5">
-                                                <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
-                                                    {identity.data.fullName
-                                                        ? identity.data.fullName[0].toLocaleUpperCase()
-                                                        : ""}
-                                                </AvatarFallback>
-                                            </Avatar>
-                                            <div className="ml-3 text-neutral-100">
-                                                <div className="text-title-1 cursor-default">
-                                                    {identity.data.fullName}
-                                                </div>
-                                                {
-                                                    //TODO: Set valid email
-                                                }
-                                                <div className="text-note-2 cursor-default">email@gmail.com</div>
-                                            </div>
+                                        <div className="ml-3 text-neutral-100">
+                                            <div className="text-title-1 cursor-default">{identity.data.fullName}</div>
+                                            {
+                                                //TODO: Set valid email
+                                            }
+                                            <div className="text-note-2 cursor-default">email@gmail.com</div>
                                         </div>
+                                    </div>
 
-                                        <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
-                                            <Switch
-                                                checked={theme === "dark"}
-                                                onCheckedChange={toggleTheme}
-                                                className="border-green-50 data-[state=checked]:bg-muted data-[state=unchecked]:bg-muted"
-                                            />
-                                            <span className="ml-3 cursor-default">
-                                                {theme === "dark"
-                                                    ? translate("app.theme.light")
-                                                    : translate("app.theme.dark")}
-                                            </span>
-                                        </div>
-                                        <DropdownMenuItem
-                                            className="pl-4 pr-4 h-[50px] focus:bg-green-50 focus:cursor-pointer text-title-2"
-                                            onClick={handleLogout}>
-                                            {translate("ra.auth.logout")}
-                                        </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                                <Sheet
-                                    open={chatOpen}
-                                    onOpenChange={isOpen => {
-                                        debounced(isOpen);
-                                    }}
-                                    modal={true}>
-                                    <SheetTrigger asChild>
-                                        <div>
-                                            <Avatar
-                                                className={
-                                                    chatOpen
-                                                        ? "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
-                                                        : "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-green-50 hover:text-neutral-100 border-2 border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
-                                                }>
-                                                <MessagesSquareIcon className="h-[30px] w-[30px]" />
-                                            </Avatar>
-                                        </div>
-                                    </SheetTrigger>
-                                    <SheetContent
-                                        className="sm:max-w-[520px] !top-[84px] !max-h-[calc(100vh-84px)] w-full p-0 m-0"
-                                        close={false}>
-                                        <SheetHeader className="p-4 bg-green-60">
-                                            <div className="flex justify-between items-center ">
-                                                <SheetTitle className="text-display-3">
-                                                    {translate("app.ui.actions.chatWithSupport")}
-                                                </SheetTitle>
-                                                <button
-                                                    tabIndex={-1}
-                                                    onClick={() => setChatOpen(false)}
-                                                    className="text-gray-500 hover:text-gray-700 transition-colors outline-0 border-0 -tab-1">
-                                                    <XIcon className="h-[28px] w-[28px]" />
-                                                </button>
-                                            </div>
-                                        </SheetHeader>
-                                        <SheetDescription></SheetDescription>
-                                        <ChatSheet locale={locale} />
-                                    </SheetContent>
-                                </Sheet>
-                                <DropdownMenu onOpenChange={setLangOpen} modal={false}>
-                                    <DropdownMenuTrigger asChild className="">
+                                    <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
+                                        <Switch
+                                            checked={theme === "dark"}
+                                            onCheckedChange={toggleTheme}
+                                            className="border-green-50 data-[state=checked]:bg-muted data-[state=unchecked]:bg-muted"
+                                        />
+                                        <span className="ml-3 cursor-default">
+                                            {theme === "dark"
+                                                ? translate("app.theme.light")
+                                                : translate("app.theme.dark")}
+                                        </span>
+                                    </div>
+                                    <DropdownMenuItem
+                                        className="pl-4 pr-4 h-[50px] focus:bg-green-50 focus:cursor-pointer text-title-2"
+                                        onClick={handleLogout}>
+                                        {translate("ra.auth.logout")}
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            <Sheet
+                                open={chatOpen}
+                                onOpenChange={isOpen => {
+                                    debounced(isOpen);
+                                }}
+                                modal={true}>
+                                <SheetTrigger asChild>
+                                    <div>
                                         <Avatar
                                             className={
-                                                langOpen
-                                                    ? "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
-                                                    : "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 hover:text-neutral-100 border-2 border-neutral-50 hover:border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
+                                                chatOpen
+                                                    ? "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
+                                                    : "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-green-50 hover:text-neutral-100 border-2 border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
                                             }>
-                                            <LanguagesIcon className="h-[30px] w-[30px]" />
+                                            <MessagesSquareIcon className="h-[30px] w-[30px]" />
                                         </Avatar>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent
-                                        align="end"
-                                        className="p-0 bg-muted border border-neutral-100 z-[60]">
-                                        {getLocales?.().map(locale => (
-                                            <DropdownMenuItem
-                                                key={locale.locale}
-                                                onClick={() => changeLocale(locale.locale)}
-                                                className="text-title-2 py-[14px] focus:bg-green-50 focus:cursor-pointer pl-4 pr-4">
-                                                {locale.name}
-                                            </DropdownMenuItem>
-                                        ))}
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
+                                    </div>
+                                </SheetTrigger>
+                                <SheetContent
+                                    className="sm:max-w-[520px] !top-[84px] !max-h-[calc(100vh-84px)] w-full p-0 m-0"
+                                    close={false}>
+                                    <SheetHeader className="p-4 bg-green-60">
+                                        <div className="flex justify-between items-center ">
+                                            <SheetTitle className="text-display-3">
+                                                {translate("app.ui.actions.chatWithSupport")}
+                                            </SheetTitle>
+                                            <button
+                                                tabIndex={-1}
+                                                onClick={() => setChatOpen(false)}
+                                                className="text-gray-500 hover:text-gray-700 transition-colors outline-0 border-0 -tab-1">
+                                                <XIcon className="h-[28px] w-[28px]" />
+                                            </button>
+                                        </div>
+                                    </SheetHeader>
+                                    <SheetDescription></SheetDescription>
+                                    <ChatSheet locale={locale} />
+                                </SheetContent>
+                            </Sheet>
+                            <DropdownMenu onOpenChange={setLangOpen} modal={false}>
+                                <DropdownMenuTrigger asChild className="">
+                                    <Avatar
+                                        className={
+                                            langOpen
+                                                ? "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
+                                                : "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 hover:text-neutral-100 border-2 border-neutral-50 hover:border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
+                                        }>
+                                        <LanguagesIcon className="h-[30px] w-[30px]" />
+                                    </Avatar>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                    align="end"
+                                    className="p-0 bg-muted border border-neutral-100 z-[60]">
+                                    {getLocales?.().map(locale => (
+                                        <DropdownMenuItem
+                                            key={locale.locale}
+                                            onClick={() => changeLocale(locale.locale)}
+                                            className="text-title-2 py-[14px] focus:bg-green-50 focus:cursor-pointer pl-4 pr-4">
+                                            {locale.name}
+                                        </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                    </div>
+                )}
+            </header>
+            <div className="flex grow h-full overflow-hidden">
+                <aside
+                    className={
+                        isSheetOpen
+                            ? "w-[280px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden scrollbar-stable justify-start bg-header transition-[width] pt-6"
+                            : "w-[72px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden scrollbar-stable justify-start bg-header transition-[width] pt-6"
+                    }>
+                    {isSheetOpen ? (
+                        <div className="flex flex-shrink-0 justify-center items-center h-[63px] gap-6">
+                            <div className="flex items-center w-[189px] m-0 p-0">
+                                <div className="animate-in fade-in-0 transition-opacity duration-700">
+                                    <LogoPicture />
+                                </div>
+                                <div className="animate-in ml-4 fade-in-0 transition-opacity duration-700">
+                                    <Logo />
+                                </div>
                             </div>
+                            <button className="flex flex-col items-center animate-in fade-in-0 transition-opacity duration-300">
+                                <ChevronLeftCircleIcon
+                                    onClick={() => setSheetOpen(!isSheetOpen)}
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-foreground"
+                                />
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="w-[70px] flex justify-center">
+                            <button className="h-[63px] ">
+                                <ChevronRightCircleIcon
+                                    onClick={() => setSheetOpen(!isSheetOpen)}
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-foreground"
+                                />
+                            </button>
                         </div>
                     )}
-                </header>
-                <div className="flex grow h-full overflow-hidden">
-                    <aside
-                        className={
-                            isSheetOpen
-                                ? "w-[280px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden scrollbar-stable justify-start bg-header transition-[width] pt-6"
-                                : "w-[72px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden scrollbar-stable justify-start bg-header transition-[width] pt-6"
-                        }>
-                        {isSheetOpen ? (
-                            <div className="flex flex-shrink-0 justify-center items-center h-[63px] gap-6">
-                                <div className="flex items-center w-[189px] m-0 p-0">
-                                    <div className="animate-in fade-in-0 transition-opacity duration-700">
-                                        <LogoPicture />
-                                    </div>
-                                    <div className="animate-in ml-4 fade-in-0 transition-opacity duration-700">
-                                        <Logo />
-                                    </div>
-                                </div>
-                                <button className="flex flex-col items-center animate-in fade-in-0 transition-opacity duration-300">
-                                    <ChevronLeftCircleIcon
-                                        onClick={() => setSheetOpen(!isSheetOpen)}
-                                        className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-foreground"
-                                    />
-                                </button>
-                            </div>
-                        ) : (
-                            <div className="w-[70px] flex justify-center">
-                                <button className="h-[63px] ">
-                                    <ChevronRightCircleIcon
-                                        onClick={() => setSheetOpen(!isSheetOpen)}
-                                        className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-foreground"
-                                    />
-                                </button>
-                            </div>
-                        )}
 
-                        <nav className="flex flex-col items-baseline text-base gap-4 mt-6 pl-6">
-                            {Object.keys(resources).map(resource => (
-                                <NavLink
-                                    key={resource}
-                                    to={`/${resource}`}
-                                    className={
-                                        resourceName[0] === resource
-                                            ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                            : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                    }>
-                                    {createElement(resources[resource].icon, {})}
-                                    {showCaptions ? (
-                                        <span className="animate-in fade-in-0 transition-opacity">
-                                            {getResLabel(resources[resource].name, permissions)}
-                                        </span>
-                                    ) : null}
-                                </NavLink>
-                            ))}
-                            {merchantOnly && (
-                                <NavLink
-                                    to="/bank-transfer"
-                                    className={
-                                        resourceName[0] === "bank-transfer"
-                                            ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                            : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                    }>
-                                    <CreditCardIcon />
-                                    {showCaptions ? (
-                                        <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
-                                            {translate("app.menu.merchant.bankTransfer")}
-                                        </span>
-                                    ) : null}
-                                </NavLink>
-                            )}
-                            {/* {merchantOnly && (
+                    <nav className="flex flex-col items-baseline text-base gap-4 mt-6 pl-6">
+                        {Object.keys(resources).map(resource => (
+                            <NavLink
+                                key={resource}
+                                to={`/${resource}`}
+                                className={
+                                    resourceName[0] === resource
+                                        ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                        : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                }>
+                                {createElement(resources[resource].icon, {})}
+                                {showCaptions ? (
+                                    <span className="animate-in fade-in-0 transition-opacity">
+                                        {getResLabel(resources[resource].name, permissions)}
+                                    </span>
+                                ) : null}
+                            </NavLink>
+                        ))}
+                        {merchantOnly && (
+                            <NavLink
+                                to="/bank-transfer"
+                                className={
+                                    resourceName[0] === "bank-transfer"
+                                        ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                        : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                }>
+                                <CreditCardIcon />
+                                {showCaptions ? (
+                                    <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
+                                        {translate("app.menu.merchant.bankTransfer")}
+                                    </span>
+                                ) : null}
+                            </NavLink>
+                        )}
+                        {/* {merchantOnly && (
                             <NavLink
                                 to="/crypto-transfer"
                                 className={
@@ -346,31 +339,30 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 ) : null}
                             </NavLink>
                         )} */}
-                        </nav>
+                    </nav>
 
-                        {isSheetOpen && permissions === "admin" && (
-                            <div className="flex flex-grow items-end my-6 mx-6">
-                                <Button
-                                    onClick={() => {
-                                        setTestKeysModalOpen(true);
-                                    }}
-                                    className="w-full pl-6 flex gap-[4px] translate-x-[-100%] animate-in-left transition-transform duration-500 ease-out text-title-1">
-                                    <KeyRound className="w-[16px] h-[16px]" />
-                                    <span>{translate("resources.providers.createTestKeys")}</span>
-                                </Button>
-                                <TestKeysModal open={testKeysModalOpen} onOpenChange={setTestKeysModalOpen} />
-                            </div>
-                        )}
-                    </aside>
-                    <div className="bg-muted grow overflow-y-auto scrollbar-stable transition-[margin-left]">
-                        <main className="p-6 pr-4 container">
-                            <h1 className="text-3xl mb-6">{pageTitle}</h1>
-                            {children}
-                        </main>
-                    </div>
-                    <Toaster />
+                    {isSheetOpen && permissions === "admin" && (
+                        <div className="flex flex-grow items-end my-6 mx-6">
+                            <Button
+                                onClick={() => {
+                                    setTestKeysModalOpen(true);
+                                }}
+                                className="w-full pl-6 flex gap-[4px] translate-x-[-100%] animate-in-left transition-transform duration-500 ease-out text-title-1">
+                                <KeyRound className="w-[16px] h-[16px]" />
+                                <span>{translate("resources.providers.createTestKeys")}</span>
+                            </Button>
+                            <TestKeysModal open={testKeysModalOpen} onOpenChange={setTestKeysModalOpen} />
+                        </div>
+                    )}
+                </aside>
+                <div className="bg-muted h-full grow overflow-y-auto scrollbar-stable transition-[margin-left]">
+                    <main className="p-6 pr-4 container h-full">
+                        {resourceName[0] !== "error" && <h1 className="text-3xl mb-6">{pageTitle}</h1>}
+                        {children}
+                    </main>
                 </div>
+                <Toaster />
             </div>
-        </Layout>
+        </div>
     );
 };

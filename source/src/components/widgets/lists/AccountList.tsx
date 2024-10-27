@@ -730,7 +730,7 @@ export const AccountList = () => {
                                                         />
                                                     </h1>
                                                     <div className="w-10 flex justify-center">
-                                                        <Icon name={currencySum.currency} isCurrency={true} />
+                                                        <Icon name={currencySum.currency} folder="currency" />
                                                     </div>
                                                 </div>
                                             );
