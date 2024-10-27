@@ -8,7 +8,7 @@ export const NotFound = () => {
             <div>
                 <Icon name="404" folder="error" />
             </div>
-            <span className="text-display-1">404: {translate("app.errors.404.text")}</span>
+            <span className="text-display-1 text-center">404: {translate("app.errors.404.text")}</span>
         </div>
     );
 };
