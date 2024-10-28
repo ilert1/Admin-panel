@@ -63,8 +63,7 @@ const useWithdrawFilter = () => {
         setPage(1);
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handleDownloadReport = async (type: "pdf" | "excel") => {
+    const handleDownloadReport = async (type: "pdf" | "csv") => {
         if (!startDate || !endDate) {
             toast({
                 description: translate("resources.withdraw.download.bothError"),
@@ -77,16 +76,12 @@ const useWithdrawFilter = () => {
 
         try {
             const url =
-                `${API_URL}/withdraw/report?` +
+                `${API_URL}/withdraw/report?format=${type}&` +
                 Object.keys(filterValues)
-                    .map((item, index) => {
-                        if (index > 0) {
-                            return `&${item}=${filterValues[item]}`;
-                        } else {
-                            return `${item}=${filterValues[item]}`;
-                        }
+                    .map(item => {
+                        return `${item}=${filterValues[item]}`;
                     })
-                    .join("");
+                    .join("&");
 
             const response = await fetch(url, {
                 method: "GET",
@@ -102,7 +97,9 @@ const useWithdrawFilter = () => {
 
             const blob = await response.blob();
             const fileUrl = window.URL.createObjectURL(blob);
-            const filename = `data_${filterValues["start_date"]}_to_${filterValues["end_date"]}.csv`;
+            const filename = `data_${filterValues["start_date"]}_to_${filterValues["end_date"]}.${
+                type === "csv" ? "csv" : "pdf"
+            }`;
 
             const a = document.createElement("a");
             a.href = fileUrl;
