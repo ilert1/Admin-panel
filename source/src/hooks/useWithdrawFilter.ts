@@ -47,6 +47,7 @@ const useWithdrawFilter = () => {
         } else {
             setStartDate(undefined);
             setEndDate(undefined);
+            onPropertySelected({ from: "", to: "" }, "date");
         }
     };
 

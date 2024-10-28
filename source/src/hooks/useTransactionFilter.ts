@@ -116,6 +116,7 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         } else {
             setStartDate(undefined);
             setEndDate(undefined);
+            onPropertySelected({ from: "", to: "" }, "date");
         }
     };
 
