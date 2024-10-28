@@ -19,7 +19,7 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         fetchNextPage: accountsNextPage
     } = useInfiniteGetList("accounts", {
         pagination: { perPage: 25, page: 1 },
-        filter: { sort: "name", asc: "asc" }
+        filter: { sort: "name" }
     });
 
     const [startDate, setStartDate] = useState<Date | undefined>(
