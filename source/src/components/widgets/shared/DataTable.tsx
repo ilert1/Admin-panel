@@ -198,10 +198,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                         </SelectTrigger>
                         <SelectContent side="top">
                             {[5, 10, 25, 50, 100].map(pageSize => (
-                                <SelectItem
-                                    key={pageSize}
-                                    value={`${pageSize}`}
-                                    disabled={total < 100 ? total > pageSize : false}>
+                                <SelectItem key={pageSize} value={`${pageSize}`}>
                                     {pageSize}
                                 </SelectItem>
                             ))}
