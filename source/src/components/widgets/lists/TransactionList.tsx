@@ -217,7 +217,7 @@ const TransactionFilterSidebar = ({
                     ))}
                 </div>
 
-                <div className="flex items-center gap-1">
+                {/* <div className="flex items-center gap-1">
                     <Button onClick={() => debounced(prev => !prev)} variant={"clearBtn"} className="flex gap-1">
                         {translate("resources.transactions.chart")}
                         <img
@@ -226,7 +226,7 @@ const TransactionFilterSidebar = ({
                             className={`${chartOpen ? "bg-green-50 rounded-[4px] transition-all duration-300" : ""}`}
                         />
                     </Button>
-                </div>
+                </div> */}
             </div>
         </div>
     );

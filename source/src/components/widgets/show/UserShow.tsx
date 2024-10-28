@@ -86,6 +86,7 @@ export const UserShow = (props: { id: string; isBrief: boolean }) => {
                     <Button
                         variant={"outline"}
                         className="border-[1px] border-neutral-50 text-neutral-50 bg-transparent"
+                        disabled={true}
                         onClick={() => setDialogOpen(true)}>
                         {translate("resources.users.delete")}
                     </Button>

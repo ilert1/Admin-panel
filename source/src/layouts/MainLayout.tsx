@@ -188,7 +188,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
-                            <Sheet
+                            {/* <Sheet
                                 open={chatOpen}
                                 onOpenChange={isOpen => {
                                     debounced(isOpen);
@@ -225,7 +225,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                     <SheetDescription></SheetDescription>
                                     <ChatSheet locale={locale} />
                                 </SheetContent>
-                            </Sheet>
+                            </Sheet> */}
                             <DropdownMenu onOpenChange={setLangOpen} modal={false}>
                                 <DropdownMenuTrigger asChild className="">
                                     <Avatar
