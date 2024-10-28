@@ -1,4 +1,4 @@
-import { useTranslate, useListController, ListContextProvider } from "react-admin";
+import { useTranslate, useListController, ListContextProvider, useLocaleState } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import {
@@ -236,6 +236,7 @@ export const TransactionList = () => {
     const data = fetchDictionaries();
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
+    const [locale] = useLocaleState();
 
     const [typeTabActive, setTypeTabActive] = useState("");
     const [showOpen, setShowOpen] = useState(false);
@@ -253,8 +254,8 @@ export const TransactionList = () => {
             header: translate("resources.transactions.fields.createdAt"),
             cell: ({ row }) => (
                 <>
-                    <p>{new Date(row.original.created_at).toLocaleDateString()}</p>
-                    <p>{new Date(row.original.created_at).toLocaleTimeString()}</p>
+                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
+                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
                 </>
             )
         },
