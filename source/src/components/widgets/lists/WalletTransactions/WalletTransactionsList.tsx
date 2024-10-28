@@ -5,14 +5,15 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { DataTable } from "../../shared";
 import { FilterBar } from "./FilterBar";
+import { ShowWalletTransactionsDialog } from "./ShowWalletTransactionsDialog";
 // import { useState } from "react";
 
 export const WalletTransactionsList = () => {
-    const listContext = useListController({ resource: "" });
+    const listContext = useListController({ resource: "transaction" });
+    console.log(listContext);
     const translate = useTranslate();
 
-    // const { columns, chosenId, quickShowOpen, setQuickShowOpen } = useGetWalletTransactionsColumns();
-    const { columns } = useGetWalletTransactionsColumns();
+    const { columns, chosenId, openShowClicked, setOpenShowClicked } = useGetWalletTransactionsColumns();
     const date = new Date();
     console.log(date);
     const mockData: Cryptotransactions[] = [
@@ -29,7 +30,11 @@ export const WalletTransactionsList = () => {
             merchant_id: "123",
             tx_id: "123",
             updated_at: date.toString(),
-            deleted_at: date.toString()
+            deleted_at: date.toString(),
+            blowfish_id: "AA",
+            tx_link: "AA",
+            total_fee: 1,
+            bandwidth_fee: 1
         },
         {
             id: "2",
@@ -44,7 +49,11 @@ export const WalletTransactionsList = () => {
             merchant_id: "123",
             tx_id: "123",
             updated_at: date.toString(),
-            deleted_at: date.toString()
+            deleted_at: date.toString(),
+            blowfish_id: "AA",
+            tx_link: "AA",
+            total_fee: 1,
+            bandwidth_fee: 1
         },
         {
             id: "3",
@@ -59,52 +68,11 @@ export const WalletTransactionsList = () => {
             merchant_id: "123",
             tx_id: "123",
             updated_at: date.toString(),
-            deleted_at: date.toString()
-        },
-        {
-            id: "4",
-            amount_accuracy: 10,
-            amount_quantity: 100,
-            created_at: date.toString(),
-            src_wallet: "123",
-            dst_wallet: "123",
-            currency: "123",
-            state: "123",
-            type: "123",
-            merchant_id: "123",
-            tx_id: "123",
-            updated_at: date.toString(),
-            deleted_at: date.toString()
-        },
-        {
-            id: "5",
-            amount_accuracy: 10,
-            amount_quantity: 100,
-            created_at: date.toString(),
-            src_wallet: "123",
-            dst_wallet: "123",
-            currency: "123",
-            state: "123",
-            type: "123",
-            merchant_id: "123",
-            tx_id: "123",
-            updated_at: date.toString(),
-            deleted_at: date.toString()
-        },
-        {
-            id: "6",
-            amount_accuracy: 10,
-            amount_quantity: 100,
-            created_at: date.toString(),
-            src_wallet: "123",
-            dst_wallet: "123",
-            currency: "123",
-            state: "123",
-            type: "123",
-            merchant_id: "123",
-            tx_id: "123",
-            updated_at: date.toString(),
-            deleted_at: date.toString()
+            deleted_at: date.toString(),
+            blowfish_id: "AA",
+            tx_link: "AA",
+            total_fee: 1,
+            bandwidth_fee: 1
         }
     ];
 
@@ -114,7 +82,7 @@ export const WalletTransactionsList = () => {
         return (
             <>
                 <FilterBar />
-
+                <ShowWalletTransactionsDialog id={chosenId} open={openShowClicked} onOpenChange={setOpenShowClicked} />
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} data={mockData} total={10} />
                 </ListContextProvider>

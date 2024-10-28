@@ -315,6 +315,7 @@ interface Wallet {
 }
 
 interface Cryptotransactions {
+    blowfish_id: string;
     id: string;
     src_wallet: string;
     dst_wallet: string;
@@ -325,6 +326,9 @@ interface Cryptotransactions {
     type: number | string;
     merchant_id: string;
     tx_id: string;
+    tx_link: string;
+    total_fee: number;
+    bandwidth_fee: number;
     created_at: string;
     updated_at: string;
     deleted_at: string;

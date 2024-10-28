@@ -1,18 +1,17 @@
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { XIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
-import { WalletShow } from "../../show";
+import { WalletShow } from "../../show/Wallet/WalletShow";
+import { WalletTransactionsShow } from "../../show";
 
-interface ShowWalletDialogProps {
+interface ShowWalletTransactionsDialogProps {
     id: string;
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
-export const ShowWalletDialog = (props: ShowWalletDialogProps) => {
+export const ShowWalletTransactionsDialog = (props: ShowWalletTransactionsDialogProps) => {
     const { id, open, onOpenChange } = props;
-
     const translate = useTranslate();
-
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
             <SheetContent
@@ -24,7 +23,7 @@ export const ShowWalletDialog = (props: ShowWalletDialogProps) => {
                     <div>
                         <div className="flex justify-between items-center">
                             <SheetTitle className="text-display-1">
-                                {translate("resources.manageWallets.wallet")}
+                                {translate("resources.manageTransactions.cryptotransaction")}
                             </SheetTitle>
                             <button
                                 onClick={() => onOpenChange(false)}
@@ -36,7 +35,7 @@ export const ShowWalletDialog = (props: ShowWalletDialogProps) => {
                 </div>
 
                 <div className="flex-1 overflow-auto" tabIndex={-1}>
-                    <WalletShow id={id} onOpenChange={onOpenChange} type="compact" />
+                    <WalletTransactionsShow id={id} onOpenChange={onOpenChange} />
                 </div>
                 <SheetDescription></SheetDescription>
             </SheetContent>

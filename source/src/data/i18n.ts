@@ -410,6 +410,7 @@ const ru: TranslationMessages = {
         },
         manageTransactions: {
             name: "Криптотранзакции",
+            cryptotransaction: "Криптотранзакция",
             allTransactions: "Все операции",
             deletedTransactions: "Удаленные операции",
             fields: {
@@ -424,7 +425,12 @@ const ru: TranslationMessages = {
                 state: "Статус платежа",
                 merchant_id: "ID мерчанта",
                 tx_id: "ID в блокчейне",
-                currency: "Валюта"
+                currency: "Валюта",
+                blowfish_id: "ID в Blowfish",
+                // TODO
+                tx_link: "",
+                total_fee: "Общая комиссия",
+                bandwidth_fee: "Комиссия сети"
             },
             filterBar: {
                 searchById: "Поиск по ID операции",
@@ -1000,6 +1006,7 @@ const en: TranslationMessages = {
         },
         manageTransactions: {
             name: "Cryptotransactions",
+            cryptotransaction: "Cryptotransaction",
             allTransactions: "All transactions",
             deletedTransactions: "Deleted transactions",
             fields: {
@@ -1014,7 +1021,10 @@ const en: TranslationMessages = {
                 state: "Payment status",
                 merchant_id: "Merchant ID",
                 tx_id: "ID in blockchain",
-                currency: "Currency"
+                currency: "Currency",
+                blowfish_id: "Blowfish id",
+                total_fee: "Total fee",
+                bandwidth_fee: "Network fee"
             },
             filterBar: {
                 searchById: "Search by transaction ID",

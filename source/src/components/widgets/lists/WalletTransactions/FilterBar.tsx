@@ -11,7 +11,6 @@ import { DateRange } from "react-day-picker";
 
 export const FilterBar = () => {
     const data = fetchDictionaries();
-    console.log(data);
     const translate = useTranslate();
 
     const [allOperationsClicked, setAllOperationsClicked] = useState(true);
@@ -64,8 +63,8 @@ export const FilterBar = () => {
 
     return (
         <>
-            <div className="flex gap-[16px] mb-5 items-center">
-                <div className="flex flex-col gap-[8px] ">
+            <div className="flex gap-[16px] mb-5 items-center flex-wrap">
+                <div className="flex flex-col gap-[8px] min-w-[200px]">
                     <Label className="text-title-2 text-neutral-100" htmlFor="private">
                         {translate("resources.manageTransactions.filterBar.searchById")}
                     </Label>
@@ -82,7 +81,6 @@ export const FilterBar = () => {
                         <SelectContent>
                             <SelectItem value="all">All</SelectItem>
                             {Object.entries(data.states).map(el => {
-                                console.log(el);
                                 return (
                                     <SelectItem key={el[0]} value={el[0]}>
                                         {el[1].state_description}
@@ -92,7 +90,7 @@ export const FilterBar = () => {
                         </SelectContent>
                     </Select>
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-[8px]">
                     <Label className="text-title-2 text-neutral-100" htmlFor="private">
                         {translate("resources.manageTransactions.filterBar.created_at")}
                     </Label>
@@ -105,7 +103,7 @@ export const FilterBar = () => {
                         placeholder={""}
                     />
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-[8px]">
                     <Label className="text-title-2 text-neutral-100" htmlFor="private">
                         {translate("resources.manageTransactions.filterBar.updated_at")}
                     </Label>

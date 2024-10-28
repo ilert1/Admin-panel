@@ -1,10 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
+import { EyeIcon } from "lucide-react";
 import moment from "moment";
+import { useState } from "react";
 import { useTranslate } from "react-admin";
 export const useGetWalletTransactionsColumns = () => {
     const translate = useTranslate();
+
+    const [chosenId, setChosenId] = useState("");
+    const [openShowClicked, setOpenShowClicked] = useState(false);
+
+    const handleOpenShowClicked = (id: string) => {
+        setChosenId(id);
+        setOpenShowClicked(true);
+    };
 
     const columns: ColumnDef<Cryptotransactions>[] = [
         {
@@ -103,8 +114,26 @@ export const useGetWalletTransactionsColumns = () => {
             cell: ({ row }) => {
                 return <TextField text={row.original.currency} wrap copyValue />;
             }
+        },
+        {
+            id: "actions",
+            header: () => {
+                return <div className="text-center">{translate("resources.manageWallets.fields.more")}</div>;
+            },
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center justify-center">
+                        <Button
+                            onClick={() => handleOpenShowClicked(row.original.id)}
+                            variant="secondary"
+                            className="h-7 w-7 p-0 bg-transparent flex items-center">
+                            <EyeIcon className="text-green-50 size-7" />
+                        </Button>
+                    </div>
+                );
+            }
         }
     ];
 
-    return { columns };
+    return { columns, chosenId, openShowClicked, setOpenShowClicked };
 };

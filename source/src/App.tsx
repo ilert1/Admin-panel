@@ -91,12 +91,8 @@ export const App = () => {
                                     />
                                     <Resource name="provider" list={ProvidersList} icon={NetworkIcon} />
                                     <Resource name="direction" list={DirectionsList} icon={SignpostIcon} />
-                                    <Resource name="manageWallets" list={WalletsList} icon={WalletsLogo} />
-                                    <Resource
-                                        name="manageTransactions"
-                                        icon={WalletCards}
-                                        list={WalletTransactionsList}
-                                    />
+                                    <Resource name="wallet" list={WalletsList} icon={WalletsLogo} />
+                                    <Resource name="transaction" icon={WalletCards} list={WalletTransactionsList} />
                                 </>
                             )}
 
