@@ -14,6 +14,9 @@ import { toast } from "sonner";
 import { NumericFormat } from "react-number-format";
 import { Icon } from "../shared/Icon";
 
+const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
+const translations = ["active", "frozen", "blocked"];
+
 export const AccountList = () => {
     const listContext = useListController<Account>();
 
@@ -61,7 +64,15 @@ export const AccountList = () => {
             id: "state",
             accessorKey: "state",
             header: translate("resources.accounts.fields.state"),
-            cell: ({ row }) => data?.accountStates?.[row.getValue("state") as string]?.type_descr || ""
+            cell: ({ row }) => {
+                const index = row.original.state - 1;
+
+                return (
+                    <span className={`px-3 py-0.5 rounded-20 font-normal text-base text-center ${styles[index]}`}>
+                        {translate(`resources.accounts.fields.states.${translations[index]}`)}
+                    </span>
+                );
+            }
         },
         {
             id: "type",
