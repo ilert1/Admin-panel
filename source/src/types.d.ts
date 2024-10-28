@@ -313,3 +313,23 @@ interface Wallet {
     account_id: string;
     minimal_ballance_limit: number;
 }
+
+interface Cryptotransactions {
+    blowfish_id: string;
+    id: string;
+    src_wallet: string;
+    dst_wallet: string;
+    amount_quantity: number;
+    amount_accuracy: number;
+    currency: string;
+    state: number | string;
+    type: number | string;
+    merchant_id: string;
+    tx_id: string;
+    tx_link: string;
+    total_fee: number;
+    bandwidth_fee: number;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
+}

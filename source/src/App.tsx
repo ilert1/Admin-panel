@@ -18,7 +18,8 @@ import {
     MerchantList,
     ProvidersList,
     DirectionsList,
-    WalletsList
+    WalletsList,
+    WalletTransactionsList
 } from "@/components/widgets/lists";
 import { MerchantCreate } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
@@ -32,7 +33,8 @@ import {
     BanknoteIcon,
     StoreIcon,
     NetworkIcon,
-    SignpostIcon
+    SignpostIcon,
+    WalletCards
 } from "lucide-react";
 import { authProvider, ThemeProvider } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
@@ -40,6 +42,7 @@ import "./globals.css";
 import { MerchantEdit } from "./components/widgets/edit";
 import { InitLoading } from "./components/ui/loading";
 import { ManageStore } from "./pages/ManageStore";
+import WalletsLogo from "./lib/icons/Wallets";
 
 const dataProvider = combineDataProviders((resource: string) => {
     if (resource === "transactions") {
@@ -88,7 +91,8 @@ export const App = () => {
                                     />
                                     <Resource name="provider" list={ProvidersList} icon={NetworkIcon} />
                                     <Resource name="direction" list={DirectionsList} icon={SignpostIcon} />
-                                    {/* <Resource name="manageWallets" list={WalletsList} /> */}
+                                    <Resource name="wallet" list={WalletsList} icon={WalletsLogo} />
+                                    <Resource name="transaction" icon={WalletCards} list={WalletTransactionsList} />
                                 </>
                             )}
 
@@ -98,8 +102,8 @@ export const App = () => {
                                     <Route path="/crypto-transfer" element={<PayOutCryptoPage />} />
                                 )}
                                 {permissions === "admin" && <Route path="/manageStore" element={<ManageStore />} />}
-                                {permissions === "admin" && <Route path="/manageWallets" element={<></>} />}
-                                {permissions === "admin" && <Route path="/manageTransactions" element={<></>} />}
+                                {/* {permissions === "admin" && <Route path="/manageWallets" element={<></>} />} */}
+                                {/* {permissions === "admin" && <Route path="/manageTransactions" element={<></>} />} */}
                                 <Route path="/login" element={<LoginPage />} />
                             </CustomRoutes>
                         </>
