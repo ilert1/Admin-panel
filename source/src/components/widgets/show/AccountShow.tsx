@@ -96,11 +96,10 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
             header: translate("resources.transactions.fields.created_at"),
             cell: ({ row }) => {
                 return (
-                    <div>
-                        <span>{new Date(row.original.created_at).toLocaleDateString(locale)}</span>
-                        <br />
-                        <span>{new Date(row.original.created_at).toLocaleTimeString(locale)}</span>
-                    </div>
+                    <>
+                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
+                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
+                    </>
                 );
             }
         },
