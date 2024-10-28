@@ -18,8 +18,8 @@ const ru: TranslationMessages = {
                 state: "Статус",
                 states: {
                     active: "Активный",
-                    frozen: "Приостановленый",
-                    blocked: "Заблокированый"
+                    frozen: "Приостановлен",
+                    blocked: "Заблокирован"
                 },
 
                 type: "Тип счёта",
