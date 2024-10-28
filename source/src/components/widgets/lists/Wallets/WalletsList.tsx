@@ -13,7 +13,7 @@ enum WalletTypes {
     EXTERNAL = "external"
 }
 export const WalletsList = () => {
-    const listContext = useListController({ resource: "" });
+    const listContext = useListController({ resource: "wallet" });
     const translate = useTranslate();
 
     const { columns, chosenId, quickShowOpen, setQuickShowOpen } = useGetWalletsColumns();

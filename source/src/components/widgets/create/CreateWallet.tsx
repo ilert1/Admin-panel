@@ -33,8 +33,9 @@ export const CreateWallet = (props: CreateWalletProps) => {
     const controllerProps = useCreateController();
 
     const onSubmit: SubmitHandler<Omit<Wallet, "account_id">> = async data => {
+        data.address = null;
         try {
-            // await dataProvider.create("currency", { data: data });
+            await dataProvider.create("wallet", { data: data });
             onOpenChange(false);
         } catch (error) {
             // toast({
@@ -48,7 +49,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
     const formSchema = z.object({
         type: z.enum([WalletTypes.EXTERNAL, WalletTypes.INTERNAL, WalletTypes.LINKED]),
         id: z.string().min(1, translate("resources.manageWallets.errors.id")),
-        address: z.string().min(1),
+        address: z.string().nullable(),
         // Одно и тоже поле
         accountNumber: z.string().min(1),
         merchantId: z.string(),
@@ -85,7 +86,6 @@ export const CreateWallet = (props: CreateWalletProps) => {
                         control={form.control}
                         name="type"
                         render={({ field }) => {
-                            console.log(field);
                             return (
                                 <FormItem className="w-1/2 p-2">
                                     <FormLabel>{translate("resources.manageWallets.fields.walletType")}</FormLabel>
@@ -124,7 +124,12 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 <FormLabel>{translate("resources.manageWallets.fields.walletAddress")}</FormLabel>
                                 <FormControl>
                                     <div>
-                                        <Input {...field} className="bg-muted" variant={InputTypes.GRAY} />
+                                        <Input
+                                            {...field}
+                                            className="bg-muted"
+                                            variant={InputTypes.GRAY}
+                                            value={field.value ?? ""}
+                                        />
                                     </div>
                                 </FormControl>
                             </FormItem>

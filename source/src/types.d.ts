@@ -308,7 +308,7 @@ interface Wallet {
     type: WalletTypes;
     blockchain: string;
     network: string;
-    address: string;
+    address: string | null;
     currency: string;
     account_id: string;
     minimal_ballance_limit: number;
