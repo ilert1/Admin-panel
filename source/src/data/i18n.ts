@@ -16,6 +16,12 @@ const ru: TranslationMessages = {
             fields: {
                 owner: "Владелец",
                 state: "Статус",
+                states: {
+                    active: "Активный",
+                    frozen: "Приостановлен",
+                    blocked: "Заблокирован"
+                },
+
                 type: "Тип счёта",
                 balance: "Баланс счёта",
                 history: "История по счёту",
@@ -548,6 +554,11 @@ const en: TranslationMessages = {
             fields: {
                 owner: "Owner",
                 state: "State",
+                states: {
+                    active: "Active",
+                    frozen: "Frozen",
+                    blocked: "Blocked"
+                },
                 type: "Account type",
                 balance: "Account balance",
                 history: "Account history",
