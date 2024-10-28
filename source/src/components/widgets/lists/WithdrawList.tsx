@@ -1,4 +1,4 @@
-import { useTranslate, useListController, ListContextProvider, usePermissions } from "react-admin";
+import { useTranslate, useListController, ListContextProvider, usePermissions, useLocaleState } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import {
@@ -85,6 +85,8 @@ export const WithdrawList = () => {
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
     const { permissions } = usePermissions();
+    const [locale] = useLocaleState();
+
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
@@ -93,8 +95,8 @@ export const WithdrawList = () => {
             header: translate("resources.withdraw.fields.created_at"),
             cell: ({ row }) => (
                 <>
-                    <p>{new Date(row.original.created_at).toLocaleDateString()}</p>
-                    <p>{new Date(row.original.created_at).toLocaleTimeString()}</p>
+                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
+                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
                 </>
             )
         },

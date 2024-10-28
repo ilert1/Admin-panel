@@ -22,8 +22,12 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         filter: { sort: "name", asc: "asc" }
     });
 
-    const [startDate, setStartDate] = useState<Date>();
-    const [endDate, setEndDate] = useState<Date>();
+    const [startDate, setStartDate] = useState<Date | undefined>(
+        filterValues?.start_date ? new Date(filterValues?.start_date) : undefined
+    );
+    const [endDate, setEndDate] = useState<Date | undefined>(
+        filterValues?.end_date ? new Date(filterValues?.end_date) : undefined
+    );
     const [operationId, setOperationId] = useState(filterValues?.id || "");
     const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
     const [account, setAccount] = useState("");

@@ -1,4 +1,4 @@
-import { useShowController, useTranslate, useGetManyReference, usePermissions } from "react-admin";
+import { useShowController, useTranslate, useGetManyReference, usePermissions, useLocaleState } from "react-admin";
 import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { BooleanField } from "@/components/ui/boolean-field";
@@ -25,6 +25,8 @@ import { useTransactionActions } from "@/hooks";
 export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     const data = fetchDictionaries();
     const translate = useTranslate();
+    const [locale] = useLocaleState();
+
     const { permissions, isLoading } = usePermissions();
     const context = useShowController({ id: props.id });
     const [newState, setNewState] = useState("");
@@ -111,16 +113,24 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
         }
     ];
 
-    const historyColumns: ColumnDef<Transaction.Fee>[] = [
+    const historyColumns: ColumnDef<Transaction.Transaction>[] = [
+        {
+            id: "createdAt",
+            accessorKey: "created_at",
+            header: translate("resources.transactions.fields.created_at"),
+            cell: ({ row }) => {
+                return (
+                    <>
+                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
+                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
+                    </>
+                );
+            }
+        },
         {
             id: "id",
             accessorKey: "id",
             header: translate("resources.transactions.fields.id")
-        },
-        {
-            id: "createdAt",
-            accessorKey: "created_at",
-            header: translate("resources.transactions.fields.created_at")
         },
         {
             id: "type",

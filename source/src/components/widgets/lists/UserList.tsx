@@ -1,4 +1,4 @@
-import { ListContextProvider, useListContext, useListController, useTranslate } from "react-admin";
+import { ListContextProvider, useListContext, useListController, useLocaleState, useTranslate } from "react-admin";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
 import { TextField } from "@/components/ui/text-field";
@@ -134,6 +134,7 @@ const UserFilterSidebar = () => {
 export const UserList = () => {
     const [userId, setUserId] = useState<string>("");
     const [showOpen, setShowOpen] = useState(false);
+    const [locale] = useLocaleState();
 
     const listContext = useListController<Users.User>();
     const translate = useTranslate();
@@ -150,8 +151,8 @@ export const UserList = () => {
             header: translate("resources.users.fields.created_at"),
             cell: ({ row }) => (
                 <>
-                    <p>{new Date(row.original.created_at).toLocaleDateString()}</p>
-                    <p>{new Date(row.original.created_at).toLocaleTimeString()}</p>
+                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
+                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
                 </>
             )
         },
