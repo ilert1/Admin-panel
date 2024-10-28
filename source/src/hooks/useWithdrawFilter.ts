@@ -9,8 +9,12 @@ import { DateRange } from "react-day-picker";
 const useWithdrawFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
 
-    const [startDate, setStartDate] = useState<Date>();
-    const [endDate, setEndDate] = useState<Date>();
+    const [startDate, setStartDate] = useState<Date | undefined>(
+        filterValues?.start_date ? new Date(filterValues?.start_date) : undefined
+    );
+    const [endDate, setEndDate] = useState<Date | undefined>(
+        filterValues?.end_date ? new Date(filterValues?.end_date) : undefined
+    );
     const [operationId, setOperationId] = useState(filterValues?.id || "");
 
     const { toast } = useToast();

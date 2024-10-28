@@ -1,21 +1,21 @@
-import { useDataProvider, useGetList, useShowController, useTranslate } from "react-admin";
+import { useDataProvider, useGetList, useLocaleState, useShowController, useTranslate } from "react-admin";
 import { DataTable, SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useEffect, useState } from "react";
-import moment from "moment";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 
 export const AccountShow = (props: { id: string; type?: "compact" }) => {
     const { id, type } = props;
     const translate = useTranslate();
+    const [locale] = useLocaleState();
     const data = fetchDictionaries();
     const dataProvider = useDataProvider();
 
     const context = useShowController({ id });
 
-    const [transactions, setTransactions] = useState<any[]>([]);
+    const [transactions, setTransactions] = useState<Transaction.Transaction[]>([]);
     const [page, setPage] = useState(1);
     const [perPage, setPerPage] = useState(10);
 
@@ -96,11 +96,10 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
             header: translate("resources.transactions.fields.created_at"),
             cell: ({ row }) => {
                 return (
-                    <div>
-                        <span>{moment(row.original.created_at).format("DD.MM.YY")}</span>
-                        <br />
-                        <span>{moment(row.original.created_at).format("hh:mm:ss")}</span>
-                    </div>
+                    <>
+                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
+                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
+                    </>
                 );
             }
         },

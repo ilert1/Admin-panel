@@ -14,7 +14,7 @@ import {
 import "chartjs-adapter-date-fns";
 import { addDays, format } from "date-fns";
 import { LoadingAlertDialog } from "./loading";
-import { useTranslate } from "react-admin";
+import { useLocaleState, useTranslate } from "react-admin";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -29,6 +29,7 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
     const [isChartVisible, setIsChartVisible] = useState(open);
     const [isLoading, setIsLoading] = useState(true);
     const translate = useTranslate();
+    const [locale] = useLocaleState();
 
     useEffect(() => {
         if (open) {
@@ -46,7 +47,7 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
             const dates: string[] = [];
             let currentDate = start;
             while (currentDate <= end) {
-                dates.push(format(currentDate, "dd.MM.yy"));
+                dates.push(currentDate.toLocaleDateString(locale));
                 currentDate = addDays(currentDate, 1);
             }
             return dates;

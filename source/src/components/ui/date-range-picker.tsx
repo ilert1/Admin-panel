@@ -1,11 +1,10 @@
 import { CalendarIcon, X } from "lucide-react";
-import { format } from "date-fns";
-
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { DateRange } from "react-day-picker";
 import { useState } from "react";
+import { useLocaleState } from "react-admin";
 
 export function DateRangePicker({
     title,
@@ -20,6 +19,7 @@ export function DateRangePicker({
 }) {
     const [openPopover, setOpenPopover] = useState(false);
     const initDate = new Date();
+    const [locale] = useLocaleState();
 
     return (
         <Popover open={openPopover} onOpenChange={setOpenPopover}>
@@ -35,10 +35,12 @@ export function DateRangePicker({
                             {dateRange?.from ? (
                                 dateRange.to ? (
                                     <>
-                                        {format(dateRange.from, "dd.MM.yyyy")} - {format(dateRange.to, "dd.MM.yyyy")}
+                                        {`${dateRange.from.toLocaleDateString(
+                                            locale
+                                        )} - ${dateRange.to.toLocaleDateString(locale)}`}
                                     </>
                                 ) : (
-                                    format(dateRange.from, "dd.MM.yyyy")
+                                    dateRange.from.toLocaleDateString(locale)
                                 )
                             ) : (
                                 <span className="text-neutral-80 dark:text-neutral-70">{placeholder}</span>
