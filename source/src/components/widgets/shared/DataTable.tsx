@@ -3,7 +3,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { CircleArrowLeftIcon, CircleArrowRightIcon } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useListContext, useTranslate } from "react-admin";
+import { useListContext, useRefresh, useTranslate } from "react-admin";
 import { useEffect } from "react";
 
 interface DataTableProps<TData, TValue> {
@@ -27,7 +27,6 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         ({ data, total, page, perPage, setPage, setPerPage } = useListContext());
     }
-
     const translate = useTranslate();
     const table = useReactTable({
         data,
@@ -90,8 +89,12 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                     )}
                 </TableBody>
             </Table>
-            {pagination && total > perPage && (
-                <div className="flex w-full items-center justify-between gap-4 overflow-auto p-1 sm:flex-row sm:gap-8">
+
+            <div
+                className={`flex w-full items-center justify-between gap-4 overflow-auto p-1 sm:flex-row sm:gap-8  ${
+                    pagination && total > perPage ? "" : "!justify-end"
+                }`}>
+                {pagination && total > perPage && (
                     <div className="flex items-center space-x-2">
                         <Button
                             aria-label="Go to previous page"
@@ -179,31 +182,33 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                             <CircleArrowRightIcon className="size-4" aria-hidden="true" />
                         </Button>
                     </div>
-
-                    <div className="flex items-center space-x-2">
-                        <p className="whitespace-nowrap text-sm font-medium">
-                            {translate("resources.transactions.pagination")}
-                        </p>
-                        <Select
-                            value={`${table.getState().pagination.pageSize}`}
-                            onValueChange={value => {
-                                table.setPageSize(Number(value));
-                                setPerPage(Number(value));
-                            }}>
-                            <SelectTrigger className="h-8 border-none bg-green-60 p-1 w-auto gap-0.5">
-                                <SelectValue placeholder={table.getState().pagination.pageSize} />
-                            </SelectTrigger>
-                            <SelectContent side="top">
-                                {[5, 10, 25, 50, 100].map(pageSize => (
-                                    <SelectItem key={pageSize} value={`${pageSize}`}>
-                                        {pageSize}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
+                )}
+                <div className="flex items-center space-x-2">
+                    <p className="whitespace-nowrap text-sm font-medium">
+                        {translate("resources.transactions.pagination")}
+                    </p>
+                    <Select
+                        value={`${table.getState().pagination.pageSize}`}
+                        onValueChange={value => {
+                            table.setPageSize(Number(value));
+                            setPerPage(Number(value));
+                        }}>
+                        <SelectTrigger className="h-8 border-none bg-green-60 p-1 w-auto gap-0.5">
+                            <SelectValue placeholder={table.getState().pagination.pageSize} />
+                        </SelectTrigger>
+                        <SelectContent side="top">
+                            {[5, 10, 25, 50, 100].map(pageSize => (
+                                <SelectItem
+                                    key={pageSize}
+                                    value={`${pageSize}`}
+                                    disabled={total < 100 ? total > pageSize : false}>
+                                    {pageSize}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
-            )}
+            </div>
         </div>
     );
 }
