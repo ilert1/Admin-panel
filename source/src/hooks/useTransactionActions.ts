@@ -1,10 +1,9 @@
-import { useRecordContext, useTranslate, usePermissions, useRefresh } from "react-admin";
+import { useTranslate, usePermissions, useRefresh } from "react-admin";
 import { API_URL, BF_MANAGER_URL } from "@/data/base";
 import { useMemo, useCallback } from "react";
 import { toast } from "sonner";
 
-export const useTransactionActions = (data: any) => {
-    const record = useRecordContext();
+export const useTransactionActions = (data: Dictionaries.DataObject, record: Transaction.Transaction) => {
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const refresh = useRefresh();
@@ -78,7 +77,12 @@ export const useTransactionActions = (data: any) => {
                 .then(resp => resp.json())
                 .then(json => {
                     if (json.success) {
-                        success(translate("resources.transactions.show.success"));
+                        const currentState = states.find(item => item.state_int === state);
+                        success(
+                            `${translate("resources.transactions.fields.state.state_changed")} ${
+                                currentState?.state_description
+                            }`
+                        );
                     } else {
                         throw new Error(json.error || "Unknown error");
                     }
@@ -110,7 +114,7 @@ export const useTransactionActions = (data: any) => {
             .then(resp => resp.json())
             .then(json => {
                 if (json.success) {
-                    success(translate("resources.transactions.show.success"));
+                    success(translate("resources.transactions.fields.committed"));
                 } else {
                     throw new Error(json.error || "Unknown error");
                 }

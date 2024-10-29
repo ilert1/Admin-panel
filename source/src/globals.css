@@ -7,12 +7,13 @@
         :root {
             --background: 147 0% 95%;
             --foreground: 147 0% 0%;
+            --header: 147 0% 95%;
             --card: 147 0% 90%;
             --card-foreground: 147 0% 10%;
             --popover: 147 0% 95%;
             --popover-foreground: 147 95% 0%;
             /* --primary: 147 54.1% 57.3%; */
-            --green-0: 152 94% 94%;
+            --green-0: 150 54% 95%;
             /* #EBF9F2 */
             --green-10: 148 81% 91%;
             /* #D8F3E4 */
@@ -20,12 +21,11 @@
             /* #89DCAE */
             --green-30: 148 53% 61%;
             /* #62D093 */
-            --green-40: 148 45% 53%;
+            --green-40: 147 54% 57%;
             /* #57CD8C */
-            --green-50: 148 53% 25%;
+            --green-50: 147 54% 30%;
             /* #237648 */
-            --green-60: 148 92% 9%;
-            /* #0C2718 */
+            --green-60: 150 54% 95%;
             --green-70: 148 96% 4%;
             /* #06140C */
 
@@ -52,7 +52,7 @@
             /* #ECB391 */
             --red-30: 20 76% 53%;
             /* #E16F2D */
-            --red-40: 19 94% 45%;
+            --red-40: 22 94% 46%;
             /* #E65907 */
             --red-50: 17 81% 35%;
             /* #A44610 */
@@ -80,15 +80,15 @@
             /* #40403F */
             --neutral-80: 0 0% 36%;
             /* #5C5C5C */
-            --neutral-70: 0 0% 46%;
+            --neutral-70: 0 0% 90%;
             /* #757575 */
             --neutral-60: 0 0% 60%;
             /* #999999 */
-            --neutral-50: 0 0% 70%;
+            --neutral-50: 0 0% 36%;
             /* #B3B3B3 */
             --neutral-40: 0 0% 85%;
             /* #D9D9D9 */
-            --neutral-30: 0 0% 90%;
+            --neutral-30: 0 0% 46%;
             /* #E6E6E6 */
             --neutral-20: 0 0% 95%;
             /* #F2F2F2 */
@@ -97,7 +97,9 @@
             --neutral-0: 0 0% 100%;
             /* #FFFFFF */
 
-            /* --extra-1: 346 66% 35%;
+            --loginBG: 22, 40%, 88%;
+
+            --extra-1: 346 66% 35%;
             --extra-2: 316 53% 28%;
             --extra-3: 288 29% 18%;
             --extra-4: 320 86% 10%;
@@ -105,7 +107,7 @@
             --extra-6: 281 33% 44%;
             --extra-7: 211 40% 55%;
             --extra-8: 184 100% 30%;
-            --extra-9: 180 100% 15%; */
+            --extra-9: 180 100% 15%;
 
             --primary-foreground: 0 0% 100%;
             --secondary: 147 10% 70%;
@@ -125,6 +127,7 @@
         .dark {
             --background: 147 10% 5%;
             --foreground: 147 0% 90%;
+            --header: 950 0% 0%;
             --card: 147 0% 0%;
             --card-foreground: 147 0% 90%;
             --popover: 147 10% 5%;
@@ -132,11 +135,11 @@
             /* --primary: 147 54.2% 70%; */
             --green-0: 148 96% 4%;
             --green-10: 148 92% 9%;
-            --green-20: 148 53% 25%;
+            --green-20: 147 54% 70%;
             --green-30: 148 45% 53%;
-            --green-40: 148 53% 61%;
-            --green-50: 148 57% 71%;
-            --green-60: 148 81% 91%;
+            --green-40: 147 54% 57%;
+            --green-50: 147 54% 30%;
+            --green-60: 147 53% 10%;
             --green-70: 152 94% 94%;
 
             --yellow-60: 48 100% 93%;
@@ -148,8 +151,8 @@
             --yellow-0: 46 100% 22%;
 
             --red-60: 20 100% 97%;
-            --red-50: 20 89% 85%;
-            --red-40: 24 70% 74%;
+            --red-50: 22 82% 35%;
+            --red-40: 22 94% 46%;
             --red-30: 20 76% 53%;
             --red-20: 19 94% 45%;
             --red-10: 17 81% 35%;
@@ -169,15 +172,15 @@
             /* #FBFBFB */
             --neutral-80: 0 0% 95%;
             /* #F2F2F2 */
-            --neutral-70: 0 0% 90%;
+            --neutral-70: 0 0% 46%;
             /* #E6E6E6 */
             --neutral-60: 0 0% 85%;
             /* #D9D9D9 */
             --neutral-50: 0 0% 70%;
             /* #B3B3B3 */
-            --neutral-40: 0 0% 60%;
+            --neutral-40: 0 0% 85%;
             /* #999999 */
-            --neutral-30: 0 0% 46%;
+            --neutral-30: 0 0% 90%;
             /* #757575 */
             --neutral-20: 0 0% 36%;
             /* #5C5C5C */
@@ -185,11 +188,23 @@
             /* #40403F */
             --neutral-0: 0 0% 0%;
             /* #000000 */
+            --loginBG: 202 40% 12%;
+
+            --extra-1: 346 66% 35%;
+            --extra-2: 316 53% 28%;
+            --extra-3: 288 29% 18%;
+            --extra-4: 320 86% 10%;
+            --extra-5: 288 35% 76%;
+            --extra-6: 281 33% 44%;
+            --extra-7: 211 40% 55%;
+            --extra-8: 184 100% 30%;
+            --extra-9: 180 100% 15%;
 
             --primary-foreground: 0 0% 0%;
             --secondary: 147 10% 10%;
             --secondary-foreground: 0 0% 100%;
-            --muted: 109 10% 15%;
+            --muted: 202 40% 12%;
+            /* #13232C */
             --muted-foreground: 147 0% 60%;
             --accent: 109 10% 15%;
             --accent-foreground: 147 0% 90%;
@@ -217,23 +232,32 @@
 @layer utilities {
     ::-webkit-scrollbar {
         width: 8px;
-        /* Ширина скроллера */
+        height: 8px;
+    }
+
+    ::-webkit-scrollbar-corner {
+        background-color: hsl(var(--neutral-0));
     }
 
     ::-webkit-scrollbar-track {
-        background: 0 0% 100%;
-        /* Цвет фона трека скроллера */
+        background: hsl(var(--neutral-0));
+        border-radius: 8px;
     }
 
     ::-webkit-scrollbar-thumb {
-        background: 148 53% 25%;
-        /* Цвет ползунка скроллера */
+        background: hsl(var(--green-50));
         border-radius: 8px;
-        /* Радиус скругления ползунка */
     }
 
-    ::-webkit-scrollbar-thumb:hover {
-        background: 148 92% 9%;
-        /* Цвет ползунка при наведении */
+    :root {
+        ::-webkit-scrollbar-track {
+            border: 1px solid hsl(var(--neutral-30));
+        }
+    }
+
+    .dark {
+        ::-webkit-scrollbar-track {
+            border: 1px solid hsl(60, 1%, 25%);
+        }
     }
 }

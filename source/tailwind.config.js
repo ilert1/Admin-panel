@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import { scrollbarGutter } from "tailwind-scrollbar-utilities";
+
 module.exports = {
     darkMode: ["class"],
     content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
@@ -8,7 +10,7 @@ module.exports = {
             center: true,
             padding: "2rem",
             screens: {
-                "2xl": "1400px"
+                "2xl": "1600px"
             }
         },
         extend: {
@@ -16,6 +18,7 @@ module.exports = {
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
                 ring: "hsl(var(--ring))",
+                header: "hsl(var(--header))",
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",
                 neutral: {
@@ -71,6 +74,18 @@ module.exports = {
                     60: "hsl(var(--orange-60))",
                     70: "hsl(var(--orange-70))"
                 },
+                extra: {
+                    1: "hsl(var(--extra-1))",
+                    2: "hsl(var(--extra-2))",
+                    3: "hsl(var(--extra-3))",
+                    4: "hsl(var(--extra-4))",
+                    5: "hsl(var(--extra-5))",
+                    6: "hsl(var(--extra-6))",
+                    7: "hsl(var(--extra-7))",
+                    8: "hsl(var(--extra-8))",
+                    9: "hsl(var(--extra-9))"
+                },
+                loginBG: "hsl(var(--loginBG))",
                 secondary: {
                     DEFAULT: "hsl(var(--secondary))",
                     foreground: "hsl(var(--secondary-foreground))"
@@ -108,7 +123,8 @@ module.exports = {
                 10: "10px",
                 12: "12px",
                 16: "16px",
-                20: "20px"
+                20: "20px",
+                22: "22px"
             },
             keyframes: {
                 "accordion-down": {
@@ -145,9 +161,13 @@ module.exports = {
                 "note-2": ["10px", { lineHeight: "12px", fontWeight: 400 }]
             },
             gridTemplateColumns: {
-                "1/9": "10% 90%"
+                "1/9": "10% 90%",
+                "stretch-first": "1fr auto"
+            },
+            gridTemplateRows: {
+                "stretch-last": "auto 1fr"
             }
         }
     },
-    plugins: [require("tailwindcss-animate")]
+    plugins: [require("tailwindcss-animate"), scrollbarGutter()]
 };

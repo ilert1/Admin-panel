@@ -7,12 +7,27 @@ const ru: TranslationMessages = {
     ...raRU,
     resources: {
         accounts: {
-            name: "Счет |||| Счета",
+            admin: {
+                name: "Счета"
+            },
+            merchant: {
+                name: "Мои счета"
+            },
             fields: {
+                owner: "Владелец",
+                state: "Статус",
+                states: {
+                    active: "Активный",
+                    frozen: "Приостановлен",
+                    blocked: "Заблокирован"
+                },
+
+                type: "Тип счёта",
+                balance: "Баланс счёта",
+                history: "История по счёту",
+
                 id: "ID",
                 owner_id: "ID владельца",
-                state: "Состояние",
-                type: "Тип",
                 amounts: "Суммы",
                 amount: {
                     id: "ID",
@@ -25,25 +40,39 @@ const ru: TranslationMessages = {
                     caption: "Имя"
                 }
             },
+            totalBalance: "Общий баланс по счетам",
             showHeader: "Информация о счете",
             showDescription: "Подробная информация о счете с ID %{id}"
         },
         users: {
-            name: "Пользователь |||| Пользователи",
+            name: "Пользователи",
+            user: "Пользователь",
+            edit: "Редактировать",
+            deleteThisUser: "Удалить пользователя?",
+            delete: "Удалить",
             fields: {
-                id: "ID",
-                name: "Имя",
+                id: "ID пользователя",
+                name: "Имя пользователя",
                 login: "Логин",
                 email: "Электронная почта",
                 currency: "Валюта",
-                created_at: "Дата создания",
-                active: "Активный",
+                created_at: "Дата и время",
+                active: "Активность",
+                activeStateTrue: "Активен",
+                activeStateFalse: "Не активен",
                 public_key: "Публичный ключ",
                 shop_api_key: "Ключ API",
                 shop_sign_key: "Ключ подписи",
                 shop_balance_key: "Ключ баланса"
             },
-            createButton: "Создать пользователя",
+            createButton: "Добавить пользователя",
+            filter: {
+                showAll: "Показать все",
+                filterByUserId: "Поиск по ID",
+                filterByUsername: "Поиск по имени",
+                filterByUsernamePlaceholder: "Имя",
+                filterByActivity: "Активные пользователи"
+            },
             showHeader: "Информация о пользователе",
             showDescription: "Подробная информация о пользователе с ID %{id}",
             create: {
@@ -54,9 +83,9 @@ const ru: TranslationMessages = {
             }
         },
         transactions: {
-            name: "Транзакция |||| Транзакции",
+            name: "Операции",
             fields: {
-                id: "ID",
+                id: "ID операции",
                 created_at: "Дата создания",
                 committed: "Зафиксированная",
                 dispute: "Диспут",
@@ -70,17 +99,19 @@ const ru: TranslationMessages = {
                     title: "Состояние",
                     final: "Финальная",
                     state_int: "Код",
-                    state_description: "Статус"
+                    state_description: "Статус",
+                    state_changed: "Статус измене на:"
                 },
                 rateInfo: "Курс",
-                createdAt: "Дата и время создания",
+                createdAt: "Дата и время",
                 stornoIds: "Транзакции сторно",
                 source: {
                     header: "Отправитель",
                     id: "ID",
                     amount: {
                         currency: "Валюта",
-                        value: "Сумма"
+                        value: "Сумма",
+                        getAmount: "Сумма зачисления"
                     },
                     meta: {
                         caption: "Название"
@@ -91,7 +122,8 @@ const ru: TranslationMessages = {
                     id: "ID",
                     amount: {
                         currency: "Валюта",
-                        value: "Сумма"
+                        value: "Сумма",
+                        sendAmount: "Сумма отправления"
                     },
                     meta: {
                         caption: "Название"
@@ -116,7 +148,8 @@ const ru: TranslationMessages = {
                 openDispute: "Открыть диспут",
                 closeDispute: "Закрыть диспут",
                 disputeOpened: "Диспут открыт",
-                disputeClosed: "Диспут закрыт"
+                disputeClosed: "Диспут закрыт",
+                commitTransaction: "Зафиксировать операцию?"
             },
             list: {
                 filter: {
@@ -124,6 +157,8 @@ const ru: TranslationMessages = {
                     account: "Счет"
                 }
             },
+            pagination: "Записей",
+            chart: "График операций",
             showHeader: "Информация о транзакции",
             showDescription: "Подробная информация о транзакции с ID %{id}",
             storno: {
@@ -135,9 +170,8 @@ const ru: TranslationMessages = {
             },
             download: {
                 downloadReportLabel: "Выгрузка отчета",
-                startDate: "Начальная дата :",
-                endDate: "Конечная дата :",
-                downloadReportButtonText: "Загрузить отчет",
+                dateTitle: "Дата",
+                downloadReportButtonText: "Скачать отчет",
                 bothError: "Начальная дата и конечная дата обязательно должны быть заполнены",
                 greaterError: "Конечная дата не может быть больше чем начальная дата",
                 error: "Ошибка",
@@ -145,14 +179,28 @@ const ru: TranslationMessages = {
                 accountField: "Выберите аккаунт мерчанта"
             },
             filter: {
-                filterById: "Поиск по ID",
-                filterByAccount: "Поиск по счету",
+                showAll: "Показать все",
+                filterById: "Поиск по ID операции",
+                filterByIdPlaceholder: "ID",
+                filterByAccount: "Мерчант",
+                filterAllPlaceholder: "Все",
+                filterByOrderStatus: "Статус ордера",
+                filterByDate: "Выберите период",
                 clearFilters: "Сбросить фильтры",
                 filterCustomerPaymentId: "Поиск по ID платежа клиента"
+            },
+            types: {
+                all: "Все операции",
+                deposit: "Пополнение",
+                withdrawal: "Вывод средств",
+                transfer: "Перевод средств",
+                reward: "Выплата вознаграждения"
             }
         },
         withdraw: {
-            name: "Вывод в криптовалюте |||| Выводы в криптовалюте",
+            name: "Вывод криптовалюты",
+            tableTitle: "Отчет по выводам в криптовалюте",
+            cryptoTransferTitle: "Перевод криптовалюты",
             fields: {
                 id: "ID",
                 created_at: "Дата и время создания",
@@ -167,9 +215,22 @@ const ru: TranslationMessages = {
                     hash: "Хеш",
                     hash_link: "Ссылка Tronscan"
                 }
+            },
+            download: {
+                downloadReportButtonText: "Скачать отчет",
+                bothError: "Начальная дата и конечная дата обязательно должны быть заполнены",
+                error: "Ошибка"
+            },
+            filter: {
+                filterById: "Поиск по ID",
+                filterByIdPlaceholder: "ID",
+                filterByDate: "Дата",
+                filterByDatePlaceholder: "Выберите дату",
+                clearFilters: "Сбросить фильтры"
             }
         },
-        currencies: {
+        currency: {
+            name: "Валюты",
             fields: {
                 currency: "Валюта",
                 type: "Тип",
@@ -179,21 +240,30 @@ const ru: TranslationMessages = {
                 crypto: "Криптовалюта",
                 before: "Перед значением",
                 after: "После значения",
-                currencyName: "Название валюты"
+                currencyName: "Название валюты",
+                example: "Пример",
+                edit: "Изменить",
+                delete: "Удалить"
             },
             error: {
                 code: "Код валюты обязательно нужно ввести",
                 alreadyInUse: "Данное имя уже тспользуется. Выберите другое."
             },
-            create: "Добавить новую валюту",
+            create: "Добавить валюту",
+            createDialogTitle: "Добавление валюты",
+            editDialogTitle: "Редактирование валюты",
+            deleteDialogTitle: "Удалить валюту?",
             showTitle: "Детальная информацию о валюте",
             showDescription: "Детальная информацию о валюте"
         },
-        merchants: {
+        merchant: {
+            name: "Мерчанты",
+            merchant: "Мерчант",
             fields: {
                 id: "ID",
                 name: "Имя",
-                descr: "Описание"
+                descr: "Описание",
+                fees: "Комиссии"
             },
             errors: {
                 id: "ID обязательно должен быть заполнен",
@@ -202,18 +272,24 @@ const ru: TranslationMessages = {
                 noSpaces: "Пробелы запрещены в данном поле"
             },
             showTitle: "Детальная инфорация о мерчанте",
-            createNew: "Создать нового мерчанта"
+            createNew: "Создать нового мерчанта",
+            creatingMerchant: "Создание нового мерчанта",
+            editingMerchant: "Редактирование мерчанта",
+            delete: "Удалить мерчанта?"
         },
-        providers: {
+        provider: {
+            name: "Провайдеры",
             fields: {
-                name: "Название провайдера",
+                _name: "Название",
+                name: "Провайдер",
                 pk: "Публичный ключ",
                 genKey: "Создать ключи",
                 keyMiss: "Ключ отсутсвует",
                 regenKey: "Пересоздать ключи",
                 json_schema: "Схема Json",
                 code: "Методы",
-                enterMethods: "Введите свои методы"
+                enterMethods: "Введите свои методы",
+                methods: "Методы"
             },
             errors: {
                 name: "Имя должно содержать хотя бы один символ",
@@ -223,16 +299,23 @@ const ru: TranslationMessages = {
             createNew: "Создать нового провайдера",
             createTestKeys: "Создать тестовые ключи",
             attention: "Внимание",
-            warning:
-                "Приватный ключ будет показан только ОДИН раз. Скопируйте, сохраните и отправьте ключ DevOps инженеру",
+            warning: "Внимание! Приватный ключ будет показан только один раз.",
+            sendToDevOps: "Скопируйте его и отправьте DevOps инженеру",
             pleaseCreate: "Пожалуйста создайте ключи на странице с таблицей провайдеров",
             pleaseWait: "Пожалуйста подождите",
             clickToCopy: "Это ваш приватный ключ. Нажмите на кнопку чтобы скопировать ключ, или скопируйте вручную.",
             continue: "Продолжить",
             close: "Закрыть",
-            privateKey: "Приватный ключ"
+            privateKey: "Приватный ключ",
+            deleteProviderQuestion: "Удалить провайдера?",
+            keysCreating: "Создание тестовых ключей",
+            realKeysCreating: "Создание ключей",
+            editingProvider: "Редактирование провайдера",
+            creatingProvider: "Создание провайдера"
         },
-        directions: {
+        direction: {
+            direction: "Направление",
+            name: "Направления",
             fields: {
                 name: "Название направления",
                 active: "Состояние",
@@ -242,11 +325,23 @@ const ru: TranslationMessages = {
                 id: "Идентификатор направления",
                 auth_data: "Информация об аутентификации",
                 pleaseGen: "Пожалуйста, создайте ключи в провайдерах",
-                stateActive: "Активный",
-                stateInactive: "Не активный",
+                stateActive: "Активно",
+                stateInactive: "Не активно",
                 description: "Описание",
                 api_key: "Информация об аутентификации",
-                merchantsDirections: "Направления мерчанта "
+                merchantsDirections: "Направления мерчанта ",
+                isActive: "Активность"
+            },
+            fees: {
+                fees: "Комиссии",
+                accountNumber: "Номер счета",
+                feeAmount: "Размер комиссии",
+                feeType: "Тип комиссии",
+                currency: "Валюта",
+                descr: "Описание",
+                addFee: "Добавить комиссию",
+                direction: "Направление",
+                deleteFee: "Удалить комиссию?"
             },
             errors: {
                 name: "У направления обязательно должно быть имя",
@@ -256,15 +351,17 @@ const ru: TranslationMessages = {
                 provider: "Провайдер обязательно должен быть выбран",
                 authError: "Ошибка при добавлении информации об аутентификации"
             },
-            create: "Создать новое направление",
-            sourceCurrency: "Исходящая валюта",
-            destinationCurrency: "Конечная валюта",
+            create: "Добавить направление",
+            sourceCurrency: "Валюта отправителя",
+            destinationCurrency: "Валюта получателя",
             selectSourceCurrency: "Выбрать исходящую валюту",
             selectDestCurrency: "Выбрать конечную валюту",
             merchant: "Мерчант",
             provider: "Провайдер",
             weight: "Вес",
             description: "Описание",
+            authInfo: "Информация об аутинтификации",
+            changeAuthDataHeader: "Изменение аутентификационной информации",
             writeSecretPhrase: "Напишите информацию об аутентификации и нажмите сохранить",
             secretHelper: "Ожидается валидный JSON объект",
             note: "Внимание: Вы не можете использовать для направления провайдера, для которого нет ключа",
@@ -272,23 +369,30 @@ const ru: TranslationMessages = {
             pleaseCreate: "Пожалуйста добавьте аутентификационную информацию на странице с таблицей",
             noProviders: "Нет доступных провайдеров",
             noMerchants: "Нет доступных мерчантов",
-            noCurrencies: "Нет доступных валют"
+            noCurrencies: "Нет доступных валют",
+            deleteDirection: "Удалить направление?",
+            editingDirection: "Редактирование направления",
+            creatingDirection: "Добавление направления"
         }
     },
     app: {
         menu: {
-            accounts: "Счета",
-            transactions: "Транзакции",
-            payin: "Пополнение",
-            dashboard: "Главная",
-            bankTransfer: "Банковский перевод",
-            cryptoWalletTransfer: "Перевод криптовалюты",
-            withdraw: "Вывод в криптовалюте",
-            users: "Пользователи",
-            currencies: "Валюты",
-            merchant: "Мерчанты",
-            providers: "Провайдеры",
-            directions: "Направления"
+            merchant: {
+                accounts: "Мои счета",
+                transactions: "История операций",
+                cryptoOperations: "Операции с криптовалютой",
+                bankTransfer: "Банковский перевод"
+            },
+            admin: {
+                accounts: "Счета",
+                transactions: "Операции",
+                withdraw: "Вывод в криптовалюте",
+                users: "Пользователи",
+                currencies: "Валюты",
+                merchant: "Мерчанты",
+                providers: "Провайдеры",
+                directions: "Направления"
+            }
         },
         ui: {
             actions: {
@@ -300,7 +404,9 @@ const ru: TranslationMessages = {
                 addSecretKey: "Добавить аутентификационную инфорамцию",
                 changeSecretKey: "Изменить аутентификационную инфорамцию",
                 cancel: "Отменить",
-                areYouSure: "Вы точно хотите удалить элемент?"
+                areYouSure: "Вы точно хотите удалить элемент?",
+                chatWithSupport: "Чат с поддержкой",
+                close: "Закрыть"
             },
             pagination: {
                 next: "Далее",
@@ -311,11 +417,14 @@ const ru: TranslationMessages = {
             },
             delete: {
                 deletedSuccessfully: "Элемент удален успешно"
-            }
+            },
+            chatMessagePlaceholder: "Сообщение...",
+            transactionHistory: "История операции",
+            accountHistory: "История счета"
         },
         theme: {
-            light: "Включить темную тему",
-            dark: "Включить светлую тему"
+            light: "Светлая тема",
+            dark: "Темная тема"
         },
         widgets: {
             forms: {
@@ -339,7 +448,13 @@ const ru: TranslationMessages = {
                     createOrder: "Создать ордер"
                 },
                 payout: {
+                    title: "Банковский перевод",
                     payMethod: "Метод оплаты",
+                    phone: "Номер телефона",
+                    card: "Номер карты",
+                    cardholder: "Владелец карты",
+                    expiration_date: "Срок действия",
+                    account_last_digits: "Последние цифры номера",
                     selectPayMethod: "Выберите метод оплаты",
                     payMethodMessage: "Пожалуйста, выберите метод оплаты",
                     valueMessage: "Некорректное значение",
@@ -348,17 +463,23 @@ const ru: TranslationMessages = {
                     success: "Вывод успешно создан"
                 },
                 cryptoTransfer: {
-                    address: "Адрес TRC20",
-                    addressMessage: "Неверный адрес",
-                    amount: "Сумма",
-                    amountMessage: "Некорректное значение",
+                    address: "Адрес получателя TRC20",
+                    addressMessage: "Неверный адрес получателя TRC-20",
+                    amount: "Сумма, USD₮",
+                    amountMessage: "Введите корректное значение (например, 99.564)",
                     amountMinMessage: "Сумма должна быть минимум 2 USD₮",
                     amountMaxMessage: "Сумма должна быть максимум %{amount} USD₮",
                     commission: "Комиссия",
                     totalAmount: "Сумма выплаты",
-                    allAmount: "Вся сумма %{amount} USD₮"
+                    allAmount: "Перевести всю сумму (%{amount} USD₮)",
+                    createTransfer: "Перевести",
+                    transferSuccess: "Перевод осуществлён!",
+                    transferError: "Недостаточно средств на счёте",
+                    successButton: "Перевести ещё",
+                    errorButton: "Попробовать снова"
                 },
                 userCreate: {
+                    title: "Добавление пользователя",
                     name: "Имя",
                     nameMessage: "Пожалуйста, введите имя мерчанта",
                     login: "Логин",
@@ -369,6 +490,7 @@ const ru: TranslationMessages = {
                     passwordMessage:
                         "Пароль должен состоять минимум из 8 символов, включая хотя бы одну строчную и прописную букву, а также специальный символ !@#$%^&*()-_",
                     publicKey: "Публичный ключ(скопируйте или перенесите файл ключа)",
+                    publicKeyPlaceholder: "Перетащите файл сюда или введите текст",
                     publicKeyMessage: "Неверный формат публичного ключа",
                     shopCurrency: "Валюта",
                     shopCurrencyPlaceholder: "Выберите валюту",
@@ -377,9 +499,17 @@ const ru: TranslationMessages = {
                     shopSignKey: "Ключ проверки подписи",
                     shopBalanceKey: "Ключ доступа к балансу",
                     keyMessage: "Неверный формат ключа",
-                    createUser: "Создать пользователя"
+                    createUser: "Создать пользователя",
+                    cancelBtn: "Отменить"
                 }
             }
+        },
+        login: {
+            usernameOrEmail: "Логин или e-mail",
+            password: "Пароль",
+            login: "Войти",
+            logPassError: "Неправильный логин или пароль",
+            networkError: "Ошибка сети"
         }
     },
     pages: {
@@ -392,6 +522,22 @@ const ru: TranslationMessages = {
         cryptoTransfer: {
             header: "Перевод криптовалюты"
         }
+    },
+    datePicker: {
+        month: {
+            0: "Январь",
+            1: "Февраль",
+            2: "Март",
+            3: "Апрель",
+            4: "Май",
+            5: "Июнь",
+            6: "Июль",
+            7: "Август",
+            8: "Сентябрь",
+            9: "Октябрь",
+            10: "Ноябрь",
+            11: "Декабрь"
+        }
     }
 };
 
@@ -399,12 +545,26 @@ const en: TranslationMessages = {
     ...raEn,
     resources: {
         accounts: {
-            name: "Account |||| Accounts",
+            admin: {
+                name: "Accounts"
+            },
+            merchant: {
+                name: "My accounts"
+            },
             fields: {
+                owner: "Owner",
+                state: "State",
+                states: {
+                    active: "Active",
+                    frozen: "Frozen",
+                    blocked: "Blocked"
+                },
+                type: "Account type",
+                balance: "Account balance",
+                history: "Account history",
+
                 id: "ID",
                 owner_id: "Owner ID",
-                state: "State",
-                type: "Type",
                 amounts: "Amounts",
                 amount: {
                     id: "ID",
@@ -417,25 +577,39 @@ const en: TranslationMessages = {
                     caption: "Name"
                 }
             },
+            totalBalance: "Total account balance",
             showHeader: "Account info",
             showDescription: "Detailed information about account with ID %{id}"
         },
         users: {
-            name: "User |||| Users",
+            name: "Users",
+            user: "User",
+            edit: "Edit",
+            delete: "Delete",
+            deleteThisUser: "Delete user?",
             fields: {
-                id: "ID",
-                name: "Name",
+                id: "User ID",
+                name: "Username",
                 login: "Login",
                 email: "Email",
                 currency: "Currency",
-                created_at: "Created at",
-                active: "Active",
+                created_at: "Date and time",
+                active: "Activity",
+                activeStateTrue: "Active",
+                activeStateFalse: "Not active",
                 public_key: "Public key",
                 shop_api_key: "API key",
                 shop_sign_key: "Sign key",
                 shop_balance_key: "Balance key"
             },
-            createButton: "Create user",
+            filter: {
+                showAll: "Show all",
+                filterByUserId: "Search by ID",
+                filterByUsername: "Search by name",
+                filterByUsernamePlaceholder: "Name",
+                filterByActivity: "Active users"
+            },
+            createButton: "Add user",
             showHeader: "User info",
             showDescription: "Detailed information about user with ID %{id}",
             create: {
@@ -446,7 +620,7 @@ const en: TranslationMessages = {
             }
         },
         transactions: {
-            name: "Transaction |||| Transactions",
+            name: "Transactions",
             fields: {
                 id: "ID",
                 created_at: "Created at",
@@ -462,7 +636,8 @@ const en: TranslationMessages = {
                     title: "State",
                     final: "Is final",
                     state_int: "Code",
-                    state_description: "Status"
+                    state_description: "Status",
+                    state_changed: "Status changed to:"
                 },
                 rateInfo: "Rate",
                 createdAt: "Created at",
@@ -472,7 +647,8 @@ const en: TranslationMessages = {
                     id: "ID",
                     amount: {
                         currency: "Currency",
-                        value: "Value"
+                        value: "Value",
+                        getAmount: "Amount credited"
                     },
                     meta: {
                         caption: "Name"
@@ -483,7 +659,8 @@ const en: TranslationMessages = {
                     id: "ID",
                     amount: {
                         currency: "Currency",
-                        value: "Value"
+                        value: "Value",
+                        sendAmount: "Amount send"
                     },
                     meta: {
                         caption: "Name"
@@ -508,7 +685,8 @@ const en: TranslationMessages = {
                 openDispute: "Open dispute",
                 closeDispute: "Close dispute",
                 disputeOpened: "Disput opened",
-                disputeClosed: "Disput closed"
+                disputeClosed: "Disput closed",
+                commitTransaction: "Commit the transaction?"
             },
             list: {
                 filter: {
@@ -516,6 +694,8 @@ const en: TranslationMessages = {
                     account: "Account"
                 }
             },
+            pagination: "Rows per page",
+            chart: "Schedule of operations",
             showHeader: "Transaction info",
             showDescription: "Detailed information about transaction with ID %{id}",
             storno: {
@@ -527,8 +707,7 @@ const en: TranslationMessages = {
             },
             download: {
                 downloadReportLabel: "Report download",
-                startDate: "Start date",
-                endDate: "End date",
+                dateTitle: "Date",
                 downloadReportButtonText: "Download report",
                 bothError: "Both start date and end date must be selected",
                 greaterError: "End date must be greater than start date",
@@ -537,14 +716,28 @@ const en: TranslationMessages = {
                 accountField: "Choose merchant account"
             },
             filter: {
-                filterById: "Search by ID",
-                filterByAccount: "Search by account",
+                showAll: "Show all",
+                filterById: "Search by operation ID",
+                filterByIdPlaceholder: "ID",
+                filterByAccount: "Merchant",
+                filterAllPlaceholder: "All",
+                filterByOrderStatus: "Order status",
+                filterByDate: "Select period",
                 clearFilters: "Clear filters",
                 filterCustomerPaymentId: "Search by customer payment ID"
+            },
+            types: {
+                all: "All transactions",
+                deposit: "Deposit",
+                withdrawal: "Withdrawal",
+                transfer: "Transfer",
+                reward: "Reward"
             }
         },
         withdraw: {
-            name: "Crypto Withdrawal |||| Crypto Withdrawals",
+            name: "Сrypto withdrawal",
+            tableTitle: "Report on cryptocurrency withdrawals",
+            cryptoTransferTitle: "Crypto transfer",
             fields: {
                 id: "ID",
                 created_at: "Created at",
@@ -559,9 +752,22 @@ const en: TranslationMessages = {
                     hash: "Hash",
                     hash_link: "Tronscan link"
                 }
+            },
+            download: {
+                downloadReportButtonText: "Download report",
+                bothError: "Both start date and end date must be selected",
+                error: "Error"
+            },
+            filter: {
+                filterById: "Search by ID",
+                filterByIdPlaceholder: "ID",
+                filterByDate: "Date",
+                filterByDatePlaceholder: "Select period",
+                clearFilters: "Clear filters"
             }
         },
-        currencies: {
+        currency: {
+            name: "Currencies",
             fields: {
                 currency: "Currency",
                 type: "Type",
@@ -571,21 +777,30 @@ const en: TranslationMessages = {
                 crypto: "Cryptocurrency",
                 before: "Before value",
                 after: "After value",
-                currencyName: "Currency name"
+                currencyName: "Currency name",
+                example: "Example",
+                edit: "Edit",
+                delete: "Delete"
             },
             errors: {
                 code: "Code is required",
                 alreadyInUse: "This name is already in use. Choose another one."
             },
-            create: "Add new currency",
+            create: "Add currency",
+            createDialogTitle: "Adding a currency",
+            editDialogTitle: "Edit currency",
+            deleteDialogTitle: "Delete a currency?",
             showTitle: "Detailed information about currency",
             showDescription: "Detailed information about currency"
         },
-        merchants: {
+        merchant: {
+            name: "Merchants",
+            merchant: "Merchant",
             fields: {
                 id: "ID",
                 name: "Name",
-                descr: "Description"
+                descr: "Description",
+                fees: "Fees"
             },
             errors: {
                 id: "ID is required",
@@ -594,18 +809,24 @@ const en: TranslationMessages = {
                 noSpaces: "Spaces are not allowed in this field"
             },
             showTitle: "Detailed information about merchant",
-            createNew: "Create new merchant"
+            createNew: "Create new merchant",
+            editingMerchant: "Editing merchant",
+            creatingMerchant: "Creating new merchant",
+            delete: "Delete merchant?"
         },
-        providers: {
+        provider: {
+            name: "Providers",
             fields: {
-                name: "Providers' name",
+                _name: "Name",
+                name: "Provider",
                 pk: "Public key",
                 genKey: "Generate keys",
                 keyMiss: "The key is missing",
                 regenKey: "Regenerate keys",
                 json_schema: "Json schema",
                 code: "Methods",
-                enterMethods: "Enter your methods"
+                enterMethods: "Enter your methods",
+                methods: "Methods"
             },
             errors: {
                 name: "Name must contain at least 1 symbol",
@@ -615,15 +836,23 @@ const en: TranslationMessages = {
             createNew: "Create new provider",
             createTestKeys: "Create test keys",
             attention: "Attention",
-            warning: "Private key will be shown ONLY 1 time. Copy, save it and send to DevOps engineer",
+            warning: "Attention! Private key will be shown ONLY 1 time",
+            sendToDevOps: "Copy it and send it to DevOps Engineer",
             pleaseCreate: "Please create keys on the page with providers table",
             pleaseWait: "Please wait",
             clickToCopy: "This is your private key.\n Click button to copy or copy manually.",
             continue: "Continue",
             close: "Close",
-            privateKey: "Private key"
+            privateKey: "Private key",
+            deleteProviderQuestion: "Delete provider?",
+            keysCreating: "Test keys creating",
+            realKeysCreating: "Keys generation",
+            editingProvider: "Editing provider",
+            creatingProvider: "Creating provider"
         },
-        directions: {
+        direction: {
+            name: "Directions",
+            direction: "Direction",
             fields: {
                 name: "Directions name",
                 active: "State",
@@ -637,7 +866,19 @@ const en: TranslationMessages = {
                 stateInactive: "Inactive",
                 description: "Description",
                 api_key: "Auth data",
-                merchantsDirections: "Directions of merchant "
+                merchantsDirections: "Directions of merchant ",
+                isActive: "Activity"
+            },
+            fees: {
+                fees: "Fees",
+                accountNumber: "Account number",
+                feeAmount: "Fee amount",
+                feeType: "Fee type",
+                currency: "Currency",
+                descr: "Description",
+                addFee: "Add fee",
+                direction: "Direction",
+                deleteFee: "Delete fee?"
             },
             errors: {
                 name: "The direction must have a name",
@@ -647,7 +888,7 @@ const en: TranslationMessages = {
                 provider: "The provider must be selected",
                 authError: "An error has occurred while adding authentication information"
             },
-            create: "Create new direction",
+            create: "Add direction",
             sourceCurrency: "Source currency",
             destinationCurrency: "Destination currency",
             selectSourceCurrency: "Choose source currency",
@@ -656,6 +897,8 @@ const en: TranslationMessages = {
             weight: "Weight",
             provider: "Provider",
             description: "Description",
+            authInfo: "Authentication data",
+            changeAuthDataHeader: "Editing authentication data",
             writeSecretPhrase: "Write auth data for direction and click save.",
             secretHelper: "Expected valid JSON object",
             enterSecretPhrase: "Enter secret phrase",
@@ -664,23 +907,30 @@ const en: TranslationMessages = {
             pleaseCreate: "Please add auth data on the page with table",
             noProviders: "No available providers",
             noMerchants: "No available merchants",
-            noCurrencies: "No available currencies"
+            noCurrencies: "No available currencies",
+            deleteDirection: "Delete direction?",
+            editingDirection: "Editing direction",
+            creatingDirection: "Creating direction"
         }
     },
     app: {
         menu: {
-            accounts: "Accounts",
-            transactions: "Transactions",
-            payin: "Pay in",
-            dashboard: "Dashboard",
-            bankTransfer: "Bank Transfer",
-            cryptoWalletTransfer: "Crypto Wallet Transfer",
-            withdraw: "Crypto Withdrawal",
-            users: "Users",
-            currencies: "Currencies",
-            merchant: "Merchants",
-            providers: "Providers",
-            directions: "Directions"
+            merchant: {
+                accounts: "My accounts",
+                transactions: "Transactions history",
+                cryptoOperations: "Crypto transactions",
+                bankTransfer: "Bank transfer"
+            },
+            admin: {
+                accounts: "Accounts",
+                transactions: "Transactions",
+                withdraw: "Withdrawal in crypto",
+                users: "Users",
+                currencies: "Currencies",
+                merchant: "Merchants",
+                providers: "Providers",
+                directions: "Directions"
+            }
         },
         ui: {
             actions: {
@@ -692,7 +942,9 @@ const en: TranslationMessages = {
                 addSecretKey: "Add auth data",
                 changeSecretKey: "Change auth data",
                 cancel: "Cancel",
-                areYouSure: "Are you sure you want delete this element?"
+                areYouSure: "Are you sure you want delete this element?",
+                chatWithSupport: "Chat with support",
+                close: "Close"
             },
             pagination: {
                 next: "Next",
@@ -703,11 +955,14 @@ const en: TranslationMessages = {
             },
             delete: {
                 deletedSuccessfully: "Deleted successfully"
-            }
+            },
+            chatMessagePlaceholder: "Message...",
+            transactionHistory: "Transaction history",
+            accountHistory: "Account history"
         },
         theme: {
-            light: "Toggle dark theme",
-            dark: "Toggle light theme"
+            light: "Light theme",
+            dark: "Dark theme"
         },
         widgets: {
             forms: {
@@ -731,7 +986,13 @@ const en: TranslationMessages = {
                     createOrder: "Create order"
                 },
                 payout: {
+                    title: "Bank transfer",
                     payMethod: "Pay method",
+                    phone: "Phone number",
+                    card: "Card number",
+                    cardholder: "Cardholder",
+                    expiration_date: "Expiration date",
+                    account_last_digits: "Last four digits",
                     selectPayMethod: "Select pay method",
                     payMethodMessage: "Please, select pay method",
                     value: "Destination value %{currency}",
@@ -740,17 +1001,23 @@ const en: TranslationMessages = {
                     success: "Payout successfully created"
                 },
                 cryptoTransfer: {
-                    address: "TRC20 address",
-                    addressMessage: "Wrong address",
-                    amount: "Amount",
-                    amountMessage: "Wrong value",
+                    address: "TRC20 recipient address",
+                    addressMessage: "Invalid TRC-20 recipient address",
+                    amount: "Amount, USD₮",
+                    amountMessage: "Insert correct amount (e.g. 99.564)",
                     amountMinMessage: "Amount should be at least 2 USD₮",
                     amountMaxMessage: "Amount should be less than %{amount} USD₮",
                     commission: "Commission",
                     totalAmount: "Total amount",
-                    allAmount: "All amount %{amount} USD₮"
+                    allAmount: "Transfer the entire amount (%{amount} USD₮)",
+                    createTransfer: "Transfer",
+                    transferSuccess: "Transfer is successful!",
+                    transferError: "Insufficient funds in the account",
+                    successButton: "Transfer more",
+                    errorButton: "Try again"
                 },
                 userCreate: {
+                    title: "Adding a user",
                     name: "Name",
                     nameMessage: "Please, enter merchant's name",
                     login: "Login",
@@ -761,6 +1028,7 @@ const en: TranslationMessages = {
                     passwordMessage:
                         "Password must be at least 8 symbols, including at least one lowercase and uppercase letter, also one special symbol !@#$%^&*()-_",
                     publicKey: "Public key(copy or drag&drop)",
+                    publicKeyPlaceholder: "Drop file here or type text",
                     publicKeyMessage: "Wrong public key format",
                     shopCurrency: "Currency",
                     shopCurrencyPlaceholder: "Choose currency",
@@ -769,9 +1037,17 @@ const en: TranslationMessages = {
                     shopSignKey: "Sign key",
                     shopBalanceKey: "Balance key",
                     keyMessage: "Key format is wrong",
-                    createUser: "Create user"
+                    createUser: "Create user",
+                    cancelBtn: "Cancel"
                 }
             }
+        },
+        login: {
+            usernameOrEmail: "Username or e-mail",
+            password: "Password",
+            login: "Login",
+            logPassError: "Invalid username or password",
+            networkError: "Network Error"
         }
     },
     pages: {
@@ -784,12 +1060,33 @@ const en: TranslationMessages = {
         cryptoTransfer: {
             header: "Crypto Wallet Transfer"
         }
+    },
+    datePicker: {
+        month: {
+            0: "January",
+            1: "February",
+            2: "March",
+            3: "April",
+            4: "May",
+            5: "June",
+            6: "July",
+            7: "August",
+            8: "September",
+            9: "October",
+            10: "November",
+            11: "December"
+        }
     }
 };
 
 const translations = { ru, en };
 
-export const i18nProvider = polyglotI18nProvider((locale: string) => translations[locale as "ru" | "en"], "en", [
-    { locale: "ru", name: "Русский" },
-    { locale: "en", name: "English" }
-]);
+export const i18nProvider = polyglotI18nProvider(
+    (locale: string) => translations[locale as "ru" | "en"],
+    "en",
+    [
+        { locale: "ru", name: "Русский" },
+        { locale: "en", name: "English" }
+    ],
+    { allowMissing: true }
+);

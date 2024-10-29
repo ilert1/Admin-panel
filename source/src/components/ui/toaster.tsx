@@ -23,6 +23,7 @@ export function Toaster() {
     return (
         <ToastProvider>
             {toasts.map(function ({ id, title, description, action, ...props }) {
+                // eslint-disable-next-line react/prop-types
                 const { variant } = props as { variant: ToastVariant };
                 return (
                     <Toast key={id} {...props} className="flex items-start space-x-3">

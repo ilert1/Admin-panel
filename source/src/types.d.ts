@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+interface Window {
+    addSupportMessage?: (text: string) => void;
+}
+
 type Value = {
     quantity: number;
     accuracy: number;
@@ -23,6 +28,52 @@ type Account = {
     state: number;
     type: number;
 };
+
+declare namespace PayOut {
+    interface Response {
+        success: boolean;
+        data: PayMethod[];
+    }
+    interface PayMethod {
+        bank: string;
+        bankName: string;
+        compareAccountLast4DigitsEnabled: boolean;
+        compareCardLast4DigitsEnabled: boolean;
+        customerFields: PayField[];
+        enabled: boolean;
+        fiatCurrency: string;
+        fiatCurrencySymbol: string;
+        fiatCurrencySymbolPosition: string;
+        fields: PayField[];
+        parallelGroupOrdersEnabled: boolean;
+        paymentType: string;
+        paymentTypeName: string;
+    }
+
+    interface PayField {
+        hidden: boolean | null;
+        maxLength: boolean | null;
+        name: string;
+        pattern: boolean | null;
+        patternExample: boolean | null;
+        readonly: boolean | null;
+        required: boolean | null;
+        type: string;
+        unique: boolean | null;
+    }
+}
+
+declare namespace Dictionaries {
+    interface Currency {
+        [key: string]: string;
+        "alpha-3": string;
+        code: number;
+        "minor-unit": number;
+        "name-en": string;
+        "name-ru": string;
+        prior_gr: number;
+    }
+}
 
 declare namespace Transaction {
     type Account = {
@@ -127,16 +178,24 @@ declare namespace JWT {
     }
 }
 
-namespace Users {
+declare namespace Users {
     interface User {
         id: string;
         name: string;
         created_at: string;
         deleted_at: string;
+        login: string;
+        email: string;
+        public_key: string;
+        shop_currency: string;
+        shop_api_key: string;
+        shop_sign_key: string;
+        shop_balance_key: string;
+        password: string;
     }
 }
 
-namespace Currencies {
+declare namespace Currencies {
     enum PositionEnum {
         BEFORE = "before",
         AFTER = "after"
@@ -148,6 +207,7 @@ namespace Currencies {
         is_coin: boolean;
         code: string;
         id: string;
+        prior_gr: number;
     }
 }
 
@@ -156,6 +216,7 @@ interface Merchant {
     name: string;
     description: string | null;
     keycloak_id: string | null;
+    fees: Fees | Record<string, never> | null;
 }
 
 interface Provider {
@@ -170,26 +231,104 @@ interface IGetKeys {
     keypair: { private_key: string; public_key: string };
     provider: Omit<Provider, "id">;
 }
+namespace Directions {
+    interface FeeValue {
+        accuracy: number;
+        quantity: number;
+    }
 
-interface Direction {
-    id: string;
-    name: string;
-    description: string | null;
-    src_currency: Omit<Currencies.Currency, "id">;
-    dst_currency: Omit<Currencies.Currency, "id">;
-    merchant: Merchant;
-    provider: Omit<Provider, "id">;
-    auth_data: {};
-    weight: number;
-    fees: {};
+    interface Fee {
+        id: string;
+        type: number;
+        value: FeeValue;
+        currency: string;
+        recipient: string;
+        description: string;
+    }
+
+    interface FeeCreate {
+        type: number | string;
+        value: number;
+        currency: string;
+        description: string;
+        recipient: string;
+        direction: string | number;
+        innerId?: string;
+    }
+
+    interface Fees {
+        [key: string]: Fee;
+    }
+
+    interface Direction {
+        id: string;
+        name: string;
+        merchant: Merchant;
+        account_id: string;
+        active: boolean;
+        description: string | null;
+        weight: number;
+        src_currency: Omit<Currencies.Currency, "id">;
+        dst_currency: Omit<Currencies.Currency, "id">;
+        provider: Omit<Provider, "id">;
+        auth_data: object;
+        fees: Fees | Record<string, never> | null;
+    }
+
+    interface DirectionCreate {
+        name: string;
+        description: string | null;
+        src_currency: string;
+        dst_currency: string;
+        merchant: string;
+        provider: string;
+        weight: number;
+        // fees: Fees | Record<string, never> | null;
+    }
 }
 
-interface DirectionCreate {
-    name: string;
-    description: string | null;
-    src_currency: string;
-    dst_currency: string;
-    merchant: string;
-    provider: string;
-    weight: number;
+namespace Dictionaries {
+    interface State {
+        state_int: number;
+        state_description: string;
+        final: boolean;
+    }
+
+    interface TypeDescriptor {
+        type: number;
+        type_descr: string;
+    }
+
+    interface AccountStates {
+        [key: string]: TypeDescriptor;
+    }
+
+    interface AccountTypes {
+        [key: string]: TypeDescriptor;
+    }
+
+    interface FeeTypes {
+        [key: string]: TypeDescriptor;
+    }
+
+    interface ParticipantTypes {
+        [key: string]: TypeDescriptor;
+    }
+
+    interface States {
+        [key: string]: State;
+    }
+
+    interface TransactionTypes {
+        [key: string]: TypeDescriptor;
+    }
+
+    interface DataObject {
+        accountStates: AccountStates;
+        accountTypes: AccountTypes;
+        feeTypes: FeeTypes;
+        participantType: ParticipantTypes;
+        states: States;
+        transactionTypes: TransactionTypes;
+    }
 }

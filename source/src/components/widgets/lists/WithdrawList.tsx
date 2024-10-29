@@ -1,4 +1,4 @@
-import { useTranslate, useListController, ListContextProvider, RecordContextProvider } from "react-admin";
+import { useTranslate, useListController, ListContextProvider, usePermissions, useLocaleState } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import {
@@ -7,44 +7,108 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState } from "react";
-import { useMediaQuery } from "react-responsive";
-import { WithdrawShow } from "@/components/widgets/show";
-import { MoreHorizontal } from "lucide-react";
+import { useMemo } from "react";
+import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
 import { Loading } from "@/components/ui/loading";
-import { useNavigate } from "react-router-dom";
+import { DateRangePicker } from "@/components/ui/date-range-picker";
+import { Input } from "@/components/ui/input";
+import useWithdrawFilter from "@/hooks/useWithdrawFilter";
+import { CryptoTransfer } from "../components/CryptoTransfer";
+
+const WithdrawFilterSidebar = () => {
+    const {
+        translate,
+        operationId,
+        onOperationIdChanged,
+        startDate,
+        endDate,
+        changeDate,
+        handleDownloadReport,
+        clearFilters
+    } = useWithdrawFilter();
+
+    return (
+        <div className="w-full mb-6 flex flex-col justify-start sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
+            <label className="flex flex-1 md:flex-col gap-2 items-center md:items-start md:max-w-96">
+                <span className="md:text-nowrap">{translate("resources.withdraw.filter.filterById")}</span>
+                <Input
+                    className="flex-1 text-sm placeholder:text-neutral-70"
+                    placeholder={translate("resources.withdraw.filter.filterByIdPlaceholder")}
+                    value={operationId}
+                    onChange={onOperationIdChanged}
+                />
+            </label>
+
+            <DateRangePicker
+                title={translate("resources.withdraw.filter.filterByDate")}
+                placeholder={translate("resources.withdraw.filter.filterByDatePlaceholder")}
+                dateRange={{ from: startDate, to: endDate }}
+                onChange={changeDate}
+            />
+
+            <Button
+                className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7"
+                onClick={clearFilters}
+                variant="clearBtn"
+                size="default"
+                disabled={!operationId && !startDate}>
+                <span>{translate("resources.withdraw.filter.clearFilters")}</span>
+                <XIcon className="size-4" />
+            </Button>
+
+            {/* <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button className="md:ml-auto" variant="default" size="sm">
+                        {translate("resources.withdraw.download.downloadReportButtonText")}
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="p-0 border-green-50" align="end">
+                    <DropdownMenuItem
+                        className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                        onClick={() => handleDownloadReport("csv")}>
+                        Excel
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                        onClick={() => handleDownloadReport("pdf")}>
+                        PDF
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu> */}
+        </div>
+    );
+};
 
 export const WithdrawList = () => {
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
-    const navigate = useNavigate();
+    const { permissions } = usePermissions();
+    const [locale] = useLocaleState();
 
-    const [showOpen, setShowOpen] = useState(false);
-    const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
-    const [showTransactionId, setShowTransactionId] = useState<string>("");
-
-    const openSheet = (id: string) => {
-        setShowTransactionId(id);
-        setShowOpen(true);
-    };
+    const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
-            accessorKey: "id",
-            header: translate("resources.withdraw.fields.id"),
-            cell: ({ row }) => <TextField text={row.original.id} copyValue />
+            accessorKey: "created_at",
+            header: translate("resources.withdraw.fields.created_at"),
+            cell: ({ row }) => (
+                <>
+                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
+                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
+                </>
+            )
         },
         {
-            accessorKey: "created_at",
-            header: translate("resources.withdraw.fields.created_at")
+            accessorKey: "id",
+            header: translate("resources.withdraw.fields.id"),
+            cell: ({ row }) => <TextField text={row.original.id} wrap copyValue />
         },
         {
             accessorKey: "destination.id",
-            header: translate("resources.withdraw.fields.destination.id")
+            header: translate("resources.withdraw.fields.destination.id"),
+            cell: ({ row }) => <TextField text={row.original.destination.id} wrap={"break-all"} copyValue />
         },
         {
             accessorKey: "destination.amount.value",
@@ -58,35 +122,6 @@ export const WithdrawList = () => {
                     row.original.destination.amount.currency || ""
                 }`;
             }
-        },
-        {
-            accessorKey: "destination.amount.currency",
-            header: translate("resources.withdraw.fields.destination.amount.currency")
-        },
-        {
-            id: "actions",
-            cell: ({ row }) => {
-                return (
-                    <RecordContextProvider value={row.original}>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="secondary" className="h-8 w-8 p-0">
-                                    <span className="sr-only">Open menu</span>
-                                    <MoreHorizontal className="h-4 w-4" />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
-                                    {translate("app.ui.actions.quick_show")}
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => navigate(`/withdraw/${row.original.id}/show`)}>
-                                    {translate("app.ui.actions.show")}
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </RecordContextProvider>
-                );
-            }
         }
     ];
 
@@ -96,23 +131,30 @@ export const WithdrawList = () => {
         return (
             <>
                 <ListContextProvider value={listContext}>
-                    <DataTable columns={columns} />
+                    <div
+                        className={
+                            merchantOnly
+                                ? "grid gap-x-6 lg:grid-cols-1 [grid-template-rows: auto 1fr 1fr;] grid-cols-1 lg:grid-rows-1 lg:grid-flow-col"
+                                : "flex flex-col"
+                        }>
+                        <div>
+                            <WithdrawFilterSidebar />
+                        </div>
+
+                        <div>
+                            <h3 className="mb-4 text-xl text-neutral-100">
+                                {translate("resources.withdraw.tableTitle")}
+                            </h3>
+                            <DataTable columns={columns} data={[]} />
+                        </div>
+
+                        {merchantOnly && (
+                            <div className="w-[476px] mb-6 row-start-1 lg:col-start-2 lg:row-start-2">
+                                <CryptoTransfer />
+                            </div>
+                        )}
+                    </div>
                 </ListContextProvider>
-                <Sheet open={showOpen} onOpenChange={setShowOpen}>
-                    <SheetContent
-                        className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
-                        side={isMobile ? "bottom" : "right"}>
-                        <ScrollArea className="h-full [&>div>div]:!block">
-                            <SheetHeader className="mb-2">
-                                <SheetTitle>{translate("resources.transactions.showHeader")}</SheetTitle>
-                                <SheetDescription>
-                                    {translate("resources.transactions.showDescription", { id: showTransactionId })}
-                                </SheetDescription>
-                            </SheetHeader>
-                            <WithdrawShow id={showTransactionId} />
-                        </ScrollArea>
-                    </SheetContent>
-                </Sheet>
             </>
         );
     }
