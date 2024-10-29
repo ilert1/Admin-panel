@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { UserCreate } from "../create";
+import fetchDictionaries from "@/helpers/get-dictionaries";
 
 const UserFilterSidebar = () => {
     const translate = useTranslate();
@@ -131,11 +132,14 @@ const UserFilterSidebar = () => {
     );
 };
 
+const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
+const translations = ["active", "frozen", "blocked"];
+
 export const UserList = () => {
     const [userId, setUserId] = useState<string>("");
     const [showOpen, setShowOpen] = useState(false);
     const [locale] = useLocaleState();
-
+    const data = fetchDictionaries();
     const listContext = useListController<Users.User>();
     const translate = useTranslate();
 
@@ -168,24 +172,34 @@ export const UserList = () => {
             header: translate("resources.users.fields.name"),
             cell: ({ row }) => <TextField text={row.original.name} copyValue />
         },
+        // Макс, а это точно?
         {
             accessorKey: "active",
             header: () => {
                 return <div className="text-center">{translate("resources.users.fields.active")}</div>;
             },
-            cell: ({ row }) => (
-                <div className="flex items-center justify-center text-white">
-                    {row.original.deleted_at ? (
-                        <span className="px-3 py-0.5 bg-red-50 rounded-20 font-normal text-base text-center">
-                            {translate("resources.users.fields.activeStateFalse")}
+            cell: ({ row }) => {
+                const index = row.original.state - 1;
+
+                return (
+                    <div className="flex items-center justify-center">
+                        <span className={`px-3 py-0.5 rounded-20 font-normal text-base text-center ${styles[index]}`}>
+                            {translate(`resources.accounts.fields.states.${translations[index]}`)}
                         </span>
-                    ) : (
-                        <span className="px-3 py-0.5 bg-green-50 rounded-20 font-normal text-base text-center">
-                            {translate("resources.users.fields.activeStateTrue")}
-                        </span>
-                    )}
-                </div>
-            )
+                    </div>
+                );
+            }
+            // <div className="flex items-center justify-center text-white">
+            //     {row.original.deleted_at ? (
+            //         <span className="px-3 py-0.5 bg-red-50 rounded-20 font-normal text-base text-center">
+            //             {translate("resources.users.fields.activeStateFalse")}
+            //         </span>
+            //     ) : (
+            //         <span className="px-3 py-0.5 bg-green-50 rounded-20 font-normal text-base text-center">
+            //             {translate("resources.users.fields.activeStateTrue")}
+            //         </span>
+            //     )}
+            // </div>
         },
         {
             id: "actions",
