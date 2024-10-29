@@ -164,7 +164,61 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             header: translate("resources.transactions.fields.meta.external_status")
         }
     ];
-    const briefHistory = historyColumns.slice(0, 5);
+    const briefHistory: ColumnDef<Transaction.Transaction>[] = [
+        {
+            id: "id",
+            accessorKey: "id",
+            header: translate("resources.transactions.fields.id")
+        },
+        {
+            id: "createdAt",
+            accessorKey: "created_at",
+            header: translate("resources.transactions.fields.created_at")
+        },
+        {
+            id: "type",
+            accessorKey: "type",
+            header: translate("resources.transactions.fields.type"),
+            cell: ({ row }) => data?.transactionTypes[row.original.type]?.type_descr || ""
+        },
+        {
+            id: "state",
+            accessorKey: "state.state_description",
+            header: translate("resources.transactions.fields.state.title")
+        },
+        {
+            id: "source_amount",
+            accessorKey: "source",
+            header: translate("resources.transactions.fields.source.amount.getAmount"),
+            cell: ({ row }) => {
+                console.log(row.original);
+                return (
+                    <span>
+                        {row.original.source.amount.value.quantity / row.original.source.amount.value.accuracy +
+                            " " +
+                            row.original.source.amount.currency}
+                    </span>
+                );
+            }
+        },
+        {
+            id: "destination_amount",
+            accessorKey: "source",
+            header: translate("resources.transactions.fields.destination.amount.sendAmount"),
+
+            cell: ({ row }) => {
+                console.log(row.original);
+                return (
+                    <span>
+                        {row.original.destination.amount.value.quantity /
+                            row.original.destination.amount.value.accuracy +
+                            " " +
+                            row.original.destination.amount.currency}
+                    </span>
+                );
+            }
+        }
+    ];
     const isMobile = useMediaQuery({ query: `(max-width: 655px)` });
 
     if (context.isLoading || context.isFetching || !context.record || isLoading) {
@@ -273,10 +327,21 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                     </div>
                 </div>
                 <SimpleTable columns={briefHistory} data={history ? history : []} tableType={TableTypes.COLORED} />
-                <div className="flex flex-col gap-2 min-h-[100px]">
-                    <span>{translate("resources.transactions.fields.fees")}</span>
-                    <SimpleTable columns={feesColumns} data={context.record.fees} tableType={TableTypes.COLORED} />
-                </div>
+                {context.record.committed && (
+                    <div className="flex flex-col gap-2 min-h-[100px]">
+                        <span>{translate("resources.transactions.fields.fees")}</span>
+
+                        <SimpleTable
+                            columns={feesColumns}
+                            data={
+                                permissions === "admin"
+                                    ? context.record.fees
+                                    : context.record.fees.filter((item: any) => item.type !== 2)
+                            }
+                            tableType={TableTypes.COLORED}
+                        />
+                    </div>
+                )}
             </div>
         );
     } else {
