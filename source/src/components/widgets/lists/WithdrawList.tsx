@@ -30,7 +30,7 @@ const WithdrawFilterSidebar = () => {
     } = useWithdrawFilter();
 
     return (
-        <div className="w-full mb-6 flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
+        <div className="w-full mb-6 flex flex-col justify-start sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
             <label className="flex flex-1 md:flex-col gap-2 items-center md:items-start md:max-w-96">
                 <span className="md:text-nowrap">{translate("resources.withdraw.filter.filterById")}</span>
                 <Input
@@ -58,7 +58,7 @@ const WithdrawFilterSidebar = () => {
                 <XIcon className="size-4" />
             </Button>
 
-            <DropdownMenu>
+            {/* <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button className="md:ml-auto" variant="default" size="sm">
                         {translate("resources.withdraw.download.downloadReportButtonText")}
@@ -76,7 +76,7 @@ const WithdrawFilterSidebar = () => {
                         PDF
                     </DropdownMenuItem>
                 </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
         </div>
     );
 };
