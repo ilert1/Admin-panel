@@ -68,9 +68,11 @@ export const AccountList = () => {
                 const index = row.original.state - 1;
 
                 return (
-                    <span className={`px-3 py-0.5 rounded-20 font-normal text-base text-center ${styles[index]}`}>
-                        {translate(`resources.accounts.fields.states.${translations[index]}`)}
-                    </span>
+                    <div className="flex items-center justify-center">
+                        <span className={`px-3 py-0.5 rounded-20 font-normal text-base text-center ${styles[index]}`}>
+                            {translate(`resources.accounts.fields.states.${translations[index]}`)}
+                        </span>
+                    </div>
                 );
             }
         },
@@ -148,7 +150,7 @@ export const AccountList = () => {
                                                         />
                                                     </h1>
                                                     <div className="w-10 flex justify-center">
-                                                        <Icon name={currencySum.currency} isCurrency={true} />
+                                                        <Icon name={currencySum.currency} folder="currency" />
                                                     </div>
                                                 </div>
                                             );

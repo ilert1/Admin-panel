@@ -57,16 +57,18 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     const location = useLocation();
 
     const resourceName = useMemo(() => {
-        const resources = location.pathname?.split("/")?.filter((s: string) => s?.length > 0);
-
+        const urlParts = location.pathname?.split("/")?.filter((s: string) => s?.length > 0);
         Object.values(SplitLocations).forEach(item => {
-            if (resources.includes(item)) {
-                const tempResource = resources.splice(resources.indexOf(item) - 1, 2);
-                resources.push(tempResource.join("/"));
+            if (urlParts.includes(item)) {
+                const tempResource = urlParts.splice(urlParts.indexOf(item) - 1, 2);
+                urlParts.push(tempResource.join("/"));
             }
         });
-        return resources;
-    }, [location]);
+        const isWrongResource =
+            Object.keys(resources).length !==
+            new Set([...Object.keys(resources), urlParts[0] !== "" && urlParts[0]]).size;
+        return isWrongResource ? ["error"] : urlParts;
+    }, [location, resources]);
 
     const pageTitle = useMemo(() => {
         if (resourceName.length > 0) {
@@ -328,7 +330,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 </Tooltip>
                             </TooltipProvider>
                         ))}
-                        {merchantOnly && (
+                        {/* {merchantOnly && (
                             <TooltipProvider delayDuration={100}>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
@@ -365,7 +367,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                     </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>
-                        )}
+                        )} */}
                         {/* {merchantOnly && (
                             <NavLink
                                 to="/crypto-transfer"
@@ -427,8 +429,10 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 </aside>
 
                 <div className="bg-muted grow overflow-y-auto scrollbar-stable transition-[margin-left] relative">
-                    <main className="p-6 pr-4 container">
-                        {resourceName[0] !== "bank-transfer" && <h1 className="text-3xl mb-6">{pageTitle}</h1>}
+                    <main className={`p-6 pr-4 container ${resourceName[0] == "error" ? "h-full" : ""}`}>
+                        {resourceName[0] !== "bank-transfer" && resourceName[0] !== "error" && (
+                            <h1 className="text-3xl mb-6">{pageTitle}</h1>
+                        )}
                         {children}
                     </main>
                 </div>
