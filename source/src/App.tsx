@@ -90,7 +90,7 @@ export const App = () => {
                             )}
 
                             <CustomRoutes>
-                                {permissions === "merchant" && <Route path="/bank-transfer" element={<PayOutPage />} />}
+                                {/* {permissions === "merchant" && <Route path="/bank-transfer" element={<PayOutPage />} />} */}
                                 <Route path="/login" element={<LoginPage />} />
                             </CustomRoutes>
                         </>
