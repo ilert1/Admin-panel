@@ -253,6 +253,12 @@
         ::-webkit-scrollbar-track {
             border: 1px solid hsl(var(--neutral-30));
         }
+
+        /* Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: hsl(var(--green-50)) hsl(var(--neutral-0));
+        }
     }
 
     .dark {
