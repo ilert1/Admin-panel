@@ -1,4 +1,5 @@
 import { CustomRoutes, Resource, combineDataProviders, CoreAdminContext, CoreAdminUI } from "react-admin";
+import { createBrowserHistory as createHistory } from "history";
 import {
     TransactionDataProvider,
     i18nProvider,
@@ -38,6 +39,7 @@ import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 import { MerchantEdit } from "./components/widgets/edit";
 import { InitLoading } from "./components/ui/loading";
+import { NotFound } from "./components/widgets/shared/NotFound";
 
 const dataProvider = combineDataProviders((resource: string) => {
     if (resource === "transactions") {
@@ -57,11 +59,17 @@ const dataProvider = combineDataProviders((resource: string) => {
     }
 });
 
+const history = createHistory();
 export const App = () => {
     return (
         <ThemeProvider defaultTheme="dark" storageKey="juggler-ui-theme">
-            <CoreAdminContext i18nProvider={i18nProvider} dataProvider={dataProvider} authProvider={authProvider}>
+            <CoreAdminContext
+                history={history}
+                i18nProvider={i18nProvider}
+                dataProvider={dataProvider}
+                authProvider={authProvider}>
                 <CoreAdminUI
+                    catchAll={NotFound}
                     layout={MainLayout}
                     loading={InitLoading}
                     title="Juggler"
@@ -97,6 +105,7 @@ export const App = () => {
                     )}
                 </CoreAdminUI>
             </CoreAdminContext>
+
             <Toaster />
         </ThemeProvider>
     );

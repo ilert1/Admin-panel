@@ -1,3 +1,3 @@
-export function Icon({ name, isCurrency = false }: { name: string; isCurrency?: boolean }) {
-    return isCurrency ? <img src={"/currency/" + name + ".svg"} alt={name} /> : <img src={name + ".svg"} alt={name} />;
+export function Icon({ name, folder = "" }: { name: string; folder?: string }) {
+    return <img src={(folder !== "" && `/${folder}/`) + name + ".svg"} alt={name} />;
 }
