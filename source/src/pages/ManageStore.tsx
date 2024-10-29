@@ -5,7 +5,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { zodResolver } from "@hookform/resolvers/zod";
 import { KeyRound, LockKeyhole, LockKeyholeOpen, TriangleAlert } from "lucide-react";
 import { ChangeEvent, useState } from "react";
-import { useTranslate } from "react-admin";
+import { fetchUtils, useTranslate } from "react-admin";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -18,6 +18,12 @@ export const ManageStore = () => {
     const formSchema = z.object({
         key: z.string().trim()
     });
+
+    fetchUtils
+        .fetchJson("https://apigate.develop.blowfish.api4ftx.cloud/wallet-processor/v1/vault/state", {
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        })
+        .then(json => console.log(json));
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
