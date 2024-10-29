@@ -68,9 +68,11 @@ export const AccountList = () => {
                 const index = row.original.state - 1;
 
                 return (
-                    <span className={`px-3 py-0.5 rounded-20 font-normal text-base text-center ${styles[index]}`}>
-                        {translate(`resources.accounts.fields.states.${translations[index]}`)}
-                    </span>
+                    <div className="flex items-center justify-center">
+                        <span className={`px-3 py-0.5 rounded-20 font-normal text-base text-center ${styles[index]}`}>
+                            {translate(`resources.accounts.fields.states.${translations[index]}`)}
+                        </span>
+                    </div>
                 );
             }
         },
