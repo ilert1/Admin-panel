@@ -263,10 +263,21 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                     </div>
                 </div>
                 <SimpleTable columns={briefHistory} data={history ? history : []} tableType={TableTypes.COLORED} />
-                <div className="flex flex-col gap-2 min-h-[100px]">
-                    <span>{translate("resources.transactions.fields.fees")}</span>
-                    <SimpleTable columns={feesColumns} data={context.record.fees} tableType={TableTypes.COLORED} />
-                </div>
+                {context.record.committed && (
+                    <div className="flex flex-col gap-2 min-h-[100px]">
+                        <span>{translate("resources.transactions.fields.fees")}</span>
+
+                        <SimpleTable
+                            columns={feesColumns}
+                            data={
+                                permissions === "admin"
+                                    ? context.record.fees
+                                    : context.record.fees.filter((item: any) => item.type !== 2)
+                            }
+                            tableType={TableTypes.COLORED}
+                        />
+                    </div>
+                )}
             </div>
         );
     } else {

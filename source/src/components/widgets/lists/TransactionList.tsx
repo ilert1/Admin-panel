@@ -236,7 +236,7 @@ export const TransactionList = () => {
     const data = fetchDictionaries();
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
-
+    // console.log(data);
     const [typeTabActive, setTypeTabActive] = useState("");
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");
