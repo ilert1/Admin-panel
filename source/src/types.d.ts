@@ -314,6 +314,14 @@ interface Wallet {
     minimal_ballance_limit: number;
 }
 
+interface WalletStorage {
+    recieved_shares: number;
+    sealed: boolean;
+    split_max: number;
+    split_min: number;
+    state: "sealed" | "unsealed" | "waiting";
+}
+
 interface Cryptotransactions {
     blowfish_id: string;
     id: string;

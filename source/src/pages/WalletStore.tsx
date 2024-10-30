@@ -5,24 +5,39 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { zodResolver } from "@hookform/resolvers/zod";
 import { KeyRound, LockKeyhole, LockKeyholeOpen, TriangleAlert } from "lucide-react";
 import { ChangeEvent, useState } from "react";
-import { useTranslate } from "react-admin";
+import { fetchUtils, useTranslate } from "react-admin";
 import { ControllerRenderProps, useForm } from "react-hook-form";
+import { useQuery } from "react-query";
 import { z } from "zod";
+
+const API_URL = import.meta.env.VITE_WALLET_URL;
 
 export const WalletStore = () => {
     const translate = useTranslate();
-    const [storeState, setStoreState] = useState<"sealed" | "unsealed" | "waiting">("sealed");
+
+    const { data: storageState, refetch: refetchStorageState } = useQuery<WalletStorage | undefined>(
+        "walletStorage",
+        () =>
+            fetch(`${API_URL}/vault/state`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            })
+                .then(response => response.json())
+                .then(data => data.data)
+    );
+
     const [stepForUnsealed, setStepForUnsealed] = useState<0 | 1 | "error">(0);
     const [keyText, setKeyText] = useState("");
 
     const formSchema = z.object({
-        key: z.string().trim()
+        key_part: z.string().trim()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            key: ""
+            key_part: ""
         }
     });
 
@@ -31,18 +46,48 @@ export const WalletStore = () => {
         field: ControllerRenderProps<z.infer<typeof formSchema>>
     ) => {
         setKeyText(e.target.value);
-        form.setValue("key", e.target.value);
+        form.setValue("key_part", e.target.value);
         field.onChange(e.target.value);
     };
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        console.log(data);
+        try {
+            const { json } = await fetchUtils.fetchJson(`${API_URL}/vault/partial`, {
+                method: "POST",
+                body: JSON.stringify(data),
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            });
+
+            setKeyText("");
+            form.setValue("key_part", "");
+            refetchStorageState();
+
+            if (!json.success) {
+                throw new Error(json.error);
+            }
+
+            setStepForUnsealed(0);
+        } catch (error) {
+            setStepForUnsealed("error");
+        }
+    };
+
+    const cancelUnsealing = async () => {
+        try {
+            await fetchUtils.fetchJson(`${API_URL}/vault/seal`, {
+                method: "POST",
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            });
+            refetchStorageState();
+        } catch (error) {
+            setStepForUnsealed("error");
+        }
     };
 
     return (
         <section className="flex items-center justify-center">
             <div className="rounded-16 bg-neutral-0 p-[30px] flex flex-col gap-6 min-w-[500px]">
-                {storeState === "sealed" && (
+                {storageState?.state === "sealed" && (
                     <>
                         {stepForUnsealed !== "error" ? (
                             <h2 className="text-xl text-neutral-100 text-center">
@@ -69,102 +114,94 @@ export const WalletStore = () => {
                                 </Button>
                             </>
                         )}
-
-                        {stepForUnsealed === 1 && (
-                            <Form {...form}>
-                                <form
-                                    onSubmit={form.handleSubmit(onSubmit)}
-                                    className="flex flex-col gap-6"
-                                    autoComplete="off">
-                                    <FormField
-                                        name="key"
-                                        control={form.control}
-                                        render={({ field, fieldState }) => (
-                                            <FormItem className="space-y-1">
-                                                <FormLabel>{translate("resources.wallet.storage.key")}</FormLabel>
-
-                                                <FormControl>
-                                                    <Textarea
-                                                        className={`text-sm text-neutral-100 disabled:dark:bg-muted resize-none min-h-24 ${
-                                                            fieldState.invalid
-                                                                ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                                : ""
-                                                        }`}
-                                                        value={keyText}
-                                                        onChange={e => handleTextChange(e, field)}
-                                                        placeholder={translate("resources.wallet.storage.key")}>
-                                                        {fieldState.invalid && (
-                                                            <TooltipProvider>
-                                                                <Tooltip>
-                                                                    <TooltipTrigger asChild>
-                                                                        <TriangleAlert
-                                                                            className="text-red-40"
-                                                                            width={14}
-                                                                            height={14}
-                                                                        />
-                                                                    </TooltipTrigger>
-
-                                                                    <TooltipContent
-                                                                        className="border-none bottom-0"
-                                                                        side="left">
-                                                                        <FormMessage />
-                                                                    </TooltipContent>
-                                                                </Tooltip>
-                                                            </TooltipProvider>
-                                                        )}
-                                                    </Textarea>
-                                                </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <Button
-                                        type="submit"
-                                        onClick={() => setStoreState("waiting")}
-                                        className="self-end flex items-center gap-1">
-                                        <span className="text-sm">
-                                            {translate("resources.wallet.storage.buttonForSend")}
-                                        </span>
-                                    </Button>
-                                </form>
-                            </Form>
-                        )}
                     </>
                 )}
 
-                {(storeState === "waiting" || storeState === "unsealed") && (
+                {((storageState?.state === "sealed" && stepForUnsealed === 1) ||
+                    (storageState?.state === "waiting" && stepForUnsealed === 1)) && (
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" autoComplete="off">
+                            <FormField
+                                name="key_part"
+                                control={form.control}
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="space-y-1">
+                                        <FormLabel>{translate("resources.wallet.storage.key")}</FormLabel>
+
+                                        <FormControl>
+                                            <Textarea
+                                                className={`text-sm text-neutral-100 disabled:dark:bg-muted resize-none min-h-24 ${
+                                                    fieldState.invalid
+                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                        : ""
+                                                }`}
+                                                value={keyText}
+                                                onChange={e => handleTextChange(e, field)}
+                                                placeholder={translate("resources.wallet.storage.key")}>
+                                                {fieldState.invalid && (
+                                                    <TooltipProvider>
+                                                        <Tooltip>
+                                                            <TooltipTrigger asChild>
+                                                                <TriangleAlert
+                                                                    className="text-red-40"
+                                                                    width={14}
+                                                                    height={14}
+                                                                />
+                                                            </TooltipTrigger>
+
+                                                            <TooltipContent
+                                                                className="border-none bottom-0"
+                                                                side="left">
+                                                                <FormMessage />
+                                                            </TooltipContent>
+                                                        </Tooltip>
+                                                    </TooltipProvider>
+                                                )}
+                                            </Textarea>
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            <Button type="submit" className="self-end flex items-center gap-1">
+                                <span className="text-sm">{translate("resources.wallet.storage.buttonForSend")}</span>
+                            </Button>
+                        </form>
+                    </Form>
+                )}
+
+                {(storageState?.state === "waiting" || storageState?.state === "unsealed") && stepForUnsealed !== 1 && (
                     <>
                         <h2 className="text-xl text-neutral-100 text-center">
-                            {storeState === "waiting"
+                            {storageState?.state === "waiting"
                                 ? translate("resources.wallet.storage.titleClosed")
                                 : translate("resources.wallet.storage.titleOpened")}
                         </h2>
 
                         <div className="flex flex-col gap-2">
                             <p className="text-base leading-[22px]">
-                                {translate("resources.wallet.storage.unsealed.allKeys")}: 5
+                                {translate("resources.wallet.storage.unsealed.allKeys")}: {storageState.split_max}
                             </p>
                             <p className="text-base leading-[22px]">
-                                {translate("resources.wallet.storage.unsealed.requiredKeys")}: 3
+                                {translate("resources.wallet.storage.unsealed.requiredKeys")}: {storageState.split_min}
                             </p>
                             <p className="text-base leading-[22px]">
-                                {translate("resources.wallet.storage.unsealed.enteredKeys")}: 2
+                                {translate("resources.wallet.storage.unsealed.enteredKeys")}:{" "}
+                                {storageState.recieved_shares}
                             </p>
 
-                            {storeState === "waiting" && (
+                            {storageState?.state === "waiting" && (
                                 <p className="text-base leading-[22px] text-yellow-40">
-                                    {translate("resources.wallet.storage.unsealed.toFinishKeys")}: 1
+                                    {translate("resources.wallet.storage.unsealed.toFinishKeys")}:{" "}
+                                    {+storageState.split_min - +storageState.recieved_shares}
                                 </p>
                             )}
                         </div>
 
-                        {storeState === "waiting" ? (
+                        {storageState?.state === "waiting" ? (
                             <div className="flex gap-6">
                                 <Button
-                                    onClick={() => {
-                                        setStoreState("sealed");
-                                        setStepForUnsealed(0);
-                                    }}
+                                    onClick={cancelUnsealing}
                                     className="flex items-center gap-1 bg-red-40 hover:bg-red-30 active:bg-red-30 focus:bg-red-30 flex-1">
                                     <LockKeyhole width={16} height={16} />
                                     <span className="text-sm">
@@ -174,7 +211,6 @@ export const WalletStore = () => {
 
                                 <Button
                                     onClick={() => {
-                                        setStoreState("sealed");
                                         setStepForUnsealed(1);
                                     }}
                                     className="flex items-center gap-1 flex-1">
@@ -186,10 +222,7 @@ export const WalletStore = () => {
                             </div>
                         ) : (
                             <Button
-                                onClick={() => {
-                                    setStoreState("sealed");
-                                    setStepForUnsealed(0);
-                                }}
+                                onClick={cancelUnsealing}
                                 className="flex items-center gap-1 bg-red-40 hover:bg-red-30 active:bg-red-30 focus:bg-red-30 flex-1">
                                 <LockKeyhole width={16} height={16} />
                                 <span className="text-sm">{translate("resources.wallet.storage.buttonForClosed")}</span>
