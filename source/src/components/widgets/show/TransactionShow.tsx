@@ -191,7 +191,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             accessorKey: "source",
             header: translate("resources.transactions.fields.source.amount.getAmount"),
             cell: ({ row }) => {
-                console.log(row.original);
+                // console.log(row.original);
                 return (
                     <span>
                         {row.original.source.amount.value.quantity / row.original.source.amount.value.accuracy +
