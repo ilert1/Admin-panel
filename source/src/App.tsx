@@ -41,8 +41,8 @@ import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 import { MerchantEdit } from "./components/widgets/edit";
 import { InitLoading } from "./components/ui/loading";
-import { ManageStore } from "./pages/ManageStore";
 import WalletsLogo from "./lib/icons/Wallets";
+import { WalletStore } from "./pages/WalletStore";
 
 const dataProvider = combineDataProviders((resource: string) => {
     if (resource === "transactions") {
@@ -94,8 +94,8 @@ export const App = () => {
                                     <Resource name="provider" list={ProvidersList} icon={NetworkIcon} />
                                     <Resource name="direction" list={DirectionsList} icon={SignpostIcon} />
                                     <Resource name="wallet" list={WalletsList} icon={WalletsLogo}>
-                                        <Route path="manage" element={<ManageStore />} />
-                                        <Route path="transaction" element={<WalletTransactionsList />} />
+                                        <Route path="storage" element={<WalletStore />} />
+                                        <Route path="transactions" element={<WalletTransactionsList />} />
                                     </Resource>
                                 </>
                             )}

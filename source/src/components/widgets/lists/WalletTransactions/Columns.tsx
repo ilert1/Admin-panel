@@ -21,7 +21,7 @@ export const useGetWalletTransactionsColumns = () => {
         {
             id: "created_at",
             accessorKey: "created_at",
-            header: translate("resources.manageTransactions.fields.created_at"),
+            header: translate("resources.wallet.transactions.fields.created_at"),
             cell: ({ row }) => {
                 return (
                     <div>
@@ -34,7 +34,7 @@ export const useGetWalletTransactionsColumns = () => {
         {
             id: "updated_at",
             accessorKey: "updated_at",
-            header: translate("resources.manageTransactions.fields.updated_at"),
+            header: translate("resources.wallet.transactions.fields.updated_at"),
             cell: ({ row }) => {
                 return (
                     <div>
@@ -47,7 +47,7 @@ export const useGetWalletTransactionsColumns = () => {
         {
             id: "id",
             accessorKey: "id",
-            header: translate("resources.manageTransactions.fields.id"),
+            header: translate("resources.wallet.transactions.fields.id"),
             cell: ({ row }) => {
                 return <TextField text={row.original.id} wrap copyValue />;
             }
@@ -55,7 +55,7 @@ export const useGetWalletTransactionsColumns = () => {
         {
             id: "src_wallet",
             accessorKey: "src_wallet",
-            header: translate("resources.manageTransactions.fields.src_wallet"),
+            header: translate("resources.wallet.transactions.fields.src_wallet"),
             cell: ({ row }) => {
                 return <TextField text={row.original.src_wallet} wrap copyValue />;
             }
@@ -63,7 +63,7 @@ export const useGetWalletTransactionsColumns = () => {
         {
             id: "dst_wallet",
             accessorKey: "dst_wallet",
-            header: translate("resources.manageTransactions.fields.dst_wallet"),
+            header: translate("resources.wallet.transactions.fields.dst_wallet"),
             cell: ({ row }) => {
                 return <TextField text={row.original.dst_wallet} wrap copyValue />;
             }
@@ -71,7 +71,7 @@ export const useGetWalletTransactionsColumns = () => {
         {
             id: "amount",
             accessorKey: "amount_quantity",
-            header: translate("resources.manageTransactions.fields.amount"),
+            header: translate("resources.wallet.transactions.fields.amount"),
             cell: ({ row }) => {
                 return <TextField text={String(row.original.amount_quantity / row.original.amount_accuracy)} />;
             }
@@ -79,22 +79,22 @@ export const useGetWalletTransactionsColumns = () => {
         {
             id: "currency",
             accessorKey: "currency",
-            header: translate("resources.manageTransactions.fields.currency")
+            header: translate("resources.wallet.transactions.fields.currency")
         },
         {
             id: "state",
             accessorKey: "state",
-            header: translate("resources.manageTransactions.fields.state")
+            header: translate("resources.wallet.transactions.fields.state")
         },
         {
             id: "type",
             accessorKey: "type",
-            header: translate("resources.manageTransactions.fields.type")
+            header: translate("resources.wallet.transactions.fields.type")
         },
         {
             id: "merchant_id",
             accessorKey: "merchant_id",
-            header: translate("resources.manageTransactions.fields.merchant_id"),
+            header: translate("resources.wallet.transactions.fields.merchant_id"),
             cell: ({ row }) => {
                 return <TextField text={row.original.merchant_id} wrap copyValue />;
             }
@@ -102,7 +102,7 @@ export const useGetWalletTransactionsColumns = () => {
         {
             id: "tx_id",
             accessorKey: "tx_id",
-            header: translate("resources.manageTransactions.fields.tx_id"),
+            header: translate("resources.wallet.transactions.fields.tx_id"),
             cell: ({ row }) => {
                 return <TextField text={row.original.tx_id} wrap copyValue />;
             }
@@ -110,7 +110,7 @@ export const useGetWalletTransactionsColumns = () => {
         {
             id: "currency",
             accessorKey: "currency",
-            header: translate("resources.manageTransactions.fields.currency"),
+            header: translate("resources.wallet.transactions.fields.currency"),
             cell: ({ row }) => {
                 return <TextField text={row.original.currency} wrap copyValue />;
             }
@@ -118,7 +118,7 @@ export const useGetWalletTransactionsColumns = () => {
         {
             id: "actions",
             header: () => {
-                return <div className="text-center">{translate("resources.manageWallets.fields.more")}</div>;
+                return <div className="text-center">{translate("resources.wallet.manage.fields.more")}</div>;
             },
             cell: ({ row }) => {
                 return (

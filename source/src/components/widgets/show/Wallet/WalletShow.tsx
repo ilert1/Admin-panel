@@ -33,47 +33,47 @@ export const WalletShow = (props: WalletShowProps) => {
             <div className="flex flex-col gap-6 px-[42px]">
                 <div className="grid grid-cols-2 gap-y-4">
                     <TextField
-                        label={translate("resources.manageWallets.fields.walletType")}
+                        label={translate("resources.wallet.manage.fields.walletType")}
                         text={context.record.type}
                     />
                     <TextField
-                        label={translate("resources.manageWallets.fields.walletAddress")}
+                        label={translate("resources.wallet.manage.fields.walletAddress")}
                         text={context.record.address ?? ""}
                         copyValue
                     />
                     <TextField
-                        label={translate("resources.manageWallets.fields.accountNumber")}
+                        label={translate("resources.wallet.manage.fields.accountNumber")}
                         text={context.record.type === "linked" ? context.record.account_id : ""}
                         copyValue
                     />
                     <TextField
-                        label={translate("resources.manageWallets.fields.merchantId")}
+                        label={translate("resources.wallet.manage.fields.merchantId")}
                         text={context.record.type === "external" ? context.record.account_id : ""}
                         copyValue
                     />
                     <TextField
-                        label={translate("resources.manageWallets.fields.currency")}
+                        label={translate("resources.wallet.manage.fields.currency")}
                         text={context.record.currency}
                     />
                     <TextField
-                        label={translate("resources.manageWallets.fields.internalId")}
+                        label={translate("resources.wallet.manage.fields.internalId")}
                         text={context.record.id}
                     />
                     <TextField
-                        label={translate("resources.manageWallets.fields.blockchain")}
+                        label={translate("resources.wallet.manage.fields.blockchain")}
                         text={context.record.blockchain}
                     />
                     <TextField
-                        label={translate("resources.manageWallets.fields.contactType")}
+                        label={translate("resources.wallet.manage.fields.contactType")}
                         text={context.record.network}
                     />
                     <TextField
-                        label={translate("resources.manageWallets.fields.minRemaini")}
+                        label={translate("resources.wallet.manage.fields.minRemaini")}
                         text={String(context.record.minimal_ballance_limit)}
                     />
                     <div className="col-span-2">
                         <TextField
-                            label={translate("resources.manageWallets.fields.descr")}
+                            label={translate("resources.wallet.manage.fields.descr")}
                             text={context.record.description ?? ""}
                         />
                     </div>

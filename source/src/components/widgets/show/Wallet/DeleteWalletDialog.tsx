@@ -42,7 +42,7 @@ export const DeleteWalletDialog = (props: DeleteWalletDialogProps) => {
             <DialogContent className="w-[251px] bg-muted">
                 <DialogHeader>
                     <DialogTitle className="text-center">
-                        {translate("resources.manageWallets.deleteWallet")}
+                        {translate("resources.wallet.manage.deleteWallet")}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
                 </DialogHeader>

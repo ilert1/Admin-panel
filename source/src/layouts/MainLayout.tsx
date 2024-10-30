@@ -74,15 +74,10 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
             if (resourceName[0] === "bank-transfer") {
                 return translate("app.menu.merchant.bankTransfer");
             } else if (resourceName[0] === "wallet") {
-                switch (resourceName[1]) {
-                    case "manage":
-                        return getResLabel(`manageStore`, permissions);
-                        break;
-                    case "transaction":
-                        return getResLabel(`manageTransactions`, permissions);
-                        break;
-                    default:
-                        return getResLabel(`manageWallets`, permissions);
+                if (resourceName[1]) {
+                    return getResLabel(`wallet.${resourceName[1]}`, permissions);
+                } else {
+                    return getResLabel(`wallet.manage`, permissions);
                 }
             }
 

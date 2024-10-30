@@ -24,12 +24,12 @@ export const useGetWalletsColumns = () => {
         {
             id: "type",
             accessorKey: "type",
-            header: translate("resources.manageWallets.fields.walletType")
+            header: translate("resources.wallet.manage.fields.walletType")
         },
         {
             id: "address",
             accessorKey: "address",
-            header: translate("resources.manageWallets.fields.walletAddress"),
+            header: translate("resources.wallet.manage.fields.walletAddress"),
             cell: ({ row }) => {
                 return <TextField text={row.original.address} wrap copyValue />;
             }
@@ -37,7 +37,7 @@ export const useGetWalletsColumns = () => {
         {
             id: "accountNumber",
             accessorKey: "accountNumber",
-            header: translate("resources.manageWallets.fields.accountNumber"),
+            header: translate("resources.wallet.manage.fields.accountNumber"),
             cell: ({ row }) => {
                 if (row.original.type === WalletTypes.LINKED) return "-";
                 return <TextField text={row.original.account_id} wrap copyValue />;
@@ -46,7 +46,7 @@ export const useGetWalletsColumns = () => {
         {
             id: "merchantId",
             accessorKey: "merchantId",
-            header: translate("resources.manageWallets.fields.merchantId"),
+            header: translate("resources.wallet.manage.fields.merchantId"),
             cell: ({ row }) => {
                 if (row.original.type === WalletTypes.EXTERNAL) return "-";
                 return <TextField text={row.original.account_id} wrap copyValue />;
@@ -56,7 +56,7 @@ export const useGetWalletsColumns = () => {
         {
             id: "description",
             accessorKey: "description",
-            header: translate("resources.manageWallets.fields.currency"),
+            header: translate("resources.wallet.manage.fields.currency"),
             cell: ({ row }) => {
                 return <TextField text={row.original.description || ""} wrap />;
             }
@@ -64,7 +64,7 @@ export const useGetWalletsColumns = () => {
         {
             id: "currency",
             accessorKey: "currency",
-            header: translate("resources.manageWallets.fields.descr"),
+            header: translate("resources.wallet.manage.fields.descr"),
             cell: ({ row }) => {
                 return <TextField text={row.original.currency} />;
             }
@@ -72,7 +72,7 @@ export const useGetWalletsColumns = () => {
         {
             id: "actions",
             header: () => {
-                return <div className="text-center">{translate("resources.manageWallets.fields.more")}</div>;
+                return <div className="text-center">{translate("resources.wallet.manage.fields.more")}</div>;
             },
             cell: ({ row }) => {
                 return (

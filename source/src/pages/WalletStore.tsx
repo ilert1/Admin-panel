@@ -9,7 +9,7 @@ import { useTranslate } from "react-admin";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import { z } from "zod";
 
-export const ManageStore = () => {
+export const WalletStore = () => {
     const translate = useTranslate();
     const [storeState, setStoreState] = useState<"sealed" | "unsealed" | "waiting">("sealed");
     const [stepForUnsealed, setStepForUnsealed] = useState<0 | 1 | "error">(0);
@@ -46,15 +46,15 @@ export const ManageStore = () => {
                     <>
                         {stepForUnsealed !== "error" ? (
                             <h2 className="text-xl text-neutral-100 text-center">
-                                {translate("resources.manageStore.titleClosed")}
+                                {translate("resources.wallet.storage.titleClosed")}
                             </h2>
                         ) : (
                             <div className="flex flex-col items-center gap-1">
                                 <h2 className="text-xl text-red-40">
-                                    {translate("resources.manageStore.unsealed.errorTitle")}
+                                    {translate("resources.wallet.storage.unsealed.errorTitle")}
                                 </h2>
                                 <h3 className="text-sm text-neutral-100">
-                                    {translate("resources.manageStore.unsealed.errorSubtitle")}
+                                    {translate("resources.wallet.storage.unsealed.errorSubtitle")}
                                 </h3>
                             </div>
                         )}
@@ -63,7 +63,9 @@ export const ManageStore = () => {
                             <>
                                 <Button onClick={() => setStepForUnsealed(1)} className="flex items-center gap-1">
                                     <LockKeyholeOpen width={16} height={16} />
-                                    <span className="text-sm">{translate("resources.manageStore.buttonForOpen")}</span>
+                                    <span className="text-sm">
+                                        {translate("resources.wallet.storage.buttonForOpen")}
+                                    </span>
                                 </Button>
                             </>
                         )}
@@ -79,7 +81,7 @@ export const ManageStore = () => {
                                         control={form.control}
                                         render={({ field, fieldState }) => (
                                             <FormItem className="space-y-1">
-                                                <FormLabel>{translate("resources.manageStore.key")}</FormLabel>
+                                                <FormLabel>{translate("resources.wallet.storage.key")}</FormLabel>
 
                                                 <FormControl>
                                                     <Textarea
@@ -90,7 +92,7 @@ export const ManageStore = () => {
                                                         }`}
                                                         value={keyText}
                                                         onChange={e => handleTextChange(e, field)}
-                                                        placeholder={translate("resources.manageStore.key")}>
+                                                        placeholder={translate("resources.wallet.storage.key")}>
                                                         {fieldState.invalid && (
                                                             <TooltipProvider>
                                                                 <Tooltip>
@@ -121,7 +123,7 @@ export const ManageStore = () => {
                                         onClick={() => setStoreState("waiting")}
                                         className="self-end flex items-center gap-1">
                                         <span className="text-sm">
-                                            {translate("resources.manageStore.buttonForSend")}
+                                            {translate("resources.wallet.storage.buttonForSend")}
                                         </span>
                                     </Button>
                                 </form>
@@ -134,24 +136,24 @@ export const ManageStore = () => {
                     <>
                         <h2 className="text-xl text-neutral-100 text-center">
                             {storeState === "waiting"
-                                ? translate("resources.manageStore.titleClosed")
-                                : translate("resources.manageStore.titleOpened")}
+                                ? translate("resources.wallet.storage.titleClosed")
+                                : translate("resources.wallet.storage.titleOpened")}
                         </h2>
 
                         <div className="flex flex-col gap-2">
                             <p className="text-base leading-[22px]">
-                                {translate("resources.manageStore.unsealed.allKeys")}: 5
+                                {translate("resources.wallet.storage.unsealed.allKeys")}: 5
                             </p>
                             <p className="text-base leading-[22px]">
-                                {translate("resources.manageStore.unsealed.requiredKeys")}: 3
+                                {translate("resources.wallet.storage.unsealed.requiredKeys")}: 3
                             </p>
                             <p className="text-base leading-[22px]">
-                                {translate("resources.manageStore.unsealed.enteredKeys")}: 2
+                                {translate("resources.wallet.storage.unsealed.enteredKeys")}: 2
                             </p>
 
                             {storeState === "waiting" && (
                                 <p className="text-base leading-[22px] text-yellow-40">
-                                    {translate("resources.manageStore.unsealed.toFinishKeys")}: 1
+                                    {translate("resources.wallet.storage.unsealed.toFinishKeys")}: 1
                                 </p>
                             )}
                         </div>
@@ -166,7 +168,7 @@ export const ManageStore = () => {
                                     className="flex items-center gap-1 bg-red-40 hover:bg-red-30 active:bg-red-30 focus:bg-red-30 flex-1">
                                     <LockKeyhole width={16} height={16} />
                                     <span className="text-sm">
-                                        {translate("resources.manageStore.buttonForCancel")}
+                                        {translate("resources.wallet.storage.buttonForCancel")}
                                     </span>
                                 </Button>
 
@@ -178,7 +180,7 @@ export const ManageStore = () => {
                                     className="flex items-center gap-1 flex-1">
                                     <KeyRound width={16} height={16} />
                                     <span className="text-sm">
-                                        {translate("resources.manageStore.buttonForEnterKey")}
+                                        {translate("resources.wallet.storage.buttonForEnterKey")}
                                     </span>
                                 </Button>
                             </div>
@@ -190,7 +192,7 @@ export const ManageStore = () => {
                                 }}
                                 className="flex items-center gap-1 bg-red-40 hover:bg-red-30 active:bg-red-30 focus:bg-red-30 flex-1">
                                 <LockKeyhole width={16} height={16} />
-                                <span className="text-sm">{translate("resources.manageStore.buttonForClosed")}</span>
+                                <span className="text-sm">{translate("resources.wallet.storage.buttonForClosed")}</span>
                             </Button>
                         )}
                     </>

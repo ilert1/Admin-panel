@@ -74,24 +74,24 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
     const [openAccordion, setOpenAccordion] = useState(true);
 
     const customViewRoutes = {
-        name: "manage",
+        name: "wallet",
         icon: <BitcoinWalletIcon />,
         childrens: [
             {
-                name: "manageStore",
-                path: "/wallet/manage",
+                name: "storage",
+                path: "/wallet/storage",
                 icon: <Vault />,
                 showLock: true
             },
             {
-                name: "manageWallets",
+                name: "manage",
                 path: "/wallet",
                 icon: <DoubleWalletsIcon />,
                 showLock: false
             },
             {
-                name: "manageTransactions",
-                path: "/wallet/transaction",
+                name: "transactions",
+                path: "/wallet/transactions",
                 icon: <WalletCards />,
                 showLock: false
             }
@@ -149,7 +149,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
 
                             {showCaptions && (
                                 <span className="animate-in fade-in-0 transition-opacity p-0 m-0 leading-[22px]">
-                                    {translate(`resources.${customRoute.name}.name`)}
+                                    {translate(`resources.wallet.${customRoute.name}.name`)}
                                 </span>
                             )}
 

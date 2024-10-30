@@ -65,7 +65,7 @@ export const WalletsList = () => {
                 <div className="flex flex-end justify-end mb-4">
                     <Button onClick={handleCreateClick} variant="default" className="flex gap-[4px] items-center">
                         <PlusCircle className="h-[16px] w-[16px]" />
-                        <span className="text-title-1">{translate("resources.manageWallets.createWallet")}</span>
+                        <span className="text-title-1">{translate("resources.wallet.manage.createWallet")}</span>
                     </Button>
                     <CreateWalletDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
                 </div>

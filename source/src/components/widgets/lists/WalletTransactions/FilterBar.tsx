@@ -66,13 +66,13 @@ export const FilterBar = () => {
             <div className="flex gap-[16px] mb-5 items-center flex-wrap">
                 <div className="flex flex-col gap-[8px] min-w-[200px]">
                     <Label className="text-title-2 text-neutral-100" htmlFor="private">
-                        {translate("resources.manageTransactions.filterBar.searchById")}
+                        {translate("resources.wallet.transactions.filterBar.searchById")}
                     </Label>
                     <Input placeholder="ID" value={filterId} onChange={e => setFilterId(e.target.value)} />
                 </div>
                 <div className="flex flex-col gap-[8px]">
                     <Label className="text-title-2 text-neutral-100" htmlFor="private">
-                        {translate("resources.manageTransactions.filterBar.paymentStatus")}
+                        {translate("resources.wallet.transactions.filterBar.paymentStatus")}
                     </Label>
                     <Select value={status} onValueChange={setStatus}>
                         <SelectTrigger className="w-[204px]">
@@ -92,7 +92,7 @@ export const FilterBar = () => {
                 </div>
                 <div className="flex flex-col gap-[8px]">
                     <Label className="text-title-2 text-neutral-100" htmlFor="private">
-                        {translate("resources.manageTransactions.filterBar.created_at")}
+                        {translate("resources.wallet.transactions.filterBar.created_at")}
                     </Label>
                     <DateRangePicker
                         // title={translate("resources.withdraw.filter.filterByDate")}
@@ -105,7 +105,7 @@ export const FilterBar = () => {
                 </div>
                 <div className="flex flex-col gap-[8px]">
                     <Label className="text-title-2 text-neutral-100" htmlFor="private">
-                        {translate("resources.manageTransactions.filterBar.updated_at")}
+                        {translate("resources.wallet.transactions.filterBar.updated_at")}
                     </Label>
                     <DateRangePicker
                         // title={translate("resources.withdraw.filter.filterByDate")}
@@ -118,7 +118,7 @@ export const FilterBar = () => {
                 </div>
                 <div className="flex items-center pb-1 gap-[4px] place-self-end">
                     <Label htmlFor="clear" className="text-title-1 text-neutral-50">
-                        {translate("resources.manageTransactions.filterBar.resetFilters")}
+                        {translate("resources.wallet.transactions.filterBar.resetFilters")}
                     </Label>
                     <button
                         id="clear"
@@ -140,7 +140,7 @@ export const FilterBar = () => {
                             setDeletedOperationsClicked(false);
                             setAllOperationsClicked(true);
                         }}>
-                        {translate("resources.manageTransactions.allTransactions")}
+                        {translate("resources.wallet.transactions.allTransactions")}
                     </button>
                     <button
                         className={
@@ -152,7 +152,7 @@ export const FilterBar = () => {
                             setAllOperationsClicked(false);
                             setDeletedOperationsClicked(true);
                         }}>
-                        {translate("resources.manageTransactions.deletedTransactions")}
+                        {translate("resources.wallet.transactions.deletedTransactions")}
                     </button>
                 </div>
             </div>

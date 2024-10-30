@@ -23,7 +23,7 @@ export const ShowWalletTransactionsDialog = (props: ShowWalletTransactionsDialog
                     <div>
                         <div className="flex justify-between items-center">
                             <SheetTitle className="text-display-1">
-                                {translate("resources.manageTransactions.cryptotransaction")}
+                                {translate("resources.wallet.transactions.cryptotransaction")}
                             </SheetTitle>
                             <button
                                 onClick={() => onOpenChange(false)}

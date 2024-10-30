@@ -32,18 +32,18 @@ export const WalletTransactionsShow = (props: WalletTransactionsShowProps) => {
     return (
         <div className="flex flex-col gap-6 px-[42px]">
             <div className="grid grid-cols-2 gap-y-4">
-                <TextField label={translate("resources.manageTransactions.fields.created_at")} text="AA" />
-                <TextField label={translate("resources.manageTransactions.fields.updated_at")} text="AA" copyValue />
-                <TextField label={translate("resources.manageTransactions.fields.src_wallet")} text="AA" copyValue />
-                <TextField label={translate("resources.manageTransactions.fields.dst_wallet")} text="AA" copyValue />
-                <TextField label={translate("resources.manageTransactions.fields.amount")} text="AA" />
-                <TextField label={translate("resources.manageTransactions.fields.currency")} text="AA" />
-                <TextField label={translate("resources.manageTransactions.fields.state")} text="AA" />
-                <TextField label={translate("resources.manageTransactions.fields.type")} text="AA" />
-                <TextField label={translate("resources.manageTransactions.fields.merchant_id")} text="AA" />
-                <TextField label={translate("resources.manageTransactions.fields.tx_id")} text="AA" />
-                <TextField label={translate("resources.manageTransactions.fields.total_fee")} text="AA" />
-                <TextField label={translate("resources.manageTransactions.fields.bandwidth_fee")} text="AA" />
+                <TextField label={translate("resources.wallet.transactions.fields.created_at")} text="AA" />
+                <TextField label={translate("resources.wallet.transactions.fields.updated_at")} text="AA" copyValue />
+                <TextField label={translate("resources.wallet.transactions.fields.src_wallet")} text="AA" copyValue />
+                <TextField label={translate("resources.wallet.transactions.fields.dst_wallet")} text="AA" copyValue />
+                <TextField label={translate("resources.wallet.transactions.fields.amount")} text="AA" />
+                <TextField label={translate("resources.wallet.transactions.fields.currency")} text="AA" />
+                <TextField label={translate("resources.wallet.transactions.fields.state")} text="AA" />
+                <TextField label={translate("resources.wallet.transactions.fields.type")} text="AA" />
+                <TextField label={translate("resources.wallet.transactions.fields.merchant_id")} text="AA" />
+                <TextField label={translate("resources.wallet.transactions.fields.tx_id")} text="AA" />
+                <TextField label={translate("resources.wallet.transactions.fields.total_fee")} text="AA" />
+                <TextField label={translate("resources.wallet.transactions.fields.bandwidth_fee")} text="AA" />
             </div>
         </div>
     );
