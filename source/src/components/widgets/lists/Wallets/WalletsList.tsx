@@ -7,14 +7,11 @@ import { CreateWalletDialog } from "./CreateWalletDialog";
 import { useState } from "react";
 import { DataTable } from "../../shared";
 import { ShowWalletDialog } from "./ShowWalletDialog";
-enum WalletTypes {
-    INTERNAL = "internal",
-    LINKED = "linked",
-    EXTERNAL = "external"
-}
+
 export const WalletsList = () => {
     const listContext = useListController({ resource: "wallet" });
     const translate = useTranslate();
+    console.log(listContext);
 
     const { columns, chosenId, quickShowOpen, setQuickShowOpen } = useGetWalletsColumns();
 
@@ -24,41 +21,41 @@ export const WalletsList = () => {
         setCreateDialogOpen(true);
     };
 
-    const mockData = [
-        {
-            id: "1",
-            description: "AA",
-            type: WalletTypes.INTERNAL,
-            blockchain: "AA",
-            address: "AA",
-            account_id: "AA",
-            currency: "AA",
-            network: "AA",
-            minimal_ballance_limit: 1000
-        },
-        {
-            id: "2",
-            description: "AA",
-            type: WalletTypes.EXTERNAL,
-            blockchain: "AA",
-            address: "AA",
-            account_id: "AA",
-            currency: "AA",
-            network: "AA",
-            minimal_ballance_limit: 1000
-        },
-        {
-            id: "3",
-            description: "AA",
-            type: WalletTypes.LINKED,
-            blockchain: "AA",
-            address: "AA",
-            account_id: "AA",
-            currency: "AA",
-            network: "AA",
-            minimal_ballance_limit: 1000
-        }
-    ];
+    // const mockData = [
+    //     {
+    //         id: "1",
+    //         description: "AA",
+    //         type: WalletTypes.INTERNAL,
+    //         blockchain: "AA",
+    //         address: "AA",
+    //         account_id: "AA",
+    //         currency: "AA",
+    //         network: "AA",
+    //         minimal_ballance_limit: 1000
+    //     },
+    //     {
+    //         id: "2",
+    //         description: "AA",
+    //         type: WalletTypes.EXTERNAL,
+    //         blockchain: "AA",
+    //         address: "AA",
+    //         account_id: "AA",
+    //         currency: "AA",
+    //         network: "AA",
+    //         minimal_ballance_limit: 1000
+    //     },
+    //     {
+    //         id: "3",
+    //         description: "AA",
+    //         type: WalletTypes.LINKED,
+    //         blockchain: "AA",
+    //         address: "AA",
+    //         account_id: "AA",
+    //         currency: "AA",
+    //         network: "AA",
+    //         minimal_ballance_limit: 1000
+    //     }
+    // ];
 
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
@@ -73,7 +70,8 @@ export const WalletsList = () => {
                     <CreateWalletDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
                 </div>
                 <ListContextProvider value={listContext}>
-                    <DataTable columns={columns} data={mockData} total={10} />
+                    <DataTable columns={columns} />
+                    {/* <DataTable columns={columns} data={mockData} total={10} /> */}
                 </ListContextProvider>
                 <ShowWalletDialog id={chosenId} open={quickShowOpen} onOpenChange={setQuickShowOpen} />
             </>
