@@ -522,8 +522,10 @@ const ru: TranslationMessages = {
             usernameOrEmail: "Логин или e-mail",
             password: "Пароль",
             login: "Войти",
-            logPassError: "Неправильный логин или пароль",
-            networkError: "Ошибка сети"
+            logPassError: "Неправильные данные входа",
+            networkError: "Ошибка сети",
+            totp: "Код двухфакторной аутентификации",
+            configure2fa: "Настроить двухфакторную аутентификацию"
         }
     },
     pages: {
@@ -1074,8 +1076,10 @@ const en: TranslationMessages = {
             usernameOrEmail: "Username or e-mail",
             password: "Password",
             login: "Login",
-            logPassError: "Invalid username or password",
-            networkError: "Network Error"
+            logPassError: "Invalid user data",
+            networkError: "Network Error",
+            totp: "Two-factor authentication code",
+            configure2fa: "Configure Two-factor auth"
         }
     },
     pages: {

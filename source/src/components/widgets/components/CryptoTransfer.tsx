@@ -33,6 +33,7 @@ export const CryptoTransfer = () => {
         {
             select(data) {
                 const value = data?.data?.amounts?.[0]?.value;
+                if (!value) return 0;
                 return +value.quantity / +value.accuracy;
             }
         }
