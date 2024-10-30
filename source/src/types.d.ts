@@ -20,6 +20,11 @@ type Meta = {
     caption: string;
 };
 
+type CustomerData = {
+    customer_id: string;
+    customer_payment_id: string;
+};
+
 type Account = {
     id: string;
     amounts: Amount[];
@@ -92,8 +97,7 @@ declare namespace Transaction {
         external_status_details: string;
         fail_url: string;
         success_url: string;
-        customer_id?: string;
-        customer_payment_id: string;
+        customer_data: CustomerData;
     };
 
     type State = {
