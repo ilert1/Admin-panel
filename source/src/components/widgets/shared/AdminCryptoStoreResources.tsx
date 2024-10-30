@@ -144,7 +144,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                             to={customRoute.path}
                             className={
                                 currentResource[0] === customRoute.name
-                                    ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2 [&>svg>path]:stroke-green-40 [&>svg>path]:transition-all"
+                                    ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2 dark:[&>svg>path]:stroke-green-40 [&>svg>path]:stroke-green-40 [&>svg>path]:transition-all"
                                     : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2 [&:hover>svg>path]:stroke-green-40 [&>svg>path]:transition-all"
                             }>
                             {(!customRoute.showLock || (customRoute.showLock && showCaptions)) && customRoute.icon}
