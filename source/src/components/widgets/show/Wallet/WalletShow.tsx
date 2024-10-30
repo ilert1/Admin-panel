@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
-import { ShowContextProvider, useShowController, useTranslate } from "react-admin";
+import { useState } from "react";
+import { useShowController, useTranslate } from "react-admin";
+import { DeleteWalletDialog } from "./DeleteWalletDialog";
+import { EditWalletDialog } from "./EditWalletDialog";
 
 interface WalletShowProps {
     id: string;
@@ -9,64 +11,96 @@ interface WalletShowProps {
     type?: string;
 }
 
-// Раскомментировать и вставить в поля, и заработает
-
 export const WalletShow = (props: WalletShowProps) => {
     const { id, type, onOpenChange } = props;
-    // const context = useShowController<Wallet>({ id });
+    const context = useShowController<Wallet>({ id });
     const translate = useTranslate();
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
 
-    /*
-        context.record.type 
-        context.record.address
-        context.record.account_id
-        context.record.account_id
-        context.record.currency
-        context.record.id
-        context.record.blockchain
-        context.record.network
-        context.record.minimal_ballance_limit
-        context.record.description
-    */
+    const handleDeleteClicked = () => {
+        setDeleteDialogOpen(true);
+    };
 
-    // if (context.isLoading) {
-    //     return <Loading />;
-    // }
+    const handleEditClicked = () => {
+        setEditDialogOpen(true);
+    };
+
+    if (context.isLoading || !context.record) return;
 
     if (type === "compact") {
         return (
             <div className="flex flex-col gap-6 px-[42px]">
                 <div className="grid grid-cols-2 gap-y-4">
-                    <TextField label={translate("resources.manageWallets.fields.walletType")} text="AA" />
-                    <TextField label={translate("resources.manageWallets.fields.walletAddress")} text="AA" copyValue />
-                    <TextField label={translate("resources.manageWallets.fields.accountNumber")} text="AA" copyValue />
-                    <TextField label={translate("resources.manageWallets.fields.merchantId")} text="AA" copyValue />
-                    <TextField label={translate("resources.manageWallets.fields.currency")} text="AA" />
-                    <TextField label={translate("resources.manageWallets.fields.internalId")} text="AA" />
-                    <TextField label={translate("resources.manageWallets.fields.blockchain")} text="AA" />
-                    <TextField label={translate("resources.manageWallets.fields.contactType")} text="AA" />
-                    <TextField label={translate("resources.manageWallets.fields.minRemaini")} text="AA" />
+                    <TextField
+                        label={translate("resources.manageWallets.fields.walletType")}
+                        text={context.record.type}
+                    />
+                    <TextField
+                        label={translate("resources.manageWallets.fields.walletAddress")}
+                        text={context.record.address ?? ""}
+                        copyValue
+                    />
+                    <TextField
+                        label={translate("resources.manageWallets.fields.accountNumber")}
+                        text={context.record.type === "linked" ? context.record.account_id : ""}
+                        copyValue
+                    />
+                    <TextField
+                        label={translate("resources.manageWallets.fields.merchantId")}
+                        text={context.record.type === "external" ? context.record.account_id : ""}
+                        copyValue
+                    />
+                    <TextField
+                        label={translate("resources.manageWallets.fields.currency")}
+                        text={context.record.currency}
+                    />
+                    <TextField
+                        label={translate("resources.manageWallets.fields.internalId")}
+                        text={context.record.id}
+                    />
+                    <TextField
+                        label={translate("resources.manageWallets.fields.blockchain")}
+                        text={context.record.blockchain}
+                    />
+                    <TextField
+                        label={translate("resources.manageWallets.fields.contactType")}
+                        text={context.record.network}
+                    />
+                    <TextField
+                        label={translate("resources.manageWallets.fields.minRemaini")}
+                        text={String(context.record.minimal_ballance_limit)}
+                    />
                     <div className="col-span-2">
-                        <TextField label={translate("resources.manageWallets.fields.descr")} text="AA" />
+                        <TextField
+                            label={translate("resources.manageWallets.fields.descr")}
+                            text={context.record.description ?? ""}
+                        />
                     </div>
                 </div>
 
                 <div className="flex justify-end gap-4 px-[42px]">
-                    <Button onClick={() => {}} className="text-title-1">
+                    <Button onClick={() => handleEditClicked} className="text-title-1">
                         {translate("app.ui.actions.edit")}
                     </Button>
 
                     <Button
                         variant={"outline"}
                         className="border-[1px] border-neutral-50 text-neutral-50 bg-transparent"
-                        onClick={() => {}}>
+                        onClick={() => handleDeleteClicked}>
                         {translate("app.ui.actions.delete")}
                     </Button>
                 </div>
+                <DeleteWalletDialog
+                    id={id}
+                    open={deleteDialogOpen}
+                    onOpenChange={setDeleteDialogOpen}
+                    onQuickShowOpenChange={onOpenChange}
+                />
+                <EditWalletDialog id={id} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
             </div>
         );
     } else {
         return <></>;
     }
-    // return <ShowContextProvider value={context}></ShowContextProvider>;
 };

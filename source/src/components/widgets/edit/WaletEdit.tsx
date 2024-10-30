@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input, InputTypes } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { LoadingAlertDialog } from "@/components/ui/loading";
 import {
     Select,
     SelectContent,
@@ -13,29 +14,36 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateContextProvider, useCreateController, useDataProvider, useTranslate } from "react-admin";
-import { Form, FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useDataProvider, useEditController, useTranslate } from "react-admin";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
-interface CreateWalletProps {
+interface EditWalletProps {
+    id: string;
     onOpenChange: (state: boolean) => void;
 }
+
 enum WalletTypes {
     INTERNAL = "internal",
     LINKED = "linked",
     EXTERNAL = "external"
 }
 
-export const CreateWallet = (props: CreateWalletProps) => {
-    const { onOpenChange } = props;
+export const EditWallet = (props: EditWalletProps) => {
+    const { id, onOpenChange } = props;
     const translate = useTranslate();
     const dataProvider = useDataProvider();
-    const controllerProps = useCreateController();
+    const { record, isLoading } = useEditController({ resource: "wallet", id });
 
     const onSubmit: SubmitHandler<Omit<Wallet, "account_id">> = async data => {
         data.address = null;
         try {
-            await dataProvider.create("wallet", { data: data });
+            await dataProvider.update("wallet", {
+                id,
+                data: data,
+                previousData: undefined
+            });
             onOpenChange(false);
         } catch (error) {
             // toast({
@@ -77,6 +85,24 @@ export const CreateWallet = (props: CreateWalletProps) => {
         }
     });
 
+    useEffect(() => {
+        if (record) {
+            form.reset({
+                id: record.id || "",
+                address: record.address || "",
+                merchantId: record.merchantId || "",
+                currency: record.currency || "",
+                description: record.description || "",
+                accountNumber: record.accountNumber || "",
+                blockchain: record.blockchain || "",
+                minimal_ballance_limit: record.minimal_ballance_limit || 0,
+                network: record.network || "",
+                type: record.type || WalletTypes.INTERNAL
+            });
+        }
+    }, [form, record]);
+
+    if (isLoading) return <LoadingAlertDialog />;
     return (
         // <CreateContextProvider value={controllerProps}>
         <FormProvider {...form}>
@@ -269,6 +295,5 @@ export const CreateWallet = (props: CreateWalletProps) => {
                 </div>
             </form>
         </FormProvider>
-        // </CreateContextProvider>
     );
 };
