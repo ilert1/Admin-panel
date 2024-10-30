@@ -73,27 +73,25 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
     const location = useLocation();
     const [openAccordion, setOpenAccordion] = useState(true);
 
-    const currentResource = location.pathname?.split("/")?.filter((s: string) => s?.length > 0);
-
     const customViewRoutes = {
         name: "manage",
         icon: <BitcoinWalletIcon />,
         childrens: [
             {
                 name: "manageStore",
-                path: "/manageStore",
+                path: "/wallet/manage",
                 icon: <Vault />,
                 showLock: true
             },
             {
                 name: "manageWallets",
-                path: "/manageWallets",
+                path: "/wallet",
                 icon: <DoubleWalletsIcon />,
                 showLock: false
             },
             {
                 name: "manageTransactions",
-                path: "/manageTransactions",
+                path: "/wallet/transaction",
                 icon: <WalletCards />,
                 showLock: false
             }
@@ -143,7 +141,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                             key={index}
                             to={customRoute.path}
                             className={
-                                currentResource[0] === customRoute.name
+                                location.pathname === customRoute.path
                                     ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2 dark:[&>svg>path]:stroke-green-40 [&>svg>path]:stroke-green-40 [&>svg>path]:transition-all"
                                     : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2 [&:hover>svg>path]:stroke-green-40 [&>svg>path]:transition-all"
                             }>

@@ -34,8 +34,7 @@ import {
     BanknoteIcon,
     StoreIcon,
     NetworkIcon,
-    SignpostIcon,
-    WalletCards
+    SignpostIcon
 } from "lucide-react";
 import { authProvider, ThemeProvider } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
@@ -94,8 +93,10 @@ export const App = () => {
                                     />
                                     <Resource name="provider" list={ProvidersList} icon={NetworkIcon} />
                                     <Resource name="direction" list={DirectionsList} icon={SignpostIcon} />
-                                    <Resource name="wallet" list={WalletsList} icon={WalletsLogo} />
-                                    <Resource name="transaction" icon={WalletCards} list={WalletTransactionsList} />
+                                    <Resource name="wallet" list={WalletsList} icon={WalletsLogo}>
+                                        <Route path="manage" element={<ManageStore />} />
+                                        <Route path="transaction" element={<WalletTransactionsList />} />
+                                    </Resource>
                                 </>
                             )}
 
@@ -104,9 +105,6 @@ export const App = () => {
                                 {permissions === "merchant" && (
                                     <Route path="/crypto-transfer" element={<PayOutCryptoPage />} />
                                 )}
-                                {permissions === "admin" && <Route path="/manageStore" element={<ManageStore />} />}
-                                {/* {permissions === "admin" && <Route path="/manageWallets" element={<></>} />} */}
-                                {/* {permissions === "admin" && <Route path="/manageTransactions" element={<></>} />} */}
                                 <Route path="/login" element={<LoginPage />} />
                             </CustomRoutes>
                         </>
