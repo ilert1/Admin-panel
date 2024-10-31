@@ -80,14 +80,14 @@ export const WalletShow = (props: WalletShowProps) => {
                 </div>
 
                 <div className="flex justify-end gap-4 px-[42px]">
-                    <Button onClick={() => handleEditClicked} className="text-title-1">
+                    <Button onClick={() => handleEditClicked()} className="text-title-1">
                         {translate("app.ui.actions.edit")}
                     </Button>
 
                     <Button
                         variant={"outline"}
                         className="border-[1px] border-neutral-50 text-neutral-50 bg-transparent"
-                        onClick={() => handleDeleteClicked}>
+                        onClick={() => handleDeleteClicked()}>
                         {translate("app.ui.actions.delete")}
                     </Button>
                 </div>

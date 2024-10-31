@@ -31,7 +31,7 @@ export const useGetWalletsColumns = () => {
             accessorKey: "address",
             header: translate("resources.manageWallets.fields.walletAddress"),
             cell: ({ row }) => {
-                return <TextField text={row.original.address} wrap copyValue />;
+                return <TextField text={row.original.address ?? ""} wrap copyValue />;
             }
         },
         {
@@ -52,21 +52,21 @@ export const useGetWalletsColumns = () => {
                 return <TextField text={row.original.account_id} wrap copyValue />;
             }
         },
-
-        {
-            id: "description",
-            accessorKey: "description",
-            header: translate("resources.manageWallets.fields.currency"),
-            cell: ({ row }) => {
-                return <TextField text={row.original.description || ""} wrap />;
-            }
-        },
         {
             id: "currency",
             accessorKey: "currency",
-            header: translate("resources.manageWallets.fields.descr"),
+            header: translate("resources.manageWallets.fields.currency"),
             cell: ({ row }) => {
                 return <TextField text={row.original.currency} />;
+            }
+        },
+        {
+            id: "description",
+            accessorKey: "description",
+            header: translate("resources.manageWallets.fields.descr"),
+            cell: ({ row }) => {
+                console.log(row.original);
+                return <TextField text={row.original.description || ""} wrap />;
             }
         },
         {
