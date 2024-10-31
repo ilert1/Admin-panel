@@ -15,18 +15,6 @@ const API_URL = import.meta.env.VITE_WALLET_URL;
 export const WalletStore = () => {
     const translate = useTranslate();
 
-    const { data: storageState, refetch: refetchStorageState } = useQuery<WalletStorage | undefined>(
-        "walletStorage",
-        () =>
-            fetch(`${API_URL}/vault/state`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
-            })
-                .then(response => response.json())
-                .then(data => data.data)
-    );
-
     const [stepForUnsealed, setStepForUnsealed] = useState<0 | 1 | "error">(0);
     const [keyText, setKeyText] = useState("");
 
@@ -49,6 +37,18 @@ export const WalletStore = () => {
         form.setValue("key_part", e.target.value);
         field.onChange(e.target.value);
     };
+
+    const { data: storageState, refetch: refetchStorageState } = useQuery<WalletStorage | undefined>(
+        "walletStorage",
+        () =>
+            fetch(`${API_URL}/vault/state`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            })
+                .then(response => response.json())
+                .then(data => data.data)
+    );
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         try {
