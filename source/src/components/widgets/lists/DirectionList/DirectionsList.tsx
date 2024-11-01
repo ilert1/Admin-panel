@@ -18,7 +18,7 @@ const DirectionListFilter = () => {
         data: merchantsData,
         isFetchingNextPage,
         hasNextPage,
-        fetchNextPage: accountsNextPage
+        fetchNextPage: merchantsNextPage
     } = useInfiniteGetList("merchant", {
         pagination: { perPage: 25, page: 1 },
         filter: { sort: "name", asc: "ASC" }
@@ -48,7 +48,7 @@ const DirectionListFilter = () => {
         const target = e.target as HTMLElement;
 
         if (target.scrollHeight - target.scrollTop === target.clientHeight) {
-            accountsNextPage();
+            merchantsNextPage();
         }
     };
 
