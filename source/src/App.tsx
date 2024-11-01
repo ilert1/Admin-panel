@@ -45,22 +45,23 @@ import WalletsLogo from "./lib/icons/Wallets";
 import { WalletStore } from "./pages/WalletStore";
 
 const dataProvider = combineDataProviders((resource: string) => {
-    if (resource === "transactions") {
-        return new TransactionDataProvider();
-    } else if (resource === "users") {
-        return new UsersDataProvider();
-    } else if (resource === "currency") {
-        return new CurrenciesDataProvider();
-    } else if (resource === "merchant") {
-        return new MerchantsDataProvider();
-    } else if (resource === "provider") {
-        return new ProvidersDataProvider();
-    } else if (resource === "direction") {
-        return new DirectionsDataProvider();
-    } else if (resource === "wallet") {
-        return new WalletsDataProvider();
-    } else {
-        return new BaseDataProvider();
+    switch (resource) {
+        case "transactions":
+            return new TransactionDataProvider();
+        case "users":
+            return new UsersDataProvider();
+        case "currency":
+            return new CurrenciesDataProvider();
+        case "merchant":
+            return new MerchantsDataProvider();
+        case "provider":
+            return new ProvidersDataProvider();
+        case "direction":
+            return new DirectionsDataProvider();
+        case "wallet":
+            return new WalletsDataProvider();
+        default:
+            return new BaseDataProvider();
     }
 });
 
