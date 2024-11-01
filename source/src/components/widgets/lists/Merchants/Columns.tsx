@@ -13,6 +13,7 @@ export const useGetMerchantColumns = () => {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [showSheetOpen, setShowSheetOpen] = useState(false);
+    const [showType, setShowType] = useState<"fees" | "directions">();
 
     const handleEditClicked = (id: string) => {
         setChosenId(id);
@@ -22,8 +23,9 @@ export const useGetMerchantColumns = () => {
         setChosenId(id);
         setDeleteDialogOpen(true);
     };
-    const handleShowClicked = (id: string) => {
+    const handleShowClicked = (id: string, type: string) => {
         setChosenId(id);
+        setShowType(type);
         setShowSheetOpen(true);
     };
 
@@ -52,14 +54,29 @@ export const useGetMerchantColumns = () => {
             header: "Keycloak ID"
         },
         {
-            id: "show_field",
+            id: "show_directions_field",
+            header: () => {
+                return <div className="text-center">{translate("resources.merchant.fields.directions")}</div>;
+            },
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center justify-center">
+                        <Button onClick={() => handleShowClicked(row.original.id, "directions")} variant={"clearBtn"}>
+                            <EyeIcon className="text-green-50 size-7" />
+                        </Button>
+                    </div>
+                );
+            }
+        },
+        {
+            id: "show_fees_field",
             header: () => {
                 return <div className="text-center">{translate("resources.merchant.fields.fees")}</div>;
             },
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => handleShowClicked(row.original.id)} variant={"clearBtn"}>
+                        <Button onClick={() => handleShowClicked(row.original.id, "fees")} variant={"clearBtn"}>
                             {Object.entries(row.original.fees).length !== 0 ? (
                                 <EyeIcon className="text-green-50 size-7" />
                             ) : (
@@ -108,6 +125,7 @@ export const useGetMerchantColumns = () => {
         editDialogOpen,
         deleteDialogOpen,
         showSheetOpen,
+        showType,
         setShowSheetOpen,
         setEditDialogOpen,
         setDeleteDialogOpen
