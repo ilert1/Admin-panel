@@ -1,27 +1,20 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { VaultDataProvider } from "@/data";
 import { BitcoinWalletIcon, DoubleWalletsIcon, RearLockKeyhole } from "@/lib/icons/WalletStore";
 import { ChevronDown, ChevronLeft, LockKeyhole, LockKeyholeOpen, Vault, WalletCards } from "lucide-react";
 import { useState } from "react";
-import { useTranslate } from "react-admin";
+import { useDataProvider, useTranslate } from "react-admin";
 import { useQuery } from "react-query";
 import { NavLink, useLocation } from "react-router-dom";
 
-const API_URL = import.meta.env.VITE_WALLET_URL;
-
 export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: boolean }) => {
     const translate = useTranslate();
+    const dataProvider = useDataProvider<VaultDataProvider>();
     const location = useLocation();
+
     const [openAccordion, setOpenAccordion] = useState(true);
 
-    const { data: storageState } = useQuery<WalletStorage | undefined>("walletStorage", () =>
-        fetch(`${API_URL}/vault/state`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
-        })
-            .then(response => response.json())
-            .then(data => data.data)
-    );
+    const { data: storageState } = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"));
 
     const customViewRoutes = {
         name: "wallet",
@@ -106,7 +99,13 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                             {customRoute.showLock && (
                                 <>
                                     {storageState?.state === "sealed" && (
-                                        <LockKeyhole className={showCaptions ? "ml-auto w-full max-w-6 mr-5" : ""} />
+                                        <LockKeyhole
+                                            className={
+                                                showCaptions
+                                                    ? "ml-auto w-full max-w-6 mr-5 text-green-40 [&>path]:!stroke-green-40"
+                                                    : "text-green-40 [&>path]:!stroke-green-40"
+                                            }
+                                        />
                                     )}
                                     {storageState?.state === "unsealed" && (
                                         <LockKeyholeOpen

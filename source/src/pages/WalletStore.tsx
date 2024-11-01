@@ -3,18 +3,18 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { VaultDataProvider } from "@/data";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { KeyRound, LockKeyhole, LockKeyholeOpen, TriangleAlert } from "lucide-react";
 import { ChangeEvent, useState } from "react";
-import { fetchUtils, useTranslate } from "react-admin";
+import { useDataProvider, useTranslate } from "react-admin";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import { z } from "zod";
 
-const API_URL = import.meta.env.VITE_WALLET_URL;
-
 export const WalletStore = () => {
     const translate = useTranslate();
+    const dataProvider = useDataProvider<VaultDataProvider>();
 
     const [loadingProcess, setLoadingProcess] = useState(false);
     const [stepForUnsealed, setStepForUnsealed] = useState<0 | 1 | "error">(0);
@@ -44,25 +44,13 @@ export const WalletStore = () => {
         data: storageState,
         refetch: refetchStorageState,
         isLoading: storageStateLoading
-    } = useQuery<WalletStorage | undefined>("walletStorage", () =>
-        fetch(`${API_URL}/vault/state`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
-        })
-            .then(response => response.json())
-            .then(data => data.data)
-    );
+    } = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"));
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         try {
             setLoadingProcess(true);
 
-            const { json } = await fetchUtils.fetchJson(`${API_URL}/vault/partial`, {
-                method: "POST",
-                body: JSON.stringify(data),
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-            });
+            const json = await dataProvider.addPartialKey("vault", data);
 
             setKeyText("");
             form.setValue("key_part", "");
@@ -84,10 +72,7 @@ export const WalletStore = () => {
         setLoadingProcess(true);
 
         try {
-            await fetchUtils.fetchJson(`${API_URL}/vault/seal`, {
-                method: "POST",
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-            });
+            await dataProvider.cancelUnsealing("vault");
             refetchStorageState();
         } catch (error) {
             setStepForUnsealed("error");

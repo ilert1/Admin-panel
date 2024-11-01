@@ -8,7 +8,8 @@ import {
     CurrenciesDataProvider,
     ProvidersDataProvider,
     DirectionsDataProvider,
-    WalletsDataProvider
+    WalletsDataProvider,
+    VaultDataProvider
 } from "@/data";
 import {
     AccountList,
@@ -60,6 +61,8 @@ const dataProvider = combineDataProviders((resource: string) => {
             return new DirectionsDataProvider();
         case "wallet":
             return new WalletsDataProvider();
+        case "vault":
+            return new VaultDataProvider();
         default:
             return new BaseDataProvider();
     }
