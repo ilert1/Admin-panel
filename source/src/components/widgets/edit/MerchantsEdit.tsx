@@ -39,6 +39,8 @@ export const MerchantEdit = (props: MerchantEditProps) => {
     const { toast } = useToast();
     const refresh = useRefresh();
 
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+
     const [addNewFeeClicked, setAddNewFeeClicked] = useState(false);
 
     const formSchema = z.object({
@@ -96,6 +98,8 @@ export const MerchantEdit = (props: MerchantEditProps) => {
     }, [addNewFeeClicked]);
 
     const onSubmit: SubmitHandler<Merchant> = async data => {
+        if (submitButtonDisabled) return;
+        setSubmitButtonDisabled(true);
         data.fees = record.fees;
         try {
             await dataProvider.update("merchant", {
@@ -111,6 +115,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                 variant: "destructive",
                 title: "Error"
             });
+            setSubmitButtonDisabled(false);
         }
     };
 
@@ -220,7 +225,11 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                 </div>
             </div>
             <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
-                <Button onClick={form.handleSubmit(onSubmit)} variant="default" className="flex-1">
+                <Button
+                    onClick={form.handleSubmit(onSubmit)}
+                    variant="default"
+                    className="flex-1"
+                    disabled={submitButtonDisabled}>
                     {translate("app.ui.actions.save")}
                 </Button>
                 <Button type="button" variant="deleteGray" className="flex-1" onClick={() => onOpenChange(false)}>

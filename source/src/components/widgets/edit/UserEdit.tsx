@@ -32,7 +32,11 @@ export const UserEdit = ({
     const [fileContent, setFileContent] = useState(record?.public_key || "");
     const [valueCurDialog, setValueCurDialog] = useState("");
 
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        if (submitButtonDisabled) return;
+        setSubmitButtonDisabled(true);
         try {
             await dataProvider.update("users", {
                 id,
@@ -47,6 +51,7 @@ export const UserEdit = ({
                 variant: "destructive",
                 title: "Error"
             });
+            setSubmitButtonDisabled(false);
         }
     };
 
@@ -435,7 +440,9 @@ export const UserEdit = ({
                 </div>
 
                 <div className="self-end flex items-center gap-4">
-                    <Button type="submit">Edit user</Button>
+                    <Button type="submit" disabled={submitButtonDisabled}>
+                        Edit user
+                    </Button>
 
                     <DialogClose asChild>
                         <Button

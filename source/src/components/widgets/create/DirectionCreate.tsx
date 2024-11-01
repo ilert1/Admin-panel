@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { useFetchDataForDirections } from "@/hooks";
 import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
@@ -28,7 +29,11 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const { toast } = useToast();
     const translate = useTranslate();
 
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+
     const onSubmit: SubmitHandler<Directions.DirectionCreate> = async data => {
+        if (submitButtonDisabled) return;
+        setSubmitButtonDisabled(true);
         try {
             await dataProvider.create("direction", { data });
         } catch (error) {
@@ -37,6 +42,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                 variant: "destructive",
                 title: "Error"
             });
+            setSubmitButtonDisabled(false);
         }
     };
 
@@ -320,7 +326,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                             )}
                         />
                         <div className="flex gap-[16px] p-2 ml-auto w-1/3">
-                            <Button type="submit" variant="default" className="flex-1">
+                            <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button
