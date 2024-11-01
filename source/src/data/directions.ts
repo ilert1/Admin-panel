@@ -24,7 +24,7 @@ export class DirectionsDataProvider extends BaseDataProvider {
         const filter: { [key: string]: string } = {};
 
         Object.keys(params?.filter).forEach(filterItem => {
-            if (filterItem === "id") {
+            if (filterItem === "merchant") {
                 filter[filterItem] = params?.filter[filterItem];
             } else {
                 data[filterItem] = params?.filter[filterItem];

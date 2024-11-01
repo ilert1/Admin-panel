@@ -29,10 +29,9 @@ const DirectionListFilter = () => {
     const [merchantId, setMerchantId] = useState("");
     const accountsLoadingProcess = useMemo(() => isFetchingNextPage && hasNextPage, [isFetchingNextPage, hasNextPage]);
 
-    const onPropertySelected = debounce((value: string, type: "id") => {
+    const onPropertySelected = debounce((value: string, type: "merchant") => {
         if (value) {
-            console.log(filterValues);
-            setFilters({ ...filterValues, [type]: value, order_by: type, asc: true }, displayedFilters);
+            setFilters({ ...filterValues, [type]: value, order_by: "name", asc: true }, displayedFilters);
         } else {
             Reflect.deleteProperty(filterValues, type);
             setFilters(filterValues, displayedFilters);
@@ -42,7 +41,7 @@ const DirectionListFilter = () => {
 
     const onAccountChanged = (merchant: string) => {
         setMerchantId(merchant);
-        onPropertySelected(merchant, "id");
+        onPropertySelected(merchant, "merchant");
     };
 
     const accountScrollHandler = async (e: UIEvent<HTMLDivElement>) => {
@@ -122,7 +121,7 @@ export const DirectionsList = () => {
     } else {
         return (
             <>
-                <div className="flex flex-col md:flex-row gap-2 flex-end justify-between mb-4">
+                <div className="flex flex-col md:flex-row gap-2 md:items-end justify-between mb-4">
                     <ListContextProvider value={listContext}>
                         <DirectionListFilter />
                     </ListContextProvider>
