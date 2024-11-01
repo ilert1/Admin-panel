@@ -9,20 +9,21 @@ import { TextField } from "@/components/ui/text-field";
 import { FeeCard } from "../../components/FeeCard";
 import { AddFeeCard } from "../../components/AddFeeCard";
 import { useGetMerchantShowColumns } from "./Columns";
-import { DataTable } from "../../shared";
+import { SimpleTable } from "../../shared";
+import { TableTypes } from "../../shared/SimpleTable";
 
 interface MerchantShowProps {
     id: string;
     type: "fees" | "directions";
 }
 
-const API_URL = "https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1";
+const API_URL = import.meta.env.VITE_ENIGMA_URL;
 
 export const MerchantShow = (props: MerchantShowProps) => {
     const { id, type } = props;
     const translate = useTranslate();
     const data = fetchDictionaries();
-    const context = useShowController({ id: props.id });
+    const context = useShowController({ resource: "merchant", id: props.id });
     const { columns } = useGetMerchantShowColumns();
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -40,12 +41,9 @@ export const MerchantShow = (props: MerchantShowProps) => {
     useEffect(() => {
         const fetchMerchantDirections = async () => {
             try {
-                const { json } = await fetchUtils.fetchJson(
-                    `${API_URL}/direction/merchant/${context?.record.merchant.id}`,
-                    {
-                        user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-                    }
-                );
+                const { json } = await fetchUtils.fetchJson(`${API_URL}/direction/merchant/${context?.record.id}`, {
+                    user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+                });
 
                 if (!json.success) {
                     throw new Error(json.error);
@@ -53,7 +51,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
 
                 setMerchantDirections(json.data);
             } catch (error) {
-                toast({});
+                // toast({});
             }
         };
 
@@ -66,7 +64,6 @@ export const MerchantShow = (props: MerchantShowProps) => {
         return <Loading />;
     }
     const fees = context.record.fees;
-
     return (
         <div className="p-[42px] pt-0">
             <span className="text-title-1">{context.record.name}</span>
@@ -121,8 +118,12 @@ export const MerchantShow = (props: MerchantShowProps) => {
                     </div>
                 </>
             ) : (
-                // <DataTable columns={columns} />
-                ""
+                <div className="mt-5 w-full flex flex-col gap-[8px]">
+                    <span className="text-display-3 text-white">
+                        {translate("resources.merchant.fields.directions")}
+                    </span>
+                    <SimpleTable columns={columns} tableType={TableTypes.COLORED} data={merchantDirections} />
+                </div>
             )}
         </div>
     );

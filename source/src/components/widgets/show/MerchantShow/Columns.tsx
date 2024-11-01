@@ -25,6 +25,14 @@ export const useGetMerchantShowColumns = () => {
             }
         },
         {
+            id: "account_id",
+            accessorKey: "account_id",
+            header: translate("resources.direction.fields.accountNumber"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.account_id} wrap copyValue />;
+            }
+        },
+        {
             id: "src_currency",
             accessorKey: "src_currency",
             header: translate("resources.direction.fields.srcCurr"),
@@ -50,11 +58,6 @@ export const useGetMerchantShowColumns = () => {
                 const obj: Provider = row.getValue("provider");
                 return <TextField text={obj.name} wrap />;
             }
-        },
-        {
-            id: "weight",
-            accessorKey: "weight",
-            header: translate("resources.direction.weight")
         },
         {
             id: "active",

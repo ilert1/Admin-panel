@@ -323,6 +323,7 @@ const ru: TranslationMessages = {
                 srcCurr: "Исходная валюта",
                 destCurr: "Конечная валюта",
                 merchant: "Мерчант",
+                accountNumber: "Номер счета",
                 id: "Идентификатор направления",
                 auth_data: "Информация об аутентификации",
                 pleaseGen: "Пожалуйста, создайте ключи в провайдерах",
@@ -874,6 +875,7 @@ const en: TranslationMessages = {
             fields: {
                 name: "Directions name",
                 active: "State",
+                accountNumber: "Account number",
                 srcCurr: "Source currency",
                 destCurr: "Destination currency",
                 merchant: "Merchant",
