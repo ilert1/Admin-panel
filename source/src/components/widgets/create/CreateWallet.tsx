@@ -12,8 +12,9 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateContextProvider, useCreateController, useDataProvider, useTranslate } from "react-admin";
+import { CreateContextProvider, useCreateController, useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { Form, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -29,20 +30,21 @@ enum WalletTypes {
 export const CreateWallet = (props: CreateWalletProps) => {
     const { onOpenChange } = props;
     const translate = useTranslate();
+    const toast = useToast();
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController();
+    const refresh = useRefresh();
 
     const onSubmit: SubmitHandler<Omit<Wallet, "account_id">> = async data => {
         data.address = null;
         try {
             await dataProvider.create("wallet", { data: data });
+            refresh();
             onOpenChange(false);
         } catch (error) {
-            // toast({
-            //     description: translate("resources.currency.errors.alreadyInUse"),
-            //     variant: "destructive",
-            //     title: "Error"
-            // });
+            toast.toast({
+                title: "Error"
+            });
         }
     };
 
