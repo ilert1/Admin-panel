@@ -16,6 +16,7 @@ export const UserCreateForm = (props: {
     onSubmit: SubmitHandler<Omit<Users.User, "created_at" | "deleted_at" | "id">>;
     isDisabled: boolean;
     currencies: Dictionaries.Currency[];
+    buttonDisabled: boolean;
 }) => {
     const translate = useTranslate();
     const [valueCurDialog, setValueCurDialog] = useState("");
@@ -448,7 +449,9 @@ export const UserCreateForm = (props: {
                 </div>
 
                 <div className="self-end flex items-center gap-4">
-                    <Button type="submit">{translate("app.widgets.forms.userCreate.createUser")}</Button>
+                    <Button type="submit" disabled={props.buttonDisabled}>
+                        {translate("app.widgets.forms.userCreate.createUser")}
+                    </Button>
 
                     <DialogClose asChild>
                         <Button

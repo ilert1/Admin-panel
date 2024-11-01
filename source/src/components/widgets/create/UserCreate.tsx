@@ -4,12 +4,14 @@ import { toast } from "sonner";
 import { CreateContextProvider, useCreateController, useTranslate } from "react-admin";
 import { useQuery } from "react-query";
 import { API_URL } from "@/data/base";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 export const UserCreate = () => {
     const translate = useTranslate();
     const navigate = useNavigate();
     const contrProps = useCreateController();
+
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const onSuccess = (data: Users.User) => {
         toast.success(translate("resources.users.create.success"), {
@@ -39,8 +41,15 @@ export const UserCreate = () => {
     );
 
     const createUserRecord = (data: Omit<Users.User, "created_at" | "deleted_at" | "id">) => {
+        if (submitButtonDisabled) return;
+        setSubmitButtonDisabled(true);
+
         if (contrProps.save !== undefined) {
-            contrProps.save(data, { onSuccess, onError });
+            try {
+                contrProps.save(data, { onSuccess, onError });
+            } catch (error) {
+                setSubmitButtonDisabled(false);
+            }
         }
     };
 
@@ -50,6 +59,7 @@ export const UserCreate = () => {
         return (
             <CreateContextProvider value={contrProps}>
                 <UserCreateForm
+                    buttonDisabled={submitButtonDisabled}
                     onSubmit={createUserRecord}
                     currencies={currencies?.data || []}
                     isDisabled={isDisabled !== undefined ? isDisabled : false}

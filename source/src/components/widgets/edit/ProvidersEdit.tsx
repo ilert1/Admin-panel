@@ -33,6 +33,7 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
 
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(false);
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
@@ -63,6 +64,8 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
     }, [form, record]);
 
     const onSubmit: SubmitHandler<Omit<Omit<Provider, "id">, "name">> = async data => {
+        if (submitButtonDisabled) return;
+        setSubmitButtonDisabled(true);
         data.methods = JSON.parse(data.methods);
         try {
             await dataProvider.update("provider", {
@@ -77,6 +80,8 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
                 variant: "destructive",
                 title: "Error"
             });
+
+            setSubmitButtonDisabled(false);
         }
         onClose();
     };
@@ -151,7 +156,11 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
                             )}
                         />
                         <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
-                            <Button disabled={hasErrors && isValid} type="submit" variant="default" className="flex-1">
+                            <Button
+                                disabled={hasErrors && isValid && submitButtonDisabled}
+                                type="submit"
+                                variant="default"
+                                className="flex-1">
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button

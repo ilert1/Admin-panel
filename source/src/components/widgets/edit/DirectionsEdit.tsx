@@ -1,8 +1,8 @@
 import { useEditController, EditContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+import { Input, InputTypes } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Loading } from "@/components/ui/loading";
 import {
     Select,
@@ -35,36 +35,10 @@ export const DirectionEdit = (props: DirectionEditProps) => {
     const { record, isLoading } = useEditController({ resource: "direction", id });
     controllerProps.mutationMode = "pessimistic";
 
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+
     const translate = useTranslate();
     const refresh = useRefresh();
-    useEffect(() => {
-        if (record) {
-            form.reset({
-                name: record?.name || "",
-                active: record?.active || true,
-                description: record?.description || "",
-                src_currency: record?.src_currency.code || "",
-                dst_currency: record?.dst_currency.code || "",
-                merchant: record?.merchant.id || "",
-                provider: record?.provider.name || "",
-                weight: record?.weight || 0
-            });
-        }
-    }, [record]);
-
-    const onSubmit: SubmitHandler<Directions.DirectionCreate> = async data => {
-        try {
-            await dataProvider.update("direction", {
-                id,
-                data,
-                previousData: undefined
-            });
-            props.onOpenChange(false);
-            refresh();
-        } catch (error: any) {
-            // Заглушка
-        }
-    };
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.direction.errors.name")).trim(),
@@ -76,6 +50,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
         provider: z.string().min(1, translate("resources.direction.errors.provider")),
         weight: z.number()
     });
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -89,6 +64,38 @@ export const DirectionEdit = (props: DirectionEditProps) => {
             weight: record?.weight || 0
         }
     });
+
+    useEffect(() => {
+        if (record) {
+            form.reset({
+                name: record?.name || "",
+                active: record?.active || true,
+                description: record?.description || "",
+                src_currency: record?.src_currency.code || "",
+                dst_currency: record?.dst_currency.code || "",
+                merchant: record?.merchant.id || "",
+                provider: record?.provider.name || "",
+                weight: record?.weight || 0
+            });
+        }
+    }, [form, record]);
+
+    const onSubmit: SubmitHandler<Directions.DirectionCreate> = async data => {
+        if (submitButtonDisabled) return;
+        setSubmitButtonDisabled(true);
+        try {
+            await dataProvider.update("direction", {
+                id,
+                data,
+                previousData: undefined
+            });
+            props.onOpenChange(false);
+            refresh();
+        } catch (error: any) {
+            // Заглушка
+            setSubmitButtonDisabled(false);
+        }
+    };
 
     if (isLoading || !record || loadingData)
         return (
@@ -111,7 +118,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                     <FormLabel>{translate("resources.direction.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} variant={SelectType.GRAY} />
+                                            <Input {...field} variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -283,7 +290,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                     <FormLabel>{translate("resources.direction.weight")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} variant={SelectType.GRAY} />
+                                            <Input {...field} variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -298,7 +305,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                     <FormLabel>{translate("resources.direction.description")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} value={field.value ?? ""} variant={SelectType.GRAY} />
+                                            <Input {...field} value={field.value ?? ""} variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -306,7 +313,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                             )}
                         />
                         <div className="w-full md:w-2/6 p-2 ml-auto flex space-x-2 pt-5 gap-[12px]">
-                            <Button type="submit" variant="default" className="flex-1">
+                            <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button

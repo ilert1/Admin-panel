@@ -28,6 +28,7 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
     const redirect = useRedirect();
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(false);
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.merchant.errors.name")).trim(),
@@ -47,6 +48,8 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
     });
 
     const onSubmit: SubmitHandler<Omit<Provider, "id">> = async data => {
+        if (submitButtonDisabled) return;
+        setSubmitButtonDisabled(true);
         if (data.methods.length === 0) {
             data.methods = {};
         } else {
@@ -73,6 +76,7 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
                 variant: "error",
                 title: translate("resources.transactions.download.error")
             });
+            setSubmitButtonDisabled(false);
         }
         onClose();
     };
@@ -149,7 +153,11 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
                             }}
                         />
                         <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
-                            <Button type="submit" variant="default" className="w-1/2" disabled={hasErrors && isValid}>
+                            <Button
+                                type="submit"
+                                variant="default"
+                                className="w-1/2"
+                                disabled={hasErrors && isValid && submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button

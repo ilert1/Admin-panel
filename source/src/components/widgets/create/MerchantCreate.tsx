@@ -21,6 +21,7 @@ import { feesDataProvider, FeesResource } from "@/data";
 import { FeeCard } from "../components/FeeCard";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { CircleChevronRight } from "lucide-react";
+import { debounce } from "lodash";
 
 export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
@@ -37,6 +38,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
 
     const [fees, setFees] = useState<Directions.FeeCreate[]>([]);
     const [addNewFeeClicked, setAddNewFeeClicked] = useState(false);
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     useEffect(() => {
         if (messagesEndRef.current) {
@@ -52,20 +54,27 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
     };
 
     const onSubmit: SubmitHandler<Merchant> = async data => {
+        // Проверяем, заблокирована ли кнопка
+        if (submitButtonDisabled) return;
+
+        setSubmitButtonDisabled(true);
         if (data?.description?.length === 0) {
             data.description = null;
         }
         if (data?.keycloak_id?.length === 0) {
             data.keycloak_id = null;
         }
+
         try {
             const info = await dataProvider.create("merchant", { data });
             feeDataProvider.setId(info.data.id);
 
-            fees.map(async el => {
-                delete el.innerId;
-                await feeDataProvider.addFee(el);
-            });
+            await Promise.all(
+                fees.map(async el => {
+                    await feeDataProvider.addFee(el);
+                })
+            );
+
             refresh();
             onOpenChange(false);
         } catch (error) {
@@ -74,8 +83,8 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                 variant: "destructive",
                 title: "Error"
             });
+            setSubmitButtonDisabled(false);
         }
-        redirect("list", "merchant");
     };
 
     const formSchema = z.object({
@@ -217,7 +226,11 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                 </div>
             </div>
             <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
-                <Button onClick={form.handleSubmit(onSubmit)} variant="default" className="flex-1">
+                <Button
+                    onClick={form.handleSubmit(onSubmit)}
+                    variant="default"
+                    className="flex-1"
+                    disabled={submitButtonDisabled}>
                     {translate("app.ui.actions.save")}
                 </Button>
                 <Button type="button" variant="deleteGray" className="flex-1" onClick={() => onOpenChange(false)}>
