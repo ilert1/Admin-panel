@@ -6,7 +6,11 @@ import { useQuery } from "react-query";
 import { API_URL } from "@/data/base";
 import { useMemo, useState } from "react";
 
-export const UserCreate = () => {
+interface UserCreateProps {
+    onOpenChange: (state: boolean) => void;
+}
+
+export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
     const translate = useTranslate();
     const navigate = useNavigate();
     const contrProps = useCreateController();
@@ -51,6 +55,7 @@ export const UserCreate = () => {
                 setSubmitButtonDisabled(false);
             }
         }
+        onOpenChange(false);
     };
 
     const isDisabled = useMemo(() => currenciesLoading || contrProps.saving, [contrProps.saving, currenciesLoading]);
