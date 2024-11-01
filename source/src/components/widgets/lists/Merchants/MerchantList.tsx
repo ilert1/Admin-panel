@@ -21,6 +21,7 @@ export const MerchantList = () => {
         editDialogOpen,
         deleteDialogOpen,
         showSheetOpen,
+        showType,
         setEditDialogOpen,
         setDeleteDialogOpen,
         setShowSheetOpen
@@ -44,7 +45,12 @@ export const MerchantList = () => {
                     <CreateMerchantDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
                     <DeleteMerchantDialog id={chosenId} open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} />
                     <EditMerchantDialog id={chosenId} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
-                    <ShowMerchantSheet id={chosenId} open={showSheetOpen} onOpenChange={setShowSheetOpen} />
+                    <ShowMerchantSheet
+                        id={chosenId}
+                        open={showSheetOpen}
+                        onOpenChange={setShowSheetOpen}
+                        showType={showType}
+                    />
                 </div>
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />

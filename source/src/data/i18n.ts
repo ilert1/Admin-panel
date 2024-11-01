@@ -263,7 +263,8 @@ const ru: TranslationMessages = {
                 id: "ID",
                 name: "Имя",
                 descr: "Описание",
-                fees: "Комиссии"
+                fees: "Комиссии",
+                directions: "Направления"
             },
             errors: {
                 id: "ID обязательно должен быть заполнен",
@@ -322,6 +323,7 @@ const ru: TranslationMessages = {
                 srcCurr: "Исходная валюта",
                 destCurr: "Конечная валюта",
                 merchant: "Мерчант",
+                accountNumber: "Номер счета",
                 id: "Идентификатор направления",
                 auth_data: "Информация об аутентификации",
                 pleaseGen: "Пожалуйста, создайте ключи в провайдерах",
@@ -816,7 +818,8 @@ const en: TranslationMessages = {
                 id: "ID",
                 name: "Name",
                 descr: "Description",
-                fees: "Fees"
+                fees: "Fees",
+                directions: "Directions"
             },
             errors: {
                 id: "ID is required",
@@ -872,6 +875,7 @@ const en: TranslationMessages = {
             fields: {
                 name: "Directions name",
                 active: "State",
+                accountNumber: "Account number",
                 srcCurr: "Source currency",
                 destCurr: "Destination currency",
                 merchant: "Merchant",
