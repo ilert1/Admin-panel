@@ -144,6 +144,7 @@ export const WalletStore = () => {
 
                                         <FormControl>
                                             <Textarea
+                                                autoFocus
                                                 className={`text-sm text-neutral-100 disabled:dark:bg-muted resize-none min-h-24 ${
                                                     fieldState.invalid
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50 active:border-red-50"
