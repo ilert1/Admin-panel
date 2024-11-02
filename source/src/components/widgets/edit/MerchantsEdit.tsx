@@ -1,4 +1,4 @@
-import { useEditController, EditContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
+import { useEditController, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -52,19 +52,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
             .nullable()
             .refine(value => value === null || !/\s/.test(value), {
                 message: translate("resources.merchant.errors.noSpaces")
-            }),
-        fees: z.record(
-            z.object({
-                type: z.number(),
-                value: z.object({
-                    accuracy: z.number(),
-                    quantity: z.number()
-                }),
-                currency: z.string(),
-                description: z.string().trim().nullable(),
-                direction: z.string()
             })
-        )
     });
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -72,8 +60,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
             id: record?.id || "",
             name: record?.name || "",
             description: record?.description || "",
-            keycloak_id: record?.keycloak_id || "",
-            fees: record?.fees || {}
+            keycloak_id: record?.keycloak_id || ""
         }
     });
 
@@ -83,8 +70,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                 id: record?.id || "",
                 name: record?.name || "",
                 description: record?.description || "",
-                keycloak_id: record?.keycloak_id || "",
-                fees: record?.fees || {}
+                keycloak_id: record?.keycloak_id || ""
             });
         }
     }, [form, record]);
@@ -119,10 +105,14 @@ export const MerchantEdit = (props: MerchantEditProps) => {
         }
     };
 
+    function wtf(a) {
+        console.log(a);
+    }
+
     if (isLoading || !record || !data) return <Loading />;
     const fees = record.fees;
     return (
-        <EditContextProvider value={controllerProps}>
+        <>
             <Form {...form}>
                 <form className="space-y-6">
                     <div className="flex flex-wrap">
@@ -226,7 +216,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
             </div>
             <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
                 <Button
-                    onClick={form.handleSubmit(onSubmit)}
+                    onClick={form.handleSubmit(e => onSubmit(e), wtf)}
                     variant="default"
                     className="flex-1"
                     disabled={submitButtonDisabled}>
@@ -236,6 +226,6 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                     {translate("app.ui.actions.cancel")}
                 </Button>
             </div>
-        </EditContextProvider>
+        </>
     );
 };
