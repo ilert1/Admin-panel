@@ -21,8 +21,7 @@ export class WalletsDataProvider extends BaseDataProvider {
             offset: ((params?.pagination.page - 1) * +params?.pagination.perPage).toString()
         }).toString();
 
-        // const url = `${API_URL}/wallet-processor?${paramsStr}`;
-        const url = `${API_URL}/wallet`;
+        const url = `${API_URL}/${resource}`;
         console.log(url);
         const { json } = await fetchUtils.fetchJson(url, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
@@ -93,7 +92,7 @@ export class WalletsDataProvider extends BaseDataProvider {
     }
 
     async create(resource: string, params: CreateParams): Promise<CreateResult> {
-        console.log("Hello");
+        console.log(params);
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}`, {
             method: "POST",
             body: JSON.stringify(params.data),

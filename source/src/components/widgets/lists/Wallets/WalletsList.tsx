@@ -11,7 +11,6 @@ import { ShowWalletDialog } from "./ShowWalletDialog";
 export const WalletsList = () => {
     const listContext = useListController({ resource: "wallet" });
     const translate = useTranslate();
-    console.log(listContext);
 
     const { columns, chosenId, quickShowOpen, setQuickShowOpen } = useGetWalletsColumns();
 

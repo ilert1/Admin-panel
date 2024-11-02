@@ -50,15 +50,16 @@ export const CreateWallet = (props: CreateWalletProps) => {
 
     const formSchema = z.object({
         type: z.enum([WalletTypes.EXTERNAL, WalletTypes.INTERNAL, WalletTypes.LINKED]),
-        id: z.string().min(1, translate("resources.wallet.manage.errors.id")),
+        // id: z.string().min(1, translate("resources.wallet.manage.errors.id")),
+        id: z.string(),
         address: z.string().nullable(),
         // Одно и тоже поле
-        accountNumber: z.string().min(1),
+        accountNumber: z.string(),
         merchantId: z.string(),
         //
-        blockchain: z.string().min(1),
-        network: z.string().min(1),
-        currency: z.string().min(1),
+        blockchain: z.string(),
+        network: z.string(),
+        currency: z.string(),
         description: z.string().nullable(),
         minimal_ballance_limit: z.coerce.number()
     });

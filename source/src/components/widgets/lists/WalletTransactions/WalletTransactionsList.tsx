@@ -10,12 +10,11 @@ import { ShowWalletTransactionsDialog } from "./ShowWalletTransactionsDialog";
 
 export const WalletTransactionsList = () => {
     const listContext = useListController({ resource: "transaction" });
-    console.log(listContext);
     const translate = useTranslate();
 
     const { columns, chosenId, openShowClicked, setOpenShowClicked } = useGetWalletTransactionsColumns();
     const date = new Date();
-    console.log(date);
+
     const mockData: Cryptotransactions[] = [
         {
             id: "1",

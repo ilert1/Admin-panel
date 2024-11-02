@@ -20,7 +20,6 @@ export const LoginPage = () => {
         if (formEnabled) {
             setFormEnabled(false);
             login({ username, password }).catch(error => {
-                // console.log(reason);
                 if (error.status === 401) {
                     setError(translate("app.login.logPassError"));
                 } else {

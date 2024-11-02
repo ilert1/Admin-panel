@@ -29,7 +29,6 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const { toast } = useToast();
     const translate = useTranslate();
     const refresh = useRefresh();
-    console.log(resource);
     const feeDataProvider = feesDataProvider({ id, resource: resource });
     const data = fetchDictionaries();
 

@@ -65,7 +65,6 @@ export const useGetWalletsColumns = () => {
             accessorKey: "description",
             header: translate("resources.wallet.manage.fields.descr"),
             cell: ({ row }) => {
-                console.log(row.original);
                 return <TextField text={row.original.description || ""} wrap />;
             }
         },
