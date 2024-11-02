@@ -1,37 +1,27 @@
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { LoadingAlertDialog } from "@/components/ui/loading";
 import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { VaultDataProvider } from "@/data";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { KeyRound, LockKeyhole, LockKeyholeOpen, TriangleAlert } from "lucide-react";
 import { ChangeEvent, useState } from "react";
-import { fetchUtils, useTranslate } from "react-admin";
+import { useDataProvider, useTranslate } from "react-admin";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import { z } from "zod";
 
-const API_URL = import.meta.env.VITE_WALLET_URL;
-
 export const WalletStore = () => {
     const translate = useTranslate();
+    const dataProvider = useDataProvider<VaultDataProvider>();
 
-    const { data: storageState, refetch: refetchStorageState } = useQuery<WalletStorage | undefined>(
-        "walletStorage",
-        () =>
-            fetch(`${API_URL}/vault/state`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
-            })
-                .then(response => response.json())
-                .then(data => data.data)
-    );
-
+    const [loadingProcess, setLoadingProcess] = useState(false);
     const [stepForUnsealed, setStepForUnsealed] = useState<0 | 1 | "error">(0);
     const [keyText, setKeyText] = useState("");
 
     const formSchema = z.object({
-        key_part: z.string().trim()
+        key_part: z.string().min(3, translate("app.widgets.forms.userCreate.nameMessage")).trim()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -50,13 +40,17 @@ export const WalletStore = () => {
         field.onChange(e.target.value);
     };
 
+    const {
+        data: storageState,
+        refetch: refetchStorageState,
+        isLoading: storageStateLoading
+    } = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"));
+
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         try {
-            const { json } = await fetchUtils.fetchJson(`${API_URL}/vault/partial`, {
-                method: "POST",
-                body: JSON.stringify(data),
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-            });
+            setLoadingProcess(true);
+
+            const json = await dataProvider.addPartialKey("vault", data);
 
             setKeyText("");
             form.setValue("key_part", "");
@@ -69,24 +63,29 @@ export const WalletStore = () => {
             setStepForUnsealed(0);
         } catch (error) {
             setStepForUnsealed("error");
+        } finally {
+            setLoadingProcess(false);
         }
     };
 
     const cancelUnsealing = async () => {
+        setLoadingProcess(true);
+
         try {
-            await fetchUtils.fetchJson(`${API_URL}/vault/seal`, {
-                method: "POST",
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-            });
+            await dataProvider.cancelUnsealing("vault");
             refetchStorageState();
         } catch (error) {
             setStepForUnsealed("error");
+        } finally {
+            setLoadingProcess(false);
         }
     };
 
     return (
         <section className="flex items-center justify-center">
             <div className="rounded-16 bg-neutral-0 p-[30px] flex flex-col gap-6 min-w-[500px]">
+                {storageStateLoading && <LoadingAlertDialog />}
+
                 {storageState?.state === "sealed" && (
                     <>
                         {stepForUnsealed !== "error" ? (
@@ -130,9 +129,10 @@ export const WalletStore = () => {
 
                                         <FormControl>
                                             <Textarea
+                                                autoFocus
                                                 className={`text-sm text-neutral-100 disabled:dark:bg-muted resize-none min-h-24 ${
                                                     fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50 active:border-red-50"
                                                         : ""
                                                 }`}
                                                 value={keyText}
@@ -163,8 +163,14 @@ export const WalletStore = () => {
                                 )}
                             />
 
-                            <Button type="submit" className="self-end flex items-center gap-1">
-                                <span className="text-sm">{translate("resources.wallet.storage.buttonForSend")}</span>
+                            <Button type="submit" className="self-end flex items-center gap-1 min-w-28">
+                                {loadingProcess ? (
+                                    <LoadingAlertDialog className="!w-5 !h-5" />
+                                ) : (
+                                    <span className="text-sm">
+                                        {translate("resources.wallet.storage.buttonForSend")}
+                                    </span>
+                                )}
                             </Button>
                         </form>
                     </Form>
@@ -185,10 +191,12 @@ export const WalletStore = () => {
                             <p className="text-base leading-[22px]">
                                 {translate("resources.wallet.storage.unsealed.requiredKeys")}: {storageState.split_min}
                             </p>
-                            <p className="text-base leading-[22px]">
-                                {translate("resources.wallet.storage.unsealed.enteredKeys")}:{" "}
-                                {storageState.recieved_shares}
-                            </p>
+                            {storageState?.state === "waiting" && (
+                                <p className="text-base leading-[22px]">
+                                    {translate("resources.wallet.storage.unsealed.enteredKeys")}:{" "}
+                                    {storageState.recieved_shares}
+                                </p>
+                            )}
 
                             {storageState?.state === "waiting" && (
                                 <p className="text-base leading-[22px] text-yellow-40">
@@ -203,10 +211,16 @@ export const WalletStore = () => {
                                 <Button
                                     onClick={cancelUnsealing}
                                     className="flex items-center gap-1 bg-red-40 hover:bg-red-30 active:bg-red-30 focus:bg-red-30 flex-1">
-                                    <LockKeyhole width={16} height={16} />
-                                    <span className="text-sm">
-                                        {translate("resources.wallet.storage.buttonForCancel")}
-                                    </span>
+                                    {loadingProcess ? (
+                                        <LoadingAlertDialog className="!w-5 !h-5" />
+                                    ) : (
+                                        <>
+                                            <LockKeyhole width={16} height={16} />
+                                            <span className="text-sm">
+                                                {translate("resources.wallet.storage.buttonForCancel")}
+                                            </span>
+                                        </>
+                                    )}
                                 </Button>
 
                                 <Button
@@ -223,9 +237,17 @@ export const WalletStore = () => {
                         ) : (
                             <Button
                                 onClick={cancelUnsealing}
-                                className="flex items-center gap-1 bg-red-40 hover:bg-red-30 active:bg-red-30 focus:bg-red-30 flex-1">
-                                <LockKeyhole width={16} height={16} />
-                                <span className="text-sm">{translate("resources.wallet.storage.buttonForClosed")}</span>
+                                className="flex items-center relative gap-1 bg-red-40 hover:bg-red-30 active:bg-red-30 focus:bg-red-30 flex-1">
+                                {loadingProcess ? (
+                                    <LoadingAlertDialog className="!w-5 !h-5" />
+                                ) : (
+                                    <>
+                                        <LockKeyhole width={16} height={16} />
+                                        <span className="text-sm">
+                                            {translate("resources.wallet.storage.buttonForClosed")}
+                                        </span>
+                                    </>
+                                )}
                             </Button>
                         )}
                     </>
