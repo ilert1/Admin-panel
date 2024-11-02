@@ -21,17 +21,14 @@ import { feesDataProvider, FeesResource } from "@/data";
 import { FeeCard } from "../components/FeeCard";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { CircleChevronRight } from "lucide-react";
-import { debounce } from "lodash";
 
 export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
-    const { isLoading } = useCreateController({ resource: "merchant" });
-    const controllerProps = useCreateController();
+    const controllerProps = useCreateController({ resource: "merchant" });
     const data = fetchDictionaries();
     const feeDataProvider = feesDataProvider({ id: "", resource: FeesResource.MERCHANT });
 
     const translate = useTranslate();
-    const redirect = useRedirect();
     const refresh = useRefresh();
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -119,7 +116,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
         }
     });
 
-    if (isLoading) return <Loading />;
+    if (controllerProps.isLoading) return <Loading />;
     return (
         <CreateContextProvider value={controllerProps}>
             <Form {...form}>

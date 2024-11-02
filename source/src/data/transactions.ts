@@ -31,19 +31,9 @@ export class TransactionDataProvider extends BaseDataProvider {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
             user: { authenticated: true, token: localStorage.getItem("access-token") as string }
         });
-        const destId = json?.data?.destination?.id;
-        const sourceId = json?.data?.source?.id;
-        const dest = await fetchUtils.fetchJson(`${API_URL}/accounts/${destId}`, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
-        const source = await fetchUtils.fetchJson(`${API_URL}/accounts/${sourceId}`, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
         return {
             data: {
-                ...json.data,
-                destination: { ...json.data.destination, meta: dest.json?.data?.meta || {} },
-                source: { ...json.data.source, meta: source.json?.data?.meta || {} }
+                ...json.data
             }
         };
     }
