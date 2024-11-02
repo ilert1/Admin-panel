@@ -83,7 +83,7 @@ export const FeeCard = (props: FeeCardProps) => {
                             <Label className="text-title-1 text-neutral-40" htmlFor="">
                                 {translate("resources.direction.fees.descr")}
                             </Label>
-                            <TextField text={String(description)} />
+                            <TextField text={description} />
                         </div>
                     </div>
                     <div className="flex justify-end mt-6">

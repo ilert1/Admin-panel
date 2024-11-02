@@ -204,6 +204,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                                       feeType={data.feeTypes[fee.type]?.type_descr || ""}
                                       id={id}
                                       resource={FeesResource.MERCHANT}
+                                      description={fee.description}
                                   />
                               );
                           })

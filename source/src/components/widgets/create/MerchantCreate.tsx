@@ -204,6 +204,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                     resource={FeesResource.MERCHANT}
                                     innerId={el.innerId}
                                     deleteFunction={handleDeleteFee}
+                                    description={el.description}
                                 />
                             );
                         })}

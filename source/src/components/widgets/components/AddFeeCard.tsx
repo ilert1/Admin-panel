@@ -55,7 +55,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                 onOpenChange(false);
             } catch (error) {
                 toast({
-                    description: translate("resources.provider.errors.alreadyInUse"),
+                    description: translate("Error when creating fee"),
                     variant: "destructive",
                     title: "Error"
                 });
@@ -209,7 +209,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                                                   key={currency.code}
                                                                                   disabled={
                                                                                       !(
-                                                                                          currency.code === "TRY" ||
+                                                                                          currency.code === "RUB" ||
                                                                                           currency.code === "USDT"
                                                                                       )
                                                                                   }
