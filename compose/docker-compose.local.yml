@@ -2,8 +2,3 @@ services:
   juggler-frontend:
     ports:
       - 127.0.0.1:8080:80
-
-networks:
-  default:
-    external: true
-    name: blowfish-network

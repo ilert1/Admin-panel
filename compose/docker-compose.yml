@@ -21,3 +21,8 @@ services:
     labels:
     - metrics_tenant=blowfish
     - compose_project_name=${COMPOSE_PROJECT_NAME}
+
+networks:
+  default:
+    external: true
+    name: blowfish-network

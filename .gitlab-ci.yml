@@ -66,7 +66,7 @@ deploy-develop:
   needs:
     - build-develop
 
-deploy-master:
+deploy-master-blowfish:
   extends: .pre-deploy
   variables:
     ENVIRONMENT:       master
@@ -80,7 +80,21 @@ deploy-master:
   needs:
     - build-master
 
-deploy-production:
+deploy-master-noname:
+  extends: .pre-deploy
+  variables:
+    ENVIRONMENT:       master
+    IMAGE_TAG:         master
+    APP_CONFIG:        ${NN_MASTER_APP_CONFIG}
+    SSH_HOST:          ${NN_MASTER_SSH_HOST}
+    SSH_PRIVATE_KEY:   ${NN_MASTER_SSH_PRIVATE_KEY}
+  only:
+    refs:
+      - master
+  needs:
+    - build-master
+
+deploy-production-blowfish:
   extends: .pre-deploy
   variables:
     ENVIRONMENT:       production
@@ -88,6 +102,22 @@ deploy-production:
     APP_CONFIG:        ${BF_PRODUCTION_APP_CONFIG}
     SSH_HOST:          ${BF_PRODUCTION_SSH_HOST}
     SSH_PRIVATE_KEY:   ${BF_PRODUCTION_SSH_PRIVATE_KEY}
+  only:
+    - tags
+  except:
+    - branches
+  needs:
+    - build-production
+  when: manual
+
+deploy-production-noname:
+  extends: .pre-deploy
+  variables:
+    ENVIRONMENT:       production
+    IMAGE_TAG:         ${CI_COMMIT_TAG}
+    APP_CONFIG:        ${NN_PRODUCTION_APP_CONFIG}
+    SSH_HOST:          ${NN_PRODUCTION_SSH_HOST}
+    SSH_PRIVATE_KEY:   ${NN_PRODUCTION_SSH_PRIVATE_KEY}
   only:
     - tags
   except:
