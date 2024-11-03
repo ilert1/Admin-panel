@@ -5,12 +5,13 @@ import { MerchantShow } from "../../show";
 
 interface ShowMerchantSheetProps {
     id: string;
+    showType: "fees" | "directions";
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
 export const ShowMerchantSheet = (props: ShowMerchantSheetProps) => {
     const translate = useTranslate();
-    const { id, open, onOpenChange } = props;
+    const { id, showType, open, onOpenChange } = props;
 
     return (
         <>
@@ -36,7 +37,7 @@ export const ShowMerchantSheet = (props: ShowMerchantSheetProps) => {
                     </div>
 
                     <div className="flex-1 overflow-auto" tabIndex={-1}>
-                        <MerchantShow id={id} type="compact" />
+                        <MerchantShow id={id} type={showType} />
                     </div>
                     <SheetDescription></SheetDescription>
                 </SheetContent>

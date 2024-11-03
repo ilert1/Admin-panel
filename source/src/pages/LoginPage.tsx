@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLogin, useTranslate } from "react-admin";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/providers";
 import { Input } from "@/components/ui/input";
 
+const realm = import.meta.env.VITE_KEYCLOAK_REALM;
+const kk = import.meta.env.VITE_KEYCLOAK_URL;
+const clientId = import.meta.env.VITE_KEYCLOAK_CLIENT_ID;
+
 export const LoginPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [totpCode, setTotpCode] = useState("");
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
@@ -14,13 +20,25 @@ export const LoginPage = () => {
     const { theme } = useTheme();
     const translate = useTranslate();
     const login = useLogin();
+    const navigate = useNavigate();
+
+    const configure2faLink = `${kk}/realms/${realm}/protocol/openid-connect/auth?client_id=${clientId}&redirect_uri=${window.location.href}&response_type=code&scope=openid&kc_action=CONFIGURE_TOTP`;
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
         if (formEnabled) {
             setFormEnabled(false);
-            login({ username, password }).catch(error => {
-                // console.log(reason);
+
+            let userData = {
+                username,
+                password,
+                totpCode
+            };
+
+            console.log(userData);
+
+            login(userData).catch(error => {
                 if (error.status === 401) {
                     setError(translate("app.login.logPassError"));
                 } else {
@@ -30,6 +48,32 @@ export const LoginPage = () => {
             });
         }
     };
+
+    const getTokenByCode = (totpRequestCode: string) => {
+        if (formEnabled) {
+            setFormEnabled(false);
+
+            login({ totpRequestCode }).catch(error => {
+                if (error.status === 401) {
+                    setError(translate("app.login.logPassError"));
+                } else {
+                    setError(translate("app.login.networkError"));
+                }
+                setFormEnabled(true);
+                navigate("/", { replace: true });
+            });
+        }
+    };
+
+    const [params] = useSearchParams();
+    const totpRequestCode = params.get("code");
+
+    useEffect(() => {
+        if (totpRequestCode) {
+            setFormEnabled(false);
+            getTokenByCode(totpRequestCode);
+        }
+    }, []);
 
     const handleChange =
         (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,6 +121,23 @@ export const LoginPage = () => {
                                 onChange={handleChange(setPassword)}
                                 className=" block w-full border-gray-300 rounded-md shadow-sm pr-10 text-title-1"
                             />
+                        </div>
+                    </div>
+                    <div className="mb-5">
+                        <label htmlFor="username" className="block text-note-1 text-neutral-30 mb-1">
+                            {translate("app.login.totp")}
+                        </label>
+                        <Input
+                            id="totp"
+                            type="text"
+                            value={totpCode}
+                            onChange={handleChange(setTotpCode)}
+                            className=" block w-full border-gray-300 rounded-md shadow-sm text-title-1"
+                        />
+                        <div className="flex justify-center mt-4">
+                            <a className="text-xs text-green-50 dark:text-green-40" href={configure2faLink}>
+                                {translate("app.login.configure2fa")}
+                            </a>
                         </div>
                     </div>
                     <Button type="submit" color="primary" variant="default" className="w-full">

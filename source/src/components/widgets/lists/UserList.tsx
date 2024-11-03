@@ -113,7 +113,7 @@ const UserFilterSidebar = () => {
                             <DialogTitle>{translate("app.widgets.forms.userCreate.title")}</DialogTitle>
                         </DialogHeader>
 
-                        <UserCreate />
+                        <UserCreate onOpenChange={setShowAddUserDialog} />
                     </DialogContent>
                 </Dialog>
             </div>

@@ -10,6 +10,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { DialogClose } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
+import { useState } from "react";
 
 enum PositionEnum {
     BEFORE = "before",
@@ -28,7 +29,11 @@ export const CurrencyEdit = ({
     const translate = useTranslate();
     const { toast } = useToast();
 
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+
     const onSubmit: SubmitHandler<Omit<Currencies.Currency, "id">> = async data => {
+        if (submitButtonDisabled) return;
+        setSubmitButtonDisabled(true);
         try {
             await dataProvider.update("currency", {
                 id: record?.id,
@@ -42,6 +47,7 @@ export const CurrencyEdit = ({
                 variant: "destructive",
                 title: "Error"
             });
+            setSubmitButtonDisabled(false);
         }
     };
 
@@ -195,7 +201,7 @@ export const CurrencyEdit = ({
                 </div>
 
                 <div className="self-end flex items-center gap-4">
-                    <Button type="submit" variant="default" className="flex-1">
+                    <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
                         {translate("app.ui.actions.save")}
                     </Button>
 

@@ -330,7 +330,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 </Tooltip>
                             </TooltipProvider>
                         ))}
-                        {/* {merchantOnly && (
+                        {merchantOnly && (
                             <TooltipProvider delayDuration={100}>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
@@ -367,7 +367,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                     </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>
-                        )} */}
+                        )}
                         {/* {merchantOnly && (
                             <NavLink
                                 to="/crypto-transfer"

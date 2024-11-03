@@ -8,20 +8,58 @@ interface KeycloakJwtPayload extends JwtPayload {
     };
 }
 
-const keycloakUrl = import.meta.env.VITE_KEYCLOAK_LOGIN_URL;
+const keycloakLoginUrl = import.meta.env.VITE_KEYCLOAK_LOGIN_URL;
+// const keycloakUrl = import.meta.env.VITE_KEYCLOAK_URL;
 const clientId = import.meta.env.VITE_KEYCLOAK_CLIENT_ID;
 
 export const authProvider: AuthProvider = {
-    login: async ({ username, password }) => {
+    login: async ({ username, password, totpCode, totpRequestCode }) => {
+        if (totpRequestCode) {
+            try {
+                const bodyObject = {
+                    client_id: clientId,
+                    grant_type: "authorization_code",
+                    code: totpRequestCode,
+                    redirect_uri: `${window.location.origin}${window.location.pathname}`
+                };
+
+                const body = new URLSearchParams(bodyObject);
+
+                const response = await fetchUtils.fetchJson(keycloakLoginUrl, {
+                    method: "POST",
+                    body: body.toString(),
+                    headers: new Headers({
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    })
+                });
+                const { access_token, refresh_token } = response.json;
+                localStorage.setItem("access-token", access_token);
+                localStorage.setItem("refresh-token", refresh_token);
+
+                const decodedToken: any = jwtDecode(access_token);
+                localStorage.setItem("user", JSON.stringify(decodedToken));
+                return Promise.resolve();
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        }
+
         try {
-            const body = new URLSearchParams({
+            const bodyObject = {
                 client_id: clientId,
                 grant_type: "password",
-                username: username,
-                password: password
-            });
+                username,
+                password,
+                totp: totpCode
+            };
 
-            const response = await fetchUtils.fetchJson(keycloakUrl, {
+            console.log(bodyObject);
+
+            const { totp, ...shortBody } = bodyObject;
+
+            const body = new URLSearchParams(totpCode ? bodyObject : shortBody);
+
+            const response = await fetchUtils.fetchJson(keycloakLoginUrl, {
                 method: "POST",
                 body: body.toString(),
                 headers: new Headers({

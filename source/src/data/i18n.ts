@@ -263,7 +263,8 @@ const ru: TranslationMessages = {
                 id: "ID",
                 name: "Имя",
                 descr: "Описание",
-                fees: "Комиссии"
+                fees: "Комиссии",
+                directions: "Направления"
             },
             errors: {
                 id: "ID обязательно должен быть заполнен",
@@ -322,6 +323,7 @@ const ru: TranslationMessages = {
                 srcCurr: "Исходная валюта",
                 destCurr: "Конечная валюта",
                 merchant: "Мерчант",
+                accountNumber: "Номер счета",
                 id: "Идентификатор направления",
                 auth_data: "Информация об аутентификации",
                 pleaseGen: "Пожалуйста, создайте ключи в провайдерах",
@@ -522,8 +524,10 @@ const ru: TranslationMessages = {
             usernameOrEmail: "Логин или e-mail",
             password: "Пароль",
             login: "Войти",
-            logPassError: "Неправильный логин или пароль",
-            networkError: "Ошибка сети"
+            logPassError: "Неправильные данные входа",
+            networkError: "Ошибка сети",
+            totp: "Код двухфакторной аутентификации",
+            configure2fa: "Настроить двухфакторную аутентификацию"
         }
     },
     pages: {
@@ -814,7 +818,8 @@ const en: TranslationMessages = {
                 id: "ID",
                 name: "Name",
                 descr: "Description",
-                fees: "Fees"
+                fees: "Fees",
+                directions: "Directions"
             },
             errors: {
                 id: "ID is required",
@@ -870,6 +875,7 @@ const en: TranslationMessages = {
             fields: {
                 name: "Directions name",
                 active: "State",
+                accountNumber: "Account number",
                 srcCurr: "Source currency",
                 destCurr: "Destination currency",
                 merchant: "Merchant",
@@ -1074,8 +1080,10 @@ const en: TranslationMessages = {
             usernameOrEmail: "Username or e-mail",
             password: "Password",
             login: "Login",
-            logPassError: "Invalid username or password",
-            networkError: "Network Error"
+            logPassError: "Invalid user data",
+            networkError: "Network Error",
+            totp: "Two-factor authentication code",
+            configure2fa: "Configure Two-factor auth"
         }
     },
     pages: {

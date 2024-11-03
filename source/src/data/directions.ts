@@ -16,23 +16,34 @@ const API_URL = import.meta.env.VITE_ENIGMA_URL;
 
 export class DirectionsDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
-        const paramsStr = new URLSearchParams({
+        const data: { [key: string]: string } = {
             limit: params?.pagination.perPage.toString(),
             offset: ((params?.pagination.page - 1) * +params?.pagination.perPage).toString()
-        }).toString();
+        };
 
+        const filter: { [key: string]: string } = {};
+
+        Object.keys(params?.filter).forEach(filterItem => {
+            if (filterItem === "merchant") {
+                filter[filterItem] = params?.filter[filterItem];
+            } else {
+                data[filterItem] = params?.filter[filterItem];
+            }
+        });
+
+        data["filter"] = JSON.stringify(filter);
+        const paramsStr = new URLSearchParams(data).toString();
         const url = `${API_URL}/${resource}?${paramsStr}`;
         const { json } = await fetchUtils.fetchJson(url, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
-
         if (!json.success) {
             throw new Error(json.error);
         }
 
         return {
             data:
-                json.data.map((elem: { name: any }) => {
+                json.data.map((elem: { name: string }) => {
                     return {
                         id: elem.name,
                         ...elem

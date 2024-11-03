@@ -1,22 +1,9 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
-import { EyeIcon } from "lucide-react";
-import { useState } from "react";
 import { useTranslate } from "react-admin";
 
-export const useGetDirectionsColumns = () => {
+export const useGetMerchantShowColumns = () => {
     const translate = useTranslate();
-
-    const [chosenId, setChosenId] = useState("");
-
-    const [quickShowOpen, setQuickShowOpen] = useState(false);
-
-    const openSheet = (id: string) => {
-        setChosenId(id);
-        setQuickShowOpen(true);
-    };
 
     const columns: ColumnDef<Directions.Direction>[] = [
         {
@@ -64,15 +51,6 @@ export const useGetDirectionsColumns = () => {
             }
         },
         {
-            id: "merchant",
-            accessorKey: "merchant",
-            header: translate("resources.direction.fields.merchant"),
-            cell: ({ row }) => {
-                const obj: Merchant = row.getValue("merchant");
-                return <TextField text={obj.name} wrap />;
-            }
-        },
-        {
             id: "provider",
             accessorKey: "provider",
             header: translate("resources.direction.provider"),
@@ -80,11 +58,6 @@ export const useGetDirectionsColumns = () => {
                 const obj: Provider = row.getValue("provider");
                 return <TextField text={obj.name} wrap />;
             }
-        },
-        {
-            id: "weight",
-            accessorKey: "weight",
-            header: translate("resources.direction.weight")
         },
         {
             id: "active",
@@ -107,23 +80,7 @@ export const useGetDirectionsColumns = () => {
                     </div>
                 );
             }
-        },
-        {
-            id: "actions",
-            cell: ({ row }) => {
-                return (
-                    <Button
-                        onClick={() => {
-                            setChosenId(row.original.id);
-                            openSheet(row.original.id);
-                        }}
-                        variant="secondary"
-                        className="h-7 w-7 p-0 bg-transparent flex items-center">
-                        <EyeIcon className="text-green-50 size-7" />
-                    </Button>
-                );
-            }
         }
     ];
-    return { columns, chosenId, quickShowOpen, setQuickShowOpen };
+    return { columns };
 };

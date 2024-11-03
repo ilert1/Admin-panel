@@ -170,7 +170,6 @@ const TransactionFilterSidebar = ({
                             !account &&
                             !customerPaymentId &&
                             !startDate &&
-                            !account &&
                             !typeTabActive &&
                             !orderStatusFilter
                         }>

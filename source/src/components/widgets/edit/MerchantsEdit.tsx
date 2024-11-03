@@ -1,4 +1,4 @@
-import { useEditController, EditContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
+import { useEditController, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -39,6 +39,8 @@ export const MerchantEdit = (props: MerchantEditProps) => {
     const { toast } = useToast();
     const refresh = useRefresh();
 
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+
     const [addNewFeeClicked, setAddNewFeeClicked] = useState(false);
 
     const formSchema = z.object({
@@ -50,19 +52,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
             .nullable()
             .refine(value => value === null || !/\s/.test(value), {
                 message: translate("resources.merchant.errors.noSpaces")
-            }),
-        fees: z.record(
-            z.object({
-                type: z.number(),
-                value: z.object({
-                    accuracy: z.number(),
-                    quantity: z.number()
-                }),
-                currency: z.string(),
-                description: z.string().trim().nullable(),
-                direction: z.string()
             })
-        )
     });
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -70,8 +60,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
             id: record?.id || "",
             name: record?.name || "",
             description: record?.description || "",
-            keycloak_id: record?.keycloak_id || "",
-            fees: record?.fees || {}
+            keycloak_id: record?.keycloak_id || ""
         }
     });
 
@@ -81,8 +70,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                 id: record?.id || "",
                 name: record?.name || "",
                 description: record?.description || "",
-                keycloak_id: record?.keycloak_id || "",
-                fees: record?.fees || {}
+                keycloak_id: record?.keycloak_id || ""
             });
         }
     }, [form, record]);
@@ -96,6 +84,8 @@ export const MerchantEdit = (props: MerchantEditProps) => {
     }, [addNewFeeClicked]);
 
     const onSubmit: SubmitHandler<Merchant> = async data => {
+        if (submitButtonDisabled) return;
+        setSubmitButtonDisabled(true);
         data.fees = record.fees;
         try {
             await dataProvider.update("merchant", {
@@ -111,13 +101,14 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                 variant: "destructive",
                 title: "Error"
             });
+            setSubmitButtonDisabled(false);
         }
     };
 
     if (isLoading || !record || !data) return <Loading />;
     const fees = record.fees;
     return (
-        <EditContextProvider value={controllerProps}>
+        <>
             <Form {...form}>
                 <form className="space-y-6">
                     <div className="flex flex-wrap">
@@ -220,13 +211,17 @@ export const MerchantEdit = (props: MerchantEditProps) => {
                 </div>
             </div>
             <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
-                <Button onClick={form.handleSubmit(onSubmit)} variant="default" className="flex-1">
+                <Button
+                    onClick={form.handleSubmit(onSubmit)}
+                    variant="default"
+                    className="flex-1"
+                    disabled={submitButtonDisabled}>
                     {translate("app.ui.actions.save")}
                 </Button>
                 <Button type="button" variant="deleteGray" className="flex-1" onClick={() => onOpenChange(false)}>
                     {translate("app.ui.actions.cancel")}
                 </Button>
             </div>
-        </EditContextProvider>
+        </>
     );
 };
