@@ -105,10 +105,6 @@ export const MerchantEdit = (props: MerchantEditProps) => {
         }
     };
 
-    function wtf(a) {
-        console.log(a);
-    }
-
     if (isLoading || !record || !data) return <Loading />;
     const fees = record.fees;
     return (
@@ -216,7 +212,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
             </div>
             <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
                 <Button
-                    onClick={form.handleSubmit(e => onSubmit(e), wtf)}
+                    onClick={form.handleSubmit(onSubmit)}
                     variant="default"
                     className="flex-1"
                     disabled={submitButtonDisabled}>
