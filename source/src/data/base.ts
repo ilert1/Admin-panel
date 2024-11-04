@@ -88,23 +88,10 @@ export class BaseDataProvider {
         throw new Error("Method not implemented");
     }
     async getManyReference(resource: string, params: GetManyReferenceParams): Promise<GetManyReferenceResult> {
-        console.log(params);
-
-        const sortField = params.sort?.field;
-        const sortOrder = params.sort?.order;
-
-        const url = new URL(`${API_URL}/${resource}/${params.id}/history`);
-        if (sortField && sortOrder) {
-            url.searchParams.append("sort", sortField);
-            url.searchParams.append("order", sortOrder);
-        }
-
-        const { json } = await fetchUtils.fetchJson(url.toString(), {
+        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}/history`, {
             method: "GET",
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
-
-        console.log(json);
         return { data: json?.data || [], total: json?.data?.length || 0 };
     }
 

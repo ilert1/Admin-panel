@@ -79,11 +79,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
 
     const { data: history } = useGetManyReference("transactions", {
         target: "id",
-        id: trnId,
-        sort: {
-            field: "created_at",
-            order: "ASC"
-        }
+        id: trnId
     });
 
     function computeValue(quantity: number, accuracy: number) {
@@ -95,7 +91,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     const feesColumns: ColumnDef<Transaction.Fee>[] = [
         {
             id: "recipient",
-            accessorKey: "id",
+            accessorKey: "recipient",
             header: translate("resources.transactions.fields.recipient")
         },
         {
