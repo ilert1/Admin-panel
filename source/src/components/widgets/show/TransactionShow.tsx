@@ -79,7 +79,11 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
 
     const { data: history } = useGetManyReference("transactions", {
         target: "id",
-        id: trnId
+        id: trnId,
+        sort: {
+            field: "created_at",
+            order: "ASC"
+        }
     });
 
     function computeValue(quantity: number, accuracy: number) {
@@ -191,14 +195,8 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             accessorKey: "source",
             header: translate("resources.transactions.fields.source.amount.getAmount"),
             cell: ({ row }) => {
-                // console.log(row.original);
-                return (
-                    <span>
-                        {row.original.source.amount.value.quantity / row.original.source.amount.value.accuracy +
-                            " " +
-                            row.original.source.amount.currency}
-                    </span>
-                );
+                const val = row.original.source.amount.value.quantity / row.original.source.amount.value.accuracy;
+                return <span>{val ? val + " " + row.original.source.amount.currency : "-"}</span>;
             }
         },
         {
@@ -207,15 +205,9 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             header: translate("resources.transactions.fields.destination.amount.sendAmount"),
 
             cell: ({ row }) => {
-                console.log(row.original);
-                return (
-                    <span>
-                        {row.original.destination.amount.value.quantity /
-                            row.original.destination.amount.value.accuracy +
-                            " " +
-                            row.original.destination.amount.currency}
-                    </span>
-                );
+                const val =
+                    row.original.destination.amount.value.quantity / row.original.destination.amount.value.accuracy;
+                return <span>{val ? val + " " + row.original.destination.amount.currency : "-"}</span>;
             }
         }
     ];
