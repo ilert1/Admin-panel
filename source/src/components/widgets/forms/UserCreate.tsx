@@ -156,7 +156,7 @@ export const UserCreateForm = (props: {
                                                 : ""
                                         }`}
                                         disabled={props.isDisabled}
-                                        autoComplete="new-password"
+                                        autoComplete="off"
                                         {...field}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
@@ -191,7 +191,7 @@ export const UserCreateForm = (props: {
                                                 : ""
                                         }`}
                                         disabled={props.isDisabled}
-                                        autoComplete="new-password"
+                                        autoComplete="off"
                                         spellCheck="false"
                                         {...field}>
                                         {fieldState.invalid && (
@@ -230,10 +230,6 @@ export const UserCreateForm = (props: {
                                         disabled={props.isDisabled}
                                         autoComplete="new-password"
                                         spellCheck="false"
-                                        data-1p-ignore
-                                        data-bwignore
-                                        data-lpignore="true"
-                                        data-form-type="other"
                                         {...field}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
