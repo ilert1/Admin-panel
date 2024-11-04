@@ -192,7 +192,11 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             header: translate("resources.transactions.fields.source.amount.getAmount"),
             cell: ({ row }) => {
                 const val = row.original.source.amount.value.quantity / row.original.source.amount.value.accuracy;
-                return <span>{val ? val + " " + row.original.source.amount.currency : "-"}</span>;
+                return (
+                    <div className="text-center">
+                        <span>{val ? val + " " + row.original.source.amount.currency : "-"}</span>
+                    </div>
+                );
             }
         },
         {
@@ -203,7 +207,11 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             cell: ({ row }) => {
                 const val =
                     row.original.destination.amount.value.quantity / row.original.destination.amount.value.accuracy;
-                return <span>{val ? val + " " + row.original.destination.amount.currency : "-"}</span>;
+                return (
+                    <div className="text-center">
+                        <span>{val ? val + " " + row.original.destination.amount.currency : "-"}</span>
+                    </div>
+                );
             }
         }
     ];
