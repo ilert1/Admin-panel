@@ -156,6 +156,7 @@ export const UserCreateForm = (props: {
                                                 : ""
                                         }`}
                                         disabled={props.isDisabled}
+                                        autoComplete="new-password"
                                         {...field}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
@@ -190,6 +191,8 @@ export const UserCreateForm = (props: {
                                                 : ""
                                         }`}
                                         disabled={props.isDisabled}
+                                        autoComplete="new-password"
+                                        spellCheck="false"
                                         {...field}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
@@ -226,6 +229,11 @@ export const UserCreateForm = (props: {
                                         }`}
                                         disabled={props.isDisabled}
                                         autoComplete="new-password"
+                                        spellCheck="false"
+                                        data-1p-ignore
+                                        data-bwignore
+                                        data-lpignore="true"
+                                        data-form-type="other"
                                         {...field}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
@@ -450,7 +458,7 @@ export const UserCreateForm = (props: {
 
                 <div className="self-end flex items-center gap-4">
                     <Button type="submit" disabled={props.buttonDisabled}>
-                        {translate("app.widgets.forms.userCreate.createUser")}
+                        {translate("app.ui.actions.save")}
                     </Button>
 
                     <DialogClose asChild>
