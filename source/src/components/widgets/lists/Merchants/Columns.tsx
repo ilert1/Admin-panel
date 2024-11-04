@@ -51,7 +51,10 @@ export const useGetMerchantColumns = () => {
         {
             id: "keycloak_id",
             accessorKey: "keycloak_id",
-            header: "Keycloak ID"
+            header: "Keycloak ID",
+            cell: ({ row }) => {
+                return <TextField text={row.original.keycloak_id ?? ""} copyValue />;
+            }
         },
         {
             id: "show_directions_field",
