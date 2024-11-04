@@ -56,11 +56,9 @@ export const useGetProvidersColumns = () => {
                         </Button>
                     );
                 } else {
-                    let text = String(row.getValue("public_key"));
-                    if (text.length > 30) {
-                        text = text.substring(0, 30) + "...";
-                    }
-                    return <TextField text={text} copyValue />;
+                    const text = String(row.getValue("public_key"));
+
+                    return <TextField text={text} copyValue cropText />;
                 }
             }
         },
