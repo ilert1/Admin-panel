@@ -156,6 +156,7 @@ export const UserCreateForm = (props: {
                                                 : ""
                                         }`}
                                         disabled={props.isDisabled}
+                                        autoComplete="off"
                                         {...field}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
@@ -190,6 +191,8 @@ export const UserCreateForm = (props: {
                                                 : ""
                                         }`}
                                         disabled={props.isDisabled}
+                                        autoComplete="off"
+                                        spellCheck="false"
                                         {...field}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
@@ -226,6 +229,7 @@ export const UserCreateForm = (props: {
                                         }`}
                                         disabled={props.isDisabled}
                                         autoComplete="new-password"
+                                        spellCheck="false"
                                         {...field}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
@@ -450,7 +454,7 @@ export const UserCreateForm = (props: {
 
                 <div className="self-end flex items-center gap-4">
                     <Button type="submit" disabled={props.buttonDisabled}>
-                        {translate("app.widgets.forms.userCreate.createUser")}
+                        {translate("app.ui.actions.save")}
                     </Button>
 
                     <DialogClose asChild>
