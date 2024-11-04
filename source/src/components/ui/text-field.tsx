@@ -57,7 +57,9 @@ export const TextField = ({
                             />
                         </span>
                     )}
-                    <span className={textStyle()}>{cropText ? currentText.slice(0, 30) + "..." : currentText}</span>
+                    <span className={textStyle()}>
+                        {cropText && currentText.length > 30 ? currentText.slice(0, 30) + "..." : currentText}
+                    </span>
                 </p>
             )}
             {type === "link" && (
