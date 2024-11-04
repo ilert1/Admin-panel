@@ -20,13 +20,15 @@ const feesDataProvider = (props: FeesDataProviderProps) => {
 
     const addFee = async (body: Directions.FeeCreate) => {
         body.recipient = resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee";
+
         const json = await fetchUtils.fetchJson(`${API_URL}/${resource}/${id}/fee`, {
             method: "PUT",
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
             body: JSON.stringify(body)
         });
+
         if (!json.json.success) {
-            throw new Error("Wrong id");
+            if (String(json.json.error).includes("Currency")) throw new Error("Wrong id");
         }
         return json.json.data;
     };

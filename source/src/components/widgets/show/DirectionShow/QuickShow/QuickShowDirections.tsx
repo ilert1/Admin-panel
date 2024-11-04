@@ -22,7 +22,6 @@ export const QuickShowDirections = (props: QuickShowProps) => {
     const data = fetchDictionaries();
     const translate = useTranslate();
 
-    const [createNew, setCreateNew] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [changeAuthDataClicked, setChangeAuthDataClicked] = useState(false);
@@ -31,13 +30,6 @@ export const QuickShowDirections = (props: QuickShowProps) => {
     const [fees, setFees] = useState<Directions.Fees>();
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
-
-    const handleCreateClicked = () => {
-        if (createNew) {
-            // TODO блокировать создание нового пока старый открыт
-        }
-        setCreateNew(true);
-    };
 
     const handleDeleteClicked = useCallback(() => {
         setDeleteDialogOpen(prev => !prev);
@@ -66,6 +58,10 @@ export const QuickShowDirections = (props: QuickShowProps) => {
     }, [addNewFeeClicked]);
 
     if (!context.record || !data) return <LoadingAlertDialog />;
+    const feesVariants = [context.record.src_currency.code];
+    !(context.record.dst_currency.code === context.record.src_currency.code) &&
+        feesVariants.push(context.record.dst_currency.code);
+
     return (
         <div className="px-[42px] ">
             <div className="flex justify-between">
@@ -142,7 +138,12 @@ export const QuickShowDirections = (props: QuickShowProps) => {
                               })
                             : ""}
                         {addNewFeeClicked && (
-                            <AddFeeCard id={id} onOpenChange={setAddNewFeeClicked} resource={FeesResource.DIRECTION} />
+                            <AddFeeCard
+                                id={id}
+                                onOpenChange={setAddNewFeeClicked}
+                                resource={FeesResource.DIRECTION}
+                                variants={feesVariants}
+                            />
                         )}
                         <div ref={messagesEndRef} />
                     </div>
