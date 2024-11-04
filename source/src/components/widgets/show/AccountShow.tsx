@@ -129,10 +129,11 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
             accessorKey: "source.amount.value.quantity",
             header: translate("resources.transactions.fields.source.amount.getAmount"),
             cell: ({ row }) => {
+                const val = row.original.source.amount.value.quantity / row.original.source.amount.value.accuracy;
                 return (
-                    row.original.source.amount.value.quantity / row.original.source.amount.value.accuracy +
-                    " " +
-                    row.original.rate_info.s_currency
+                    <div className="text-center">
+                        <span>{val ? val + " " + row.original.source.amount.currency : "-"}</span>
+                    </div>
                 );
             }
         },
@@ -141,10 +142,12 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
             accessorKey: "destination.amount.value.quantity",
             header: translate("resources.transactions.fields.destination.amount.sendAmount"),
             cell: ({ row }) => {
+                const val =
+                    row.original.destination.amount.value.quantity / row.original.destination.amount.value.accuracy;
                 return (
-                    row.original.destination.amount.value.quantity / row.original.destination.amount.value.accuracy +
-                    " " +
-                    row.original.rate_info.d_currency
+                    <div className="text-center">
+                        <span>{val ? val + " " + row.original.destination.amount.currency : "-"}</span>
+                    </div>
                 );
             }
         },

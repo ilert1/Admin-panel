@@ -91,7 +91,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     const feesColumns: ColumnDef<Transaction.Fee>[] = [
         {
             id: "recipient",
-            accessorKey: "id",
+            accessorKey: "recipient",
             header: translate("resources.transactions.fields.recipient")
         },
         {
@@ -191,13 +191,11 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             accessorKey: "source",
             header: translate("resources.transactions.fields.source.amount.getAmount"),
             cell: ({ row }) => {
-                // console.log(row.original);
+                const val = row.original.source.amount.value.quantity / row.original.source.amount.value.accuracy;
                 return (
-                    <span>
-                        {row.original.source.amount.value.quantity / row.original.source.amount.value.accuracy +
-                            " " +
-                            row.original.source.amount.currency}
-                    </span>
+                    <div className="text-center">
+                        <span>{val ? val + " " + row.original.source.amount.currency : "-"}</span>
+                    </div>
                 );
             }
         },
@@ -207,14 +205,12 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             header: translate("resources.transactions.fields.destination.amount.sendAmount"),
 
             cell: ({ row }) => {
-                console.log(row.original);
+                const val =
+                    row.original.destination.amount.value.quantity / row.original.destination.amount.value.accuracy;
                 return (
-                    <span>
-                        {row.original.destination.amount.value.quantity /
-                            row.original.destination.amount.value.accuracy +
-                            " " +
-                            row.original.destination.amount.currency}
-                    </span>
+                    <div className="text-center">
+                        <span>{val ? val + " " + row.original.destination.amount.currency : "-"}</span>
+                    </div>
                 );
             }
         }
