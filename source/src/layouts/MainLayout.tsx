@@ -1,8 +1,6 @@
 import {
     CoreLayoutProps,
     useGetIdentity,
-    useI18nProvider,
-    useLocaleState,
     useLogout,
     usePermissions,
     useResourceDefinitions,
@@ -20,7 +18,6 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
 import {
-    LanguagesIcon,
     CreditCardIcon,
     ChevronLeftCircleIcon,
     ChevronRightCircleIcon,
@@ -41,6 +38,7 @@ import { Button } from "@/components/ui/button";
 import { useGetResLabel } from "@/hooks/useGetResLabel";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { KeysModal } from "@/components/widgets/components/KeysModal";
+import { LangSwitcher } from "@/components/widgets/components/LangSwitcher";
 
 enum SplitLocations {
     show = "show",
@@ -88,13 +86,9 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     };
 
     const { setTheme, theme } = useTheme();
-    const [locale, setLocale] = useLocaleState();
-    const { getLocales } = useI18nProvider();
-
     const [isSheetOpen, setSheetOpen] = useState(false);
     const [showCaptions, setShowCaptions] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
-    const [langOpen, setLangOpen] = useState(false);
     const [chatOpen, setChatOpen] = useState(false);
     const [testKeysModalOpen, setTestKeysModalOpen] = useState(false);
 
@@ -107,12 +101,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
               }, 150)
             : setShowCaptions(isSheetOpen);
     }, [isSheetOpen]);
-
-    const changeLocale = (value: string) => {
-        if (locale !== value) {
-            setLocale(value);
-        }
-    };
 
     const toggleTheme = () => {
         if (theme === "light") {
@@ -228,30 +216,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                     <ChatSheet locale={locale} />
                                 </SheetContent>
                             </Sheet> */}
-                            <DropdownMenu onOpenChange={setLangOpen} modal={false}>
-                                <DropdownMenuTrigger asChild className="">
-                                    <Avatar
-                                        className={
-                                            langOpen
-                                                ? "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
-                                                : "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 hover:text-neutral-100 border-2 border-neutral-50 hover:border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
-                                        }>
-                                        <LanguagesIcon className="h-[30px] w-[30px]" />
-                                    </Avatar>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent
-                                    align="end"
-                                    className="p-0 bg-muted border border-neutral-100 z-[60]">
-                                    {getLocales?.().map(locale => (
-                                        <DropdownMenuItem
-                                            key={locale.locale}
-                                            onClick={() => changeLocale(locale.locale)}
-                                            className="text-title-2 py-[14px] focus:bg-green-50 focus:cursor-pointer pl-4 pr-4">
-                                            {locale.name}
-                                        </DropdownMenuItem>
-                                    ))}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
+                            <LangSwitcher />
                         </div>
                     </div>
                 )}
