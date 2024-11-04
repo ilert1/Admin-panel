@@ -1,4 +1,4 @@
-import { useCreateController, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -28,6 +28,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const controllerProps = useCreateController();
     const { toast } = useToast();
     const translate = useTranslate();
+    const refresh = useRefresh();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -36,6 +37,8 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
         setSubmitButtonDisabled(true);
         try {
             await dataProvider.create("direction", { data });
+            refresh();
+            onOpenChange(false);
         } catch (error) {
             toast({
                 description: translate("resources.provider.errors.alreadyInUse"),

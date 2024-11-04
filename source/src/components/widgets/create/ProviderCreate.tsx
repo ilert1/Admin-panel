@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { useCreateController, CreateContextProvider, useRedirect, useTranslate, useDataProvider } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -25,7 +25,7 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
     const { theme } = useTheme();
 
     const translate = useTranslate();
-    const redirect = useRedirect();
+    const refresh = useRefresh();
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -69,7 +69,7 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
         }
         try {
             await dataProvider.create("provider", { data });
-            redirect("list", "provider");
+            onClose();
         } catch (error) {
             toast({
                 description: translate("resources.provider.errors.alreadyInUse"),
@@ -78,7 +78,6 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
             });
             setSubmitButtonDisabled(false);
         }
-        onClose();
     };
 
     if (controllerProps.isLoading || theme.length === 0) return <Loading />;

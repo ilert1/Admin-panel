@@ -1,4 +1,4 @@
-import { useCreateController, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -25,13 +25,14 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const translate = useTranslate();
-
+    const refresh = useRefresh();
     const onSubmit: SubmitHandler<Omit<Currencies.Currency, "id">> = async data => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
         data.code = data.code.toUpperCase();
         try {
             await dataProvider.create("currency", { data: data });
+            refresh();
             closeDialog();
         } catch (error) {
             toast({

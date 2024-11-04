@@ -89,8 +89,8 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                 data,
                 previousData: undefined
             });
-            props.onOpenChange(false);
             refresh();
+            props.onOpenChange(false);
         } catch (error: any) {
             // Заглушка
             setSubmitButtonDisabled(false);
