@@ -9,8 +9,7 @@ export const TextField = ({
     link = "/",
     type = "text",
     copyValue = false,
-    wrap = false,
-    cropText = false
+    wrap = false
 }: {
     text: string;
     label?: string | undefined;
@@ -18,7 +17,6 @@ export const TextField = ({
     type?: "text" | "link" | "internal-link";
     copyValue?: boolean;
     wrap?: boolean | "break-all";
-    cropText?: boolean;
 }) => {
     const currentText = useMemo(() => (text?.length > 0 ? text : "-"), [text]);
     const translate = useTranslate();
@@ -57,9 +55,7 @@ export const TextField = ({
                             />
                         </span>
                     )}
-                    <span className={textStyle()}>
-                        {cropText && currentText.length > 30 ? currentText.slice(0, 30) + "..." : currentText}
-                    </span>
+                    <span className={textStyle()}>{currentText}</span>
                 </p>
             )}
             {type === "link" && (
