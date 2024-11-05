@@ -32,7 +32,7 @@ build-master-blowfish:
   extends: .pre-build
   variables:
     ENVIRONMENT:   master
-    IMAGE_TAG:     master
+    IMAGE_TAG:     master-blowfish
     APP_CONFIG:    ${BF_MASTER_APP_CONFIG}
   only:
     refs:
@@ -42,7 +42,7 @@ build-master-noname:
   extends: .pre-build
   variables:
     ENVIRONMENT:   master
-    IMAGE_TAG:     master
+    IMAGE_TAG:     master-noname
     APP_CONFIG:    ${NN_MASTER_APP_CONFIG}
   only:
     refs:
@@ -90,7 +90,7 @@ deploy-master-blowfish:
   extends: .pre-deploy
   variables:
     ENVIRONMENT:       master
-    IMAGE_TAG:         master
+    IMAGE_TAG:         master-blowfish
     APP_CONFIG:        ${BF_MASTER_APP_CONFIG}
     SSH_HOST:          ${BF_MASTER_SSH_HOST}
     SSH_PRIVATE_KEY:   ${BF_MASTER_SSH_PRIVATE_KEY}
@@ -104,7 +104,7 @@ deploy-master-noname:
   extends: .pre-deploy
   variables:
     ENVIRONMENT:       master
-    IMAGE_TAG:         master
+    IMAGE_TAG:         master-noname
     APP_CONFIG:        ${NN_MASTER_APP_CONFIG}
     SSH_HOST:          ${NN_MASTER_SSH_HOST}
     SSH_PRIVATE_KEY:   ${NN_MASTER_SSH_PRIVATE_KEY}
