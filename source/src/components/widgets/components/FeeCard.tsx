@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { TextField } from "@/components/ui/text-field";
+import { Textarea } from "@/components/ui/textarea";
 import { feesDataProvider, FeesResource } from "@/data";
 import { useState } from "react";
 import { useRefresh, useTranslate } from "react-admin";
@@ -79,11 +80,11 @@ export const FeeCard = (props: FeeCardProps) => {
                             </Label>
                             <TextField text={String(currency)} />
                         </div>
-                        <div className="flex flex-col gap-[4px] row-span-2">
+                        <div className="flex flex-col gap-[4px] col-span-2">
                             <Label className="text-title-1 text-neutral-40" htmlFor="">
                                 {translate("resources.direction.fees.descr")}
                             </Label>
-                            <TextField text={description} />
+                            <Textarea className="!text-body">{description}</Textarea>
                         </div>
                     </div>
                     <div className="flex justify-end mt-6">
