@@ -164,16 +164,25 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             header: translate("resources.transactions.fields.meta.external_status")
         }
     ];
+
     const briefHistory: ColumnDef<Transaction.Transaction>[] = [
+        {
+            id: "createdAt",
+            accessorKey: "created_at",
+            header: translate("resources.transactions.fields.created_at"),
+            cell: ({ row }) => {
+                return (
+                    <>
+                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
+                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
+                    </>
+                );
+            }
+        },
         {
             id: "id",
             accessorKey: "id",
             header: translate("resources.transactions.fields.id")
-        },
-        {
-            id: "createdAt",
-            accessorKey: "created_at",
-            header: translate("resources.transactions.fields.created_at")
         },
         {
             id: "type",
