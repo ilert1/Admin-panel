@@ -3,7 +3,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { CircleArrowLeftIcon, CircleArrowRightIcon } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useListContext, useRefresh, useTranslate } from "react-admin";
+import { useListContext, useTranslate } from "react-admin";
 import { useEffect } from "react";
 
 interface DataTableProps<TData, TValue> {
@@ -21,12 +21,12 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
     const { columns, pagination = true } = props;
     let data, total, page, perPage, setPage, setPerPage;
     if (props.total) {
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         ({ data = [], total = 0, page = 1, perPage = 10, setPage = () => {}, setPerPage = () => {} } = props);
     } else {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         ({ data, total, page, perPage, setPage, setPerPage } = useListContext());
     }
+
     const translate = useTranslate();
     const table = useReactTable({
         data,
@@ -68,7 +68,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                     ))}
                 </TableHeader>
                 <TableBody>
-                    {table.getRowModel().rows?.length ? (
+                    {data && table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row, i) => (
                             <TableRow key={i} data-state={row.getIsSelected() && "selected"} className="border-muted ">
                                 {row.getVisibleCells().map((cell, j) => (
