@@ -1,4 +1,4 @@
-import { useTranslate, useDataProvider } from "react-admin";
+import { useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -28,6 +28,7 @@ export const CurrencyEdit = ({
 
     const translate = useTranslate();
     const { toast } = useToast();
+    const refresh = useRefresh();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -40,6 +41,7 @@ export const CurrencyEdit = ({
                 data: data,
                 previousData: undefined
             });
+            refresh();
             closeDialog();
         } catch (error) {
             toast({

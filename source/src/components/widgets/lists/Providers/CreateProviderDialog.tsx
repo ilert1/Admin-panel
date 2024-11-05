@@ -27,8 +27,8 @@ export const CreateProviderDialog = (props: CreateProviderDialogProps) => {
                     <DialogDescription></DialogDescription>
                     <ProviderCreate
                         onClose={() => {
-                            onOpenChange(false);
                             refresh();
+                            onOpenChange(false);
                         }}
                     />
                 </DialogHeader>

@@ -441,7 +441,7 @@ export const UserEdit = ({
 
                 <div className="self-end flex items-center gap-4">
                     <Button type="submit" disabled={submitButtonDisabled}>
-                        Edit user
+                        {translate("app.ui.actions.save")}
                     </Button>
 
                     <DialogClose asChild>

@@ -22,10 +22,11 @@ export interface AddFeeCardProps {
     onOpenChange: (state: boolean) => void;
     fees?: Directions.FeeCreate[];
     setFees?: React.Dispatch<React.SetStateAction<Directions.FeeCreate[]>>;
+    variants?: string[];
 }
 
 export const AddFeeCard = (props: AddFeeCardProps) => {
-    const { id, resource, onOpenChange, fees, setFees } = props;
+    const { id, resource, onOpenChange, fees, setFees, variants } = props;
     const { toast } = useToast();
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -33,11 +34,10 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const data = fetchDictionaries();
 
     const { isLoading } = useCreateController({ resource });
-    const controllerProps = useCreateController({ resource });
 
     const { currencies, isLoading: loadingData } = useFetchDataForDirections();
 
-    const onSubmit = async (data: any, e) => {
+    const onSubmit = async (data: any) => {
         data.type = Number(data.type);
         data.direction = Number(data.direction);
         if (setFees) {
@@ -202,7 +202,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                         </FormControl>
                                                         <SelectContent>
                                                             <SelectGroup>
-                                                                {!currenciesDisabled
+                                                                {!currenciesDisabled && !variants
                                                                     ? currencies.data.map((currency: any) => (
                                                                           <SelectItem
                                                                               key={currency.code}
@@ -216,7 +216,11 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                                               {currency.code}
                                                                           </SelectItem>
                                                                       ))
-                                                                    : ""}
+                                                                    : variants?.map(currency => (
+                                                                          <SelectItem key={currency} value={currency}>
+                                                                              {currency}
+                                                                          </SelectItem>
+                                                                      ))}
                                                             </SelectGroup>
                                                         </SelectContent>
                                                     </Select>

@@ -1,4 +1,4 @@
-import { useEditController, EditContextProvider, useTranslate, useRedirect, useDataProvider } from "react-admin";
+import { useEditController, EditContextProvider, useTranslate, useDataProvider } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { FC, useEffect, useState } from "react";
@@ -28,7 +28,6 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
     controllerProps.mutationMode = "pessimistic";
 
     const translate = useTranslate();
-    const redirect = useRedirect();
     const { toast } = useToast();
 
     const [hasErrors, setHasErrors] = useState(false);
@@ -73,7 +72,7 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
                 data,
                 previousData: undefined
             });
-            redirect("list", "provider");
+            onClose();
         } catch (error) {
             toast({
                 description: translate("resources.currency.errors.alreadyInUse"),

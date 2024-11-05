@@ -20,7 +20,6 @@ export class TransactionDataProvider extends BaseDataProvider {
         const { json } = await fetchUtils.fetchJson(url, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
-        // console.log(json);
         return {
             data: json.data || [],
             total: json?.total || 0
@@ -39,6 +38,7 @@ export class TransactionDataProvider extends BaseDataProvider {
         const source = await fetchUtils.fetchJson(`${API_URL}/accounts/${sourceId}`, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
+
         return {
             data: {
                 ...json.data,

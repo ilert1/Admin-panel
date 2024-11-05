@@ -87,7 +87,6 @@ export class BaseDataProvider {
     async getMany(): Promise<GetManyResult> {
         throw new Error("Method not implemented");
     }
-
     async getManyReference(resource: string, params: GetManyReferenceParams): Promise<GetManyReferenceResult> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}/history`, {
             method: "GET",
