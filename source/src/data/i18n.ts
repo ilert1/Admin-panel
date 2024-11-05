@@ -41,6 +41,7 @@ const ru: TranslationMessages = {
                 }
             },
             totalBalance: "Общий баланс по счетам",
+            totalError: "Не удалось получить общий баланс по счетам",
             showHeader: "Информация о счете",
             showDescription: "Подробная информация о счете с ID %{id}"
         },
@@ -596,6 +597,7 @@ const en: TranslationMessages = {
                 }
             },
             totalBalance: "Total account balance",
+            totalError: "Error while getting total balance",
             showHeader: "Account info",
             showDescription: "Detailed information about account with ID %{id}"
         },
