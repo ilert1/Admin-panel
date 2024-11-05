@@ -10,12 +10,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { DialogClose } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { usePreventFocus } from "@/hooks";
 
 enum PositionEnum {
     BEFORE = "before",
     AFTER = "after"
 }
+let renderCount = 0;
 
 export const CurrencyEdit = ({
     record,
@@ -29,6 +31,9 @@ export const CurrencyEdit = ({
     const translate = useTranslate();
     const { toast } = useToast();
     const refresh = useRefresh();
+    const inputRef = useRef<HTMLInputElement>(null);
+    // Focus blur hack
+    renderCount++;
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -70,9 +75,11 @@ export const CurrencyEdit = ({
         }
     });
 
+    usePreventFocus({ dependencies: [record] });
+
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" autoFocus={false}>
                 <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:grid-flow-col gap-y-5 gap-x-4 md:items-end">
                     <FormField
                         control={form.control}
@@ -102,6 +109,13 @@ export const CurrencyEdit = ({
                                                 : ""
                                         }`}
                                         {...field}
+                                        ref={inputRef}
+                                        onFocus={() => {
+                                            if (renderCount === 1) {
+                                                inputRef?.current?.blur();
+                                            }
+                                            inputRef?.current?.focus();
+                                        }}
                                         value={field.value ?? ""}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>

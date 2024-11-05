@@ -17,7 +17,7 @@ import { useParams } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { useFetchDataForDirections } from "@/hooks";
+import { useFetchDataForDirections, usePreventFocus } from "@/hooks";
 
 export interface DirectionEditProps {
     id?: string;
@@ -27,7 +27,6 @@ export interface DirectionEditProps {
 export const DirectionEdit = (props: DirectionEditProps) => {
     const params = useParams();
     const id = props.id || params.id;
-
     const dataProvider = useDataProvider();
     const { currencies, merchants, providers, isLoading: loadingData } = useFetchDataForDirections();
 
@@ -96,6 +95,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
             setSubmitButtonDisabled(false);
         }
     };
+    usePreventFocus({ dependencies: [record] });
 
     if (isLoading || !record || loadingData)
         return (
