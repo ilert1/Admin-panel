@@ -100,13 +100,13 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         onPropertySelected(account, "accountId");
     };
 
-    const onOrderStatusChanged = (order: string | { state_description: string }) => {
+    const onOrderStatusChanged = (order: string | { state_int: number }) => {
         setOrderStatusFilter(order);
 
         if (typeof order === "string") {
             onPropertySelected(order, "order_status");
         } else {
-            onPropertySelected(order.state_description, "order_status");
+            onPropertySelected(order.state_int.toString(), "order_status");
         }
     };
 
