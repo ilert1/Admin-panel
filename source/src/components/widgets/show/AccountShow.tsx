@@ -25,7 +25,7 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
         total = 1
     } = useGetList("transactions", {
         filter: {
-            account: id
+            accountId: id
         },
         pagination: {
             page: 1,
@@ -43,7 +43,7 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
         const refetch = async () => {
             const { data } = await dataProvider.getList("transactions", {
                 filter: {
-                    account: id
+                    accountId: id
                 },
                 pagination: {
                     page: page,
@@ -82,9 +82,9 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
             accessorKey: "value",
             header: translate("resources.accounts.fields.amount.value"),
             cell: ({ row }) => {
-                const value = (row.original.value.quantity || 0) / row.original.value.accuracy;
+                const value = (row?.original?.value?.quantity || 0) / row?.original?.value?.accuracy;
                 if (isNaN(value)) return "-";
-                return value.toFixed(Math.log10(row.original.value.accuracy));
+                return value.toFixed(Math.log10(row?.original?.value?.accuracy));
             }
         }
     ];
@@ -97,8 +97,8 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
             cell: ({ row }) => {
                 return (
                     <>
-                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
-                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
+                        <p className="text-nowrap">{new Date(row?.original?.created_at).toLocaleDateString(locale)}</p>
+                        <p className="text-nowrap">{new Date(row?.original?.created_at).toLocaleTimeString(locale)}</p>
                     </>
                 );
             }
@@ -112,7 +112,7 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
             id: "type",
             accessorKey: "type",
             header: translate("resources.transactions.fields.type"),
-            cell: ({ row }) => data?.transactionTypes[row.original.type]?.type_descr || ""
+            cell: ({ row }) => data?.transactionTypes[row?.original?.type]?.type_descr || ""
         },
         {
             id: "state",
@@ -129,10 +129,10 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
             accessorKey: "source.amount.value.quantity",
             header: translate("resources.transactions.fields.source.amount.getAmount"),
             cell: ({ row }) => {
-                const val = row.original.source.amount.value.quantity / row.original.source.amount.value.accuracy;
+                const val = row?.original?.source?.amount.value.quantity / row?.original?.source?.amount.value.accuracy;
                 return (
                     <div className="text-center">
-                        <span>{val ? val + " " + row.original.source.amount.currency : "-"}</span>
+                        <span>{val ? val + " " + row?.original?.source?.amount.currency : "-"}</span>
                     </div>
                 );
             }
@@ -143,10 +143,11 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
             header: translate("resources.transactions.fields.destination.amount.sendAmount"),
             cell: ({ row }) => {
                 const val =
-                    row.original.destination.amount.value.quantity / row.original.destination.amount.value.accuracy;
+                    row?.original?.destination?.amount.value.quantity /
+                    row?.original?.destination?.amount.value.accuracy;
                 return (
                     <div className="text-center">
-                        <span>{val ? val + " " + row.original.destination.amount.currency : "-"}</span>
+                        <span>{val ? val + " " + row?.original?.destination?.amount.currency : "-"}</span>
                     </div>
                 );
             }
@@ -155,14 +156,14 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
             accessorKey: "rate_info",
             header: translate("resources.transactions.fields.rateInfo"),
             cell: ({ row }) => {
-                const rateInfo: Transaction.RateInfo = row.original.rate_info;
+                const rateInfo: Transaction.RateInfo = row?.original?.rate_info;
                 if (rateInfo) {
                     return (
                         <>
-                            <p className="text-neutral-60 dark:text-neutral-70">{`${rateInfo.s_currency} / ${rateInfo.d_currency}:`}</p>
+                            <p className="text-neutral-60 dark:text-neutral-70">{`${rateInfo?.s_currency} / ${rateInfo?.d_currency}:`}</p>
                             <p>
-                                {((rateInfo.value.quantity || 0) / rateInfo.value.accuracy).toFixed(
-                                    Math.log10(rateInfo.value.accuracy)
+                                {((rateInfo?.value.quantity || 0) / rateInfo?.value?.accuracy).toFixed(
+                                    Math.log10(rateInfo?.value?.accuracy)
                                 )}
                             </p>
                         </>
@@ -179,19 +180,17 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
     }
     if (type === "compact") {
         return (
-            <>
-                <div className="mx-6">
-                    <DataTable
-                        columns={historyColumns}
-                        data={transactions}
-                        total={total}
-                        page={page}
-                        setPage={setPage}
-                        perPage={perPage}
-                        setPerPage={setPerPage}
-                    />
-                </div>
-            </>
+            <div className="mx-6">
+                <DataTable
+                    columns={historyColumns}
+                    data={transactions}
+                    total={total}
+                    page={page}
+                    setPage={setPage}
+                    perPage={perPage}
+                    setPerPage={setPerPage}
+                />
+            </div>
         );
     } else {
         return (
@@ -214,7 +213,7 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
                     <small className="text-sm text-muted-foreground">
                         {translate("resources.accounts.fields.amounts")}
                     </small>
-                    <SimpleTable columns={columns} data={context.record.amounts} />
+                    <SimpleTable columns={columns} data={context.record?.amounts} />
                 </div>
             </div>
         );
