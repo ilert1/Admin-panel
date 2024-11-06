@@ -39,7 +39,7 @@ export const LoginPage = () => {
                 totpCode
             };
 
-            console.log(userData);
+            // console.log(userData);
 
             login(userData).catch(error => {
                 if (error.status === 401) {
