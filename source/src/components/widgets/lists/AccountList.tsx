@@ -13,6 +13,7 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 import { toast } from "sonner";
 import { NumericFormat } from "react-number-format";
 import { Icon } from "../shared/Icon";
+import { API_URL } from "@/data/base";
 
 const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
 const translations = ["active", "frozen", "blocked"];
@@ -32,6 +33,33 @@ export const AccountList = () => {
         setShowAccountCaption(caption);
         setShowOpen(true);
     };
+
+    const error = (message: string) => {
+        toast.error(translate("resources.transactions.show.error"), {
+            dismissible: true,
+            description: message,
+            duration: 3000
+        });
+    };
+
+    const { isLoading: totalLoading, data: totalAmount } = useQuery("totalAmount", () =>
+        fetch(`${API_URL}/accounts/balance/count`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(json => {
+                if (json.success) {
+                    return json.data;
+                } else {
+                    error(translate("resources.accounts.totalError"));
+                }
+            })
+            .catch(() => {
+                error(translate("resources.accounts.totalError"));
+            })
+    );
 
     const columns: ColumnDef<Account>[] = [
         {
@@ -121,7 +149,6 @@ export const AccountList = () => {
             }
         }
     ];
-
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
     } else {
@@ -132,35 +159,29 @@ export const AccountList = () => {
                         <div className="grow-[1]">
                             <DataTable columns={columns} />
                         </div>
-                        {/* <div className="flex flex-col gap-4 px-6 py-4 rounded-2xl bg-neutral-0 w-[457px] h-fit">
-                            <h3 className="text-display-3">{translate("resources.accounts.totalBalance")}</h3>
-                            <div className="flex flex-col gap-4 items-end">
-                               {listContext.data.totalSum ? (
-                                    <>
-                                        {totalSum.map(currencySum => {
-                                            return (
-                                                <div key={currencySum.currency} className="flex gap-4 items-center">
-                                                    <h1 className="text-display-1">
-                                                        <NumericFormat
-                                                            className="whitespace-nowrap"
-                                                            value={currencySum.amount / currencySum.accuracy}
-                                                            displayType={"text"}
-                                                            thousandSeparator=" "
-                                                            decimalSeparator=","
-                                                        />
-                                                    </h1>
-                                                    <div className="w-10 flex justify-center">
-                                                        <Icon name={currencySum.currency} folder="currency" />
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </>
-                                ) : (
-                                    <></>
-                                )} 
+                        {totalLoading || !totalAmount ? (
+                            <></>
+                        ) : (
+                            <div className="flex flex-col gap-4 px-6 py-4 rounded-2xl bg-neutral-0 w-[457px] h-fit">
+                                <h3 className="text-display-3">{translate("resources.accounts.totalBalance")}</h3>
+                                <div className="flex flex-col gap-4 items-end">
+                                    <div key={totalAmount.currency} className="flex gap-4 items-center">
+                                        <h1 className="text-display-1">
+                                            <NumericFormat
+                                                className="whitespace-nowrap"
+                                                value={totalAmount.value.quantity / totalAmount.value.accuracy}
+                                                displayType={"text"}
+                                                thousandSeparator=" "
+                                                decimalSeparator=","
+                                            />
+                                        </h1>
+                                        <div className="w-10 flex justify-center">
+                                            <Icon name={totalAmount.currency} folder="currency" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>*/}
+                        )}
                     </div>
                 </ListContextProvider>
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>
