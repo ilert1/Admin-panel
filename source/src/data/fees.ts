@@ -19,6 +19,7 @@ const feesDataProvider = (props: FeesDataProviderProps) => {
     };
 
     const addFee = async (body: Directions.FeeCreate) => {
+        // console.log(body);
         body.recipient = resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee";
 
         const json = await fetchUtils.fetchJson(`${API_URL}/${resource}/${id}/fee`, {
@@ -26,7 +27,6 @@ const feesDataProvider = (props: FeesDataProviderProps) => {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
             body: JSON.stringify(body)
         });
-
         if (!json.json.success) {
             if (String(json.json.error).includes("Currency")) throw new Error("Wrong id");
         }

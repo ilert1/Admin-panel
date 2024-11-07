@@ -133,6 +133,7 @@ export const QuickShowDirections = (props: QuickShowProps) => {
                                           feeType={data.feeTypes[fee.type]?.type_descr || ""}
                                           id={id}
                                           resource={FeesResource.DIRECTION}
+                                          description={fee.description}
                                       />
                                   );
                               })
