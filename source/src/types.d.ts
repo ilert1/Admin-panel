@@ -35,6 +35,8 @@ type Account = {
 };
 
 declare namespace PayOut {
+    type PaymentType = "sbp" | "card2card" | "account_number" | "account_number_iban" | "sberpay";
+
     interface Response {
         success: boolean;
         data: PayMethod[];
@@ -51,7 +53,7 @@ declare namespace PayOut {
         fiatCurrencySymbolPosition: string;
         fields: PayField[];
         parallelGroupOrdersEnabled: boolean;
-        paymentType: string;
+        paymentType: PaymentType;
         paymentTypeName: string;
     }
 

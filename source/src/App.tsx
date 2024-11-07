@@ -32,7 +32,8 @@ import {
     BanknoteIcon,
     StoreIcon,
     NetworkIcon,
-    SignpostIcon
+    SignpostIcon,
+    CreditCardIcon
 } from "lucide-react";
 import { authProvider, ThemeProvider } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
@@ -97,16 +98,21 @@ export const App = () => {
                                 </>
                             )}
 
+                            {permissions === "merchant" && (
+                                <Resource name="bank-transfer" icon={CreditCardIcon}>
+                                    <Route path="/" element={<PayOutPage />} />
+                                </Resource>
+                            )}
+
                             <CustomRoutes>
-                                {permissions === "merchant" && <Route path="/bank-transfer" element={<PayOutPage />} />}
                                 <Route path="/login" element={<LoginPage />} />
                             </CustomRoutes>
                         </>
                     )}
                 </CoreAdminUI>
-            </CoreAdminContext>
 
-            <Toaster />
+                <Toaster />
+            </CoreAdminContext>
         </ThemeProvider>
     );
 };

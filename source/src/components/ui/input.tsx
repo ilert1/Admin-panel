@@ -74,8 +74,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     ref={inputRef}
                     {...props}
                 />
-                {showClearButton && (
+                {showClearButton && !disabled && (
                     <button
+                        disabled={disabled}
                         type="button"
                         onMouseDown={handleClear}
                         tabIndex={-1}
