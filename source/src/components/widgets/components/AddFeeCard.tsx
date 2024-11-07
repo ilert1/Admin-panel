@@ -56,9 +56,9 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                 onOpenChange(false);
             } catch (error) {
                 toast({
-                    description: translate("Error when creating fee"),
+                    description: translate("resources.direction.fees.errorWhenCreating"),
                     variant: "destructive",
-                    title: "Error"
+                    title: translate("resources.direction.fees.error")
                 });
             }
         }

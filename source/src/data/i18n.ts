@@ -344,7 +344,9 @@ const ru: TranslationMessages = {
                 descr: "Описание",
                 addFee: "Добавить комиссию",
                 direction: "Направление",
-                deleteFee: "Удалить комиссию?"
+                deleteFee: "Удалить комиссию?",
+                error: "Ошибка",
+                errorWhenCreating: "Произошла ошибка при создании комиссии"
             },
             errors: {
                 name: "У направления обязательно должно быть имя",
@@ -903,7 +905,9 @@ const en: TranslationMessages = {
                 descr: "Description",
                 addFee: "Add fee",
                 direction: "Direction",
-                deleteFee: "Delete fee?"
+                deleteFee: "Delete fee?",
+                error: "Error",
+                errorWhenCreating: "An error occurred while creating the fee"
             },
             errors: {
                 name: "The direction must have a name",
