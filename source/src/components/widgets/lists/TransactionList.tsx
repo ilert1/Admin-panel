@@ -202,7 +202,7 @@ const TransactionFilterSidebar = ({
             <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-3 flex-wrap">
                     <button className={chooseClassTabActive("")} onClick={clearFilters} disabled={typeTabActive === ""}>
-                        All operations
+                        {translate("resources.transactions.types.all")}
                     </button>
 
                     {Object.keys(data?.transactionTypes).map(item => (
@@ -211,7 +211,11 @@ const TransactionFilterSidebar = ({
                             className={chooseClassTabActive(data?.transactionTypes?.[item].type_descr)}
                             disabled={typeTabActive === data?.transactionTypes?.[item].type_descr}
                             onClick={() => onTabChanged(data?.transactionTypes?.[item])}>
-                            {data?.transactionTypes?.[item].type_descr}
+                            {translate(
+                                `resources.transactions.types.${data?.transactionTypes?.[
+                                    item
+                                ].type_descr.toLowerCase()}`
+                            )}
                         </button>
                     ))}
                 </div>
@@ -280,7 +284,12 @@ export const TransactionList = () => {
         {
             accessorKey: "type",
             header: translate("resources.transactions.fields.type"),
-            cell: ({ row }) => data?.transactionTypes?.[row.getValue("type") as string]?.type_descr || ""
+            cell: ({ row }) =>
+                translate(
+                    `resources.transactions.types.${data?.transactionTypes?.[
+                        row.getValue("type") as string
+                    ]?.type_descr.toLowerCase()}`
+                ) || ""
         },
         {
             accessorKey: "state.state_description",

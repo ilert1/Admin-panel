@@ -80,7 +80,7 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
                     labels,
                     datasets: [
                         {
-                            label: translate("resources.transactions.types.withdrawal"),
+                            label: translate("resources.transactions.types.withdraw"),
                             data: generateRandomData(labels.length),
                             backgroundColor: "#57CD8C",
                             borderColor: "#57CD8C",
@@ -129,7 +129,7 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
                             borderWidth: 1
                         },
                         {
-                            label: translate("resources.transactions.types.withdrawal"),
+                            label: translate("resources.transactions.types.withdraw"),
                             data: generateRandomData(labels.length),
                             backgroundColor: "#57CD8C",
                             borderColor: "#57CD8C",
@@ -255,7 +255,7 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
                     <div className="flex items-center">
                         <div className="w-12 h-5 rounded-full bg-[#57CD8C]" />
                         <span className="text-title-1 text-neutral-50 ml-2">
-                            {translate("resources.transactions.types.withdrawal")}
+                            {translate("resources.transactions.types.withdraw")}
                         </span>
                     </div>
                     <div className="flex items-center">
