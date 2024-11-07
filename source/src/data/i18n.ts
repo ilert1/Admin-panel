@@ -376,6 +376,9 @@ const ru: TranslationMessages = {
             deleteDirection: "Удалить направление?",
             editingDirection: "Редактирование направления",
             creatingDirection: "Добавление направления"
+        },
+        "bank-transfer": {
+            name: "Банковский перевод"
         }
     },
     app: {
@@ -383,8 +386,7 @@ const ru: TranslationMessages = {
             merchant: {
                 accounts: "Мои счета",
                 transactions: "История операций",
-                cryptoOperations: "Операции с криптовалютой",
-                bankTransfer: "Банковский перевод"
+                cryptoOperations: "Операции с криптовалютой"
             },
             admin: {
                 accounts: "Счета",
@@ -538,9 +540,6 @@ const ru: TranslationMessages = {
     pages: {
         payin: {
             header: "Пополнение"
-        },
-        bankTransfer: {
-            header: "Банковский перевод"
         },
         cryptoTransfer: {
             header: "Перевод криптовалюты"
@@ -937,6 +936,9 @@ const en: TranslationMessages = {
             deleteDirection: "Delete direction?",
             editingDirection: "Editing direction",
             creatingDirection: "Creating direction"
+        },
+        "bank-transfer": {
+            name: "Bank transfer"
         }
     },
     app: {
@@ -944,8 +946,7 @@ const en: TranslationMessages = {
             merchant: {
                 accounts: "My accounts",
                 transactions: "Transactions history",
-                cryptoOperations: "Crypto transactions",
-                bankTransfer: "Bank transfer"
+                cryptoOperations: "Crypto transactions"
             },
             admin: {
                 accounts: "Accounts",
@@ -1099,9 +1100,6 @@ const en: TranslationMessages = {
     pages: {
         payin: {
             header: "Pay In"
-        },
-        bankTransfer: {
-            header: "Bank Transfer"
         },
         cryptoTransfer: {
             header: "Crypto Wallet Transfer"
