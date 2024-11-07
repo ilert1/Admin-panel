@@ -26,7 +26,6 @@ export const EditAuthData = (props: EditAuthDataProps) => {
     const { toast } = useToast();
     const refresh = useRefresh();
 
-
     const [code, setCode] = useState("{}");
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(false);
@@ -68,7 +67,7 @@ export const EditAuthData = (props: EditAuthDataProps) => {
     return (
         <>
             <Dialog open={open} onOpenChange={onOpenChange}>
-                <DialogContent className="w-[468px] h-[464px] bg-muted p-[30px] ">
+                <DialogContent className="max-w-[468px] h-[464px] bg-muted p-[30px] ">
                     <DialogHeader>
                         <DialogTitle className="text-center">
                             <span className="text-display-4">

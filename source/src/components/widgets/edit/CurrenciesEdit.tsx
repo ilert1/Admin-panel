@@ -202,15 +202,19 @@ export const CurrencyEdit = ({
                     />
                 </div>
 
-                <div className="self-end flex items-center gap-4">
-                    <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
+                <div className="sm:self-end flex flex-col sm:flex-row items-center gap-4">
+                    <Button
+                        type="submit"
+                        variant="default"
+                        className="w-full sm:w flex-1"
+                        disabled={submitButtonDisabled}>
                         {translate("app.ui.actions.save")}
                     </Button>
 
                     <DialogClose asChild>
                         <Button
                             variant="clearBtn"
-                            className="border border-neutral-50 rounded-4 hover:border-neutral-100">
+                            className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </DialogClose>

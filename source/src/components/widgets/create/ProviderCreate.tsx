@@ -91,7 +91,7 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
                             control={form.control}
                             name="name"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>
                                         <span className="!text-note-1 !text-neutral-30">
                                             {translate("resources.provider.fields._name")}
@@ -110,7 +110,7 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
                             control={form.control}
                             name="fields_json_schema"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>
                                         <span className="!text-note-1 !text-neutral-30">
                                             {translate("resources.provider.fields.json_schema")}

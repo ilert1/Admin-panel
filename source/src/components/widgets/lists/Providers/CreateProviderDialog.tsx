@@ -19,7 +19,7 @@ export const CreateProviderDialog = (props: CreateProviderDialogProps) => {
     const translate = useTranslate();
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-[716px] bg-muted">
+            <DialogContent className="max-w-[716px] bg-muted min-h-[180px] overflow-y-auto ">
                 <DialogHeader>
                     <DialogTitle className="text-center">
                         {translate("resources.provider.creatingProvider")}

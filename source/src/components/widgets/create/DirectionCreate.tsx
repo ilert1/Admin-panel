@@ -328,7 +328,8 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                 </FormItem>
                             )}
                         />
-                        <div className="flex gap-[16px] p-2 ml-auto w-1/3">
+                        {/* <div className="flex gap-[16px] p-2 ml-auto w-1/3"> */}
+                        <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
                             <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>
