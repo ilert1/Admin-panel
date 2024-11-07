@@ -98,7 +98,10 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             id: "type",
             accessorKey: "type",
             header: translate("resources.transactions.fields.type"),
-            cell: ({ row }) => data?.feeTypes[row.original.type]?.type_descr || ""
+            cell: ({ row }) =>
+                translate(
+                    `resources.transactions.types.${data?.feeTypes[row.original.type]?.type_descr.toLowerCase()}`
+                ) || ""
         },
         {
             id: "currency",
@@ -136,7 +139,12 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             id: "type",
             accessorKey: "type",
             header: translate("resources.transactions.fields.type"),
-            cell: ({ row }) => data?.transactionTypes[row.original.type]?.type_descr || ""
+            cell: ({ row }) =>
+                translate(
+                    `resources.transactions.types.${data?.transactionTypes[
+                        row.original.type
+                    ]?.type_descr.toLowerCase()}`
+                ) || ""
         },
         {
             id: "state",
@@ -188,7 +196,12 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             id: "type",
             accessorKey: "type",
             header: translate("resources.transactions.fields.type"),
-            cell: ({ row }) => data?.transactionTypes[row.original.type]?.type_descr || ""
+            cell: ({ row }) =>
+                translate(
+                    `resources.transactions.types.${data?.transactionTypes[
+                        row.original.type
+                    ]?.type_descr.toLowerCase()}`
+                ) || ""
         },
         {
             id: "state",
@@ -316,7 +329,13 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                         <span className="opacity-60 text-title-1">
                             {translate("resources.transactions.fields.type")}
                         </span>
-                        <span>{data?.transactionTypes[context.record.type]?.type_descr}</span>
+                        <span>
+                            {translate(
+                                `resources.transactions.types.${data?.transactionTypes[
+                                    context.record.type
+                                ]?.type_descr.toLowerCase()}`
+                            )}
+                        </span>
                     </div>
                     <div className="flex flex-col">
                         <span className="opacity-60 text-title-1">
@@ -370,7 +389,11 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                         />
                         <TextField
                             label={translate("resources.transactions.fields.type")}
-                            text={data?.transactionTypes[context.record.type]?.type_descr}
+                            text={translate(
+                                `resources.transactions.types.${data?.transactionTypes[
+                                    context.record.type
+                                ]?.type_descr.toLowerCase()}`
+                            )}
                         />
                         <TextField
                             label={translate("resources.transactions.fields.state.state_description")}
