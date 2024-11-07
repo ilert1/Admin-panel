@@ -15,7 +15,7 @@ interface IProps {
     currencies: Dictionaries.Currency[] | undefined;
     payMethods: PayOut.PayMethod[] | undefined;
     loading: boolean;
-    create: (data: { payMethod: PayOut.PayMethod; [key: string]: string | PayOut.PayMethod }) => void;
+    create: (data: { payMethod: PayOut.PayMethod; [key: string]: string | PayOut.PayMethod }) => Promise<boolean>;
 }
 
 const CustomFieldTypes = new Map<PayOut.PaymentType, string[]>([
@@ -68,9 +68,13 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
         defaultValues: { ...finalFormSchema }
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         if (payMethod) {
-            create({ ...values, payMethod });
+            const completeCreate = await create({ ...values, payMethod });
+
+            if (completeCreate) {
+                form.reset(Object.fromEntries(Object.keys(values).map(key => [key, ""])));
+            }
         }
     }
 

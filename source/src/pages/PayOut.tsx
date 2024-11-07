@@ -54,58 +54,64 @@ export const PayOutPage = () => {
     const [localLoading, setLocalLoading] = useState(false);
     const isLoading = useMemo(() => initialLoading || localLoading, [initialLoading, localLoading]);
 
-    const createPayOut = (data: { payMethod: PayOut.PayMethod; [key: string]: string | PayOut.PayMethod }) => {
-        const { payMethod, ...rest } = data;
-        setLocalLoading(true);
+    const createPayOut = async (data: { payMethod: PayOut.PayMethod; [key: string]: string | PayOut.PayMethod }) => {
+        try {
+            const { payMethod, ...rest } = data;
+            setLocalLoading(true);
 
-        fetch(`${BF_MANAGER_URL}/v1/payout/create`, {
-            method: "POST",
-            body: JSON.stringify({
-                destination: {
-                    amount: {
-                        currency: payMethod.fiatCurrency,
-                        value: {
-                            quantity: +rest.value * 100,
-                            accuracy: 100
-                        }
+            const response = await fetch(`${BF_MANAGER_URL}/v1/payout/create`, {
+                method: "POST",
+                body: JSON.stringify({
+                    destination: {
+                        amount: {
+                            currency: payMethod.fiatCurrency,
+                            value: {
+                                quantity: +rest.value * 100,
+                                accuracy: 100
+                            }
+                        },
+                        requisites: [
+                            {
+                                bank_name: payMethod.bank,
+                                ...Object.fromEntries(Object.entries(rest).filter(([key]) => key !== "value"))
+                            }
+                        ]
                     },
-                    requisites: [
-                        {
-                            bank_name: payMethod.bank,
-                            ...Object.fromEntries(Object.entries(rest).filter(([key]) => key !== "value"))
-                        }
-                    ]
-                },
-                meta: {
-                    payment_type: payMethod.paymentType
+                    meta: {
+                        payment_type: payMethod.paymentType
+                    }
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
                 }
-            }),
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
-        })
-            .then(response => response.json())
-            .then(json => {
-                if (json.success) {
-                    success(
-                        <>
-                            {translate("app.widgets.forms.payout.successDescription")}:{" "}
-                            <NavLink to="/transactions" className="dark:text-green-40 text-green-50">
-                                {translate("resources.transactions.name")}
-                            </NavLink>
-                        </>
-                    );
-                } else {
-                    error(json.error || "Unknown error");
-                }
-            })
-            .catch(e => {
-                error(e.message);
-            })
-            .finally(() => {
-                setLocalLoading(false);
             });
+
+            const json = await response.json();
+
+            if (json.success) {
+                success(
+                    <>
+                        {translate("app.widgets.forms.payout.successDescription")}:{" "}
+                        <NavLink to="/transactions" className="dark:text-green-40 text-green-50">
+                            {translate("resources.transactions.name")}
+                        </NavLink>
+                    </>
+                );
+
+                return true;
+            } else {
+                error(json.error || "Unknown error");
+
+                return false;
+            }
+        } catch (error: any) {
+            error(error.message);
+
+            return false;
+        } finally {
+            setLocalLoading(false);
+        }
     };
 
     return (
