@@ -73,10 +73,10 @@ export const PayOutPage = () => {
                             bank_name: payMethod.bank,
                             ...Object.fromEntries(Object.entries(rest).filter(([key]) => key !== "value"))
                         }
-                    ],
-                    meta: {
-                        payment_type: payMethod.paymentType
-                    }
+                    ]
+                },
+                meta: {
+                    payment_type: payMethod.paymentType
                 }
             }),
             headers: {
@@ -87,7 +87,7 @@ export const PayOutPage = () => {
             .then(response => response.json())
             .then(json => {
                 if (json.success) {
-                    success(translate("pages.payout.success"));
+                    success(translate("app.widgets.forms.payout.success"));
                     window.open(json.data.payment_url, "_blank", "rel=noopener noreferrer");
                 } else {
                     error(json.error || "Unknown error");
