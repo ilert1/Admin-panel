@@ -26,7 +26,6 @@ import {
     ChevronLeft
 } from "lucide-react";
 import { useTheme } from "@/components/providers";
-import { Toaster } from "@/components/ui/toaster";
 import Logo from "@/lib/icons/Logo";
 import LogoPicture from "@/lib/icons/LogoPicture";
 import Blowfish from "@/lib/icons/Blowfish";
@@ -345,8 +344,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                         {children}
                     </main>
                 </div>
-
-                <Toaster />
             </div>
 
             <KeysModal open={testKeysModalOpen} onOpenChange={setTestKeysModalOpen} isTest />
