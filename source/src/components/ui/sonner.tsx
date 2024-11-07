@@ -9,7 +9,9 @@ const Toaster = ({ ...props }: ToasterProps) => {
 
     return (
         <Sonner
+            className="top-28"
             closeButton
+            position="top-right"
             theme={theme as ToasterProps["theme"]}
             toastOptions={{
                 classNames: {
@@ -22,7 +24,8 @@ const Toaster = ({ ...props }: ToasterProps) => {
                     success: "text-green-50 border-green-50 dark:text-green-40 dark:border-green-40",
                     info: "text-yellow-40 border-yellow-40",
                     warning: "text-yellow-30 border-yellow-30 [&>:is([data-icon])]:mt-1",
-                    closeButton: "text-neutral-50 right-2 left-auto top-4 w-4 h-4 [&>svg]:w-4 [&>svg]:h-4"
+                    closeButton:
+                        "text-neutral-50 right-2 left-auto top-4 w-4 h-4 [&>svg]:w-4 [&>svg]:h-4 hover:bg-transparent"
                 }
             }}
             icons={{
