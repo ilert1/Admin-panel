@@ -9,17 +9,17 @@ const Toaster = ({ ...props }: ToasterProps) => {
 
     return (
         <Sonner
-            className="top-28"
+            className="top-28 w-72 z-[100]"
             closeButton
             position="top-right"
             theme={theme as ToasterProps["theme"]}
             toastOptions={{
                 classNames: {
-                    toast: "grid grid-flow-col items-start border p-4 pt-3 bg-neutral-0 gap-2",
+                    toast: "flex items-start border p-4 pt-3 bg-neutral-0 gap-2 w-full",
                     content: "flex flex-col",
                     title: "text-xl leading-0",
                     description: "text-sm dark:text-neutral-100 text-neutral-90",
-                    icon: "mt-0.5 w-full h-full flex items-start",
+                    icon: "mt-0.5 flex items-start",
                     error: "text-red-40 border-red-40",
                     success: "text-green-50 border-green-50 dark:text-green-40 dark:border-green-40",
                     info: "text-yellow-40 border-yellow-40",
