@@ -9,24 +9,26 @@ const Toaster = ({ ...props }: ToasterProps) => {
 
     return (
         <Sonner
+            closeButton
             theme={theme as ToasterProps["theme"]}
             toastOptions={{
                 classNames: {
-                    toast: "flex items-start",
-                    description: "text-muted-foreground",
-                    actionButton: "bg-primary text-primary-foreground",
-                    cancelButton: "bg-muted text-muted-foreground",
-                    title: "text-2xl leading-0",
-                    icon: "text-2xl",
-                    error: "text-red-40",
-                    success: "text-green-40",
-                    warning: "text-yellow-40"
+                    toast: "grid grid-flow-col items-start border p-4 pt-3 bg-neutral-0 gap-2",
+                    content: "flex flex-col",
+                    title: "text-xl leading-0",
+                    description: "text-sm dark:text-neutral-100 text-neutral-90",
+                    icon: "mt-0.5 w-full h-full flex items-start",
+                    error: "text-red-40 border-red-40",
+                    success: "text-green-50 border-green-50 dark:text-green-40 dark:border-green-40",
+                    info: "text-yellow-40 border-yellow-40",
+                    warning: "text-yellow-30 border-yellow-30 [&>:is([data-icon])]:mt-1",
+                    closeButton: "text-neutral-50 right-2 left-auto top-4 w-4 h-4 [&>svg]:w-4 [&>svg]:h-4"
                 }
             }}
             icons={{
-                success: <CircleCheckBigIcon />,
-                error: <OctagonAlertIcon />,
-                info: <Clock4Icon />
+                success: <CircleCheckBigIcon width={24} height={24} />,
+                error: <OctagonAlertIcon width={24} height={24} />,
+                info: <Clock4Icon width={24} height={24} />
             }}
             {...props}
         />
