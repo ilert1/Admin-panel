@@ -104,9 +104,9 @@ export const App = () => {
                         </>
                     )}
                 </CoreAdminUI>
-            </CoreAdminContext>
 
-            <Toaster />
+                <Toaster />
+            </CoreAdminContext>
         </ThemeProvider>
     );
 };
