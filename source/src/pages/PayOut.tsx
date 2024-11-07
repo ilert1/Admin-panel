@@ -4,6 +4,7 @@ import { useGetList, useTranslate } from "react-admin";
 import { BF_MANAGER_URL, API_URL } from "@/data/base";
 import { PayOutForm } from "@/components/widgets/forms";
 import { toast } from "sonner";
+import { NavLink } from "react-router-dom";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
@@ -12,7 +13,7 @@ export const PayOutPage = () => {
         toast.success(translate("app.widgets.forms.payout.successTitle"), {
             dismissible: true,
             description: message,
-            duration: 6000
+            duration: 5000
         });
     };
 
@@ -90,9 +91,9 @@ export const PayOutPage = () => {
                     success(
                         <>
                             {translate("app.widgets.forms.payout.successDescription")}:{" "}
-                            <a href="/transactions" className="dark:text-green-40 text-green-50">
+                            <NavLink to="/transactions" className="dark:text-green-40 text-green-50">
                                 {translate("resources.transactions.name")}
-                            </a>
+                            </NavLink>
                         </>
                     );
                 } else {
