@@ -15,6 +15,7 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 import { CircleChevronRight } from "lucide-react";
 import { AddFeeCard } from "../components/AddFeeCard";
 import { FeesResource } from "@/data";
+import { usePreventFocus } from "@/hooks";
 
 interface MerchantEditProps {
     id?: string;
@@ -104,6 +105,8 @@ export const MerchantEdit = (props: MerchantEditProps) => {
             setSubmitButtonDisabled(false);
         }
     };
+
+    usePreventFocus({ dependencies: [record] });
 
     if (isLoading || !record || !data) return <Loading />;
     const fees = record.fees;

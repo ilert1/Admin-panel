@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
+import { usePreventFocus } from "@/hooks";
 
 export interface ProviderEditParams {
     id?: string;
@@ -84,6 +85,8 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
         }
         onClose();
     };
+
+    usePreventFocus({ dependencies: [record] });
 
     if (isLoading || !record) return <Loading />;
     return (

@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DialogClose } from "@/components/ui/dialog";
 import { useQuery } from "react-query";
 import { Textarea } from "@/components/ui/textarea";
+import { usePreventFocus } from "@/hooks";
 
 export const UserEdit = ({
     id,
@@ -135,6 +136,8 @@ export const UserEdit = ({
             shop_balance_key: record?.shop_balance_key || ""
         }
     });
+
+    usePreventFocus({ dependencies: [record] });
 
     return (
         <Form {...form}>
