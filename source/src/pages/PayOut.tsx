@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import { useGetList, useTranslate } from "react-admin";
 import { BF_MANAGER_URL, API_URL } from "@/data/base";
@@ -8,16 +8,16 @@ import { toast } from "sonner";
 export const PayOutPage = () => {
     const translate = useTranslate();
 
-    const success = (message: string) => {
-        toast.success(translate("resources.transactions.show.success"), {
+    const success = (message: ReactNode) => {
+        toast.success(translate("app.widgets.forms.payout.successTitle"), {
             dismissible: true,
             description: message,
-            duration: 3000
+            duration: 6000
         });
     };
 
     const error = (message: string) => {
-        toast.error(translate("resources.transactions.show.error"), {
+        toast.error(translate("app.widgets.forms.payout.errorTitle"), {
             dismissible: true,
             description: message,
             duration: 3000
@@ -55,8 +55,8 @@ export const PayOutPage = () => {
 
     const createPayOut = (data: { payMethod: PayOut.PayMethod; [key: string]: string | PayOut.PayMethod }) => {
         const { payMethod, ...rest } = data;
-        console.log(data);
         setLocalLoading(true);
+
         fetch(`${BF_MANAGER_URL}/v1/payout/create`, {
             method: "POST",
             body: JSON.stringify({
@@ -87,8 +87,14 @@ export const PayOutPage = () => {
             .then(response => response.json())
             .then(json => {
                 if (json.success) {
-                    success(translate("app.widgets.forms.payout.success"));
-                    window.open(json.data.payment_url, "_blank", "rel=noopener noreferrer");
+                    success(
+                        <>
+                            {translate("app.widgets.forms.payout.successDescription")}:{" "}
+                            <a href="/transactions" className="dark:text-green-40 text-green-50">
+                                {translate("resources.transactions.name")}
+                            </a>
+                        </>
+                    );
                 } else {
                     error(json.error || "Unknown error");
                 }

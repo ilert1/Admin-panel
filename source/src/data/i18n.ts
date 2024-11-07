@@ -479,7 +479,9 @@ const ru: TranslationMessages = {
                     valueMessage: "Некорректное значение",
                     value: "Сумма зачисления %{currency}",
                     create: "Создать",
-                    success: "Вывод успешно создан"
+                    successTitle: "Заявка успешно создана",
+                    successDescription: "Вы можете отследить её статус в разделе",
+                    errorTitle: "Ошибка создания заявки"
                 },
                 cryptoTransfer: {
                     address: "Адрес получателя TRC20",
@@ -1038,7 +1040,9 @@ const en: TranslationMessages = {
                     value: "Destination value %{currency}",
                     valueMessage: "Wrong value",
                     create: "Created",
-                    success: "Payout successfully created"
+                    successTitle: "The request has been successfully created",
+                    successDescription: "You can track her status in the section",
+                    errorTitle: "Request creation error"
                 },
                 cryptoTransfer: {
                     address: "TRC20 recipient address",
