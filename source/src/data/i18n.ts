@@ -193,7 +193,7 @@ const ru: TranslationMessages = {
             types: {
                 all: "Все операции",
                 deposit: "Пополнение",
-                withdrawal: "Вывод средств",
+                withdraw: "Вывод средств",
                 transfer: "Перевод средств",
                 reward: "Выплата вознаграждения"
             }
@@ -749,7 +749,7 @@ const en: TranslationMessages = {
             types: {
                 all: "All transactions",
                 deposit: "Deposit",
-                withdrawal: "Withdrawal",
+                withdraw: "Withdrawal",
                 transfer: "Transfer",
                 reward: "Reward"
             }
