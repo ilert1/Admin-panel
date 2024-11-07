@@ -84,7 +84,7 @@ export const FeeCard = (props: FeeCardProps) => {
                             <Label className="text-title-1 text-neutral-40" htmlFor="">
                                 {translate("resources.direction.fees.descr")}
                             </Label>
-                            <Textarea className="!text-body">{description}</Textarea>
+                            <Textarea readOnly className="!text-body resize-none" value={description} />
                         </div>
                     </div>
                     <div className="flex justify-end mt-6">
