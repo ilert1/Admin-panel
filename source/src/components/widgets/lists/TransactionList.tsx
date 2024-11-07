@@ -19,19 +19,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import useTransactionFilter from "@/hooks/useTransactionFilter";
 import fetchDictionaries from "@/helpers/get-dictionaries";
-import BarChart from "@/components/ui/Bar";
-import { debounce } from "lodash";
+// import BarChart from "@/components/ui/Bar";
+// import { debounce } from "lodash";
 
 const TransactionFilterSidebar = ({
     typeTabActive,
-    setTypeTabActive,
-    setChartOpen,
-    chartOpen
-}: {
+    setTypeTabActive
+}: // setChartOpen,
+// chartOpen
+{
     typeTabActive: string;
-    chartOpen: boolean;
     setTypeTabActive: (type: string) => void;
-    setChartOpen: (state: boolean) => void;
+    // chartOpen: boolean;
+    // setChartOpen: (state: boolean) => void;
 }) => {
     const {
         translate,
@@ -56,7 +56,7 @@ const TransactionFilterSidebar = ({
         handleDownloadReport,
         clearFilters
     } = useTransactionFilter(typeTabActive, setTypeTabActive);
-    const debounced = debounce(setChartOpen, 200);
+    // const debounced = debounce(setChartOpen, 200);
 
     return (
         <div className="mb-6">
@@ -244,7 +244,7 @@ export const TransactionList = () => {
     const [typeTabActive, setTypeTabActive] = useState("");
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");
-    const [chartOpen, setChartOpen] = useState(false);
+    // const [chartOpen, setChartOpen] = useState(false);
 
     const openSheet = (id: string) => {
         setShowTransactionId(id);
@@ -381,8 +381,8 @@ export const TransactionList = () => {
     ];
 
     //TODO delete chart mock and the dates
-    const startDate = new Date("2023-07-01");
-    const endDate = new Date("2023-09-15");
+    // const startDate = new Date("2023-07-01");
+    // const endDate = new Date("2023-09-15");
 
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
@@ -394,18 +394,18 @@ export const TransactionList = () => {
                         <TransactionFilterSidebar
                             typeTabActive={typeTabActive}
                             setTypeTabActive={setTypeTabActive}
-                            setChartOpen={setChartOpen}
-                            chartOpen={chartOpen}
+                            // setChartOpen={setChartOpen}
+                            // chartOpen={chartOpen}
                         />
                     </div>
-                    <div className="w-full mb-6 overflow-y-hidden">
+                    {/* <div className="w-full mb-6 overflow-y-hidden">
                         <BarChart
                             startDate={startDate}
                             endDate={endDate}
                             typeTabActive={typeTabActive}
                             open={chartOpen}
                         />
-                    </div>
+                    </div> */}
 
                     <DataTable data={[]} columns={columns} />
                 </ListContextProvider>
