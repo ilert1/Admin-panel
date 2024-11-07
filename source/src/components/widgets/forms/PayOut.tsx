@@ -155,6 +155,7 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                                     </FormLabel>
                                     <FormControl>
                                         <Input
+                                            disabled={loading}
                                             className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted/50 ${
                                                 fieldState.invalid
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
@@ -196,6 +197,7 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                                     <FormLabel>{translate(`app.widgets.forms.payout.${item}`)}</FormLabel>
                                     <FormControl>
                                         <Input
+                                            disabled={loading}
                                             className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted/50 ${
                                                 fieldState.invalid
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
@@ -234,6 +236,7 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
 
                     <NavLink to={"/"}>
                         <Button
+                            disabled={loading}
                             variant="clearBtn"
                             className="border border-neutral-50 rounded-4 hover:border-neutral-100">
                             {translate("app.ui.actions.cancel")}
