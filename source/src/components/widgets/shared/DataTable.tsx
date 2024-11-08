@@ -83,7 +83,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                             <TableCell
                                 colSpan={columns.length}
                                 className="h-24 text-center text-sm border border-muted ">
-                                No results.
+                                {translate("resources.transactions.undefined")}
                             </TableCell>
                         </TableRow>
                     )}
