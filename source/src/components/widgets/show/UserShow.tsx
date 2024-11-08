@@ -23,7 +23,7 @@ export const UserShow = (props: { id: string; isBrief: boolean }) => {
 
     const translate = useTranslate();
     const { id, isBrief } = props;
-    const context = useShowController({ id });
+    const context = useShowController({ id, queryOptions: { refetchOnWindowFocus: false, refetchInterval: false } });
     const localIsBrief = isBrief || false;
 
     if (context.isLoading || context.isFetching || !context.record) {
