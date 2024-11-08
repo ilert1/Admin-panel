@@ -345,7 +345,11 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                         <span className="opacity-60 text-title-1">
                             {translate("resources.transactions.fields.state.state_description")}
                         </span>
-                        <span>{context.record.state.state_description}</span>
+                        <span>
+                            {translate(
+                                `resources.transactions.states.${context.record.state.state_description.toLowerCase()}`
+                            )}
+                        </span>
                     </div>
                     <div className="flex flex-col">
                         <span className="opacity-60 text-title-1">
