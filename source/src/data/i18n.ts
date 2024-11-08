@@ -223,6 +223,7 @@ const ru: TranslationMessages = {
                 correction: "Коррекция",
                 emptyrequisites: "Пустые реквизиты",
                 limitfail: "Превышен лимит",
+                waitingforadminapproval: "Ожидание подтверждения админом",
                 cancelledbypayer: "Отменено плательщиком"
             }
         },
@@ -812,6 +813,7 @@ const en: TranslationMessages = {
                 correction: "Correction",
                 emptyrequisites: "Empty requisites",
                 limitfail: "Limit fail",
+                waitingforadminapproval: "Waiting for admin approval",
                 cancelledbypayer: "Cancelled by payer"
             }
         },
