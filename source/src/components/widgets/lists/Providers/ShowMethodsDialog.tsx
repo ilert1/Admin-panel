@@ -39,7 +39,7 @@ export const ShowMethodsDialog = (props: ShowMethodDialogProps) => {
                 <DialogHeader>
                     <DialogTitle className="text-center"></DialogTitle>
                     <DialogDescription></DialogDescription>
-                    <div className="flex flex-col items-center justify-end ">
+                    <div className="w-full flex flex-col items-center justify-end ">
                         <span className="self-start text-note-1">{translate("resources.provider.fields.methods")}</span>
                         <MonacoEditor
                             height="144px"

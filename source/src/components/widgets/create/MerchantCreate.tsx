@@ -129,7 +129,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                             control={form.control}
                             name="name"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.merchant.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
@@ -144,7 +144,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                             control={form.control}
                             name="id"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.merchant.fields.id")}</FormLabel>
                                     <FormControl>
                                         <div>
@@ -159,7 +159,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                             control={form.control}
                             name="description"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.merchant.fields.descr")}</FormLabel>
                                     <FormControl>
                                         <div>
@@ -174,7 +174,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                             control={form.control}
                             name="keycloak_id"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>Keycloak ID</FormLabel>
                                     <FormControl>
                                         <div>
@@ -219,13 +219,13 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                     <div ref={messagesEndRef} />
                 </div>
                 <div className="flex justify-end">
-                    <Button onClick={() => setAddNewFeeClicked(true)} className="my-6 w-1/4 flex gap-[4px]">
+                    <Button onClick={() => setAddNewFeeClicked(true)} className="my-6 w-1/2 sm:w-1/4 flex gap-[4px]">
                         <CircleChevronRight className="w-[16px] h-[16px]" />
                         {translate("resources.direction.fees.addFee")}
                     </Button>
                 </div>
             </div>
-            <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
+            <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col gap-3 sm:gap-0 sm:flex-row space-x-0 sm:space-x-2">
                 <Button
                     onClick={form.handleSubmit(onSubmit)}
                     variant="default"

@@ -14,7 +14,7 @@ interface MonacoEditorProps {
 }
 
 export const MonacoEditor = (props: MonacoEditorProps) => {
-    const { height = "20vh", width = "400px", code, disabled = false, setCode, onErrorsChange, onValidChange } = props;
+    const { code, disabled = false, setCode, onErrorsChange, onValidChange } = props;
 
     const validateCode = useCallback(
         (value: string) => {
@@ -75,10 +75,10 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
     }, []);
 
     return (
-        <div className="border border-neutral-50 rounded-[4px] py-2 overflow-hidden">
+        <div className="h-full w-full border border-neutral-50 rounded-[4px] py-2 overflow-hidden">
             <Editor
-                height={height}
-                width={width}
+                width={"90%"}
+                height={"144px"}
                 defaultLanguage="json"
                 value={code}
                 theme="myCustomTheme"
@@ -94,13 +94,13 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
                     wordWrap: "on",
                     lineNumbers: "on",
                     scrollBeyondLastColumn: 0,
-                    automaticLayout: true,
                     suggestOnTriggerCharacters: false,
                     quickSuggestions: false,
                     glyphMargin: false,
                     lineNumbersMinChars: 2,
                     lineDecorationsWidth: 1,
-                    readOnly: disabled
+                    readOnly: disabled,
+                    automaticLayout: true
                 }}
                 beforeMount={handleEditorDidMount}
             />

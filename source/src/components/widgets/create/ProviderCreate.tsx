@@ -138,8 +138,6 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
                                         </FormLabel>
                                         <FormControl>
                                             <MonacoEditor
-                                                height="144px"
-                                                width="100%"
                                                 onErrorsChange={setHasErrors}
                                                 onValidChange={setIsValid}
                                                 code={field.value || "{}"}
@@ -151,18 +149,18 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
                                 );
                             }}
                         />
-                        <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
+                        <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col sm:flex-row space-x-0 sm:space-x-2 mt-6   ">
                             <Button
                                 type="submit"
                                 variant="default"
-                                className="w-1/2"
+                                className="w-full sm:w-1/2"
                                 disabled={hasErrors && isValid && submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button
                                 type="button"
                                 variant="outline"
-                                className="flex-1 border-neutral-50 text-neutral-50 bg-muted w-1/2"
+                                className="flex-1 mt-4 sm:mt-0 border-neutral-50 text-neutral-50 bg-muted w-full sm:w-1/2"
                                 onClick={onClose}>
                                 {translate("app.ui.actions.cancel")}
                             </Button>
