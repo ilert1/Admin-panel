@@ -137,7 +137,10 @@ const TransactionFilterSidebar = ({
                                     />
                                 </SelectTrigger>
 
-                                <SelectContent align="start" onScrollCapture={accountScrollHandler}>
+                                <SelectContent
+                                    align="start"
+                                    onScrollCapture={accountScrollHandler}
+                                    onScroll={accountScrollHandler}>
                                     <SelectItem value="null">
                                         {translate("resources.transactions.filter.showAll")}
                                     </SelectItem>
@@ -145,7 +148,9 @@ const TransactionFilterSidebar = ({
                                     {accountsData?.pages.map(page => {
                                         return page.data.map(account => (
                                             <SelectItem key={account.id} value={account.id}>
-                                                <p className="truncate max-w-36">{account.meta.caption}</p>
+                                                <p className="truncate max-w-36">
+                                                    {account.meta?.caption ? account.meta.caption : account.owner_id}
+                                                </p>
                                             </SelectItem>
                                         ));
                                     })}
