@@ -27,7 +27,8 @@ import {
     MessagesSquareIcon,
     XIcon,
     KeyRound,
-    ChevronLeft
+    ChevronLeft,
+    EllipsisVerticalIcon
 } from "lucide-react";
 import { useTheme } from "@/components/providers";
 import { Toaster } from "@/components/ui/toaster";
@@ -41,6 +42,11 @@ import { Button } from "@/components/ui/button";
 import { useGetResLabel } from "@/hooks/useGetResLabel";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { KeysModal } from "@/components/widgets/components/KeysModal";
+import { NumericFormat } from "react-number-format";
+import { Icon } from "@/components/widgets/shared/Icon";
+import { useQuery } from "react-query";
+import { API_URL } from "@/data/base";
+import { toast } from "sonner";
 
 enum SplitLocations {
     show = "show",
@@ -55,6 +61,33 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     const { permissions } = usePermissions();
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
     const location = useLocation();
+
+    const error = (message: string) => {
+        toast.error(translate("resources.transactions.show.error"), {
+            dismissible: true,
+            description: message,
+            duration: 3000
+        });
+    };
+
+    const { isLoading: totalLoading, data: totalAmount } = useQuery("totalAmount", () =>
+        fetch(`${API_URL}/accounts/balance/count`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(json => {
+                if (json.success) {
+                    return json.data;
+                } else {
+                    error(translate("app.ui.header.totalError"));
+                }
+            })
+            .catch(() => {
+                error(translate("app.ui.header.totalError"));
+            })
+    );
 
     const resourceName = useMemo(() => {
         const urlParts = location.pathname?.split("/")?.filter((s: string) => s?.length > 0);
@@ -81,7 +114,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
 
     const identity = useGetIdentity();
     const logout = useLogout();
-    //TODO for better UX we should set last location in localStorage to save it while user presses browser "refresh" button
     const handleLogout = () => {
         location.pathname = "/";
         logout();
@@ -129,31 +161,54 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 onClick={e => e.stopPropagation()}>
                 {identity?.data && (
                     <div className="ml-auto flex items-center gap-2 mr-6">
-                        <div>
-                            <span
-                                className={
-                                    profileOpen
-                                        ? "text-green-50 text-title-2 cursor-default"
-                                        : "text-neutral-100 text-title-2 cursor-default"
-                                }>
-                                {identity.data.fullName ? identity.data.fullName : null}
-                            </span>
-                        </div>
                         <div className="flex items-center gap-8 relative !z-60">
                             <DropdownMenu open={profileOpen} onOpenChange={setProfileOpen} modal={true}>
                                 <DropdownMenuTrigger asChild>
-                                    <Avatar
+                                    <div
                                         className={
                                             profileOpen
-                                                ? "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-50 bg-green-50 transition-all duration-150"
-                                                : "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-40 hover:border-green-50 bg-muted hover:bg-green-50 transition-all duration-150"
+                                                ? "flex gap-4 items-center justify-center py-1 px-4 bg-muted rounded-4 border border-neutral-80 box-border transition-colors transition-150 cursor-pointer"
+                                                : "flex gap-4 items-center justify-center py-1 px-4 bg-muted rounded-4 border border-muted hover:border-neutral-80 box-border transition-colors transition-150 cursor-pointer group"
                                         }>
-                                        <Blowfish />
-                                    </Avatar>
+                                        <Avatar className="flex items-center justify-center w-[60px] h-[60px] border-2 border-green-40 bg-muted">
+                                            <Blowfish />
+                                        </Avatar>
+                                        <div className="flex flex-col gap-[2px] items-start">
+                                            <span className={"text-neutral-100 text-title-2 cursor-default"}>
+                                                {identity.data.fullName ? identity.data.fullName : ""}
+                                            </span>
+                                            <span className="text-note-2 text-neutral-60">
+                                                {translate("app.ui.header.totalBalance")}
+                                            </span>
+                                            {totalLoading || !totalAmount ? (
+                                                <span>{translate("app.ui.header.totalLoading")}</span>
+                                            ) : (
+                                                <div className="flex gap-4 items-center">
+                                                    <h1 className="text-display-4 overflow-hidden max-w-24 sm:max-w-max">
+                                                        <NumericFormat
+                                                            className="whitespace-nowrap"
+                                                            value={
+                                                                totalAmount.value.quantity / totalAmount.value.accuracy
+                                                            }
+                                                            displayType={"text"}
+                                                            thousandSeparator=" "
+                                                            decimalSeparator=","
+                                                        />
+                                                    </h1>
+                                                    <div className="w-6 flex justify-center">
+                                                        <Icon name={totalAmount.currency} folder="currency" />
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className={profileOpen ? "text-green-40" : "group-hover:text-green-40"}>
+                                            <EllipsisVerticalIcon />
+                                        </div>
+                                    </div>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent
                                     align="end"
-                                    className="p-0 w-56 bg-muted border border-neutral-100 z100">
+                                    className="p-0 w-72 bg-muted border border-neutral-100">
                                     <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
                                         <Avatar className="w-5 h-5">
                                             <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
@@ -163,11 +218,19 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                             </AvatarFallback>
                                         </Avatar>
                                         <div className="ml-3 text-neutral-100">
-                                            <div className="text-title-1 cursor-default">{identity.data.fullName}</div>
+                                            <div className="text-title-1 cursor-default">
+                                                {merchantOnly
+                                                    ? translate("app.ui.roles.merchant")
+                                                    : translate("app.ui.roles.admin")}
+                                            </div>
                                             {
                                                 //TODO: Set valid email
                                             }
-                                            <div className="text-note-2 cursor-default">email@gmail.com</div>
+                                            {identity.data.email ? (
+                                                <div className="text-note-2 cursor-default">{identity.data.email}</div>
+                                            ) : (
+                                                <></>
+                                            )}
                                         </div>
                                     </div>
 
@@ -184,7 +247,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                         </span>
                                     </div>
                                     <DropdownMenuItem
-                                        className="pl-4 pr-4 h-[50px] focus:bg-green-50 focus:cursor-pointer text-title-2"
+                                        className="pl-4 pr-4 h-[50px] hover:bg-green-50 hover:cursor-pointer text-title-2"
                                         onClick={handleLogout}>
                                         {translate("ra.auth.logout")}
                                     </DropdownMenuItem>
