@@ -19,7 +19,8 @@ const ru: TranslationMessages = {
                 states: {
                     active: "Активный",
                     frozen: "Приостановлен",
-                    blocked: "Заблокирован"
+                    blocked: "Заблокирован",
+                    deleted: "Удален"
                 },
 
                 type: "Тип счёта",
@@ -158,6 +159,7 @@ const ru: TranslationMessages = {
                     account: "Счет"
                 }
             },
+            undefined: "Нет данных",
             pagination: "Записей",
             chart: "График операций",
             showHeader: "Информация о транзакции",
@@ -195,7 +197,33 @@ const ru: TranslationMessages = {
                 deposit: "Пополнение",
                 withdraw: "Вывод средств",
                 transfer: "Перевод средств",
-                reward: "Выплата вознаграждения"
+                reward: "Выплата вознаграждения",
+                feefromsender: "Комиссия от отправителя",
+                feefromtransaction: "Комиссия с транзакции"
+            },
+            states: {
+                all: "Показать все",
+                created: "Создано",
+                paid: "Оплачено",
+                fromoutside: "Извне",
+                waitpayout: "Ожидание выплаты",
+                paidout: "Выплачено",
+                toreturnfrominside: "К возврату изнутри",
+                toreturnfromoutside: "К возврату извне",
+                reversed: "Отменено",
+                changedfromcreated: "Изменено с состояния 'Создано'",
+                changedfrompaid: "Изменено с состояния 'Оплачено'",
+                returned: "Возвращено",
+                todeny: "Отклонить",
+                processing: "Обработка",
+                expired: "Истекло",
+                deleted: "Удалено",
+                success: "Успех",
+                fail: "Неудача",
+                correction: "Коррекция",
+                emptyrequisites: "Пустые реквизиты",
+                limitfail: "Превышен лимит",
+                cancelledbypayer: "Отменено плательщиком"
             }
         },
         withdraw: {
@@ -581,7 +609,8 @@ const en: TranslationMessages = {
                 states: {
                     active: "Active",
                     frozen: "Frozen",
-                    blocked: "Blocked"
+                    blocked: "Blocked",
+                    deleted: "Deleted"
                 },
                 type: "Account type",
                 balance: "Account balance",
@@ -719,6 +748,7 @@ const en: TranslationMessages = {
                     account: "Account"
                 }
             },
+            undefined: "No results",
             pagination: "Rows per page",
             chart: "Schedule of operations",
             showHeader: "Transaction info",
@@ -756,7 +786,33 @@ const en: TranslationMessages = {
                 deposit: "Deposit",
                 withdraw: "Withdrawal",
                 transfer: "Transfer",
-                reward: "Reward"
+                reward: "Reward",
+                feefromsender: "Fee from sender",
+                feefromtransaction: "Fee from transaction"
+            },
+            states: {
+                all: "Show all",
+                created: "Created",
+                paid: "Paid",
+                fromoutside: "From outside",
+                waitpayout: "Wait payout",
+                paidout: "Paid out",
+                toreturnfrominside: "To return from inside",
+                toreturnfromoutside: "To return from outside",
+                reversed: "Reversed",
+                changedfromcreated: "Changed from created",
+                changedfrompaid: "Changed from paid",
+                returned: "Returned",
+                todeny: "To deny",
+                processing: "Processing",
+                expired: "Expired",
+                deleted: "Deleted",
+                success: "Success",
+                fail: "Fail",
+                correction: "Correction",
+                emptyrequisites: "Empty requisites",
+                limitfail: "Limit fail",
+                cancelledbypayer: "Cancelled by payer"
             }
         },
         withdraw: {

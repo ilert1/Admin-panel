@@ -108,7 +108,11 @@ const TransactionFilterSidebar = ({
                                 {data &&
                                     Object.keys(data.states).map(index => (
                                         <SelectItem key={data.states[index].state_int} value={data.states[index]}>
-                                            {data.states[index].state_description}
+                                            {translate(
+                                                `resources.transactions.states.${data?.states?.[
+                                                    index
+                                                ]?.state_description?.toLowerCase()}`
+                                            )}
                                         </SelectItem>
                                     ))}
                             </SelectContent>
@@ -287,13 +291,15 @@ export const TransactionList = () => {
             cell: ({ row }) =>
                 translate(
                     `resources.transactions.types.${data?.transactionTypes?.[
-                        row.getValue("type") as string
-                    ]?.type_descr.toLowerCase()}`
+                        row.original.type
+                    ]?.type_descr?.toLowerCase()}`
                 ) || ""
         },
         {
-            accessorKey: "state.state_description",
-            header: translate("resources.transactions.fields.state.title")
+            accessorKey: "state",
+            header: translate("resources.transactions.fields.state.title"),
+            cell: ({ row }) =>
+                translate(`resources.transactions.states.${row.original.state?.state_description?.toLowerCase()}`) || ""
         },
         {
             accessorKey: "sourceValue",
