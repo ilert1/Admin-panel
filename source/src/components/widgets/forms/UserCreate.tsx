@@ -25,6 +25,8 @@ export const UserCreateForm = (props: {
         return props.currencies?.sort((a, b) => (a["alpha-3"] > b["alpha-3"] ? 1 : -1)) || [];
     }, [props.currencies]);
 
+    const isFirefox = useMemo(() => navigator.userAgent.match(/firefox|fxios/i), []);
+
     const formSchema = z.object({
         name: z.string().min(3, translate("app.widgets.forms.userCreate.nameMessage")).trim(),
         login: z.string().min(3, translate("app.widgets.forms.userCreate.loginMessage")).trim(),
@@ -121,6 +123,10 @@ export const UserCreateForm = (props: {
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
                                         }`}
+                                        autoComplete={isFirefox ? "new-password" : "off"}
+                                        autoCorrect="off"
+                                        autoCapitalize="none"
+                                        spellCheck="false"
                                         disabled={props.isDisabled}
                                         {...field}>
                                         {fieldState.invalid && (
@@ -156,7 +162,10 @@ export const UserCreateForm = (props: {
                                                 : ""
                                         }`}
                                         disabled={props.isDisabled}
-                                        autoComplete="off"
+                                        autoComplete={isFirefox ? "new-password" : "off"}
+                                        autoCorrect="off"
+                                        autoCapitalize="none"
+                                        spellCheck="false"
                                         {...field}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
@@ -191,9 +200,16 @@ export const UserCreateForm = (props: {
                                                 : ""
                                         }`}
                                         disabled={props.isDisabled}
-                                        autoComplete="off"
+                                        {...field}
                                         spellCheck="false"
-                                        {...field}>
+                                        autoCorrect="off"
+                                        autoComplete={isFirefox ? "new-password" : "off"}
+                                        autoCapitalize="none"
+                                        ref={input => {
+                                            if (input) {
+                                                input.removeAttribute("readonly");
+                                            }
+                                        }}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
                                                 <Tooltip>
@@ -228,9 +244,16 @@ export const UserCreateForm = (props: {
                                                 : ""
                                         }`}
                                         disabled={props.isDisabled}
+                                        {...field}
                                         autoComplete="new-password"
+                                        autoCorrect="off"
                                         spellCheck="false"
-                                        {...field}>
+                                        autoCapitalize="none"
+                                        ref={input => {
+                                            if (input) {
+                                                input.removeAttribute("readonly");
+                                            }
+                                        }}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
                                                 <Tooltip>
