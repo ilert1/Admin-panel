@@ -40,8 +40,6 @@ const ru: TranslationMessages = {
                     caption: "Имя"
                 }
             },
-            totalBalance: "Общий баланс по счетам",
-            totalError: "Не удалось получить общий баланс по счетам",
             showHeader: "Информация о счете",
             showDescription: "Подробная информация о счете с ID %{id}"
         },
@@ -402,6 +400,15 @@ const ru: TranslationMessages = {
             }
         },
         ui: {
+            header: {
+                totalBalance: "Общий баланс по счетам",
+                totalLoading: "Загрузка...",
+                totalError: "Не удалось получить общий баланс по счетам"
+            },
+            roles: {
+                admin: "Администратор",
+                merchant: "Мерчант"
+            },
             actions: {
                 quick_show: "Быстрый просмотр",
                 show: "Просмотр",
@@ -601,8 +608,6 @@ const en: TranslationMessages = {
                     caption: "Name"
                 }
             },
-            totalBalance: "Total account balance",
-            totalError: "Error while getting total balance",
             showHeader: "Account info",
             showDescription: "Detailed information about account with ID %{id}"
         },
@@ -964,6 +969,15 @@ const en: TranslationMessages = {
             }
         },
         ui: {
+            header: {
+                totalBalance: "Total account balance",
+                totalLoading: "Loading...",
+                totalError: "Error while getting total account balance"
+            },
+            roles: {
+                admin: "Administrator",
+                merchant: "Merchant"
+            },
             actions: {
                 quick_show: "Quick show",
                 show: "Show",
