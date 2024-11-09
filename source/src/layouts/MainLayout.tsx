@@ -163,52 +163,59 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     <div className="ml-auto flex items-center gap-2 mr-6">
                         <div className="flex items-center gap-8 relative !z-60">
                             <DropdownMenu open={profileOpen} onOpenChange={setProfileOpen} modal={true}>
-                                <DropdownMenuTrigger asChild>
-                                    <div
-                                        className={
-                                            profileOpen
-                                                ? "flex gap-4 items-center justify-center py-1 px-4 bg-muted rounded-4 border border-neutral-80 box-border transition-colors transition-150 cursor-pointer"
-                                                : "flex gap-4 items-center justify-center py-1 px-4 bg-muted rounded-4 border border-muted hover:border-neutral-80 box-border transition-colors transition-150 cursor-pointer group"
-                                        }>
-                                        <Avatar className="flex items-center justify-center w-[60px] h-[60px] border-2 border-green-40 bg-muted">
+                                <div
+                                    className={
+                                        profileOpen
+                                            ? "flex gap-4 items-center justify-center py-1 px-4 bg-muted rounded-4 border border-neutral-80 box-border transition-colors transition-150 cursor-default"
+                                            : "flex gap-4 items-center justify-center py-1 px-4 bg-muted rounded-4 border border-muted box-border transition-colors transition-150 cursor-default"
+                                    }>
+                                    <DropdownMenuTrigger asChild>
+                                        <Avatar className="flex items-center justify-center w-[60px] h-[60px] border-2 border-green-40 bg-muted cursor-pointer">
                                             <Blowfish />
                                         </Avatar>
-                                        <div className="flex flex-col gap-[2px] items-start">
-                                            <span className={"text-neutral-100 text-title-2 cursor-default"}>
-                                                {identity.data.fullName ? identity.data.fullName : ""}
-                                            </span>
-                                            <span className="text-note-2 text-neutral-60">
-                                                {translate("app.ui.header.totalBalance")}
-                                            </span>
-                                            {totalLoading || !totalAmount ? (
-                                                <span>{translate("app.ui.header.totalLoading")}</span>
-                                            ) : (
-                                                <div className="flex gap-4 items-center">
-                                                    <h1 className="text-display-4 overflow-hidden max-w-24 sm:max-w-max">
-                                                        <NumericFormat
-                                                            className="whitespace-nowrap"
-                                                            value={
-                                                                totalAmount.value.quantity / totalAmount.value.accuracy
-                                                            }
-                                                            displayType={"text"}
-                                                            thousandSeparator=" "
-                                                            decimalSeparator=","
-                                                        />
-                                                    </h1>
-                                                    <div className="w-6 flex justify-center">
-                                                        <Icon name={totalAmount.currency} folder="currency" />
-                                                    </div>
+                                    </DropdownMenuTrigger>
+                                    <div className="flex flex-col gap-[2px] items-start">
+                                        <span className={"text-neutral-100 text-title-2 cursor-default"}>
+                                            {identity.data.fullName ? identity.data.fullName : ""}
+                                        </span>
+                                        <span className="text-note-2 text-neutral-60">
+                                            {translate("app.ui.header.totalBalance")}
+                                        </span>
+                                        {totalLoading || !totalAmount ? (
+                                            <span>{translate("app.ui.header.totalLoading")}</span>
+                                        ) : (
+                                            <div className="flex gap-4 items-center">
+                                                <h1 className="text-display-4">
+                                                    <NumericFormat
+                                                        className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-[98px] block"
+                                                        value={totalAmount.value.quantity / totalAmount.value.accuracy}
+                                                        displayType={"text"}
+                                                        thousandSeparator=" "
+                                                        decimalSeparator=","
+                                                    />
+                                                </h1>
+                                                <div className="w-6 flex justify-center">
+                                                    <Icon name={totalAmount.currency} folder="currency" />
                                                 </div>
-                                            )}
-                                        </div>
-                                        <div className={profileOpen ? "text-green-40" : "group-hover:text-green-40"}>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <DropdownMenuTrigger>
+                                        <div
+                                            className={
+                                                profileOpen
+                                                    ? "text-green-40 focus:outline-0"
+                                                    : "group-hover:text-green-40 outline-none hover:text-green-40 transition-colors"
+                                            }>
                                             <EllipsisVerticalIcon />
                                         </div>
-                                    </div>
-                                </DropdownMenuTrigger>
+                                    </DropdownMenuTrigger>
+                                </div>
                                 <DropdownMenuContent
+                                    sideOffset={34}
                                     align="end"
-                                    className="p-0 w-72 bg-muted border border-neutral-100">
+                                    alignOffset={-18}
+                                    className="p-0 w-72 bg-muted border border-neutral-80 z-[1000]">
                                     <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
                                         <Avatar className="w-5 h-5">
                                             <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
