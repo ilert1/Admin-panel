@@ -198,6 +198,7 @@ declare namespace Users {
         shop_sign_key: string;
         shop_balance_key: string;
         password: string;
+        state: number;
     }
 }
 

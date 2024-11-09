@@ -21,7 +21,7 @@ export const EditMerchantDialog = (props: EditMerchantDialogProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="w-[716px] max-h-[90vh] bg-muted pb-0 overflow-hidden">
+            <DialogContent className="max-w-[716px] max-h-full bg-muted pb-0 ">
                 <DialogHeader>
                     <DialogTitle className="text-center mb-[24px]">
                         {translate("resources.merchant.editingMerchant")}

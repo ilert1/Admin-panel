@@ -191,7 +191,7 @@ export const CurrenciesList = () => {
                 </Dialog>
 
                 <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-                    <DialogContent className="flex flex-col gap-4 w-auto" aria-describedby={undefined}>
+                    <DialogContent className="max-w-[251px] max-h-[200px] sm:max-h-[140px] bg-muted overflow-auto">
                         <DialogHeader>
                             <DialogTitle className="text-xl">
                                 {translate("resources.currency.deleteDialogTitle")}
@@ -199,7 +199,7 @@ export const CurrenciesList = () => {
                         </DialogHeader>
 
                         {chosenCurrency?.id ? (
-                            <div className="flex items-center gap-8">
+                            <div className="flex flex-col gap-4 sm:gap-0 sm:flex-row justify-around w-full">
                                 <Button onClick={() => handleOkClicked(chosenCurrency.id)} variant="default">
                                     {translate("app.ui.actions.delete")}
                                 </Button>

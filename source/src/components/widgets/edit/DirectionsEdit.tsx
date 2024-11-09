@@ -108,13 +108,13 @@ export const DirectionEdit = (props: DirectionEditProps) => {
         <EditContextProvider value={controllerProps}>
             {/* <p className="mb-2">{translate("resources.direction.note")}</p> */}
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="flex flex-wrap">
                         <FormField
                             control={form.control}
                             name="name"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
@@ -129,7 +129,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                             control={form.control}
                             name="src_currency"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.sourceCurrency")}</FormLabel>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
@@ -160,7 +160,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                             control={form.control}
                             name="merchant"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.merchant")}</FormLabel>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
@@ -191,7 +191,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                             control={form.control}
                             name="dst_currency"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.destinationCurrency")}</FormLabel>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
@@ -223,7 +223,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                             control={form.control}
                             name="provider"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.provider")}</FormLabel>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
@@ -255,7 +255,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                             control={form.control}
                             name="active"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.fields.active")}</FormLabel>
                                     <Select
                                         value={field.value ? "true" : "false"} // Преобразуем булево значение в строку
@@ -286,7 +286,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                             control={form.control}
                             name="weight"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.weight")}</FormLabel>
                                     <FormControl>
                                         <div>
@@ -301,7 +301,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                             control={form.control}
                             name="description"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.description")}</FormLabel>
                                     <FormControl>
                                         <div>
@@ -312,7 +312,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                 </FormItem>
                             )}
                         />
-                        <div className="w-full md:w-2/6 p-2 ml-auto flex space-x-2 pt-5 gap-[12px]">
+                        <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col gap-3 sm:gap-0 sm:flex-row space-x-0 sm:space-x-2">
                             <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>

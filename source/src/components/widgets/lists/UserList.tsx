@@ -172,7 +172,6 @@ export const UserList = () => {
             header: translate("resources.users.fields.name"),
             cell: ({ row }) => <TextField text={row.original.name} copyValue />
         },
-        // Макс, а это точно?
         {
             accessorKey: "active",
             header: () => {
@@ -189,17 +188,6 @@ export const UserList = () => {
                     </div>
                 );
             }
-            // <div className="flex items-center justify-center text-white">
-            //     {row.original.deleted_at ? (
-            //         <span className="px-3 py-0.5 bg-red-50 rounded-20 font-normal text-base text-center">
-            //             {translate("resources.users.fields.activeStateFalse")}
-            //         </span>
-            //     ) : (
-            //         <span className="px-3 py-0.5 bg-green-50 rounded-20 font-normal text-base text-center">
-            //             {translate("resources.users.fields.activeStateTrue")}
-            //         </span>
-            //     )}
-            // </div>
         },
         {
             id: "actions",
@@ -227,7 +215,8 @@ export const UserList = () => {
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>
                     <SheetContent
                         aria-describedby={undefined}
-                        className="sm:max-w-[1015px] !max-h-[502px] w-full p-0 m-0 top-[84px] flex flex-col gap-0 outline-none border-0"
+                        // className="sm:max-w-[1015px] h-[502px] max-h-full w-full p-0 m-0 top-[84px] flex flex-col gap-0 outline-none overflow-y-auto"
+                        className="sm:max-w-[1015px] h-full sm:h-[502px] max-h-[calc(100dvh-84px)] overflow-hidden w-full p-0 m-0 top-[84px] flex flex-col"
                         tabIndex={-1}
                         style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
                         close={false}>

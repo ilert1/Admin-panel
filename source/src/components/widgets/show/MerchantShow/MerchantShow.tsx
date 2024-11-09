@@ -112,7 +112,9 @@ export const MerchantShow = (props: MerchantShowProps) => {
                         </div>
                     </div>
                     <div className="flex justify-end">
-                        <Button onClick={() => setAddNewFeeClicked(true)} className="my-6 w-1/4 flex gap-[4px]">
+                        <Button
+                            onClick={() => setAddNewFeeClicked(true)}
+                            className="my-6 w-3/4 sm:w-1/4 flex gap-[4px]">
                             <CircleChevronRight className="w-[16px] h-[16px]" />
                             {translate("resources.direction.fees.addFee")}
                         </Button>

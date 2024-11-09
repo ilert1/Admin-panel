@@ -19,7 +19,7 @@ export const CreateMerchantDialog = (props: CreateMerchantDialogProps) => {
     const translate = useTranslate();
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="min-w-[716px] bg-muted">
+            <DialogContent className="max-w-[716px] bg-muted">
                 <DialogHeader>
                     <DialogTitle className="text-center">
                         {translate("resources.merchant.creatingMerchant")}

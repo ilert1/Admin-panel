@@ -32,9 +32,9 @@ export const UserShow = (props: { id: string; isBrief: boolean }) => {
     if (isBrief) {
         return (
             <div className="relative">
-                <div className="px-[42px] pb-[25px] flex justify-between">
+                <div className="px-[42px] pb-[25px] flex flex-col sm:flex-row justify-between">
                     <TextField text={id} copyValue />
-                    <div className="flex items-center justify-center text-white">
+                    <div className="flex self-start mt-2 sm:mt-0 sm:self-center items-center justify-center text-white">
                         {context.record.deleted_at ? (
                             <span className="px-3 py-0.5 bg-red-50 rounded-20 font-normal text-base text-center">
                                 {translate("resources.users.fields.activeStateFalse")}
@@ -46,7 +46,7 @@ export const UserShow = (props: { id: string; isBrief: boolean }) => {
                         )}
                     </div>
                 </div>
-                <div className="grid grid-cols-2 px-[42px] gap-y-6 pb-[24px]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 px-[42px] gap-y-2 sm:gap-y-6 pb-[24px]">
                     <TextField label={translate("resources.users.fields.name")} text={context.record.name} copyValue />
                     <div className="max-w-96">
                         <TextField
@@ -78,7 +78,7 @@ export const UserShow = (props: { id: string; isBrief: boolean }) => {
                     />
                 </div>
 
-                <div className="flex justify-end gap-4 px-[42px]">
+                <div className="flex justify-end gap-4 px-[42px] mb-4">
                     <Button onClick={() => setShowEditUser(true)} className="text-title-1">
                         {translate("resources.users.edit")}
                     </Button>

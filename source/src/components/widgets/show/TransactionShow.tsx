@@ -291,11 +291,13 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                                                 <AlertDialogDescription></AlertDialogDescription>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>
-                                                <div className="flex justify-around gap-[35px] w-full">
-                                                    <AlertDialogAction onClick={commitTransaction} className="w-40">
+                                                <div className="flex flex-col sm:flex-row justify-around gap-4 sm:gap-[35px] w-full">
+                                                    <AlertDialogAction
+                                                        onClick={commitTransaction}
+                                                        className="w-full sm:w-40">
                                                         {translate("resources.transactions.show.commit")}
                                                     </AlertDialogAction>
-                                                    <AlertDialogCancel className="!ml-0 px-3 w-24">
+                                                    <AlertDialogCancel className="w-full !ml-0 px-3 sm:w-24">
                                                         {translate("app.ui.actions.cancel")}
                                                     </AlertDialogCancel>
                                                 </div>
