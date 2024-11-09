@@ -205,8 +205,10 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
         },
         {
             id: "state",
-            accessorKey: "state.state_description",
-            header: translate("resources.transactions.fields.state.title")
+            accessorKey: "state",
+            header: translate("resources.transactions.fields.state.title"),
+            cell: ({ row }) =>
+                translate(`resources.transactions.states.${row.original.state?.state_description?.toLowerCase()}`) || ""
         },
         {
             id: "source_amount",
@@ -261,7 +263,9 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                                     <SelectContent className="bg-neutral-0">
                                         {states.map(state => (
                                             <SelectItem key={state.state_int} value={state.state_int.toString()}>
-                                                {state.state_description}
+                                                {translate(
+                                                    `resources.transactions.states.${state?.state_description?.toLowerCase()}`
+                                                )}
                                             </SelectItem>
                                         ))}
                                     </SelectContent>
@@ -343,7 +347,11 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                         <span className="opacity-60 text-title-1">
                             {translate("resources.transactions.fields.state.state_description")}
                         </span>
-                        <span>{context.record.state.state_description}</span>
+                        <span>
+                            {translate(
+                                `resources.transactions.states.${context.record.state.state_description.toLowerCase()}`
+                            )}
+                        </span>
                     </div>
                     <div className="flex flex-col">
                         <span className="opacity-60 text-title-1">
