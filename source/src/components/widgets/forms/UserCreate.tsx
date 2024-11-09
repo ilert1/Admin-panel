@@ -237,7 +237,7 @@ export const UserCreateForm = (props: {
                                 <FormLabel>{translate("app.widgets.forms.userCreate.password")}</FormLabel>
                                 <FormControl>
                                     <Input
-                                        type="password"
+                                        type="text"
                                         className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
                                             fieldState.invalid
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
