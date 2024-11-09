@@ -58,7 +58,7 @@ const WithdrawFilterSidebar = () => {
                 <XIcon className="size-4" />
             </Button>
 
-            {/* <DropdownMenu>
+            <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button className="md:ml-auto" variant="default" size="sm">
                         {translate("resources.withdraw.download.downloadReportButtonText")}
@@ -76,7 +76,7 @@ const WithdrawFilterSidebar = () => {
                         PDF
                     </DropdownMenuItem>
                 </DropdownMenuContent>
-            </DropdownMenu> */}
+            </DropdownMenu>
         </div>
     );
 };
