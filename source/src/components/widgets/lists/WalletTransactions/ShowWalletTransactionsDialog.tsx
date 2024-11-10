@@ -22,7 +22,7 @@ export const ShowWalletTransactionsDialog = (props: ShowWalletTransactionsDialog
                 <div className="p-[42px] pb-[0px] flex-shrink-0">
                     <div>
                         <div className="flex justify-between items-center">
-                            <SheetTitle className="text-display-1">
+                            <SheetTitle className="text-display-1 break-words overflow-hidden">
                                 {translate("resources.wallet.transactions.cryptotransaction")}
                             </SheetTitle>
                             <button
