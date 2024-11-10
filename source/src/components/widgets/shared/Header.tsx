@@ -24,6 +24,8 @@ export const Header = (props: { handleLogout: () => void }) => {
     const identity = useGetIdentity();
     const [profileOpen, setProfileOpen] = useState(false);
     const [langOpen, setLangOpen] = useState(false);
+    console.log("profileOpen: ", profileOpen);
+    console.log("langOpen: ", langOpen);
     // const [chatOpen, setChatOpen] = useState(false);
     // const debounced = debounce(setChatOpen, 120);
     const translate = useTranslate();
@@ -241,8 +243,8 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     <ChatSheet locale={locale} />
                                 </SheetContent>
                             </Sheet> */}
-                        <DropdownMenu onOpenChange={setLangOpen} modal={false}>
-                            <DropdownMenuTrigger asChild className="">
+                        <DropdownMenu open={langOpen} onOpenChange={setLangOpen} modal={true}>
+                            <DropdownMenuTrigger asChild>
                                 <Avatar
                                     className={
                                         langOpen

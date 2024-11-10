@@ -398,7 +398,7 @@ const ru: TranslationMessages = {
         ui: {
             header: {
                 totalBalance: "Общий баланс по счетам",
-                totalLoading: "Получаем общий баланс...",
+                totalLoading: "Загрузка...",
                 totalError: "Не удалось получить общий баланс по счетам",
                 accurateBalance: "Точный баланс аккаунта"
             },
@@ -963,7 +963,7 @@ const en: TranslationMessages = {
         ui: {
             header: {
                 totalBalance: "Total account balance",
-                totalLoading: "Fetching total balance...",
+                totalLoading: "Loading...",
                 totalError: "Error while getting total account balance",
                 accurateBalance: "Accurate account balance"
             },
