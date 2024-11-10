@@ -39,12 +39,15 @@ export const PayOutPage = () => {
 
     const { isLoading: initialLoading, data: payMethods } = useQuery<PayOut.Response, unknown, PayOut.PayMethod[] | []>(
         ["paymethods", currency],
-        () => {
-            return fetch(`${BF_MANAGER_URL}/v1/payout/paymethods?currency=${currency}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
-            }).then(response => response.json());
+        async () => {
+            if (currency) {
+                const response = await fetch(`${BF_MANAGER_URL}/v1/payout/paymethods?currency=${currency}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                });
+                return await response.json();
+            }
         },
         {
             select: data => data?.data || []
