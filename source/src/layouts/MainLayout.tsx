@@ -1,52 +1,16 @@
-import {
-    CoreLayoutProps,
-    useGetIdentity,
-    useI18nProvider,
-    useLocaleState,
-    useLogout,
-    usePermissions,
-    useResourceDefinitions,
-    useTranslate
-} from "react-admin";
+import { CoreLayoutProps, useLogout, usePermissions, useResourceDefinitions, useTranslate } from "react-admin";
 import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useMemo, createElement, useState, useEffect } from "react";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Switch } from "@/components/ui/switch";
-import {
-    LanguagesIcon,
-    CreditCardIcon,
-    ChevronLeftCircleIcon,
-    ChevronRightCircleIcon,
-    MessagesSquareIcon,
-    XIcon,
-    KeyRound,
-    ChevronLeft,
-    EllipsisVerticalIcon
-} from "lucide-react";
-import { useTheme } from "@/components/providers";
+import { CreditCardIcon, ChevronLeftCircleIcon, ChevronRightCircleIcon, KeyRound, ChevronLeft } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
 import Logo from "@/lib/icons/Logo";
 import LogoPicture from "@/lib/icons/LogoPicture";
-import Blowfish from "@/lib/icons/Blowfish";
-import { ChatSheet } from "@/components/widgets/components/ChatSheet";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { debounce } from "lodash";
 import { Button } from "@/components/ui/button";
 import { useGetResLabel } from "@/hooks/useGetResLabel";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { KeysModal } from "@/components/widgets/components/KeysModal";
-import { NumericFormat } from "react-number-format";
-import { Icon } from "@/components/widgets/shared/Icon";
-import { useQuery } from "react-query";
-import { API_URL } from "@/data/base";
-import { toast } from "sonner";
+import { Header } from "@/components/widgets/shared/Header";
 
 enum SplitLocations {
     show = "show",
@@ -61,33 +25,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     const { permissions } = usePermissions();
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
     const location = useLocation();
-
-    const error = (message: string) => {
-        toast.error(translate("resources.transactions.show.error"), {
-            dismissible: true,
-            description: message,
-            duration: 3000
-        });
-    };
-
-    const { isLoading: totalLoading, data: totalAmount } = useQuery("totalAmount", () =>
-        fetch(`${API_URL}/accounts/balance/count`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
-        })
-            .then(response => response.json())
-            .then(json => {
-                if (json.success) {
-                    return json.data;
-                } else {
-                    error(translate("app.ui.header.totalError"));
-                }
-            })
-            .catch(() => {
-                error(translate("app.ui.header.totalError"));
-            })
-    );
 
     const resourceName = useMemo(() => {
         const urlParts = location.pathname?.split("/")?.filter((s: string) => s?.length > 0);
@@ -112,25 +49,16 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
         }
     }, [getResLabel, permissions, resourceName, translate]);
 
-    const identity = useGetIdentity();
     const logout = useLogout();
     const handleLogout = () => {
         location.pathname = "/";
         logout();
     };
 
-    const { setTheme, theme } = useTheme();
-    const [locale, setLocale] = useLocaleState();
-    const { getLocales } = useI18nProvider();
-
     const [isSheetOpen, setSheetOpen] = useState(false);
     const [showCaptions, setShowCaptions] = useState(false);
-    const [profileOpen, setProfileOpen] = useState(false);
-    const [langOpen, setLangOpen] = useState(false);
-    const [chatOpen, setChatOpen] = useState(false);
-    const [testKeysModalOpen, setTestKeysModalOpen] = useState(false);
 
-    const debounced = debounce(setChatOpen, 120);
+    const [testKeysModalOpen, setTestKeysModalOpen] = useState(false);
 
     useEffect(() => {
         isSheetOpen
@@ -140,192 +68,9 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
             : setShowCaptions(isSheetOpen);
     }, [isSheetOpen]);
 
-    const changeLocale = (value: string) => {
-        if (locale !== value) {
-            setLocale(value);
-        }
-    };
-
-    const toggleTheme = () => {
-        if (theme === "light") {
-            setTheme("dark");
-        } else {
-            setTheme("light");
-        }
-    };
-
     return (
         <div className="flex flex-col h-screen">
-            <header
-                className="flex flex-shrink-0 h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z"
-                onClick={e => e.stopPropagation()}>
-                {identity?.data && (
-                    <div className="ml-auto flex items-center gap-2 mr-6">
-                        <div className="flex items-center gap-8 relative !z-60">
-                            <DropdownMenu open={profileOpen} onOpenChange={setProfileOpen} modal={true}>
-                                <div
-                                    className={
-                                        profileOpen
-                                            ? "flex gap-4 items-center justify-center py-1 px-4 bg-muted rounded-4 border border-neutral-80 box-border transition-colors transition-150 cursor-default"
-                                            : "flex gap-4 items-center justify-center py-1 px-4 bg-muted rounded-4 border border-muted box-border transition-colors transition-150 cursor-default"
-                                    }>
-                                    <DropdownMenuTrigger asChild>
-                                        <Avatar className="flex items-center justify-center w-[60px] h-[60px] border-2 border-green-40 bg-muted cursor-pointer">
-                                            <Blowfish />
-                                        </Avatar>
-                                    </DropdownMenuTrigger>
-                                    <div className="flex flex-col gap-[2px] items-start">
-                                        <span className={"text-neutral-100 text-title-2 cursor-default"}>
-                                            {identity.data.fullName ? identity.data.fullName : ""}
-                                        </span>
-                                        <span className="text-note-2 text-neutral-60">
-                                            {translate("app.ui.header.totalBalance")}
-                                        </span>
-                                        {totalLoading || !totalAmount ? (
-                                            <span>{translate("app.ui.header.totalLoading")}</span>
-                                        ) : (
-                                            <div className="flex gap-4 items-center">
-                                                <h1 className="text-display-4">
-                                                    <NumericFormat
-                                                        className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-[98px] block"
-                                                        value={totalAmount.value.quantity / totalAmount.value.accuracy}
-                                                        displayType={"text"}
-                                                        thousandSeparator=" "
-                                                        decimalSeparator=","
-                                                    />
-                                                </h1>
-                                                <div className="w-6 flex justify-center">
-                                                    <Icon name={totalAmount.currency} folder="currency" />
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                    <DropdownMenuTrigger>
-                                        <div
-                                            className={
-                                                profileOpen
-                                                    ? "text-green-40 focus:outline-0"
-                                                    : "group-hover:text-green-40 outline-none hover:text-green-40 transition-colors"
-                                            }>
-                                            <EllipsisVerticalIcon />
-                                        </div>
-                                    </DropdownMenuTrigger>
-                                </div>
-                                <DropdownMenuContent
-                                    sideOffset={34}
-                                    align="end"
-                                    alignOffset={-18}
-                                    className="p-0 w-72 bg-muted border border-neutral-80 z-[1000]">
-                                    <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
-                                        <Avatar className="w-5 h-5">
-                                            <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
-                                                {identity.data.fullName
-                                                    ? identity.data.fullName[0].toLocaleUpperCase()
-                                                    : ""}
-                                            </AvatarFallback>
-                                        </Avatar>
-                                        <div className="ml-3 text-neutral-100">
-                                            <div className="text-title-1 cursor-default">
-                                                {merchantOnly
-                                                    ? translate("app.ui.roles.merchant")
-                                                    : translate("app.ui.roles.admin")}
-                                            </div>
-                                            {
-                                                //TODO: Set valid email
-                                            }
-                                            {identity.data.email ? (
-                                                <div className="text-note-2 cursor-default">{identity.data.email}</div>
-                                            ) : (
-                                                <></>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
-                                        <Switch
-                                            checked={theme === "dark"}
-                                            onCheckedChange={toggleTheme}
-                                            className="border-green-50 data-[state=checked]:bg-muted data-[state=unchecked]:bg-muted"
-                                        />
-                                        <span className="ml-3 cursor-default">
-                                            {theme === "dark"
-                                                ? translate("app.theme.light")
-                                                : translate("app.theme.dark")}
-                                        </span>
-                                    </div>
-                                    <DropdownMenuItem
-                                        className="pl-4 pr-4 h-[50px] hover:bg-green-50 hover:cursor-pointer text-title-2"
-                                        onClick={handleLogout}>
-                                        {translate("ra.auth.logout")}
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                            {/* <Sheet
-                                open={chatOpen}
-                                onOpenChange={isOpen => {
-                                    debounced(isOpen);
-                                }}
-                                modal={true}>
-                                <SheetTrigger asChild>
-                                    <div>
-                                        <Avatar
-                                            className={
-                                                chatOpen
-                                                    ? "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
-                                                    : "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-green-50 hover:text-neutral-100 border-2 border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
-                                            }>
-                                            <MessagesSquareIcon className="h-[30px] w-[30px]" />
-                                        </Avatar>
-                                    </div>
-                                </SheetTrigger>
-                                <SheetContent
-                                    className="sm:max-w-[520px] !top-[84px] !max-h-[calc(100vh-84px)] w-full p-0 m-0"
-                                    close={false}>
-                                    <SheetHeader className="p-4 bg-green-60">
-                                        <div className="flex justify-between items-center ">
-                                            <SheetTitle className="text-display-3">
-                                                {translate("app.ui.actions.chatWithSupport")}
-                                            </SheetTitle>
-                                            <button
-                                                tabIndex={-1}
-                                                onClick={() => setChatOpen(false)}
-                                                className="text-gray-500 hover:text-gray-700 transition-colors outline-0 border-0 -tab-1">
-                                                <XIcon className="h-[28px] w-[28px]" />
-                                            </button>
-                                        </div>
-                                    </SheetHeader>
-                                    <SheetDescription></SheetDescription>
-                                    <ChatSheet locale={locale} />
-                                </SheetContent>
-                            </Sheet> */}
-                            <DropdownMenu onOpenChange={setLangOpen} modal={false}>
-                                <DropdownMenuTrigger asChild className="">
-                                    <Avatar
-                                        className={
-                                            langOpen
-                                                ? "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
-                                                : "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 hover:text-neutral-100 border-2 border-neutral-50 hover:border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
-                                        }>
-                                        <LanguagesIcon className="h-[30px] w-[30px]" />
-                                    </Avatar>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent
-                                    align="end"
-                                    className="p-0 bg-muted border border-neutral-100 z-[60]">
-                                    {getLocales?.().map(locale => (
-                                        <DropdownMenuItem
-                                            key={locale.locale}
-                                            onClick={() => changeLocale(locale.locale)}
-                                            className="text-title-2 py-[14px] focus:bg-green-50 focus:cursor-pointer pl-4 pr-4">
-                                            {locale.name}
-                                        </DropdownMenuItem>
-                                    ))}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </div>
-                    </div>
-                )}
-            </header>
+            <Header handleLogout={handleLogout} />
             <div className="flex grow h-full overflow-hidden">
                 <aside
                     className={
