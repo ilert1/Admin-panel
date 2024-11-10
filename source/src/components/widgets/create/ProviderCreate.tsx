@@ -149,7 +149,7 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
                                 );
                             }}
                         />
-                        <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col sm:flex-row space-x-0 sm:space-x-2 mt-6   ">
+                        <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col sm:flex-row space-x-0 sm:space-x-2 mt-6">
                             <Button
                                 type="submit"
                                 variant="default"

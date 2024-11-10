@@ -157,7 +157,7 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
                             )}
                         />
 
-                        <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col sm:flex-row space-x-0 sm:space-x-2">
+                        <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col sm:flex-row space-x-0 sm:space-x-2 mt-6">
                             <Button
                                 disabled={hasErrors && isValid && submitButtonDisabled}
                                 type="submit"
