@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { UserEdit } from "../edit";
 
 const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
-const translations = ["active", "frozen", "blocked"];
+const translations = ["active", "frozen", "blocked", "deleted"];
 
 export const UserShow = (props: { id: string; isBrief: boolean }) => {
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -78,7 +78,7 @@ export const UserShow = (props: { id: string; isBrief: boolean }) => {
                 </div>
 
                 <div className="flex justify-end gap-4 px-[42px] mb-4">
-                    <Button onClick={() => setShowEditUser(true)} className="text-title-1">
+                    <Button disabled={index !== 0} onClick={() => setShowEditUser(true)} className="text-title-1">
                         {translate("resources.users.edit")}
                     </Button>
 

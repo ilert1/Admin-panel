@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { NumericFormat } from "react-number-format";
 
 const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
-const translations = ["active", "frozen", "blocked"];
+const translations = ["active", "frozen", "blocked", "deleted"];
 
 export const AccountList = () => {
     const listContext = useListController<Account>();
