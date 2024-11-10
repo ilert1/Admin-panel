@@ -1,6 +1,6 @@
 import { ChangeEvent, UIEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useDataProvider, useInfiniteGetList, useListContext, usePermissions, useTranslate } from "react-admin";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { API_URL } from "@/data/base";
 import { format } from "date-fns";
 import { useQuery } from "react-query";
@@ -44,7 +44,6 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
     );
     const [orderStatusFilter, setOrderStatusFilter] = useState(orderStatusIndex ? data.states[orderStatusIndex] : "");
 
-    const { toast } = useToast();
     const translate = useTranslate();
 
     const formattedDate = (date: Date) => format(date, "yyyy-MM-dd");
@@ -143,20 +142,20 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
 
     const handleDownloadReport = async (type: "pdf" | "csv") => {
         if (adminOnly && !account) {
-            toast({
+            toast.error(translate("resources.transactions.download.error"), {
+                dismissible: true,
                 description: translate("resources.transactions.download.accountField"),
-                variant: "error",
-                title: translate("resources.transactions.download.error")
+                duration: 3000
             });
 
             return;
         }
 
-        if (!startDate || !endDate) {
-            toast({
+        if (!startDate) {
+            toast.error(translate("resources.transactions.download.error"), {
+                dismissible: true,
                 description: translate("resources.transactions.download.bothError"),
-                variant: "error",
-                title: translate("resources.transactions.download.error")
+                duration: 3000
             });
 
             return;

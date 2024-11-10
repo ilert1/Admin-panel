@@ -32,7 +32,7 @@ import LogoPicture from "@/lib/icons/LogoPicture";
 import Blowfish from "@/lib/icons/Blowfish";
 // import { ChatSheet } from "@/components/widgets/components/ChatSheet";
 // import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { debounce } from "lodash";
+// import { debounce } from "lodash";
 import { Button } from "@/components/ui/button";
 import { useGetResLabel } from "@/hooks/useGetResLabel";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -174,7 +174,13 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                                 <h1 className="text-display-5">
                                                     <NumericFormat
                                                         className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-[98px] block"
-                                                        value={Math.round((totalAmount.value.quantity / totalAmount.value.accuracy) * 10000) / 10000}
+                                                        value={
+                                                            Math.round(
+                                                                (totalAmount.value.quantity /
+                                                                    totalAmount.value.accuracy) *
+                                                                    10000
+                                                            ) / 10000
+                                                        }
                                                         displayType={"text"}
                                                         thousandSeparator=" "
                                                         decimalSeparator=","
