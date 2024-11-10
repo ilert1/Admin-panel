@@ -7,7 +7,7 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useDelete, useRefresh, useTranslate } from "react-admin";
 interface DeleteMerchantDialogProps {
     id: string;
@@ -20,7 +20,6 @@ export const DeleteMerchantDialog = (props: DeleteMerchantDialogProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
     const [deleteOne] = useDelete();
-    const { toast } = useToast();
 
     const handleDelete = async () => {
         await deleteOne(
@@ -28,10 +27,10 @@ export const DeleteMerchantDialog = (props: DeleteMerchantDialogProps) => {
             { id },
             {
                 onSuccess: () => {
-                    toast({
+                    toast.success("Success", {
                         description: translate("app.ui.delete.deletedSuccessfully"),
-                        variant: "success",
-                        title: "Success"
+                        dismissible: true,
+                        duration: 3000
                     });
                 },
                 onError: error => {

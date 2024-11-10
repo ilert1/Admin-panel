@@ -6,11 +6,11 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { fetchUtils, useDataProvider, useRefresh, useTranslate } from "react-admin";
+import { fetchUtils, useRefresh, useTranslate } from "react-admin";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface EditAuthDataProps {
     open: boolean;
@@ -23,7 +23,6 @@ export const EditAuthData = (props: EditAuthDataProps) => {
     const { open, id, onOpenChange } = props;
 
     const translate = useTranslate();
-    const { toast } = useToast();
     const refresh = useRefresh();
 
     const [code, setCode] = useState("{}");
@@ -47,19 +46,18 @@ export const EditAuthData = (props: EditAuthDataProps) => {
                 throw new Error(json.error);
             }
 
-            toast({
+            toast.success("Success", {
                 description: translate("resources.direction.addedSuccess"),
-                variant: "success",
-                title: "Success"
+                dismissible: true,
+                duration: 3000
             });
             onOpenChange(false);
             refresh();
         } catch (error: any) {
-            console.log(error);
-            toast({
+            toast.error("Error", {
                 description: translate("resources.direction.errors.authError"),
-                variant: "destructive",
-                title: "Error"
+                dismissible: true,
+                duration: 3000
             });
         }
     };

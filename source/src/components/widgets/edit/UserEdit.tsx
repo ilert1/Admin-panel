@@ -7,7 +7,7 @@ import { ChangeEvent, DragEvent, useMemo, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -27,7 +27,6 @@ export const UserEdit = ({
 }) => {
     const dataProvider = useDataProvider();
     const translate = useTranslate();
-    const { toast } = useToast();
     const refresh = useRefresh();
 
     const [fileContent, setFileContent] = useState(record?.public_key || "");
@@ -47,10 +46,10 @@ export const UserEdit = ({
             refresh();
             closeDialog();
         } catch (error) {
-            toast({
+            toast.error("Error", {
                 description: translate("resources.currency.errors.alreadyInUse"),
-                variant: "destructive",
-                title: "Error"
+                dismissible: true,
+                duration: 3000
             });
             setSubmitButtonDisabled(false);
         }

@@ -14,7 +14,7 @@ import { Loading } from "@/components/ui/loading";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useEffect, useRef, useState } from "react";
 import { AddFeeCard } from "../components/AddFeeCard";
 import { feesDataProvider, FeesResource } from "@/data";
@@ -75,10 +75,10 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
             refresh();
             onOpenChange(false);
         } catch (error) {
-            toast({
+            toast.error("Error", {
                 description: translate("resources.merchant.errors.alreadyInUse"),
-                variant: "destructive",
-                title: "Error"
+                dismissible: true,
+                duration: 3000
             });
             setSubmitButtonDisabled(false);
         }
