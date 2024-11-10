@@ -24,8 +24,6 @@ export const Header = (props: { handleLogout: () => void }) => {
     const identity = useGetIdentity();
     const [profileOpen, setProfileOpen] = useState(false);
     const [langOpen, setLangOpen] = useState(false);
-    console.log("profileOpen: ", profileOpen);
-    console.log("langOpen: ", langOpen);
     // const [chatOpen, setChatOpen] = useState(false);
     // const debounced = debounce(setChatOpen, 120);
     const translate = useTranslate();
@@ -199,7 +197,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     </span>
                                 </div>
                                 <DropdownMenuItem
-                                    className="pl-4 pr-4 h-[50px] hover:bg-green-50 hover:cursor-pointer text-title-2"
+                                    className="pl-4 pr-4 h-[50px] hover:bg-green-50 hover:cursor-pointer text-title-2 focus:bg-green-50"
                                     onClick={props.handleLogout}>
                                     {translate("ra.auth.logout")}
                                 </DropdownMenuItem>
