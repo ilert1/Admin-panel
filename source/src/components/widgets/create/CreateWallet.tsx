@@ -13,6 +13,7 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
+import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateContextProvider, useCreateController, useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { Form, FormProvider, SubmitHandler, useForm } from "react-hook-form";
@@ -79,6 +80,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
             network: "TRC20"
         }
     });
+    usePreventFocus({ dependencies: [] });
 
     return (
         // <CreateContextProvider value={controllerProps}>
@@ -251,7 +253,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                             {...field}
                                             value={field.value ?? ""}
                                             placeholder={translate("resources.wallet.manage.fields.descr")}
-                                            className="w-full h-24 p-2 border border-neutral-40 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1"
+                                            className="w-full h-24 p-2 border border-neutral-40 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1 outline-none"
                                         />
                                     </div>
                                 </FormControl>

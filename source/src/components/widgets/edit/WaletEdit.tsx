@@ -13,6 +13,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
+import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useDataProvider, useEditController, useRefresh, useTranslate } from "react-admin";
@@ -102,6 +103,7 @@ export const EditWallet = (props: EditWalletProps) => {
             });
         }
     }, [form, record]);
+    usePreventFocus({ dependencies: [record] });
 
     if (isLoading) return <LoadingAlertDialog />;
     return (
