@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { usePermissions, useTranslate } from "react-admin";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { API_URL } from "@/data/base";
 import { format } from "date-fns";
 
@@ -10,7 +10,6 @@ const useReportDownload = () => {
     const [isDateRangeValid, setIsDateRangeValid] = useState<boolean>(true);
     const [reqId, setReqId] = useState<string>("");
 
-    const { toast } = useToast();
     const translate = useTranslate();
 
     const formattedStartDate = useMemo(() => (startDate ? format(startDate, "yyyy-MM-dd") : ""), [startDate]);
@@ -25,18 +24,18 @@ const useReportDownload = () => {
 
     const validateDates = () => {
         if (!startDate || !endDate) {
-            toast({
+            toast.error(translate("resources.transactions.download.error"), {
                 description: translate("resources.transactions.download.bothError"),
-                variant: "error",
-                title: translate("resources.transactions.download.error")
+                dismissible: true,
+                duration: 3000
             });
             return false;
         }
         if (startDate.getTime() > Date.now() || endDate.getTime() > Date.now()) {
-            toast({
+            toast.error(translate("resources.transactions.download.error"), {
                 description: translate("resources.transactions.download.dateExceed"),
-                variant: "error",
-                title: translate("resources.transactions.download.error")
+                dismissible: true,
+                duration: 3000
             });
             return false;
         }
@@ -44,10 +43,10 @@ const useReportDownload = () => {
         setIsDateRangeValid(isValidDateRange);
 
         if (!isValidDateRange) {
-            toast({
+            toast.error(translate("resources.transactions.download.error"), {
                 description: translate("resources.transactions.download.greaterError"),
-                variant: "error",
-                title: translate("resources.transactions.download.error")
+                dismissible: true,
+                duration: 3000
             });
         }
 
@@ -56,10 +55,10 @@ const useReportDownload = () => {
 
     const validateMerchantID = () => {
         if (adminOnly && !reqId) {
-            toast({
+            toast.error(translate("resources.transactions.download.error"), {
                 description: translate("resources.transactions.download.accountField"),
-                variant: "error",
-                title: translate("resources.transactions.download.error")
+                dismissible: true,
+                duration: 3000
             });
             return false;
         }

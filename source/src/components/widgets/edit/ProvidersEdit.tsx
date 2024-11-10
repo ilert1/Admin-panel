@@ -7,7 +7,7 @@ import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
 
@@ -29,7 +29,6 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
     controllerProps.mutationMode = "pessimistic";
 
     const translate = useTranslate();
-    const { toast } = useToast();
 
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(false);
@@ -75,10 +74,10 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
             });
             onClose();
         } catch (error) {
-            toast({
+            toast.error("Error", {
                 description: translate("resources.currency.errors.alreadyInUse"),
-                variant: "destructive",
-                title: "Error"
+                dismissible: true,
+                duration: 3000
             });
 
             setSubmitButtonDisabled(false);

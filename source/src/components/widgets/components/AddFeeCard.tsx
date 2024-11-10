@@ -3,7 +3,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 import { Input } from "@/components/ui/input";
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { feesDataProvider, FeesResource } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useFetchDataForDirections } from "@/hooks";
@@ -27,7 +27,6 @@ export interface AddFeeCardProps {
 
 export const AddFeeCard = (props: AddFeeCardProps) => {
     const { id, resource, onOpenChange, fees, setFees, variants } = props;
-    const { toast } = useToast();
     const translate = useTranslate();
     const refresh = useRefresh();
     const feeDataProvider = feesDataProvider({ id, resource: resource });
@@ -55,10 +54,10 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                 refresh();
                 onOpenChange(false);
             } catch (error) {
-                toast({
+                toast.error(translate("resources.direction.fees.error"), {
                     description: translate("resources.direction.fees.errorWhenCreating"),
-                    variant: "destructive",
-                    title: translate("resources.direction.fees.error")
+                    dismissible: true,
+                    duration: 3000
                 });
             }
         }

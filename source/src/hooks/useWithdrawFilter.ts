@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { API_URL } from "@/data/base";
 import { format } from "date-fns";
 import { debounce } from "lodash";
@@ -17,7 +17,6 @@ const useWithdrawFilter = () => {
     );
     const [operationId, setOperationId] = useState(filterValues?.id || "");
 
-    const { toast } = useToast();
     const translate = useTranslate();
 
     const formattedDate = (date: Date) => format(date, "yyyy-MM-dd");
@@ -65,10 +64,10 @@ const useWithdrawFilter = () => {
 
     const handleDownloadReport = async (type: "pdf" | "csv") => {
         if (!startDate || !endDate) {
-            toast({
+            toast.error(translate("resources.withdraw.download.error"), {
                 description: translate("resources.withdraw.download.bothError"),
-                variant: "error",
-                title: translate("resources.withdraw.download.error")
+                dismissible: true,
+                duration: 3000
             });
 
             return;

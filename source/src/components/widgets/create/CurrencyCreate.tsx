@@ -2,7 +2,7 @@ import { useCreateController, CreateContextProvider, useTranslate, useDataProvid
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { Loading } from "@/components/ui/loading";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,10 +35,10 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
             refresh();
             closeDialog();
         } catch (error) {
-            toast({
+            toast.error("Error", {
                 description: translate("resources.currency.errors.alreadyInUse"),
-                variant: "destructive",
-                title: "Error"
+                dismissible: true,
+                duration: 3000
             });
             setSubmitButtonDisabled(false);
         }

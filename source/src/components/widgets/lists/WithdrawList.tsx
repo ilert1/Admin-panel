@@ -60,7 +60,7 @@ const WithdrawFilterSidebar = () => {
 
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button className="md:ml-auto" variant="default" size="sm">
+                    <Button disabled={!startDate} className="md:ml-auto" variant="default" size="sm">
                         {translate("resources.withdraw.download.downloadReportButtonText")}
                     </Button>
                 </DropdownMenuTrigger>

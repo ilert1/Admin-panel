@@ -17,7 +17,7 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { useFetchDataForDirections } from "@/hooks";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useState } from "react";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
@@ -26,7 +26,6 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
 
     const { isLoading } = useCreateController({ resource: "direction" });
     const controllerProps = useCreateController();
-    const { toast } = useToast();
     const translate = useTranslate();
     const refresh = useRefresh();
 
@@ -40,10 +39,10 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             refresh();
             onOpenChange(false);
         } catch (error) {
-            toast({
+            toast.error("Error", {
                 description: translate("resources.provider.errors.alreadyInUse"),
-                variant: "destructive",
-                title: "Error"
+                dismissible: true,
+                duration: 3000
             });
             setSubmitButtonDisabled(false);
         }

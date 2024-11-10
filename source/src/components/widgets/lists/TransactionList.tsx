@@ -188,7 +188,11 @@ const TransactionFilterSidebar = ({
 
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button className="md:ml-auto" variant="default" size="sm">
+                            <Button
+                                disabled={!startDate || !account}
+                                className="md:ml-auto"
+                                variant="default"
+                                size="sm">
                                 {translate("resources.transactions.download.downloadReportButtonText")}
                             </Button>
                         </DropdownMenuTrigger>

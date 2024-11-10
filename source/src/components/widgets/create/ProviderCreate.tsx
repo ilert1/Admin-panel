@@ -3,7 +3,7 @@ import { useCreateController, CreateContextProvider, useTranslate, useDataProvid
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
@@ -21,7 +21,6 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
 
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController();
-    const { toast } = useToast();
     const { theme } = useTheme();
 
     const translate = useTranslate();
@@ -71,10 +70,10 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
             await dataProvider.create("provider", { data });
             onClose();
         } catch (error) {
-            toast({
+            toast.error(translate("resources.transactions.download.error"), {
                 description: translate("resources.provider.errors.alreadyInUse"),
-                variant: "error",
-                title: translate("resources.transactions.download.error")
+                dismissible: true,
+                duration: 3000
             });
             setSubmitButtonDisabled(false);
         }

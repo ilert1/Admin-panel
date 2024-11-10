@@ -7,7 +7,7 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useDelete, useRefresh, useTranslate } from "react-admin";
 
 interface DeleteProviderDialogProps {
@@ -27,10 +27,10 @@ export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
             { id: deleteId },
             {
                 onSuccess: async () => {
-                    toast({
+                    toast.success("Success", {
                         description: translate("app.ui.delete.deletedSuccessfully"),
-                        variant: "success",
-                        title: "Success"
+                        dismissible: true,
+                        duration: 3000
                     });
                 },
                 onError: error => {

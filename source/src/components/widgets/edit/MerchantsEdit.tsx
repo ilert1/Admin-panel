@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { FeeCard } from "../components/FeeCard";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { CircleChevronRight } from "lucide-react";
@@ -37,7 +37,6 @@ export const MerchantEdit = (props: MerchantEditProps) => {
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const translate = useTranslate();
-    const { toast } = useToast();
     const refresh = useRefresh();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -97,10 +96,10 @@ export const MerchantEdit = (props: MerchantEditProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
-            toast({
+            toast.error("Error", {
                 description: translate("resources.currency.errors.alreadyInUse"),
-                variant: "destructive",
-                title: "Error"
+                dismissible: true,
+                duration: 3000
             });
             setSubmitButtonDisabled(false);
         }

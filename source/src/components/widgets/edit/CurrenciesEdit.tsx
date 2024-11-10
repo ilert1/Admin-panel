@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { DialogClose } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
@@ -29,7 +29,6 @@ export const CurrencyEdit = ({
     const dataProvider = useDataProvider();
 
     const translate = useTranslate();
-    const { toast } = useToast();
     const refresh = useRefresh();
     const inputRef = useRef<HTMLInputElement>(null);
     // Focus blur hack
@@ -49,10 +48,10 @@ export const CurrencyEdit = ({
             refresh();
             closeDialog();
         } catch (error) {
-            toast({
+            toast.error("Error", {
                 description: translate("resources.currency.errors.alreadyInUse"),
-                variant: "destructive",
-                title: "Error"
+                dismissible: true,
+                duration: 3000
             });
             setSubmitButtonDisabled(false);
         }
