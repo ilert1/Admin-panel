@@ -66,12 +66,12 @@ const WithdrawFilterSidebar = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="p-0 border-green-50" align="end">
                     <DropdownMenuItem
-                        className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                        className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-80 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
                         onClick={() => handleDownloadReport("csv")}>
                         Excel
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                        className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                        className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-80 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
                         onClick={() => handleDownloadReport("pdf")}>
                         PDF
                     </DropdownMenuItem>
