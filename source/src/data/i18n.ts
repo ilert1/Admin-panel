@@ -432,7 +432,8 @@ const ru: TranslationMessages = {
             header: {
                 totalBalance: "Общий баланс по счетам",
                 totalLoading: "Загрузка...",
-                totalError: "Не удалось получить общий баланс по счетам"
+                totalError: "Не удалось получить общий баланс по счетам",
+                accurateBalance: "Точный баланс аккаунта"
             },
             roles: {
                 admin: "Администратор",
@@ -1030,7 +1031,8 @@ const en: TranslationMessages = {
             header: {
                 totalBalance: "Total account balance",
                 totalLoading: "Loading...",
-                totalError: "Error while getting total account balance"
+                totalError: "Error while getting total account balance",
+                accurateBalance: "Accurate account balance"
             },
             roles: {
                 admin: "Administrator",

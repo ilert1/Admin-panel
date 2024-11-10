@@ -1,0 +1,271 @@
+import { useTheme } from "@/components/providers";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import { API_URL } from "@/data/base";
+import Blowfish from "@/lib/icons/Blowfish";
+import { useMemo, useState } from "react";
+import { useGetIdentity, useI18nProvider, useLocaleState, usePermissions, useTranslate } from "react-admin";
+import { NumericFormat } from "react-number-format";
+import { useQuery } from "react-query";
+import { toast } from "sonner";
+import { Icon } from "./Icon";
+import { EllipsisVerticalIcon, LanguagesIcon } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+// import { debounce } from "lodash";
+
+export const Header = (props: { handleLogout: () => void }) => {
+    const { setTheme, theme } = useTheme();
+    const [locale, setLocale] = useLocaleState();
+    const identity = useGetIdentity();
+    const [profileOpen, setProfileOpen] = useState(false);
+    const [langOpen, setLangOpen] = useState(false);
+    // const [chatOpen, setChatOpen] = useState(false);
+    // const debounced = debounce(setChatOpen, 120);
+    const translate = useTranslate();
+    const { permissions } = usePermissions();
+    const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
+    const { getLocales } = useI18nProvider();
+
+    const changeLocale = (value: string) => {
+        if (locale !== value) {
+            setLocale(value);
+        }
+    };
+
+    const toggleTheme = () => {
+        if (theme === "light") {
+            setTheme("dark");
+        } else {
+            setTheme("light");
+        }
+    };
+
+    const error = (message: string) => {
+        toast.error(translate("resources.transactions.show.error"), {
+            dismissible: true,
+            description: message,
+            duration: 3000
+        });
+    };
+
+    const { isLoading: totalLoading, data: totalAmount } = useQuery("totalAmount", () =>
+        fetch(`${API_URL}/accounts/balance/count`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(json => {
+                if (json.success) {
+                    return json.data;
+                } else {
+                    error(translate("app.ui.header.totalError"));
+                }
+            })
+            .catch(() => {
+                error(translate("app.ui.header.totalError"));
+            })
+    );
+
+    return (
+        <header
+            className="flex flex-shrink-0 h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z"
+            onClick={e => e.stopPropagation()}>
+            {identity?.data && (
+                <div className="ml-auto flex items-center gap-2 mr-6">
+                    <div className="flex items-center gap-8 relative !z-60">
+                        <DropdownMenu open={profileOpen} onOpenChange={setProfileOpen} modal={true}>
+                            <div
+                                className={
+                                    profileOpen
+                                        ? "flex gap-4 items-center justify-center py-1 px-4 bg-muted rounded-4 border border-neutral-80 box-border transition-colors transition-150 cursor-default"
+                                        : "flex gap-4 items-center justify-center py-1 px-4 bg-muted rounded-4 border border-muted box-border transition-colors transition-150 cursor-default"
+                                }>
+                                <DropdownMenuTrigger asChild>
+                                    <Avatar className="flex items-center justify-center w-[60px] h-[60px] border-2 border-green-40 bg-muted cursor-pointer">
+                                        <Blowfish />
+                                    </Avatar>
+                                </DropdownMenuTrigger>
+                                <div className="flex flex-col gap-[2px] items-start min-w-[137px]">
+                                    <span className={"text-neutral-100 text-title-2 cursor-default"}>
+                                        {identity.data.fullName ? identity.data.fullName : ""}
+                                    </span>
+                                    <span className="text-note-2 text-neutral-60">
+                                        {translate("app.ui.header.totalBalance")}
+                                    </span>
+                                    {totalLoading || !totalAmount ? (
+                                        <span>{translate("app.ui.header.totalLoading")}</span>
+                                    ) : (
+                                        <div className="flex gap-4 items-center">
+                                            <DropdownMenuTrigger>
+                                                <h1 className="text-display-5">
+                                                    <NumericFormat
+                                                        className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-[98px] block"
+                                                        value={
+                                                            Math.round(
+                                                                (totalAmount.value.quantity /
+                                                                    totalAmount.value.accuracy) *
+                                                                    10000
+                                                            ) / 10000
+                                                        }
+                                                        displayType={"text"}
+                                                        thousandSeparator=" "
+                                                        decimalSeparator=","
+                                                    />
+                                                </h1>
+                                            </DropdownMenuTrigger>
+                                            <div className="w-6 flex justify-center">
+                                                <Icon name={totalAmount.currency} folder="currency" />
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <DropdownMenuTrigger>
+                                    <div
+                                        className={
+                                            profileOpen
+                                                ? "text-green-40 focus:outline-0"
+                                                : "group-hover:text-green-40 outline-none hover:text-green-40 transition-colors"
+                                        }>
+                                        <EllipsisVerticalIcon />
+                                    </div>
+                                </DropdownMenuTrigger>
+                            </div>
+                            <DropdownMenuContent
+                                sideOffset={34}
+                                align="end"
+                                alignOffset={-18}
+                                className="p-0 w-72 bg-muted border border-neutral-80 z-[1000]">
+                                <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
+                                    <Avatar className="w-5 h-5">
+                                        <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
+                                            {identity.data.fullName
+                                                ? identity.data.fullName[0].toLocaleUpperCase()
+                                                : ""}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    <div className="ml-3 text-neutral-100">
+                                        <div className="text-title-1 cursor-default">
+                                            {merchantOnly
+                                                ? translate("app.ui.roles.merchant")
+                                                : translate("app.ui.roles.admin")}
+                                        </div>
+                                        {
+                                            //TODO: Set valid email
+                                        }
+                                        {identity.data.email ? (
+                                            <div className="text-note-2 cursor-default">{identity.data.email}</div>
+                                        ) : (
+                                            <></>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
+                                    <div className="flex flex-col gap-[2px] items-start">
+                                        <span className="text-note-2 text-neutral-60">
+                                            {translate("app.ui.header.accurateBalance")}
+                                        </span>
+                                        {!totalLoading && totalAmount ? (
+                                            <h1 className="text-display-4">
+                                                <NumericFormat
+                                                    className="whitespace-nowrap"
+                                                    value={totalAmount.value.quantity / totalAmount.value.accuracy}
+                                                    displayType={"text"}
+                                                    thousandSeparator=" "
+                                                    decimalSeparator=","
+                                                />
+                                            </h1>
+                                        ) : (
+                                            <></>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
+                                    <Switch
+                                        checked={theme === "dark"}
+                                        onCheckedChange={toggleTheme}
+                                        className="border-green-50 data-[state=checked]:bg-muted data-[state=unchecked]:bg-muted"
+                                    />
+                                    <span className="ml-3 cursor-default">
+                                        {theme === "dark" ? translate("app.theme.light") : translate("app.theme.dark")}
+                                    </span>
+                                </div>
+                                <DropdownMenuItem
+                                    className="pl-4 pr-4 h-[50px] hover:bg-green-50 hover:cursor-pointer text-title-2 focus:bg-green-50"
+                                    onClick={props.handleLogout}>
+                                    {translate("ra.auth.logout")}
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                        {/* <Sheet
+                                open={chatOpen}
+                                onOpenChange={isOpen => {
+                                    debounced(isOpen);
+                                }}
+                                modal={true}>
+                                <SheetTrigger asChild>
+                                    <div>
+                                        <Avatar
+                                            className={
+                                                chatOpen
+                                                    ? "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
+                                                    : "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-green-50 hover:text-neutral-100 border-2 border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
+                                            }>
+                                            <MessagesSquareIcon className="h-[30px] w-[30px]" />
+                                        </Avatar>
+                                    </div>
+                                </SheetTrigger>
+                                <SheetContent
+                                    className="sm:max-w-[520px] !top-[84px] !max-h-[calc(100vh-84px)] w-full p-0 m-0"
+                                    close={false}>
+                                    <SheetHeader className="p-4 bg-green-60">
+                                        <div className="flex justify-between items-center ">
+                                            <SheetTitle className="text-display-3">
+                                                {translate("app.ui.actions.chatWithSupport")}
+                                            </SheetTitle>
+                                            <button
+                                                tabIndex={-1}
+                                                onClick={() => setChatOpen(false)}
+                                                className="text-gray-500 hover:text-gray-700 transition-colors outline-0 border-0 -tab-1">
+                                                <XIcon className="h-[28px] w-[28px]" />
+                                            </button>
+                                        </div>
+                                    </SheetHeader>
+                                    <SheetDescription></SheetDescription>
+                                    <ChatSheet locale={locale} />
+                                </SheetContent>
+                            </Sheet> */}
+                        <DropdownMenu open={langOpen} onOpenChange={setLangOpen} modal={true}>
+                            <DropdownMenuTrigger asChild>
+                                <Avatar
+                                    className={
+                                        langOpen
+                                            ? "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
+                                            : "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 hover:text-neutral-100 border-2 border-neutral-50 hover:border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
+                                    }>
+                                    <LanguagesIcon className="h-[30px] w-[30px]" />
+                                </Avatar>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="p-0 bg-muted border border-neutral-100 z-[60]">
+                                {getLocales?.().map(locale => (
+                                    <DropdownMenuItem
+                                        key={locale.locale}
+                                        onClick={() => changeLocale(locale.locale)}
+                                        className="text-title-2 py-[14px] focus:bg-green-50 focus:cursor-pointer pl-4 pr-4">
+                                        {locale.name}
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                </div>
+            )}
+        </header>
+    );
+};
