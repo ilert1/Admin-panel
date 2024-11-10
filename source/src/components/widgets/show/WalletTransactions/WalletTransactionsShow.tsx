@@ -31,7 +31,7 @@ export const WalletTransactionsShow = (props: WalletTransactionsShowProps) => {
 
     return (
         <div className="flex flex-col gap-6 px-[42px]">
-            <div className="grid grid-cols-2 gap-y-4">
+            <div className="flex flex-col sm:grid grid-cols-2 gap-y-4">
                 <TextField label={translate("resources.wallet.transactions.fields.created_at")} text="AA" />
                 <TextField label={translate("resources.wallet.transactions.fields.updated_at")} text="AA" copyValue />
                 <TextField label={translate("resources.wallet.transactions.fields.src_wallet")} text="AA" copyValue />
