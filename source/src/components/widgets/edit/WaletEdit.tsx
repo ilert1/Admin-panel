@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { useDataProvider, useEditController, useTranslate } from "react-admin";
+import { useDataProvider, useEditController, useRefresh, useTranslate } from "react-admin";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -35,7 +35,7 @@ export const EditWallet = (props: EditWalletProps) => {
     const translate = useTranslate();
     const dataProvider = useDataProvider();
     const { record, isLoading } = useEditController({ resource: "wallet", id });
-
+    const refresh = useRefresh();
     const onSubmit: SubmitHandler<Omit<Wallet, "account_id">> = async data => {
         data.address = null;
         try {
@@ -44,6 +44,7 @@ export const EditWallet = (props: EditWalletProps) => {
                 data: data,
                 previousData: undefined
             });
+            refresh();
             onOpenChange(false);
         } catch (error) {
             // toast({
@@ -59,7 +60,7 @@ export const EditWallet = (props: EditWalletProps) => {
         id: z.string().min(1, translate("resources.wallet.manage.errors.id")),
         address: z.string().nullable(),
         // Одно и тоже поле
-        accountNumber: z.string().min(1),
+        accountNumber: z.string(),
         merchantId: z.string(),
         //
         blockchain: z.string().min(1),
@@ -169,7 +170,7 @@ export const EditWallet = (props: EditWalletProps) => {
                                 <FormLabel>{translate("resources.wallet.manage.fields.accountNumber")}</FormLabel>
                                 <FormControl>
                                     <div>
-                                        <Input {...field} className="bg-muted" variant={InputTypes.GRAY} />
+                                        <Input {...field} className="bg-muted" variant={InputTypes.GRAY} disabled />
                                     </div>
                                 </FormControl>
                             </FormItem>

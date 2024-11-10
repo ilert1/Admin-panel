@@ -132,6 +132,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                             className="bg-muted"
                                             variant={InputTypes.GRAY}
                                             value={field.value ?? ""}
+                                            disabled
                                         />
                                     </div>
                                 </FormControl>
@@ -146,7 +147,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 <FormLabel>{translate("resources.wallet.manage.fields.accountNumber")}</FormLabel>
                                 <FormControl>
                                     <div>
-                                        <Input {...field} className="bg-muted" variant={InputTypes.GRAY} />
+                                        <Input {...field} className="bg-muted" variant={InputTypes.GRAY} disabled />
                                     </div>
                                 </FormControl>
                             </FormItem>
@@ -188,7 +189,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 <FormLabel>{translate("resources.wallet.manage.fields.internalId")}</FormLabel>
                                 <FormControl>
                                     <div>
-                                        <Input {...field} className="bg-muted" variant={InputTypes.GRAY} />
+                                        <Input {...field} className="bg-muted" variant={InputTypes.GRAY} disabled />
                                     </div>
                                 </FormControl>
                             </FormItem>
@@ -266,6 +267,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                     <Button
                         onClick={() => onOpenChange(false)}
                         variant="clearBtn"
+                        type="button"
                         className="border border-neutral-50 rounded-4 hover:border-neutral-100">
                         {translate("app.ui.actions.cancel")}
                     </Button>

@@ -31,7 +31,7 @@ export const WalletShow = (props: WalletShowProps) => {
     if (type === "compact") {
         return (
             <div className="flex flex-col gap-6 px-[42px]">
-                <div className="grid grid-cols-2 gap-y-4">
+                <div className="flex flex-col sm:grid sm:grid-cols-2 gap-y-4">
                     <TextField
                         label={translate("resources.wallet.manage.fields.walletType")}
                         text={context.record.type}
@@ -79,7 +79,7 @@ export const WalletShow = (props: WalletShowProps) => {
                     </div>
                 </div>
 
-                <div className="flex justify-end gap-4 px-[42px]">
+                <div className="flex flex-col sm:flex-row justify-end gap-4 px-[21px] sm:px-[42px] mb-4">
                     <Button onClick={() => handleEditClicked()} className="text-title-1">
                         {translate("app.ui.actions.edit")}
                     </Button>
