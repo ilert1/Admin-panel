@@ -187,6 +187,7 @@ declare namespace JWT {
 declare namespace Users {
     interface User {
         id: string;
+        state: number;
         name: string;
         created_at: string;
         deleted_at: string;

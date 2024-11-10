@@ -17,6 +17,9 @@ import { useShowController, useTranslate } from "react-admin";
 import { Button } from "@/components/ui/button";
 import { UserEdit } from "../edit";
 
+const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
+const translations = ["active", "frozen", "blocked"];
+
 export const UserShow = (props: { id: string; isBrief: boolean }) => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [showEditUser, setShowEditUser] = useState(false);
@@ -29,21 +32,17 @@ export const UserShow = (props: { id: string; isBrief: boolean }) => {
     if (context.isLoading || context.isFetching || !context.record) {
         return <LoadingAlertDialog />;
     }
+    const index = context.record.state - 1;
+
     if (isBrief) {
         return (
             <div className="relative">
                 <div className="px-[42px] pb-[25px] flex flex-col sm:flex-row justify-between">
                     <TextField text={id} copyValue />
-                    <div className="flex self-start mt-2 sm:mt-0 sm:self-center items-center justify-center text-white">
-                        {context.record.deleted_at ? (
-                            <span className="px-3 py-0.5 bg-red-50 rounded-20 font-normal text-base text-center">
-                                {translate("resources.users.fields.activeStateFalse")}
-                            </span>
-                        ) : (
-                            <span className="px-3 py-0.5 bg-green-50 rounded-20 font-normal text-base text-center">
-                                {translate("resources.users.fields.activeStateTrue")}
-                            </span>
-                        )}
+                    <div className="flex items-center justify-center">
+                        <span className={`px-3 py-0.5 rounded-20 font-normal text-base text-center ${styles[index]}`}>
+                            {translate(`resources.accounts.fields.states.${translations[index]}`)}
+                        </span>
                     </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 px-[42px] gap-y-2 sm:gap-y-6 pb-[24px]">
