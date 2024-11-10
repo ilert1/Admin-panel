@@ -133,7 +133,7 @@ const UserFilterSidebar = () => {
 };
 
 const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
-const translations = ["active", "frozen", "blocked"];
+const translations = ["active", "frozen", "blocked", "deleted"];
 
 export const UserList = () => {
     const [userId, setUserId] = useState<string>("");
@@ -172,7 +172,6 @@ export const UserList = () => {
             header: translate("resources.users.fields.name"),
             cell: ({ row }) => <TextField text={row.original.name} copyValue />
         },
-        // Макс, а это точно?
         {
             accessorKey: "active",
             header: () => {
@@ -189,17 +188,6 @@ export const UserList = () => {
                     </div>
                 );
             }
-            // <div className="flex items-center justify-center text-white">
-            //     {row.original.deleted_at ? (
-            //         <span className="px-3 py-0.5 bg-red-50 rounded-20 font-normal text-base text-center">
-            //             {translate("resources.users.fields.activeStateFalse")}
-            //         </span>
-            //     ) : (
-            //         <span className="px-3 py-0.5 bg-green-50 rounded-20 font-normal text-base text-center">
-            //             {translate("resources.users.fields.activeStateTrue")}
-            //         </span>
-            //     )}
-            // </div>
         },
         {
             id: "actions",

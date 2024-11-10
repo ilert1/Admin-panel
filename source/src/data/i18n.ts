@@ -19,7 +19,8 @@ const ru: TranslationMessages = {
                 states: {
                     active: "Активный",
                     frozen: "Приостановлен",
-                    blocked: "Заблокирован"
+                    blocked: "Заблокирован",
+                    deleted: "Удален"
                 },
 
                 type: "Тип счёта",
@@ -557,7 +558,8 @@ const en: TranslationMessages = {
                 states: {
                     active: "Active",
                     frozen: "Frozen",
-                    blocked: "Blocked"
+                    blocked: "Blocked",
+                    deleted: "Deleted"
                 },
                 type: "Account type",
                 balance: "Account balance",
