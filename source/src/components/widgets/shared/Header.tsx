@@ -171,15 +171,20 @@ export const Header = (props: { handleLogout: () => void }) => {
                                             {translate("app.ui.header.accurateBalance")}
                                         </span>
                                         {!totalLoading && totalAmount ? (
-                                            <h1 className="text-display-4">
-                                                <NumericFormat
-                                                    className="whitespace-nowrap"
-                                                    value={totalAmount.value.quantity / totalAmount.value.accuracy}
-                                                    displayType={"text"}
-                                                    thousandSeparator=" "
-                                                    decimalSeparator=","
-                                                />
-                                            </h1>
+                                            <div className="flex gap-4 items-center">
+                                                <h1 className="text-display-4">
+                                                    <NumericFormat
+                                                        className="whitespace-nowrap"
+                                                        value={totalAmount.value.quantity / totalAmount.value.accuracy}
+                                                        displayType={"text"}
+                                                        thousandSeparator=" "
+                                                        decimalSeparator=","
+                                                    />
+                                                </h1>
+                                                <div className="w-6 flex justify-center">
+                                                    <Icon name={totalAmount.currency} folder="currency" />
+                                                </div>
+                                            </div>
                                         ) : (
                                             <></>
                                         )}
