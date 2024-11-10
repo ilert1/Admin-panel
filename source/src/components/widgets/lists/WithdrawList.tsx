@@ -68,7 +68,7 @@ const WithdrawFilterSidebar = () => {
                     <DropdownMenuItem
                         className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-80 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
                         onClick={() => handleDownloadReport("csv")}>
-                        Excel
+                        CSV
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-80 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
