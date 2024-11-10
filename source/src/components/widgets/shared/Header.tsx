@@ -91,7 +91,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         <Blowfish />
                                     </Avatar>
                                 </DropdownMenuTrigger>
-                                <div className="flex flex-col gap-[2px] items-start">
+                                <div className="flex flex-col gap-[2px] items-start min-w-[137px]">
                                     <span className={"text-neutral-100 text-title-2 cursor-default"}>
                                         {identity.data.fullName ? identity.data.fullName : ""}
                                     </span>
@@ -103,10 +103,16 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     ) : (
                                         <div className="flex gap-4 items-center">
                                             <DropdownMenuTrigger>
-                                                <h1 className="text-display-4">
+                                                <h1 className="text-display-5">
                                                     <NumericFormat
                                                         className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-[98px] block"
-                                                        value={totalAmount.value.quantity / totalAmount.value.accuracy}
+                                                        value={
+                                                            Math.round(
+                                                                (totalAmount.value.quantity /
+                                                                    totalAmount.value.accuracy) *
+                                                                    10000
+                                                            ) / 10000
+                                                        }
                                                         displayType={"text"}
                                                         thousandSeparator=" "
                                                         decimalSeparator=","
