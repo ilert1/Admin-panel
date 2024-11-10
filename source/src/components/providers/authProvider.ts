@@ -53,7 +53,7 @@ export const authProvider: AuthProvider = {
                 totp: totpCode
             };
 
-            console.log(bodyObject);
+            //console.log(bodyObject);
 
             const { totp, ...shortBody } = bodyObject;
 

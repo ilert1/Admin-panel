@@ -17,7 +17,7 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { useFetchDataForDirections } from "@/hooks";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useState } from "react";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
@@ -26,7 +26,6 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
 
     const { isLoading } = useCreateController({ resource: "direction" });
     const controllerProps = useCreateController();
-    const { toast } = useToast();
     const translate = useTranslate();
     const refresh = useRefresh();
 
@@ -40,10 +39,10 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             refresh();
             onOpenChange(false);
         } catch (error) {
-            toast({
+            toast.error("Error", {
                 description: translate("resources.provider.errors.alreadyInUse"),
-                variant: "destructive",
-                title: "Error"
+                dismissible: true,
+                duration: 3000
             });
             setSubmitButtonDisabled(false);
         }
@@ -95,7 +94,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                             control={form.control}
                             name="name"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
@@ -110,7 +109,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                             control={form.control}
                             name="active"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.fields.active")}</FormLabel>
                                     <Select
                                         value={field.value ? "true" : "false"}
@@ -141,7 +140,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                             control={form.control}
                             name="src_currency"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.sourceCurrency")}</FormLabel>
                                     <Select
                                         value={field.value}
@@ -181,7 +180,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                             control={form.control}
                             name="dst_currency"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.destinationCurrency")}</FormLabel>
                                     <Select
                                         value={field.value}
@@ -221,7 +220,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                             control={form.control}
                             name="merchant"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.merchant")}</FormLabel>
                                     <Select
                                         value={field.value}
@@ -261,7 +260,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                             control={form.control}
                             name="provider"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.provider")}</FormLabel>
                                     <Select
                                         value={field.value}
@@ -302,7 +301,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                             control={form.control}
                             name="weight"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.weight")}</FormLabel>
                                     <FormControl>
                                         <div>
@@ -317,7 +316,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                             control={form.control}
                             name="description"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.description")}</FormLabel>
                                     <FormControl>
                                         <div>
@@ -328,7 +327,8 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                 </FormItem>
                             )}
                         />
-                        <div className="flex gap-[16px] p-2 ml-auto w-1/3">
+                        {/* <div className="flex gap-[16px] p-2 ml-auto w-1/3"> */}
+                        <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col gap-3 sm:gap-0 sm:flex-row space-x-0 sm:space-x-2">
                             <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>

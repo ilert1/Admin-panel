@@ -9,7 +9,9 @@ export const TextField = ({
     link = "/",
     type = "text",
     copyValue = false,
-    wrap = false
+    wrap = false,
+    lineClamp = false,
+    linesCount = 3
 }: {
     text: string;
     label?: string | undefined;
@@ -17,6 +19,8 @@ export const TextField = ({
     type?: "text" | "link" | "internal-link";
     copyValue?: boolean;
     wrap?: boolean | "break-all";
+    lineClamp?: boolean;
+    linesCount?: number;
 }) => {
     const currentText = useMemo(() => (text?.length > 0 ? text : "-"), [text]);
     const translate = useTranslate();
@@ -55,7 +59,24 @@ export const TextField = ({
                             />
                         </span>
                     )}
-                    <span className={textStyle()}>{currentText}</span>
+                    <span
+                        className={textStyle()}
+                        style={{
+                            ...(lineClamp
+                                ? {
+                                      display: "-webkit-box",
+                                      overflow: "hidden",
+                                      WebkitLineClamp: linesCount,
+                                      WebkitBoxOrient: "vertical",
+                                      wordBreak: "break-word",
+                                      textWrap: "wrap",
+                                      maxWidth: "100%",
+                                      minWidth: "150px"
+                                  }
+                                : {})
+                        }}>
+                        {currentText}
+                    </span>
                 </p>
             )}
             {type === "link" && (

@@ -6,16 +6,18 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { DialogClose } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { usePreventFocus } from "@/hooks";
 
 enum PositionEnum {
     BEFORE = "before",
     AFTER = "after"
 }
+let renderCount = 0;
 
 export const CurrencyEdit = ({
     record,
@@ -27,8 +29,10 @@ export const CurrencyEdit = ({
     const dataProvider = useDataProvider();
 
     const translate = useTranslate();
-    const { toast } = useToast();
     const refresh = useRefresh();
+    const inputRef = useRef<HTMLInputElement>(null);
+    // Focus blur hack
+    renderCount++;
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -44,10 +48,10 @@ export const CurrencyEdit = ({
             refresh();
             closeDialog();
         } catch (error) {
-            toast({
+            toast.error("Error", {
                 description: translate("resources.currency.errors.alreadyInUse"),
-                variant: "destructive",
-                title: "Error"
+                dismissible: true,
+                duration: 3000
             });
             setSubmitButtonDisabled(false);
         }
@@ -70,9 +74,11 @@ export const CurrencyEdit = ({
         }
     });
 
+    usePreventFocus({ dependencies: [record] });
+
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" autoFocus={false}>
                 <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:grid-flow-col gap-y-5 gap-x-4 md:items-end">
                     <FormField
                         control={form.control}
@@ -102,6 +108,13 @@ export const CurrencyEdit = ({
                                                 : ""
                                         }`}
                                         {...field}
+                                        ref={inputRef}
+                                        onFocus={() => {
+                                            if (renderCount === 1) {
+                                                inputRef?.current?.blur();
+                                            }
+                                            inputRef?.current?.focus();
+                                        }}
                                         value={field.value ?? ""}>
                                         {fieldState.invalid && (
                                             <TooltipProvider>
@@ -202,15 +215,19 @@ export const CurrencyEdit = ({
                     />
                 </div>
 
-                <div className="self-end flex items-center gap-4">
-                    <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
+                <div className="sm:self-end flex flex-col sm:flex-row items-center gap-4">
+                    <Button
+                        type="submit"
+                        variant="default"
+                        className="w-full sm:w flex-1"
+                        disabled={submitButtonDisabled}>
                         {translate("app.ui.actions.save")}
                     </Button>
 
                     <DialogClose asChild>
                         <Button
                             variant="clearBtn"
-                            className="border border-neutral-50 rounded-4 hover:border-neutral-100">
+                            className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </DialogClose>

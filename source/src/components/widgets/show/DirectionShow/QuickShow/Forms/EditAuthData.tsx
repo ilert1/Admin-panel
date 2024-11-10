@@ -6,11 +6,11 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { fetchUtils, useDataProvider, useRefresh, useTranslate } from "react-admin";
+import { fetchUtils, useRefresh, useTranslate } from "react-admin";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface EditAuthDataProps {
     open: boolean;
@@ -23,9 +23,7 @@ export const EditAuthData = (props: EditAuthDataProps) => {
     const { open, id, onOpenChange } = props;
 
     const translate = useTranslate();
-    const { toast } = useToast();
     const refresh = useRefresh();
-
 
     const [code, setCode] = useState("{}");
     const [hasErrors, setHasErrors] = useState(false);
@@ -48,19 +46,18 @@ export const EditAuthData = (props: EditAuthDataProps) => {
                 throw new Error(json.error);
             }
 
-            toast({
+            toast.success("Success", {
                 description: translate("resources.direction.addedSuccess"),
-                variant: "success",
-                title: "Success"
+                dismissible: true,
+                duration: 3000
             });
             onOpenChange(false);
             refresh();
         } catch (error: any) {
-            console.log(error);
-            toast({
+            toast.error("Error", {
                 description: translate("resources.direction.errors.authError"),
-                variant: "destructive",
-                title: "Error"
+                dismissible: true,
+                duration: 3000
             });
         }
     };
@@ -68,7 +65,7 @@ export const EditAuthData = (props: EditAuthDataProps) => {
     return (
         <>
             <Dialog open={open} onOpenChange={onOpenChange}>
-                <DialogContent className="w-[468px] h-[464px] bg-muted p-[30px] ">
+                <DialogContent className="max-w-[468px] max-h-[464px] bg-muted p-[30px] ">
                     <DialogHeader>
                         <DialogTitle className="text-center">
                             <span className="text-display-4">
@@ -79,7 +76,7 @@ export const EditAuthData = (props: EditAuthDataProps) => {
                         <div className="text-title-1 mb-[24px]">
                             {translate("resources.direction.writeSecretPhrase")}
                         </div>
-                        <div className="flex flex-col items-center mb-[24px]">
+                        <div className="w-full flex flex-col items-center mb-[24px]">
                             <div className="flex justify-start w-full text-note-1 pb-[4px]">
                                 {translate("resources.direction.secretHelper")}
                             </div>
@@ -91,7 +88,7 @@ export const EditAuthData = (props: EditAuthDataProps) => {
                                 setCode={setCode}
                             />
                         </div>
-                        <div className="flex justify-end gap-[16px] w-full">
+                        <div className="flex flex-col sm:flex-row justify-end gap-[16px] w-full">
                             <Button onClick={() => handleSaveClicked()} disabled={hasErrors || !isValid}>
                                 {translate("app.ui.actions.save")}
                             </Button>

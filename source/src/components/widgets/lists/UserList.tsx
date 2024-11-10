@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { UserCreate } from "../create";
-import fetchDictionaries from "@/helpers/get-dictionaries";
 
 const UserFilterSidebar = () => {
     const translate = useTranslate();
@@ -133,13 +132,12 @@ const UserFilterSidebar = () => {
 };
 
 const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
-const translations = ["active", "frozen", "blocked"];
+const translations = ["active", "frozen", "blocked", "deleted"];
 
 export const UserList = () => {
     const [userId, setUserId] = useState<string>("");
     const [showOpen, setShowOpen] = useState(false);
     const [locale] = useLocaleState();
-    const data = fetchDictionaries();
     const listContext = useListController<Users.User>();
     const translate = useTranslate();
 
@@ -172,34 +170,25 @@ export const UserList = () => {
             header: translate("resources.users.fields.name"),
             cell: ({ row }) => <TextField text={row.original.name} copyValue />
         },
-        // Макс, а это точно?
         {
             accessorKey: "active",
             header: () => {
                 return <div className="text-center">{translate("resources.users.fields.active")}</div>;
             },
             cell: ({ row }) => {
-                const index = row.original.state - 1;
-
                 return (
                     <div className="flex items-center justify-center">
-                        <span className={`px-3 py-0.5 rounded-20 font-normal text-base text-center ${styles[index]}`}>
-                            {translate(`resources.accounts.fields.states.${translations[index]}`)}
+                        <span
+                            className={`px-3 py-0.5 rounded-20 font-normal text-base text-center ${
+                                row.original.state > translations.length ? "" : styles[row.original.state - 1]
+                            }`}>
+                            {row.original.state > translations.length
+                                ? "-"
+                                : translate(`resources.accounts.fields.states.${translations[row.original.state - 1]}`)}
                         </span>
                     </div>
                 );
             }
-            // <div className="flex items-center justify-center text-white">
-            //     {row.original.deleted_at ? (
-            //         <span className="px-3 py-0.5 bg-red-50 rounded-20 font-normal text-base text-center">
-            //             {translate("resources.users.fields.activeStateFalse")}
-            //         </span>
-            //     ) : (
-            //         <span className="px-3 py-0.5 bg-green-50 rounded-20 font-normal text-base text-center">
-            //             {translate("resources.users.fields.activeStateTrue")}
-            //         </span>
-            //     )}
-            // </div>
         },
         {
             id: "actions",
@@ -227,7 +216,8 @@ export const UserList = () => {
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>
                     <SheetContent
                         aria-describedby={undefined}
-                        className="sm:max-w-[1015px] !max-h-[502px] w-full p-0 m-0 top-[84px] flex flex-col gap-0 outline-none"
+                        // className="sm:max-w-[1015px] h-[502px] max-h-full w-full p-0 m-0 top-[84px] flex flex-col gap-0 outline-none overflow-y-auto"
+                        className="sm:max-w-[1015px] h-full sm:h-[502px] max-h-[calc(100dvh-84px)] overflow-hidden w-full p-0 m-0 top-[84px] flex flex-col"
                         tabIndex={-1}
                         style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
                         close={false}>

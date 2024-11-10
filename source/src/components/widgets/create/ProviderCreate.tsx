@@ -3,7 +3,7 @@ import { useCreateController, CreateContextProvider, useTranslate, useDataProvid
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
@@ -21,7 +21,6 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
 
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController();
-    const { toast } = useToast();
     const { theme } = useTheme();
 
     const translate = useTranslate();
@@ -71,10 +70,10 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
             await dataProvider.create("provider", { data });
             onClose();
         } catch (error) {
-            toast({
+            toast.error(translate("resources.transactions.download.error"), {
                 description: translate("resources.provider.errors.alreadyInUse"),
-                variant: "error",
-                title: translate("resources.transactions.download.error")
+                dismissible: true,
+                duration: 3000
             });
             setSubmitButtonDisabled(false);
         }
@@ -91,7 +90,7 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
                             control={form.control}
                             name="name"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>
                                         <span className="!text-note-1 !text-neutral-30">
                                             {translate("resources.provider.fields._name")}
@@ -110,7 +109,7 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
                             control={form.control}
                             name="fields_json_schema"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>
                                         <span className="!text-note-1 !text-neutral-30">
                                             {translate("resources.provider.fields.json_schema")}
@@ -138,8 +137,6 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
                                         </FormLabel>
                                         <FormControl>
                                             <MonacoEditor
-                                                height="144px"
-                                                width="100%"
                                                 onErrorsChange={setHasErrors}
                                                 onValidChange={setIsValid}
                                                 code={field.value || "{}"}
@@ -151,18 +148,18 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
                                 );
                             }}
                         />
-                        <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
+                        <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col sm:flex-row space-x-0 sm:space-x-2 mt-6">
                             <Button
                                 type="submit"
                                 variant="default"
-                                className="w-1/2"
+                                className="w-full sm:w-1/2"
                                 disabled={hasErrors && isValid && submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button
                                 type="button"
                                 variant="outline"
-                                className="flex-1 border-neutral-50 text-neutral-50 bg-muted w-1/2"
+                                className="flex-1 mt-4 sm:mt-0 border-neutral-50 text-neutral-50 bg-muted w-full sm:w-1/2"
                                 onClick={onClose}>
                                 {translate("app.ui.actions.cancel")}
                             </Button>

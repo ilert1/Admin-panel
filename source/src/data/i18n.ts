@@ -19,7 +19,8 @@ const ru: TranslationMessages = {
                 states: {
                     active: "Активный",
                     frozen: "Приостановлен",
-                    blocked: "Заблокирован"
+                    blocked: "Заблокирован",
+                    deleted: "Удален"
                 },
 
                 type: "Тип счёта",
@@ -40,7 +41,6 @@ const ru: TranslationMessages = {
                     caption: "Имя"
                 }
             },
-            totalBalance: "Общий баланс по счетам",
             showHeader: "Информация о счете",
             showDescription: "Подробная информация о счете с ID %{id}"
         },
@@ -157,6 +157,7 @@ const ru: TranslationMessages = {
                     account: "Счет"
                 }
             },
+            undefined: "Нет данных",
             pagination: "Записей",
             chart: "График операций",
             showHeader: "Информация о транзакции",
@@ -192,9 +193,36 @@ const ru: TranslationMessages = {
             types: {
                 all: "Все операции",
                 deposit: "Пополнение",
-                withdrawal: "Вывод средств",
+                withdraw: "Вывод средств",
                 transfer: "Перевод средств",
-                reward: "Выплата вознаграждения"
+                reward: "Выплата вознаграждения",
+                feefromsender: "Комиссия от отправителя",
+                feefromtransaction: "Комиссия с транзакции"
+            },
+            states: {
+                all: "Показать все",
+                created: "Создано",
+                paid: "Оплачено",
+                fromoutside: "Извне",
+                waitpayout: "Ожидание выплаты",
+                paidout: "Выплачено",
+                toreturnfrominside: "К возврату изнутри",
+                toreturnfromoutside: "К возврату извне",
+                reversed: "Отменено",
+                changedfromcreated: "Изменено с состояния 'Создано'",
+                changedfrompaid: "Изменено с состояния 'Оплачено'",
+                returned: "Возвращено",
+                todeny: "Отклонить",
+                processing: "Обработка",
+                expired: "Истекло",
+                deleted: "Удалено",
+                success: "Успех",
+                fail: "Неудача",
+                correction: "Коррекция",
+                emptyrequisites: "Пустые реквизиты",
+                limitfail: "Превышен лимит",
+                waitingforadminapproval: "Ожидание подтверждения админом",
+                cancelledbypayer: "Отменено плательщиком"
             }
         },
         withdraw: {
@@ -343,7 +371,9 @@ const ru: TranslationMessages = {
                 descr: "Описание",
                 addFee: "Добавить комиссию",
                 direction: "Направление",
-                deleteFee: "Удалить комиссию?"
+                deleteFee: "Удалить комиссию?",
+                error: "Ошибка",
+                errorWhenCreating: "Произошла ошибка при создании комиссии"
             },
             errors: {
                 name: "У направления обязательно должно быть имя",
@@ -375,6 +405,9 @@ const ru: TranslationMessages = {
             deleteDirection: "Удалить направление?",
             editingDirection: "Редактирование направления",
             creatingDirection: "Добавление направления"
+        },
+        "bank-transfer": {
+            name: "Банковский перевод"
         }
     },
     app: {
@@ -382,8 +415,7 @@ const ru: TranslationMessages = {
             merchant: {
                 accounts: "Мои счета",
                 transactions: "История операций",
-                cryptoOperations: "Операции с криптовалютой",
-                bankTransfer: "Банковский перевод"
+                cryptoOperations: "Операции с криптовалютой"
             },
             admin: {
                 accounts: "Счета",
@@ -397,6 +429,16 @@ const ru: TranslationMessages = {
             }
         },
         ui: {
+            header: {
+                totalBalance: "Общий баланс по счетам",
+                totalLoading: "Загрузка...",
+                totalError: "Не удалось получить общий баланс по счетам",
+                accurateBalance: "Точный баланс аккаунта"
+            },
+            roles: {
+                admin: "Администратор",
+                merchant: "Мерчант"
+            },
             actions: {
                 quick_show: "Быстрый просмотр",
                 show: "Просмотр",
@@ -466,9 +508,11 @@ const ru: TranslationMessages = {
                 payout: {
                     title: "Банковский перевод",
                     payMethod: "Метод оплаты",
-                    phone: "Номер телефона",
-                    card: "Номер карты",
-                    cardholder: "Владелец карты",
+                    phone_number: "Номер телефона",
+                    card_number: "Номер карты",
+                    card_holder: "Владелец карты",
+                    iban_number: "Номер IBAN",
+                    account_number: "Номер аккаунта",
                     expiration_date: "Срок действия",
                     account_last_digits: "Последние цифры номера",
                     selectPayMethod: "Выберите метод оплаты",
@@ -476,7 +520,9 @@ const ru: TranslationMessages = {
                     valueMessage: "Некорректное значение",
                     value: "Сумма зачисления %{currency}",
                     create: "Создать",
-                    success: "Вывод успешно создан"
+                    successTitle: "Заявка успешно создана",
+                    successDescription: "Вы можете отследить её статус в разделе",
+                    errorTitle: "Ошибка создания заявки"
                 },
                 cryptoTransfer: {
                     address: "Адрес получателя TRC20",
@@ -534,9 +580,6 @@ const ru: TranslationMessages = {
         payin: {
             header: "Пополнение"
         },
-        bankTransfer: {
-            header: "Банковский перевод"
-        },
         cryptoTransfer: {
             header: "Перевод криптовалюты"
         }
@@ -575,7 +618,8 @@ const en: TranslationMessages = {
                 states: {
                     active: "Active",
                     frozen: "Frozen",
-                    blocked: "Blocked"
+                    blocked: "Blocked",
+                    deleted: "Deleted"
                 },
                 type: "Account type",
                 balance: "Account balance",
@@ -595,7 +639,6 @@ const en: TranslationMessages = {
                     caption: "Name"
                 }
             },
-            totalBalance: "Total account balance",
             showHeader: "Account info",
             showDescription: "Detailed information about account with ID %{id}"
         },
@@ -712,6 +755,7 @@ const en: TranslationMessages = {
                     account: "Account"
                 }
             },
+            undefined: "No results",
             pagination: "Rows per page",
             chart: "Schedule of operations",
             showHeader: "Transaction info",
@@ -747,9 +791,36 @@ const en: TranslationMessages = {
             types: {
                 all: "All transactions",
                 deposit: "Deposit",
-                withdrawal: "Withdrawal",
+                withdraw: "Withdrawal",
                 transfer: "Transfer",
-                reward: "Reward"
+                reward: "Reward",
+                feefromsender: "Fee from sender",
+                feefromtransaction: "Fee from transaction"
+            },
+            states: {
+                all: "Show all",
+                created: "Created",
+                paid: "Paid",
+                fromoutside: "From outside",
+                waitpayout: "Wait payout",
+                paidout: "Paid out",
+                toreturnfrominside: "To return from inside",
+                toreturnfromoutside: "To return from outside",
+                reversed: "Reversed",
+                changedfromcreated: "Changed from created",
+                changedfrompaid: "Changed from paid",
+                returned: "Returned",
+                todeny: "To deny",
+                processing: "Processing",
+                expired: "Expired",
+                deleted: "Deleted",
+                success: "Success",
+                fail: "Fail",
+                correction: "Correction",
+                emptyrequisites: "Empty requisites",
+                limitfail: "Limit fail",
+                waitingforadminapproval: "Waiting for admin approval",
+                cancelledbypayer: "Cancelled by payer"
             }
         },
         withdraw: {
@@ -898,7 +969,9 @@ const en: TranslationMessages = {
                 descr: "Description",
                 addFee: "Add fee",
                 direction: "Direction",
-                deleteFee: "Delete fee?"
+                deleteFee: "Delete fee?",
+                error: "Error",
+                errorWhenCreating: "An error occurred while creating the fee"
             },
             errors: {
                 name: "The direction must have a name",
@@ -931,6 +1004,9 @@ const en: TranslationMessages = {
             deleteDirection: "Delete direction?",
             editingDirection: "Editing direction",
             creatingDirection: "Creating direction"
+        },
+        "bank-transfer": {
+            name: "Bank transfer"
         }
     },
     app: {
@@ -938,8 +1014,7 @@ const en: TranslationMessages = {
             merchant: {
                 accounts: "My accounts",
                 transactions: "Transactions history",
-                cryptoOperations: "Crypto transactions",
-                bankTransfer: "Bank transfer"
+                cryptoOperations: "Crypto transactions"
             },
             admin: {
                 accounts: "Accounts",
@@ -953,6 +1028,16 @@ const en: TranslationMessages = {
             }
         },
         ui: {
+            header: {
+                totalBalance: "Total account balance",
+                totalLoading: "Loading...",
+                totalError: "Error while getting total account balance",
+                accurateBalance: "Accurate account balance"
+            },
+            roles: {
+                admin: "Administrator",
+                merchant: "Merchant"
+            },
             actions: {
                 quick_show: "Quick show",
                 show: "Show",
@@ -1022,9 +1107,11 @@ const en: TranslationMessages = {
                 payout: {
                     title: "Bank transfer",
                     payMethod: "Pay method",
-                    phone: "Phone number",
-                    card: "Card number",
-                    cardholder: "Cardholder",
+                    phone_number: "Phone number",
+                    card_number: "Card number",
+                    card_holder: "Cardholder",
+                    iban_number: "IBAN number",
+                    account_number: "Account number",
                     expiration_date: "Expiration date",
                     account_last_digits: "Last four digits",
                     selectPayMethod: "Select pay method",
@@ -1032,7 +1119,9 @@ const en: TranslationMessages = {
                     value: "Destination value %{currency}",
                     valueMessage: "Wrong value",
                     create: "Created",
-                    success: "Payout successfully created"
+                    successTitle: "The request has been successfully created",
+                    successDescription: "You can track her status in the section",
+                    errorTitle: "Request creation error"
                 },
                 cryptoTransfer: {
                     address: "TRC20 recipient address",
@@ -1089,9 +1178,6 @@ const en: TranslationMessages = {
     pages: {
         payin: {
             header: "Pay In"
-        },
-        bankTransfer: {
-            header: "Bank Transfer"
         },
         cryptoTransfer: {
             header: "Crypto Wallet Transfer"

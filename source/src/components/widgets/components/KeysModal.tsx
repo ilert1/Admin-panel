@@ -52,7 +52,7 @@ export const KeysModal = (props: KeysModalProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange} defaultOpen={false}>
-            <DialogContent className="bg-muted max-w-[716px] rounded-[16px]">
+            <DialogContent className="bg-muted max-w-[716px] max-h-full h-[468px] rounded-[16px]">
                 <DialogHeader>
                     <DialogTitle></DialogTitle>
                     <DialogDescription> </DialogDescription>
@@ -128,7 +128,7 @@ export const KeysModal = (props: KeysModalProps) => {
                 </DialogHeader>
                 {!isLoading && (
                     <DialogFooter className="flex !justify-between">
-                        <div className="flex justify-between w-full">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:gap-0 justify-between w-full">
                             <div className="flex flex-col">
                                 <span className="text-red-20 text-title-1">
                                     {translate("resources.provider.warning")}

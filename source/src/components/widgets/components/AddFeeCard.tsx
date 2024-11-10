@@ -3,12 +3,12 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 import { Input } from "@/components/ui/input";
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { feesDataProvider, FeesResource } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useFetchDataForDirections } from "@/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateContextProvider, useCreateController, useRefresh, useTranslate } from "react-admin";
+import { useCreateController, useRefresh, useTranslate } from "react-admin";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -27,13 +27,13 @@ export interface AddFeeCardProps {
 
 export const AddFeeCard = (props: AddFeeCardProps) => {
     const { id, resource, onOpenChange, fees, setFees, variants } = props;
-    const { toast } = useToast();
     const translate = useTranslate();
     const refresh = useRefresh();
     const feeDataProvider = feesDataProvider({ id, resource: resource });
     const data = fetchDictionaries();
 
     const { isLoading } = useCreateController({ resource });
+    const controllerProps = useCreateController({ resource });
 
     const { currencies, isLoading: loadingData } = useFetchDataForDirections();
 
@@ -54,10 +54,10 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                 refresh();
                 onOpenChange(false);
             } catch (error) {
-                toast({
-                    description: translate("resources.provider.errors.alreadyInUse"),
-                    variant: "destructive",
-                    title: "Error"
+                toast.error(translate("resources.direction.fees.error"), {
+                    description: translate("resources.direction.fees.errorWhenCreating"),
+                    dismissible: true,
+                    duration: 3000
                 });
             }
         }
@@ -96,12 +96,12 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                 <form className="space-y-6">
                     <div className="mb-[16px]">
                         <div className="bg-neutral-0 border border-neutral-70 rounded-[8px] px-[8px] pt-[16px] pb-[8px]">
-                            <div className="w-full grid grid-cols-2 ">
+                            <div className="w-full grid grid-cols-2 sm:grid-cols-4">
                                 <FormField
                                     control={form.control}
                                     name="direction"
                                     render={({ field }) => (
-                                        <FormItem className="p-2">
+                                        <FormItem className="p-2 col-span-2">
                                             <FormLabel>{translate("resources.direction.fees.direction")}</FormLabel>
                                             <FormControl>
                                                 <div>
@@ -132,7 +132,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                     control={form.control}
                                     name="value"
                                     render={({ field }) => (
-                                        <FormItem className="p-2">
+                                        <FormItem className="p-2 col-span-2">
                                             <FormLabel>{translate("resources.direction.fees.feeAmount")}</FormLabel>
                                             <FormControl>
                                                 <div>
@@ -179,7 +179,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                     control={form.control}
                                     name="currency"
                                     render={({ field }) => (
-                                        <FormItem className="p-2">
+                                        <FormItem className="p-2 col-span-2">
                                             <FormLabel>{translate("resources.direction.fees.currency")}</FormLabel>
                                             <FormControl>
                                                 <div>
@@ -233,7 +233,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                     control={form.control}
                                     name="description"
                                     render={({ field }) => (
-                                        <FormItem className="w-full p-2 col-span-2">
+                                        <FormItem className="w-full p-2 col-span-2 sm:col-span-4">
                                             <FormLabel>{translate("resources.direction.description")}</FormLabel>
                                             <FormControl>
                                                 <div>

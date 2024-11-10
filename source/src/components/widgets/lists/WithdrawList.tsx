@@ -58,25 +58,25 @@ const WithdrawFilterSidebar = () => {
                 <XIcon className="size-4" />
             </Button>
 
-            {/* <DropdownMenu>
+            <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button className="md:ml-auto" variant="default" size="sm">
+                    <Button disabled={!startDate} className="md:ml-auto" variant="default" size="sm">
                         {translate("resources.withdraw.download.downloadReportButtonText")}
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="p-0 border-green-50" align="end">
                     <DropdownMenuItem
-                        className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                        className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-80 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
                         onClick={() => handleDownloadReport("csv")}>
-                        Excel
+                        CSV
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                        className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                        className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-80 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
                         onClick={() => handleDownloadReport("pdf")}>
                         PDF
                     </DropdownMenuItem>
                 </DropdownMenuContent>
-            </DropdownMenu> */}
+            </DropdownMenu>
         </div>
     );
 };

@@ -18,10 +18,10 @@ export const EditDirectionDialog = (props: EditDirectionDialogProps) => {
     const { open, id, onOpenChange } = props;
 
     const translate = useTranslate();
-
+    // h-[464px]
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="w-[716px] h-[464px] bg-muted pb-0">
+            <DialogContent className="max-w-[716px] max-h-full bg-muted pb-0">
                 <DialogHeader>
                     <DialogTitle className="text-center mb-[24px]">
                         {translate("resources.direction.editingDirection")}

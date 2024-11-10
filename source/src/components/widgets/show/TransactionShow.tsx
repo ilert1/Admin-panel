@@ -98,7 +98,10 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             id: "type",
             accessorKey: "type",
             header: translate("resources.transactions.fields.type"),
-            cell: ({ row }) => data?.feeTypes[row.original.type]?.type_descr || ""
+            cell: ({ row }) =>
+                translate(
+                    `resources.transactions.types.${data?.feeTypes[row.original.type]?.type_descr.toLowerCase()}`
+                ) || ""
         },
         {
             id: "currency",
@@ -136,7 +139,12 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             id: "type",
             accessorKey: "type",
             header: translate("resources.transactions.fields.type"),
-            cell: ({ row }) => data?.transactionTypes[row.original.type]?.type_descr || ""
+            cell: ({ row }) =>
+                translate(
+                    `resources.transactions.types.${data?.transactionTypes[
+                        row.original.type
+                    ]?.type_descr.toLowerCase()}`
+                ) || ""
         },
         {
             id: "state",
@@ -164,27 +172,43 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
             header: translate("resources.transactions.fields.meta.external_status")
         }
     ];
+
     const briefHistory: ColumnDef<Transaction.Transaction>[] = [
+        {
+            id: "createdAt",
+            accessorKey: "created_at",
+            header: translate("resources.transactions.fields.created_at"),
+            cell: ({ row }) => {
+                return (
+                    <>
+                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
+                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
+                    </>
+                );
+            }
+        },
         {
             id: "id",
             accessorKey: "id",
             header: translate("resources.transactions.fields.id")
         },
         {
-            id: "createdAt",
-            accessorKey: "created_at",
-            header: translate("resources.transactions.fields.created_at")
-        },
-        {
             id: "type",
             accessorKey: "type",
             header: translate("resources.transactions.fields.type"),
-            cell: ({ row }) => data?.transactionTypes[row.original.type]?.type_descr || ""
+            cell: ({ row }) =>
+                translate(
+                    `resources.transactions.types.${data?.transactionTypes[
+                        row.original.type
+                    ]?.type_descr.toLowerCase()}`
+                ) || ""
         },
         {
             id: "state",
-            accessorKey: "state.state_description",
-            header: translate("resources.transactions.fields.state.title")
+            accessorKey: "state",
+            header: translate("resources.transactions.fields.state.title"),
+            cell: ({ row }) =>
+                translate(`resources.transactions.states.${row.original.state?.state_description?.toLowerCase()}`) || ""
         },
         {
             id: "source_amount",
@@ -239,7 +263,9 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                                     <SelectContent className="bg-neutral-0">
                                         {states.map(state => (
                                             <SelectItem key={state.state_int} value={state.state_int.toString()}>
-                                                {state.state_description}
+                                                {translate(
+                                                    `resources.transactions.states.${state?.state_description?.toLowerCase()}`
+                                                )}
                                             </SelectItem>
                                         ))}
                                     </SelectContent>
@@ -269,11 +295,13 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                                                 <AlertDialogDescription></AlertDialogDescription>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>
-                                                <div className="flex justify-around gap-[35px] w-full">
-                                                    <AlertDialogAction onClick={commitTransaction} className="w-40">
+                                                <div className="flex flex-col sm:flex-row justify-around gap-4 sm:gap-[35px] w-full">
+                                                    <AlertDialogAction
+                                                        onClick={commitTransaction}
+                                                        className="w-full sm:w-40">
                                                         {translate("resources.transactions.show.commit")}
                                                     </AlertDialogAction>
-                                                    <AlertDialogCancel className="!ml-0 px-3 w-24">
+                                                    <AlertDialogCancel className="w-full !ml-0 px-3 sm:w-24">
                                                         {translate("app.ui.actions.cancel")}
                                                     </AlertDialogCancel>
                                                 </div>
@@ -307,13 +335,23 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                         <span className="opacity-60 text-title-1">
                             {translate("resources.transactions.fields.type")}
                         </span>
-                        <span>{data?.transactionTypes[context.record.type]?.type_descr}</span>
+                        <span>
+                            {translate(
+                                `resources.transactions.types.${data?.transactionTypes[
+                                    context.record.type
+                                ]?.type_descr.toLowerCase()}`
+                            )}
+                        </span>
                     </div>
                     <div className="flex flex-col">
                         <span className="opacity-60 text-title-1">
                             {translate("resources.transactions.fields.state.state_description")}
                         </span>
-                        <span>{context.record.state.state_description}</span>
+                        <span>
+                            {translate(
+                                `resources.transactions.states.${context.record.state.state_description.toLowerCase()}`
+                            )}
+                        </span>
                     </div>
                     <div className="flex flex-col">
                         <span className="opacity-60 text-title-1">
@@ -361,7 +399,11 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                         />
                         <TextField
                             label={translate("resources.transactions.fields.type")}
-                            text={data?.transactionTypes[context.record.type]?.type_descr}
+                            text={translate(
+                                `resources.transactions.types.${data?.transactionTypes[
+                                    context.record.type
+                                ]?.type_descr.toLowerCase()}`
+                            )}
                         />
                         <TextField
                             label={translate("resources.transactions.fields.state.state_description")}

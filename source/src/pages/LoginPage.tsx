@@ -39,7 +39,7 @@ export const LoginPage = () => {
                 totpCode
             };
 
-            console.log(userData);
+            // console.log(userData);
 
             login(userData).catch(error => {
                 if (error.status === 401) {
@@ -90,14 +90,14 @@ export const LoginPage = () => {
                 <LangSwitcher />
             </div>
             <div
-                className="relative flex items-center justify-center bg-loginBG overflow-hidden h-[calc(100vh-84px)]"
+                className="relative flex items-center justify-center bg-loginBG overflow-hidden min-h-[508px] h-[calc(100vh-84px)]"
                 style={{
                     backgroundImage: "url(/LoginBackground.svg)",
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat"
                 }}>
                 <div
-                    className={`mx-4 w-full max-w-md px-8 sm:px-16 pb-16 rounded-16 shadow-md min-w-[240px] z-10 ${
+                    className={`mx-4 my-4 overflow-y-auto w-full max-w-md px-8 sm:px-16 pb-16 rounded-16 shadow-md min-w-[240px] z-10 ${
                         theme === "dark" ? "bg-neutral-0" : "bg-neutral-100"
                     }`}>
                     <div className="flex justify-center mb-2.5 mt-5">

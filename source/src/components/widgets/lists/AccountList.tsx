@@ -1,5 +1,4 @@
 import { ListContextProvider, useListController, useTranslate, RecordContextProvider } from "react-admin";
-import { useQuery } from "react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
 import { XIcon, Copy, EyeIcon } from "lucide-react";
@@ -12,10 +11,9 @@ import { Loading } from "@/components/ui/loading";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { toast } from "sonner";
 import { NumericFormat } from "react-number-format";
-import { Icon } from "../shared/Icon";
 
 const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
-const translations = ["active", "frozen", "blocked"];
+const translations = ["active", "frozen", "blocked", "deleted"];
 
 export const AccountList = () => {
     const listContext = useListController<Account>();
@@ -121,51 +119,17 @@ export const AccountList = () => {
             }
         }
     ];
-
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
     } else {
         return (
             <>
                 <ListContextProvider value={{ ...listContext }}>
-                    <div className="flex gap-6 flex-wrap-reverse items-end">
-                        <div className="grow-[1]">
-                            <DataTable columns={columns} />
-                        </div>
-                        {/* <div className="flex flex-col gap-4 px-6 py-4 rounded-2xl bg-neutral-0 w-[457px] h-fit">
-                            <h3 className="text-display-3">{translate("resources.accounts.totalBalance")}</h3>
-                            <div className="flex flex-col gap-4 items-end">
-                               {listContext.data.totalSum ? (
-                                    <>
-                                        {totalSum.map(currencySum => {
-                                            return (
-                                                <div key={currencySum.currency} className="flex gap-4 items-center">
-                                                    <h1 className="text-display-1">
-                                                        <NumericFormat
-                                                            className="whitespace-nowrap"
-                                                            value={currencySum.amount / currencySum.accuracy}
-                                                            displayType={"text"}
-                                                            thousandSeparator=" "
-                                                            decimalSeparator=","
-                                                        />
-                                                    </h1>
-                                                    <div className="w-10 flex justify-center">
-                                                        <Icon name={currencySum.currency} folder="currency" />
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </>
-                                ) : (
-                                    <></>
-                                )} 
-                            </div>
-                        </div>*/}
-                    </div>
+                    <DataTable columns={columns} />
                 </ListContextProvider>
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>
                     <SheetContent
-                        className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col"
+                        className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col border-0"
                         tabIndex={-1}
                         style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
                         close={false}>

@@ -1,44 +1,15 @@
-import {
-    CoreLayoutProps,
-    useGetIdentity,
-    useLogout,
-    usePermissions,
-    useResourceDefinitions,
-    useTranslate
-} from "react-admin";
+import { CoreLayoutProps, useLogout, usePermissions, useResourceDefinitions, useTranslate } from "react-admin";
 import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useMemo, createElement, useState, useEffect } from "react";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Switch } from "@/components/ui/switch";
-import {
-    CreditCardIcon,
-    ChevronLeftCircleIcon,
-    ChevronRightCircleIcon,
-    MessagesSquareIcon,
-    XIcon,
-    KeyRound,
-    ChevronLeft
-} from "lucide-react";
-import { useTheme } from "@/components/providers";
-import { Toaster } from "@/components/ui/toaster";
+import { CreditCardIcon, ChevronLeftCircleIcon, ChevronRightCircleIcon, KeyRound, ChevronLeft } from "lucide-react";
 import Logo from "@/lib/icons/Logo";
 import LogoPicture from "@/lib/icons/LogoPicture";
-import Blowfish from "@/lib/icons/Blowfish";
-import { ChatSheet } from "@/components/widgets/components/ChatSheet";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { debounce } from "lodash";
 import { Button } from "@/components/ui/button";
 import { useGetResLabel } from "@/hooks/useGetResLabel";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { KeysModal } from "@/components/widgets/components/KeysModal";
-import { LangSwitcher } from "@/components/widgets/components/LangSwitcher";
+import { Header } from "@/components/widgets/shared/Header";
 
 enum SplitLocations {
     show = "show",
@@ -56,43 +27,37 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
 
     const resourceName = useMemo(() => {
         const urlParts = location.pathname?.split("/")?.filter((s: string) => s?.length > 0);
+
         Object.values(SplitLocations).forEach(item => {
             if (urlParts.includes(item)) {
                 const tempResource = urlParts.splice(urlParts.indexOf(item) - 1, 2);
                 urlParts.push(tempResource.join("/"));
             }
         });
+
         const isWrongResource =
             Object.keys(resources).length !==
             new Set([...Object.keys(resources), urlParts[0] !== "" && urlParts[0]]).size;
+
         return isWrongResource ? ["error"] : urlParts;
     }, [location, resources]);
 
     const pageTitle = useMemo(() => {
         if (resourceName.length > 0) {
-            if (resourceName[0] === "bank-transfer") {
-                return translate("app.menu.merchant.bankTransfer");
-            }
             return getResLabel(resourceName[0], permissions);
         }
-    }, [getResLabel, permissions, resourceName, translate]);
+    }, [getResLabel, permissions, resourceName]);
 
-    const identity = useGetIdentity();
     const logout = useLogout();
-    //TODO for better UX we should set last location in localStorage to save it while user presses browser "refresh" button
     const handleLogout = () => {
         location.pathname = "/";
         logout();
     };
 
-    const { setTheme, theme } = useTheme();
     const [isSheetOpen, setSheetOpen] = useState(false);
     const [showCaptions, setShowCaptions] = useState(false);
-    const [profileOpen, setProfileOpen] = useState(false);
-    const [chatOpen, setChatOpen] = useState(false);
-    const [testKeysModalOpen, setTestKeysModalOpen] = useState(false);
 
-    const debounced = debounce(setChatOpen, 120);
+    const [testKeysModalOpen, setTestKeysModalOpen] = useState(false);
 
     useEffect(() => {
         isSheetOpen
@@ -102,125 +67,9 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
             : setShowCaptions(isSheetOpen);
     }, [isSheetOpen]);
 
-    const toggleTheme = () => {
-        if (theme === "light") {
-            setTheme("dark");
-        } else {
-            setTheme("light");
-        }
-    };
-
     return (
         <div className="flex flex-col h-screen">
-            <header
-                className="flex flex-shrink-0 h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z"
-                onClick={e => e.stopPropagation()}>
-                {identity?.data && (
-                    <div className="ml-auto flex items-center gap-2 mr-6">
-                        <div>
-                            <span
-                                className={
-                                    profileOpen
-                                        ? "text-green-50 text-title-2 cursor-default"
-                                        : "text-neutral-100 text-title-2 cursor-default"
-                                }>
-                                {identity.data.fullName ? identity.data.fullName : null}
-                            </span>
-                        </div>
-                        <div className="flex items-center gap-8 relative !z-60">
-                            <DropdownMenu open={profileOpen} onOpenChange={setProfileOpen} modal={true}>
-                                <DropdownMenuTrigger asChild>
-                                    <Avatar
-                                        className={
-                                            profileOpen
-                                                ? "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-50 bg-green-50 transition-all duration-150"
-                                                : "flex items-center justify-center cursor-pointer  w-[60px] h-[60px] border-2 border-green-40 hover:border-green-50 bg-muted hover:bg-green-50 transition-all duration-150"
-                                        }>
-                                        <Blowfish />
-                                    </Avatar>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent
-                                    align="end"
-                                    className="p-0 w-56 bg-muted border border-neutral-100 z100">
-                                    <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
-                                        <Avatar className="w-5 h-5">
-                                            <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
-                                                {identity.data.fullName
-                                                    ? identity.data.fullName[0].toLocaleUpperCase()
-                                                    : ""}
-                                            </AvatarFallback>
-                                        </Avatar>
-                                        <div className="ml-3 text-neutral-100">
-                                            <div className="text-title-1 cursor-default">{identity.data.fullName}</div>
-                                            {
-                                                //TODO: Set valid email
-                                            }
-                                            <div className="text-note-2 cursor-default">email@gmail.com</div>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
-                                        <Switch
-                                            checked={theme === "dark"}
-                                            onCheckedChange={toggleTheme}
-                                            className="border-green-50 data-[state=checked]:bg-muted data-[state=unchecked]:bg-muted"
-                                        />
-                                        <span className="ml-3 cursor-default">
-                                            {theme === "dark"
-                                                ? translate("app.theme.light")
-                                                : translate("app.theme.dark")}
-                                        </span>
-                                    </div>
-                                    <DropdownMenuItem
-                                        className="pl-4 pr-4 h-[50px] focus:bg-green-50 focus:cursor-pointer text-title-2"
-                                        onClick={handleLogout}>
-                                        {translate("ra.auth.logout")}
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                            {/* <Sheet
-                                open={chatOpen}
-                                onOpenChange={isOpen => {
-                                    debounced(isOpen);
-                                }}
-                                modal={true}>
-                                <SheetTrigger asChild>
-                                    <div>
-                                        <Avatar
-                                            className={
-                                                chatOpen
-                                                    ? "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
-                                                    : "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-green-50 hover:text-neutral-100 border-2 border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
-                                            }>
-                                            <MessagesSquareIcon className="h-[30px] w-[30px]" />
-                                        </Avatar>
-                                    </div>
-                                </SheetTrigger>
-                                <SheetContent
-                                    className="sm:max-w-[520px] !top-[84px] !max-h-[calc(100vh-84px)] w-full p-0 m-0"
-                                    close={false}>
-                                    <SheetHeader className="p-4 bg-green-60">
-                                        <div className="flex justify-between items-center ">
-                                            <SheetTitle className="text-display-3">
-                                                {translate("app.ui.actions.chatWithSupport")}
-                                            </SheetTitle>
-                                            <button
-                                                tabIndex={-1}
-                                                onClick={() => setChatOpen(false)}
-                                                className="text-gray-500 hover:text-gray-700 transition-colors outline-0 border-0 -tab-1">
-                                                <XIcon className="h-[28px] w-[28px]" />
-                                            </button>
-                                        </div>
-                                    </SheetHeader>
-                                    <SheetDescription></SheetDescription>
-                                    <ChatSheet locale={locale} />
-                                </SheetContent>
-                            </Sheet> */}
-                            <LangSwitcher />
-                        </div>
-                    </div>
-                )}
-            </header>
+            <Header handleLogout={handleLogout} />
             <div className="flex grow h-full overflow-hidden">
                 <aside
                     className={
@@ -295,60 +144,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 </Tooltip>
                             </TooltipProvider>
                         ))}
-                        {merchantOnly && (
-                            <TooltipProvider delayDuration={100}>
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <NavLink
-                                            to="/bank-transfer"
-                                            className={
-                                                resourceName[0] === "bank-transfer"
-                                                    ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                                    : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                            }>
-                                            <CreditCardIcon />
-                                            {showCaptions ? (
-                                                <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
-                                                    {translate("app.menu.merchant.bankTransfer")}
-                                                </span>
-                                            ) : null}
-                                        </NavLink>
-                                    </TooltipTrigger>
-
-                                    <TooltipContent
-                                        className={
-                                            showCaptions
-                                                ? "hidden"
-                                                : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 after:rotate-45"
-                                        }
-                                        sideOffset={12}
-                                        side="right">
-                                        {translate("app.menu.merchant.bankTransfer")}
-                                        <ChevronLeft
-                                            className="absolute -left-[13px] top-1.5 text-green-40"
-                                            width={20}
-                                            height={20}
-                                        />
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
-                        )}
-                        {/* {merchantOnly && (
-                            <NavLink
-                                to="/crypto-transfer"
-                                className={
-                                    resourceName[0] === "crypto-transfer"
-                                        ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                        : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                }>
-                                <BitcoinIcon />
-                                {showCaptions ? (
-                                    <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
-                                        {translate("app.menu.merchant.cryptoOperations")}
-                                    </span>
-                                ) : null}
-                            </NavLink>
-                        )} */}
                     </nav>
 
                     {permissions === "admin" && (
@@ -401,8 +196,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                         {children}
                     </main>
                 </div>
-
-                <Toaster />
             </div>
 
             <KeysModal open={testKeysModalOpen} onOpenChange={setTestKeysModalOpen} isTest />

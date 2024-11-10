@@ -7,8 +7,9 @@ import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
+import { usePreventFocus } from "@/hooks";
 
 export interface ProviderEditParams {
     id?: string;
@@ -28,7 +29,6 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
     controllerProps.mutationMode = "pessimistic";
 
     const translate = useTranslate();
-    const { toast } = useToast();
 
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(false);
@@ -74,16 +74,18 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
             });
             onClose();
         } catch (error) {
-            toast({
+            toast.error("Error", {
                 description: translate("resources.currency.errors.alreadyInUse"),
-                variant: "destructive",
-                title: "Error"
+                dismissible: true,
+                duration: 3000
             });
 
             setSubmitButtonDisabled(false);
         }
         onClose();
     };
+
+    usePreventFocus({ dependencies: [record] });
 
     if (isLoading || !record) return <Loading />;
     return (
@@ -95,7 +97,7 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
                             control={form.control}
                             name="name"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>
                                         <span className="!text-note-1 !text-neutral-30">
                                             {translate("resources.provider.fields._name")}
@@ -110,12 +112,11 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             control={form.control}
                             name="fields_json_schema"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>
                                         <span className="!text-note-1 !text-neutral-30">
                                             {translate("resources.provider.fields.json_schema")}
@@ -154,7 +155,8 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
                                 </FormItem>
                             )}
                         />
-                        <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
+
+                        <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col sm:flex-row space-x-0 sm:space-x-2 mt-6">
                             <Button
                                 disabled={hasErrors && isValid && submitButtonDisabled}
                                 type="submit"
@@ -165,7 +167,7 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
                             <Button
                                 type="button"
                                 variant="outline"
-                                className="flex-1 border-neutral-50 text-neutral-50 bg-muted"
+                                className="flex-1 mt-4 sm:mt-0 border-neutral-50 text-neutral-50 bg-muted w-full sm:w-1/2"
                                 onClick={onClose}>
                                 {translate("app.ui.actions.cancel")}
                             </Button>

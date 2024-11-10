@@ -15,8 +15,16 @@ interface IProps {
     currencies: Dictionaries.Currency[] | undefined;
     payMethods: PayOut.PayMethod[] | undefined;
     loading: boolean;
-    create: (data: { payMethod: PayOut.PayMethod; [key: string]: string | PayOut.PayMethod }) => void;
+    create: (data: { payMethod: PayOut.PayMethod; [key: string]: string | PayOut.PayMethod }) => Promise<boolean>;
 }
+
+const CustomFieldTypes = new Map<PayOut.PaymentType, string[]>([
+    ["sbp", ["phone_number", "card_holder"]],
+    ["card2card", ["card_number", "card_holder"]],
+    ["account_number", ["account_number"]],
+    ["account_number_iban", ["iban_number", "account_name"]],
+    ["sberpay", ["phone_number", "card_holder"]]
+]);
 
 export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) => {
     const translate = useTranslate();
@@ -40,40 +48,33 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
     );
 
     const additionalFields = useMemo(() => {
-        return payMethod?.fields.filter(f => !f.hidden && f.required) || [];
+        return payMethod?.paymentType ? CustomFieldTypes.get(payMethod.paymentType) : [];
     }, [payMethod]);
-
-    const dynamicFormSchema = useMemo<Record<string, z.ZodType<{ [key: string]: ZodTypeAny }>>>(() => {
-        const schema: Record<string, z.ZodType<{ [key: string]: ZodTypeAny }>> = {};
-        console.log(additionalFields);
-        for (const option of additionalFields) {
-            Object.assign(schema, { [option.type]: option.type });
-        }
-
-        return schema;
-    }, [additionalFields]);
 
     const finalFormSchema = useMemo(() => {
         let schema = formSchema;
 
-        for (const key of Object.keys(dynamicFormSchema)) {
+        additionalFields?.forEach(field => {
             schema = schema.extend({
-                [key]: z.string().min(1, translate("app.widgets.forms.payout.valueMessage"))
+                [field]: z.string().min(1, translate("app.widgets.forms.payout.valueMessage"))
             });
-        }
+        });
 
         return schema;
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dynamicFormSchema, formSchema]);
+    }, [additionalFields, formSchema, translate]);
 
     const form = useForm<z.infer<typeof finalFormSchema>>({
         resolver: zodResolver(finalFormSchema),
         defaultValues: { ...finalFormSchema }
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         if (payMethod) {
-            create({ ...values, payMethod });
+            const completeCreate = await create({ ...values, payMethod });
+
+            if (completeCreate) {
+                form.reset(Object.fromEntries(Object.keys(values).map(key => [key, ""])));
+            }
         }
     }
 
@@ -158,6 +159,7 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                                     </FormLabel>
                                     <FormControl>
                                         <Input
+                                            disabled={loading}
                                             className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted/50 ${
                                                 fieldState.invalid
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
@@ -188,19 +190,18 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                         />
                     </div>
 
-                    {additionalFields.map((f, i: number) => (
+                    {additionalFields?.map((item, i: number) => (
                         <FormField
                             disabled={loading}
                             key={i}
                             control={form.control}
-                            name={f.type}
+                            name={item}
                             render={({ field, fieldState }) => (
                                 <FormItem>
-                                    <FormLabel>
-                                        {translate(`app.widgets.forms.payout.${dynamicFormSchema[f.type]}`)}
-                                    </FormLabel>
+                                    <FormLabel>{translate(`app.widgets.forms.payout.${item}`)}</FormLabel>
                                     <FormControl>
                                         <Input
+                                            disabled={loading}
                                             className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted/50 ${
                                                 fieldState.invalid
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
@@ -239,6 +240,7 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
 
                     <NavLink to={"/"}>
                         <Button
+                            disabled={loading}
                             variant="clearBtn"
                             className="border border-neutral-50 rounded-4 hover:border-neutral-100">
                             {translate("app.ui.actions.cancel")}

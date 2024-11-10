@@ -19,19 +19,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import useTransactionFilter from "@/hooks/useTransactionFilter";
 import fetchDictionaries from "@/helpers/get-dictionaries";
-import BarChart from "@/components/ui/Bar";
-import { debounce } from "lodash";
+// import BarChart from "@/components/ui/Bar";
+// import { debounce } from "lodash";
 
 const TransactionFilterSidebar = ({
     typeTabActive,
-    setTypeTabActive,
-    setChartOpen,
-    chartOpen
-}: {
+    setTypeTabActive
+}: // setChartOpen,
+// chartOpen
+{
     typeTabActive: string;
-    chartOpen: boolean;
     setTypeTabActive: (type: string) => void;
-    setChartOpen: (state: boolean) => void;
+    // chartOpen: boolean;
+    // setChartOpen: (state: boolean) => void;
 }) => {
     const {
         translate,
@@ -56,7 +56,7 @@ const TransactionFilterSidebar = ({
         handleDownloadReport,
         clearFilters
     } = useTransactionFilter(typeTabActive, setTypeTabActive);
-    const debounced = debounce(setChartOpen, 200);
+    // const debounced = debounce(setChartOpen, 200);
 
     return (
         <div className="mb-6">
@@ -108,7 +108,11 @@ const TransactionFilterSidebar = ({
                                 {data &&
                                     Object.keys(data.states).map(index => (
                                         <SelectItem key={data.states[index].state_int} value={data.states[index]}>
-                                            {data.states[index].state_description}
+                                            {translate(
+                                                `resources.transactions.states.${data?.states?.[
+                                                    index
+                                                ]?.state_description?.toLowerCase()}`
+                                            )}
                                         </SelectItem>
                                     ))}
                             </SelectContent>
@@ -137,7 +141,10 @@ const TransactionFilterSidebar = ({
                                     />
                                 </SelectTrigger>
 
-                                <SelectContent align="start" onScrollCapture={accountScrollHandler}>
+                                <SelectContent
+                                    align="start"
+                                    onScrollCapture={accountScrollHandler}
+                                    onScroll={accountScrollHandler}>
                                     <SelectItem value="null">
                                         {translate("resources.transactions.filter.showAll")}
                                     </SelectItem>
@@ -145,7 +152,9 @@ const TransactionFilterSidebar = ({
                                     {accountsData?.pages.map(page => {
                                         return page.data.map(account => (
                                             <SelectItem key={account.id} value={account.id}>
-                                                <p className="truncate max-w-36">{account.meta.caption}</p>
+                                                <p className="truncate max-w-36">
+                                                    {account.meta?.caption ? account.meta.caption : account.owner_id}
+                                                </p>
                                             </SelectItem>
                                         ));
                                     })}
@@ -179,18 +188,22 @@ const TransactionFilterSidebar = ({
 
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button className="md:ml-auto" variant="default" size="sm">
+                            <Button
+                                disabled={!startDate || !account}
+                                className="md:ml-auto"
+                                variant="default"
+                                size="sm">
                                 {translate("resources.transactions.download.downloadReportButtonText")}
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="p-0 border-green-50" align="end">
                             <DropdownMenuItem
-                                className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                                className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-80 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
                                 onClick={() => handleDownloadReport("csv")}>
-                                Excel
+                                CSV
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                                className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-20 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                                className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-80 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
                                 onClick={() => handleDownloadReport("pdf")}>
                                 PDF
                             </DropdownMenuItem>
@@ -202,7 +215,7 @@ const TransactionFilterSidebar = ({
             <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-3 flex-wrap">
                     <button className={chooseClassTabActive("")} onClick={clearFilters} disabled={typeTabActive === ""}>
-                        All operations
+                        {translate("resources.transactions.types.all")}
                     </button>
 
                     {Object.keys(data?.transactionTypes).map(item => (
@@ -211,7 +224,11 @@ const TransactionFilterSidebar = ({
                             className={chooseClassTabActive(data?.transactionTypes?.[item].type_descr)}
                             disabled={typeTabActive === data?.transactionTypes?.[item].type_descr}
                             onClick={() => onTabChanged(data?.transactionTypes?.[item])}>
-                            {data?.transactionTypes?.[item].type_descr}
+                            {translate(
+                                `resources.transactions.types.${data?.transactionTypes?.[
+                                    item
+                                ].type_descr.toLowerCase()}`
+                            )}
                         </button>
                     ))}
                 </div>
@@ -240,7 +257,7 @@ export const TransactionList = () => {
     const [typeTabActive, setTypeTabActive] = useState("");
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");
-    const [chartOpen, setChartOpen] = useState(false);
+    // const [chartOpen, setChartOpen] = useState(false);
 
     const openSheet = (id: string) => {
         setShowTransactionId(id);
@@ -280,11 +297,18 @@ export const TransactionList = () => {
         {
             accessorKey: "type",
             header: translate("resources.transactions.fields.type"),
-            cell: ({ row }) => data?.transactionTypes?.[row.getValue("type") as string]?.type_descr || ""
+            cell: ({ row }) =>
+                translate(
+                    `resources.transactions.types.${data?.transactionTypes?.[
+                        row.original.type
+                    ]?.type_descr?.toLowerCase()}`
+                ) || ""
         },
         {
-            accessorKey: "state.state_description",
-            header: translate("resources.transactions.fields.state.title")
+            accessorKey: "state",
+            header: translate("resources.transactions.fields.state.title"),
+            cell: ({ row }) =>
+                translate(`resources.transactions.states.${row.original.state?.state_description?.toLowerCase()}`) || ""
         },
         {
             accessorKey: "sourceValue",
@@ -372,8 +396,8 @@ export const TransactionList = () => {
     ];
 
     //TODO delete chart mock and the dates
-    const startDate = new Date("2023-07-01");
-    const endDate = new Date("2023-09-15");
+    // const startDate = new Date("2023-07-01");
+    // const endDate = new Date("2023-09-15");
 
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
@@ -385,24 +409,24 @@ export const TransactionList = () => {
                         <TransactionFilterSidebar
                             typeTabActive={typeTabActive}
                             setTypeTabActive={setTypeTabActive}
-                            setChartOpen={setChartOpen}
-                            chartOpen={chartOpen}
+                            // setChartOpen={setChartOpen}
+                            // chartOpen={chartOpen}
                         />
                     </div>
-                    <div className="w-full mb-6 overflow-y-hidden">
+                    {/* <div className="w-full mb-6 overflow-y-hidden">
                         <BarChart
                             startDate={startDate}
                             endDate={endDate}
                             typeTabActive={typeTabActive}
                             open={chartOpen}
                         />
-                    </div>
+                    </div> */}
 
                     <DataTable data={[]} columns={columns} />
                 </ListContextProvider>
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>
                     <SheetContent
-                        className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col"
+                        className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col border-0"
                         tabIndex={-1}
                         style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
                         close={false}>

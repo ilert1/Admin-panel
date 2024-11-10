@@ -14,24 +14,21 @@ import { Loading } from "@/components/ui/loading";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useEffect, useRef, useState } from "react";
 import { AddFeeCard } from "../components/AddFeeCard";
 import { feesDataProvider, FeesResource } from "@/data";
 import { FeeCard } from "../components/FeeCard";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { CircleChevronRight } from "lucide-react";
-import { debounce } from "lodash";
 
 export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
-    const { isLoading } = useCreateController({ resource: "merchant" });
-    const controllerProps = useCreateController();
+    const controllerProps = useCreateController({ resource: "merchant" });
     const data = fetchDictionaries();
     const feeDataProvider = feesDataProvider({ id: "", resource: FeesResource.MERCHANT });
 
     const translate = useTranslate();
-    const redirect = useRedirect();
     const refresh = useRefresh();
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -78,10 +75,10 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
             refresh();
             onOpenChange(false);
         } catch (error) {
-            toast({
+            toast.error("Error", {
                 description: translate("resources.merchant.errors.alreadyInUse"),
-                variant: "destructive",
-                title: "Error"
+                dismissible: true,
+                duration: 3000
             });
             setSubmitButtonDisabled(false);
         }
@@ -119,7 +116,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
         }
     });
 
-    if (isLoading) return <Loading />;
+    if (controllerProps.isLoading) return <Loading />;
     return (
         <CreateContextProvider value={controllerProps}>
             <Form {...form}>
@@ -129,7 +126,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                             control={form.control}
                             name="name"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.merchant.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
@@ -144,7 +141,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                             control={form.control}
                             name="id"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.merchant.fields.id")}</FormLabel>
                                     <FormControl>
                                         <div>
@@ -159,7 +156,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                             control={form.control}
                             name="description"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.merchant.fields.descr")}</FormLabel>
                                     <FormControl>
                                         <div>
@@ -174,7 +171,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                             control={form.control}
                             name="keycloak_id"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>Keycloak ID</FormLabel>
                                     <FormControl>
                                         <div>
@@ -204,6 +201,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                     resource={FeesResource.MERCHANT}
                                     innerId={el.innerId}
                                     deleteFunction={handleDeleteFee}
+                                    description={el.description}
                                 />
                             );
                         })}
@@ -219,13 +217,13 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                     <div ref={messagesEndRef} />
                 </div>
                 <div className="flex justify-end">
-                    <Button onClick={() => setAddNewFeeClicked(true)} className="my-6 w-1/4 flex gap-[4px]">
+                    <Button onClick={() => setAddNewFeeClicked(true)} className="my-6 w-1/2 sm:w-1/4 flex gap-[4px]">
                         <CircleChevronRight className="w-[16px] h-[16px]" />
                         {translate("resources.direction.fees.addFee")}
                     </Button>
                 </div>
             </div>
-            <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
+            <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col gap-3 sm:gap-0 sm:flex-row space-x-0 sm:space-x-2">
                 <Button
                     onClick={form.handleSubmit(onSubmit)}
                     variant="default"

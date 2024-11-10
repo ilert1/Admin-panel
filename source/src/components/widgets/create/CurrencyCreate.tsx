@@ -2,7 +2,7 @@ import { useCreateController, CreateContextProvider, useTranslate, useDataProvid
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { Loading } from "@/components/ui/loading";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,10 +35,10 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
             refresh();
             closeDialog();
         } catch (error) {
-            toast({
+            toast.error("Error", {
                 description: translate("resources.currency.errors.alreadyInUse"),
-                variant: "destructive",
-                title: "Error"
+                dismissible: true,
+                duration: 3000
             });
             setSubmitButtonDisabled(false);
         }
@@ -260,15 +260,19 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                         />
                     </div>
 
-                    <div className="self-end flex items-center gap-4">
-                        <Button type="submit" variant="default" disabled={submitButtonDisabled}>
+                    <div className="sm:self-end flex flex-col sm:flex-row items-center gap-4">
+                        <Button
+                            type="submit"
+                            variant="default"
+                            disabled={submitButtonDisabled}
+                            className="w-full sm:w flex-1">
                             {translate("app.ui.actions.save")}
                         </Button>
 
                         <DialogClose asChild>
                             <Button
                                 variant="clearBtn"
-                                className="border border-neutral-50 rounded-4 hover:border-neutral-100">
+                                className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full">
                                 {translate("app.ui.actions.cancel")}
                             </Button>
                         </DialogClose>

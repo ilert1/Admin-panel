@@ -1,6 +1,6 @@
 import { ChangeEvent, UIEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useDataProvider, useInfiniteGetList, useListContext, usePermissions, useTranslate } from "react-admin";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { API_URL } from "@/data/base";
 import { format } from "date-fns";
 import { useQuery } from "react-query";
@@ -44,7 +44,6 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
     );
     const [orderStatusFilter, setOrderStatusFilter] = useState(orderStatusIndex ? data.states[orderStatusIndex] : "");
 
-    const { toast } = useToast();
     const translate = useTranslate();
 
     const formattedDate = (date: Date) => format(date, "yyyy-MM-dd");
@@ -65,7 +64,7 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
     const onPropertySelected = debounce(
         (
             value: string | { from: string; to: string },
-            type: "id" | "customer_payment_id" | "accountId" | "order_type" | "order_status" | "date"
+            type: "id" | "customer_payment_id" | "accountId" | "order_type" | "order_state" | "date"
         ) => {
             if (value) {
                 if (type === "date" && typeof value !== "string") {
@@ -100,13 +99,13 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         onPropertySelected(account, "accountId");
     };
 
-    const onOrderStatusChanged = (order: string | { state_description: string }) => {
+    const onOrderStatusChanged = (order: string | { state_int: number }) => {
         setOrderStatusFilter(order);
 
         if (typeof order === "string") {
-            onPropertySelected(order, "order_status");
+            onPropertySelected(order, "order_state");
         } else {
-            onPropertySelected(order.state_description, "order_status");
+            onPropertySelected(order.state_int.toString(), "order_state");
         }
     };
 
@@ -143,20 +142,20 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
 
     const handleDownloadReport = async (type: "pdf" | "csv") => {
         if (adminOnly && !account) {
-            toast({
+            toast.error(translate("resources.transactions.download.error"), {
+                dismissible: true,
                 description: translate("resources.transactions.download.accountField"),
-                variant: "error",
-                title: translate("resources.transactions.download.error")
+                duration: 3000
             });
 
             return;
         }
 
-        if (!startDate || !endDate) {
-            toast({
+        if (!startDate) {
+            toast.error(translate("resources.transactions.download.error"), {
+                dismissible: true,
                 description: translate("resources.transactions.download.bothError"),
-                variant: "error",
-                title: translate("resources.transactions.download.error")
+                duration: 3000
             });
 
             return;

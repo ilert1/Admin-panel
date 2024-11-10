@@ -64,9 +64,9 @@ export const QuickShowDirections = (props: QuickShowProps) => {
 
     return (
         <div className="px-[42px] ">
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row justify-between">
                 <TextField text={context.record.id} copyValue />
-                <div className="flex items-center justify-center text-white">
+                <div className="flex self-start mt-2 sm:mt-0 sm:self-center items-center justify-center text-white">
                     {context.record.active ? (
                         <span className="px-3 py-0.5 bg-green-50 rounded-20 font-normal text-title-2 text-center whitespace-nowrap">
                             {translate("resources.direction.fields.stateActive")}
@@ -107,7 +107,7 @@ export const QuickShowDirections = (props: QuickShowProps) => {
                         />
                     </div>
                 </div>
-                <div className="flex justify-end gap-[16px]">
+                <div className="flex flex-wrap justify-end gap-[16px]">
                     <Button className="" onClick={handleEditClicked}>
                         {translate("app.ui.actions.edit")}
                     </Button>
@@ -133,6 +133,7 @@ export const QuickShowDirections = (props: QuickShowProps) => {
                                           feeType={data.feeTypes[fee.type]?.type_descr || ""}
                                           id={id}
                                           resource={FeesResource.DIRECTION}
+                                          description={fee.description}
                                       />
                                   );
                               })
@@ -149,7 +150,7 @@ export const QuickShowDirections = (props: QuickShowProps) => {
                     </div>
                 </div>
                 <div className="flex justify-end">
-                    <Button onClick={() => setAddNewFeeClicked(true)} className="my-6 w-1/4 flex gap-[4px]">
+                    <Button onClick={() => setAddNewFeeClicked(true)} className="my-6 w-full sm:w-1/4 flex gap-[4px]">
                         <CircleChevronRight className="w-[16px] h-[16px]" />
                         {translate("resources.direction.fees.addFee")}
                     </Button>
