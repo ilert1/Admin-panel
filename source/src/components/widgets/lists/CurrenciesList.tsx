@@ -8,6 +8,13 @@ import { TextField } from "@/components/ui/text-field";
 import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+    AlertDialog,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from "@/components/ui/alertdialog";
 import { CurrencyCreate } from "../create";
 import { CurrencyEdit } from "../edit";
 
@@ -153,13 +160,13 @@ export const CurrenciesList = () => {
                     </Button>
                 </div>
 
-                <Dialog open={showAddCurrencyDialog} onOpenChange={setShowAddCurrencyDialog}>
-                    <DialogContent className="flex flex-col gap-6" aria-describedby={undefined}>
-                        <DialogHeader>
-                            <DialogTitle className="text-xl">
+                <AlertDialog open={showAddCurrencyDialog} onOpenChange={setShowAddCurrencyDialog}>
+                    <AlertDialogContent className="flex flex-col gap-6 bg-muted" aria-describedby={undefined}>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle className="text-xl">
                                 {translate("resources.currency.createDialogTitle")}
-                            </DialogTitle>
-                        </DialogHeader>
+                            </AlertDialogTitle>
+                        </AlertDialogHeader>
 
                         <CurrencyCreate
                             closeDialog={() => {
@@ -167,17 +174,17 @@ export const CurrenciesList = () => {
                                 refresh();
                             }}
                         />
-                    </DialogContent>
-                </Dialog>
+                    </AlertDialogContent>
+                    <AlertDialogDescription />
+                </AlertDialog>
 
-                <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
-                    <DialogContent className="flex flex-col gap-6" aria-describedby={undefined}>
-                        <DialogHeader>
-                            <DialogTitle className="text-xl">
+                <AlertDialog open={showEditDialog} onOpenChange={setShowEditDialog}>
+                    <AlertDialogContent className="flex flex-col gap-6 bg-muted" aria-describedby={undefined}>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle className="text-xl">
                                 {translate("resources.currency.editDialogTitle")}
-                            </DialogTitle>
-                        </DialogHeader>
-
+                            </AlertDialogTitle>
+                        </AlertDialogHeader>
                         <CurrencyEdit
                             record={chosenCurrency}
                             closeDialog={() => {
@@ -186,8 +193,9 @@ export const CurrenciesList = () => {
                                 refresh();
                             }}
                         />
-                    </DialogContent>
-                </Dialog>
+                    </AlertDialogContent>
+                    <AlertDialogDescription />
+                </AlertDialog>
 
                 <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
                     <DialogContent className="max-w-[251px] max-h-[200px] sm:max-h-[140px] bg-muted overflow-auto">
