@@ -85,7 +85,7 @@ declare namespace Dictionaries {
 declare namespace Transaction {
     type Account = {
         id: string;
-        amount: Omit<Amount, "type", "id">;
+        amount: Omit<Amount, "type", "id", "shop_currency">;
     };
 
     type RateInfo = {
@@ -129,9 +129,12 @@ declare namespace Transaction {
         id: string;
         committed: boolean;
         created_at: string;
-        destination: Account;
+        destination: {
+            amount: Omit<Amount, "type", "shop_currency">;
+        };
         dispute: boolean;
         fees: [];
+        owner_id: string;
         meta: Meta;
         payload?: any;
         rate_info: RateInfo;
@@ -139,6 +142,12 @@ declare namespace Transaction {
         source: Account;
         state: State;
         type: number;
+        requisites: [
+            {
+                hash: string;
+                hash_link: string;
+            }
+        ];
     };
 
     type Fee = {

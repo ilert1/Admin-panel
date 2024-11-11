@@ -242,7 +242,9 @@ const ru: TranslationMessages = {
                 payload: {
                     hash: "Хеш",
                     hash_link: "Ссылка Tronscan"
-                }
+                },
+                merchant: "Мерчант",
+                state: "Состояние"
             },
             download: {
                 downloadReportButtonText: "Скачать отчет",
@@ -840,7 +842,9 @@ const en: TranslationMessages = {
                 payload: {
                     hash: "Hash",
                     hash_link: "Tronscan link"
-                }
+                },
+                merchant: "Merchant",
+                state: "State"
             },
             download: {
                 downloadReportButtonText: "Download report",

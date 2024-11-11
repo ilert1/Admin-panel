@@ -16,6 +16,8 @@ import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { Input } from "@/components/ui/input";
 import useWithdrawFilter from "@/hooks/useWithdrawFilter";
 import { CryptoTransfer } from "../components/CryptoTransfer";
+import fetchDictionaries from "@/helpers/get-dictionaries";
+import { useGetTransactionState } from "@/hooks";
 
 const WithdrawFilterSidebar = () => {
     const {
@@ -86,7 +88,7 @@ export const WithdrawList = () => {
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const [locale] = useLocaleState();
-
+    const data = fetchDictionaries();
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
@@ -108,7 +110,38 @@ export const WithdrawList = () => {
         {
             accessorKey: "destination.id",
             header: translate("resources.withdraw.fields.destination.id"),
-            cell: ({ row }) => <TextField text={row.original.destination.id} wrap={"break-all"} copyValue />
+            cell: ({ row }) => (
+                <TextField
+                    text={
+                        String(
+                            row.original.destination.amount.value.quantity /
+                                row.original.destination.amount.value.accuracy
+                        ) + row.original.destination.amount.currency
+                    }
+                    wrap
+                    copyValue
+                />
+            )
+        },
+        {
+            header: translate("resources.withdraw.fields.payload.hash"),
+            cell: ({ row }) => {
+                const text = Object.hasOwn(row.original, "requisites") ? row.original.requisites[0].hash : "";
+                return <TextField text={text} wrap copyValue />;
+            }
+        },
+        {
+            header: translate("resources.withdraw.fields.payload.hash_link"),
+            cell: ({ row }) => {
+                const text = Object.hasOwn(row.original, "requisites") ? row.original.requisites[0].hash_link : "";
+                return <TextField text={text} wrap copyValue />;
+            }
+        },
+        {
+            header: translate("resources.withdraw.fields.merchant"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.source.id} wrap copyValue />;
+            }
         },
         {
             accessorKey: "destination.amount.value",
@@ -121,6 +154,18 @@ export const WithdrawList = () => {
                 return `${value.toFixed(Math.log10(row.original.destination.amount.value.accuracy))} ${
                     row.original.destination.amount.currency || ""
                 }`;
+            }
+        },
+        {
+            header: translate("resources.withdraw.fields.state"),
+            cell: ({ row }) => {
+                // eslint-disable-next-line react-hooks/rules-of-hooks
+                const { text, color } = useGetTransactionState({ state: row.original.state.state_int });
+                return (
+                    <div className={`px-3 py-0.5 rounded-20 font-normal text-base text-center text-black ${color}`}>
+                        <TextField text={text} />
+                    </div>
+                );
             }
         }
     ];

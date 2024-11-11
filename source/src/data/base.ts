@@ -29,7 +29,6 @@ export class BaseDataProvider {
         Object.keys(params.filter).forEach(filterItem => {
             data[filterItem] = params.filter[filterItem];
         });
-
         const paramsStr = new URLSearchParams(data).toString();
 
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}?${paramsStr}`, {
