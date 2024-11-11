@@ -1,6 +1,8 @@
 import {
     CreateParams,
     CreateResult,
+    DeleteParams,
+    DeleteResult,
     fetchUtils,
     GetListParams,
     GetListResult,
@@ -66,5 +68,18 @@ export class UsersDataProvider extends BaseDataProvider {
         }
 
         return { data: json.data };
+    }
+
+    async delete(resource: string, params: DeleteParams): Promise<DeleteResult> {
+        const { json } = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/${resource}/${params.id}`, {
+            method: "DELETE",
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        });
+        console.log(json);
+        if (!json.success) {
+            throw new Error(json.error);
+        }
+
+        return { data: { id: params.id } };
     }
 }

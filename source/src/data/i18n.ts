@@ -79,7 +79,8 @@ const ru: TranslationMessages = {
                 success: "Готово",
                 successMessage: "Пользователь создан",
                 error: "Ошибка",
-                errorMessage: "Не удалось создать пользователя"
+                errorMessage: "Не удалось создать пользователя",
+                deleteError: "Не удалось создать пользователя"
             }
         },
         transactions: {
@@ -677,7 +678,8 @@ const en: TranslationMessages = {
                 success: "Success",
                 successMessage: "User is created",
                 error: "Error",
-                errorMessage: "Failed to create user"
+                errorMessage: "Failed to create user",
+                deleteError: "Failed to delete user"
             }
         },
         transactions: {
