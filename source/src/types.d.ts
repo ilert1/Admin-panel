@@ -70,18 +70,6 @@ declare namespace PayOut {
     }
 }
 
-declare namespace Dictionaries {
-    interface Currency {
-        [key: string]: string;
-        "alpha-3": string;
-        code: number;
-        "minor-unit": number;
-        "name-en": string;
-        "name-ru": string;
-        prior_gr: number;
-    }
-}
-
 declare namespace Transaction {
     type Account = {
         id: string;
@@ -125,15 +113,28 @@ declare namespace Transaction {
         provider: string;
     };
 
+    type Payload = {
+        amount: number;
+        callbcak_url: string;
+        currency: string;
+        customer_data: {
+            account_name: string;
+            customer_id: string;
+        };
+        payment_instrument: {
+            payment_type: string;
+        };
+    };
+
     type Transaction = {
         id: string;
         committed: boolean;
         created_at: string;
         destination: Account;
         dispute: boolean;
-        fees: [];
+        fees: Fee[];
         meta: Meta;
-        payload?: any;
+        payload?: Payload;
         rate_info: RateInfo;
         result: Result;
         source: Account;
@@ -142,9 +143,10 @@ declare namespace Transaction {
     };
 
     type Fee = {
-        resipient: string;
+        recipient: string;
         type: number;
         currency: string;
+        direction: number;
         value: Value;
     };
 }
@@ -215,7 +217,6 @@ declare namespace Currencies {
         is_coin: boolean;
         code: string;
         id: string;
-        prior_gr: number;
     }
 }
 
@@ -230,7 +231,7 @@ interface Merchant {
 interface Provider {
     fields_json_schema: string;
     public_key: string | null;
-    methods: Object<any>;
+    methods: { [key: string]: string };
     name: string;
     id: string;
 }
@@ -295,7 +296,7 @@ namespace Directions {
     }
 }
 
-namespace Dictionaries {
+declare namespace Dictionaries {
     interface State {
         state_int: number;
         state_description: string;
@@ -338,5 +339,15 @@ namespace Dictionaries {
         participantType: ParticipantTypes;
         states: States;
         transactionTypes: TransactionTypes;
+    }
+
+    interface Currency {
+        [key: string]: string;
+        "alpha-3": string;
+        code: number;
+        "minor-unit": number;
+        "name-en": string;
+        "name-ru": string;
+        prior_gr: number;
     }
 }

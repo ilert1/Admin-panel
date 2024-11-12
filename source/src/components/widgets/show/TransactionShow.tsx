@@ -28,7 +28,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     const [locale] = useLocaleState();
 
     const { permissions, isLoading } = usePermissions();
-    const context = useShowController({ id: props.id });
+    const context = useShowController<Transaction.Transaction>({ id: props.id });
     const [newState, setNewState] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -75,7 +75,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     //     );
     // }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const trnId = useMemo<string>(() => context.record?.id, [context]);
+    const trnId = useMemo<string>(() => context.record?.id || "", [context]);
 
     const { data: history } = useGetManyReference("transactions", {
         target: "id",
@@ -312,21 +312,21 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                             )}
 
                             {/* <Sheet open={stornoOpen} onOpenChange={setStornoOpen}>
-                                <SheetContent
-                                    className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
-                                    side={isMobile ? "bottom" : "right"}>
-                                    <ScrollArea className="h-full [&>div>div]:!block">
-                                        <SheetHeader className="mb-2">
-                                            <SheetTitle>{translate("resources.transactions.show.storno")}</SheetTitle>
-                                        </SheetHeader>
+                                    <SheetContent
+                                        className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
+                                        side={isMobile ? "bottom" : "right"}>
+                                        <ScrollArea className="h-full [&>div>div]:!block">
+                                            <SheetHeader className="mb-2">
+                                                <SheetTitle>{translate("resources.transactions.show.storno")}</SheetTitle>
+                                            </SheetHeader>
 
-                                        <TransactionStorno
-                                            accounts={accounts || []}
-                                            currencies={sortedCurrencies || []}
-                                        />
-                                    </ScrollArea>
-                                </SheetContent>
-                            </Sheet> */}
+                                            <TransactionStorno
+                                                accounts={accounts || []}
+                                                currencies={sortedCurrencies || []}
+                                            />
+                                        </ScrollArea>
+                                    </SheetContent>
+                                </Sheet> */}
                         </div>
                     </div>
                 )}
@@ -370,7 +370,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                             data={
                                 permissions === "admin"
                                     ? context.record.fees
-                                    : context.record.fees.filter((item: any) => item.type !== 2)
+                                    : context.record.fees.filter(item => item.type !== 2)
                             }
                             tableType={TableTypes.COLORED}
                         />
@@ -390,11 +390,11 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                         />
                         <TextField
                             label={translate("resources.transactions.fields.meta.customer_id")}
-                            text={context.record.meta.customer_id}
+                            text={context.record.meta.customer_data.customer_id}
                         />
                         <TextField
                             label={translate("resources.transactions.fields.meta.customer_payment_id")}
-                            text={context.record.meta.customer_payment_id}
+                            text={context.record.meta.customer_data.customer_payment_id}
                             copyValue
                         />
                         <TextField

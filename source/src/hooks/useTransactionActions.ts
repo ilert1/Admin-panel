@@ -3,7 +3,7 @@ import { API_URL, BF_MANAGER_URL } from "@/data/base";
 import { useMemo, useCallback } from "react";
 import { toast } from "sonner";
 
-export const useTransactionActions = (data: Dictionaries.DataObject, record: Transaction.Transaction) => {
+export const useTransactionActions = (data: Dictionaries.DataObject, record: Transaction.Transaction | undefined) => {
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const refresh = useRefresh();
@@ -36,7 +36,7 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
     const switchDispute = useCallback(() => {
         fetch(`${API_URL}/trn/dispute`, {
             method: "POST",
-            body: JSON.stringify({ id: record.id, dispute: !record.dispute }),
+            body: JSON.stringify({ id: record?.id, dispute: !record?.dispute }),
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -46,7 +46,7 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
             .then(json => {
                 if (json.success) {
                     success(
-                        record.dispute
+                        record?.dispute
                             ? translate("resources.transactions.show.disputeClosed")
                             : translate("resources.transactions.show.disputeOpened")
                     );
@@ -68,7 +68,7 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
         (state: number) => {
             fetch(`${API_URL}/trn/man_set_state`, {
                 method: "POST",
-                body: JSON.stringify({ id: record.id, state }),
+                body: JSON.stringify({ id: record?.id, state }),
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -105,7 +105,7 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
     const commitTransaction = useCallback(() => {
         fetch(`${API_URL}/trn/commit`, {
             method: "POST",
-            body: JSON.stringify({ id: record.id }),
+            body: JSON.stringify({ id: record?.id }),
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -158,7 +158,7 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
                         }
                     },
                     meta: {
-                        parentId: record.id
+                        parentId: record?.id
                     }
                 }),
                 headers: {
