@@ -79,7 +79,8 @@ const ru: TranslationMessages = {
                 success: "Готово",
                 successMessage: "Пользователь создан",
                 error: "Ошибка",
-                errorMessage: "Не удалось создать пользователя"
+                errorMessage: "Не удалось создать пользователя",
+                deleteError: "Не удалось создать пользователя"
             }
         },
         transactions: {
@@ -212,16 +213,16 @@ const ru: TranslationMessages = {
                 changedfromcreated: "Изменено с состояния 'Создано'",
                 changedfrompaid: "Изменено с состояния 'Оплачено'",
                 returned: "Возвращено",
-                todeny: "Отклонить",
+                todeny: "Отклонено системой провайдера",
                 processing: "Обработка",
                 expired: "Истекло",
                 deleted: "Удалено",
                 success: "Успех",
                 fail: "Неудача",
                 correction: "Коррекция",
-                emptyrequisites: "Пустые реквизиты",
-                limitfail: "Превышен лимит",
-                waitingforadminapproval: "Ожидание подтверждения админом",
+                emptyrequisites: "Реквизиты отсутвуют",
+                limitfail: "Вне допустимого лимита ордера",
+                waitingforadminapproval: "Ожидание подтверждения",
                 cancelledbypayer: "Отменено плательщиком"
             }
         },
@@ -678,6 +679,10 @@ const en: TranslationMessages = {
                 successMessage: "User is created",
                 error: "Error",
                 errorMessage: "Failed to create user"
+            },
+            deleteMessages: {
+                deleteSuccess: "Deleted successfully",
+                deleteError: "Failed to delete user"
             }
         },
         transactions: {

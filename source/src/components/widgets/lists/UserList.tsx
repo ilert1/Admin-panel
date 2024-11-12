@@ -233,7 +233,7 @@ export const UserList = () => {
                         </div>
 
                         <div className="flex-1 overflow-auto" tabIndex={-1}>
-                            <UserShow id={userId} isBrief />
+                            <UserShow id={userId} isBrief onOpenChange={setShowOpen} />
                         </div>
                     </SheetContent>
                 </Sheet>
