@@ -189,7 +189,7 @@ const TransactionFilterSidebar = ({
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button
-                                disabled={!startDate || !account}
+                                disabled={!startDate || (adminOnly && !account)}
                                 className="md:ml-auto"
                                 variant="default"
                                 size="sm">
