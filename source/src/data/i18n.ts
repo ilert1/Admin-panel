@@ -678,7 +678,10 @@ const en: TranslationMessages = {
                 success: "Success",
                 successMessage: "User is created",
                 error: "Error",
-                errorMessage: "Failed to create user",
+                errorMessage: "Failed to create user"
+            },
+            deleteMessages: {
+                deleteSuccess: "Deleted successfully",
                 deleteError: "Failed to delete user"
             }
         },

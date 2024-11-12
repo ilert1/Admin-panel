@@ -39,6 +39,11 @@ export const UserShow = (props: { id: string; isBrief: boolean; onOpenChange: (s
                 await deleteOne("users", {
                     id
                 });
+                toast({
+                    variant: "success",
+                    title: translate("resources.users.create.success"),
+                    description: translate("resources.users.deleteMessages.deleteSuccess")
+                });
                 onOpenChange(false);
                 refresh();
                 setDialogOpen(false);
@@ -46,7 +51,7 @@ export const UserShow = (props: { id: string; isBrief: boolean; onOpenChange: (s
                 toast({
                     variant: "destructive",
                     title: translate("resources.users.create.error"),
-                    description: translate("resources.users.create.deleteError")
+                    description: translate("resources.users.deleteMessages.deleteError")
                 });
             }
         };
