@@ -1,0 +1,1 @@
+export { WalletTransactionsList } from "./WalletTransactionsList";

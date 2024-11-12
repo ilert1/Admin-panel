@@ -8,7 +8,9 @@ import {
     MerchantsDataProvider,
     CurrenciesDataProvider,
     ProvidersDataProvider,
-    DirectionsDataProvider
+    DirectionsDataProvider,
+    WalletsDataProvider,
+    VaultDataProvider
 } from "@/data";
 import {
     AccountList,
@@ -18,7 +20,9 @@ import {
     CurrenciesList,
     MerchantList,
     ProvidersList,
-    DirectionsList
+    DirectionsList,
+    WalletsList,
+    WalletTransactionsList
 } from "@/components/widgets/lists";
 import { MerchantCreate } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
@@ -41,22 +45,29 @@ import "./globals.css";
 import { MerchantEdit } from "./components/widgets/edit";
 import { InitLoading } from "./components/ui/loading";
 import { NotFound } from "./components/widgets/shared/NotFound";
+import WalletsLogo from "./lib/icons/Wallets";
+import { WalletStore } from "./pages/WalletStore";
 
 const dataProvider = combineDataProviders((resource: string) => {
-    if (resource === "transactions") {
-        return new TransactionDataProvider();
-    } else if (resource === "users") {
-        return new UsersDataProvider();
-    } else if (resource === "currency") {
-        return new CurrenciesDataProvider();
-    } else if (resource === "merchant") {
-        return new MerchantsDataProvider();
-    } else if (resource === "provider") {
-        return new ProvidersDataProvider();
-    } else if (resource === "direction") {
-        return new DirectionsDataProvider();
-    } else {
-        return new BaseDataProvider();
+    switch (resource) {
+        case "transactions":
+            return new TransactionDataProvider();
+        case "users":
+            return new UsersDataProvider();
+        case "currency":
+            return new CurrenciesDataProvider();
+        case "merchant":
+            return new MerchantsDataProvider();
+        case "provider":
+            return new ProvidersDataProvider();
+        case "direction":
+            return new DirectionsDataProvider();
+        case "wallet":
+            return new WalletsDataProvider();
+        case "vault":
+            return new VaultDataProvider();
+        default:
+            return new BaseDataProvider();
     }
 });
 
@@ -95,6 +106,10 @@ export const App = () => {
                                     />
                                     <Resource name="provider" list={ProvidersList} icon={NetworkIcon} />
                                     <Resource name="direction" list={DirectionsList} icon={SignpostIcon} />
+                                    <Resource name="wallet" list={WalletsList} icon={WalletsLogo}>
+                                        <Route path="storage" element={<WalletStore />} />
+                                        <Route path="transactions" element={<WalletTransactionsList />} />
+                                    </Resource>
                                 </>
                             )}
 

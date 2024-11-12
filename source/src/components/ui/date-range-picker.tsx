@@ -12,7 +12,7 @@ export function DateRangePicker({
     dateRange,
     onChange
 }: {
-    title: string;
+    title?: string;
     placeholder: string;
     dateRange: DateRange | undefined;
     onChange: (date: DateRange | undefined) => void;
@@ -26,7 +26,7 @@ export function DateRangePicker({
             <PopoverTrigger asChild>
                 <div className="flex flex-col sm:flex-row items-stretch flex-wrap gap-2 sm:gap-3">
                     <div className="relative flex md:flex-col gap-2 items-center md:items-start flex-1">
-                        <span>{title}</span>
+                        {title && <span>{title}</span>}
                         <Button
                             variant={"outline"}
                             className={

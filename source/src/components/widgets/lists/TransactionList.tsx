@@ -285,7 +285,6 @@ export const TransactionList = () => {
             accessorKey: "meta.customer_data.customer_id",
             header: translate("resources.transactions.fields.meta.customer_id"),
             cell: ({ row }) => {
-                //console.log(row.original);
                 return <TextField text={row.original.meta.customer_data.customer_id} />;
             }
         },

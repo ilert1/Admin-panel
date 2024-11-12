@@ -10,6 +10,7 @@ import { useGetResLabel } from "@/hooks/useGetResLabel";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { KeysModal } from "@/components/widgets/components/KeysModal";
 import { Header } from "@/components/widgets/shared/Header";
+import { AdminCryptoStoreResources } from "@/components/widgets/shared";
 
 enum SplitLocations {
     show = "show",
@@ -44,6 +45,16 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
 
     const pageTitle = useMemo(() => {
         if (resourceName.length > 0) {
+            if (resourceName[0] === "bank-transfer") {
+                return translate("app.menu.merchant.bankTransfer");
+            } else if (resourceName[0] === "wallet") {
+                if (resourceName[1]) {
+                    return getResLabel(`wallet.${resourceName[1]}`, permissions);
+                } else {
+                    return getResLabel(`wallet.manage`, permissions);
+                }
+            }
+
             return getResLabel(resourceName[0], permissions);
         }
     }, [getResLabel, permissions, resourceName]);
@@ -54,9 +65,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
         logout();
     };
 
-    const [isSheetOpen, setSheetOpen] = useState(false);
-    const [showCaptions, setShowCaptions] = useState(false);
-
+    const [isSheetOpen, setSheetOpen] = useState(true);
+    const [showCaptions, setShowCaptions] = useState(true);
     const [testKeysModalOpen, setTestKeysModalOpen] = useState(false);
 
     useEffect(() => {
@@ -106,23 +116,65 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     )}
 
                     <nav className="flex flex-col items-baseline text-base gap-4 mt-6 pl-6">
-                        {Object.keys(resources).map(resource => (
-                            <TooltipProvider key={resource} delayDuration={100}>
+                        {Object.keys(resources).map(resource => {
+                            if (!resource.includes("wallet")) {
+                                return (
+                                    <TooltipProvider key={resource} delayDuration={100}>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <NavLink
+                                                    to={`/${resource}`}
+                                                    className={
+                                                        resourceName[0] === resource
+                                                            ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                                            : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                                    }>
+                                                    {createElement(resources[resource].icon, {})}
+                                                    {showCaptions && (
+                                                        <span className="animate-in fade-in-0 transition-opacity">
+                                                            {getResLabel(resources[resource].name, permissions)}
+                                                        </span>
+                                                    )}
+                                                </NavLink>
+                                            </TooltipTrigger>
+
+                                            <TooltipContent
+                                                className={
+                                                    showCaptions
+                                                        ? "hidden"
+                                                        : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 after:rotate-45"
+                                                }
+                                                sideOffset={12}
+                                                side="right">
+                                                {getResLabel(resources[resource].name, permissions)}
+                                                <ChevronLeft
+                                                    className="absolute -left-[13px] top-1.5 text-green-40"
+                                                    width={20}
+                                                    height={20}
+                                                />
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                );
+                            }
+                        })}
+                        {merchantOnly && (
+                            <TooltipProvider delayDuration={100}>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
                                         <NavLink
-                                            to={`/${resource}`}
+                                            to="/bank-transfer"
                                             className={
-                                                resourceName[0] === resource
+                                                resourceName[0] === "bank-transfer"
                                                     ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
                                                     : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
                                             }>
-                                            {createElement(resources[resource].icon, {})}
-                                            {showCaptions ? (
-                                                <span className="animate-in fade-in-0 transition-opacity">
-                                                    {getResLabel(resources[resource].name, permissions)}
+                                            <CreditCardIcon />
+                                            {showCaptions && (
+                                                <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
+                                                    {translate("app.menu.merchant.bankTransfer")}
                                                 </span>
-                                            ) : null}
+                                            )}
                                         </NavLink>
                                     </TooltipTrigger>
 
@@ -134,7 +186,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                         }
                                         sideOffset={12}
                                         side="right">
-                                        {getResLabel(resources[resource].name, permissions)}
+                                        {/*getResLabel(resources[resource].name, permissions)*/}
+                                        {translate("app.menu.merchant.bankTransfer")}
                                         <ChevronLeft
                                             className="absolute -left-[13px] top-1.5 text-green-40"
                                             width={20}
@@ -143,7 +196,24 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                     </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>
-                        ))}
+                        )}
+                        {permissions === "admin" && <AdminCryptoStoreResources showCaptions={showCaptions} />}
+                        {/* {merchantOnly && (
+                            <NavLink
+                                to="/crypto-transfer"
+                                className={
+                                    resourceName[0] === "crypto-transfer"
+                                        ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                        : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                }>
+                                <BitcoinIcon />
+                                {showCaptions ? (
+                                    <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
+                                        {translate("app.menu.merchant.cryptoOperations")}
+                                    </span>
+                                ) : null}
+                            </NavLink>
+                        )} */}
                     </nav>
 
                     {permissions === "admin" && (

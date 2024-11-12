@@ -8,4 +8,6 @@ export { CurrenciesDataProvider } from "./currencies";
 export { DirectionsDataProvider } from "./directions";
 export { ProvidersDataProvider } from "./providers";
 export { MerchantsDataProvider } from "./merchants";
+export { WalletsDataProvider } from "./wallet";
+export { VaultDataProvider } from "./vault";
 export { feesDataProvider, FeesResource };
