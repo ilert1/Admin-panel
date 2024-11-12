@@ -2,32 +2,56 @@ import { BooleanField } from "@/components/ui/boolean-field";
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useState } from "react";
+
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useShowController, useTranslate } from "react-admin";
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
+import { useDelete, useRefresh, useShowController, useTranslate } from "react-admin";
 import { Button } from "@/components/ui/button";
 import { UserEdit } from "../edit";
+import { useToast } from "@/components/ui/use-toast";
 
 const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
 const translations = ["active", "frozen", "blocked", "deleted"];
 
-export const UserShow = (props: { id: string; isBrief: boolean }) => {
+export const UserShow = (props: { id: string; isBrief: boolean; onOpenChange: (state: boolean) => void }) => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [showEditUser, setShowEditUser] = useState(false);
 
     const translate = useTranslate();
-    const { id, isBrief } = props;
+    const { id, isBrief, onOpenChange } = props;
     const context = useShowController({ id, queryOptions: { refetchOnWindowFocus: false, refetchInterval: false } });
     const localIsBrief = isBrief || false;
+
+    const { toast } = useToast();
+
+    const [deleteOne] = useDelete();
+    const refresh = useRefresh();
+
+    const handleDelete = () => {
+        const deleteElem = async () => {
+            try {
+                await deleteOne("users", {
+                    id
+                });
+                onOpenChange(false);
+                refresh();
+                setDialogOpen(false);
+            } catch (error) {
+                toast({
+                    variant: "destructive",
+                    title: translate("resources.users.create.error"),
+                    description: translate("resources.users.create.deleteError")
+                });
+            }
+        };
+        deleteElem();
+    };
 
     if (context.isLoading || context.isFetching || !context.record) {
         return <LoadingAlertDialog />;
@@ -85,7 +109,6 @@ export const UserShow = (props: { id: string; isBrief: boolean }) => {
                     <Button
                         variant={"outline"}
                         className="border-[1px] border-neutral-50 text-neutral-50 bg-transparent"
-                        disabled={true}
                         onClick={() => setDialogOpen(true)}>
                         {translate("resources.users.delete")}
                     </Button>
@@ -101,26 +124,24 @@ export const UserShow = (props: { id: string; isBrief: boolean }) => {
                     </DialogContent>
                 </Dialog>
 
-                <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                    <AlertDialogContent className="w-[253px] px-[24px] bg-muted">
-                        <AlertDialogHeader>
-                            <AlertDialogTitle className="text-center">
+                <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                    <DialogContent className="w-[253px] px-[24px] bg-muted">
+                        <DialogHeader>
+                            <DialogTitle className="text-center">
                                 {translate("resources.users.deleteThisUser")}
-                            </AlertDialogTitle>
-                            <AlertDialogDescription />
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
+                            </DialogTitle>
+                            <DialogDescription />
+                        </DialogHeader>
+                        <DialogFooter>
                             <div className="flex justify-around gap-[35px] w-full">
-                                <AlertDialogAction onClick={() => setDialogOpen(false)}>
-                                    {translate("app.ui.actions.delete")}
-                                </AlertDialogAction>
-                                <AlertDialogCancel className="!ml-0 px-3">
+                                <Button onClick={() => handleDelete()}>{translate("app.ui.actions.delete")}</Button>
+                                <Button onClick={() => setDialogOpen(false)} className="!ml-0 px-3">
                                     {translate("app.ui.actions.cancel")}
-                                </AlertDialogCancel>
+                                </Button>
                             </div>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
             </div>
         );
     } else {
