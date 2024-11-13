@@ -2,7 +2,7 @@ import { CoreLayoutProps, useLogout, usePermissions, useResourceDefinitions, use
 import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useMemo, createElement, useState, useEffect } from "react";
-import { CreditCardIcon, ChevronLeftCircleIcon, ChevronRightCircleIcon, KeyRound, ChevronLeft } from "lucide-react";
+import { ChevronLeftCircleIcon, ChevronRightCircleIcon, KeyRound, ChevronLeft } from "lucide-react";
 import Logo from "@/lib/icons/Logo";
 import LogoPicture from "@/lib/icons/LogoPicture";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     const getResLabel = useGetResLabel();
     const translate = useTranslate();
     const { permissions } = usePermissions();
-    const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
     const location = useLocation();
 
     const resourceName = useMemo(() => {
