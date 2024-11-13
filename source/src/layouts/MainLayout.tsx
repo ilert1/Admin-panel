@@ -45,9 +45,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
 
     const pageTitle = useMemo(() => {
         if (resourceName.length > 0) {
-            if (resourceName[0] === "bank-transfer") {
-                return translate("app.menu.merchant.bankTransfer");
-            } else if (resourceName[0] === "wallet") {
+            if (resourceName[0] === "wallet") {
                 if (resourceName[1]) {
                     return getResLabel(`wallet.${resourceName[1]}`, permissions);
                 } else {
@@ -158,62 +156,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 );
                             }
                         })}
-                        {merchantOnly && (
-                            <TooltipProvider delayDuration={100}>
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <NavLink
-                                            to="/bank-transfer"
-                                            className={
-                                                resourceName[0] === "bank-transfer"
-                                                    ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                                    : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                            }>
-                                            <CreditCardIcon />
-                                            {showCaptions && (
-                                                <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
-                                                    {translate("app.menu.merchant.bankTransfer")}
-                                                </span>
-                                            )}
-                                        </NavLink>
-                                    </TooltipTrigger>
-
-                                    <TooltipContent
-                                        className={
-                                            showCaptions
-                                                ? "hidden"
-                                                : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 after:rotate-45"
-                                        }
-                                        sideOffset={12}
-                                        side="right">
-                                        {/*getResLabel(resources[resource].name, permissions)*/}
-                                        {translate("app.menu.merchant.bankTransfer")}
-                                        <ChevronLeft
-                                            className="absolute -left-[13px] top-1.5 text-green-40"
-                                            width={20}
-                                            height={20}
-                                        />
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
-                        )}
                         {permissions === "admin" && <AdminCryptoStoreResources showCaptions={showCaptions} />}
-                        {/* {merchantOnly && (
-                            <NavLink
-                                to="/crypto-transfer"
-                                className={
-                                    resourceName[0] === "crypto-transfer"
-                                        ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                        : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                }>
-                                <BitcoinIcon />
-                                {showCaptions ? (
-                                    <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
-                                        {translate("app.menu.merchant.cryptoOperations")}
-                                    </span>
-                                ) : null}
-                            </NavLink>
-                        )} */}
                     </nav>
 
                     {permissions === "admin" && (

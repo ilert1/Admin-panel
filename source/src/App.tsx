@@ -114,7 +114,7 @@ export const App = () => {
                             )}
 
                             {permissions === "merchant" && (
-                                <Resource name="bank-transfer" icon={CreditCardIcon}>
+                                <Resource name="bankTransfer" icon={CreditCardIcon}>
                                     <Route path="/" element={<PayOutPage />} />
                                 </Resource>
                             )}
