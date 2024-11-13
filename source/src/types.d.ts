@@ -115,15 +115,19 @@ declare namespace Transaction {
 
     type Payload = {
         amount: number;
-        callbcak_url: string;
+        callback_url?: string;
         currency: string;
         customer_data: {
             account_name: string;
             customer_id: string;
+            card_holder_name?: string;
+            card_no?: string;
         };
-        payment_instrument: {
+        payment_instrument?: {
             payment_type: string;
         };
+        fail_url?: string;
+        success_url?: string;
     };
 
     type Transaction = {
