@@ -72,7 +72,7 @@ export const CryptoTransferForm = (props: {
         return (
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="">
-                    <div className="flex flex-col w-[476px] px-6 py-4 bg-neutral-0 rounded-2xl gap-4">
+                    <div className="flex flex-col max-w-[476px] px-6 py-4 bg-neutral-0 rounded-2xl gap-4">
                         <div className="flex-1">
                             <FormField
                                 disabled={props.loading}
