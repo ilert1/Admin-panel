@@ -174,9 +174,9 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                             onClick={() => {
                                                 setTestKeysModalOpen(true);
                                             }}>
-                                            <KeyRound className="w-[16px] h-[16px]" />
+                                            <KeyRound className="text-white w-[16px] h-[16px]" />
                                             {showCaptions ? (
-                                                <span className="animate-in fade-in-0 transition-opacity p-0 m-0">
+                                                <span className="animate-in fade-in-0 text-white transition-opacity p-0 m-0">
                                                     {translate("resources.provider.createTestKeys")}
                                                 </span>
                                             ) : null}

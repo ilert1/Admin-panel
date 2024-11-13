@@ -120,10 +120,10 @@ const UserFilterSidebar = () => {
             <label
                 onClick={() => onUserActivityChanged(!checkedActivity)}
                 className="flex gap-2 items-center self-start cursor-pointer [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
-                <div className="relative w-4 h-4 rounded-full border transition-all bg-black border-neutral-60 flex justify-center items-center">
+                <div className="relative w-4 h-4 rounded-full border transition-all bg-white dark:bg-black border-neutral-60 flex justify-center items-center">
                     {checkedActivity && <div id="checked" className="w-2.5 h-2.5 rounded-full bg-green-50"></div>}
                 </div>
-                <span className="font-normal text-sm text-neutral-40 transition-all">
+                <span className="font-normal text-sm text-netural-60 dark:text-neutral-40 transition-all">
                     {translate("resources.users.filter.filterByActivity")}
                 </span>
             </label>
@@ -179,7 +179,7 @@ export const UserList = () => {
                 return (
                     <div className="flex items-center justify-center">
                         <span
-                            className={`px-3 py-0.5 rounded-20 font-normal text-base text-center ${
+                            className={`px-3 py-0.5 rounded-20 font-normal text-white text-base text-center ${
                                 row.original.state > translations.length ? "" : styles[row.original.state - 1]
                             }`}>
                             {row.original.state > translations.length
