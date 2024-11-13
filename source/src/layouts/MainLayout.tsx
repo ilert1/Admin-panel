@@ -18,6 +18,8 @@ enum SplitLocations {
     new = "new"
 }
 
+const WALLET_ENABLED: boolean = import.meta.env.VITE_WALLET_ENABLED;
+
 export const MainLayout = ({ children }: CoreLayoutProps) => {
     const resources = useResourceDefinitions();
     const getResLabel = useGetResLabel();
@@ -155,7 +157,9 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 );
                             }
                         })}
-                        {permissions === "admin" && <AdminCryptoStoreResources showCaptions={showCaptions} />}
+                        {permissions === "admin" && WALLET_ENABLED && (
+                            <AdminCryptoStoreResources showCaptions={showCaptions} />
+                        )}
                     </nav>
 
                     {permissions === "admin" && (
