@@ -52,7 +52,7 @@ export const ProvidersList = () => {
         return (
             <>
                 <div>
-                    <div className="flex justify-end justify-between mb-4 mt-[24px]">
+                    <div className="flex justify-between mb-4 mt-[24px]">
                         <div className="flex w-full justify-end">
                             <Button onClick={handleCreateClicked} variant="default" className="flex gap-[4px]">
                                 <CirclePlus className="w-[16px] h-[16px]" />

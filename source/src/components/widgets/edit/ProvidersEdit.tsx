@@ -1,5 +1,5 @@
 import { useEditController, EditContextProvider, useTranslate, useDataProvider } from "react-admin";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { FC, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -62,7 +62,7 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
         }
     }, [form, record]);
 
-    const onSubmit: SubmitHandler<Omit<Omit<Provider, "id">, "name">> = async data => {
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
         data.methods = JSON.parse(data.methods);

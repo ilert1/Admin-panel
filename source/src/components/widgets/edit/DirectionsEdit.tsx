@@ -90,8 +90,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
             });
             refresh();
             props.onOpenChange(false);
-        } catch (error: any) {
-            // Заглушка
+        } catch (error) {
             setSubmitButtonDisabled(false);
         }
     };

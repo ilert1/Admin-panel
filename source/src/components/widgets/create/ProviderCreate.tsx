@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useCreateController, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
+import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -24,7 +23,6 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
     const { theme } = useTheme();
 
     const translate = useTranslate();
-    const refresh = useRefresh();
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -46,28 +44,20 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
         }
     });
 
-    const onSubmit: SubmitHandler<Omit<Provider, "id">> = async data => {
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
+
         setSubmitButtonDisabled(true);
-        if (data.methods.length === 0) {
-            data.methods = {};
-        } else {
-            data.methods = JSON.parse(data.methods);
-        }
 
-        if (!data.methods) {
-            data.methods = {};
-        }
+        const parseData: Omit<Provider, "id"> = {
+            name: data.name,
+            methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {},
+            fields_json_schema: data.fields_json_schema || "",
+            public_key: data.public_key || null
+        };
 
-        if (!data.fields_json_schema) {
-            data.fields_json_schema = "";
-        }
-
-        if (!data.public_key) {
-            data.public_key = null;
-        }
         try {
-            await dataProvider.create("provider", { data });
+            await dataProvider.create("provider", { data: parseData });
             onClose();
         } catch (error) {
             toast.error(translate("resources.transactions.download.error"), {
