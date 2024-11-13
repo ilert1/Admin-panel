@@ -131,14 +131,15 @@ export const WithdrawList = () => {
         return (
             <>
                 <ListContextProvider value={listContext}>
-                    <div className="flex flex-col">
-                        {merchantOnly && (
-                            <div className="mb-6 ">
-                                <CryptoTransfer />
-                            </div>
-                        )}
-
-                        <WithdrawFilterSidebar />
+                    <div
+                        className={
+                            merchantOnly
+                                ? "grid gap-x-6 lg:grid-cols-1 [grid-template-rows: auto 1fr 1fr;] grid-cols-1 lg:grid-rows-1 lg:grid-flow-col"
+                                : "flex flex-col"
+                        }>
+                        <div>
+                            <WithdrawFilterSidebar />
+                        </div>
 
                         <div>
                             <h3 className="mb-4 text-xl text-neutral-100">
@@ -146,6 +147,12 @@ export const WithdrawList = () => {
                             </h3>
                             <DataTable columns={columns} data={[]} />
                         </div>
+
+                        {merchantOnly && (
+                            <div className="max-w-80 mb-6 row-start-1 lg:col-start-2 lg:row-start-2">
+                                <CryptoTransfer />
+                            </div>
+                        )}
                     </div>
                 </ListContextProvider>
             </>
