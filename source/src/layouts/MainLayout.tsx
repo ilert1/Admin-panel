@@ -18,7 +18,7 @@ enum SplitLocations {
     new = "new"
 }
 
-const WALLET_ENABLED: boolean = import.meta.env.VITE_WALLET_ENABLED;
+const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
 
 export const MainLayout = ({ children }: CoreLayoutProps) => {
     const resources = useResourceDefinitions();
