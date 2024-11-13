@@ -103,7 +103,7 @@ export const WithdrawList = () => {
         {
             accessorKey: "id",
             header: translate("resources.withdraw.fields.id"),
-            cell: ({ row }) => <TextField text={row.original.id} wrap copyValue />
+            cell: ({ row }) => <TextField text={row.original.id} wrap={"break-all"} copyValue />
         },
         {
             accessorKey: "destination.id",
