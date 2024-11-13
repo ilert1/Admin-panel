@@ -351,3 +351,48 @@ declare namespace Dictionaries {
         prior_gr: number;
     }
 }
+enum WalletTypes {
+    INTERNAL = "internal",
+    LINKED = "linked",
+    EXTERNAL = "external"
+}
+
+interface Wallet {
+    id: string;
+    description: string | null;
+    type: WalletTypes;
+    blockchain: string;
+    network: string;
+    address: string | null;
+    currency: string;
+    account_id: string;
+    minimal_ballance_limit: number;
+}
+
+interface WalletStorage {
+    recieved_shares: number;
+    sealed: boolean;
+    split_max: number;
+    split_min: number;
+    state: "sealed" | "unsealed" | "waiting";
+}
+
+interface Cryptotransactions {
+    blowfish_id: string;
+    id: string;
+    src_wallet: string;
+    dst_wallet: string;
+    amount_quantity: number;
+    amount_accuracy: number;
+    currency: string;
+    state: number | string;
+    type: number | string;
+    merchant_id: string;
+    tx_id: string;
+    tx_link: string;
+    total_fee: number;
+    bandwidth_fee: number;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
+}
