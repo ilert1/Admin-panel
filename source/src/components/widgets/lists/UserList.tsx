@@ -10,7 +10,7 @@ import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Loading } from "@/components/ui/loading";
 import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alertdialog";
 import { UserCreate } from "../create";
 
 const UserFilterSidebar = () => {
@@ -106,15 +106,15 @@ const UserFilterSidebar = () => {
                     <span>{translate("resources.users.createButton")}</span>
                 </Button>
 
-                <Dialog open={showAddUserDialog} onOpenChange={setShowAddUserDialog}>
-                    <DialogContent aria-describedby={undefined}>
-                        <DialogHeader>
-                            <DialogTitle>{translate("app.widgets.forms.userCreate.title")}</DialogTitle>
-                        </DialogHeader>
+                <AlertDialog open={showAddUserDialog} onOpenChange={setShowAddUserDialog}>
+                    <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px] h-full max-h-[100dvh] md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>{translate("app.widgets.forms.userCreate.title")}</AlertDialogTitle>
+                        </AlertDialogHeader>
 
                         <UserCreate onOpenChange={setShowAddUserDialog} />
-                    </DialogContent>
-                </Dialog>
+                    </AlertDialogContent>
+                </AlertDialog>
             </div>
 
             <label

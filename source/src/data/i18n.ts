@@ -75,6 +75,7 @@ const ru: TranslationMessages = {
             },
             showHeader: "Информация о пользователе",
             showDescription: "Подробная информация о пользователе с ID %{id}",
+            editUser: "Редактирование пользователя",
             create: {
                 success: "Готово",
                 successMessage: "Пользователь создан",
@@ -673,6 +674,7 @@ const en: TranslationMessages = {
             createButton: "Add user",
             showHeader: "User info",
             showDescription: "Detailed information about user with ID %{id}",
+            editUser: "Edit user",
             create: {
                 success: "Success",
                 successMessage: "User is created",

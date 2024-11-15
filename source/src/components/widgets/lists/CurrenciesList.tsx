@@ -161,9 +161,9 @@ export const CurrenciesList = () => {
                 </div>
 
                 <AlertDialog open={showAddCurrencyDialog} onOpenChange={setShowAddCurrencyDialog}>
-                    <AlertDialogContent className="flex flex-col gap-6 bg-muted" aria-describedby={undefined}>
+                    <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px] h-full max-h-[100dvh] md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
                         <AlertDialogHeader>
-                            <AlertDialogTitle className="text-xl">
+                            <AlertDialogTitle className="text-xl text-center mb-4">
                                 {translate("resources.currency.createDialogTitle")}
                             </AlertDialogTitle>
                         </AlertDialogHeader>
@@ -179,9 +179,9 @@ export const CurrenciesList = () => {
                 </AlertDialog>
 
                 <AlertDialog open={showEditDialog} onOpenChange={setShowEditDialog}>
-                    <AlertDialogContent className="flex flex-col gap-6 bg-muted" aria-describedby={undefined}>
+                    <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px] h-full max-h-[100dvh] md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
                         <AlertDialogHeader>
-                            <AlertDialogTitle className="text-xl">
+                            <AlertDialogTitle className="text-xl text-center">
                                 {translate("resources.currency.editDialogTitle")}
                             </AlertDialogTitle>
                         </AlertDialogHeader>

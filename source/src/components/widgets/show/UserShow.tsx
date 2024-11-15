@@ -91,15 +91,17 @@ export const UserShow = (props: { id: string; isBrief: boolean }) => {
                     </Button>
                 </div>
 
-                <Dialog open={showEditUser} onOpenChange={setShowEditUser}>
-                    <DialogContent aria-describedby={undefined}>
-                        <DialogHeader>
-                            <DialogTitle>Edit user</DialogTitle>
-                        </DialogHeader>
+                <AlertDialog open={showEditUser} onOpenChange={setShowEditUser}>
+                    <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px] h-full max-h-[100dvh] md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
+                        <AlertDialogHeader>
+                            <AlertDialogTitle className="text-center mb-4">
+                                {translate("resources.users.editUser")}
+                            </AlertDialogTitle>
+                        </AlertDialogHeader>
 
                         <UserEdit record={context.record} id={id} closeDialog={() => setShowEditUser(false)} />
-                    </DialogContent>
-                </Dialog>
+                    </AlertDialogContent>
+                </AlertDialog>
 
                 <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
                     <AlertDialogContent className="w-[253px] px-[24px] bg-muted">

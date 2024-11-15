@@ -269,6 +269,9 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                         </Button>
 
                         <Button
+                            onClick={() => {
+                                closeDialog();
+                            }}
                             variant="clearBtn"
                             className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full">
                             {translate("app.ui.actions.cancel")}

@@ -68,6 +68,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                     onSubmit={createUserRecord}
                     currencies={currencies?.data || []}
                     isDisabled={isDisabled !== undefined ? isDisabled : false}
+                    onOpenChange={onOpenChange}
                 />
             </CreateContextProvider>
         );

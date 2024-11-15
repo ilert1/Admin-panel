@@ -1,11 +1,11 @@
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle
-} from "@/components/ui/dialog";
+    AlertDialog,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from "@/components/ui/alertdialog";
 import { useRefresh, useTranslate } from "react-admin";
 import { ProviderCreate } from "../../create";
 
@@ -18,22 +18,22 @@ export const CreateProviderDialog = (props: CreateProviderDialogProps) => {
     const refresh = useRefresh();
     const translate = useTranslate();
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-[716px] bg-muted min-h-[180px] overflow-y-auto px-4 sm:px-[30px]">
-                <DialogHeader>
-                    <DialogTitle className="text-center">
+        <AlertDialog open={open} onOpenChange={onOpenChange}>
+            <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px] h-full max-h-[100dvh] md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
+                <AlertDialogHeader>
+                    <AlertDialogTitle className="mb-4 text-center">
                         {translate("resources.provider.creatingProvider")}
-                    </DialogTitle>
-                    <DialogDescription></DialogDescription>
+                    </AlertDialogTitle>
+                    <AlertDialogDescription></AlertDialogDescription>
                     <ProviderCreate
                         onClose={() => {
                             refresh();
                             onOpenChange(false);
                         }}
                     />
-                </DialogHeader>
-                <DialogFooter></DialogFooter>
-            </DialogContent>
-        </Dialog>
+                </AlertDialogHeader>
+                <AlertDialogFooter></AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     );
 };
