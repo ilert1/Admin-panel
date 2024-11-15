@@ -648,6 +648,10 @@ const ru: TranslationMessages = {
             login: "Войти",
             logPassError: "Неправильные данные входа",
             networkError: "Ошибка сети",
+            accountError: "Завершите настройку профиля и повторите попытку входа",
+            accountConfigTitle:
+                "Ваш аккаунт требует настройки, выполните пожалуйста требуемые действия на следующей странице, затем повторите попытку входа",
+            accountConfigConfirm: "Настроить",
             totp: "Код двухфакторной аутентификации",
             configure2fa: "Настроить двухфакторную аутентификацию"
         }
@@ -1327,6 +1331,10 @@ const en: TranslationMessages = {
             login: "Login",
             logPassError: "Invalid user data",
             networkError: "Network Error",
+            accountError: "Complete the profile setup and try logging in again",
+            accountConfigTitle:
+                "Your account needs to be configured, please follow the required steps on the next page, then try logging in again",
+            accountConfigConfirm: "Configure",
             totp: "Two-factor authentication code",
             configure2fa: "Configure Two-factor auth"
         }
