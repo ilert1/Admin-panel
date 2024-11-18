@@ -1,5 +1,5 @@
 import { useEditController, useTranslate, useDataProvider, useRefresh } from "react-admin";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
@@ -83,7 +83,7 @@ export const MerchantEdit = (props: MerchantEditProps) => {
         }
     }, [addNewFeeClicked]);
 
-    const onSubmit: SubmitHandler<Merchant> = async data => {
+    const onSubmit = async (data: z.infer<typeof formSchema> & { fees?: Pick<Merchant, "fees"> }) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
         data.fees = record.fees;

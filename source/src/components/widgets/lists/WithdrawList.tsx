@@ -103,7 +103,7 @@ export const WithdrawList = () => {
         {
             accessorKey: "id",
             header: translate("resources.withdraw.fields.id"),
-            cell: ({ row }) => <TextField text={row.original.id} wrap copyValue />
+            cell: ({ row }) => <TextField text={row.original.id} wrap={"break-all"} copyValue />
         },
         {
             accessorKey: "destination.id",
@@ -149,7 +149,7 @@ export const WithdrawList = () => {
                         </div>
 
                         {merchantOnly && (
-                            <div className="w-[476px] mb-6 row-start-1 lg:col-start-2 lg:row-start-2">
+                            <div className="max-w-80 mb-6 row-start-1 lg:col-start-2 lg:row-start-2">
                                 <CryptoTransfer />
                             </div>
                         )}

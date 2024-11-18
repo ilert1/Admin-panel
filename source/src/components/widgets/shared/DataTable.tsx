@@ -26,7 +26,6 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         ({ data, total, page, perPage, setPage, setPerPage } = useListContext());
     }
-
     const translate = useTranslate();
     const table = useReactTable({
         data,

@@ -14,6 +14,7 @@ services:
         VITE_KEYCLOAK_REALM: ${VITE_KEYCLOAK_REALM}
         VITE_KEYCLOAK_CLIENT_ID: ${VITE_KEYCLOAK_CLIENT_ID}
         VITE_WALLET_URL: ${VITE_WALLET_URL}
+        VITE_WALLET_ENABLED: ${VITE_WALLET_ENABLED}
     container_name: ${COMPOSE_PROJECT_NAME}
     hostname: ${COMPOSE_PROJECT_NAME}
     restart: unless-stopped

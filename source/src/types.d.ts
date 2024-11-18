@@ -70,18 +70,6 @@ declare namespace PayOut {
     }
 }
 
-declare namespace Dictionaries {
-    interface Currency {
-        [key: string]: string;
-        "alpha-3": string;
-        code: number;
-        "minor-unit": number;
-        "name-en": string;
-        "name-ru": string;
-        prior_gr: number;
-    }
-}
-
 declare namespace Transaction {
     type Account = {
         id: string;
@@ -125,15 +113,32 @@ declare namespace Transaction {
         provider: string;
     };
 
+    type Payload = {
+        amount: number;
+        callback_url?: string;
+        currency: string;
+        customer_data: {
+            account_name: string;
+            customer_id: string;
+            card_holder_name?: string;
+            card_no?: string;
+        };
+        payment_instrument?: {
+            payment_type: string;
+        };
+        fail_url?: string;
+        success_url?: string;
+    };
+
     type Transaction = {
         id: string;
         committed: boolean;
         created_at: string;
         destination: Account;
         dispute: boolean;
-        fees: [];
+        fees: Fee[];
         meta: Meta;
-        payload?: any;
+        payload?: Payload;
         rate_info: RateInfo;
         result: Result;
         source: Account;
@@ -142,9 +147,10 @@ declare namespace Transaction {
     };
 
     type Fee = {
-        resipient: string;
+        recipient: string;
         type: number;
         currency: string;
+        direction: number;
         value: Value;
     };
 }
@@ -215,7 +221,6 @@ declare namespace Currencies {
         is_coin: boolean;
         code: string;
         id: string;
-        prior_gr: number;
     }
 }
 
@@ -230,7 +235,7 @@ interface Merchant {
 interface Provider {
     fields_json_schema: string;
     public_key: string | null;
-    methods: Object<any>;
+    methods: { [key: string]: string };
     name: string;
     id: string;
 }
@@ -295,7 +300,7 @@ namespace Directions {
     }
 }
 
-namespace Dictionaries {
+declare namespace Dictionaries {
     interface State {
         state_int: number;
         state_description: string;
@@ -339,4 +344,59 @@ namespace Dictionaries {
         states: States;
         transactionTypes: TransactionTypes;
     }
+
+    interface Currency {
+        [key: string]: string;
+        "alpha-3": string;
+        code: number;
+        "minor-unit": number;
+        "name-en": string;
+        "name-ru": string;
+        prior_gr: number;
+    }
+}
+enum WalletTypes {
+    INTERNAL = "internal",
+    LINKED = "linked",
+    EXTERNAL = "external"
+}
+
+interface Wallet {
+    id: string;
+    description: string | null;
+    type: WalletTypes;
+    blockchain: string;
+    network: string;
+    address: string | null;
+    currency: string;
+    account_id: string;
+    minimal_ballance_limit: number;
+}
+
+interface WalletStorage {
+    recieved_shares: number;
+    sealed: boolean;
+    split_max: number;
+    split_min: number;
+    state: "sealed" | "unsealed" | "waiting";
+}
+
+interface Cryptotransactions {
+    blowfish_id: string;
+    id: string;
+    src_wallet: string;
+    dst_wallet: string;
+    amount_quantity: number;
+    amount_accuracy: number;
+    currency: string;
+    state: number | string;
+    type: number | string;
+    merchant_id: string;
+    tx_id: string;
+    tx_link: string;
+    total_fee: number;
+    bandwidth_fee: number;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
 }

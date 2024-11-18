@@ -5,6 +5,16 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/providers";
 import { Input } from "@/components/ui/input";
 import { LangSwitcher } from "@/components/widgets/components/LangSwitcher";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from "@/components/ui/alertdialog";
 
 const realm = import.meta.env.VITE_KEYCLOAK_REALM;
 const kk = import.meta.env.VITE_KEYCLOAK_URL;
@@ -14,6 +24,7 @@ export const LoginPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [totpCode, setTotpCode] = useState("");
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [showPassword, setShowPassword] = useState(false);
@@ -33,20 +44,26 @@ export const LoginPage = () => {
         if (formEnabled) {
             setFormEnabled(false);
 
-            let userData = {
+            const userData = {
                 username,
                 password,
                 totpCode
             };
 
-            // console.log(userData);
-
             login(userData).catch(error => {
                 if (error.status === 401) {
                     setError(translate("app.login.logPassError"));
+                } else if (
+                    error.status === 400 &&
+                    error.body.error === "invalid_grant" &&
+                    error.body.error_description.includes("not fully")
+                ) {
+                    setError(translate("app.login.accountError"));
+                    setDialogOpen(true);
                 } else {
                     setError(translate("app.login.networkError"));
                 }
+
                 setFormEnabled(true);
             });
         }
@@ -62,6 +79,7 @@ export const LoginPage = () => {
                 } else {
                     setError(translate("app.login.networkError"));
                 }
+
                 setFormEnabled(true);
                 navigate("/", { replace: true });
             });
@@ -76,6 +94,7 @@ export const LoginPage = () => {
             setFormEnabled(false);
             getTokenByCode(totpRequestCode);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleChange =
@@ -89,6 +108,7 @@ export const LoginPage = () => {
             <div className="flex flex-shrink-0 justify-end h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z">
                 <LangSwitcher />
             </div>
+
             <div
                 className="relative flex items-center justify-center bg-loginBG overflow-hidden min-h-[508px] h-[calc(100vh-84px)]"
                 style={{
@@ -112,6 +132,7 @@ export const LoginPage = () => {
                             <label htmlFor="username" className="block text-note-1 text-neutral-30 mb-1">
                                 {translate("app.login.usernameOrEmail")}
                             </label>
+
                             <Input
                                 id="username"
                                 type="text"
@@ -120,10 +141,12 @@ export const LoginPage = () => {
                                 className=" block w-full border-gray-300 rounded-md shadow-sm text-title-1"
                             />
                         </div>
+
                         <div className="mb-5 relative">
                             <label htmlFor="password" className="block text-note-1 text-neutral-30 mb-1">
                                 {translate("app.login.password")}
                             </label>
+
                             <div className="flex items-center relative">
                                 <Input
                                     id="password"
@@ -134,10 +157,12 @@ export const LoginPage = () => {
                                 />
                             </div>
                         </div>
+
                         <div className="mb-5">
                             <label htmlFor="username" className="block text-note-1 text-neutral-30 mb-1">
                                 {translate("app.login.totp")}
                             </label>
+
                             <Input
                                 id="totp"
                                 type="text"
@@ -145,18 +170,22 @@ export const LoginPage = () => {
                                 onChange={handleChange(setTotpCode)}
                                 className=" block w-full border-gray-300 rounded-md shadow-sm text-title-1"
                             />
+
                             <div className="flex justify-center mt-4">
                                 <a className="text-xs text-green-50 dark:text-green-40" href={configure2faLink}>
                                     {translate("app.login.configure2fa")}
                                 </a>
                             </div>
                         </div>
+
                         <Button type="submit" color="primary" variant="default" className="w-full">
                             {translate("app.login.login")}
                         </Button>
+
                         {error && <div className="text-red-30 text-note-1 mt-5">{error}</div>}
                     </form>
                 </div>
+
                 <div className="absolute bottom-[-20px] right-[-20px] p-4">
                     <img
                         src="/BlowFish.svg"
@@ -164,6 +193,29 @@ export const LoginPage = () => {
                         className="w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] xl:w-[400px] xl:h-[400px]pointer-events-none select-none -z-50"
                     />
                 </div>
+
+                <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                    <AlertDialogContent className="w-[350px]">
+                        <AlertDialogHeader>
+                            <AlertDialogTitle className="text-center">
+                                {translate("app.login.accountConfigTitle")}
+                            </AlertDialogTitle>
+                            <AlertDialogDescription></AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <div className="flex flex-col sm:flex-row justify-around gap-4 sm:gap-[35px] w-full">
+                                <a href={kk} target="_blank" rel="noopener noreferrer">
+                                    <AlertDialogAction className="w-full sm:w-40">
+                                        {translate("app.login.accountConfigConfirm")}
+                                    </AlertDialogAction>
+                                </a>
+                                <AlertDialogCancel className="w-full !ml-0 px-3 sm:w-24">
+                                    {translate("app.ui.actions.cancel")}
+                                </AlertDialogCancel>
+                            </div>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
             </div>
         </>
     );

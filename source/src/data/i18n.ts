@@ -75,6 +75,7 @@ const ru: TranslationMessages = {
             },
             showHeader: "Информация о пользователе",
             showDescription: "Подробная информация о пользователе с ID %{id}",
+            editUser: "Редактирование пользователя",
             create: {
                 success: "Готово",
                 successMessage: "Пользователь создан",
@@ -407,8 +408,83 @@ const ru: TranslationMessages = {
             editingDirection: "Редактирование направления",
             creatingDirection: "Добавление направления"
         },
-        "bank-transfer": {
+        bankTransfer: {
             name: "Банковский перевод"
+        },
+        wallet: {
+            name: "Управление криптокошельками",
+            storage: {
+                name: "Хранилище",
+                titleClosed: "Распечатка хранилища",
+                buttonForOpen: "Распечатать",
+                buttonForClosed: "Запечатать",
+                buttonForCancel: "Отменить распечатку",
+                buttonForEnterKey: "Ввести часть ключа",
+                buttonForSend: "Отправить",
+                titleOpened: "Хранилище открыто",
+                key: "Ключ",
+                unsealed: {
+                    errorTitle: "Ошибка распечатывания хранилища",
+                    errorSubtitle: "Попробуйте снова",
+                    allKeys: "Всего частей ключа",
+                    requiredKeys: "Необходимо для открытия",
+                    enteredKeys: "Введено частей ключа",
+                    toFinishKeys: "До распечатывания осталось"
+                }
+            },
+            manage: {
+                name: "Кошельки",
+                wallet: "Кошелек",
+                fields: {
+                    walletType: "Тип кошелька",
+                    walletAddress: "Адрес кошелька",
+                    accountNumber: "Номер счёта",
+                    merchantId: "ID мерчанта",
+                    currency: "Валюта",
+                    descr: "Описание",
+                    internalId: "Внутренний ID кошелька",
+                    blockchain: "Блокчейн",
+                    contactType: "Тип контакта в блокчейне",
+                    minRemaini: "Минимальная остаточная сумма",
+                    more: "Подробнее"
+                },
+                creatingWallet: "Добавление кошелька",
+                editingWallet: "Редактирование кошелька",
+                deleteWallet: "Удалить кошелек?",
+                createWallet: "Создать кошелек"
+            },
+            transactions: {
+                name: "Криптотранзакции",
+                cryptotransaction: "Криптотранзакция",
+                allTransactions: "Все операции",
+                deletedTransactions: "Удаленные операции",
+                fields: {
+                    created_at: "Создана",
+                    updated_at: "Обновлена",
+                    deleted_at: "Удалена",
+                    src_wallet: "Кошелёк списания",
+                    id: "ID операции",
+                    dst_wallet: "Кошелёк зачисления",
+                    amount: "Сумма операции",
+                    type: "Тип операции",
+                    state: "Статус платежа",
+                    merchant_id: "ID мерчанта",
+                    tx_id: "ID в блокчейне",
+                    currency: "Валюта",
+                    blowfish_id: "ID в Blowfish",
+                    // TODO
+                    tx_link: "",
+                    total_fee: "Общая комиссия",
+                    bandwidth_fee: "Комиссия сети"
+                },
+                filterBar: {
+                    searchById: "Поиск по ID операции",
+                    created_at: "Дата создания",
+                    updated_at: "Дата обновления",
+                    paymentStatus: "Статус платежа",
+                    resetFilters: "Сбросить фильтры"
+                }
+            }
         }
     },
     app: {
@@ -534,7 +610,7 @@ const ru: TranslationMessages = {
                     amountMaxMessage: "Сумма должна быть максимум %{amount} USD₮",
                     commission: "Комиссия",
                     totalAmount: "Сумма выплаты",
-                    allAmount: "Перевести всю сумму (%{amount} USD₮)",
+                    allAmount: "Перевести всю сумму",
                     createTransfer: "Перевести",
                     transferSuccess: "Перевод осуществлён!",
                     transferError: "Недостаточно средств на счёте",
@@ -573,6 +649,10 @@ const ru: TranslationMessages = {
             login: "Войти",
             logPassError: "Неправильные данные входа",
             networkError: "Ошибка сети",
+            accountError: "Завершите настройку профиля и повторите попытку входа",
+            accountConfigTitle:
+                "Ваш аккаунт требует настройки, выполните пожалуйста требуемые действия на следующей странице, затем повторите попытку входа",
+            accountConfigConfirm: "Настроить",
             totp: "Код двухфакторной аутентификации",
             configure2fa: "Настроить двухфакторную аутентификацию"
         }
@@ -674,6 +754,7 @@ const en: TranslationMessages = {
             createButton: "Add user",
             showHeader: "User info",
             showDescription: "Detailed information about user with ID %{id}",
+            editUser: "Edit user",
             create: {
                 success: "Success",
                 successMessage: "User is created",
@@ -1010,8 +1091,84 @@ const en: TranslationMessages = {
             editingDirection: "Editing direction",
             creatingDirection: "Creating direction"
         },
-        "bank-transfer": {
+        bankTransfer: {
             name: "Bank transfer"
+        },
+        wallet: {
+            name: "Managing сryptocurrencies",
+            storage: {
+                name: "Storage",
+                titleClosed: "Storage sealed",
+                buttonForOpen: "Unseal",
+                buttonForClosed: "Seal",
+                buttonForCancel: "Cancel unsealing",
+                buttonForEnterKey: "Enter key shard",
+                buttonForSend: "Submit",
+                titleOpened: "Storage unsealed",
+                key: "Key",
+                unsealed: {
+                    errorTitle: "Storage unsealing error",
+                    errorSubtitle: "Please try again",
+                    allKeys: "Total key shards",
+                    requiredKeys: "Required to unseal",
+                    enteredKeys: "Entered key shards",
+                    toFinishKeys: "Shards remaining to unseal"
+                }
+            },
+            manage: {
+                name: "Wallets",
+                wallet: "Wallet",
+                fields: {
+                    walletType: "Wallet type",
+                    walletAddress: "Wallet address",
+                    accountNumber: "Account number",
+                    merchantId: "Merchant ID",
+                    currency: "Currency",
+                    descr: "Description",
+                    more: "More",
+                    internalId: "Internal wallet ID",
+                    blockchain: "Blockchain",
+                    contactType: "Contact type in blockchain",
+                    minRemaini: "Minimum remaining amount"
+                },
+                errors: {
+                    id: "Id is required field"
+                },
+                creatingWallet: "Adding wallet",
+                editingWallet: "Editing wallet",
+                deleteWallet: "Delete wallet?",
+                createWallet: "Create wallet"
+            },
+            transactions: {
+                name: "Cryptotransactions",
+                cryptotransaction: "Cryptotransaction",
+                allTransactions: "All transactions",
+                deletedTransactions: "Deleted transactions",
+                fields: {
+                    created_at: "Created at",
+                    updated_at: "Updated at",
+                    deleted_at: "Deleted at",
+                    src_wallet: "Source wallet",
+                    id: "Transaction ID",
+                    dst_wallet: "Destination wallet",
+                    amount: "Transaction amount",
+                    type: "Transaction type",
+                    state: "Payment status",
+                    merchant_id: "Merchant ID",
+                    tx_id: "ID in blockchain",
+                    currency: "Currency",
+                    blowfish_id: "Blowfish id",
+                    total_fee: "Total fee",
+                    bandwidth_fee: "Network fee"
+                },
+                filterBar: {
+                    searchById: "Search by transaction ID",
+                    paymentStatus: "Payment status",
+                    created_at: "Creation date",
+                    updated_at: "Update date",
+                    resetFilters: "Reset filters"
+                }
+            }
         }
     },
     app: {
@@ -1137,7 +1294,7 @@ const en: TranslationMessages = {
                     amountMaxMessage: "Amount should be less than %{amount} USD₮",
                     commission: "Commission",
                     totalAmount: "Total amount",
-                    allAmount: "Transfer the entire amount (%{amount} USD₮)",
+                    allAmount: "Transfer the entire amount",
                     createTransfer: "Transfer",
                     transferSuccess: "Transfer is successful!",
                     transferError: "Insufficient funds in the account",
@@ -1176,6 +1333,10 @@ const en: TranslationMessages = {
             login: "Login",
             logPassError: "Invalid user data",
             networkError: "Network Error",
+            accountError: "Complete the profile setup and try logging in again",
+            accountConfigTitle:
+                "Your account needs to be configured, please follow the required steps on the next page, then try logging in again",
+            accountConfigConfirm: "Configure",
             totp: "Two-factor authentication code",
             configure2fa: "Configure Two-factor auth"
         }

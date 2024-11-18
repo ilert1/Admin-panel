@@ -6,3 +6,5 @@ export { CurrenciesShow } from "./CurrenciesShow";
 export { MerchantShow } from "./MerchantShow";
 export { ProvidersShow } from "./ProvidersShow";
 export { DirectionsShow } from "./DirectionShow";
+export { WalletShow } from "./Wallet";
+export { WalletTransactionsShow } from "./WalletTransactions";

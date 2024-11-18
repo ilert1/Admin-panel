@@ -67,7 +67,8 @@ export const AccountList = () => {
 
                 return (
                     <div className="flex items-center justify-center">
-                        <span className={`px-3 py-0.5 rounded-20 font-normal text-base text-center ${styles[index]}`}>
+                        <span
+                            className={`px-3 py-0.5 rounded-20 text-white font-normal text-base text-center ${styles[index]}`}>
                             {translate(`resources.accounts.fields.states.${translations[index]}`)}
                         </span>
                     </div>

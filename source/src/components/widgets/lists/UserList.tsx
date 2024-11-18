@@ -10,7 +10,7 @@ import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Loading } from "@/components/ui/loading";
 import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alertdialog";
 import { UserCreate } from "../create";
 
 const UserFilterSidebar = () => {
@@ -106,24 +106,24 @@ const UserFilterSidebar = () => {
                     <span>{translate("resources.users.createButton")}</span>
                 </Button>
 
-                <Dialog open={showAddUserDialog} onOpenChange={setShowAddUserDialog}>
-                    <DialogContent aria-describedby={undefined}>
-                        <DialogHeader>
-                            <DialogTitle>{translate("app.widgets.forms.userCreate.title")}</DialogTitle>
-                        </DialogHeader>
+                <AlertDialog open={showAddUserDialog} onOpenChange={setShowAddUserDialog}>
+                    <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px] h-full max-h-[100dvh] md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>{translate("app.widgets.forms.userCreate.title")}</AlertDialogTitle>
+                        </AlertDialogHeader>
 
                         <UserCreate onOpenChange={setShowAddUserDialog} />
-                    </DialogContent>
-                </Dialog>
+                    </AlertDialogContent>
+                </AlertDialog>
             </div>
 
             <label
                 onClick={() => onUserActivityChanged(!checkedActivity)}
                 className="flex gap-2 items-center self-start cursor-pointer [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
-                <div className="relative w-4 h-4 rounded-full border transition-all bg-black border-neutral-60 flex justify-center items-center">
+                <div className="relative w-4 h-4 rounded-full border transition-all bg-white dark:bg-black border-neutral-60 flex justify-center items-center">
                     {checkedActivity && <div id="checked" className="w-2.5 h-2.5 rounded-full bg-green-50"></div>}
                 </div>
-                <span className="font-normal text-sm text-neutral-40 transition-all">
+                <span className="font-normal text-sm text-netural-60 dark:text-neutral-40 transition-all">
                     {translate("resources.users.filter.filterByActivity")}
                 </span>
             </label>
@@ -179,7 +179,7 @@ export const UserList = () => {
                 return (
                     <div className="flex items-center justify-center">
                         <span
-                            className={`px-3 py-0.5 rounded-20 font-normal text-base text-center ${
+                            className={`px-3 py-0.5 rounded-20 font-normal text-white text-base text-center ${
                                 row.original.state > translations.length ? "" : styles[row.original.state - 1]
                             }`}>
                             {row.original.state > translations.length

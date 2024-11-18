@@ -72,7 +72,7 @@ export const CryptoTransferForm = (props: {
         return (
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="">
-                    <div className="flex flex-col w-[476px] px-6 py-4 bg-neutral-0 rounded-2xl gap-4">
+                    <div className="flex flex-col max-w-[476px] px-6 py-4 bg-neutral-0 rounded-2xl gap-4">
                         <div className="flex-1">
                             <FormField
                                 disabled={props.loading}
@@ -119,7 +119,7 @@ export const CryptoTransferForm = (props: {
                                 )}
                             />
                         </div>
-                        <div className="flex-1">
+                        <div className="flex-1 flex flex-col gap-2">
                             <FormField
                                 disabled={props.loading}
                                 control={form.control}
@@ -163,30 +163,33 @@ export const CryptoTransferForm = (props: {
                                     </FormItem>
                                 )}
                             />
-                            <div className="flex-1 flex gap-2 items-center mt-2">
+                            <div className="flex-1 flex gap-2 items-center">
                                 <label
                                     onClick={() => setChecked(!checked)}
                                     className="flex gap-2 items-center self-start cursor-pointer [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
-                                    <div className="relative w-4 h-4 rounded-full border transition-all bg-black border-neutral-60 flex justify-center items-center">
+                                    <div className="relative w-4 h-4 rounded-full border transition-all bg-white dark:bg-black border-neutral-60 flex justify-center items-center">
                                         {checked && (
                                             <div id="checked" className="w-2.5 h-2.5 rounded-full bg-green-50"></div>
                                         )}
                                     </div>
-                                    <span className="font-normal text-sm text-neutral-40 transition-all">
-                                        {translate("app.widgets.forms.cryptoTransfer.allAmount", {
-                                            amount: props.balance
-                                        })}
-                                    </span>
+                                    <div className="font-normal text-sm text-neutral-60 transition-all">
+                                        <p>{translate("app.widgets.forms.cryptoTransfer.allAmount")}</p>
+                                        <p>({props.balance} USD₮)</p>
+                                    </div>
                                 </label>
                             </div>
                         </div>
-                        <div className="flex-1 flex justify-end gap-6 text-title-1">
+                        <div className="flex-1 flex gap-6 text-title-1">
                             <div className="flex flex-col items-start">
-                                <span>{translate("app.widgets.forms.cryptoTransfer.commission")}</span>
+                                <span className="text-neutral-60 dark:text-neutral-40">
+                                    {translate("app.widgets.forms.cryptoTransfer.commission")}
+                                </span>
                                 <span>2 USD₮</span>
                             </div>
                             <div className="flex flex-col items-start">
-                                <span>{translate("app.widgets.forms.cryptoTransfer.totalAmount")}</span>
+                                <span className="text-neutral-60 dark:text-neutral-40">
+                                    {translate("app.widgets.forms.cryptoTransfer.totalAmount")}
+                                </span>
                                 <span>{totalAmount + " USD₮"}</span>
                             </div>
                         </div>

@@ -90,8 +90,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
             });
             refresh();
             props.onOpenChange(false);
-        } catch (error: any) {
-            // Заглушка
+        } catch (error) {
             setSubmitButtonDisabled(false);
         }
     };
@@ -312,7 +311,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                 </FormItem>
                             )}
                         />
-                        <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col gap-3 sm:gap-0 sm:flex-row space-x-0 sm:space-x-2">
+                        <div className="w-full mt-4 md:mt-0 md:w-2/5 p-2 ml-auto flex flex-col gap-3 sm:gap-0 sm:flex-row space-x-0 sm:space-x-2">
                             <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>
