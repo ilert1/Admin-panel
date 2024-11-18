@@ -37,6 +37,7 @@ export const LoginPage = () => {
     const navigate = useNavigate();
 
     const configure2faLink = `${kk}/realms/${realm}/protocol/openid-connect/auth?client_id=${clientId}&redirect_uri=${window.location.href}&response_type=code&scope=openid&kc_action=CONFIGURE_TOTP`;
+    const configureKKLink = `${kk}/realms/${realm}/protocol/openid-connect/auth?client_id=${clientId}&redirect_uri=${window.location.href}&response_type=code&scope=openid`;
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -204,7 +205,7 @@ export const LoginPage = () => {
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                             <div className="flex flex-col sm:flex-row justify-around gap-4 sm:gap-[35px] w-full">
-                                <a href={kk} target="_blank" rel="noopener noreferrer">
+                                <a href={configureKKLink} target="_blank" rel="noopener noreferrer">
                                     <AlertDialogAction className="w-full sm:w-40">
                                         {translate("app.login.accountConfigConfirm")}
                                     </AlertDialogAction>
