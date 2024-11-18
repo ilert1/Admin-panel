@@ -374,6 +374,7 @@ interface Wallet {
 }
 
 interface WalletStorage {
+    initiated: boolean;
     recieved_shares: number;
     sealed: boolean;
     split_max: number;

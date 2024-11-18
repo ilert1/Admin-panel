@@ -1,7 +1,7 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { VaultDataProvider } from "@/data";
 import { BitcoinWalletIcon, DoubleWalletsIcon, RearLockKeyhole } from "@/lib/icons/WalletStore";
-import { ChevronDown, ChevronLeft, LockKeyhole, LockKeyholeOpen, Vault, WalletCards } from "lucide-react";
+import { ChevronDown, ChevronLeft, CirclePlus, LockKeyhole, LockKeyholeOpen, Vault, WalletCards } from "lucide-react";
 import { useState } from "react";
 import { useDataProvider, useTranslate } from "react-admin";
 import { useQuery } from "react-query";
@@ -98,7 +98,16 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
 
                             {customRoute.showLock && (
                                 <>
-                                    {storageState?.state === "sealed" && (
+                                    {!storageState?.initiated && (
+                                        <CirclePlus
+                                            className={
+                                                showCaptions
+                                                    ? "ml-auto w-full max-w-6 mr-5 text-green-40 [&>path]:!stroke-green-40"
+                                                    : "text-green-40 [&>path]:!stroke-green-40"
+                                            }
+                                        />
+                                    )}
+                                    {storageState?.state === "sealed" && storageState?.initiated && (
                                         <LockKeyhole
                                             className={
                                                 showCaptions
@@ -107,7 +116,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                             }
                                         />
                                     )}
-                                    {storageState?.state === "unsealed" && (
+                                    {storageState?.state === "unsealed" && storageState?.initiated && (
                                         <LockKeyholeOpen
                                             className={
                                                 showCaptions
@@ -116,7 +125,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                             }
                                         />
                                     )}
-                                    {storageState?.state === "waiting" && (
+                                    {storageState?.state === "waiting" && storageState?.initiated && (
                                         <RearLockKeyhole
                                             className={
                                                 showCaptions

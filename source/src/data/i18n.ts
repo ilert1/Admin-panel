@@ -414,6 +414,9 @@ const ru: TranslationMessages = {
             name: "Управление криптокошельками",
             storage: {
                 name: "Хранилище",
+                initiatedTitle: "Хранилище не инициализировано",
+                buttonForInitiated: "Инициализировать",
+                initiatedError: "Ошибка инициализации",
                 titleClosed: "Распечатка хранилища",
                 buttonForOpen: "Распечатать",
                 buttonForClosed: "Запечатать",
@@ -1092,6 +1095,9 @@ const en: TranslationMessages = {
             name: "Managing сryptocurrencies",
             storage: {
                 name: "Storage",
+                initiatedTitle: "The storage is not initialized",
+                buttonForInitiated: "Initialize",
+                initiatedError: "Initialization error",
                 titleClosed: "Storage sealed",
                 buttonForOpen: "Unseal",
                 buttonForClosed: "Seal",
