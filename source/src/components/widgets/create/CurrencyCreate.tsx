@@ -10,7 +10,6 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { useState } from "react";
 
 enum PositionEnum {
@@ -269,13 +268,14 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                             {translate("app.ui.actions.save")}
                         </Button>
 
-                        <DialogClose asChild>
-                            <Button
-                                variant="clearBtn"
-                                className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full">
-                                {translate("app.ui.actions.cancel")}
-                            </Button>
-                        </DialogClose>
+                        <Button
+                            onClick={() => {
+                                closeDialog();
+                            }}
+                            variant="clearBtn"
+                            className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full">
+                            {translate("app.ui.actions.cancel")}
+                        </Button>
                     </div>
                 </form>
             </Form>

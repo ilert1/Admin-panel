@@ -7,7 +7,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { toast } from "sonner";
-import { DialogClose } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
 import { useRef, useState } from "react";
@@ -224,13 +223,11 @@ export const CurrencyEdit = ({
                         {translate("app.ui.actions.save")}
                     </Button>
 
-                    <DialogClose asChild>
-                        <Button
-                            variant="clearBtn"
-                            className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full">
-                            {translate("app.ui.actions.cancel")}
-                        </Button>
-                    </DialogClose>
+                    <Button
+                        variant="clearBtn"
+                        className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full">
+                        {translate("app.ui.actions.cancel")}
+                    </Button>
                 </div>
             </form>
         </Form>

@@ -1,12 +1,12 @@
 import { useTranslate } from "react-admin";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle
-} from "@/components/ui/dialog";
+    AlertDialog,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from "@/components/ui/alertdialog";
 import { MerchantEdit } from "../../edit";
 
 interface EditMerchantDialogProps {
@@ -20,17 +20,17 @@ export const EditMerchantDialog = (props: EditMerchantDialogProps) => {
     const translate = useTranslate();
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-[716px] max-h-full bg-muted pb-0 ">
-                <DialogHeader>
-                    <DialogTitle className="text-center mb-[24px]">
+        <AlertDialog open={open} onOpenChange={onOpenChange}>
+            <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px] h-full max-h-[100dvh] md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
+                <AlertDialogHeader>
+                    <AlertDialogTitle className="mb-4 text-center">
                         {translate("resources.merchant.editingMerchant")}
-                    </DialogTitle>
-                    <DialogDescription></DialogDescription>
+                    </AlertDialogTitle>
+                    <AlertDialogDescription></AlertDialogDescription>
                     <MerchantEdit id={id} onOpenChange={onOpenChange} />
-                </DialogHeader>
-                <DialogFooter></DialogFooter>
-            </DialogContent>
-        </Dialog>
+                </AlertDialogHeader>
+                <AlertDialogFooter></AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     );
 };

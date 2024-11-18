@@ -6,7 +6,6 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useTranslate } from "react-admin";
 import { ChangeEvent, DragEvent, useMemo, useState } from "react";
-import { DialogClose } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
@@ -17,6 +16,7 @@ export const UserCreateForm = (props: {
     isDisabled: boolean;
     currencies: Dictionaries.Currency[];
     buttonDisabled: boolean;
+    onOpenChange: (state: boolean) => void;
 }) => {
     const translate = useTranslate();
     const [valueCurDialog, setValueCurDialog] = useState("");
@@ -480,13 +480,14 @@ export const UserCreateForm = (props: {
                         {translate("app.ui.actions.save")}
                     </Button>
 
-                    <DialogClose asChild>
-                        <Button
-                            variant="clearBtn"
-                            className="border border-neutral-50 rounded-4 hover:border-neutral-100">
-                            {translate("app.widgets.forms.userCreate.cancelBtn")}
-                        </Button>
-                    </DialogClose>
+                    <Button
+                        onClick={() => {
+                            props.onOpenChange(false);
+                        }}
+                        variant="clearBtn"
+                        className="border border-neutral-50 rounded-4 hover:border-neutral-100">
+                        {translate("app.widgets.forms.userCreate.cancelBtn")}
+                    </Button>
                 </div>
             </form>
         </Form>
