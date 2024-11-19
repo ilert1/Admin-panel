@@ -478,7 +478,13 @@ const ru: TranslationMessages = {
                     // TODO
                     tx_link: "",
                     total_fee: "Общая комиссия",
-                    bandwidth_fee: "Комиссия сети"
+                    bandwidth_fee: "Комиссия сети",
+                    confirm: "Потвердить",
+                    confirmQuestion: "Потвердить операцию?"
+                },
+                error: "Ошибка",
+                errors: {
+                    failedToConfirm: "Не удалось потвердить транзакцию"
                 },
                 filterBar: {
                     searchById: "Поиск по ID операции",
@@ -530,7 +536,8 @@ const ru: TranslationMessages = {
                 cancel: "Отменить",
                 areYouSure: "Вы точно хотите удалить элемент?",
                 chatWithSupport: "Чат с поддержкой",
-                close: "Закрыть"
+                close: "Закрыть",
+                confirm: "Потвердить"
             },
             pagination: {
                 next: "Далее",
@@ -1165,7 +1172,13 @@ const en: TranslationMessages = {
                     currency: "Currency",
                     blowfish_id: "Blowfish id",
                     total_fee: "Total fee",
-                    bandwidth_fee: "Network fee"
+                    bandwidth_fee: "Network fee",
+                    confirm: "Confirm",
+                    confirmQuestion: "Confirm transaction?"
+                },
+                error: "Error",
+                errors: {
+                    failedToConfirm: "Failed to confirm transaction"
                 },
                 filterBar: {
                     searchById: "Search by transaction ID",
@@ -1217,7 +1230,8 @@ const en: TranslationMessages = {
                 cancel: "Cancel",
                 areYouSure: "Are you sure you want delete this element?",
                 chatWithSupport: "Chat with support",
-                close: "Close"
+                close: "Close",
+                confirm: "Confirm"
             },
             pagination: {
                 next: "Next",
