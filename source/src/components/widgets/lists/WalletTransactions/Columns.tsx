@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { TextField } from "@/components/ui/text-field";
 import { useToast } from "@/components/ui/use-toast";
+import fetchDictionaries from "@/helpers/get-dictionaries";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
 import moment from "moment";
@@ -20,7 +21,7 @@ const API_URL = import.meta.env.VITE_WALLET_URL;
 
 export const useGetWalletTransactionsColumns = () => {
     const translate = useTranslate();
-
+    const data = fetchDictionaries();
     const [chosenId, setChosenId] = useState("");
     const [openShowClicked, setOpenShowClicked] = useState(false);
     const [confirmOpen, setConfirmOpen] = useState(false);
@@ -33,9 +34,11 @@ export const useGetWalletTransactionsColumns = () => {
         setChosenId(id);
         setOpenShowClicked(true);
     };
-    const handleConfirm = (id: string) => {
+    const handleConfirm = async (id: string) => {
+        if (buttonDisabled) return;
+        setButtonDisabled(true);
         try {
-            const { json } = fetchUtils.fetchJson(`${API_URL}/transaction/${id}/process`, {
+            const { json } = await fetchUtils.fetchJson(`${API_URL}/transaction/${id}/process`, {
                 method: "POST",
                 user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
                 body: undefined
@@ -45,15 +48,13 @@ export const useGetWalletTransactionsColumns = () => {
             }
             refresh();
             setConfirmOpen(false);
-            setButtonDisabled(false);
         } catch (error) {
-            setButtonDisabled(false);
-            setConfirmOpen(false);
             toast({
                 title: translate("resources.wallet.transactions.error"),
                 description: translate("resources.wallet.transactions.errors.failedToConfirm"),
                 variant: "destructive"
             });
+            setButtonDisabled(false);
         }
     };
 
@@ -148,7 +149,6 @@ export const useGetWalletTransactionsColumns = () => {
                                             <Button
                                                 disabled={buttonDisabled}
                                                 onClick={() => {
-                                                    setButtonDisabled(true);
                                                     handleConfirm(row.original.id);
                                                 }}>
                                                 {translate("app.ui.actions.confirm")}
@@ -167,7 +167,7 @@ export const useGetWalletTransactionsColumns = () => {
                         </>
                     );
                 } else {
-                    return row.original.state;
+                    return data?.transactionTypes?.[row.getValue("type") as string]?.type_descr || "";
                 }
             }
         },
