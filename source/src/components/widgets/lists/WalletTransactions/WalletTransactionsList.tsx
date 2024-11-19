@@ -24,7 +24,7 @@ export const WalletTransactionsList = () => {
             src_wallet: "123",
             dst_wallet: "123",
             currency: "123",
-            state: "123",
+            state: "21",
             type: "123",
             merchant_id: "123",
             tx_id: "123",
