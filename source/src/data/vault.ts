@@ -13,6 +13,17 @@ export class VaultDataProvider extends BaseDataProvider {
         return json?.data;
     }
 
+    async initiatedState(
+        resource: "vault"
+    ): Promise<{ success: boolean; error: { error_message: string; error_type: string } }> {
+        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/init`, {
+            method: "POST",
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        });
+
+        return json;
+    }
+
     async addPartialKey(
         resource: "vault",
         params: { key_part: string }
