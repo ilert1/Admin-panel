@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input, InputTypes } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { LoadingAlertDialog } from "@/components/ui/loading";
 import {
     Select,
     SelectContent,
@@ -13,9 +14,17 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
+import { useFetchDataForDirections } from "@/hooks";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateContextProvider, useCreateController, useDataProvider, useRefresh, useTranslate } from "react-admin";
+import {
+    CreateContextProvider,
+    useCreateController,
+    useDataProvider,
+    usePermissions,
+    useRefresh,
+    useTranslate
+} from "react-admin";
 import { Form, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -34,6 +43,8 @@ export const CreateWallet = (props: CreateWalletProps) => {
     const toast = useToast();
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController();
+    const { permissions, isLoading } = usePermissions();
+    const { isLoading: loadingMerchantList, merchants } = useFetchDataForDirections();
     const refresh = useRefresh();
 
     const onSubmit: SubmitHandler<Omit<Wallet, "account_id">> = async data => {
@@ -68,7 +79,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            type: WalletTypes.INTERNAL,
+            type: permissions === "merchant" ? WalletTypes.EXTERNAL : WalletTypes.INTERNAL,
             id: "",
             address: "",
             merchantId: "",
@@ -81,7 +92,10 @@ export const CreateWallet = (props: CreateWalletProps) => {
         }
     });
     usePreventFocus({ dependencies: [] });
+    const merchantsDisabled =
+        !(merchants && Array.isArray(merchants.data) && merchants?.data?.length > 0) || permissions === "admin";
 
+    if (isLoading || loadingMerchantList) return <LoadingAlertDialog />;
     return (
         // <CreateContextProvider value={controllerProps}>
         <FormProvider {...form}>
@@ -94,7 +108,10 @@ export const CreateWallet = (props: CreateWalletProps) => {
                             return (
                                 <FormItem className="w-1/2 p-2">
                                     <FormLabel>{translate("resources.wallet.manage.fields.walletType")}</FormLabel>
-                                    <Select disabled value={field.value} onValueChange={field.onChange}>
+                                    <Select
+                                        value={field.value}
+                                        onValueChange={field.onChange}
+                                        disabled={permissions === "merchant"}>
                                         <FormControl>
                                             <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
@@ -104,17 +121,23 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectGroup>
-                                                <SelectItem value={WalletTypes.EXTERNAL} variant={SelectType.GRAY}>
-                                                    {WalletTypes.EXTERNAL}
-                                                </SelectItem>
-                                                <SelectItem value={WalletTypes.LINKED} variant={SelectType.GRAY}>
-                                                    {WalletTypes.LINKED}
-                                                </SelectItem>
-                                                <SelectItem value={WalletTypes.INTERNAL} variant={SelectType.GRAY}>
-                                                    {WalletTypes.INTERNAL}
-                                                </SelectItem>
-                                            </SelectGroup>
+                                            {permissions === "admin" ? (
+                                                <SelectGroup>
+                                                    <SelectItem value={WalletTypes.LINKED} variant={SelectType.GRAY}>
+                                                        {WalletTypes.LINKED}
+                                                    </SelectItem>
+
+                                                    <SelectItem value={WalletTypes.INTERNAL} variant={SelectType.GRAY}>
+                                                        {WalletTypes.INTERNAL}
+                                                    </SelectItem>
+                                                </SelectGroup>
+                                            ) : (
+                                                <SelectGroup>
+                                                    <SelectItem value={WalletTypes.EXTERNAL} variant={SelectType.GRAY}>
+                                                        {WalletTypes.EXTERNAL}
+                                                    </SelectItem>
+                                                </SelectGroup>
+                                            )}
                                         </SelectContent>
                                     </Select>
                                 </FormItem>
@@ -149,7 +172,12 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 <FormLabel>{translate("resources.wallet.manage.fields.accountNumber")}</FormLabel>
                                 <FormControl>
                                     <div>
-                                        <Input {...field} className="bg-muted" variant={InputTypes.GRAY} disabled />
+                                        <Input
+                                            {...field}
+                                            className="bg-muted"
+                                            variant={InputTypes.GRAY}
+                                            disabled={permissions === "merchant"}
+                                        />
                                     </div>
                                 </FormControl>
                             </FormItem>
@@ -163,7 +191,30 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 <FormLabel>{translate("resources.wallet.manage.fields.merchantId")}</FormLabel>
                                 <FormControl>
                                     <div>
-                                        <Input {...field} className="bg-muted" variant={InputTypes.GRAY} disabled />
+                                        <Select
+                                            value={field.value}
+                                            onValueChange={field.onChange}
+                                            disabled={merchantsDisabled}>
+                                            <FormControl>
+                                                <SelectTrigger variant={SelectType.GRAY}>
+                                                    <SelectValue placeholder={""} />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    {!merchantsDisabled
+                                                        ? merchants.data.map(merchant => (
+                                                              <SelectItem
+                                                                  key={merchant.name}
+                                                                  value={merchant.id}
+                                                                  variant={SelectType.GRAY}>
+                                                                  {merchant.name}
+                                                              </SelectItem>
+                                                          ))
+                                                        : ""}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
                                     </div>
                                 </FormControl>
                             </FormItem>
@@ -234,7 +285,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 <FormLabel>{translate("resources.wallet.manage.fields.minRemaini")}</FormLabel>
                                 <FormControl>
                                     <div>
-                                        <Input disabled {...field} className="bg-muted" variant={InputTypes.GRAY} />
+                                        <Input {...field} className="bg-muted" variant={InputTypes.GRAY} />
                                     </div>
                                 </FormControl>
                             </FormItem>

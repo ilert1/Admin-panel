@@ -84,6 +84,11 @@ export const App = () => {
                             <Resource name="transactions" list={TransactionList} icon={HistoryIcon} />
                             <Resource name="withdraw" list={WithdrawList} icon={BitcoinIcon} />
 
+                            <Resource name="wallet" list={WalletsList} icon={WalletsLogo}>
+                                <Route path="storage" element={<WalletStore />} />
+                                <Route path="transactions" element={<WalletTransactionsList />} />
+                            </Resource>
+
                             {permissions === "admin" && (
                                 <>
                                     <Resource name="users" list={UserList} icon={UsersIcon} />
@@ -97,10 +102,6 @@ export const App = () => {
                                     />
                                     <Resource name="provider" list={ProvidersList} icon={NetworkIcon} />
                                     <Resource name="direction" list={DirectionsList} icon={SignpostIcon} />
-                                    <Resource name="wallet" list={WalletsList} icon={WalletsLogo}>
-                                        <Route path="storage" element={<WalletStore />} />
-                                        <Route path="transactions" element={<WalletTransactionsList />} />
-                                    </Resource>
                                 </>
                             )}
 
