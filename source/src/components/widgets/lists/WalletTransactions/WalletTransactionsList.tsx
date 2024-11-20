@@ -6,7 +6,7 @@ import { FilterBar } from "./FilterBar";
 import { ShowWalletTransactionsDialog } from "./ShowWalletTransactionsDialog";
 
 export const WalletTransactionsList = () => {
-    const listContext = useListController({ resource: "transaction" });
+    const listContext = useListController({ resource: "merchant/transaction" });
 
     const { columns, chosenId, openShowClicked, setOpenShowClicked } = useGetWalletTransactionsColumns();
 
