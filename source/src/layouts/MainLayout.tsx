@@ -378,7 +378,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 </Tooltip>
                             </TooltipProvider>
                         )}
-                        {permissions === "admin" && <AdminCryptoStoreResources showCaptions={showCaptions} />}
+                        <AdminCryptoStoreResources showCaptions={showCaptions} />
+                        {/* {permissions === "admin" && <AdminCryptoStoreResources showCaptions={showCaptions} />} */}
                         {/* {merchantOnly && (
                             <NavLink
                                 to="/crypto-transfer"

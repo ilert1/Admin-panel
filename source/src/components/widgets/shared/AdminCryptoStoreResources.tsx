@@ -14,7 +14,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
 
     const [openAccordion, setOpenAccordion] = useState(true);
 
-    const { data: storageState } = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"));
+    // const { data: storageState } = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"));
 
     const customViewRoutes = {
         name: "wallet",
@@ -95,7 +95,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                     {translate(`resources.wallet.${customRoute.name}.name`)}
                                 </span>
                             )}
-
+                            {/* 
                             {customRoute.showLock && (
                                 <>
                                     {storageState?.state === "sealed" && (
@@ -126,7 +126,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                         />
                                     )}
                                 </>
-                            )}
+                            )} */}
                         </NavLink>
                     ))}
                 </div>
