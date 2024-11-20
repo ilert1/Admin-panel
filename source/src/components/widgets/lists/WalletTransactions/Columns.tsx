@@ -15,7 +15,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
 import moment from "moment";
 import { useState } from "react";
-import { fetchUtils, useRefresh, useTranslate } from "react-admin";
+import { fetchUtils, usePermissions, useRefresh, useTranslate } from "react-admin";
 
 const API_URL = import.meta.env.VITE_WALLET_URL;
 
@@ -26,6 +26,8 @@ export const useGetWalletTransactionsColumns = () => {
     const [openShowClicked, setOpenShowClicked] = useState(false);
     const [confirmOpen, setConfirmOpen] = useState(false);
     const [buttonDisabled, setButtonDisabled] = useState(false);
+
+    const { permissions } = usePermissions();
 
     const refresh = useRefresh();
     const { toast } = useToast();
@@ -127,7 +129,7 @@ export const useGetWalletTransactionsColumns = () => {
             accessorKey: "state",
             header: translate("resources.wallet.transactions.fields.state"),
             cell: ({ row }) => {
-                if (row.original.state === 21 || row.original.state === "21") {
+                if (permissions === "admin" && (row.original.state === 21 || row.original.state === "21")) {
                     return (
                         <>
                             <Button
