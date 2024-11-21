@@ -2,7 +2,7 @@ import { ListContextProvider, useListController, usePermissions } from "react-ad
 import { useGetWalletTransactionsColumns } from "./Columns";
 import { Loading } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
-import { FilterBar } from "./FilterBar";
+import { WalletTransactionsFilter } from "./WalletTransactionsFilter";
 import { ShowWalletTransactionsDialog } from "./ShowWalletTransactionsDialog";
 
 export const WalletTransactionsList = () => {
@@ -19,7 +19,7 @@ export const WalletTransactionsList = () => {
         return (
             <>
                 <ListContextProvider value={listContext}>
-                    <FilterBar />
+                    <WalletTransactionsFilter />
 
                     <DataTable columns={columns} />
                 </ListContextProvider>

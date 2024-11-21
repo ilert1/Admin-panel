@@ -11,7 +11,7 @@ import { ChangeEvent, useCallback, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 import { DateRange } from "react-day-picker";
 
-export const FilterBar = () => {
+export const WalletTransactionsFilter = () => {
     const data = fetchDictionaries();
     const translate = useTranslate();
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
