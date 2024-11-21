@@ -107,7 +107,9 @@ const TransactionFilterSidebar = ({
 
                                 {data &&
                                     Object.keys(data.states).map(index => (
-                                        <SelectItem key={data.states[index].state_int} value={data.states[index]}>
+                                        <SelectItem
+                                            key={data.states[index].state_int}
+                                            value={data.states[index].state_int.toString()}>
                                             {translate(
                                                 `resources.transactions.states.${data?.states?.[
                                                     index
