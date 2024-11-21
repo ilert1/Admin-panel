@@ -1,4 +1,4 @@
-import { ListContextProvider, useListController, useTranslate } from "react-admin";
+import { ListContextProvider, useDataProvider, useListController, useTranslate } from "react-admin";
 import { useGetWalletsColumns } from "./Columns";
 import { Loading } from "@/components/ui/loading";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,8 @@ import { CreateWalletDialog } from "./CreateWalletDialog";
 import { useState } from "react";
 import { DataTable } from "../../shared";
 import { ShowWalletDialog } from "./ShowWalletDialog";
+import { VaultDataProvider } from "@/data";
+import { useQuery } from "react-query";
 
 export const WalletsList = () => {
     const listContext = useListController({ resource: "wallet" });
@@ -16,45 +18,12 @@ export const WalletsList = () => {
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
+    const dataProvider = useDataProvider<VaultDataProvider>();
+    const { data: storageState } = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"));
+
     const handleCreateClick = () => {
         setCreateDialogOpen(true);
     };
-
-    // const mockData = [
-    //     {
-    //         id: "1",
-    //         description: "AA",
-    //         type: WalletTypes.INTERNAL,
-    //         blockchain: "AA",
-    //         address: "AA",
-    //         account_id: "AA",
-    //         currency: "AA",
-    //         network: "AA",
-    //         minimal_ballance_limit: 1000
-    //     },
-    //     {
-    //         id: "2",
-    //         description: "AA",
-    //         type: WalletTypes.EXTERNAL,
-    //         blockchain: "AA",
-    //         address: "AA",
-    //         account_id: "AA",
-    //         currency: "AA",
-    //         network: "AA",
-    //         minimal_ballance_limit: 1000
-    //     },
-    //     {
-    //         id: "3",
-    //         description: "AA",
-    //         type: WalletTypes.LINKED,
-    //         blockchain: "AA",
-    //         address: "AA",
-    //         account_id: "AA",
-    //         currency: "AA",
-    //         network: "AA",
-    //         minimal_ballance_limit: 1000
-    //     }
-    // ];
 
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
@@ -62,7 +31,11 @@ export const WalletsList = () => {
         return (
             <>
                 <div className="flex flex-end justify-end mb-4">
-                    <Button onClick={handleCreateClick} variant="default" className="flex gap-[4px] items-center">
+                    <Button
+                        onClick={handleCreateClick}
+                        variant="default"
+                        className="flex gap-[4px] items-center"
+                        disabled={!storageState?.initiated || storageState?.state === "sealed"}>
                         <PlusCircle className="h-[16px] w-[16px]" />
                         <span className="text-title-1">{translate("resources.wallet.manage.createWallet")}</span>
                     </Button>
@@ -70,7 +43,6 @@ export const WalletsList = () => {
                 </div>
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />
-                    {/* <DataTable columns={columns} data={mockData} total={10} /> */}
                 </ListContextProvider>
                 <ShowWalletDialog id={chosenId} open={quickShowOpen} onOpenChange={setQuickShowOpen} />
             </>
