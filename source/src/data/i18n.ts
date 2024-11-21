@@ -490,6 +490,7 @@ const ru: TranslationMessages = {
                     searchById: "Поиск по ID операции",
                     created_at: "Дата создания",
                     updated_at: "Дата обновления",
+                    datePlaceholder: "Выберите дату",
                     paymentStatus: "Статус платежа",
                     resetFilters: "Сбросить фильтры"
                 }
@@ -1184,6 +1185,7 @@ const en: TranslationMessages = {
                     searchById: "Search by transaction ID",
                     paymentStatus: "Payment status",
                     created_at: "Creation date",
+                    datePlaceholder: "Select date",
                     updated_at: "Update date",
                     resetFilters: "Reset filters"
                 }
