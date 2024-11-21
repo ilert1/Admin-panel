@@ -1,16 +1,15 @@
 import { ChangeEvent, UIEvent, useCallback, useEffect, useMemo, useState } from "react";
-import { useDataProvider, useInfiniteGetList, useListContext, usePermissions, useTranslate } from "react-admin";
+import { useInfiniteGetList, useListContext, usePermissions, useTranslate } from "react-admin";
 import { toast } from "sonner";
 import { API_URL } from "@/data/base";
 import { format } from "date-fns";
-import { useQuery } from "react-query";
 import { debounce } from "lodash";
 import { DateRange } from "react-day-picker";
+import fetchDictionaries from "@/helpers/get-dictionaries";
 
 const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: string) => void) => {
-    const dataProvider = useDataProvider();
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-    const { data } = useQuery(["dictionaries"], () => dataProvider.getDictionaries());
+    const data = fetchDictionaries();
 
     const {
         data: accountsData,
@@ -39,10 +38,7 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const orderStatusIndex = Object.keys(data.states).find(
-        index => filterValues?.orderStatus === data.states[index].state_description
-    );
-    const [orderStatusFilter, setOrderStatusFilter] = useState(orderStatusIndex ? data.states[orderStatusIndex] : "");
+    const [orderStatusFilter, setOrderStatusFilter] = useState(filterValues?.order_state || "");
 
     const translate = useTranslate();
 
@@ -63,11 +59,11 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
 
     const onPropertySelected = debounce(
         (
-            value: string | { from: string; to: string },
+            value: string | { from: string; to: string } | number,
             type: "id" | "customer_payment_id" | "accountId" | "order_type" | "order_state" | "date"
         ) => {
             if (value) {
-                if (type === "date" && typeof value !== "string") {
+                if (type === "date" && typeof value !== "string" && typeof value !== "number") {
                     setFilters(
                         { ...filterValues, ["start_date"]: value.from, ["end_date"]: value.to },
                         displayedFilters
@@ -99,14 +95,9 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         onPropertySelected(account, "accountId");
     };
 
-    const onOrderStatusChanged = (order: string | { state_int: number }) => {
+    const onOrderStatusChanged = (order: string) => {
         setOrderStatusFilter(order);
-
-        if (typeof order === "string") {
-            onPropertySelected(order, "order_state");
-        } else {
-            onPropertySelected(order.state_int.toString(), "order_state");
-        }
+        onPropertySelected(order, "order_state");
     };
 
     const changeDate = (date: DateRange | undefined) => {
@@ -123,7 +114,7 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         }
     };
 
-    const onTabChanged = (value: { type_descr: string; type: string }) => {
+    const onTabChanged = (value: Dictionaries.TypeDescriptor) => {
         setTypeTabActive(value.type_descr);
         onPropertySelected(value.type, "order_type");
     };

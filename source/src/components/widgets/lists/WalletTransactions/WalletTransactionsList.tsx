@@ -1,12 +1,15 @@
-import { ListContextProvider, useListController } from "react-admin";
+import { ListContextProvider, useListController, usePermissions } from "react-admin";
 import { useGetWalletTransactionsColumns } from "./Columns";
 import { Loading } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
-import { FilterBar } from "./FilterBar";
+import { WalletTransactionsFilter } from "./WalletTransactionsFilter";
 import { ShowWalletTransactionsDialog } from "./ShowWalletTransactionsDialog";
 
 export const WalletTransactionsList = () => {
-    const listContext = useListController({ resource: "merchant/transaction" });
+    const { permissions } = usePermissions();
+    const listContext = useListController(
+        permissions === "admin" ? { resource: "transaction" } : { resource: "merchant/transaction" }
+    );
 
     const { columns, chosenId, openShowClicked, setOpenShowClicked } = useGetWalletTransactionsColumns();
 
@@ -15,11 +18,13 @@ export const WalletTransactionsList = () => {
     } else {
         return (
             <>
-                <FilterBar />
-                <ShowWalletTransactionsDialog id={chosenId} open={openShowClicked} onOpenChange={setOpenShowClicked} />
                 <ListContextProvider value={listContext}>
+                    <WalletTransactionsFilter />
+
                     <DataTable columns={columns} />
                 </ListContextProvider>
+
+                <ShowWalletTransactionsDialog id={chosenId} open={openShowClicked} onOpenChange={setOpenShowClicked} />
             </>
         );
     }
