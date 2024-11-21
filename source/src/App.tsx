@@ -65,6 +65,7 @@ const dataProvider = combineDataProviders((resource: string) => {
         case "direction":
             return new DirectionsDataProvider();
         case "wallet":
+        case "transaction":
         case "merchant/transaction":
             return new WalletsDataProvider();
         case "vault":

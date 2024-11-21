@@ -15,13 +15,16 @@ import { fetchUtils } from "react-admin";
 const API_URL = import.meta.env.VITE_WALLET_URL;
 
 export class WalletsDataProvider extends BaseDataProvider {
-    async getList(resource: "wallet" | "merchant/transaction", params: GetListParams): Promise<GetListResult> {
+    async getList(
+        resource: "wallet" | "transaction" | "merchant/transaction",
+        params: GetListParams
+    ): Promise<GetListResult> {
         const data: { [key: string]: string } = {
             limit: params.pagination.perPage.toString(),
             offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
         };
 
-        if (resource === "merchant/transaction") {
+        if (resource !== "wallet") {
             Object.keys(params.filter).forEach(filterItem => {
                 data[filterItem] = params.filter[filterItem];
             });
