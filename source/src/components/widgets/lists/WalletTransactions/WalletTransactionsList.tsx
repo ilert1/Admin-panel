@@ -18,11 +18,13 @@ export const WalletTransactionsList = () => {
     } else {
         return (
             <>
-                <FilterBar />
-                <ShowWalletTransactionsDialog id={chosenId} open={openShowClicked} onOpenChange={setOpenShowClicked} />
                 <ListContextProvider value={listContext}>
+                    <FilterBar />
+
                     <DataTable columns={columns} />
                 </ListContextProvider>
+
+                <ShowWalletTransactionsDialog id={chosenId} open={openShowClicked} onOpenChange={setOpenShowClicked} />
             </>
         );
     }

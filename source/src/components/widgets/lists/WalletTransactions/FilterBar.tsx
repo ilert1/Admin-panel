@@ -88,6 +88,8 @@ export const FilterBar = () => {
         setTransactionId("");
         setStateFilter("");
         setTypeTabActive("");
+        setFilters({}, displayedFilters);
+        setPage(1);
     };
 
     if (!data) return <Loading />;
@@ -145,7 +147,7 @@ export const FilterBar = () => {
                 <DateRangePicker
                     title={translate("resources.wallet.transactions.filterBar.updated_at")}
                     placeholder={translate("resources.wallet.transactions.filterBar.datePlaceholder")}
-                    dateRange={{ from: dateUpdate, to: dateCreate }}
+                    dateRange={{ from: dateUpdate, to: dateUpdate }}
                     onChange={changeDateUpdate}
                 />
 
