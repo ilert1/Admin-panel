@@ -15,15 +15,13 @@ import { fetchUtils } from "react-admin";
 const API_URL = import.meta.env.VITE_WALLET_URL;
 
 export class WalletsDataProvider extends BaseDataProvider {
-    async getList(resource: string, params: GetListParams): Promise<GetListResult> {
+    async getList(resource: "wallet" | "merchant/transaction", params: GetListParams): Promise<GetListResult> {
         const paramsStr = new URLSearchParams({
-            limit: params?.pagination.perPage.toString(),
-            offset: ((params?.pagination.page - 1) * +params?.pagination.perPage).toString()
+            limit: params.pagination.perPage.toString(),
+            offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
         }).toString();
 
-        const url = `${API_URL}/${resource}`;
-        console.log(url);
-        const { json } = await fetchUtils.fetchJson(url, {
+        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}?${paramsStr}`, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
 
@@ -31,16 +29,21 @@ export class WalletsDataProvider extends BaseDataProvider {
             throw new Error(json.error);
         }
 
-        return {
-            data:
-                json.data.map((elem: { name: any }) => {
-                    return {
-                        id: elem.name,
-                        ...elem
-                    };
-                }) || [],
-            total: json?.meta.total || 0
-        };
+        return resource === "wallet"
+            ? {
+                  data:
+                      json.data.map((elem: { name: any }) => {
+                          return {
+                              id: elem.name,
+                              ...elem
+                          };
+                      }) || [],
+                  total: json?.meta.total || 0
+              }
+            : {
+                  data: json.data || [],
+                  total: json?.total || 0
+              };
     }
 
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
@@ -68,10 +71,21 @@ export class WalletsDataProvider extends BaseDataProvider {
             data: {
                 id: json.data.name,
                 ...json.data
-                // destination: { ...json.data.destination, meta: dest.json?.data?.meta || {} },
-                // source: { ...json.data.source, meta: source.json?.data?.meta || {} }
             }
         };
+
+        return resource === "wallet"
+            ? {
+                  data: {
+                      id: json.data.name,
+                      ...json.data
+                  }
+              }
+            : {
+                  data: {
+                      ...json.data
+                  }
+              };
     }
 
     async update(resource: string, params: UpdateParams) {
