@@ -6,7 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export class TransactionDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
-        const data: any = {
+        const data: { [key: string]: string } = {
             limit: params.pagination.perPage.toString(),
             offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
         };
