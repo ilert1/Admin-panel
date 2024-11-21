@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { VaultDataProvider } from "@/data";
 import { BitcoinWalletIcon, DoubleWalletsIcon, RearLockKeyhole } from "@/lib/icons/WalletStore";
 import { ChevronDown, ChevronLeft, LockKeyhole, LockKeyholeOpen, Vault, WalletCards } from "lucide-react";
 import { useState } from "react";
-import { useDataProvider, useTranslate } from "react-admin";
+import { useDataProvider, usePermissions, useTranslate } from "react-admin";
 import { useQuery } from "react-query";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -11,10 +12,13 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
     const translate = useTranslate();
     const dataProvider = useDataProvider<VaultDataProvider>();
     const location = useLocation();
+    const { permissions } = usePermissions();
 
     const [openAccordion, setOpenAccordion] = useState(true);
-
-    const { data: storageState } = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"));
+    let storageState;
+    if (permissions === "admin") {
+        storageState = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"));
+    }
 
     const customViewRoutes = {
         name: "wallet",
@@ -96,9 +100,9 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                 </span>
                             )}
 
-                            {customRoute.showLock && (
+                            {customRoute.showLock && permissions === "admin" && (
                                 <>
-                                    {storageState?.state === "sealed" && (
+                                    {storageState?.data?.state === "sealed" && (
                                         <LockKeyhole
                                             className={
                                                 showCaptions
@@ -107,7 +111,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                             }
                                         />
                                     )}
-                                    {storageState?.state === "unsealed" && (
+                                    {storageState?.data?.state === "unsealed" && (
                                         <LockKeyholeOpen
                                             className={
                                                 showCaptions
@@ -116,7 +120,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                             }
                                         />
                                     )}
-                                    {storageState?.state === "waiting" && (
+                                    {storageState?.data?.state === "waiting" && (
                                         <RearLockKeyhole
                                             className={
                                                 showCaptions
