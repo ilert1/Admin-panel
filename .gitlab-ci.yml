@@ -1,5 +1,5 @@
 include:
-  - project: blowfish/other/gitlab
+  - project: gitlab/pipelines
     ref: master
     file:
       - build.yml
@@ -69,6 +69,7 @@ build-production-noname:
     - tags
   except:
     - branches    
+
 
 ### deploy
 
