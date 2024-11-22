@@ -19,6 +19,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import useTransactionFilter from "@/hooks/useTransactionFilter";
 import fetchDictionaries from "@/helpers/get-dictionaries";
+import { useFetchMerchants } from "@/hooks";
 // import BarChart from "@/components/ui/Bar";
 // import { debounce } from "lodash";
 
@@ -253,6 +254,7 @@ export const TransactionList = () => {
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
     const [locale] = useLocaleState();
+    const { isLoading, merchantsList } = useFetchMerchants();
 
     const [typeTabActive, setTypeTabActive] = useState("");
     const [showOpen, setShowOpen] = useState(false);
@@ -293,6 +295,20 @@ export const TransactionList = () => {
             accessorKey: "meta.customer_data.customer_payment_id",
             header: translate("resources.transactions.fields.meta.customer_payment_id"),
             cell: ({ row }) => <TextField text={row.original.meta.customer_data.customer_payment_id} wrap copyValue />
+        },
+        {
+            header: translate("resources.withdraw.fields.merchant"),
+            cell: ({ row }) => {
+                const merch = merchantsList.find(el => {
+                    el.id === row.original.source.id;
+                });
+                return (
+                    <div>
+                        <TextField text={merch?.name ?? ""} wrap />
+                        <TextField text={row.original.source.id} wrap copyValue />
+                    </div>
+                );
+            }
         },
         {
             accessorKey: "type",
@@ -399,7 +415,7 @@ export const TransactionList = () => {
     // const startDate = new Date("2023-07-01");
     // const endDate = new Date("2023-09-15");
 
-    if (listContext.isLoading || !listContext.data) {
+    if (listContext.isLoading || !listContext.data || isLoading) {
         return <Loading />;
     } else {
         return (

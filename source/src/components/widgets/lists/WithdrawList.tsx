@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import useWithdrawFilter from "@/hooks/useWithdrawFilter";
 import { CryptoTransfer } from "../components/CryptoTransfer";
 import fetchDictionaries from "@/helpers/get-dictionaries";
-import { useGetTransactionState } from "@/hooks";
+import { useFetchMerchants, useGetTransactionState } from "@/hooks";
 
 const WithdrawFilterSidebar = () => {
     const {
@@ -89,6 +89,7 @@ export const WithdrawList = () => {
     const { permissions } = usePermissions();
     const [locale] = useLocaleState();
     const data = fetchDictionaries();
+    const { isLoading, merchantsList } = useFetchMerchants();
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
@@ -126,7 +127,15 @@ export const WithdrawList = () => {
         {
             header: translate("resources.withdraw.fields.merchant"),
             cell: ({ row }) => {
-                return <TextField text={row.original.source.id} wrap copyValue />;
+                const merch = merchantsList.find(el => {
+                    el.id === row.original.source.id;
+                });
+                return (
+                    <div>
+                        <TextField text={merch?.name ?? ""} wrap />
+                        <TextField text={row.original.source.id} wrap copyValue />
+                    </div>
+                );
             }
         },
         {
@@ -173,7 +182,7 @@ export const WithdrawList = () => {
         }
     ];
 
-    if (listContext.isLoading || !listContext.data) {
+    if (listContext.isLoading || !listContext.data || isLoading) {
         return <Loading />;
     } else {
         return (
