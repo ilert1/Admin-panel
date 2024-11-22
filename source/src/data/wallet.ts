@@ -60,13 +60,6 @@ export class WalletsDataProvider extends BaseDataProvider {
 
         return {
             data: {
-                id: json.data.name,
-                ...json.data
-            }
-        };
-
-        return {
-            data: {
                 ...json.data
             }
         };
