@@ -59,7 +59,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
         if (isMerchant) {
             const newData = { address: data.address, description: data.description };
             try {
-                await dataProvider.create("wallet", { data: newData });
+                await dataProvider.create(isMerchant ? "merchant/wallet" : "wallet", { data: newData });
                 refresh();
                 onOpenChange(false);
             } catch (error) {
@@ -71,7 +71,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
         } else {
             data.address = null;
             try {
-                await dataProvider.create("wallet", { data: data });
+                await dataProvider.create(isMerchant ? "merchant/wallet" : "wallet", { data: data });
                 refresh();
                 onOpenChange(false);
             } catch (error) {
@@ -402,7 +402,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                         />
                     </div>
 
-                    <div className="flex flex-col items-center sm:self-end sm:flex-row items-center gap-4">
+                    <div className="flex flex-col sm:self-end sm:flex-row items-center gap-4">
                         <Button type="submit" variant="default" className="w-full sm:w-auto">
                             {translate("app.ui.actions.save")}
                         </Button>

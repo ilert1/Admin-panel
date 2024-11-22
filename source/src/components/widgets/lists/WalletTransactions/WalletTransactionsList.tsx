@@ -7,9 +7,9 @@ import { ShowWalletTransactionsDialog } from "./ShowWalletTransactionsDialog";
 
 export const WalletTransactionsList = () => {
     const { permissions } = usePermissions();
-    const listContext = useListController(
-        permissions === "admin" ? { resource: "transaction" } : { resource: "merchant/transaction" }
-    );
+    const listContext = useListController({
+        resource: permissions === "admin" ? "transaction" : "merchant/transaction"
+    });
 
     const { columns, chosenId, openShowClicked, setOpenShowClicked } = useGetWalletTransactionsColumns();
 

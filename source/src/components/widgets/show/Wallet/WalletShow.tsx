@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
 import { useState } from "react";
-import { useShowController, useTranslate } from "react-admin";
+import { usePermissions, useShowController, useTranslate } from "react-admin";
 import { DeleteWalletDialog } from "./DeleteWalletDialog";
 import { EditWalletDialog } from "./EditWalletDialog";
 
@@ -13,7 +13,8 @@ interface WalletShowProps {
 
 export const WalletShow = (props: WalletShowProps) => {
     const { id, type, onOpenChange } = props;
-    const context = useShowController<Wallet>({ id });
+    const { permissions } = usePermissions();
+    const context = useShowController<Wallet>({ resource: permissions === "admin" ? "wallet" : "merchant/wallet", id });
     const translate = useTranslate();
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);

@@ -1,4 +1,4 @@
-import { ListContextProvider, useDataProvider, useListController, useTranslate } from "react-admin";
+import { ListContextProvider, useDataProvider, useListController, usePermissions, useTranslate } from "react-admin";
 import { useGetWalletsColumns } from "./Columns";
 import { Loading } from "@/components/ui/loading";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,11 @@ import { VaultDataProvider } from "@/data";
 import { useQuery } from "react-query";
 
 export const WalletsList = () => {
-    const listContext = useListController({ resource: "wallet" });
+    const { permissions } = usePermissions();
+    const listContext = useListController(
+        permissions === "admin" ? { resource: "wallet" } : { resource: "merchant/wallet" }
+    );
+    console.log(listContext);
     const translate = useTranslate();
 
     const { columns, chosenId, quickShowOpen, setQuickShowOpen } = useGetWalletsColumns();
@@ -19,7 +23,9 @@ export const WalletsList = () => {
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const dataProvider = useDataProvider<VaultDataProvider>();
-    const { data: storageState } = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"));
+    const { data: storageState } = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"), {
+        enabled: permissions === "admin"
+    });
 
     const handleCreateClick = () => {
         setCreateDialogOpen(true);
@@ -35,7 +41,9 @@ export const WalletsList = () => {
                         onClick={handleCreateClick}
                         variant="default"
                         className="flex gap-[4px] items-center"
-                        disabled={!storageState?.initiated || storageState?.state === "sealed"}>
+                        disabled={
+                            permissions === "admin" && (!storageState?.initiated || storageState?.state === "sealed")
+                        }>
                         <PlusCircle className="h-[16px] w-[16px]" />
                         <span className="text-title-1">{translate("resources.wallet.manage.createWallet")}</span>
                     </Button>

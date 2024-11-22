@@ -16,7 +16,7 @@ import {
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { useDataProvider, useEditController, useRefresh, useTranslate } from "react-admin";
+import { useDataProvider, useEditController, usePermissions, useRefresh, useTranslate } from "react-admin";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -32,15 +32,19 @@ enum WalletTypes {
 }
 
 export const EditWallet = (props: EditWalletProps) => {
+    const { permissions } = usePermissions();
     const { id, onOpenChange } = props;
     const translate = useTranslate();
     const dataProvider = useDataProvider();
-    const { record, isLoading } = useEditController({ resource: "wallet", id });
+    const { record, isLoading } = useEditController({
+        resource: permissions === "admin" ? "wallet" : "merchant/wallet",
+        id
+    });
     const refresh = useRefresh();
     const onSubmit: SubmitHandler<Omit<Wallet, "account_id">> = async data => {
         data.address = null;
         try {
-            await dataProvider.update("wallet", {
+            await dataProvider.update(permissions === "admin" ? "wallet" : "merchant/wallet", {
                 id,
                 data: data,
                 previousData: undefined

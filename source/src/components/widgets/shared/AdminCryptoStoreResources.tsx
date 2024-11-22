@@ -15,10 +15,9 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
     const { permissions } = usePermissions();
 
     const [openAccordion, setOpenAccordion] = useState(true);
-    let storageState;
-    if (permissions === "admin") {
-        storageState = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"));
-    }
+    const { data: storageState } = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"), {
+        enabled: permissions === "admin"
+    });
 
     const customViewRoutes = {
         name: "wallet",
