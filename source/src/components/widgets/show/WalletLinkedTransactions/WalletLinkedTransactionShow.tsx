@@ -16,6 +16,21 @@ export const WalletLinkedTransactionShow = ({ id, open, onOpenChange }: WalletLi
         id
     });
 
+    // const context = {
+    //     isLoading: false,
+    //     record: {
+    //         scanned_at: "2024-11-22 13:55:05",
+    //         block_timestamp: "2024-11-22 13:55:05",
+    //         type: "transfer",
+    //         transaction_id: "9bd129aa-e695-4c59-91fb-5f2781457570",
+    //         source_address: "9bd129aa-e695-4c59-91fb-5f2781457570",
+    //         destnation_address: "9bd129aa-e695-4c59-91fb-5f2781457570",
+    //         amount: "123,12343",
+    //         currency: "USD",
+    //         token_address: "9bd129aa-e695-4c59-91fb-5f2781457570"
+    //     }
+    // };
+
     const translate = useTranslate();
 
     if (context.isLoading || !context.record) return;
