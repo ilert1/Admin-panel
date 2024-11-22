@@ -100,7 +100,7 @@ export const App = () => {
 
                             {WALLET_ENABLED && (
                                 <Resource name="wallet" list={WalletsList} icon={WalletsLogo}>
-                                    {/* <Route path="storage" element={<WalletStore />} /> */}
+                                    <Route path="storage" element={<WalletStore />} />
                                     <Route path="transactions" element={<WalletTransactionsList />} />
                                 </Resource>
                             )}

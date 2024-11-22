@@ -39,7 +39,7 @@ export class WalletsDataProvider extends BaseDataProvider {
             throw new Error(json.error);
         }
 
-        return resource === "wallet"
+        return resource === "wallet" || resource === "merchant/wallet"
             ? {
                   data:
                       json.data.map((elem: { name: any }) => {
