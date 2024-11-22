@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { VaultDataProvider } from "@/data";
 import { BitcoinWalletIcon, DoubleWalletsIcon, RearLockKeyhole } from "@/lib/icons/WalletStore";
 import { ChevronDown, ChevronLeft, CirclePlus, LockKeyhole, LockKeyholeOpen, Vault, WalletCards } from "lucide-react";
 import { useState } from "react";
-import { useDataProvider, useTranslate } from "react-admin";
+import { useDataProvider, usePermissions, useTranslate } from "react-admin";
 import { useQuery } from "react-query";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -11,21 +12,18 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
     const translate = useTranslate();
     const dataProvider = useDataProvider<VaultDataProvider>();
     const location = useLocation();
+    const { permissions } = usePermissions();
 
     const [openAccordion, setOpenAccordion] = useState(true);
-
-    const { data: storageState } = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"));
+    let storageState;
+    if (permissions === "admin") {
+        storageState = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"));
+    }
 
     const customViewRoutes = {
         name: "wallet",
         icon: <BitcoinWalletIcon />,
         childrens: [
-            {
-                name: "storage",
-                path: "/wallet/storage",
-                icon: <Vault />,
-                showLock: true
-            },
             {
                 name: "manage",
                 path: "/wallet",
@@ -40,7 +38,17 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
             }
         ]
     };
-
+    if (permissions === "admin") {
+        customViewRoutes.childrens = [
+            {
+                name: "storage",
+                path: "/wallet/storage",
+                icon: <Vault />,
+                showLock: true
+            },
+            ...customViewRoutes.childrens
+        ];
+    }
     return (
         <div className="flex flex-col gap-4">
             <TooltipProvider delayDuration={100}>
@@ -96,7 +104,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                 </span>
                             )}
 
-                            {customRoute.showLock && (
+                            {customRoute.showLock && permissions === "admin" && (
                                 <>
                                     {!storageState?.initiated && (
                                         <CirclePlus

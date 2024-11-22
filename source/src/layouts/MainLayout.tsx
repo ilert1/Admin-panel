@@ -157,9 +157,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                 );
                             }
                         })}
-                        {permissions === "admin" && WALLET_ENABLED && (
-                            <AdminCryptoStoreResources showCaptions={showCaptions} />
-                        )}
+                        {WALLET_ENABLED && <AdminCryptoStoreResources showCaptions={showCaptions} />}
                     </nav>
 
                     {permissions === "admin" && (

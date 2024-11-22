@@ -16,7 +16,7 @@ const API_URL = import.meta.env.VITE_WALLET_URL;
 
 export class WalletsDataProvider extends BaseDataProvider {
     async getList(
-        resource: "wallet" | "transaction" | "merchant/transaction",
+        resource: "wallet" | "transaction" | "merchant/transaction" | "merchant/wallet",
         params: GetListParams
     ): Promise<GetListResult> {
         const data: { [key: string]: string } = {
@@ -24,7 +24,7 @@ export class WalletsDataProvider extends BaseDataProvider {
             offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
         };
 
-        if (resource !== "wallet") {
+        if (resource !== "wallet" && resource !== "merchant/wallet") {
             Object.keys(params.filter).forEach(filterItem => {
                 data[filterItem] = params.filter[filterItem];
             });
@@ -57,7 +57,13 @@ export class WalletsDataProvider extends BaseDataProvider {
     }
 
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
-        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
+        const user = localStorage.getItem("user");
+        let role = "";
+        if (user) {
+            role = JSON.parse(user).realm_access.roles[2];
+        }
+        const url = `${API_URL}${role === "merchant" ? "/merchant" : ""}/${resource}/${params.id}`;
+        const { json } = await fetchUtils.fetchJson(url, {
             user: { authenticated: true, token: localStorage.getItem("access-token") as string }
         });
         // TODO:  Не понял зачем эти 2 поля. Пока оставлю как комментарий, потом разберусь
@@ -102,7 +108,14 @@ export class WalletsDataProvider extends BaseDataProvider {
         delete params.data.generatedAt;
         delete params.data.loadedAt;
 
-        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
+        const user = localStorage.getItem("user");
+        let role = "";
+        if (user) {
+            role = JSON.parse(user).realm_access.roles[2];
+        }
+        const url = `${API_URL}${role === "merchant" ? "/merchant" : ""}/${resource}/${params.id}`;
+
+        const { json } = await fetchUtils.fetchJson(url, {
             method: "PUT",
             body: JSON.stringify(params.data),
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
@@ -116,13 +129,18 @@ export class WalletsDataProvider extends BaseDataProvider {
     }
 
     async create(resource: string, params: CreateParams): Promise<CreateResult> {
-        console.log(params);
-        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}`, {
+        const user = localStorage.getItem("user");
+        let role = "";
+        if (user) {
+            role = JSON.parse(user).realm_access.roles[2];
+        }
+        const url = `${API_URL}${role === "merchant" ? "/merchant" : ""}/${resource}`;
+
+        const { json } = await fetchUtils.fetchJson(url, {
             method: "POST",
             body: JSON.stringify(params.data),
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
-        console.log(json);
 
         if (!json.success) {
             throw new Error(json.error);
@@ -134,7 +152,14 @@ export class WalletsDataProvider extends BaseDataProvider {
     }
 
     async delete(resource: string, params: DeleteParams): Promise<DeleteResult> {
-        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
+        const user = localStorage.getItem("user");
+        let role = "";
+        if (user) {
+            role = JSON.parse(user).realm_access.roles[2];
+        }
+        const url = `${API_URL}${role === "merchant" ? "/merchant" : ""}/${resource}/${params.id}`;
+
+        const { json } = await fetchUtils.fetchJson(url, {
             method: "DELETE",
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });

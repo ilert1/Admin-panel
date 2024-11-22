@@ -66,6 +66,7 @@ const dataProvider = combineDataProviders((resource: string) => {
             return new DirectionsDataProvider();
         case "wallet":
         case "transaction":
+        case "merchant/wallet":
         case "merchant/transaction":
             return new WalletsDataProvider();
         case "vault":
@@ -96,6 +97,13 @@ export const App = () => {
                             <Resource name="accounts" list={AccountList} icon={WalletMinimalIcon} />
                             <Resource name="transactions" list={TransactionList} icon={HistoryIcon} />
                             <Resource name="withdraw" list={WithdrawList} icon={BitcoinIcon} />
+
+                            {WALLET_ENABLED && (
+                                <Resource name="wallet" list={WalletsList} icon={WalletsLogo}>
+                                    {/* <Route path="storage" element={<WalletStore />} /> */}
+                                    <Route path="transactions" element={<WalletTransactionsList />} />
+                                </Resource>
+                            )}
 
                             {permissions === "admin" && (
                                 <>
