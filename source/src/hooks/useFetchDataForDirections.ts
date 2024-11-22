@@ -51,16 +51,22 @@
 
 import { useState, useEffect } from "react";
 import { CurrenciesDataProvider, MerchantsDataProvider, ProvidersDataProvider } from "@/data";
+import { usePermissions } from "react-admin";
 
 export const useFetchDataForDirections = () => {
     const [currencies, setCurrencies] = useState<{ data: Currencies.Currency[]; total: any }>({ data: [], total: 0 });
     const [merchants, setMerchants] = useState<{ data: Merchant[]; total: any }>({ data: [], total: 0 });
     const [providers, setProviders] = useState<{ data: Provider[]; total: any }>({ data: [], total: 0 });
     const [isLoading, setIsLoading] = useState(true);
+    const { permissions } = usePermissions();
     const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
+            if (permissions !== "admin") {
+                setIsLoading(false);
+                return;
+            }
             try {
                 const currenciesDataProvider = new CurrenciesDataProvider();
                 const merchantsDataProvider = new MerchantsDataProvider();

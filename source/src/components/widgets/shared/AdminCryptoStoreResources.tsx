@@ -25,12 +25,6 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
         icon: <BitcoinWalletIcon />,
         childrens: [
             {
-                name: "storage",
-                path: "/wallet/storage",
-                icon: <Vault />,
-                showLock: true
-            },
-            {
                 name: "manage",
                 path: "/wallet",
                 icon: <DoubleWalletsIcon />,
@@ -44,7 +38,17 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
             }
         ]
     };
-
+    if (permissions === "admin") {
+        customViewRoutes.childrens = [
+            {
+                name: "storage",
+                path: "/wallet/storage",
+                icon: <Vault />,
+                showLock: true
+            },
+            ...customViewRoutes.childrens
+        ];
+    }
     return (
         <div className="flex flex-col gap-4">
             <TooltipProvider delayDuration={100}>
