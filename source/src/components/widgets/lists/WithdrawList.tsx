@@ -124,23 +124,26 @@ export const WithdrawList = () => {
             )
         },
         {
-            header: translate("resources.withdraw.fields.payload.hash"),
-            cell: ({ row }) => {
-                const text = Object.hasOwn(row.original, "requisites") ? row.original.requisites[0].hash : "";
-                return <TextField text={text} wrap copyValue />;
-            }
-        },
-        {
-            header: translate("resources.withdraw.fields.payload.hash_link"),
-            cell: ({ row }) => {
-                const text = Object.hasOwn(row.original, "requisites") ? row.original.requisites[0].hash_link : "";
-                return <TextField text={text} wrap copyValue />;
-            }
-        },
-        {
             header: translate("resources.withdraw.fields.merchant"),
             cell: ({ row }) => {
                 return <TextField text={row.original.source.id} wrap copyValue />;
+            }
+        },
+        {
+            header: translate("resources.withdraw.fields.idInBlockChain"),
+            cell: ({ row }) => {
+                const text = Object.hasOwn(row.original, "requisites") ? row.original.requisites[0].hash : "-";
+                return (
+                    <TextField
+                        text={text}
+                        wrap
+                        copyValue={text !== "-" ? true : false}
+                        link={
+                            Object.hasOwn(row.original, "requisites") ? `${row.original.requisites[0].hash_link}` : "-"
+                        }
+                        type={text !== "-" ? "link" : "text"}
+                    />
+                );
             }
         },
         {
@@ -162,7 +165,7 @@ export const WithdrawList = () => {
                 // eslint-disable-next-line react-hooks/rules-of-hooks
                 const { text, color } = useGetTransactionState({ state: row.original.state.state_int });
                 return (
-                    <div className={`px-3 py-0.5 rounded-20 font-normal text-base text-center text-black ${color}`}>
+                    <div className={`px-3 py-0.5 rounded-20 font-normal text-base text-center text-white ${color}`}>
                         <TextField text={text} />
                     </div>
                 );

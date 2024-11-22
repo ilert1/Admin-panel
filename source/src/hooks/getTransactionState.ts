@@ -33,7 +33,7 @@ const getBadgeColor = (state: number) => {
     }
 
     if ((state >= 0 && state <= 11) || state === 13) {
-        return "bg-yellow-40";
+        return "bg-yellow-30";
     }
 
     if (state >= 18) {

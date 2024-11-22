@@ -230,7 +230,8 @@ const ru: TranslationMessages = {
             tableTitle: "Отчет по выводам в криптовалюте",
             cryptoTransferTitle: "Перевод криптовалюты",
             fields: {
-                id: "ID",
+                id: "ID операции",
+
                 created_at: "Дата и время создания",
                 destination: {
                     id: "Адрес TRC20",
@@ -244,7 +245,8 @@ const ru: TranslationMessages = {
                     hash_link: "Ссылка Tronscan"
                 },
                 merchant: "Мерчант",
-                state: "Состояние"
+                state: "Состояние",
+                idInBlockChain: "ID в блокчейне"
             },
             download: {
                 downloadReportButtonText: "Скачать отчет",
@@ -830,7 +832,7 @@ const en: TranslationMessages = {
             tableTitle: "Report on cryptocurrency withdrawals",
             cryptoTransferTitle: "Crypto transfer",
             fields: {
-                id: "ID",
+                id: "Transaction ID",
                 created_at: "Created at",
                 destination: {
                     id: "TRC20 address",
@@ -844,7 +846,8 @@ const en: TranslationMessages = {
                     hash_link: "Tronscan link"
                 },
                 merchant: "Merchant",
-                state: "State"
+                state: "State",
+                idInBlockChain: "ID in blockchain"
             },
             download: {
                 downloadReportButtonText: "Download report",
