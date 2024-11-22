@@ -401,3 +401,16 @@ interface Cryptotransactions {
     updated_at: string;
     deleted_at: string;
 }
+
+interface WalletLinkedTransactions {
+    id?: string;
+    scanned_at: string;
+    block_timestamp: string;
+    type: string;
+    transaction_id: string;
+    source_address: string;
+    destnation_address: string;
+    amount: string;
+    currency: string;
+    token_address: string;
+}

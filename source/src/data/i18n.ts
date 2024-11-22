@@ -494,6 +494,21 @@ const ru: TranslationMessages = {
                     paymentStatus: "Статус платежа",
                     resetFilters: "Сбросить фильтры"
                 }
+            },
+            linkedTransactions: {
+                name: "Поступления на linked-кошелёк",
+                show: "Поступление на linked-кошелек",
+                fields: {
+                    scannedAt: "Время сканирования",
+                    blockTimestamp: "Время генерации",
+                    transactionId: "ID транзакции",
+                    sourceAddress: "Адрес кошелька отправителя",
+                    destinationAddress: "Адрес кошелька получателя",
+                    type: "Тип операции",
+                    amount: "Сумма прихода",
+                    currency: "Валюта",
+                    more: "Подробнее"
+                }
             }
         }
     },
@@ -1188,6 +1203,21 @@ const en: TranslationMessages = {
                     datePlaceholder: "Select date",
                     updated_at: "Update date",
                     resetFilters: "Reset filters"
+                }
+            },
+            linkedTransactions: {
+                name: "Receipts to the linked-wallet",
+                show: "Receipt to a linked wallet",
+                fields: {
+                    scannedAt: "Scanned at",
+                    blockTimestamp: "Block timestamp",
+                    transactionId: "Transaction ID",
+                    sourceAddress: "Source address",
+                    destinationAddress: "Destination address",
+                    type: "Type",
+                    amount: "Amount",
+                    currency: "Currency",
+                    more: "More"
                 }
             }
         }

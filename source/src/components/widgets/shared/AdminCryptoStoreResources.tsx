@@ -1,7 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { VaultDataProvider } from "@/data";
-import { BitcoinWalletIcon, DoubleWalletsIcon, RearLockKeyhole } from "@/lib/icons/WalletStore";
+import {
+    BitcoinWalletIcon,
+    DoubleWalletsIcon,
+    RearLockKeyhole,
+    WalletLinkedTransactionsIcon
+} from "@/lib/icons/WalletStore";
 import { ChevronDown, ChevronLeft, CirclePlus, LockKeyhole, LockKeyholeOpen, Vault, WalletCards } from "lucide-react";
 import { useState } from "react";
 import { useDataProvider, usePermissions, useTranslate } from "react-admin";
@@ -45,7 +50,13 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                 icon: <Vault />,
                 showLock: true
             },
-            ...customViewRoutes.childrens
+            ...customViewRoutes.childrens,
+            {
+                name: "linkedTransactions",
+                path: "/wallet/linkedTransactions",
+                icon: <WalletLinkedTransactionsIcon />,
+                showLock: false
+            }
         ];
     }
     return (
