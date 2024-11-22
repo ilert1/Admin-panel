@@ -65,20 +65,24 @@ export const WalletTransactionsFilter = () => {
     };
 
     const changeDateCreate = (date: DateRange | undefined) => {
-        if (date && date.from) {
-            setDateCreate(date.from);
-            onPropertySelected(formattedDate(date.from), "created_at");
+        if (date && date.from && date.to) {
+            const changedDate = date.from !== dateCreate ? date.from : date.to;
+            setDateCreate(changedDate);
+            onPropertySelected(formattedDate(changedDate), "created_at");
         } else {
             setDateCreate(undefined);
+            onPropertySelected("", "created_at");
         }
     };
 
     const changeDateUpdate = (date: DateRange | undefined) => {
-        if (date && date.from) {
-            setDateUpdate(date.from);
-            onPropertySelected(formattedDate(date.from), "updated_at");
+        if (date && date.from && date.to) {
+            const changedDate = date.from !== dateUpdate ? date.from : date.to;
+            setDateUpdate(changedDate);
+            onPropertySelected(formattedDate(changedDate), "updated_at");
         } else {
             setDateUpdate(undefined);
+            onPropertySelected("", "updated_at");
         }
     };
 
