@@ -1,4 +1,4 @@
-import { useTranslate, useListController, ListContextProvider, useLocaleState } from "react-admin";
+import { useTranslate, useListController, ListContextProvider, useLocaleState, usePermissions } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import {
@@ -254,12 +254,17 @@ export const TransactionList = () => {
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
     const [locale] = useLocaleState();
-    const { isLoading, merchantsList } = useFetchMerchants();
+    const { permissions } = usePermissions();
 
     const [typeTabActive, setTypeTabActive] = useState("");
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");
-    // const [chartOpen, setChartOpen] = useState(false);
+
+    let isLoading,
+        merchantsList: any[] = [];
+    if (permissions === "admin") {
+        ({ isLoading, merchantsList } = useFetchMerchants());
+    }
 
     const openSheet = (id: string) => {
         setShowTransactionId(id);
@@ -296,20 +301,24 @@ export const TransactionList = () => {
             header: translate("resources.transactions.fields.meta.customer_payment_id"),
             cell: ({ row }) => <TextField text={row.original.meta.customer_data.customer_payment_id} wrap copyValue />
         },
-        {
-            header: translate("resources.withdraw.fields.merchant"),
-            cell: ({ row }) => {
-                const merch = merchantsList.find(el => {
-                    el.id === row.original.source.id;
-                });
-                return (
-                    <div>
-                        <TextField text={merch?.name ?? ""} wrap />
-                        <TextField text={row.original.source.id} wrap copyValue />
-                    </div>
-                );
-            }
-        },
+        ...(permissions === "admin"
+            ? [
+                  {
+                      header: translate("resources.withdraw.fields.merchant"),
+                      cell: ({ row }: any) => {
+                          const merch = merchantsList.find(el => {
+                              el.id === row.original.source.id;
+                          });
+                          return (
+                              <div>
+                                  <TextField text={merch?.name ?? ""} wrap />
+                                  <TextField text={row.original.source.id} wrap copyValue />
+                              </div>
+                          );
+                      }
+                  }
+              ]
+            : []),
         {
             accessorKey: "type",
             header: translate("resources.transactions.fields.type"),

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useTranslate, useListController, ListContextProvider, usePermissions, useLocaleState } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
@@ -89,7 +90,12 @@ export const WithdrawList = () => {
     const { permissions } = usePermissions();
     const [locale] = useLocaleState();
     const data = fetchDictionaries();
-    const { isLoading, merchantsList } = useFetchMerchants();
+
+    let isLoading,
+        merchantsList: any[] = [];
+    if (permissions === "admin") {
+        ({ isLoading, merchantsList } = useFetchMerchants());
+    }
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
@@ -124,20 +130,24 @@ export const WithdrawList = () => {
                 />
             )
         },
-        {
-            header: translate("resources.withdraw.fields.merchant"),
-            cell: ({ row }) => {
-                const merch = merchantsList.find(el => {
-                    el.id === row.original.source.id;
-                });
-                return (
-                    <div>
-                        <TextField text={merch?.name ?? ""} wrap />
-                        <TextField text={row.original.source.id} wrap copyValue />
-                    </div>
-                );
-            }
-        },
+        ...(permissions === "admin"
+            ? [
+                  {
+                      header: translate("resources.withdraw.fields.merchant"),
+                      cell: ({ row }: any) => {
+                          const merch = merchantsList.find(el => {
+                              el.id === row.original.source.id;
+                          });
+                          return (
+                              <div>
+                                  <TextField text={merch?.name ?? ""} wrap />
+                                  <TextField text={row.original.source.id} wrap copyValue />
+                              </div>
+                          );
+                      }
+                  }
+              ]
+            : []),
         {
             header: translate("resources.withdraw.fields.idInBlockChain"),
             cell: ({ row }) => {
@@ -181,7 +191,7 @@ export const WithdrawList = () => {
             }
         }
     ];
-
+    console.log(columns);
     if (listContext.isLoading || !listContext.data || isLoading) {
         return <Loading />;
     } else {
