@@ -33,20 +33,24 @@ enum WalletTypes {
 
 export const EditWallet = (props: EditWalletProps) => {
     const { permissions } = usePermissions();
+    const isMerchant = permissions === "merchant";
     const { id, onOpenChange } = props;
     const translate = useTranslate();
     const dataProvider = useDataProvider();
     const { record, isLoading } = useEditController({
-        resource: permissions === "admin" ? "wallet" : "merchant/wallet",
+        resource: !isMerchant ? "wallet" : "merchant/wallet",
         id
     });
     const refresh = useRefresh();
     const onSubmit: SubmitHandler<Omit<Wallet, "account_id">> = async data => {
-        data.address = null;
         try {
-            await dataProvider.update(permissions === "admin" ? "wallet" : "merchant/wallet", {
+            let newData = {};
+            if (isMerchant) {
+                newData = { description: data.description ?? "" };
+            }
+            await dataProvider.update(!isMerchant ? "wallet" : "merchant/wallet", {
                 id,
-                data: data,
+                data: isMerchant ? newData : data,
                 previousData: undefined
             });
             refresh();
@@ -113,194 +117,232 @@ export const EditWallet = (props: EditWalletProps) => {
     return (
         // <CreateContextProvider value={controllerProps}>
         <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full">
-                <div className="flex flex-wrap">
-                    <FormField
-                        control={form.control}
-                        name="type"
-                        render={({ field }) => {
-                            return (
+            {!isMerchant ? (
+                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full">
+                    <div className="flex flex-wrap">
+                        <FormField
+                            control={form.control}
+                            name="type"
+                            render={({ field }) => {
+                                return (
+                                    <FormItem className="w-1/2 p-2">
+                                        <FormLabel>{translate("resources.wallet.manage.fields.walletType")}</FormLabel>
+                                        <Select disabled value={field.value} onValueChange={field.onChange}>
+                                            <FormControl>
+                                                <SelectTrigger variant={SelectType.GRAY}>
+                                                    <SelectValue
+                                                        placeholder={translate("resources.direction.fields.active")}
+                                                        defaultValue={WalletTypes.INTERNAL}
+                                                    />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectItem value={WalletTypes.EXTERNAL} variant={SelectType.GRAY}>
+                                                        {WalletTypes.EXTERNAL}
+                                                    </SelectItem>
+                                                    <SelectItem value={WalletTypes.LINKED} variant={SelectType.GRAY}>
+                                                        {WalletTypes.LINKED}
+                                                    </SelectItem>
+                                                    <SelectItem value={WalletTypes.INTERNAL} variant={SelectType.GRAY}>
+                                                        {WalletTypes.INTERNAL}
+                                                    </SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormItem>
+                                );
+                            }}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="address"
+                            render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.walletType")}</FormLabel>
-                                    <Select disabled value={field.value} onValueChange={field.onChange}>
-                                        <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY}>
-                                                <SelectValue
-                                                    placeholder={translate("resources.direction.fields.active")}
-                                                    defaultValue={WalletTypes.INTERNAL}
-                                                />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                <SelectItem value={WalletTypes.EXTERNAL} variant={SelectType.GRAY}>
-                                                    {WalletTypes.EXTERNAL}
-                                                </SelectItem>
-                                                <SelectItem value={WalletTypes.LINKED} variant={SelectType.GRAY}>
-                                                    {WalletTypes.LINKED}
-                                                </SelectItem>
-                                                <SelectItem value={WalletTypes.INTERNAL} variant={SelectType.GRAY}>
-                                                    {WalletTypes.INTERNAL}
-                                                </SelectItem>
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
+                                    <FormLabel>{translate("resources.wallet.manage.fields.walletAddress")}</FormLabel>
+                                    <FormControl>
+                                        <div>
+                                            <Input
+                                                {...field}
+                                                className="bg-muted"
+                                                variant={InputTypes.GRAY}
+                                                value={field.value ?? ""}
+                                            />
+                                        </div>
+                                    </FormControl>
                                 </FormItem>
-                            );
-                        }}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="address"
-                        render={({ field }) => (
-                            <FormItem className="w-1/2 p-2">
-                                <FormLabel>{translate("resources.wallet.manage.fields.walletAddress")}</FormLabel>
-                                <FormControl>
-                                    <div>
-                                        <Input
-                                            {...field}
-                                            className="bg-muted"
-                                            variant={InputTypes.GRAY}
-                                            value={field.value ?? ""}
-                                        />
-                                    </div>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="accountNumber"
-                        render={({ field }) => (
-                            <FormItem className="w-1/2 p-2">
-                                <FormLabel>{translate("resources.wallet.manage.fields.accountNumber")}</FormLabel>
-                                <FormControl>
-                                    <div>
-                                        <Input {...field} className="bg-muted" variant={InputTypes.GRAY} disabled />
-                                    </div>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="merchantId"
-                        render={({ field }) => (
-                            <FormItem className="w-1/2 p-2">
-                                <FormLabel>{translate("resources.wallet.manage.fields.merchantId")}</FormLabel>
-                                <FormControl>
-                                    <div>
-                                        <Input {...field} className="bg-muted" variant={InputTypes.GRAY} disabled />
-                                    </div>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="currency"
-                        render={({ field }) => (
-                            <FormItem className="w-1/2 p-2">
-                                <FormLabel>{translate("resources.wallet.manage.fields.currency")}</FormLabel>
-                                <FormControl>
-                                    <div>
-                                        <Input {...field} className="bg-muted" variant={InputTypes.GRAY} disabled />
-                                    </div>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="id"
-                        render={({ field }) => (
-                            <FormItem className="w-1/2 p-2">
-                                <FormLabel>{translate("resources.wallet.manage.fields.internalId")}</FormLabel>
-                                <FormControl>
-                                    <div>
-                                        <Input {...field} className="bg-muted" variant={InputTypes.GRAY} />
-                                    </div>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="blockchain"
-                        render={({ field }) => (
-                            <FormItem className="w-1/2 p-2">
-                                <FormLabel>{translate("resources.wallet.manage.fields.blockchain")}</FormLabel>
-                                <FormControl>
-                                    <div>
-                                        <Input disabled {...field} className="bg-muted" variant={InputTypes.GRAY} />
-                                    </div>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="accountNumber"
+                            render={({ field }) => (
+                                <FormItem className="w-1/2 p-2">
+                                    <FormLabel>{translate("resources.wallet.manage.fields.accountNumber")}</FormLabel>
+                                    <FormControl>
+                                        <div>
+                                            <Input {...field} className="bg-muted" variant={InputTypes.GRAY} disabled />
+                                        </div>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="merchantId"
+                            render={({ field }) => (
+                                <FormItem className="w-1/2 p-2">
+                                    <FormLabel>{translate("resources.wallet.manage.fields.merchantId")}</FormLabel>
+                                    <FormControl>
+                                        <div>
+                                            <Input {...field} className="bg-muted" variant={InputTypes.GRAY} disabled />
+                                        </div>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="currency"
+                            render={({ field }) => (
+                                <FormItem className="w-1/2 p-2">
+                                    <FormLabel>{translate("resources.wallet.manage.fields.currency")}</FormLabel>
+                                    <FormControl>
+                                        <div>
+                                            <Input {...field} className="bg-muted" variant={InputTypes.GRAY} disabled />
+                                        </div>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="id"
+                            render={({ field }) => (
+                                <FormItem className="w-1/2 p-2">
+                                    <FormLabel>{translate("resources.wallet.manage.fields.internalId")}</FormLabel>
+                                    <FormControl>
+                                        <div>
+                                            <Input {...field} className="bg-muted" variant={InputTypes.GRAY} />
+                                        </div>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="blockchain"
+                            render={({ field }) => (
+                                <FormItem className="w-1/2 p-2">
+                                    <FormLabel>{translate("resources.wallet.manage.fields.blockchain")}</FormLabel>
+                                    <FormControl>
+                                        <div>
+                                            <Input disabled {...field} className="bg-muted" variant={InputTypes.GRAY} />
+                                        </div>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
 
-                    <FormField
-                        control={form.control}
-                        name="network"
-                        render={({ field }) => (
-                            <FormItem className="w-1/2 p-2">
-                                <FormLabel>{translate("resources.wallet.manage.fields.contactType")}</FormLabel>
-                                <FormControl>
-                                    <div>
-                                        <Input disabled {...field} className="bg-muted" variant={InputTypes.GRAY} />
-                                    </div>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="minimal_ballance_limit"
-                        render={({ field }) => (
-                            <FormItem className="w-1/2 p-2">
-                                <FormLabel>{translate("resources.wallet.manage.fields.minRemaini")}</FormLabel>
-                                <FormControl>
-                                    <div>
-                                        <Input disabled {...field} className="bg-muted" variant={InputTypes.GRAY} />
-                                    </div>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="description"
-                        render={({ field }) => (
-                            <FormItem className="w-full p-2">
-                                <FormLabel>{translate("resources.wallet.manage.fields.descr")}</FormLabel>
-                                <FormControl>
-                                    <div>
-                                        <Label />
-                                        <textarea
-                                            {...field}
-                                            value={field.value ?? ""}
-                                            placeholder={translate("resources.wallet.manage.fields.descr")}
-                                            className="w-full h-24 p-2 border border-neutral-40 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1"
-                                        />
-                                    </div>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-                </div>
+                        <FormField
+                            control={form.control}
+                            name="network"
+                            render={({ field }) => (
+                                <FormItem className="w-1/2 p-2">
+                                    <FormLabel>{translate("resources.wallet.manage.fields.contactType")}</FormLabel>
+                                    <FormControl>
+                                        <div>
+                                            <Input disabled {...field} className="bg-muted" variant={InputTypes.GRAY} />
+                                        </div>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="minimal_ballance_limit"
+                            render={({ field }) => (
+                                <FormItem className="w-1/2 p-2">
+                                    <FormLabel>{translate("resources.wallet.manage.fields.minRemaini")}</FormLabel>
+                                    <FormControl>
+                                        <div>
+                                            <Input disabled {...field} className="bg-muted" variant={InputTypes.GRAY} />
+                                        </div>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="description"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormLabel>{translate("resources.wallet.manage.fields.descr")}</FormLabel>
+                                    <FormControl>
+                                        <div>
+                                            <Label />
+                                            <textarea
+                                                {...field}
+                                                value={field.value ?? ""}
+                                                placeholder={translate("resources.wallet.manage.fields.descr")}
+                                                className="w-full h-24 p-2 border border-neutral-40 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1"
+                                            />
+                                        </div>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                    </div>
 
-                <div className="self-end flex items-center gap-4">
-                    <Button type="submit" variant="default">
-                        {translate("app.ui.actions.save")}
-                    </Button>
-                    <Button
-                        onClick={() => onOpenChange(false)}
-                        variant="clearBtn"
-                        className="border border-neutral-50 rounded-4 hover:border-neutral-100">
-                        {translate("app.ui.actions.cancel")}
-                    </Button>
-                </div>
-            </form>
+                    <div className="self-end flex items-center gap-4">
+                        <Button type="submit" variant="default">
+                            {translate("app.ui.actions.save")}
+                        </Button>
+                        <Button
+                            onClick={() => onOpenChange(false)}
+                            variant="clearBtn"
+                            className="border border-neutral-50 rounded-4 hover:border-neutral-100">
+                            {translate("app.ui.actions.cancel")}
+                        </Button>
+                    </div>
+                </form>
+            ) : (
+                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full">
+                    <div className="flex flex-wrap">
+                        <FormField
+                            control={form.control}
+                            name="description"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormLabel>{translate("resources.wallet.manage.fields.descr")}</FormLabel>
+                                    <FormControl>
+                                        <div>
+                                            <Label />
+                                            <textarea
+                                                {...field}
+                                                value={field.value ?? ""}
+                                                placeholder={translate("resources.wallet.manage.fields.descr")}
+                                                className="w-full h-24 p-2 border border-neutral-40 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1"
+                                            />
+                                        </div>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                    <div className="flex flex-col sm:self-end sm:flex-row items-center gap-4">
+                        <Button type="submit" variant="default" className="w-full sm:w-auto">
+                            {translate("app.ui.actions.save")}
+                        </Button>
+                        <Button
+                            onClick={() => onOpenChange(false)}
+                            variant="clearBtn"
+                            className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full sm:w-auto">
+                            {translate("app.ui.actions.cancel")}
+                        </Button>
+                    </div>
+                </form>
+            )}
         </FormProvider>
     );
 };
