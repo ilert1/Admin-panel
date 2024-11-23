@@ -16,8 +16,6 @@ export default defineConfig({
     },
     plugins: [react()],
     server: {
-        hmr: true,
-        open: true,
         host: true
     },
     base: "/",
