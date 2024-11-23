@@ -1,14 +1,23 @@
-import { ListContextProvider, useDataProvider, useListController, usePermissions, useTranslate } from "react-admin";
+import {
+    fetchUtils,
+    ListContextProvider,
+    useDataProvider,
+    useListController,
+    usePermissions,
+    useTranslate
+} from "react-admin";
 import { useGetWalletsColumns } from "./Columns";
 import { Loading } from "@/components/ui/loading";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { CreateWalletDialog } from "./CreateWalletDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DataTable } from "../../shared";
 import { ShowWalletDialog } from "./ShowWalletDialog";
 import { VaultDataProvider } from "@/data";
 import { useQuery } from "react-query";
+
+const API_URL = import.meta.env.VITE_WALLET_URL;
 
 export const WalletsList = () => {
     const { permissions } = usePermissions();
@@ -16,9 +25,8 @@ export const WalletsList = () => {
         permissions === "admin" ? { resource: "wallet" } : { resource: "merchant/wallet" }
     );
     const translate = useTranslate();
-
-    const { columns, chosenId, quickShowOpen, setQuickShowOpen } = useGetWalletsColumns();
-
+    console.log(listContext?.perPage);
+    const [balances, setBalances] = useState<Record<string, string>>({});
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const dataProvider = useDataProvider<VaultDataProvider>();
@@ -29,6 +37,47 @@ export const WalletsList = () => {
     const handleCreateClick = () => {
         setCreateDialogOpen(true);
     };
+    const fetchBalances = async () => {
+        if (!listContext.data) return;
+
+        const balancesMap: Record<string, string> = {};
+
+        const balancePromises = listContext.data.map(async wallet => {
+            const url = `${API_URL}/${permissions === "admin" ? "" : "merchant/"}wallet/${wallet.id}/balance`;
+
+            return fetchUtils
+                .fetchJson(url, {
+                    user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+                })
+                .then(({ json }) => {
+                    if (!json.success) {
+                        throw new Error("Balance fetch failed");
+                    }
+
+                    balancesMap[wallet.id] =
+                        wallet.currency === "USDT" ? String(json.data.usdt_amount) : String(json.data.trx_amount);
+                })
+                .catch(error => {
+                    console.error(`Error fetching balance for wallet ${wallet.id}:`, error);
+                    balancesMap[wallet.id] = "-";
+                });
+        });
+
+        await Promise.allSettled(balancePromises);
+
+        setBalances(balancesMap);
+    };
+    useEffect(() => {
+        if (listContext.data) {
+            fetchBalances();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [listContext.data]);
+
+    const { columns, chosenId, quickShowOpen, setQuickShowOpen } = useGetWalletsColumns(
+        listContext.data ?? [],
+        balances
+    );
 
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;

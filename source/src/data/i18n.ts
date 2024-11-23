@@ -453,7 +453,8 @@ const ru: TranslationMessages = {
                     blockchain: "Блокчейн",
                     contactType: "Тип контакта в блокчейне",
                     minRemaini: "Минимальная остаточная сумма",
-                    more: "Подробнее"
+                    more: "Подробнее",
+                    balance: "Баланс"
                 },
                 creatingWallet: "Добавление кошелька",
                 editingWallet: "Редактирование кошелька",
@@ -1150,7 +1151,8 @@ const en: TranslationMessages = {
                     internalId: "Internal wallet ID",
                     blockchain: "Blockchain",
                     contactType: "Contact type in blockchain",
-                    minRemaini: "Minimum remaining amount"
+                    minRemaini: "Minimum remaining amount",
+                    balance: "Balance"
                 },
                 errors: {
                     id: "Id is required field"

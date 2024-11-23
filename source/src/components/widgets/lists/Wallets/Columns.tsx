@@ -9,17 +9,17 @@ enum WalletTypes {
     LINKED = "linked",
     EXTERNAL = "external"
 }
-export const useGetWalletsColumns = () => {
+
+export const useGetWalletsColumns = (data: any, balances: Record<string, string>) => {
     const translate = useTranslate();
-
     const [chosenId, setChosenId] = useState("");
-
     const [quickShowOpen, setQuickShowOpen] = useState(false);
 
     const openSheet = (id: string) => {
         setChosenId(id);
         setQuickShowOpen(true);
     };
+
     const columns: ColumnDef<Wallet>[] = [
         {
             id: "type",
@@ -59,6 +59,13 @@ export const useGetWalletsColumns = () => {
             cell: ({ row }) => {
                 if (row.original.type === WalletTypes.EXTERNAL) return "-";
                 return <TextField text={row.original.account_id} wrap copyValue />;
+            }
+        },
+        {
+            id: "Balance",
+            header: translate("resources.wallet.manage.fields.balance"),
+            cell: ({ row }) => {
+                return <TextField text={balances[row.original.id]} />;
             }
         },
         {
