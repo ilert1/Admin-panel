@@ -456,6 +456,11 @@ const ru: TranslationMessages = {
                     more: "Подробнее",
                     balance: "Баланс"
                 },
+                error: "Ошибка",
+                errors: {
+                    errorWhenCreating: "Ошибка при создании кошелька",
+                    serverError: "Ошибка на стороне сервера. Попробуйте позже"
+                },
                 creatingWallet: "Добавление кошелька",
                 editingWallet: "Редактирование кошелька",
                 deleteWallet: "Удалить кошелек?",
@@ -1154,8 +1159,10 @@ const en: TranslationMessages = {
                     minRemaini: "Minimum remaining amount",
                     balance: "Balance"
                 },
+                error: "Error",
                 errors: {
-                    id: "Id is required field"
+                    errorWhenCreating: "Error occured when creating wallet",
+                    serverError: "Server side error, try again later"
                 },
                 creatingWallet: "Adding wallet",
                 editingWallet: "Editing wallet",

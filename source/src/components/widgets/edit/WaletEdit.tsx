@@ -42,12 +42,14 @@ export const EditWallet = (props: EditWalletProps) => {
         id
     });
     const refresh = useRefresh();
-    const onSubmit: SubmitHandler<Omit<Wallet, "account_id">> = async data => {
+    const onSubmit: SubmitHandler<WalletCreate> = async data => {
         try {
             let newData = {};
             if (isMerchant) {
                 newData = { description: data.description ?? "" };
             }
+            data.account_id = data.accountNumber ?? "";
+            delete data.accountNumber;
             await dataProvider.update(!isMerchant ? "wallet" : "merchant/wallet", {
                 id,
                 data: isMerchant ? newData : data,
@@ -70,7 +72,7 @@ export const EditWallet = (props: EditWalletProps) => {
         address: z.string().nullable(),
         // Одно и тоже поле
         accountNumber: z.string(),
-        merchantId: z.string(),
+        // merchantId: z.string(),
         //
         blockchain: z.string().min(1),
         network: z.string().min(1),
@@ -85,7 +87,7 @@ export const EditWallet = (props: EditWalletProps) => {
             type: WalletTypes.INTERNAL,
             id: "",
             address: "",
-            merchantId: "",
+            // merchantId: "",
             currency: "USDT",
             description: "",
             accountNumber: "",
@@ -94,16 +96,15 @@ export const EditWallet = (props: EditWalletProps) => {
             network: "TRC20"
         }
     });
-
     useEffect(() => {
         if (record) {
             form.reset({
                 id: record.id || "",
                 address: record.address || "",
-                merchantId: record.merchantId || "",
+                merchantId: record.type === WalletTypes.EXTERNAL ? record.account_id ?? "" : "",
                 currency: record.currency || "",
                 description: record.description || "",
-                accountNumber: record.accountNumber || "",
+                accountNumber: record.type !== WalletTypes.EXTERNAL ? record.account_id ?? "" : "",
                 blockchain: record.blockchain || "",
                 minimal_ballance_limit: record.minimal_ballance_limit || 0,
                 network: record.network || "",
@@ -181,21 +182,7 @@ export const EditWallet = (props: EditWalletProps) => {
                                     <FormLabel>{translate("resources.wallet.manage.fields.accountNumber")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} className="bg-muted" variant={InputTypes.GRAY} disabled />
-                                        </div>
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="merchantId"
-                            render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.merchantId")}</FormLabel>
-                                    <FormControl>
-                                        <div>
-                                            <Input {...field} className="bg-muted" variant={InputTypes.GRAY} disabled />
+                                            <Input {...field} className="bg-muted" variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                 </FormItem>
@@ -223,7 +210,7 @@ export const EditWallet = (props: EditWalletProps) => {
                                     <FormLabel>{translate("resources.wallet.manage.fields.internalId")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} className="bg-muted" variant={InputTypes.GRAY} />
+                                            <Input {...field} className="bg-muted" variant={InputTypes.GRAY} disabled />
                                         </div>
                                     </FormControl>
                                 </FormItem>
@@ -285,7 +272,7 @@ export const EditWallet = (props: EditWalletProps) => {
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 p-2 border border-neutral-40 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1"
+                                                className="w-full h-24 p-2 border border-neutral-40 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1 outline-none"
                                             />
                                         </div>
                                     </FormControl>
