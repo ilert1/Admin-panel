@@ -38,10 +38,9 @@ export class WalletsDataProvider extends BaseDataProvider {
         if (!json.success) {
             throw new Error(json.error);
         }
-
         return {
             data: json.data || [],
-            total: json?.total || 0
+            total: json?.meta?.total || 0
         };
     }
 
