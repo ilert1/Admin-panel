@@ -38,38 +38,36 @@ export const WalletsList = () => {
     const handleCreateClick = () => {
         setCreateDialogOpen(true);
     };
-
     const fetchBalances = async () => {
         if (!listContext.data) return;
 
-        try {
-            const balancesMap: Record<string, string> = {};
+        const balancesMap: Record<string, string> = {};
 
-            const balancePromises = listContext.data.map(async wallet => {
-                const url = `${API_URL}/${permissions === "admin" ? "" : "merchant/"}wallet/${wallet.id}/balance`;
+        const balancePromises = listContext.data.map(async wallet => {
+            const url = `${API_URL}/${permissions === "admin" ? "" : "merchant/"}wallet/${wallet.id}/balance`;
 
-                try {
-                    const { json } = await fetchUtils.fetchJson(url, {
-                        user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-                    });
-
-                    if (!json.success) throw new Error("Balance fetch failed");
+            return fetchUtils
+                .fetchJson(url, {
+                    user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+                })
+                .then(({ json }) => {
+                    if (!json.success) {
+                        throw new Error("Balance fetch failed");
+                    }
 
                     balancesMap[wallet.id] =
                         wallet.currency === "USDT" ? String(json.data.usdt_amount) : String(json.data.trx_amount);
-                } catch (error) {
+                })
+                .catch(error => {
+                    console.error(`Error fetching balance for wallet ${wallet.id}:`, error);
                     balancesMap[wallet.id] = "-";
-                }
-            });
+                });
+        });
 
-            await Promise.all(balancePromises);
+        await Promise.allSettled(balancePromises);
 
-            setBalances(balancesMap);
-        } catch (error) {
-            console.error("Error fetching balances:", error);
-        }
+        setBalances(balancesMap);
     };
-
     useEffect(() => {
         if (listContext.data) {
             fetchBalances();
