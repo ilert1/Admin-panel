@@ -13,15 +13,23 @@ export const InitLoading = () => {
     );
 };
 
-export const Loading = () => {
+export const Loading = ({ className }: { className?: string }) => {
     return (
-        <div className="fixed inset-0 flex items-center justify-center">
+        <div className={`fixed inset-0 flex items-center justify-center ${className}`}>
             <RingSpinner />
         </div>
     );
 };
 
 export const LoadingAlertDialog = ({ className }: { className?: string }) => {
+    return (
+        <div className={`flex justify-center items-center h-full w-full ${className}`}>
+            <RingSpinner />
+        </div>
+    );
+};
+
+export const LoadingBalance = ({ className }: { className?: string }) => {
     return (
         <div className={`flex justify-center items-center h-full w-full ${className}`}>
             <RingSpinner />
