@@ -58,7 +58,7 @@ export const WalletsList = () => {
                         wallet.currency === "USDT" ? String(json.data.usdt_amount) : String(json.data.trx_amount);
                 })
                 .catch(error => {
-                    console.error(`Error fetching balance for wallet ${wallet.id}:`, error);
+                    // console.error(`Error fetching balance for wallet ${wallet.id}:`, error);
                     balancesMap[wallet.id] = "-";
                 });
         });
