@@ -383,17 +383,14 @@ interface Wallet {
     minimal_ballance_limit: number;
 }
 interface WalletCreate {
-    id: string;
     description: string | null;
     type: WalletTypes;
     blockchain: string;
     network: string;
-    address?: string | null;
     currency: string;
     account_id?: string;
     minimal_ballance_limit: number;
     accountNumber?: string;
-    merchantId?: string;
 }
 
 interface WalletStorage {

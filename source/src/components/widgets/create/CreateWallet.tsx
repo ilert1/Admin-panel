@@ -56,13 +56,15 @@ export const CreateWallet = (props: CreateWalletProps) => {
     const onSubmit: SubmitHandler<WalletCreate> = async data => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
-        data.account_id = data.address ?? "";
-        delete data.address;
+        data.account_id = data.accountNumber ?? "";
+        delete data.accountNumber;
+        console.log(data);
         try {
             await dataProvider.create("wallet", { data: data });
             refresh();
             onOpenChange(false);
         } catch (error) {
+            console.log(error);
             toast.error(translate("resources.wallet.manage.error"), {
                 dismissible: true,
                 description: translate("resources.wallet.manage.errors.errorWhenCreating"),
@@ -79,6 +81,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
+            console.log(error);
             let message;
             if (error.status === 500) {
                 message = "serverError";
@@ -96,12 +99,9 @@ export const CreateWallet = (props: CreateWalletProps) => {
 
     const formSchema = z.object({
         type: z.enum([WalletTypes.EXTERNAL, WalletTypes.INTERNAL, WalletTypes.LINKED]),
-        // id: z.string().min(1, translate("resources.wallet.manage.errors.id")),
         id: z.string(),
-        address: z.string().nullable(),
         // Одно и тоже поле
         accountNumber: z.string().min(1),
-        merchantId: z.string(),
         //
         blockchain: z.string(),
         network: z.string(),
@@ -118,9 +118,6 @@ export const CreateWallet = (props: CreateWalletProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             type: isMerchant ? WalletTypes.EXTERNAL : WalletTypes.INTERNAL,
-            id: "",
-            address: "",
-            merchantId: "",
             currency: "USDT",
             description: "",
             accountNumber: "",
@@ -226,25 +223,6 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 render={({ field }) => (
                                     <FormItem className="w-1/2 p-2">
                                         <FormLabel>{translate("resources.wallet.manage.fields.currency")}</FormLabel>
-                                        <FormControl>
-                                            <div>
-                                                <Input
-                                                    {...field}
-                                                    className="bg-muted"
-                                                    variant={InputTypes.GRAY}
-                                                    disabled
-                                                />
-                                            </div>
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="id"
-                                render={({ field }) => (
-                                    <FormItem className="w-1/2 p-2">
-                                        <FormLabel>{translate("resources.wallet.manage.fields.internalId")}</FormLabel>
                                         <FormControl>
                                             <div>
                                                 <Input
