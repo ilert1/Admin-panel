@@ -113,13 +113,22 @@ export const WithdrawList = () => {
             accessorKey: "id",
             header: translate("resources.withdraw.fields.id"),
             cell: ({ row }) => (
-                <TextField text={row.original.id} wrap={"break-all"} copyValue lineClamp linesCount={1} />
+                <TextField
+                    text={row.original.id}
+                    wrap={"break-all"}
+                    copyValue
+                    lineClamp
+                    linesCount={1}
+                    minWidth="50px"
+                />
             )
         },
         {
             accessorKey: "destination.id",
             header: translate("resources.withdraw.fields.destination.id"),
-            cell: ({ row }) => <TextField text={row.original.destination.id} wrap copyValue lineClamp linesCount={1} />
+            cell: ({ row }) => (
+                <TextField text={row.original.destination.id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />
+            )
         },
         ...(permissions === "admin"
             ? [
@@ -130,7 +139,14 @@ export const WithdrawList = () => {
                           return (
                               <div>
                                   <TextField text={merch?.name ?? ""} wrap />
-                                  <TextField text={row.original.source.id} wrap copyValue lineClamp linesCount={1} />
+                                  <TextField
+                                      text={row.original.source.id}
+                                      wrap
+                                      copyValue
+                                      lineClamp
+                                      linesCount={1}
+                                      minWidth="50px"
+                                  />
                               </div>
                           );
                       }
@@ -150,6 +166,9 @@ export const WithdrawList = () => {
                             Object.hasOwn(row.original, "requisites") ? `${row.original.requisites[0].hash_link}` : "-"
                         }
                         type={text !== "-" ? "link" : "text"}
+                        lineClamp
+                        linesCount={1}
+                        minWidth="50px"
                     />
                 );
             }

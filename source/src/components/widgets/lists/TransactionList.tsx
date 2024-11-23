@@ -291,20 +291,31 @@ export const TransactionList = () => {
         {
             accessorKey: "id",
             header: translate("resources.transactions.fields.id"),
-            cell: ({ row }) => <TextField text={row.original.id} wrap copyValue />,
+            cell: ({ row }) => (
+                <TextField text={row.original.id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />
+            ),
             filterFn: "includesString"
         },
         {
             accessorKey: "meta.customer_data.customer_id",
             header: translate("resources.transactions.fields.meta.customer_id"),
             cell: ({ row }) => {
-                return <TextField text={row.original.meta.customer_data.customer_id} />;
+                return <TextField text={row.original.meta.customer_data.customer_id} wrap />;
             }
         },
         {
             accessorKey: "meta.customer_data.customer_payment_id",
             header: translate("resources.transactions.fields.meta.customer_payment_id"),
-            cell: ({ row }) => <TextField text={row.original.meta.customer_data.customer_payment_id} wrap copyValue />
+            cell: ({ row }) => (
+                <TextField
+                    text={row.original.meta.customer_data.customer_payment_id}
+                    wrap
+                    copyValue
+                    lineClamp
+                    linesCount={1}
+                    minWidth="50px"
+                />
+            )
         },
         ...(permissions === "admin"
             ? [
@@ -341,7 +352,14 @@ export const TransactionList = () => {
                           return (
                               <div>
                                   <TextField text={merch} wrap />
-                                  <TextField text={row.original.source.id} wrap copyValue />
+                                  <TextField
+                                      text={row.original.source.id}
+                                      wrap
+                                      copyValue
+                                      lineClamp
+                                      linesCount={1}
+                                      minWidth="50px"
+                                  />
                               </div>
                           );
                       }

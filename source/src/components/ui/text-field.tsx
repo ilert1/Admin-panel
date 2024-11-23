@@ -11,7 +11,8 @@ export const TextField = ({
     copyValue = false,
     wrap = false,
     lineClamp = false,
-    linesCount = 3
+    linesCount = 3,
+    minWidth = "150px"
 }: {
     text: string;
     label?: string | undefined;
@@ -21,6 +22,7 @@ export const TextField = ({
     wrap?: boolean | "break-all";
     lineClamp?: boolean;
     linesCount?: number;
+    minWidth?: string;
 }) => {
     const currentText = useMemo(() => (text?.length > 0 ? text : "-"), [text]);
     const translate = useTranslate();
@@ -71,7 +73,7 @@ export const TextField = ({
                                       wordBreak: "break-word",
                                       textWrap: "wrap",
                                       maxWidth: "100%",
-                                      minWidth: "150px"
+                                      minWidth: minWidth
                                   }
                                 : {})
                         }}>
