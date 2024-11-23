@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useTranslate, useListController, ListContextProvider, usePermissions, useLocaleState } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
@@ -16,6 +17,8 @@ import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { Input } from "@/components/ui/input";
 import useWithdrawFilter from "@/hooks/useWithdrawFilter";
 import { CryptoTransfer } from "../components/CryptoTransfer";
+import fetchDictionaries from "@/helpers/get-dictionaries";
+import { useFetchMerchants, useGetTransactionState } from "@/hooks";
 
 const WithdrawFilterSidebar = () => {
     const {
@@ -86,8 +89,20 @@ export const WithdrawList = () => {
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const [locale] = useLocaleState();
+    const data = fetchDictionaries();
 
+    let isLoading,
+        merchantsList: any[] = [];
+    if (permissions === "admin") {
+        ({ isLoading, merchantsList } = useFetchMerchants());
+    }
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
+
+    console.log(
+        merchantsList.find(el => {
+            return el.id === "552041c7-5404-466d-8c23-1553a8860140";
+        })
+    );
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
@@ -108,7 +123,51 @@ export const WithdrawList = () => {
         {
             accessorKey: "destination.id",
             header: translate("resources.withdraw.fields.destination.id"),
-            cell: ({ row }) => <TextField text={row.original.destination.id} wrap={"break-all"} copyValue />
+            cell: ({ row }) => (
+                <TextField
+                    text={
+                        String(
+                            row.original.destination.amount.value.quantity /
+                                row.original.destination.amount.value.accuracy
+                        ) + row.original.destination.amount.currency
+                    }
+                    wrap
+                    copyValue
+                />
+            )
+        },
+        ...(permissions === "admin"
+            ? [
+                  {
+                      header: translate("resources.withdraw.fields.merchant"),
+                      cell: ({ row }: any) => {
+                          const merch = merchantsList.find(el => el.id === row.original.source.id);
+                          return (
+                              <div>
+                                  <TextField text={merch?.name ?? ""} wrap />
+                                  <TextField text={row.original.source.id} wrap copyValue />
+                              </div>
+                          );
+                      }
+                  }
+              ]
+            : []),
+        {
+            header: translate("resources.withdraw.fields.idInBlockChain"),
+            cell: ({ row }) => {
+                const text = Object.hasOwn(row.original, "requisites") ? row.original.requisites[0].hash : "-";
+                return (
+                    <TextField
+                        text={text}
+                        wrap
+                        copyValue={text !== "-" ? true : false}
+                        link={
+                            Object.hasOwn(row.original, "requisites") ? `${row.original.requisites[0].hash_link}` : "-"
+                        }
+                        type={text !== "-" ? "link" : "text"}
+                    />
+                );
+            }
         },
         {
             accessorKey: "destination.amount.value",
@@ -122,10 +181,22 @@ export const WithdrawList = () => {
                     row.original.destination.amount.currency || ""
                 }`;
             }
+        },
+        {
+            header: translate("resources.withdraw.fields.state"),
+            cell: ({ row }) => {
+                // eslint-disable-next-line react-hooks/rules-of-hooks
+                const { text, color } = useGetTransactionState({ state: row.original.state.state_int });
+                return (
+                    <div className={`px-3 py-0.5 rounded-20 font-normal text-base text-center text-white ${color}`}>
+                        <TextField text={text} />
+                    </div>
+                );
+            }
         }
     ];
 
-    if (listContext.isLoading || !listContext.data) {
+    if (listContext.isLoading || !listContext.data || isLoading) {
         return <Loading />;
     } else {
         return (
