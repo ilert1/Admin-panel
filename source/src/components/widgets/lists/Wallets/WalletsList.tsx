@@ -25,7 +25,7 @@ export const WalletsList = () => {
         permissions === "admin" ? { resource: "wallet" } : { resource: "merchant/wallet" }
     );
     const translate = useTranslate();
-    console.log(listContext?.perPage);
+    // console.log(listContext?.perPage);
     const [balances, setBalances] = useState<Record<string, string>>({});
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
