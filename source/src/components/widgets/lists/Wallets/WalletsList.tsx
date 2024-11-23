@@ -40,25 +40,34 @@ export const WalletsList = () => {
     };
 
     const fetchBalances = async () => {
-        const balancesMap: Record<string, string> = {};
-        if (listContext.data) {
-            for (const wallet of listContext.data) {
+        if (!listContext.data) return;
+
+        try {
+            const balancesMap: Record<string, string> = {};
+
+            const balancePromises = listContext.data.map(async wallet => {
+                const url = `${API_URL}/${permissions === "admin" ? "" : "merchant/"}wallet/${wallet.id}/balance`;
+
                 try {
-                    const url = `${API_URL}/${permissions === "admin" ? "" : "merchant/"}wallet/${wallet.id}/balance`;
                     const { json } = await fetchUtils.fetchJson(url, {
                         user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
                     });
-                    if (!json.success) {
-                        throw new Error("");
-                    }
+
+                    if (!json.success) throw new Error("Balance fetch failed");
+
                     balancesMap[wallet.id] =
                         wallet.currency === "USDT" ? String(json.data.usdt_amount) : String(json.data.trx_amount);
                 } catch (error) {
                     balancesMap[wallet.id] = "-";
                 }
-            }
+            });
+
+            await Promise.all(balancePromises);
+
+            setBalances(balancesMap);
+        } catch (error) {
+            console.error("Error fetching balances:", error);
         }
-        setBalances(balancesMap);
     };
 
     useEffect(() => {
