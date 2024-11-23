@@ -311,12 +311,36 @@ export const TransactionList = () => {
                   {
                       header: translate("resources.withdraw.fields.merchant"),
                       cell: ({ row }: any) => {
-                          const merch = merchantsList.find(el => {
-                              el.id === row.original.source.id;
-                          });
+                          const sourceMerch = merchantsList.find(el => el.id === row.original.source.id);
+                          const destMerch = merchantsList.find(el => el.id === row.original.destination.id);
+
+                          let merch;
+                          switch (row.original.type) {
+                              case 1:
+                                  merch = destMerch?.name;
+                                  break;
+                              case 2:
+                                  merch = sourceMerch?.name;
+                                  break;
+                              case 3:
+                                  merch = `${sourceMerch?.name} - ${destMerch?.name}`;
+                                  break;
+                              case 4:
+                                  merch = sourceMerch?.name;
+                                  break;
+                              default:
+                                  merch = "";
+                          }
+
+                          /* console.log({
+                              type: row.original.type,
+                              source: merchantsList.find(el => el.id === row.original.source.id)?.name,
+                              destination: merchantsList.find(el => el.id === row.original.destination.id)?.name
+                          }); */
+
                           return (
                               <div>
-                                  <TextField text={merch?.name ?? ""} wrap />
+                                  <TextField text={merch} wrap />
                                   <TextField text={row.original.source.id} wrap copyValue />
                               </div>
                           );

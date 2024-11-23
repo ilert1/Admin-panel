@@ -98,12 +98,6 @@ export const WithdrawList = () => {
     }
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
 
-    console.log(
-        merchantsList.find(el => {
-            return el.id === "552041c7-5404-466d-8c23-1553a8860140";
-        })
-    );
-
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
             accessorKey: "created_at",
