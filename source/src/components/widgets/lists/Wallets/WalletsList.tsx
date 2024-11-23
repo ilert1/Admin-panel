@@ -15,7 +15,7 @@ export const WalletsList = () => {
     const listContext = useListController(
         permissions === "admin" ? { resource: "wallet" } : { resource: "merchant/wallet" }
     );
-    console.log(listContext);
+    // console.log(listContext);
     const translate = useTranslate();
 
     const { columns, chosenId, quickShowOpen, setQuickShowOpen } = useGetWalletsColumns();
