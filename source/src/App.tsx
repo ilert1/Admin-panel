@@ -40,13 +40,14 @@ import {
     CreditCardIcon
 } from "lucide-react";
 import { authProvider, ThemeProvider } from "@/components/providers";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster as ToasterSonner } from "@/components/ui/sonner";
 import "./globals.css";
 import { MerchantEdit } from "./components/widgets/edit";
 import { InitLoading } from "./components/ui/loading";
 import { NotFound } from "./components/widgets/shared/NotFound";
 import WalletsLogo from "./lib/icons/Wallets";
 import { WalletStore } from "./pages/WalletStore";
+import { Toaster } from "./components/ui/toaster";
 
 const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
 
@@ -140,6 +141,7 @@ export const App = () => {
                     )}
                 </CoreAdminUI>
 
+                <ToasterSonner />
                 <Toaster />
             </CoreAdminContext>
         </ThemeProvider>

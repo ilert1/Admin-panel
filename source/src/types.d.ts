@@ -380,7 +380,7 @@ interface WalletCreate {
     network: string;
     address?: string | null;
     currency: string;
-    account_id: string;
+    account_id?: string;
     minimal_ballance_limit: number;
     accountNumber?: string;
     merchantId?: string;
