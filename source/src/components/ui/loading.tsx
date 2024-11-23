@@ -13,9 +13,9 @@ export const InitLoading = () => {
     );
 };
 
-export const Loading = () => {
+export const Loading = ({ className }: { className?: string }) => {
     return (
-        <div className="fixed inset-0 flex items-center justify-center">
+        <div className={`fixed inset-0 flex items-center justify-center ${className}`}>
             <RingSpinner />
         </div>
     );

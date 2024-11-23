@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
+import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
+
 enum WalletTypes {
     INTERNAL = "internal",
     LINKED = "linked",
@@ -56,7 +58,15 @@ export const useGetWalletsColumns = (data: any, balances: Record<string, string>
             id: "Balance",
             header: translate("resources.wallet.manage.fields.balance"),
             cell: ({ row }) => {
-                return <TextField text={balances[row.original.id]} />;
+                return (
+                    <div className="flex items-center justify-center">
+                        {!balances[row.original.id] ? (
+                            <LoadingAlertDialog className="w-[15px] h-[15px]" />
+                        ) : (
+                            <TextField text={balances[row.original.id]} />
+                        )}
+                    </div>
+                );
             }
         },
         {
