@@ -98,6 +98,12 @@ export const WithdrawList = () => {
     }
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
 
+    console.log(
+        merchantsList.find(el => {
+            return el.id === "552041c7-5404-466d-8c23-1553a8860140";
+        })
+    );
+
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
             accessorKey: "created_at",
@@ -135,9 +141,7 @@ export const WithdrawList = () => {
                   {
                       header: translate("resources.withdraw.fields.merchant"),
                       cell: ({ row }: any) => {
-                          const merch = merchantsList.find(el => {
-                              el.id === row.original.source.id;
-                          });
+                          const merch = merchantsList.find(el => el.id === row.original.source.id);
                           return (
                               <div>
                                   <TextField text={merch?.name ?? ""} wrap />
@@ -191,7 +195,7 @@ export const WithdrawList = () => {
             }
         }
     ];
-    console.log(columns);
+
     if (listContext.isLoading || !listContext.data || isLoading) {
         return <Loading />;
     } else {
