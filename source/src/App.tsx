@@ -100,8 +100,8 @@ export const App = () => {
 
                             {WALLET_ENABLED && (
                                 <Resource name="wallet" list={WalletsList} icon={WalletsLogo}>
-                                    <Route path="storage" element={<WalletStore />} />
-                                    <Route path="transactions" element={<WalletTransactionsList />} />
+                                    <Route path="/storage" element={<WalletStore />} />
+                                    <Route path="/transactions" element={<WalletTransactionsList />} />
                                 </Resource>
                             )}
 
@@ -120,8 +120,8 @@ export const App = () => {
                                     <Resource name="direction" list={DirectionsList} icon={SignpostIcon} />
                                     {WALLET_ENABLED && (
                                         <Resource name="wallet" list={WalletsList} icon={WalletsLogo}>
-                                            <Route path="storage" element={<WalletStore />} />
-                                            <Route path="transactions" element={<WalletTransactionsList />} />
+                                            <Route path="/storage" element={<WalletStore />} />
+                                            <Route path="/transactions" element={<WalletTransactionsList />} />
                                         </Resource>
                                     )}
                                 </>
