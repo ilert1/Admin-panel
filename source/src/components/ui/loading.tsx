@@ -28,6 +28,14 @@ export const LoadingAlertDialog = ({ className }: { className?: string }) => {
         </div>
     );
 };
+
+export const LoadingBalance = ({ className }: { className?: string }) => {
+    return (
+        <div className={`flex justify-center items-center h-full w-full ${className}`}>
+            <RingSpinner />
+        </div>
+    );
+};
 export const RingSpinner = () => {
     return (
         <svg className={`animate-spin w-24 h-24`} viewBox="0 0 100 100">

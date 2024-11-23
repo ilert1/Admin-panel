@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
+import { Loading, LoadingAlertDialog, LoadingBalance } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
@@ -61,7 +61,7 @@ export const useGetWalletsColumns = (data: any, balances: Record<string, string>
                 return (
                     <div className="flex items-center justify-center">
                         {!balances[row.original.id] ? (
-                            <LoadingAlertDialog className="w-[15px] h-[15px]" />
+                            <LoadingBalance className="w-[15px] h-[15px] overflow-hidden" />
                         ) : (
                             <TextField text={balances[row.original.id]} />
                         )}
