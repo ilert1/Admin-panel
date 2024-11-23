@@ -48,8 +48,6 @@ import { NotFound } from "./components/widgets/shared/NotFound";
 import WalletsLogo from "./lib/icons/Wallets";
 import { WalletStore } from "./pages/WalletStore";
 
-const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
-
 const dataProvider = combineDataProviders((resource: string) => {
     switch (resource) {
         case "transactions":
@@ -98,12 +96,10 @@ export const App = () => {
                             <Resource name="transactions" list={TransactionList} icon={HistoryIcon} />
                             <Resource name="withdraw" list={WithdrawList} icon={BitcoinIcon} />
 
-                            {WALLET_ENABLED && (
-                                <Resource name="wallet" list={WalletsList} icon={WalletsLogo}>
-                                    <Route path="/storage" element={<WalletStore />} />
-                                    <Route path="/transactions" element={<WalletTransactionsList />} />
-                                </Resource>
-                            )}
+                            <Resource name="wallet" list={WalletsList} icon={WalletsLogo}>
+                                {permissions === "admin" && <Route path="storage" element={<WalletStore />} />}
+                                <Route path="transactions" element={<WalletTransactionsList />} />
+                            </Resource>
 
                             {permissions === "admin" && (
                                 <>
@@ -118,12 +114,6 @@ export const App = () => {
                                     />
                                     <Resource name="provider" list={ProvidersList} icon={NetworkIcon} />
                                     <Resource name="direction" list={DirectionsList} icon={SignpostIcon} />
-                                    {WALLET_ENABLED && (
-                                        <Resource name="wallet" list={WalletsList} icon={WalletsLogo}>
-                                            <Route path="/storage" element={<WalletStore />} />
-                                            <Route path="/transactions" element={<WalletTransactionsList />} />
-                                        </Resource>
-                                    )}
                                 </>
                             )}
 
