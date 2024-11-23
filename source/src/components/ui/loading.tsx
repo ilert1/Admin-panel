@@ -31,7 +31,7 @@ export const LoadingAlertDialog = ({ className }: { className?: string }) => {
 
 export const LoadingBalance = ({ className }: { className?: string }) => {
     return (
-        <div className={`flex justify-center items-center h-full w-full ${className}`}>
+        <div className={`flex justify-center items-center ${className}`}>
             <RingSpinner />
         </div>
     );
