@@ -311,7 +311,8 @@ export const TransactionList = () => {
                   {
                       header: translate("resources.withdraw.fields.merchant"),
                       cell: ({ row }: any) => {
-                          const sourceMerch = merchantsList.find(el => el.id === row.original.source.id);
+                          const sourceMerch =
+                              row.original.type !== 1 && merchantsList.find(el => el.id === row.original.source.id);
                           const destMerch = merchantsList.find(el => el.id === row.original.destination.id);
 
                           let merch;
@@ -320,14 +321,13 @@ export const TransactionList = () => {
                                   merch = destMerch?.name;
                                   break;
                               case 2:
+                              case 4:
                                   merch = sourceMerch?.name;
                                   break;
                               case 3:
                                   merch = `${sourceMerch?.name} - ${destMerch?.name}`;
                                   break;
-                              case 4:
-                                  merch = sourceMerch?.name;
-                                  break;
+
                               default:
                                   merch = "";
                           }
