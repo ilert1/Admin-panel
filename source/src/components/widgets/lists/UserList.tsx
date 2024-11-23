@@ -162,13 +162,13 @@ export const UserList = () => {
             id: "id",
             accessorKey: "id",
             header: translate("resources.users.fields.id"),
-            cell: ({ row }) => <TextField text={row.original.id} copyValue />
+            cell: ({ row }) => <TextField text={row.original.id} copyValue lineClamp linesCount={1} minWidth="50px" />
         },
         {
             id: "name",
             accessorKey: "name",
             header: translate("resources.users.fields.name"),
-            cell: ({ row }) => <TextField text={row.original.name} copyValue />
+            cell: ({ row }) => <TextField text={row.original.name} copyValue wrap />
         },
         {
             accessorKey: "active",

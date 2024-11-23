@@ -31,7 +31,16 @@ export const useGetWalletsColumns = () => {
             accessorKey: "address",
             header: translate("resources.wallet.manage.fields.walletAddress"),
             cell: ({ row }) => {
-                return <TextField text={row.original.address ?? ""} wrap copyValue />;
+                return (
+                    <TextField
+                        text={row.original.address ?? ""}
+                        wrap
+                        copyValue
+                        lineClamp
+                        linesCount={1}
+                        minWidth="50px"
+                    />
+                );
             }
         },
         {
