@@ -26,6 +26,7 @@ import {
     useRefresh,
     useTranslate
 } from "react-admin";
+import { toast } from "sonner";
 import { Form, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -42,7 +43,6 @@ export const CreateWallet = (props: CreateWalletProps) => {
     const { onOpenChange } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
-    const { toast } = useToast();
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController();
 
@@ -63,17 +63,15 @@ export const CreateWallet = (props: CreateWalletProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
-            console.log(error);
-            toast({
-                title: translate("resources.wallet.manage.error"),
+            toast.error(translate("resources.wallet.manage.error"), {
+                dismissible: true,
                 description: translate("resources.wallet.manage.errors.errorWhenCreating"),
-                variant: "destructive"
+                duration: 3000
             });
             setButtonDisabled(false);
         }
     };
     const onSubmitMerchant = async (data: { address: string; description: string | null }) => {
-        console.log(data);
         if (buttonDisabled) return;
         setButtonDisabled(true);
         try {
@@ -82,17 +80,15 @@ export const CreateWallet = (props: CreateWalletProps) => {
             onOpenChange(false);
         } catch (error) {
             let message;
-            console.log(error.status);
             if (error.status === 500) {
                 message = "serverError";
             } else {
                 message = "errorWhenCreating";
             }
-            toast({
-                title: translate("resources.wallet.manage.error"),
+            toast.error(translate("resources.wallet.manage.error"), {
+                dismissible: true,
                 description: translate(`resources.wallet.manage.errors.${message}`),
-                variant: "destructive",
-                duration: 2000
+                duration: 3000
             });
             setButtonDisabled(false);
         }

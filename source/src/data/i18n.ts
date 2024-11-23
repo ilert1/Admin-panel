@@ -454,7 +454,7 @@ const ru: TranslationMessages = {
                 error: "Ошибка",
                 errors: {
                     errorWhenCreating: "Ошибка при создании кошелька",
-                    serverError: "Ошибка на стороне сервера"
+                    serverError: "Ошибка на стороне сервера. Попробуйте позже"
                 },
                 creatingWallet: "Добавление кошелька",
                 editingWallet: "Редактирование кошелька",
@@ -1153,7 +1153,7 @@ const en: TranslationMessages = {
                 error: "Error",
                 errors: {
                     errorWhenCreating: "Error occured when creating wallet",
-                    serverError: "Server side error"
+                    serverError: "Server side error, try again later"
                 },
                 creatingWallet: "Adding wallet",
                 editingWallet: "Editing wallet",
