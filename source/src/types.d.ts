@@ -135,6 +135,7 @@ declare namespace Transaction {
         committed: boolean;
         created_at: string;
         destination: {
+            id: string;
             amount: Omit<Amount, "type", "shop_currency">;
         };
         dispute: boolean;

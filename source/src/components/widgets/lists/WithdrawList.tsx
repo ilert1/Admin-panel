@@ -112,23 +112,14 @@ export const WithdrawList = () => {
         {
             accessorKey: "id",
             header: translate("resources.withdraw.fields.id"),
-            cell: ({ row }) => <TextField text={row.original.id} wrap={"break-all"} copyValue />
+            cell: ({ row }) => (
+                <TextField text={row.original.id} wrap={"break-all"} copyValue lineClamp linesCount={1} />
+            )
         },
         {
             accessorKey: "destination.id",
             header: translate("resources.withdraw.fields.destination.id"),
-            cell: ({ row }) => (
-                <TextField
-                    text={
-                        String(
-                            row.original.destination.amount.value.quantity /
-                                row.original.destination.amount.value.accuracy
-                        ) + row.original.destination.amount.currency
-                    }
-                    wrap
-                    copyValue
-                />
-            )
+            cell: ({ row }) => <TextField text={row.original.destination.id} wrap copyValue lineClamp linesCount={1} />
         },
         ...(permissions === "admin"
             ? [
@@ -139,7 +130,7 @@ export const WithdrawList = () => {
                           return (
                               <div>
                                   <TextField text={merch?.name ?? ""} wrap />
-                                  <TextField text={row.original.source.id} wrap copyValue />
+                                  <TextField text={row.original.source.id} wrap copyValue lineClamp linesCount={1} />
                               </div>
                           );
                       }
