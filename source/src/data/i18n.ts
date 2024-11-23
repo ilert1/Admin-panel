@@ -451,6 +451,10 @@ const ru: TranslationMessages = {
                     minRemaini: "Минимальная остаточная сумма",
                     more: "Подробнее"
                 },
+                error: "Ошибка",
+                errors: {
+                    errorWhenCreating: "Ошибка при создании кошелька"
+                },
                 creatingWallet: "Добавление кошелька",
                 editingWallet: "Редактирование кошелька",
                 deleteWallet: "Удалить кошелек?",
@@ -1145,8 +1149,9 @@ const en: TranslationMessages = {
                     contactType: "Contact type in blockchain",
                     minRemaini: "Minimum remaining amount"
                 },
+                error: "Error",
                 errors: {
-                    id: "Id is required field"
+                    errorWhenCreating: "Error occured when creating wallet"
                 },
                 creatingWallet: "Adding wallet",
                 editingWallet: "Editing wallet",

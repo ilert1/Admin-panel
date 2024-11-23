@@ -39,7 +39,7 @@ export const useGetWalletsColumns = () => {
             accessorKey: "accountNumber",
             header: translate("resources.wallet.manage.fields.accountNumber"),
             cell: ({ row }) => {
-                if (row.original.type === WalletTypes.LINKED) return "-";
+                if (row.original.type !== WalletTypes.EXTERNAL) return "-";
                 return <TextField text={row.original.account_id} wrap copyValue />;
             }
         },

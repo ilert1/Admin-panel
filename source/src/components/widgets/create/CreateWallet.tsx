@@ -53,7 +53,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
 
     const [buttonDisabled, setButtonDisabled] = useState(false);
 
-    const onSubmit: SubmitHandler<Omit<Wallet, "account_id">> = async data => {
+    const onSubmit: SubmitHandler<WalletCreate> = async data => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
         if (isMerchant) {
@@ -64,12 +64,15 @@ export const CreateWallet = (props: CreateWalletProps) => {
                 onOpenChange(false);
             } catch (error) {
                 toast.toast({
-                    title: "Error"
+                    title: translate("resources.wallet.manage.error"),
+                    description: translate("resources.wallet.manage.errors.errorWhenCreating"),
+                    variant: "destructive"
                 });
                 setButtonDisabled(false);
             }
         } else {
-            data.address = null;
+            data.account_id = data.address ?? "";
+            delete data.address;
             try {
                 await dataProvider.create(isMerchant ? "merchant/wallet" : "wallet", { data: data });
                 refresh();
@@ -77,7 +80,9 @@ export const CreateWallet = (props: CreateWalletProps) => {
             } catch (error) {
                 console.log(error);
                 toast.toast({
-                    title: "Error"
+                    title: translate("resources.wallet.manage.error"),
+                    description: translate("resources.wallet.manage.errors.errorWhenCreating"),
+                    variant: "destructive"
                 });
                 setButtonDisabled(false);
             }
@@ -90,7 +95,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
         id: z.string(),
         address: z.string().nullable(),
         // Одно и тоже поле
-        accountNumber: z.string(),
+        accountNumber: z.string().min(1),
         merchantId: z.string(),
         //
         blockchain: z.string(),
@@ -177,26 +182,6 @@ export const CreateWallet = (props: CreateWalletProps) => {
                         />
                         <FormField
                             control={form.control}
-                            name="address"
-                            render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.walletAddress")}</FormLabel>
-                                    <FormControl>
-                                        <div>
-                                            <Input
-                                                {...field}
-                                                className="bg-muted"
-                                                variant={InputTypes.GRAY}
-                                                value={field.value ?? ""}
-                                                disabled={!isMerchant}
-                                            />
-                                        </div>
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
                             name="accountNumber"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
@@ -209,43 +194,6 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                                 variant={InputTypes.GRAY}
                                                 disabled={isMerchant}
                                             />
-                                        </div>
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="merchantId"
-                            render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.merchantId")}</FormLabel>
-                                    <FormControl>
-                                        <div>
-                                            <Select
-                                                value={field.value}
-                                                onValueChange={field.onChange}
-                                                disabled={merchantsDisabled}>
-                                                <FormControl>
-                                                    <SelectTrigger variant={SelectType.GRAY}>
-                                                        <SelectValue placeholder={""} />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    <SelectGroup>
-                                                        {!merchantsDisabled
-                                                            ? merchants.data.map(merchant => (
-                                                                  <SelectItem
-                                                                      key={merchant.name}
-                                                                      value={merchant.id}
-                                                                      variant={SelectType.GRAY}>
-                                                                      {merchant.name}
-                                                                  </SelectItem>
-                                                              ))
-                                                            : ""}
-                                                    </SelectGroup>
-                                                </SelectContent>
-                                            </Select>
                                         </div>
                                     </FormControl>
                                 </FormItem>
