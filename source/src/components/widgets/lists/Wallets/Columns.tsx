@@ -12,7 +12,7 @@ enum WalletTypes {
     EXTERNAL = "external"
 }
 
-export const useGetWalletsColumns = (data: any, balances: Record<string, string>) => {
+export const useGetWalletsColumns = (data: any, balances: Record<string, Amounts>) => {
     const translate = useTranslate();
     const [chosenId, setChosenId] = useState("");
     const [quickShowOpen, setQuickShowOpen] = useState(false);
@@ -67,13 +67,21 @@ export const useGetWalletsColumns = (data: any, balances: Record<string, string>
             id: "Balance",
             header: translate("resources.wallet.manage.fields.balance"),
             cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        {!balances[row.original.id] ? (
-                            <LoadingBalance className="w-[15px] h-[15px] overflow-hidden" />
-                        ) : (
-                            <TextField text={balances[row.original.id]} />
+                return balances[row.original.id]?.usdt_amount || balances[row.original.id]?.trx_amount ? (
+                    <div className="flex flex-col items-left justify-center">
+                        {balances[row.original.id]?.usdt_amount !== "-" && (
+                            <TextField text={`${balances[row.original.id]?.usdt_amount} USDT`} />
                         )}
+                        {balances[row.original.id]?.trx_amount !== "-" && (
+                            <TextField text={`${balances[row.original.id]?.trx_amount} TRX`} />
+                        )}
+                        {balances[row.original.id]?.usdt_amount === "-" &&
+                            balances[row.original.id]?.trx_amount === "-" &&
+                            "-"}
+                    </div>
+                ) : (
+                    <div className="flex flex-col items-center justify-center">
+                        <LoadingBalance className="w-[15px] h-[15px] overflow-hidden" />
                     </div>
                 );
             }

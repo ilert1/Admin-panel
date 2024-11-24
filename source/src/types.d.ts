@@ -424,3 +424,8 @@ interface Cryptotransactions {
     updated_at: string;
     deleted_at: string;
 }
+
+interface Amounts {
+    usdt_amount?: string;
+    trx_amount?: string;
+}

@@ -26,7 +26,7 @@ export const WalletsList = () => {
     );
     const translate = useTranslate();
     // console.log(listContext?.perPage);
-    const [balances, setBalances] = useState<Record<string, string>>({});
+    const [balances, setBalances] = useState<Record<string, Amounts>>({});
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const dataProvider = useDataProvider<VaultDataProvider>();
@@ -40,7 +40,7 @@ export const WalletsList = () => {
     const fetchBalances = async () => {
         if (!listContext.data) return;
 
-        const balancesMap: Record<string, string> = {};
+        const balancesMap: Record<string, Amounts> = {};
 
         const balancePromises = listContext.data.map(async wallet => {
             const url = `${API_URL}/${permissions === "admin" ? "" : "merchant/"}wallet/${wallet.id}/balance`;
@@ -54,12 +54,17 @@ export const WalletsList = () => {
                         throw new Error("Balance fetch failed");
                     }
 
-                    balancesMap[wallet.id] =
-                        wallet.currency === "USDT" ? String(json.data.usdt_amount) : String(json.data.trx_amount);
+                    balancesMap[wallet.id] = json.data;
+                    // console.log(json.data);
+
+                    // wallet.currency === "USDT" ? String(json.data.usdt_amount) : String(json.data.trx_amount);
                 })
                 .catch(error => {
                     // console.error(`Error fetching balance for wallet ${wallet.id}:`, error);
-                    balancesMap[wallet.id] = "-";
+                    balancesMap[wallet.id] = {
+                        usdt_amount: "-",
+                        trx_amount: "-"
+                    };
                 });
         });
 
