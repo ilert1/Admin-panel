@@ -69,14 +69,14 @@ export const useGetWalletsColumns = (data: any, balances: Record<string, Amounts
             cell: ({ row }) => {
                 return balances[row.original.id]?.usdt_amount || balances[row.original.id]?.trx_amount ? (
                     <div className="flex flex-col items-left justify-center">
-                        {balances[row.original.id]?.usdt_amount !== "-" && (
+                        {balances[row.original.id]?.usdt_amount != "0" && (
                             <TextField text={`${balances[row.original.id]?.usdt_amount} USDT`} />
                         )}
-                        {balances[row.original.id]?.trx_amount !== "-" && (
+                        {balances[row.original.id]?.trx_amount !== "0" && (
                             <TextField text={`${balances[row.original.id]?.trx_amount} TRX`} />
                         )}
-                        {balances[row.original.id]?.usdt_amount === "-" &&
-                            balances[row.original.id]?.trx_amount === "-" &&
+                        {balances[row.original.id]?.usdt_amount === "0" &&
+                            balances[row.original.id]?.trx_amount === "0" &&
                             "-"}
                     </div>
                 ) : (

@@ -62,8 +62,8 @@ export const WalletsList = () => {
                 .catch(error => {
                     // console.error(`Error fetching balance for wallet ${wallet.id}:`, error);
                     balancesMap[wallet.id] = {
-                        usdt_amount: "-",
-                        trx_amount: "-"
+                        usdt_amount: "0",
+                        trx_amount: "0"
                     };
                 });
         });
