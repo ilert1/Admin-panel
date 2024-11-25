@@ -6,9 +6,18 @@ import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
-import { Pencil, PlusCircle, Trash2 } from "lucide-react";
+import { EyeIcon, Pencil, PlusCircle, Trash2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CreateTerminalDialog } from "./CreateTerminalDialog";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
 
 const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvider: (provider: string) => void }) => {
     const {
@@ -88,6 +97,7 @@ export const TerminalsList = () => {
 
     const [provider, setProvider] = useState("");
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
+    const [showAuthKeyOpen, setShowAuthKeyOpen] = useState(false);
 
     const columns: ColumnDef<Directions.Terminal>[] = [
         {
@@ -139,13 +149,48 @@ export const TerminalsList = () => {
             header: translate("resources.terminals.fields.auth"),
             cell: ({ row }) => {
                 return (
-                    <TextField
-                        text={JSON.stringify(row.original.auth)}
-                        lineClamp
-                        linesCount={1}
-                        minWidth="50px"
-                        copyValue
-                    />
+                    <div className="flex items-center justify-center">
+                        <Button
+                            disabled={Object.keys(row.original.auth).length === 0}
+                            onClick={() => setShowAuthKeyOpen(true)}
+                            variant="clearBtn"
+                            className="h-7 w-7 p-0 bg-transparent">
+                            <EyeIcon className="text-green-50 size-7" />
+                        </Button>
+
+                        <Dialog open={showAuthKeyOpen} onOpenChange={setShowAuthKeyOpen}>
+                            <DialogContent className="max-w-[478px] h-[295px] max-h-full overflow-auto bg-muted">
+                                <DialogHeader>
+                                    <DialogTitle className="text-center"></DialogTitle>
+                                    <DialogDescription></DialogDescription>
+                                    <div className="w-full flex flex-col items-center justify-end ">
+                                        <span className="self-start text-note-1">
+                                            {translate("resources.provider.fields.methods")}
+                                        </span>
+                                        <MonacoEditor
+                                            height="144px"
+                                            code={JSON.stringify(row.original.auth)}
+                                            setCode={() => {}}
+                                            onErrorsChange={() => {}}
+                                            onValidChange={() => {}}
+                                            disabled
+                                        />
+                                    </div>
+                                </DialogHeader>
+                                <DialogFooter>
+                                    <div className="flex justify-end w-full pr-1">
+                                        <Button
+                                            variant={"outline"}
+                                            onClick={() => {
+                                                setShowAuthKeyOpen(false);
+                                            }}>
+                                            {translate("app.ui.actions.close")}
+                                        </Button>
+                                    </div>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
                 );
             }
         },
