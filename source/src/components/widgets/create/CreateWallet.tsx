@@ -56,10 +56,11 @@ export const CreateWallet = (props: CreateWalletProps) => {
         pagination: { perPage: 25, page: 1 },
         filter: { sort: "name", asc: "ASC" }
     });
+
     const accountScrollHandler = async e => {
         const target = e.target as HTMLElement;
 
-        if (target.scrollHeight - target.scrollTop === target.clientHeight) {
+        if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
             accountsNextPage();
         }
     };

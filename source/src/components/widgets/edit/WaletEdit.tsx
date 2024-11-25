@@ -16,7 +16,7 @@ import {
 import { useGetAccounts } from "@/hooks";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     useDataProvider,
     useEditController,
@@ -63,10 +63,11 @@ export const EditWallet = (props: EditWalletProps) => {
         pagination: { perPage: 25, page: 1 },
         filter: { sort: "name", asc: "ASC" }
     });
+
     const accountScrollHandler = async e => {
         const target = e.target as HTMLElement;
 
-        if (target.scrollHeight - target.scrollTop === target.clientHeight) {
+        if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
             accountsNextPage();
         }
     };
