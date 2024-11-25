@@ -433,7 +433,8 @@ const ru: TranslationMessages = {
             create: "Создать терминал",
             selectHeader: "Провайдер",
             selectPlaceholder: "Выберите провайдера",
-            creatingTerminal: "Создание терминала"
+            creatingTerminal: "Создание терминала",
+            deleteHeader: "Удалить терминал?"
         },
         bankTransfer: {
             name: "Банковский перевод"
@@ -1162,7 +1163,8 @@ const en: TranslationMessages = {
             create: "Create terminal",
             selectHeader: "Provider",
             selectPlaceholder: "Select provider",
-            creatingTerminal: "Creating terminal"
+            creatingTerminal: "Creating terminal",
+            deleteHeader: "Delete terminal?"
         },
         bankTransfer: {
             name: "Bank transfer"

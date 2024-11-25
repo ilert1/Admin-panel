@@ -18,6 +18,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
+import { DeleteTerminalDialog } from "./DeleteTerminalDialog";
 
 const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvider: (provider: string) => void }) => {
     const {
@@ -98,6 +99,14 @@ export const TerminalsList = () => {
     const [provider, setProvider] = useState("");
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const [showAuthKeyOpen, setShowAuthKeyOpen] = useState(false);
+
+    const [chosenId, setChosenId] = useState("");
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+    const handleDeleteClicked = async (id: string) => {
+        setChosenId(id);
+        setDeleteDialogOpen(true);
+    };
 
     const columns: ColumnDef<Directions.Terminal>[] = [
         {
@@ -217,7 +226,7 @@ export const TerminalsList = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => console.log(row.original.terminal_id)} variant={"clearBtn"}>
+                        <Button onClick={() => handleDeleteClicked(row.original.terminal_id)} variant={"clearBtn"}>
                             <Trash2 className="text-green-50" />
                         </Button>
                     </div>
@@ -249,6 +258,12 @@ export const TerminalsList = () => {
                         provider={provider}
                         open={createDialogOpen}
                         onOpenChange={setCreateDialogOpen}
+                    />
+                    <DeleteTerminalDialog
+                        provider={provider}
+                        open={deleteDialogOpen}
+                        onOpenChange={setDeleteDialogOpen}
+                        deleteId={chosenId}
                     />
                 </div>
 
