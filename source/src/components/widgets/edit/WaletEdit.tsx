@@ -16,7 +16,7 @@ import {
 import { useGetAccounts } from "@/hooks";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDataProvider, useEditController, usePermissions, useRefresh, useTranslate } from "react-admin";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -41,6 +41,8 @@ export const EditWallet = (props: EditWalletProps) => {
     const { permissions, isLoading: isFetchingPermissions } = usePermissions();
     const { isLoading: isLoadingAccounts, accounts } = useGetAccounts();
 
+    const [buttonDisabled, setButtonDisabled] = useState(false);
+
     const isMerchant = permissions === "merchant";
     const { record, isLoading } = useEditController({
         resource: !isMerchant ? "wallet" : "merchant/wallet",
@@ -48,16 +50,12 @@ export const EditWallet = (props: EditWalletProps) => {
     });
 
     const onSubmit: SubmitHandler<WalletCreate> = async data => {
+        if (buttonDisabled) return;
+        setButtonDisabled(true);
         try {
-            let newData = {};
-            if (isMerchant) {
-                newData = { description: data.description ?? "" };
-            }
-            data.account_id = data.accountNumber ?? "";
-            delete data.accountNumber;
             await dataProvider.update(!isMerchant ? "wallet" : "merchant/wallet", {
                 id,
-                data: isMerchant ? newData : data,
+                data: data,
                 previousData: undefined
             });
             refresh();
@@ -66,6 +64,26 @@ export const EditWallet = (props: EditWalletProps) => {
             toast.error("Error", {
                 description: translate("resources.wallet.manage.errors.errorWhenEditing")
             });
+            setButtonDisabled(false);
+        }
+    };
+
+    const onSubmitMerchant: SubmitHandler<{ description: string | null }> = async data => {
+        if (buttonDisabled) return;
+        setButtonDisabled(true);
+        try {
+            await dataProvider.update("merchant/wallet", {
+                id,
+                data: data,
+                previousData: undefined
+            });
+            refresh();
+            onOpenChange(false);
+        } catch (error) {
+            toast.error("Error", {
+                description: translate("resources.wallet.manage.errors.errorWhenEditing")
+            });
+            setButtonDisabled(false);
         }
     };
 
@@ -77,6 +95,10 @@ export const EditWallet = (props: EditWalletProps) => {
         description: z.string().nullable(),
         minimal_ballance_limit: z.coerce.number(),
         account_id: z.string()
+    });
+
+    const formSchemaMerchant = z.object({
+        description: z.string().nullable()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -91,6 +113,13 @@ export const EditWallet = (props: EditWalletProps) => {
             account_id: ""
         }
     });
+    const formMerchant = useForm<z.infer<typeof formSchemaMerchant>>({
+        resolver: zodResolver(formSchemaMerchant),
+        defaultValues: {
+            description: ""
+        }
+    });
+
     useEffect(() => {
         if (record) {
             form.reset({
@@ -102,8 +131,11 @@ export const EditWallet = (props: EditWalletProps) => {
                 type: record?.type || WalletTypes.INTERNAL,
                 account_id: record?.account_id || ""
             });
+            formMerchant.reset({
+                description: record?.description || ""
+            });
         }
-    }, [form, record, accounts]);
+    }, [form, record, accounts, formMerchant]);
 
     usePreventFocus({ dependencies: [record] });
     const accountsDisabled = !(accounts && Array.isArray(accounts) && accounts?.length > 0) || !accounts;
@@ -287,10 +319,10 @@ export const EditWallet = (props: EditWalletProps) => {
                     </div>
                 </form>
             ) : (
-                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full">
+                <form onSubmit={formMerchant.handleSubmit(onSubmitMerchant)} className="flex flex-col gap-6 w-full">
                     <div className="flex flex-wrap">
                         <FormField
-                            control={form.control}
+                            control={formMerchant.control}
                             name="description"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">

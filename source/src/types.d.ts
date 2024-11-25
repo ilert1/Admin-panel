@@ -382,6 +382,7 @@ interface Wallet {
     account_id: string;
     minimal_ballance_limit: number;
 }
+
 interface WalletCreate {
     description: string | null;
     type: WalletTypes;

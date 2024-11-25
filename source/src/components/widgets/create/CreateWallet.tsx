@@ -56,9 +56,10 @@ export const CreateWallet = (props: CreateWalletProps) => {
     const onSubmit: SubmitHandler<WalletCreate> = async data => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
-        delete data.address;
         delete data.merchantId;
+        data.account_id = data.accountNumber;
         delete data.accountNumber;
+        console.log(data);
         try {
             await dataProvider.create("wallet", { data: data });
             refresh();
@@ -73,6 +74,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
             setButtonDisabled(false);
         }
     };
+
     const onSubmitMerchant = async (data: { address: string; description: string | null }) => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
@@ -99,10 +101,8 @@ export const CreateWallet = (props: CreateWalletProps) => {
 
     const formSchema = z.object({
         type: z.enum([WalletTypes.EXTERNAL, WalletTypes.INTERNAL, WalletTypes.LINKED]),
-        address: z.string().nullable(),
         // Одно и тоже поле
         accountNumber: z.string().min(1, translate("resources.wallet.manage.errors.selectAccount")),
-        merchantId: z.string(),
         //
         blockchain: z.string(),
         network: z.string(),
@@ -110,6 +110,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
         description: z.string().nullable(),
         minimal_ballance_limit: z.coerce.number()
     });
+
     const merchantFormSchema = z.object({
         address: z.string().min(1),
         description: z.string().nullable()
@@ -198,28 +199,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                     );
                                 }}
                             />
-                            <FormField
-                                control={form.control}
-                                name="address"
-                                render={({ field }) => (
-                                    <FormItem className="w-1/2 p-2">
-                                        <FormLabel>
-                                            {translate("resources.wallet.manage.fields.walletAddress")}
-                                        </FormLabel>
-                                        <FormControl>
-                                            <div>
-                                                <Input
-                                                    {...field}
-                                                    className="bg-muted"
-                                                    variant={InputTypes.GRAY}
-                                                    value={field.value ?? ""}
-                                                    disabled={!isMerchant}
-                                                />
-                                            </div>
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
+
                             <FormField
                                 control={form.control}
                                 name="accountNumber"
@@ -229,80 +209,41 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                             {translate("resources.wallet.manage.fields.accountNumber")}
                                         </FormLabel>
                                         <FormControl>
-                                            <div>
-                                                <Input
-                                                    {...field}
-                                                    className="bg-muted"
-                                                    variant={InputTypes.GRAY}
-                                                    disabled={isMerchant}
-                                                />
-                                            </div>
+                                            <Select
+                                                value={field.value}
+                                                onValueChange={field.onChange}
+                                                disabled={accountsDisabled}>
+                                                <FormControl>
+                                                    <SelectTrigger variant={SelectType.GRAY}>
+                                                        <SelectValue />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {!accountsDisabled &&
+                                                        accounts.map(account => {
+                                                            return (
+                                                                <SelectItem
+                                                                    key={account.id}
+                                                                    value={account.id}
+                                                                    variant={SelectType.GRAY}>
+                                                                    {account.meta.caption}
+                                                                </SelectItem>
+                                                            );
+                                                        })}
+                                                </SelectContent>
+                                            </Select>
                                         </FormControl>
+                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
-                            <FormField
-                                control={form.control}
-                                name="merchantId"
-                                render={({ field }) => (
-                                    <FormItem className="w-1/2 p-2">
-                                        <FormLabel>{translate("resources.wallet.manage.fields.merchantId")}</FormLabel>
-                                        <FormControl>
-                                            <div>
-                                                <Select
-                                                    value={field.value}
-                                                    onValueChange={field.onChange}
-                                                    disabled={merchantsDisabled}>
-                                                    <FormControl>
-                                                        <SelectTrigger variant={SelectType.GRAY}>
-                                                            <SelectValue placeholder={""} />
-                                                        </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent>
-                                                        <SelectGroup>
-                                                            {!merchantsDisabled
-                                                                ? merchants.data.map(merchant => (
-                                                                      <SelectItem
-                                                                          key={merchant.name}
-                                                                          value={merchant.id}
-                                                                          variant={SelectType.GRAY}>
-                                                                          {merchant.name}
-                                                                      </SelectItem>
-                                                                  ))
-                                                                : ""}
-                                                        </SelectGroup>
-                                                    </SelectContent>
-                                                </Select>
-                                            </div>
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
+
                             <FormField
                                 control={form.control}
                                 name="currency"
                                 render={({ field }) => (
                                     <FormItem className="w-1/2 p-2">
                                         <FormLabel>{translate("resources.wallet.manage.fields.currency")}</FormLabel>
-                                        <FormControl>
-                                            <div>
-                                                <Input
-                                                    {...field}
-                                                    className="bg-muted"
-                                                    variant={InputTypes.GRAY}
-                                                    disabled
-                                                />
-                                            </div>
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="id"
-                                render={({ field }) => (
-                                    <FormItem className="w-1/2 p-2">
-                                        <FormLabel>{translate("resources.wallet.manage.fields.internalId")}</FormLabel>
                                         <FormControl>
                                             <div>
                                                 <Input

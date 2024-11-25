@@ -44,12 +44,7 @@ export const WalletShow = (props: WalletShowProps) => {
                     />
                     <TextField
                         label={translate("resources.wallet.manage.fields.accountNumber")}
-                        text={context.record.type === "linked" ? context.record.account_id : ""}
-                        copyValue
-                    />
-                    <TextField
-                        label={translate("resources.wallet.manage.fields.merchantId")}
-                        text={context.record.type === "external" ? context.record.account_id : ""}
+                        text={context.record.account_id}
                         copyValue
                     />
                     <TextField

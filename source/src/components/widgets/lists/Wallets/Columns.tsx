@@ -44,23 +44,14 @@ export const useGetWalletsColumns = (data: any, balances: Record<string, string>
             }
         },
         {
-            id: "accountNumber",
-            accessorKey: "accountNumber",
+            id: "account_id",
+            accessorKey: "account_id",
             header: translate("resources.wallet.manage.fields.accountNumber"),
             cell: ({ row }) => {
-                if (row.original.type !== WalletTypes.EXTERNAL) return "-";
                 return <TextField text={row.original.account_id} wrap copyValue />;
             }
         },
-        {
-            id: "merchantId",
-            accessorKey: "merchantId",
-            header: translate("resources.wallet.manage.fields.merchantId"),
-            cell: ({ row }) => {
-                if (row.original.type === WalletTypes.EXTERNAL) return "-";
-                return <TextField text={row.original.account_id} wrap copyValue />;
-            }
-        },
+
         {
             id: "Balance",
             header: translate("resources.wallet.manage.fields.balance"),
