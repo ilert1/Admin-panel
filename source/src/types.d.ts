@@ -288,9 +288,7 @@ namespace Directions {
         verbose_name: string;
         description?: string | null;
         provider: string;
-        auth: {
-            qqq: string;
-        };
+        auth: object;
     }
 
     interface Direction {

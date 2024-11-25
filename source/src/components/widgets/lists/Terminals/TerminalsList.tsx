@@ -8,8 +8,9 @@ import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { Pencil, PlusCircle, Trash2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CreateTerminalDialog } from "./CreateTerminalDialog";
 
-const TerminalsListFilter = ({ selectProvider }: { selectProvider: (provider: string) => void }) => {
+const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvider: (provider: string) => void }) => {
     const {
         data: providersData,
         isFetchingNextPage,
@@ -84,7 +85,9 @@ const TerminalTable = ({ provider, columns }: { provider: string; columns: Colum
 export const TerminalsList = () => {
     const providerContext = useListController<Provider>({ resource: "provider" });
     const translate = useTranslate();
+
     const [provider, setProvider] = useState("");
+    const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const columns: ColumnDef<Directions.Terminal>[] = [
         {
@@ -135,7 +138,15 @@ export const TerminalsList = () => {
             accessorKey: "auth",
             header: translate("resources.terminals.fields.auth"),
             cell: ({ row }) => {
-                return <TextField text={row.original.auth?.qqq} lineClamp linesCount={1} minWidth="50px" copyValue />;
+                return (
+                    <TextField
+                        text={JSON.stringify(row.original.auth)}
+                        lineClamp
+                        linesCount={1}
+                        minWidth="50px"
+                        copyValue
+                    />
+                );
             }
         },
         {
@@ -181,12 +192,19 @@ export const TerminalsList = () => {
                     </ListContextProvider>
 
                     <Button
-                        onClick={() => console.log("create")}
+                        disabled={!provider}
+                        onClick={() => setCreateDialogOpen(true)}
                         variant="default"
                         className="flex gap-[4px] items-center">
                         <PlusCircle className="h-[16px] w-[16px]" />
                         <span className="text-title-1">{translate("resources.terminals.create")}</span>
                     </Button>
+
+                    <CreateTerminalDialog
+                        provider={provider}
+                        open={createDialogOpen}
+                        onOpenChange={setCreateDialogOpen}
+                    />
                 </div>
 
                 {provider ? <TerminalTable provider={provider} columns={columns} /> : <DataTable columns={columns} />}

@@ -426,9 +426,14 @@ const ru: TranslationMessages = {
                 provider: "Провайдер",
                 auth: "Ключ аутентификации"
             },
+            errors: {
+                verbose_name: "У терминала обязательно должно быть имя",
+                description: "У терминала обязательно должно быть описание"
+            },
             create: "Создать терминал",
             selectHeader: "Провайдер",
-            selectPlaceholder: "Выберите провайдера"
+            selectPlaceholder: "Выберите провайдера",
+            creatingTerminal: "Создание терминала"
         },
         bankTransfer: {
             name: "Банковский перевод"
@@ -1150,9 +1155,14 @@ const en: TranslationMessages = {
                 provider: "Provider",
                 auth: "Auth key"
             },
+            errors: {
+                verbose_name: "The terminal must have a name",
+                description: "The terminal must have a description"
+            },
             create: "Create terminal",
             selectHeader: "Provider",
-            selectPlaceholder: "Select provider"
+            selectPlaceholder: "Select provider",
+            creatingTerminal: "Creating terminal"
         },
         bankTransfer: {
             name: "Bank transfer"
