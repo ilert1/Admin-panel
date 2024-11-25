@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dialog";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { DeleteTerminalDialog } from "./DeleteTerminalDialog";
+import { EditTerminalDialog } from "./EditTerminalDialog";
 
 const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvider: (provider: string) => void }) => {
     const {
@@ -101,7 +102,13 @@ export const TerminalsList = () => {
     const [showAuthKeyOpen, setShowAuthKeyOpen] = useState(false);
 
     const [chosenId, setChosenId] = useState("");
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+    const handleEditClicked = (id: string) => {
+        setChosenId(id);
+        setEditDialogOpen(true);
+    };
 
     const handleDeleteClicked = async (id: string) => {
         setChosenId(id);
@@ -211,7 +218,7 @@ export const TerminalsList = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => console.log(row.original.terminal_id)} variant={"clearBtn"}>
+                        <Button onClick={() => handleEditClicked(row.original.terminal_id)} variant={"clearBtn"}>
                             <Pencil className="text-green-50" />
                         </Button>
                     </div>
@@ -253,21 +260,32 @@ export const TerminalsList = () => {
                         <PlusCircle className="h-[16px] w-[16px]" />
                         <span className="text-title-1">{translate("resources.terminals.create")}</span>
                     </Button>
-
-                    <CreateTerminalDialog
-                        provider={provider}
-                        open={createDialogOpen}
-                        onOpenChange={setCreateDialogOpen}
-                    />
-                    <DeleteTerminalDialog
-                        provider={provider}
-                        open={deleteDialogOpen}
-                        onOpenChange={setDeleteDialogOpen}
-                        deleteId={chosenId}
-                    />
                 </div>
 
-                {provider ? <TerminalTable provider={provider} columns={columns} /> : <DataTable columns={columns} />}
+                {provider ? (
+                    <>
+                        <TerminalTable provider={provider} columns={columns} />
+                        <CreateTerminalDialog
+                            provider={provider}
+                            open={createDialogOpen}
+                            onOpenChange={setCreateDialogOpen}
+                        />
+                        <EditTerminalDialog
+                            provider={provider}
+                            id={chosenId}
+                            open={editDialogOpen}
+                            onOpenChange={setEditDialogOpen}
+                        />
+                        <DeleteTerminalDialog
+                            provider={provider}
+                            open={deleteDialogOpen}
+                            onOpenChange={setDeleteDialogOpen}
+                            deleteId={chosenId}
+                        />
+                    </>
+                ) : (
+                    <DataTable columns={columns} />
+                )}
             </>
         );
     }
