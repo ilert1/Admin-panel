@@ -392,8 +392,19 @@ interface Wallet {
     account_id: string;
     minimal_ballance_limit: number;
 }
+
 interface WalletCreate {
-    id: string;
+    description: string | null;
+    type: WalletTypes;
+    blockchain: string;
+    network: string;
+    currency: string;
+    account_id?: string;
+    minimal_ballance_limit: number;
+    accountNumber?: string;
+}
+
+interface WalletCreate {
     description: string | null;
     type: WalletTypes;
     blockchain: string;
@@ -404,6 +415,11 @@ interface WalletCreate {
     minimal_ballance_limit: number;
     accountNumber?: string;
     merchantId?: string;
+}
+
+interface WalletCreateMerchant {
+    address: string;
+    description: string | null;
 }
 
 interface WalletStorage {

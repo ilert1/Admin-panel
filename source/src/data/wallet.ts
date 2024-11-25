@@ -93,6 +93,8 @@ export class WalletsDataProvider extends BaseDataProvider {
         });
 
         if (!json.success) {
+            console.log(json.error);
+
             throw new Error(json.error);
         }
 
