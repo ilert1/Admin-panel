@@ -21,6 +21,7 @@ import {
     CreateContextProvider,
     useCreateController,
     useDataProvider,
+    useInfiniteGetList,
     usePermissions,
     useRefresh,
     useTranslate
@@ -47,7 +48,21 @@ export const CreateWallet = (props: CreateWalletProps) => {
 
     const { permissions, isLoading } = usePermissions();
     const { isLoading: loadingMerchantList, merchants } = useFetchDataForDirections();
-    const { isLoading: isLoadingAccounts, accounts } = useGetAccounts();
+    const {
+        data: accountsData,
+        hasNextPage,
+        fetchNextPage: accountsNextPage
+    } = useInfiniteGetList("accounts", {
+        pagination: { perPage: 25, page: 1 },
+        filter: { sort: "name", asc: "ASC" }
+    });
+    const accountScrollHandler = async e => {
+        const target = e.target as HTMLElement;
+
+        if (target.scrollHeight - target.scrollTop === target.clientHeight) {
+            accountsNextPage();
+        }
+    };
 
     const isMerchant = permissions === "merchant";
 
@@ -135,13 +150,14 @@ export const CreateWallet = (props: CreateWalletProps) => {
             description: ""
         }
     });
-
+    console.log(accountsData);
     usePreventFocus({ dependencies: [] });
     const merchantsDisabled =
         !(merchants && Array.isArray(merchants.data) && merchants?.data?.length > 0) || !isMerchant;
-    const accountsDisabled = !(accounts && Array.isArray(accounts) && accounts?.length > 0) || !accounts;
+    const accountsDisabled =
+        !(accountsData && Array.isArray(accountsData.pages) && accountsData?.pages.length > 0) || !accountsData;
 
-    if (isLoading || loadingMerchantList || isLoadingAccounts) return <LoadingAlertDialog />;
+    if (isLoading || loadingMerchantList) return <LoadingAlertDialog />;
     return (
         <>
             {!isMerchant ? (
@@ -218,18 +234,23 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                                         <SelectValue />
                                                     </SelectTrigger>
                                                 </FormControl>
-                                                <SelectContent>
-                                                    {!accountsDisabled &&
-                                                        accounts.map(account => {
-                                                            return (
-                                                                <SelectItem
-                                                                    key={account.id}
-                                                                    value={account.id}
-                                                                    variant={SelectType.GRAY}>
-                                                                    {account.meta.caption}
-                                                                </SelectItem>
-                                                            );
-                                                        })}
+                                                <SelectContent
+                                                    onScrollCapture={accountScrollHandler}
+                                                    onScroll={accountScrollHandler}>
+                                                    {accountsData?.pages.map(page => {
+                                                        return page.data.map(account => (
+                                                            <SelectItem
+                                                                key={account.id}
+                                                                value={account.id}
+                                                                variant={SelectType.GRAY}>
+                                                                <p className="truncate max-w-36">
+                                                                    {account.meta?.caption
+                                                                        ? account.meta.caption
+                                                                        : account.owner_id}
+                                                                </p>
+                                                            </SelectItem>
+                                                        ));
+                                                    })}
                                                 </SelectContent>
                                             </Select>
                                         </FormControl>
