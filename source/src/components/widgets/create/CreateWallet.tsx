@@ -150,7 +150,6 @@ export const CreateWallet = (props: CreateWalletProps) => {
             description: ""
         }
     });
-    console.log(accountsData);
     usePreventFocus({ dependencies: [] });
     const merchantsDisabled =
         !(merchants && Array.isArray(merchants.data) && merchants?.data?.length > 0) || !isMerchant;
