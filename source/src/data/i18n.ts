@@ -366,7 +366,8 @@ const ru: TranslationMessages = {
                 description: "Описание",
                 api_key: "Информация об аутентификации",
                 merchantsDirections: "Направления мерчанта ",
-                isActive: "Активность"
+                isActive: "Активность",
+                terminal: "Терминал"
             },
             fees: {
                 fees: "Комиссии",
@@ -387,7 +388,10 @@ const ru: TranslationMessages = {
                 dst_curr: "Конечная валюта обязательно должна быть выбрана",
                 merchant: "Мерчант обязательно должен быть выбран",
                 provider: "Провайдер обязательно должен быть выбран",
-                authError: "Ошибка при добавлении информации об аутентификации"
+                authError: "Ошибка при добавлении информации об аутентификации",
+                terminal: "Терминал обязательно должен быть выбран",
+                terminalError: "Произошла ошибка при загрузке терминалов",
+                noTerminalsError: "У выбранного провайдера нет терминалов"
             },
             create: "Добавить направление",
             sourceCurrency: "Валюта отправителя",
@@ -408,6 +412,7 @@ const ru: TranslationMessages = {
             noProviders: "Нет доступных провайдеров",
             noMerchants: "Нет доступных мерчантов",
             noCurrencies: "Нет доступных валют",
+            noTerminals: "Выберите провайдера перед выбором терминала",
             deleteDirection: "Удалить направление?",
             editingDirection: "Редактирование направления",
             creatingDirection: "Добавление направления"
@@ -1068,7 +1073,8 @@ const en: TranslationMessages = {
                 description: "Description",
                 api_key: "Auth data",
                 merchantsDirections: "Directions of merchant ",
-                isActive: "Activity"
+                isActive: "Activity",
+                terminal: "Terminal"
             },
             fees: {
                 fees: "Fees",
@@ -1089,7 +1095,10 @@ const en: TranslationMessages = {
                 dst_curr: "The destination currency must be selected",
                 merchant: "The merchant must be selected",
                 provider: "The provider must be selected",
-                authError: "An error has occurred while adding authentication information"
+                authError: "An error has occurred while adding authentication information",
+                terminal: "The terminal must be selected",
+                terminalError: "An error occured when fetching terminals",
+                noTerminalsError: "Chosen provider does not have any terminals"
             },
             create: "Add direction",
             sourceCurrency: "Source currency",
@@ -1111,6 +1120,7 @@ const en: TranslationMessages = {
             noProviders: "No available providers",
             noMerchants: "No available merchants",
             noCurrencies: "No available currencies",
+            noTerminals: "Select provider to select terminal",
             deleteDirection: "Delete direction?",
             editingDirection: "Editing direction",
             creatingDirection: "Creating direction"

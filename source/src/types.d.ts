@@ -282,6 +282,15 @@ namespace Directions {
     interface Fees {
         [key: string]: Fee;
     }
+    
+    interface Terminal {
+        terminal_id: string;
+        verbose_name: string;
+        description?: string | null;
+        provider: string;
+        auth: object;
+    }
+
 
     interface Direction {
         id: string;
@@ -296,6 +305,7 @@ namespace Directions {
         provider: Omit<Provider, "id">;
         auth_data: object;
         fees: Fees | Record<string, never> | null;
+        terminal: Terminal;
     }
 
     interface DirectionCreate {

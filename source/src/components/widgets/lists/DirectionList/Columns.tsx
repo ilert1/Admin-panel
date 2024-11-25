@@ -82,6 +82,13 @@ export const useGetDirectionsColumns = () => {
             }
         },
         {
+            id: "terminal",
+            header: translate("resources.direction.fields.terminal"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.terminal?.verbose_name ?? ""} wrap />;
+            }
+        },
+        {
             id: "weight",
             accessorKey: "weight",
             header: translate("resources.direction.weight")

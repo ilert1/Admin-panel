@@ -17,7 +17,7 @@ import { useParams } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { useFetchDataForDirections, usePreventFocus } from "@/hooks";
+import { useFetchDataForDirections, useGetTerminals, usePreventFocus } from "@/hooks";
 
 export interface DirectionEditProps {
     id?: string;
@@ -33,6 +33,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
     const controllerProps = useEditController({ resource: "direction", id });
     const { record, isLoading } = useEditController({ resource: "direction", id });
     controllerProps.mutationMode = "pessimistic";
+    const { terminals, getTerminals } = useGetTerminals();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -47,6 +48,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
         dst_currency: z.string().min(1, translate("resources.direction.errors.dst_curr")),
         merchant: z.string().min(1, translate("resources.direction.errors.merchant")),
         provider: z.string().min(1, translate("resources.direction.errors.provider")),
+        terminal: z.string().min(1, translate("resources.direction.errors.terminal")),
         weight: z.number()
     });
 
@@ -60,6 +62,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
             dst_currency: record?.dst_currency.code || "",
             merchant: record?.merchant.id || "",
             provider: record?.provider.name || "",
+            terminal: record?.terminal.terminal_id || "",
             weight: record?.weight || 0
         }
     });
@@ -74,6 +77,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                 dst_currency: record?.dst_currency.code || "",
                 merchant: record?.merchant.id || "",
                 provider: record?.provider.name || "",
+                terminal: record?.terminal.terminal_id || "",
                 weight: record?.weight || 0
             });
         }
@@ -94,7 +98,15 @@ export const DirectionEdit = (props: DirectionEditProps) => {
             setSubmitButtonDisabled(false);
         }
     };
+
+    useEffect(() => {
+        getTerminals(record.provider.name);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [record.provider.name, record.provider]);
+
     usePreventFocus({ dependencies: [record] });
+
+    const terminalsDisabled = !(terminals && Array.isArray(terminals) && terminals?.length > 0);
 
     if (isLoading || !record || loadingData)
         return (
@@ -105,7 +117,6 @@ export const DirectionEdit = (props: DirectionEditProps) => {
 
     return (
         <EditContextProvider value={controllerProps}>
-            {/* <p className="mb-2">{translate("resources.direction.note")}</p> */}
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="flex flex-wrap">
@@ -252,12 +263,52 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                         />
                         <FormField
                             control={form.control}
+                            name="terminal"
+                            render={({ field }) => (
+                                <FormItem className="w-full sm:w-1/2 p-2">
+                                    <FormLabel>{translate("resources.direction.fields.terminal")}</FormLabel>
+                                    <Select
+                                        value={field.value}
+                                        onValueChange={field.onChange}
+                                        disabled={terminalsDisabled}>
+                                        <FormControl>
+                                            <SelectTrigger variant={SelectType.GRAY}>
+                                                <SelectValue
+                                                    placeholder={
+                                                        terminalsDisabled
+                                                            ? translate("resources.direction.noTerminals")
+                                                            : ""
+                                                    }
+                                                />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                {!terminalsDisabled
+                                                    ? terminals.map(terminal => (
+                                                          <SelectItem
+                                                              key={terminal.terminal_id}
+                                                              value={terminal.terminal_id}
+                                                              variant={SelectType.GRAY}>
+                                                              {terminal.verbose_name}
+                                                          </SelectItem>
+                                                      ))
+                                                    : ""}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="active"
                             render={({ field }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.fields.active")}</FormLabel>
                                     <Select
-                                        value={field.value ? "true" : "false"} // Преобразуем булево значение в строку
+                                        value={field.value ? "true" : "false"}
                                         onValueChange={value => field.onChange(value === "true")}>
                                         <FormControl>
                                             <SelectTrigger variant={SelectType.GRAY}>
@@ -300,7 +351,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                             control={form.control}
                             name="description"
                             render={({ field }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="w-full  p-2">
                                     <FormLabel>{translate("resources.direction.description")}</FormLabel>
                                     <FormControl>
                                         <div>
