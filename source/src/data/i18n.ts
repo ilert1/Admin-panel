@@ -417,6 +417,19 @@ const ru: TranslationMessages = {
             editingDirection: "Редактирование направления",
             creatingDirection: "Добавление направления"
         },
+        terminals: {
+            name: "Терминал",
+            fields: {
+                verbose_name: "Наименование",
+                id: "ID",
+                description: "Описание",
+                provider: "Провайдер",
+                auth: "Ключ аутентификации"
+            },
+            create: "Создать терминал",
+            selectHeader: "Провайдер",
+            selectPlaceholder: "Выберите провайдера"
+        },
         bankTransfer: {
             name: "Банковский перевод"
         },
@@ -1124,6 +1137,19 @@ const en: TranslationMessages = {
             deleteDirection: "Delete direction?",
             editingDirection: "Editing direction",
             creatingDirection: "Creating direction"
+        },
+        terminals: {
+            name: "Terminal",
+            fields: {
+                verbose_name: "Name",
+                id: "ID",
+                description: "Description",
+                provider: "Provider",
+                auth: "Auth key"
+            },
+            create: "Create terminal",
+            selectHeader: "Provider",
+            selectPlaceholder: "Select provider"
         },
         bankTransfer: {
             name: "Bank transfer"
