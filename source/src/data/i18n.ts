@@ -370,7 +370,7 @@ const ru: TranslationMessages = {
             },
             fees: {
                 fees: "Комиссии",
-                accountNumber: "Номер счета",
+                accountNumber: "ID счета",
                 feeAmount: "Размер комиссии",
                 feeType: "Тип комиссии",
                 currency: "Валюта",
@@ -458,9 +458,12 @@ const ru: TranslationMessages = {
                 },
                 error: "Ошибка",
                 errors: {
-                    errorWhenCreating: "Ошибка при создании кошелька",
-                    serverError: "Ошибка на стороне сервера. Попробуйте позже"
+                    serverError: "Ошибка на стороне сервера. Попробуйте позже",
+                    selectAccount: "Выберите аккаунт",
+                    errorWhenEditing: "Произошлка ошибка при редактировании кошелька",
+                    errorWhenCreating: "Произошлка ошибка при создании кошелька"
                 },
+
                 creatingWallet: "Добавление кошелька",
                 editingWallet: "Редактирование кошелька",
                 deleteWallet: "Удалить кошелек?",
@@ -1148,7 +1151,7 @@ const en: TranslationMessages = {
                 fields: {
                     walletType: "Wallet type",
                     walletAddress: "Wallet address",
-                    accountNumber: "Account number",
+                    accountNumber: "Account ID",
                     merchantId: "Merchant ID",
                     currency: "Currency",
                     descr: "Description",
@@ -1161,7 +1164,9 @@ const en: TranslationMessages = {
                 },
                 error: "Error",
                 errors: {
-                    errorWhenCreating: "Error occured when creating wallet",
+                    selectAccount: "Select account",
+                    errorWhenEditing: "An error occured when editing wallet",
+                    errorWhenCreating: "An error occured when creating wallet",
                     serverError: "Server side error, try again later"
                 },
                 creatingWallet: "Adding wallet",

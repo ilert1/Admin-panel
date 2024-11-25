@@ -393,6 +393,24 @@ interface WalletCreate {
     accountNumber?: string;
 }
 
+interface WalletCreate {
+    description: string | null;
+    type: WalletTypes;
+    blockchain: string;
+    network: string;
+    address?: string | null;
+    currency: string;
+    account_id?: string;
+    minimal_ballance_limit: number;
+    accountNumber?: string;
+    merchantId?: string;
+}
+
+interface WalletCreateMerchant {
+    address: string;
+    description: string | null;
+}
+
 interface WalletStorage {
     initiated: boolean;
     recieved_shares: number;

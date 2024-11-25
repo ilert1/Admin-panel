@@ -40,6 +40,22 @@ export class BaseDataProvider {
         };
     }
 
+    async getListWithoutPagination(resource: string) {
+        const url = `${API_URL}/${resource}`;
+        const { json } = await fetchUtils.fetchJson(url, {
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        });
+
+        if (!json.success) {
+            throw new Error(json.error);
+        }
+
+        return {
+            data: json.data,
+            total: json?.meta?.total || json.total || 0
+        };
+    }
+
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
