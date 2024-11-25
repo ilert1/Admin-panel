@@ -50,10 +50,13 @@ export const CreateTerminalDialog = ({ open, onOpenChange = () => {}, provider }
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
 
-        setSubmitButtonDisabled(true);
         try {
+            setSubmitButtonDisabled(true);
+
             await dataProvider.create(`provider/${provider}/terminal`, { data });
+
             refresh();
+            form.reset();
             onOpenChange(false);
         } catch (error) {
             toast.error(translate("resources.transactions.download.error"), {
@@ -61,6 +64,7 @@ export const CreateTerminalDialog = ({ open, onOpenChange = () => {}, provider }
                 dismissible: true,
                 duration: 3000
             });
+        } finally {
             setSubmitButtonDisabled(false);
         }
     };
@@ -178,6 +182,7 @@ export const CreateTerminalDialog = ({ open, onOpenChange = () => {}, provider }
                                             variant="outline"
                                             className="flex-1 mt-4 sm:mt-0 border-neutral-50 text-neutral-50 bg-muted w-full sm:w-1/2"
                                             onClick={() => {
+                                                form.reset();
                                                 onOpenChange(false);
                                             }}>
                                             {translate("app.ui.actions.cancel")}
