@@ -92,7 +92,7 @@ export const QuickShowDirections = (props: QuickShowProps) => {
                         />
                         <TextField
                             label={translate("resources.direction.fields.terminal")}
-                            text={context.record.terminal?.verbose_name}
+                            text={context.record.terminal?.verbose_name || ""}
                         />
                     </div>
                     <div className="flex flex-col gap-[24px] ml-[32px]">

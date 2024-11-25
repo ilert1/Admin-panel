@@ -48,7 +48,8 @@ export const DirectionEdit = (props: DirectionEditProps) => {
         dst_currency: z.string().min(1, translate("resources.direction.errors.dst_curr")),
         merchant: z.string().min(1, translate("resources.direction.errors.merchant")),
         provider: z.string().min(1, translate("resources.direction.errors.provider")),
-        terminal: z.string().min(1, translate("resources.direction.errors.terminal")),
+        // terminal: z.string().min(1, translate("resources.direction.errors.terminal")),
+        terminal: z.string(),
         weight: z.number()
     });
 
@@ -62,7 +63,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
             dst_currency: record?.dst_currency.code || "",
             merchant: record?.merchant.id || "",
             provider: record?.provider.name || "",
-            terminal: record?.terminal.terminal_id || "",
+            terminal: record?.terminal?.terminal_id || "",
             weight: record?.weight || 0
         }
     });
@@ -77,7 +78,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                 dst_currency: record?.dst_currency.code || "",
                 merchant: record?.merchant.id || "",
                 provider: record?.provider.name || "",
-                terminal: record?.terminal.terminal_id || "",
+                terminal: record?.terminal?.terminal_id || "",
                 weight: record?.weight || 0
             });
         }
@@ -235,7 +236,13 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                             render={({ field }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormLabel>{translate("resources.direction.provider")}</FormLabel>
-                                    <Select value={field.value} onValueChange={field.onChange}>
+                                    <Select
+                                        value={field.value}
+                                        onValueChange={e => {
+                                            getTerminals(e);
+                                            if (e !== form.getValues().provider) form.setValue("terminal", "");
+                                            field.onChange(e);
+                                        }}>
                                         <FormControl>
                                             <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue />
