@@ -86,11 +86,15 @@ const TerminalTable = ({ provider, columns }: { provider: string; columns: Colum
         resource: `provider/${provider}/terminal`
     });
 
-    return (
-        <ListContextProvider value={terminalsContext}>
-            <DataTable columns={columns} />
-        </ListContextProvider>
-    );
+    if (terminalsContext.isFetching) {
+        return <LoadingAlertDialog />;
+    } else {
+        return (
+            <ListContextProvider value={terminalsContext}>
+                <DataTable columns={columns} />
+            </ListContextProvider>
+        );
+    }
 };
 
 export const TerminalsList = () => {
