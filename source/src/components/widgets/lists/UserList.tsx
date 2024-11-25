@@ -216,7 +216,6 @@ export const UserList = () => {
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>
                     <SheetContent
                         aria-describedby={undefined}
-                        // className="sm:max-w-[1015px] h-[502px] max-h-full w-full p-0 m-0 top-[84px] flex flex-col gap-0 outline-none overflow-y-auto"
                         className="sm:max-w-[1015px] h-full sm:h-[502px] max-h-[calc(100dvh-84px)] overflow-hidden w-full p-0 m-0 top-[84px] flex flex-col"
                         tabIndex={-1}
                         style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
