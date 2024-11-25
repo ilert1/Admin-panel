@@ -6,10 +6,22 @@ import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
-import { Pencil, PlusCircle, Trash2 } from "lucide-react";
+import { EyeIcon, Pencil, PlusCircle, Trash2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CreateTerminalDialog } from "./CreateTerminalDialog";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
+import { DeleteTerminalDialog } from "./DeleteTerminalDialog";
+import { EditTerminalDialog } from "./EditTerminalDialog";
 
-const TerminalsListFilter = ({ selectProvider }: { selectProvider: (provider: string) => void }) => {
+const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvider: (provider: string) => void }) => {
     const {
         data: providersData,
         isFetchingNextPage,
@@ -84,7 +96,24 @@ const TerminalTable = ({ provider, columns }: { provider: string; columns: Colum
 export const TerminalsList = () => {
     const providerContext = useListController<Provider>({ resource: "provider" });
     const translate = useTranslate();
+
     const [provider, setProvider] = useState("");
+    const [createDialogOpen, setCreateDialogOpen] = useState(false);
+    const [showAuthKeyOpen, setShowAuthKeyOpen] = useState(false);
+
+    const [chosenId, setChosenId] = useState("");
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+    const handleEditClicked = (id: string) => {
+        setChosenId(id);
+        setEditDialogOpen(true);
+    };
+
+    const handleDeleteClicked = async (id: string) => {
+        setChosenId(id);
+        setDeleteDialogOpen(true);
+    };
 
     const columns: ColumnDef<Directions.Terminal>[] = [
         {
@@ -135,7 +164,50 @@ export const TerminalsList = () => {
             accessorKey: "auth",
             header: translate("resources.terminals.fields.auth"),
             cell: ({ row }) => {
-                return <TextField text={row.original.auth?.qqq} lineClamp linesCount={1} minWidth="50px" copyValue />;
+                return (
+                    <div className="flex items-center justify-center">
+                        <Button
+                            disabled={Object.keys(row.original.auth).length === 0}
+                            onClick={() => setShowAuthKeyOpen(true)}
+                            variant="clearBtn"
+                            className="h-7 w-7 p-0 bg-transparent">
+                            <EyeIcon className="text-green-50 size-7" />
+                        </Button>
+
+                        <Dialog open={showAuthKeyOpen} onOpenChange={setShowAuthKeyOpen}>
+                            <DialogContent className="max-w-[478px] h-[295px] max-h-full overflow-auto bg-muted">
+                                <DialogHeader>
+                                    <DialogTitle className="text-center"></DialogTitle>
+                                    <DialogDescription></DialogDescription>
+                                    <div className="w-full flex flex-col items-center justify-end ">
+                                        <span className="self-start text-note-1">
+                                            {translate("resources.provider.fields.methods")}
+                                        </span>
+                                        <MonacoEditor
+                                            height="144px"
+                                            code={JSON.stringify(row.original.auth)}
+                                            setCode={() => {}}
+                                            onErrorsChange={() => {}}
+                                            onValidChange={() => {}}
+                                            disabled
+                                        />
+                                    </div>
+                                </DialogHeader>
+                                <DialogFooter>
+                                    <div className="flex justify-end w-full pr-1">
+                                        <Button
+                                            variant={"outline"}
+                                            onClick={() => {
+                                                setShowAuthKeyOpen(false);
+                                            }}>
+                                            {translate("app.ui.actions.close")}
+                                        </Button>
+                                    </div>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
+                );
             }
         },
         {
@@ -146,7 +218,7 @@ export const TerminalsList = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => console.log(row.original.terminal_id)} variant={"clearBtn"}>
+                        <Button onClick={() => handleEditClicked(row.original.terminal_id)} variant={"clearBtn"}>
                             <Pencil className="text-green-50" />
                         </Button>
                     </div>
@@ -161,7 +233,7 @@ export const TerminalsList = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => console.log(row.original.terminal_id)} variant={"clearBtn"}>
+                        <Button onClick={() => handleDeleteClicked(row.original.terminal_id)} variant={"clearBtn"}>
                             <Trash2 className="text-green-50" />
                         </Button>
                     </div>
@@ -181,7 +253,8 @@ export const TerminalsList = () => {
                     </ListContextProvider>
 
                     <Button
-                        onClick={() => console.log("create")}
+                        disabled={!provider}
+                        onClick={() => setCreateDialogOpen(true)}
                         variant="default"
                         className="flex gap-[4px] items-center">
                         <PlusCircle className="h-[16px] w-[16px]" />
@@ -189,7 +262,30 @@ export const TerminalsList = () => {
                     </Button>
                 </div>
 
-                {provider ? <TerminalTable provider={provider} columns={columns} /> : <DataTable columns={columns} />}
+                {provider ? (
+                    <>
+                        <TerminalTable provider={provider} columns={columns} />
+                        <CreateTerminalDialog
+                            provider={provider}
+                            open={createDialogOpen}
+                            onOpenChange={setCreateDialogOpen}
+                        />
+                        <EditTerminalDialog
+                            provider={provider}
+                            id={chosenId}
+                            open={editDialogOpen}
+                            onOpenChange={setEditDialogOpen}
+                        />
+                        <DeleteTerminalDialog
+                            provider={provider}
+                            open={deleteDialogOpen}
+                            onOpenChange={setDeleteDialogOpen}
+                            deleteId={chosenId}
+                        />
+                    </>
+                ) : (
+                    <DataTable columns={columns} />
+                )}
             </>
         );
     }
