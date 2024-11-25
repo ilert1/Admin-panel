@@ -48,8 +48,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
         dst_currency: z.string().min(1, translate("resources.direction.errors.dst_curr")),
         merchant: z.string().min(1, translate("resources.direction.errors.merchant")),
         provider: z.string().min(1, translate("resources.direction.errors.provider")),
-        // terminal: z.string().min(1, translate("resources.direction.errors.terminal")),
-        terminal: z.string(),
+        terminal: z.string().min(1, translate("resources.direction.errors.terminal")),
         weight: z.number()
     });
 
