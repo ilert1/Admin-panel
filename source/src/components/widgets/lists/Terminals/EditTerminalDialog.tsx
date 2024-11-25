@@ -120,7 +120,7 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
             <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
                 <AlertDialogHeader>
                     <AlertDialogTitle className="text-center">
-                        {translate("resources.provider.editingProvider")}
+                        {translate("resources.terminals.editingTerminal")}
                     </AlertDialogTitle>
                     <AlertDialogDescription></AlertDialogDescription>
                     {controllerProps.isLoading || !controllerProps.record ? (
@@ -137,7 +137,7 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
                                                 <FormItem className="w-full sm:w-1/2 p-2">
                                                     <FormLabel>
                                                         <span className="!text-note-1 !text-neutral-30">
-                                                            {translate("resources.provider.fields._name")}
+                                                            {translate("resources.terminals.fields.verbose_name")}
                                                         </span>
                                                     </FormLabel>
                                                     <FormControl>
@@ -182,7 +182,7 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
                                                 <FormItem className="w-full sm:w-1/2 p-2">
                                                     <FormLabel>
                                                         <span className="!text-note-1 !text-neutral-30">
-                                                            {translate("resources.provider.fields.json_schema")}
+                                                            {translate("resources.terminals.fields.description")}
                                                         </span>
                                                     </FormLabel>
                                                     <FormControl>
@@ -227,7 +227,7 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
                                                 <FormItem className="w-full p-2">
                                                     <FormLabel>
                                                         <span className="!text-note-1 !text-neutral-30">
-                                                            {translate("resources.provider.fields.code")}
+                                                            {translate("resources.terminals.fields.auth")}
                                                         </span>
                                                     </FormLabel>
                                                     <FormControl>
