@@ -31,7 +31,7 @@ export class ProvidersDataProvider extends BaseDataProvider {
 
         return {
             data:
-                json.data.map((elem: { name: any }) => {
+                json.data.map((elem: { name: string }) => {
                     return {
                         id: elem.name,
                         ...elem
@@ -53,7 +53,7 @@ export class ProvidersDataProvider extends BaseDataProvider {
 
         return {
             data:
-                json.data.map((elem: { name: any }) => {
+                json.data.map((elem: { name: string }) => {
                     return {
                         id: elem.name,
                         ...elem
