@@ -185,7 +185,7 @@ export const TerminalsList = () => {
                                     <DialogDescription></DialogDescription>
                                     <div className="w-full flex flex-col items-center justify-end ">
                                         <span className="self-start text-note-1">
-                                            {translate("resources.provider.fields.methods")}
+                                            {translate("resources.terminals.fields.auth")}
                                         </span>
                                         <MonacoEditor
                                             height="144px"
