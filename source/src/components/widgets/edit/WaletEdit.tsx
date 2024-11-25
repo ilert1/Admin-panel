@@ -16,8 +16,15 @@ import {
 import { useGetAccounts } from "@/hooks";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
-import { useDataProvider, useEditController, usePermissions, useRefresh, useTranslate } from "react-admin";
+import { useEffect, useRef, useState } from "react";
+import {
+    useDataProvider,
+    useEditController,
+    useInfiniteGetList,
+    usePermissions,
+    useRefresh,
+    useTranslate
+} from "react-admin";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -39,7 +46,6 @@ export const EditWallet = (props: EditWalletProps) => {
     const refresh = useRefresh();
     const dataProvider = useDataProvider();
     const { permissions, isLoading: isFetchingPermissions } = usePermissions();
-    const { isLoading: isLoadingAccounts, accounts } = useGetAccounts();
 
     const [buttonDisabled, setButtonDisabled] = useState(false);
 
@@ -48,6 +54,23 @@ export const EditWallet = (props: EditWalletProps) => {
         resource: !isMerchant ? "wallet" : "merchant/wallet",
         id
     });
+    const {
+        data: accountsData,
+        hasNextPage,
+        isFetching,
+        fetchNextPage: accountsNextPage
+    } = useInfiniteGetList("accounts", {
+        pagination: { perPage: 25, page: 1 },
+        filter: { sort: "name", asc: "ASC" }
+    });
+
+    const accountScrollHandler = async e => {
+        const target = e.target as HTMLElement;
+
+        if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
+            accountsNextPage();
+        }
+    };
 
     const onSubmit: SubmitHandler<WalletCreate> = async data => {
         if (buttonDisabled) return;
@@ -121,6 +144,11 @@ export const EditWallet = (props: EditWalletProps) => {
     });
 
     useEffect(() => {
+        accountsData?.pages.forEach(page => {
+            if (page.data.indexOf(record.account_id) < 0) {
+                accountsNextPage();
+            }
+        });
         if (record) {
             form.reset({
                 currency: record?.currency || "",
@@ -135,12 +163,13 @@ export const EditWallet = (props: EditWalletProps) => {
                 description: record?.description || ""
             });
         }
-    }, [form, record, accounts, formMerchant]);
+    }, [form, record, accountsData, formMerchant, accountsNextPage]);
 
     usePreventFocus({ dependencies: [record] });
-    const accountsDisabled = !(accounts && Array.isArray(accounts) && accounts?.length > 0) || !accounts;
+    const accountsDisabled =
+        !(accountsData && Array.isArray(accountsData.pages) && accountsData?.pages.length > 0) || !accountsData;
 
-    if (isLoading || isFetchingPermissions || isLoadingAccounts) return <LoadingAlertDialog />;
+    if (isLoading || isFetchingPermissions) return <LoadingAlertDialog />;
     return (
         <FormProvider {...form}>
             {!isMerchant ? (
@@ -208,18 +237,23 @@ export const EditWallet = (props: EditWalletProps) => {
                                                     <SelectValue />
                                                 </SelectTrigger>
                                             </FormControl>
-                                            <SelectContent>
-                                                {!accountsDisabled &&
-                                                    accounts.map(account => {
-                                                        return (
-                                                            <SelectItem
-                                                                key={account.id}
-                                                                value={account.id}
-                                                                variant={SelectType.GRAY}>
-                                                                {account.meta.caption}
-                                                            </SelectItem>
-                                                        );
-                                                    })}
+                                            <SelectContent
+                                                onScrollCapture={accountScrollHandler}
+                                                onScroll={accountScrollHandler}>
+                                                {accountsData?.pages.map(page => {
+                                                    return page.data.map(account => (
+                                                        <SelectItem
+                                                            key={account.id}
+                                                            value={account.id}
+                                                            variant={SelectType.GRAY}>
+                                                            <p className="truncate max-w-36">
+                                                                {account.meta?.caption
+                                                                    ? account.meta.caption
+                                                                    : account.owner_id}
+                                                            </p>
+                                                        </SelectItem>
+                                                    ));
+                                                })}
                                             </SelectContent>
                                         </Select>
                                     </FormControl>

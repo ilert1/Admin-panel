@@ -191,10 +191,10 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         }
     };
 
-    const accountScrollHandler = async (e: UIEvent<HTMLDivElement>) => {
+    const accountScrollHandler = async e => {
         const target = e.target as HTMLElement;
 
-        if (target.scrollHeight - target.scrollTop === target.clientHeight) {
+        if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
             accountsNextPage();
         }
     };
