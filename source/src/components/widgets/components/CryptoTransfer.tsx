@@ -8,6 +8,8 @@ import { useQuery } from "react-query";
 export const CryptoTransfer = () => {
     const translate = useTranslate();
     const [transferState, setTransferState] = useState<"process" | "success" | "error">("process");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [errorCode, setErrorCode] = useState("server_error");
 
     const merchantId = useMemo(() => {
         const token = localStorage.getItem("access-token");
@@ -66,6 +68,16 @@ export const CryptoTransfer = () => {
                 if (json.success) {
                     setTransferState("success");
                 } else {
+                    if (Object.hasOwn(json, "error") && Object.hasOwn(json, "code")) {
+                        setErrorMessage(json.error);
+                        setErrorCode(json.code);
+                    } else if (Object.hasOwn(json, "code")) {
+                        if (json.code.indexOf("than 2 USDT") >= 0) {
+                            setErrorCode("lowAmountError");
+                        } else {
+                            setErrorCode("serverError");
+                        }
+                    }
                     setTransferState("error");
                 }
             })
@@ -87,6 +99,8 @@ export const CryptoTransfer = () => {
                 balance={balance || 0}
                 transferState={transferState}
                 setTransferState={setTransferState}
+                errorMessage={errorMessage}
+                errorCode={errorCode}
             />
         </div>
     );

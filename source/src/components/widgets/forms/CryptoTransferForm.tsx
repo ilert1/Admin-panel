@@ -18,6 +18,8 @@ export const CryptoTransferForm = (props: {
     transferState: "process" | "success" | "error";
     setTransferState: (transferState: "process" | "success" | "error") => void;
     create: (data: any) => void;
+    errorMessage: string;
+    errorCode: string;
 }) => {
     const translate = useTranslate();
     const [checked, setChecked] = useState<boolean | "indeterminate">(false);
@@ -241,7 +243,11 @@ export const CryptoTransferForm = (props: {
                     <span className="text-title-2">
                         {props.transferState === "success"
                             ? translate("app.widgets.forms.cryptoTransfer.transferSuccess")
-                            : translate("app.widgets.forms.cryptoTransfer.transferError")}
+                            : props.errorMessage
+                            ? props.errorMessage
+                            : props.errorCode === "lowAmountError"
+                            ? translate("resources.withdraw.errors.lowAmountError")
+                            : translate("resources.withdraw.errors.serverError")}
                     </span>
                 </div>
                 <div>

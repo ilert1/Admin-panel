@@ -231,6 +231,10 @@ const ru: TranslationMessages = {
             name: "Вывод криптовалюты",
             tableTitle: "Отчет по выводам в криптовалюте",
             cryptoTransferTitle: "Перевод криптовалюты",
+            errors: {
+                lowAmountError: "Сумма перевода должна быть больше 2 USDT",
+                serverError: "Произошла неизвестная ошибка на сервере"
+            },
             fields: {
                 id: "ID операции",
 
@@ -963,6 +967,10 @@ const en: TranslationMessages = {
             name: "Сrypto withdrawal",
             tableTitle: "Report on cryptocurrency withdrawals",
             cryptoTransferTitle: "Crypto transfer",
+            errors: {
+                lowAmountError: "The amount must be more than 2 USDT",
+                serverError: "An error occured on server"
+            },
             fields: {
                 id: "Transaction ID",
                 created_at: "Created at",
