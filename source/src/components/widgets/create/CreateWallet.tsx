@@ -13,7 +13,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useFetchDataForDirections, useGetAccounts } from "@/hooks";
+import { useFetchDataForDirections } from "@/hooks";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -44,7 +44,6 @@ export const CreateWallet = (props: CreateWalletProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
     const dataProvider = useDataProvider();
-    const controllerProps = useCreateController();
 
     const { permissions, isLoading } = usePermissions();
     const { isLoading: loadingMerchantList, merchants } = useFetchDataForDirections();
@@ -81,7 +80,6 @@ export const CreateWallet = (props: CreateWalletProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
-            console.log(error);
             toast.error(translate("resources.wallet.manage.error"), {
                 dismissible: true,
                 description: translate("resources.wallet.manage.errors.errorWhenCreating"),
@@ -99,18 +97,22 @@ export const CreateWallet = (props: CreateWalletProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
-            console.log(error);
-            let message;
-            if (error.status === 500) {
-                message = "serverError";
-            } else {
-                message = "errorWhenCreating";
+            if (error instanceof Error) {
+                let message;
+                const jsonError = JSON.parse(error.message);
+                if (jsonError.error_message.indexOf("already exists") >= 0) {
+                    message = "alreadyExists";
+                } else if (jsonError.error_message.indexOf("Server") >= 0) {
+                    message = "serverError";
+                } else {
+                    message = "errorWhenCreating";
+                }
+                toast.error(translate("resources.wallet.manage.error"), {
+                    dismissible: true,
+                    description: translate(`resources.wallet.manage.errors.${message}`),
+                    duration: 3000
+                });
             }
-            toast.error(translate("resources.wallet.manage.error"), {
-                dismissible: true,
-                description: translate(`resources.wallet.manage.errors.${message}`),
-                duration: 3000
-            });
             setButtonDisabled(false);
         }
     };

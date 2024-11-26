@@ -486,7 +486,8 @@ const ru: TranslationMessages = {
                     serverError: "Ошибка на стороне сервера. Попробуйте позже",
                     selectAccount: "Выберите аккаунт",
                     errorWhenEditing: "Произошлка ошибка при редактировании кошелька",
-                    errorWhenCreating: "Произошлка ошибка при создании кошелька"
+                    errorWhenCreating: "Произошлка ошибка при создании кошелька",
+                    alreadyExists: "Кошелек с таким адресом уже существует"
                 },
 
                 creatingWallet: "Добавление кошелька",
@@ -1217,7 +1218,8 @@ const en: TranslationMessages = {
                     selectAccount: "Select account",
                     errorWhenEditing: "An error occured when editing wallet",
                     errorWhenCreating: "An error occured when creating wallet",
-                    serverError: "Server side error, try again later"
+                    serverError: "Server side error, try again later",
+                    alreadyExists: "Wallet with this address is already exists"
                 },
                 creatingWallet: "Adding wallet",
                 editingWallet: "Editing wallet",
