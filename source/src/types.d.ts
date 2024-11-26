@@ -217,6 +217,16 @@ declare namespace Users {
         password: string;
         state?: number;
     }
+    interface UserCreate {
+        state: number;
+        name: string;
+        login: string;
+        email: string;
+        public_key: string;
+        shop_currency: string;
+        password: string;
+        state?: number;
+    }
 }
 
 declare namespace Currencies {
