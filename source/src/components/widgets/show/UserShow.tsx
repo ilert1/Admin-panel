@@ -2,7 +2,13 @@ import { BooleanField } from "@/components/ui/boolean-field";
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useState } from "react";
-import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alertdialog";
+import {
+    AlertDialog,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from "@/components/ui/alertdialog";
 
 import {
     Dialog,
@@ -121,7 +127,7 @@ export const UserShow = (props: { id: string; isBrief: boolean; onOpenChange: (s
                 </div>
 
                 <AlertDialog open={showEditUser} onOpenChange={setShowEditUser}>
-                    <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px] h-full max-h-[100dvh] md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
+                    <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px]  max-h-[100dvh] md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px] outline-none">
                         <AlertDialogHeader>
                             <AlertDialogTitle className="text-center mb-4">
                                 {translate("resources.users.editUser")}
@@ -129,6 +135,7 @@ export const UserShow = (props: { id: string; isBrief: boolean; onOpenChange: (s
                         </AlertDialogHeader>
 
                         <UserEdit record={context.record} id={id} closeDialog={() => setShowEditUser(false)} />
+                        <AlertDialogDescription />
                     </AlertDialogContent>
                 </AlertDialog>
 
