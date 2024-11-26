@@ -50,7 +50,9 @@ export const useGetWalletsColumns = (data: any, balances: Record<string, Amounts
             accessorKey: "account_id",
             header: translate("resources.wallet.manage.fields.accountNumber"),
             cell: ({ row }) => {
-                return <TextField text={row.original.account_id} wrap copyValue />;
+                return (
+                    <TextField text={row.original.account_id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />
+                );
             }
         },
 

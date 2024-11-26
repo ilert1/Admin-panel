@@ -92,7 +92,7 @@ export const useGetWalletTransactionsColumns = () => {
             accessorKey: "id",
             header: translate("resources.wallet.transactions.fields.id"),
             cell: ({ row }) => {
-                return <TextField text={row.original.id} wrap copyValue />;
+                return <TextField text={row.original.id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />;
             }
         },
         {
@@ -100,7 +100,9 @@ export const useGetWalletTransactionsColumns = () => {
             accessorKey: "src_wallet",
             header: translate("resources.wallet.transactions.fields.src_wallet"),
             cell: ({ row }) => {
-                return <TextField text={row.original.src_wallet} wrap copyValue />;
+                return (
+                    <TextField text={row.original.src_wallet} wrap copyValue lineClamp linesCount={1} minWidth="50px" />
+                );
             }
         },
         {
@@ -108,7 +110,9 @@ export const useGetWalletTransactionsColumns = () => {
             accessorKey: "dst_wallet",
             header: translate("resources.wallet.transactions.fields.dst_wallet"),
             cell: ({ row }) => {
-                return <TextField text={row.original.dst_wallet} wrap copyValue />;
+                return (
+                    <TextField text={row.original.dst_wallet} wrap copyValue lineClamp linesCount={1} minWidth="50px" />
+                );
             }
         },
         {
