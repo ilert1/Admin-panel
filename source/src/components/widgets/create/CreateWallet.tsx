@@ -74,7 +74,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
         delete data.merchantId;
         data.account_id = data.accountNumber;
         delete data.accountNumber;
-        console.log(data);
+        // console.log(data);
         try {
             await dataProvider.create("wallet", { data: data });
             refresh();
