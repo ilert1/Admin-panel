@@ -232,7 +232,7 @@ export const CryptoTransferForm = (props: {
         );
     else if (props.transferState === "success" || props.transferState === "error")
         return (
-            <div className="flex flex-col w-[476px] h-[308px] px-6 py-4 bg-neutral-0 rounded-2xl gap-6 justify-center items-center">
+            <div className="flex flex-col max-w-[476px] h-[308px] px-6 py-4 bg-neutral-0 rounded-2xl gap-6 justify-center items-center">
                 <div className="flex flex-col gap-2 items-center">
                     <div className="w-[114px]">
                         {props.transferState === "success" && <Icon name="BlowFishCheck" />}
