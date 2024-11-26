@@ -33,7 +33,6 @@ export const UserEdit = ({
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
-        console.log(data);
         try {
             await dataProvider.update("users", {
                 id,

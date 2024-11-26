@@ -641,7 +641,7 @@ const ru: TranslationMessages = {
                 userCreate: {
                     title: "Добавление пользователя",
                     name: "Имя",
-                    nameMessage: "Пожалуйста, введите имя мерчанта",
+                    nameMessage: "Пожалуйста, введите имя мерчанта. Минимум 3 символа",
                     login: "Логин",
                     loginMessage: "Пожалуйста, введите логин мерчанта",
                     email: "Адрес эл.почты",
@@ -1342,7 +1342,7 @@ const en: TranslationMessages = {
                 userCreate: {
                     title: "Adding a user",
                     name: "Name",
-                    nameMessage: "Please, enter merchant's name",
+                    nameMessage: "Please, enter merchant's name. Minimum 3 symbols",
                     login: "Login",
                     loginMessage: "Please, enter merchant's login",
                     email: "Email",
