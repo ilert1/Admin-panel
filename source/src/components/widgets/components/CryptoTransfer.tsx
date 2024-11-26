@@ -9,6 +9,7 @@ export const CryptoTransfer = () => {
     const translate = useTranslate();
     const [transferState, setTransferState] = useState<"process" | "success" | "error">("process");
 
+    const [message, setMessage] = useState("");
     const merchantId = useMemo(() => {
         const token = localStorage.getItem("access-token");
         if (token) {
@@ -42,6 +43,22 @@ export const CryptoTransfer = () => {
     const [localLoading, setLocalLoading] = useState(false);
     const isLoading = useMemo(() => balanceLoading || localLoading, [balanceLoading, localLoading]);
 
+    // Может понадобится потом, пока оставлю
+    // const errorMessagesMap: Record<string, string> = {
+    //     low_amount: translate("resources.withdraw.errors.lowAmountError"),
+    //     default: translate("resources.withdraw.errors.serverError")
+    // };
+
+    const getMessage = (json: any) => {
+        if (json.success) {
+            return translate("app.widgets.forms.cryptoTransfer.transferSuccess");
+        }
+        if (json.error) {
+            return json.error;
+        }
+        return translate("resources.withdraw.errors.serverError");
+    };
+
     const createTransfer = (data: any) => {
         setLocalLoading(true);
         fetch(`${BF_MANAGER_URL}/v1/withdraw/create`, {
@@ -64,8 +81,10 @@ export const CryptoTransfer = () => {
             .then(response => response.json())
             .then(json => {
                 if (json.success) {
+                    setMessage(getMessage(json));
                     setTransferState("success");
                 } else {
+                    setMessage(getMessage(json));
                     setTransferState("error");
                 }
             })
@@ -87,6 +106,7 @@ export const CryptoTransfer = () => {
                 balance={balance || 0}
                 transferState={transferState}
                 setTransferState={setTransferState}
+                showMessage={message}
             />
         </div>
     );
