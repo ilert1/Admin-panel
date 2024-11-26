@@ -173,14 +173,19 @@ export const useGetWalletTransactionsColumns = () => {
                         </>
                     );
                 } else {
-                    return data?.transactionTypes?.[row.getValue("type") as string]?.type_descr || "";
+                    return translate(
+                        `resources.transactions.states.${data?.states?.[
+                            row.getValue("state") as string
+                        ]?.state_description?.toLowerCase()}`
+                    );
                 }
             }
         },
         {
             id: "type",
             accessorKey: "type",
-            header: translate("resources.wallet.transactions.fields.type")
+            header: translate("resources.wallet.transactions.fields.type"),
+            cell: ({ row }) => data?.transactionTypes?.[row.getValue("type") as string]?.type_descr || ""
         },
         {
             id: "merchant_id",
