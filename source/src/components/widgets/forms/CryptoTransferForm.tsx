@@ -4,11 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { useTranslate } from "react-admin";
+import { useInfiniteGetList, useTranslate } from "react-admin";
 import { useEffect, useMemo, useState } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { TriangleAlert } from "lucide-react";
+import { TriangleAlert, WalletMinimal } from "lucide-react";
 import { Icon } from "../shared/Icon";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectType, SelectValue } from "@/components/ui/select";
+import { CreateWalletDialog } from "../lists/Wallets";
 
 export const CryptoTransferForm = (props: {
     loading: boolean;
@@ -19,6 +21,23 @@ export const CryptoTransferForm = (props: {
 }) => {
     const translate = useTranslate();
     const [checked, setChecked] = useState<boolean | "indeterminate">(false);
+    const [createOpen, setCreateOpen] = useState(false);
+    const {
+        data: walletsData,
+        hasNextPage,
+        fetchNextPage: walletsNextPage
+    } = useInfiniteGetList("merchant/wallet", {
+        pagination: { perPage: 25, page: 1 },
+        filter: { sort: "name", asc: "ASC" }
+    });
+    const walletScrollHandler = async e => {
+        const target = e.target as HTMLElement;
+
+        if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
+            walletsNextPage();
+        }
+    };
+
     const formSchema = z.object({
         address: z.string().regex(/T[A-Za-z1-9]{33}/, translate("app.widgets.forms.cryptoTransfer.addressMessage")),
         amount: z
@@ -78,41 +97,42 @@ export const CryptoTransferForm = (props: {
                                 disabled={props.loading}
                                 control={form.control}
                                 name="address"
-                                render={({ field, fieldState }) => (
+                                render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-note-1">
                                             {translate("app.widgets.forms.cryptoTransfer.address")}
                                         </FormLabel>
                                         <FormControl>
-                                            <Input
-                                                autoComplete="off"
-                                                placeholder="TRC"
-                                                className={`${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}
-                                                {...field}>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
-                                            </Input>
+                                            <Select value={field.value} onValueChange={field.onChange}>
+                                                <FormControl>
+                                                    <SelectTrigger variant={SelectType.DEFAULT}>
+                                                        <SelectValue />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent
+                                                    onScrollCapture={walletScrollHandler}
+                                                    onScroll={walletScrollHandler}>
+                                                    {walletsData?.pages.map(page => {
+                                                        return page.data.map(wallet => (
+                                                            <SelectItem
+                                                                key={wallet.id}
+                                                                value={wallet.id}
+                                                                variant={SelectType.DEFAULT}>
+                                                                <p className="truncate max-w-36">{wallet.address}</p>
+                                                            </SelectItem>
+                                                        ));
+                                                    })}
+                                                    <div className="sticky bottom-0 bg-black p-2 z-10 flex items-center w-full h-[48px]">
+                                                        <Button
+                                                            variant={"default"}
+                                                            className="h-full py-[6px] px-[16px] w-full flex gap-[6px] justify-center items-center"
+                                                            onClick={() => setCreateOpen(true)}>
+                                                            <WalletMinimal className="w-4 h-4" />
+                                                            <p className="text-title-1">Add New Wallet</p>
+                                                        </Button>
+                                                    </div>
+                                                </SelectContent>
+                                            </Select>
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -203,6 +223,7 @@ export const CryptoTransferForm = (props: {
                         </Button>
                     </div>
                 </form>
+                <CreateWalletDialog open={createOpen} onOpenChange={setCreateOpen} />
             </Form>
         );
     else if (props.transferState === "success" || props.transferState === "error")

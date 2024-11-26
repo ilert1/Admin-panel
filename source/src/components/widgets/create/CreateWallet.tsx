@@ -56,7 +56,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
         filter: { sort: "name", asc: "ASC" }
     });
 
-    const accountScrollHandler = async e => {
+    const accountScrollHandler = async (e: React.UIEvent<HTMLElement>) => {
         const target = e.target as HTMLElement;
 
         if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
@@ -74,7 +74,6 @@ export const CreateWallet = (props: CreateWalletProps) => {
         delete data.merchantId;
         data.account_id = data.accountNumber;
         delete data.accountNumber;
-        // console.log(data);
         try {
             await dataProvider.create("wallet", { data: data });
             refresh();
