@@ -116,7 +116,7 @@ export const CryptoTransferForm = (props: {
                                                         return page.data.map(wallet => (
                                                             <SelectItem
                                                                 key={wallet.id}
-                                                                value={wallet.id}
+                                                                value={wallet.address}
                                                                 variant={SelectType.DEFAULT}>
                                                                 <p className="truncate max-w-36">{wallet.address}</p>
                                                             </SelectItem>
