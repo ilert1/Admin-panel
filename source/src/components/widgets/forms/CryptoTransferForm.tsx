@@ -116,7 +116,7 @@ export const CryptoTransferForm = (props: {
                                                         return page.data.map(wallet => (
                                                             <SelectItem
                                                                 key={wallet.id}
-                                                                value={wallet.id}
+                                                                value={wallet.address}
                                                                 variant={SelectType.DEFAULT}>
                                                                 <p className="truncate max-w-36">{wallet.address}</p>
                                                             </SelectItem>
@@ -128,7 +128,11 @@ export const CryptoTransferForm = (props: {
                                                             className="h-full py-[6px] px-[16px] w-full flex gap-[6px] justify-center items-center"
                                                             onClick={() => setCreateOpen(true)}>
                                                             <WalletMinimal className="w-4 h-4" />
-                                                            <p className="text-title-1">Add New Wallet</p>
+                                                            <p className="text-title-1">
+                                                                {translate(
+                                                                    "app.widgets.forms.cryptoTransfer.createNewWallet"
+                                                                )}
+                                                            </p>
                                                         </Button>
                                                     </div>
                                                 </SelectContent>
@@ -228,7 +232,7 @@ export const CryptoTransferForm = (props: {
         );
     else if (props.transferState === "success" || props.transferState === "error")
         return (
-            <div className="flex flex-col w-[476px] h-[308px] px-6 py-4 bg-neutral-0 rounded-2xl gap-6 justify-center items-center">
+            <div className="flex flex-col max-w-[476px] h-[308px] px-6 py-4 bg-neutral-0 rounded-2xl gap-6 justify-center items-center">
                 <div className="flex flex-col gap-2 items-center">
                     <div className="w-[114px]">
                         {props.transferState === "success" && <Icon name="BlowFishCheck" />}
