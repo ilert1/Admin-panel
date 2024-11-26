@@ -8,9 +8,8 @@ import { useQuery } from "react-query";
 export const CryptoTransfer = () => {
     const translate = useTranslate();
     const [transferState, setTransferState] = useState<"process" | "success" | "error">("process");
-    const [errorMessage, setErrorMessage] = useState("");
-    const [errorCode, setErrorCode] = useState("server_error");
 
+    const [message, setMessage] = useState("");
     const merchantId = useMemo(() => {
         const token = localStorage.getItem("access-token");
         if (token) {
@@ -44,6 +43,21 @@ export const CryptoTransfer = () => {
     const [localLoading, setLocalLoading] = useState(false);
     const isLoading = useMemo(() => balanceLoading || localLoading, [balanceLoading, localLoading]);
 
+    const errorMessagesMap: Record<string, string> = {
+        low_amount: translate("resources.withdraw.errors.lowAmountError"),
+        default: translate("resources.withdraw.errors.serverError")
+    };
+
+    const getMessage = (json: any) => {
+        if (json.success) {
+            return translate("app.widgets.forms.cryptoTransfer.transferSuccess");
+        }
+        if (json.error) {
+            return json.error;
+        }
+        return errorMessagesMap[json.code] || errorMessagesMap.default;
+    };
+
     const createTransfer = (data: any) => {
         setLocalLoading(true);
         fetch(`${BF_MANAGER_URL}/v1/withdraw/create`, {
@@ -66,18 +80,10 @@ export const CryptoTransfer = () => {
             .then(response => response.json())
             .then(json => {
                 if (json.success) {
+                    setMessage(getMessage(json));
                     setTransferState("success");
                 } else {
-                    if (Object.hasOwn(json, "error") && Object.hasOwn(json, "code")) {
-                        setErrorMessage(json.error);
-                        setErrorCode(json.code);
-                    } else if (Object.hasOwn(json, "code")) {
-                        if (json.code.indexOf("than 2 USDT") >= 0) {
-                            setErrorCode("lowAmountError");
-                        } else {
-                            setErrorCode("serverError");
-                        }
-                    }
+                    setMessage(getMessage(json));
                     setTransferState("error");
                 }
             })
@@ -99,8 +105,7 @@ export const CryptoTransfer = () => {
                 balance={balance || 0}
                 transferState={transferState}
                 setTransferState={setTransferState}
-                errorMessage={errorMessage}
-                errorCode={errorCode}
+                showMessage={message}
             />
         </div>
     );
