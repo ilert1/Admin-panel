@@ -128,7 +128,11 @@ export const CryptoTransferForm = (props: {
                                                             className="h-full py-[6px] px-[16px] w-full flex gap-[6px] justify-center items-center"
                                                             onClick={() => setCreateOpen(true)}>
                                                             <WalletMinimal className="w-4 h-4" />
-                                                            <p className="text-title-1">Add New Wallet</p>
+                                                            <p className="text-title-1">
+                                                                {translate(
+                                                                    "app.widgets.forms.cryptoTransfer.createNewWallet"
+                                                                )}
+                                                            </p>
                                                         </Button>
                                                     </div>
                                                 </SelectContent>

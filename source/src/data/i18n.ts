@@ -664,7 +664,8 @@ const ru: TranslationMessages = {
                     transferSuccess: "Перевод осуществлён!",
                     transferError: "Недостаточно средств на счёте",
                     successButton: "Перевести ещё",
-                    errorButton: "Попробовать снова"
+                    errorButton: "Попробовать снова",
+                    createNewWallet: "Добавить новый кошелек"
                 },
                 userCreate: {
                     title: "Добавление пользователя",
@@ -1392,7 +1393,8 @@ const en: TranslationMessages = {
                     transferSuccess: "Transfer is successful!",
                     transferError: "Insufficient funds in the account",
                     successButton: "Transfer more",
-                    errorButton: "Try again"
+                    errorButton: "Try again",
+                    createNewWallet: "Add New Wallet"
                 },
                 userCreate: {
                     title: "Adding a user",
