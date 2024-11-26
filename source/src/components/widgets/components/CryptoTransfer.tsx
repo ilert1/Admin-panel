@@ -43,10 +43,11 @@ export const CryptoTransfer = () => {
     const [localLoading, setLocalLoading] = useState(false);
     const isLoading = useMemo(() => balanceLoading || localLoading, [balanceLoading, localLoading]);
 
-    const errorMessagesMap: Record<string, string> = {
-        low_amount: translate("resources.withdraw.errors.lowAmountError"),
-        default: translate("resources.withdraw.errors.serverError")
-    };
+    // Может понадобится потом, пока оставлю
+    // const errorMessagesMap: Record<string, string> = {
+    //     low_amount: translate("resources.withdraw.errors.lowAmountError"),
+    //     default: translate("resources.withdraw.errors.serverError")
+    // };
 
     const getMessage = (json: any) => {
         if (json.success) {
@@ -55,7 +56,7 @@ export const CryptoTransfer = () => {
         if (json.error) {
             return json.error;
         }
-        return errorMessagesMap[json.code] || errorMessagesMap.default;
+        return translate("resources.withdraw.errors.serverError");
     };
 
     const createTransfer = (data: any) => {
