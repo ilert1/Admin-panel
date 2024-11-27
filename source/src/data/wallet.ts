@@ -86,22 +86,32 @@ export class WalletsDataProvider extends BaseDataProvider {
     async create(resource: "wallet" | "merchant/wallet", params: CreateParams): Promise<CreateResult> {
         const url = `${API_URL}/${resource}`;
 
-        const { json } = await fetchUtils.fetchJson(url, {
-            method: "POST",
-            body: JSON.stringify(params.data),
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
+        try {
+            const { json } = await fetchUtils.fetchJson(url, {
+                method: "POST",
+                body: JSON.stringify(params.data),
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            });
 
-        if (!json.success) {
-            if (json.status === 500) {
-                throw new Error("Server error");
+            if (!json.success) {
+                if (json.status === 500) {
+                    throw new Error(JSON.stringify({ error_message: "Server error" }));
+                }
+                throw new Error(JSON.stringify(json.error));
             }
-            throw new Error(JSON.stringify(json.error));
-        }
 
-        return {
-            data: json.data
-        };
+            return {
+                data: json.data
+            };
+        } catch (error) {
+            if (error instanceof Error) {
+                if (error.message) {
+                    throw new Error(JSON.stringify({ error_message: error.message }));
+                }
+            }
+
+            throw new Error(JSON.stringify({ error_message: "Server error" }));
+        }
     }
 
     async delete(resource: "wallet" | "merchant/wallet", params: DeleteParams): Promise<DeleteResult> {

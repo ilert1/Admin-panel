@@ -491,7 +491,9 @@ const ru: TranslationMessages = {
                     selectAccount: "Выберите аккаунт",
                     errorWhenEditing: "Произошлка ошибка при редактировании кошелька",
                     errorWhenCreating: "Произошлка ошибка при создании кошелька",
-                    alreadyExists: "Кошелек с таким адресом уже существует"
+                    alreadyExists: "Кошелек с таким адресом уже существует",
+                    addressRequired: "Введите адрес кошелька",
+                    invalidTRCAddresss: "Неправильный формат TRC20 адреса"
                 },
 
                 creatingWallet: "Добавление кошелька",
@@ -1228,7 +1230,9 @@ const en: TranslationMessages = {
                     errorWhenEditing: "An error occured when editing wallet",
                     errorWhenCreating: "An error occured when creating wallet",
                     serverError: "Server side error, try again later",
-                    alreadyExists: "Wallet with this address is already exists"
+                    alreadyExists: "Wallet with this address is already exists",
+                    addressRequired: "Address is required",
+                    invalidTRCAddresss: "Invalid TRC20 address"
                 },
                 creatingWallet: "Adding wallet",
                 editingWallet: "Editing wallet",

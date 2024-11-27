@@ -17,18 +17,11 @@ import { useFetchDataForDirections } from "@/hooks";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import {
-    CreateContextProvider,
-    useCreateController,
-    useDataProvider,
-    useInfiniteGetList,
-    usePermissions,
-    useRefresh,
-    useTranslate
-} from "react-admin";
+import { useDataProvider, useInfiniteGetList, usePermissions, useRefresh, useTranslate } from "react-admin";
 import { toast } from "sonner";
 import { Form, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+import { TronWeb } from "tronweb";
 
 interface CreateWalletProps {
     onOpenChange: (state: boolean) => void;
@@ -38,6 +31,9 @@ enum WalletTypes {
     LINKED = "linked",
     EXTERNAL = "external"
 }
+const isTRC20Address = (address: string): boolean => {
+    return TronWeb.isAddress(address);
+};
 
 export const CreateWallet = (props: CreateWalletProps) => {
     const { onOpenChange } = props;
@@ -118,9 +114,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
 
     const formSchema = z.object({
         type: z.enum([WalletTypes.EXTERNAL, WalletTypes.INTERNAL, WalletTypes.LINKED]),
-        // Одно и тоже поле
         accountNumber: z.string().min(1, translate("resources.wallet.manage.errors.selectAccount")),
-        //
         blockchain: z.string(),
         network: z.string(),
         currency: z.string(),
@@ -129,7 +123,12 @@ export const CreateWallet = (props: CreateWalletProps) => {
     });
 
     const merchantFormSchema = z.object({
-        address: z.string().min(1),
+        address: z
+            .string()
+            .min(1, { message: translate("resources.wallet.manage.errors.addressRequired") })
+            .refine(isTRC20Address, {
+                message: translate("resources.wallet.manage.errors.invalidTRCAddresss")
+            }),
         description: z.string().nullable()
     });
 
@@ -391,6 +390,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                                 />
                                             </div>
                                         </FormControl>
+                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
