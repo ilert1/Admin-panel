@@ -11,6 +11,7 @@ import { TriangleAlert, WalletMinimal } from "lucide-react";
 import { Icon } from "../shared/Icon";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectType, SelectValue } from "@/components/ui/select";
 import { CreateWalletDialog } from "../lists/Wallets";
+import { LoadingAlertDialog } from "@/components/ui/loading";
 
 export const CryptoTransferForm = (props: {
     loading: boolean;
@@ -104,7 +105,10 @@ export const CryptoTransferForm = (props: {
                                             {translate("app.widgets.forms.cryptoTransfer.address")}
                                         </FormLabel>
                                         <FormControl>
-                                            <Select value={field.value} onValueChange={field.onChange}>
+                                            <Select
+                                                value={field.value}
+                                                onValueChange={field.onChange}
+                                                disabled={props.loading}>
                                                 <FormControl>
                                                     <SelectTrigger variant={SelectType.DEFAULT}>
                                                         <SelectValue />
@@ -224,7 +228,11 @@ export const CryptoTransferForm = (props: {
                             type="submit"
                             variant="default"
                             size="sm">
-                            {translate("app.widgets.forms.cryptoTransfer.createTransfer")}
+                            {!props.loading ? (
+                                translate("app.widgets.forms.cryptoTransfer.createTransfer")
+                            ) : (
+                                <LoadingAlertDialog className="w-[25px] h-[25px] overflow-hidden" />
+                            )}
                         </Button>
                     </div>
                 </form>
