@@ -116,7 +116,10 @@ export const EditWallet = (props: EditWalletProps) => {
         network: z.string().min(1),
         currency: z.string().min(1),
         description: z.string().nullable(),
-        minimal_ballance_limit: z.coerce.number(),
+        minimal_ballance_limit: z.coerce
+            .number()
+            .int(translate("resources.wallet.manage.errors.intOnly"))
+            .min(0, translate("resources.wallet.manage.errors.minBalance")),
         account_id: z.string()
     });
 
