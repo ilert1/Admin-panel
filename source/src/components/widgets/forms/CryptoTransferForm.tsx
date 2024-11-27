@@ -24,6 +24,7 @@ export const CryptoTransferForm = (props: {
     const translate = useTranslate();
     const [checked, setChecked] = useState<boolean | "indeterminate">(false);
     const [createOpen, setCreateOpen] = useState(false);
+    const [sendAmount, setSendAmount] = useState(0);
     const {
         data: walletsData,
         hasNextPage,
@@ -71,12 +72,25 @@ export const CryptoTransferForm = (props: {
     const accuracy = useMemo(() => Math.pow(10, ("" + amount).split(".")[1]?.length) || 100, [amount]);
 
     const totalAmount = useMemo(() => {
-        if (+amount > 2) {
-            return Math.round((+amount - 2) * accuracy) / accuracy;
-        } else {
-            return 0;
+        const parsedAmount = parseFloat(amount);
+        if (parsedAmount > 2) {
+            const val = Math.round((parsedAmount - 2) * accuracy) / accuracy;
+            return val;
         }
+        return 0;
     }, [amount, accuracy]);
+
+    useEffect(() => {
+        if (!props.loading) {
+            setSendAmount(totalAmount);
+        }
+    }, [props.loading, totalAmount]);
+
+    useEffect(() => {
+        if (checked && checked !== "indeterminate") {
+            form.setValue("amount", props.balance?.toString() || "");
+        }
+    }, [checked, props.balance, form]);
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         props.create({
@@ -219,7 +233,7 @@ export const CryptoTransferForm = (props: {
                                 <span className="text-neutral-60 dark:text-neutral-40">
                                     {translate("app.widgets.forms.cryptoTransfer.totalAmount")}
                                 </span>
-                                <span>{totalAmount + " USD₮"}</span>
+                                <span>{sendAmount + " USD₮"}</span>
                             </div>
                         </div>
                         <Button
