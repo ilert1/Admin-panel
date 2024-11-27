@@ -11,6 +11,7 @@ import { TriangleAlert, WalletMinimal } from "lucide-react";
 import { Icon } from "../shared/Icon";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectType, SelectValue } from "@/components/ui/select";
 import { CreateWalletDialog } from "../lists/Wallets";
+import { LoadingAlertDialog } from "@/components/ui/loading";
 
 export const CryptoTransferForm = (props: {
     loading: boolean;
@@ -23,6 +24,7 @@ export const CryptoTransferForm = (props: {
     const translate = useTranslate();
     const [checked, setChecked] = useState<boolean | "indeterminate">(false);
     const [createOpen, setCreateOpen] = useState(false);
+    const [sendAmount, setSendAmount] = useState(0);
     const {
         data: walletsData,
         hasNextPage,
@@ -31,7 +33,7 @@ export const CryptoTransferForm = (props: {
         pagination: { perPage: 25, page: 1 },
         filter: { sort: "name", asc: "ASC" }
     });
-    const walletScrollHandler = async e => {
+    const walletScrollHandler = async (e: React.FormEvent) => {
         const target = e.target as HTMLElement;
 
         if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
@@ -70,12 +72,25 @@ export const CryptoTransferForm = (props: {
     const accuracy = useMemo(() => Math.pow(10, ("" + amount).split(".")[1]?.length) || 100, [amount]);
 
     const totalAmount = useMemo(() => {
-        if (+amount > 2) {
-            return Math.round((+amount - 2) * accuracy) / accuracy;
-        } else {
-            return 0;
+        const parsedAmount = parseFloat(amount);
+        if (parsedAmount > 2) {
+            const val = Math.round((parsedAmount - 2) * accuracy) / accuracy;
+            return val;
         }
+        return 0;
     }, [amount, accuracy]);
+
+    useEffect(() => {
+        if (!props.loading) {
+            setSendAmount(totalAmount);
+        }
+    }, [props.loading, totalAmount]);
+
+    useEffect(() => {
+        if (checked && checked !== "indeterminate") {
+            form.setValue("amount", props.balance?.toString() || "");
+        }
+    }, [checked, props.balance, form]);
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         props.create({
@@ -104,7 +119,10 @@ export const CryptoTransferForm = (props: {
                                             {translate("app.widgets.forms.cryptoTransfer.address")}
                                         </FormLabel>
                                         <FormControl>
-                                            <Select value={field.value} onValueChange={field.onChange}>
+                                            <Select
+                                                value={field.value}
+                                                onValueChange={field.onChange}
+                                                disabled={props.loading}>
                                                 <FormControl>
                                                     <SelectTrigger variant={SelectType.DEFAULT}>
                                                         <SelectValue />
@@ -215,7 +233,7 @@ export const CryptoTransferForm = (props: {
                                 <span className="text-neutral-60 dark:text-neutral-40">
                                     {translate("app.widgets.forms.cryptoTransfer.totalAmount")}
                                 </span>
-                                <span>{totalAmount + " USD₮"}</span>
+                                <span>{sendAmount + " USD₮"}</span>
                             </div>
                         </div>
                         <Button
@@ -224,7 +242,11 @@ export const CryptoTransferForm = (props: {
                             type="submit"
                             variant="default"
                             size="sm">
-                            {translate("app.widgets.forms.cryptoTransfer.createTransfer")}
+                            {!props.loading ? (
+                                translate("app.widgets.forms.cryptoTransfer.createTransfer")
+                            ) : (
+                                <LoadingAlertDialog className="w-[25px] h-[25px] overflow-hidden" />
+                            )}
                         </Button>
                     </div>
                 </form>

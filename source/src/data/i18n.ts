@@ -493,7 +493,9 @@ const ru: TranslationMessages = {
                     errorWhenCreating: "Произошлка ошибка при создании кошелька",
                     alreadyExists: "Кошелек с таким адресом уже существует",
                     addressRequired: "Введите адрес кошелька",
-                    invalidTRCAddresss: "Неправильный формат TRC20 адреса"
+                    invalidTRCAddresss: "Неправильный формат TRC20 адреса",
+                    minBalance: "Минимальное значение 0",
+                    intOnly: "Значение должно быть целым числом, без дробной части"
                 },
 
                 creatingWallet: "Добавление кошелька",
@@ -1232,7 +1234,9 @@ const en: TranslationMessages = {
                     serverError: "Server side error, try again later",
                     alreadyExists: "Wallet with this address is already exists",
                     addressRequired: "Address is required",
-                    invalidTRCAddresss: "Invalid TRC20 address"
+                    invalidTRCAddresss: "Invalid TRC20 address",
+                    minBalance: "Minimum value is 0",
+                    intOnly: "Input should be a valid integer without fractional part"
                 },
                 creatingWallet: "Adding wallet",
                 editingWallet: "Editing wallet",
