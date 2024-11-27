@@ -93,10 +93,7 @@ export class WalletsDataProvider extends BaseDataProvider {
         });
 
         if (!json.success) {
-            if (json.status === 500) {
-                throw new Error("Server error");
-            }
-            throw new Error(JSON.stringify(json.error));
+            throw new Error(json.error);
         }
 
         return {

@@ -125,7 +125,10 @@ export const CreateWallet = (props: CreateWalletProps) => {
         network: z.string(),
         currency: z.string(),
         description: z.string().nullable(),
-        minimal_ballance_limit: z.coerce.number()
+        minimal_ballance_limit: z.coerce
+            .number()
+            .int(translate("resources.wallet.manage.errors.intOnly"))
+            .min(0, translate("resources.wallet.manage.errors.minBalance"))
     });
 
     const merchantFormSchema = z.object({
@@ -329,6 +332,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                                 <Input {...field} className="bg-muted" variant={InputTypes.GRAY} />
                                             </div>
                                         </FormControl>
+                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
