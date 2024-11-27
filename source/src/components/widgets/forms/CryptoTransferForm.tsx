@@ -33,7 +33,7 @@ export const CryptoTransferForm = (props: {
         pagination: { perPage: 25, page: 1 },
         filter: { sort: "name", asc: "ASC" }
     });
-    const walletScrollHandler = async e => {
+    const walletScrollHandler = async (e: React.FormEvent) => {
         const target = e.target as HTMLElement;
 
         if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
