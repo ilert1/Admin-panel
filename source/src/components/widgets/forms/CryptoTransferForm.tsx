@@ -121,7 +121,10 @@ export const CryptoTransferForm = (props: {
                                         <FormControl>
                                             <Select
                                                 value={field.value}
-                                                onValueChange={field.onChange}
+                                                onValueChange={e => {
+                                                    console.log(e);
+                                                    field.onChange(e);
+                                                }}
                                                 disabled={props.loading}>
                                                 <FormControl>
                                                     <SelectTrigger variant={SelectType.DEFAULT}>
@@ -133,12 +136,20 @@ export const CryptoTransferForm = (props: {
                                                     onScroll={walletScrollHandler}>
                                                     {walletsData?.pages.map(page => {
                                                         return page.data.map(wallet => (
-                                                            <SelectItem
+                                                            <div
                                                                 key={wallet.id}
-                                                                value={wallet.address}
-                                                                variant={SelectType.DEFAULT}>
-                                                                <p className="truncate max-w-36">{wallet.address}</p>
-                                                            </SelectItem>
+                                                                className="relative flex flex-col gap-2">
+                                                                <SelectItem
+                                                                    value={wallet.address}
+                                                                    variant={SelectType.DEFAULT}>
+                                                                    <p className="truncate max-w-full">
+                                                                        {wallet.address}
+                                                                    </p>
+                                                                </SelectItem>
+                                                                <p className="truncate max-w-36 text-note-2 pl-8 absolute bottom-0 text-neutral-50">
+                                                                    {wallet.description}
+                                                                </p>
+                                                            </div>
                                                         ));
                                                     })}
                                                     <div className="sticky bottom-0 bg-black p-2 z-10 flex items-center w-full h-[48px]">
