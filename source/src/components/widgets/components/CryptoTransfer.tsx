@@ -60,6 +60,7 @@ export const CryptoTransfer = () => {
     };
 
     const createTransfer = (data: any) => {
+        console.log(data);
         setLocalLoading(true);
         fetch(`${BF_MANAGER_URL}/v1/withdraw/create`, {
             method: "POST",
@@ -69,7 +70,7 @@ export const CryptoTransfer = () => {
                     currency: "USDT",
                     value: {
                         accuracy: data.accuracy,
-                        quantity: +data.amount * data.accuracy
+                        quantity: Math.round(data.amount * data.accuracy)
                     }
                 }
             }),
