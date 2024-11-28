@@ -60,7 +60,6 @@ export const CryptoTransfer = () => {
     };
 
     const createTransfer = (data: any) => {
-        console.log(data);
         setLocalLoading(true);
         fetch(`${BF_MANAGER_URL}/v1/withdraw/create`, {
             method: "POST",

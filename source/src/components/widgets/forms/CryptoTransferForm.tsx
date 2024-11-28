@@ -61,10 +61,8 @@ export const CryptoTransferForm = (props: {
     const accuracy = useMemo(() => Math.pow(10, String(amount).split(".")[1]?.length) || 100, [amount]);
 
     const totalAmount = useMemo(() => {
-        console.log("accuracy: ", accuracy);
         if (amount > 2) {
             const val = Math.round((amount - 2) * accuracy) / accuracy;
-            console.log("total: ", val);
             return val;
         }
         return 0;
