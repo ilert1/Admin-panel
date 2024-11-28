@@ -55,7 +55,7 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="w-[251px] bg-muted">
+            <DialogContent className="rounded-16 max-h-56 xl:max-h-none h-auto overflow-hidden w-[251px] bg-muted">
                 <DialogHeader>
                     <DialogTitle className="text-center">
                         {translate("resources.wallet.transactions.fields.confirmQuestion")}
