@@ -64,6 +64,19 @@ export class WalletsDataProvider extends BaseDataProvider {
         };
     }
 
+    async getWalletBalance(resource: "wallet" | "merchant/wallet", id: string): Promise<WalletBalance> {
+        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${id}/balance`, {
+            method: "GET",
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        });
+
+        if (!json.success) {
+            throw new Error("Balance fetch failed");
+        }
+
+        return json?.data;
+    }
+
     async update(resource: "wallet" | "merchant/wallet", params: UpdateParams) {
         delete params.data.generatedAt;
         delete params.data.loadedAt;

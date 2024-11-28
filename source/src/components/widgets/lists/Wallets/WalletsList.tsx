@@ -1,11 +1,4 @@
-import {
-    fetchUtils,
-    ListContextProvider,
-    useDataProvider,
-    useListController,
-    usePermissions,
-    useTranslate
-} from "react-admin";
+import { ListContextProvider, useDataProvider, useListController, usePermissions, useTranslate } from "react-admin";
 import { useGetWalletsColumns } from "./Columns";
 import { Loading } from "@/components/ui/loading";
 import { Button } from "@/components/ui/button";
@@ -14,22 +7,20 @@ import { CreateWalletDialog } from "./CreateWalletDialog";
 import { useEffect, useState } from "react";
 import { DataTable } from "../../shared";
 import { ShowWalletDialog } from "./ShowWalletDialog";
-import { VaultDataProvider } from "@/data";
+import { VaultDataProvider, WalletsDataProvider } from "@/data";
 import { useQuery } from "react-query";
-
-const API_URL = import.meta.env.VITE_WALLET_URL;
 
 export const WalletsList = () => {
     const { permissions } = usePermissions();
-    const listContext = useListController(
+    const listContext = useListController<Wallet>(
         permissions === "admin" ? { resource: "wallet" } : { resource: "merchant/wallet" }
     );
     const translate = useTranslate();
     // console.log(listContext?.perPage);
-    const [balances, setBalances] = useState<Record<string, Amounts>>({});
+    const [balances, setBalances] = useState<Map<string, WalletBalance>>();
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
-    const dataProvider = useDataProvider<VaultDataProvider>();
+    const dataProvider = useDataProvider<VaultDataProvider & WalletsDataProvider>();
     const { data: storageState } = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"), {
         enabled: permissions === "admin"
     });
@@ -37,41 +28,32 @@ export const WalletsList = () => {
     const handleCreateClick = () => {
         setCreateDialogOpen(true);
     };
+
     const fetchBalances = async () => {
         if (!listContext.data) return;
 
-        const balancesMap: Record<string, Amounts> = {};
+        const tempBalancesMap: Map<string, WalletBalance> = new Map();
 
         const balancePromises = listContext.data.map(async wallet => {
-            const url = `${API_URL}/${permissions === "admin" ? "" : "merchant/"}wallet/${wallet.id}/balance`;
-
-            return fetchUtils
-                .fetchJson(url, {
-                    user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-                })
-                .then(({ json }) => {
-                    if (!json.success) {
-                        throw new Error("Balance fetch failed");
+            return dataProvider
+                .getWalletBalance(permissions === "admin" ? "wallet" : "merchant/wallet", wallet.id)
+                .then(data => {
+                    if (data) {
+                        tempBalancesMap.set(wallet.id, data);
                     }
-
-                    balancesMap[wallet.id] = json.data;
-                    // console.log(json.data);
-
-                    // wallet.currency === "USDT" ? String(json.data.usdt_amount) : String(json.data.trx_amount);
                 })
-                .catch(error => {
-                    // console.error(`Error fetching balance for wallet ${wallet.id}:`, error);
-                    balancesMap[wallet.id] = {
-                        usdt_amount: "0",
-                        trx_amount: "0"
-                    };
+                .catch(() => {
+                    tempBalancesMap.set(wallet.id, {
+                        usdt_amount: 0,
+                        trx_amount: 0
+                    });
                 });
         });
 
-        await Promise.allSettled(balancePromises);
-
-        setBalances(balancesMap);
+        await Promise.all(balancePromises);
+        setBalances(tempBalancesMap);
     };
+
     useEffect(() => {
         if (listContext.data) {
             fetchBalances();
@@ -81,7 +63,7 @@ export const WalletsList = () => {
 
     const { columns, chosenId, quickShowOpen, setQuickShowOpen } = useGetWalletsColumns(
         listContext.data ?? [],
-        balances
+        balances ?? new Map()
     );
 
     if (listContext.isLoading || !listContext.data) {
