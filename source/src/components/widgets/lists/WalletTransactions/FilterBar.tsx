@@ -128,7 +128,7 @@ export const FilterBar = () => {
                     </button>
                 </div>
             </div>
-            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+            {/* <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
                 <div className="flex items-center gap-3 flex-wrap">
                     <button
                         className={
@@ -155,7 +155,7 @@ export const FilterBar = () => {
                         {translate("resources.wallet.transactions.deletedTransactions")}
                     </button>
                 </div>
-            </div>
+            </div> */}
         </>
     );
 };

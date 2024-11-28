@@ -1,4 +1,4 @@
-import { ListContextProvider, useListController } from "react-admin";
+import { ListContextProvider, useListController, usePermissions } from "react-admin";
 import { useGetWalletTransactionsColumns } from "./Columns";
 import { Loading } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
