@@ -1,23 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from "@/components/ui/button";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle
-} from "@/components/ui/dialog";
 import { TextField } from "@/components/ui/text-field";
-import { useToast } from "@/components/ui/use-toast";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
-import moment from "moment";
 import { useState } from "react";
-import { fetchUtils, usePermissions, useRefresh, useTranslate } from "react-admin";
-
-const API_URL = import.meta.env.VITE_WALLET_URL;
+import { usePermissions, useTranslate } from "react-admin";
 
 export const useGetWalletTransactionsColumns = () => {
     const translate = useTranslate();
@@ -25,41 +13,18 @@ export const useGetWalletTransactionsColumns = () => {
     const [chosenId, setChosenId] = useState("");
     const [openShowClicked, setOpenShowClicked] = useState(false);
     const [confirmOpen, setConfirmOpen] = useState(false);
-    const [buttonDisabled, setButtonDisabled] = useState(false);
 
     const { permissions } = usePermissions();
-
-    const refresh = useRefresh();
-    const { toast } = useToast();
 
     const handleOpenShowClicked = (id: string) => {
         setChosenId(id);
         setOpenShowClicked(true);
     };
-    const handleConfirm = async (id: string) => {
-        if (buttonDisabled) return;
-        setButtonDisabled(true);
-        try {
-            const { json } = await fetchUtils.fetchJson(`${API_URL}/transaction/${id}/process`, {
-                method: "POST",
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
-                body: undefined
-            });
-            if (!json.success) {
-                throw new Error("");
-            }
-            refresh();
-            setConfirmOpen(false);
-        } catch (error) {
-            toast({
-                title: translate("resources.wallet.transactions.error"),
-                description: translate("resources.wallet.transactions.errors.failedToConfirm"),
-                variant: "destructive"
-            });
-            setButtonDisabled(false);
-        }
-    };
 
+    const handleConfirmShowClicked = (id: string) => {
+        setChosenId(id);
+        setConfirmOpen(true);
+    };
     const columns: ColumnDef<Cryptotransactions>[] = [
         {
             id: "created_at",
@@ -136,40 +101,9 @@ export const useGetWalletTransactionsColumns = () => {
                 if (permissions === "admin" && (row.original.state === 21 || row.original.state === "21")) {
                     return (
                         <>
-                            <Button
-                                onClick={() => {
-                                    setConfirmOpen(true);
-                                }}>
+                            <Button onClick={() => handleConfirmShowClicked(row.original.id)}>
                                 {translate("resources.wallet.transactions.fields.confirm")}
                             </Button>
-                            <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
-                                <DialogContent className="w-[251px] bg-muted">
-                                    <DialogHeader>
-                                        <DialogTitle className="text-center">
-                                            {translate("resources.wallet.transactions.fields.confirmQuestion")}
-                                        </DialogTitle>
-                                        <DialogDescription></DialogDescription>
-                                    </DialogHeader>
-                                    <DialogFooter>
-                                        <div className="flex justify-around w-full">
-                                            <Button
-                                                disabled={buttonDisabled}
-                                                onClick={() => {
-                                                    handleConfirm(row.original.id);
-                                                }}>
-                                                {translate("app.ui.actions.confirm")}
-                                            </Button>
-                                            <Button
-                                                variant={"outline"}
-                                                onClick={() => {
-                                                    setConfirmOpen(false);
-                                                }}>
-                                                {translate("app.ui.actions.cancel")}
-                                            </Button>
-                                        </div>
-                                    </DialogFooter>
-                                </DialogContent>
-                            </Dialog>
                         </>
                     );
                 } else {
@@ -223,5 +157,5 @@ export const useGetWalletTransactionsColumns = () => {
         }
     ];
 
-    return { columns, chosenId, openShowClicked, setOpenShowClicked };
+    return { columns, chosenId, openShowClicked, confirmOpen, setConfirmOpen, setOpenShowClicked };
 };
