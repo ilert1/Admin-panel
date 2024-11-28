@@ -1,6 +1,6 @@
 import { useCreateController, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
 import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+import { Input, InputTypes } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -88,7 +88,7 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
                                     </FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} />
+                                            <Input {...field} variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -107,7 +107,7 @@ export const ProviderCreate = (props: ProviderCreateProps) => {
                                     </FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} />
+                                            <Input {...field} variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
