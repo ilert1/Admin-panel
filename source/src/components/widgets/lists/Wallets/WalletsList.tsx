@@ -41,12 +41,6 @@ export const WalletsList = () => {
                     if (data) {
                         tempBalancesMap.set(wallet.id, data);
                     }
-                })
-                .catch(() => {
-                    tempBalancesMap.set(wallet.id, {
-                        usdt_amount: 0,
-                        trx_amount: 0
-                    });
                 });
         });
 
