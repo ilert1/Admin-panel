@@ -52,10 +52,10 @@ export const KeysModal = (props: KeysModalProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange} defaultOpen={false}>
-            <DialogContent className="bg-muted max-w-[716px] max-h-full h-[468px] rounded-[16px]">
+            <DialogContent disableOutsideClick className="bg-muted max-w-[716px] max-h-full h-[468px] rounded-[16px]">
                 <DialogHeader>
-                    <DialogTitle></DialogTitle>
-                    <DialogDescription> </DialogDescription>
+                    <DialogTitle />
+                    <DialogDescription />
                     <div className="flex flex-col gap-[24px] max-h-[468px] w-full">
                         <div className="text-center">
                             <h4 className="text-display-4 text-neutral-100">

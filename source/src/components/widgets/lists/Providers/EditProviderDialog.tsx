@@ -1,11 +1,11 @@
 import {
-    AlertDialog,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
 import { ProvidersEdit } from "../../edit";
 import { useRefresh, useTranslate } from "react-admin";
 
@@ -21,13 +21,13 @@ export const EditProviderDialog = (props: EditProviderDialogProps) => {
 
     const { open, id, onOpenChange = () => {} } = props;
     return (
-        <AlertDialog open={open} onOpenChange={onOpenChange}>
-            <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px] h-full max-h-[100dvh] md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
-                <AlertDialogHeader>
-                    <AlertDialogTitle className="text-center">
-                        {translate("resources.provider.editingProvider")}
-                    </AlertDialogTitle>
-                    <AlertDialogDescription></AlertDialogDescription>
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent
+                disableOutsideClick
+                className="bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
+                <DialogHeader>
+                    <DialogTitle className="text-center">{translate("resources.provider.editingProvider")}</DialogTitle>
+                    <DialogDescription></DialogDescription>
                     <ProvidersEdit
                         id={id}
                         onClose={() => {
@@ -35,9 +35,9 @@ export const EditProviderDialog = (props: EditProviderDialogProps) => {
                             refresh();
                         }}
                     />
-                </AlertDialogHeader>
-                <AlertDialogFooter></AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+                </DialogHeader>
+                <DialogFooter></DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 };

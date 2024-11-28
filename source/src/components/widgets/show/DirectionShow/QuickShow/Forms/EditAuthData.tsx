@@ -65,7 +65,7 @@ export const EditAuthData = (props: EditAuthDataProps) => {
     return (
         <>
             <Dialog open={open} onOpenChange={onOpenChange}>
-                <DialogContent className="max-w-[468px] max-h-[464px] bg-muted p-[30px] ">
+                <DialogContent disableOutsideClick className="max-w-[468px] max-h-[464px] bg-muted p-[30px] ">
                     <DialogHeader>
                         <DialogTitle className="text-center">
                             <span className="text-display-4">
