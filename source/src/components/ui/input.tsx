@@ -74,20 +74,21 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     ref={inputRef}
                     {...props}
                 />
-                {showClearButton && !disabled && (
+                {!disabled && (
                     <button
                         disabled={disabled}
                         type="button"
                         onMouseDown={handleClear}
                         tabIndex={-1}
                         className={cn(
+                            showClearButton ? "flex" : "hidden",
                             "absolute inset-y-0",
                             type === "password" && children
                                 ? "right-16"
                                 : type === "password" || children
                                 ? "right-9"
                                 : "right-3",
-                            "flex items-center justify-center text-neutral-60 hover:text-neutral-80 transition-colors duration-200"
+                            "items-center justify-center text-neutral-60 hover:text-neutral-80 transition-colors duration-200"
                         )}>
                         <X className="w-4 h-4" />
                     </button>
