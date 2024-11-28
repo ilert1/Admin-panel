@@ -8,12 +8,6 @@ import { ConfirmDialog } from "./ConfirmDialog";
 
 export const WalletTransactionsList = () => {
     const { permissions } = usePermissions();
-<<<<<<< HEAD
-    const listContext = useListController({
-        resource: permissions === "admin" ? "transaction" : "merchant/transaction"
-    });
-=======
->>>>>>> ITDEVELOP-1893
 
     const listContext = useListController({
         resource: permissions === "admin" ? "transaction" : "merchant/transaction"
@@ -32,11 +26,7 @@ export const WalletTransactionsList = () => {
 
                     <DataTable columns={columns} />
                 </ListContextProvider>
-<<<<<<< HEAD
-
-=======
                 <ConfirmDialog open={confirmOpen} onOpenChange={setConfirmOpen} id={chosenId} />
->>>>>>> ITDEVELOP-1893
                 <ShowWalletTransactionsDialog id={chosenId} open={openShowClicked} onOpenChange={setOpenShowClicked} />
             </>
         );
