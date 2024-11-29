@@ -86,12 +86,6 @@ export const CryptoTransferForm = (props: {
         }
     }, [props.loading, totalAmount]);
 
-    useEffect(() => {
-        if (checked && checked !== "indeterminate") {
-            form.setValue("amount", props.balance?.toString() || "");
-        }
-    }, [checked, props.balance, form]);
-
     function onSubmit(values: z.infer<typeof formSchema>) {
         props.create({
             ...values,
