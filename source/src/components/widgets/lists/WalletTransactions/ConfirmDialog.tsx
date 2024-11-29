@@ -7,13 +7,13 @@ interface ConfirmDialogProps {
 }
 
 import {
-    AlertDialog,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -54,15 +54,15 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
     };
 
     return (
-        <AlertDialog open={open} onOpenChange={onOpenChange}>
-            <AlertDialogContent className="w-[251px] bg-muted">
-                <AlertDialogHeader>
-                    <AlertDialogTitle className="text-center">
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent className="rounded-16 max-h-56 xl:max-h-none h-auto overflow-hidden w-[251px] bg-muted">
+                <DialogHeader>
+                    <DialogTitle className="text-center">
                         {translate("resources.wallet.transactions.fields.confirmQuestion")}
-                    </AlertDialogTitle>
-                    <AlertDialogDescription></AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
+                    </DialogTitle>
+                    <DialogDescription></DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
                     <div className="flex justify-around w-full">
                         <Button
                             onClick={() => {
@@ -78,8 +78,8 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 };

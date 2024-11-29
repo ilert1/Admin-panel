@@ -7,14 +7,7 @@ import { useState } from "react";
 import { TextField } from "@/components/ui/text-field";
 import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 import { toast } from "sonner";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import {
-    AlertDialog,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
+import { Dialog, DialogContent, DialogHeader, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { CurrencyCreate } from "../create";
 import { CurrencyEdit } from "../edit";
 
@@ -160,13 +153,15 @@ export const CurrenciesList = () => {
                     </Button>
                 </div>
 
-                <AlertDialog open={showAddCurrencyDialog} onOpenChange={setShowAddCurrencyDialog}>
-                    <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px] h-full max-h-[100dvh] md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
-                        <AlertDialogHeader>
-                            <AlertDialogTitle className="text-xl text-center mb-4">
+                <Dialog open={showAddCurrencyDialog} onOpenChange={setShowAddCurrencyDialog}>
+                    <DialogContent
+                        disableOutsideClick
+                        className="bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
+                        <DialogHeader>
+                            <DialogTitle className="text-xl text-center mb-4">
                                 {translate("resources.currency.createDialogTitle")}
-                            </AlertDialogTitle>
-                        </AlertDialogHeader>
+                            </DialogTitle>
+                        </DialogHeader>
 
                         <CurrencyCreate
                             closeDialog={() => {
@@ -174,17 +169,19 @@ export const CurrenciesList = () => {
                                 refresh();
                             }}
                         />
-                    </AlertDialogContent>
-                    <AlertDialogDescription />
-                </AlertDialog>
+                    </DialogContent>
+                    <DialogDescription />
+                </Dialog>
 
-                <AlertDialog open={showEditDialog} onOpenChange={setShowEditDialog}>
-                    <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px] h-full max-h-[100dvh] md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
-                        <AlertDialogHeader>
-                            <AlertDialogTitle className="text-xl text-center">
+                <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
+                    <DialogContent
+                        disableOutsideClick
+                        className="bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
+                        <DialogHeader>
+                            <DialogTitle className="text-xl text-center">
                                 {translate("resources.currency.editDialogTitle")}
-                            </AlertDialogTitle>
-                        </AlertDialogHeader>
+                            </DialogTitle>
+                        </DialogHeader>
                         <CurrencyEdit
                             record={chosenCurrency}
                             closeDialog={() => {
@@ -193,9 +190,9 @@ export const CurrenciesList = () => {
                                 refresh();
                             }}
                         />
-                    </AlertDialogContent>
-                    <AlertDialogDescription />
-                </AlertDialog>
+                    </DialogContent>
+                    <DialogDescription />
+                </Dialog>
 
                 <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
                     <DialogContent className="max-w-[251px] max-h-[200px] sm:max-h-[140px] bg-muted overflow-auto">
@@ -224,6 +221,7 @@ export const CurrenciesList = () => {
                             <LoadingAlertDialog />
                         )}
                     </DialogContent>
+                    <DialogDescription />
                 </Dialog>
 
                 <ListContextProvider value={listContext}>

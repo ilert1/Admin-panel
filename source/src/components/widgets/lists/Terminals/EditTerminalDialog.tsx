@@ -1,11 +1,11 @@
 import {
-    AlertDialog,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
 import {
     useEditController,
     useRefresh,
@@ -116,13 +116,15 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
     };
 
     return (
-        <AlertDialog open={open} onOpenChange={onOpenChange}>
-            <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
-                <AlertDialogHeader>
-                    <AlertDialogTitle className="text-center">
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent
+                disableOutsideClick
+                className="z-[60] bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
+                <DialogHeader>
+                    <DialogTitle className="text-center">
                         {translate("resources.terminals.editingTerminal")}
-                    </AlertDialogTitle>
-                    <AlertDialogDescription></AlertDialogDescription>
+                    </DialogTitle>
+                    <DialogDescription></DialogDescription>
                     {controllerProps.isLoading || !controllerProps.record ? (
                         <Loading />
                     ) : (
@@ -266,9 +268,9 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
                             </Form>
                         </EditContextProvider>
                     )}
-                </AlertDialogHeader>
-                <AlertDialogFooter></AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+                </DialogHeader>
+                <DialogFooter></DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 };
