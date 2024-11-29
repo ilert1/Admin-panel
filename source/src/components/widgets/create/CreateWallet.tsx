@@ -342,15 +342,12 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                     <FormItem className="w-full p-2">
                                         <FormLabel>{translate("resources.wallet.manage.fields.descr")}</FormLabel>
                                         <FormControl>
-                                            <div>
-                                                <Label />
-                                                <textarea
-                                                    {...field}
-                                                    value={field.value ?? ""}
-                                                    placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                    className="w-full h-24 p-2 border border-neutral-40 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1 outline-none"
-                                                />
-                                            </div>
+                                            <textarea
+                                                {...field}
+                                                value={field.value ?? ""}
+                                                placeholder={translate("resources.wallet.manage.fields.descr")}
+                                                className="w-full h-24 p-2 border border-neutral-40 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1 outline-none"
+                                            />
                                         </FormControl>
                                     </FormItem>
                                 )}
