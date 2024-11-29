@@ -231,6 +231,7 @@ const ru: TranslationMessages = {
             name: "Вывод криптовалюты",
             tableTitle: "Отчет по выводам в криптовалюте",
             cryptoTransferTitle: "Перевод криптовалюты",
+            resendQuestion: "Повторить перевод?",
             errors: {
                 lowAmountError: "Сумма перевода должна быть больше 2 USDT",
                 serverError: "Произошла неизвестная ошибка на сервере"
@@ -252,7 +253,8 @@ const ru: TranslationMessages = {
                 },
                 merchant: "Мерчант",
                 state: "Состояние",
-                idInBlockChain: "ID в блокчейне"
+                idInBlockChain: "ID в блокчейне",
+                resend: "Повторить"
             },
             download: {
                 downloadReportButtonText: "Скачать отчет",
@@ -674,7 +676,12 @@ const ru: TranslationMessages = {
                     transferError: "Недостаточно средств на счёте",
                     successButton: "Перевести ещё",
                     errorButton: "Попробовать снова",
-                    createNewWallet: "Добавить новый кошелек"
+                    createNewWallet: "Добавить новый кошелек",
+                    lastUsedWallet: "Последний использованный",
+                    repeating: "Повтор вывода криптовалюты",
+                    repeatDescription: "Данные вывода скопированы в форму, проверьте их и подтвердите новый вывод",
+                    noAddress: "Такого адреса нет в вашем аккаунте",
+                    error: "Ошибка"
                 },
                 userCreate: {
                     title: "Добавление пользователя",
@@ -972,6 +979,8 @@ const en: TranslationMessages = {
             name: "Сrypto withdrawal",
             tableTitle: "Report on cryptocurrency withdrawals",
             cryptoTransferTitle: "Crypto transfer",
+            resendQuestion: "Repeat transaction?",
+
             errors: {
                 lowAmountError: "The amount must be more than 2 USDT",
                 serverError: "An error occured on server"
@@ -992,7 +1001,8 @@ const en: TranslationMessages = {
                 },
                 merchant: "Merchant",
                 state: "State",
-                idInBlockChain: "ID in blockchain"
+                idInBlockChain: "ID in blockchain",
+                resend: "Resend"
             },
             download: {
                 downloadReportButtonText: "Download report",
@@ -1412,7 +1422,14 @@ const en: TranslationMessages = {
                     transferError: "Insufficient funds in the account",
                     successButton: "Transfer more",
                     errorButton: "Try again",
-                    createNewWallet: "Add New Wallet"
+                    createNewWallet: "Add New Wallet",
+                    lastUsedWallet: "Last used",
+
+                    repeating: "Repeat Cryptocurrency Withdrawal",
+                    repeatDescription:
+                        "The withdrawal data has been copied to the form. Please check it and confirm the new withdrawal.",
+                    noAddress: "This address is not in your account",
+                    error: "Error"
                 },
                 userCreate: {
                     title: "Adding a user",

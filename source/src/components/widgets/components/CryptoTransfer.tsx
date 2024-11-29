@@ -5,11 +5,14 @@ import { CryptoTransferForm } from "@/components/widgets/forms";
 import { parseJWT } from "@/helpers/jwt";
 import { useQuery } from "react-query";
 
-export const CryptoTransfer = () => {
+interface CryptoTransferProps {
+    repeatData: { address: string; amount: number } | undefined;
+}
+export const CryptoTransfer = ({ repeatData }: CryptoTransferProps) => {
     const translate = useTranslate();
     const [transferState, setTransferState] = useState<"process" | "success" | "error">("process");
-
     const [message, setMessage] = useState("");
+
     const merchantId = useMemo(() => {
         const token = localStorage.getItem("access-token");
         if (token) {
@@ -107,6 +110,7 @@ export const CryptoTransfer = () => {
                 transferState={transferState}
                 setTransferState={setTransferState}
                 showMessage={message}
+                repeatData={repeatData}
             />
         </div>
     );

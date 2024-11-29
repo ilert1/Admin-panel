@@ -8,7 +8,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
@@ -16,7 +16,7 @@ import { Loading } from "@/components/ui/loading";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { Input } from "@/components/ui/input";
 import useWithdrawFilter from "@/hooks/useWithdrawFilter";
-import { CryptoTransfer } from "../components/CryptoTransfer";
+import { CryptoTransfer } from "../../components/CryptoTransfer";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useFetchMerchants, useGetTransactionState } from "@/hooks";
 
@@ -90,6 +90,8 @@ export const WithdrawList = () => {
     const { permissions } = usePermissions();
     const [locale] = useLocaleState();
     const data = fetchDictionaries();
+
+    const [repeatData, setRepeatData] = useState<{ address: string; amount: number } | undefined>(undefined);
 
     let isLoading,
         merchantsList: any[] = [];
@@ -187,6 +189,25 @@ export const WithdrawList = () => {
             }
         },
         {
+            id: "resend",
+            header: "",
+            cell: ({ row }) => {
+                return (
+                    <Button
+                        onClick={() =>
+                            setRepeatData({
+                                address: row.original.destination.id,
+                                amount:
+                                    row.original.destination.amount.value.quantity /
+                                    row.original.destination.amount.value.accuracy
+                            })
+                        }>
+                        {translate("resources.withdraw.fields.resend")}
+                    </Button>
+                );
+            }
+        },
+        {
             header: translate("resources.withdraw.fields.state"),
             cell: ({ row }) => {
                 // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -225,7 +246,7 @@ export const WithdrawList = () => {
 
                         {merchantOnly && (
                             <div className="max-w-80 mb-6 row-start-1 lg:col-start-2 lg:row-start-2">
-                                <CryptoTransfer />
+                                <CryptoTransfer repeatData={repeatData} />
                             </div>
                         )}
                     </div>

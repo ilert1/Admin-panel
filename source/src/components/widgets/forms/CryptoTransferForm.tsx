@@ -9,9 +9,11 @@ import { useEffect, useMemo, useState } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert, WalletMinimal } from "lucide-react";
 import { Icon } from "../shared/Icon";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectType, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectType } from "@/components/ui/select";
 import { CreateWalletDialog } from "../lists/Wallets";
 import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LAST_USED_WALLET } from "@/lib/consts";
+import { toast } from "sonner";
 
 export const CryptoTransferForm = (props: {
     loading: boolean;
@@ -20,16 +22,18 @@ export const CryptoTransferForm = (props: {
     setTransferState: (transferState: "process" | "success" | "error") => void;
     create: (data: any) => void;
     showMessage: string;
+    repeatData: { address: string; amount: number } | undefined;
 }) => {
     const translate = useTranslate();
     const [checked, setChecked] = useState<boolean | "indeterminate">(false);
     const [createOpen, setCreateOpen] = useState(false);
     const [sendAmount, setSendAmount] = useState(0);
-    const {
-        data: walletsData,
-        hasNextPage,
-        fetchNextPage: walletsNextPage
-    } = useInfiniteGetList("merchant/wallet", {
+
+    const lastUsedWallet = useMemo(() => {
+        return localStorage.getItem(LAST_USED_WALLET)?.toString();
+    }, []);
+
+    const { data: walletsData, fetchNextPage: walletsNextPage } = useInfiniteGetList("merchant/wallet", {
         pagination: { perPage: 25, page: 1 },
         filter: { sort: "name", asc: "ASC" }
     });
@@ -93,6 +97,7 @@ export const CryptoTransferForm = (props: {
     }, [checked, props.balance, form]);
 
     function onSubmit(values: z.infer<typeof formSchema>) {
+        localStorage.setItem(LAST_USED_WALLET, values.address);
         props.create({
             ...values,
             accuracy
@@ -101,13 +106,42 @@ export const CryptoTransferForm = (props: {
 
     useEffect(() => {
         if (checked && checked !== "indeterminate") form.setValue("amount", props.balance?.toString() || "");
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [checked]);
+
+    useEffect(() => {
+        if (props.repeatData) {
+            console.log(props.repeatData);
+            const isFound = walletsData?.pages.map(page => {
+                return page.data.find(wallet => {
+                    return wallet.address === props.repeatData?.address;
+                });
+            });
+
+            if (isFound && isFound[0]) {
+                form.setValue("address", props.repeatData.address);
+                form.setValue("amount", String(props.repeatData.amount));
+                toast.success(translate("app.widgets.forms.cryptoTransfer.repeating"), {
+                    description: translate("app.widgets.forms.cryptoTransfer.repeatDescription"),
+                    duration: 3000,
+                    dismissible: true
+                });
+            } else {
+                toast.error(translate("app.widgets.forms.cryptoTransfer.error"), {
+                    description: translate("app.widgets.forms.cryptoTransfer.noAddress"),
+                    duration: 3000,
+                    dismissible: true
+                });
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [form, props.repeatData]);
 
     if (props.transferState === "process")
         return (
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="">
-                    <div className="flex flex-col max-w-[476px] px-6 py-4 bg-neutral-0 rounded-2xl gap-4">
+                    <div className="flex flex-col lg:w-[325px] max-w-[476px] px-6 py-4 bg-neutral-0 rounded-2xl gap-4">
                         <div className="flex-1">
                             <FormField
                                 disabled={props.loading}
@@ -128,29 +162,48 @@ export const CryptoTransferForm = (props: {
                                                 disabled={props.loading}>
                                                 <FormControl>
                                                     <SelectTrigger variant={SelectType.DEFAULT}>
-                                                        <SelectValue />
+                                                        <span className="truncate">{field.value}</span>
                                                     </SelectTrigger>
                                                 </FormControl>
                                                 <SelectContent
                                                     onScrollCapture={walletScrollHandler}
                                                     onScroll={walletScrollHandler}>
+                                                    {lastUsedWallet && (
+                                                        <SelectItem value={lastUsedWallet} variant={SelectType.DEFAULT}>
+                                                            <p className="truncate max-w-[235px]">{lastUsedWallet}</p>
+                                                            <p
+                                                                className="truncate max-w-[235px] text-note-2 text-neutral-50"
+                                                                style={{ bottom: "-.5" }}>
+                                                                {translate(
+                                                                    "app.widgets.forms.cryptoTransfer.lastUsedWallet"
+                                                                )}
+                                                            </p>
+                                                        </SelectItem>
+                                                    )}
                                                     {walletsData?.pages.map(page => {
-                                                        return page.data.map(wallet => (
-                                                            <div
-                                                                key={wallet.id}
-                                                                className="relative flex flex-col gap-2">
-                                                                <SelectItem
-                                                                    value={wallet.address}
-                                                                    variant={SelectType.DEFAULT}>
-                                                                    <p className="truncate max-w-full">
-                                                                        {wallet.address}
-                                                                    </p>
-                                                                </SelectItem>
-                                                                <p className="truncate max-w-36 text-note-2 pl-8 absolute bottom-0 text-neutral-50">
-                                                                    {wallet.description}
-                                                                </p>
-                                                            </div>
-                                                        ));
+                                                        return page.data.map(wallet => {
+                                                            if (wallet.address === lastUsedWallet) {
+                                                                return;
+                                                            }
+                                                            return (
+                                                                <div
+                                                                    key={wallet.id}
+                                                                    className="relative flex flex-col gap-2">
+                                                                    <SelectItem
+                                                                        value={wallet.address}
+                                                                        variant={SelectType.DEFAULT}>
+                                                                        <p className="truncate max-w-[235px]">
+                                                                            {wallet.address}
+                                                                        </p>
+                                                                        <p
+                                                                            className="truncate max-w-[235px] text-note-2 text-neutral-50"
+                                                                            style={{ bottom: "-.5" }}>
+                                                                            {wallet.description}
+                                                                        </p>
+                                                                    </SelectItem>
+                                                                </div>
+                                                            );
+                                                        });
                                                     })}
                                                     <div className="sticky bottom-0 bg-black p-2 z-10 flex items-center w-full h-[48px]">
                                                         <Button
@@ -256,7 +309,7 @@ export const CryptoTransferForm = (props: {
                             {!props.loading ? (
                                 translate("app.widgets.forms.cryptoTransfer.createTransfer")
                             ) : (
-                                <LoadingAlertDialog className="w-[25px] h-[25px] overflow-hidden" />
+                                <LoadingAlertDialog className="w-[20px] h-[20px] overflow-hidden" />
                             )}
                         </Button>
                     </div>
