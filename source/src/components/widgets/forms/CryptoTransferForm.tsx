@@ -11,7 +11,7 @@ import { TriangleAlert, WalletMinimal } from "lucide-react";
 import { Icon } from "../shared/Icon";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectType, SelectValue } from "@/components/ui/select";
 import { CreateWalletDialog } from "../lists/Wallets";
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBalance } from "@/components/ui/loading";
 
 export const CryptoTransferForm = (props: {
     loading: boolean;
@@ -25,11 +25,7 @@ export const CryptoTransferForm = (props: {
     const [checked, setChecked] = useState<boolean | "indeterminate">(false);
     const [createOpen, setCreateOpen] = useState(false);
     const [sendAmount, setSendAmount] = useState(0);
-    const {
-        data: walletsData,
-        hasNextPage,
-        fetchNextPage: walletsNextPage
-    } = useInfiniteGetList("merchant/wallet", {
+    const { data: walletsData, fetchNextPage: walletsNextPage } = useInfiniteGetList("merchant/wallet", {
         pagination: { perPage: 25, page: 1 },
         filter: { sort: "name", asc: "ASC" }
     });
@@ -43,38 +39,30 @@ export const CryptoTransferForm = (props: {
 
     const formSchema = z.object({
         address: z.string().regex(/T[A-Za-z1-9]{33}/, translate("app.widgets.forms.cryptoTransfer.addressMessage")),
-        amount: z
-            .string()
-            .regex(/^[+-]?([0-9]*[.])?[0-9]+$/, translate("app.widgets.forms.cryptoTransfer.amountMessage"))
-            .transform(v => parseInt(v))
-            .pipe(
-                z
-                    .number()
-                    .min(2, translate("app.widgets.forms.cryptoTransfer.amountMinMessage"))
-                    .max(
-                        props.balance,
-                        translate("app.widgets.forms.cryptoTransfer.amountMaxMessage", { amount: props.balance })
-                    )
+        amount: z.coerce
+            .number()
+            .gt(2, translate("app.widgets.forms.cryptoTransfer.amountMinMessage"))
+            .lte(
+                props.balance,
+                translate("app.widgets.forms.cryptoTransfer.amountMaxMessage", { amount: props.balance })
             )
-            .transform(v => v.toString())
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             address: "",
-            amount: ""
+            amount: undefined
         }
     });
 
     const amount = form.watch("amount");
 
-    const accuracy = useMemo(() => Math.pow(10, ("" + amount).split(".")[1]?.length) || 100, [amount]);
+    const accuracy = useMemo(() => Math.pow(10, String(amount).split(".")[1]?.length) || 100, [amount]);
 
     const totalAmount = useMemo(() => {
-        const parsedAmount = parseFloat(amount);
-        if (parsedAmount > 2) {
-            const val = Math.round((parsedAmount - 2) * accuracy) / accuracy;
+        if (amount > 2) {
+            const val = Math.round((amount - 2) * accuracy) / accuracy;
             return val;
         }
         return 0;
@@ -88,7 +76,7 @@ export const CryptoTransferForm = (props: {
 
     useEffect(() => {
         if (checked && checked !== "indeterminate") {
-            form.setValue("amount", props.balance?.toString() || "");
+            form.setValue("amount", props.balance);
         }
     }, [checked, props.balance, form]);
 
@@ -100,7 +88,7 @@ export const CryptoTransferForm = (props: {
     }
 
     useEffect(() => {
-        if (checked && checked !== "indeterminate") form.setValue("amount", props.balance?.toString() || "");
+        if (checked && checked !== "indeterminate") form.setValue("amount", props.balance);
     }, [checked]);
 
     if (props.transferState === "process")
@@ -238,14 +226,14 @@ export const CryptoTransferForm = (props: {
                         </div>
                         <Button
                             className="md:ml-auto"
-                            disabled={props.loading}
+                            disabled={props.loading || !form.formState.isDirty || !form.formState.isValid}
                             type="submit"
                             variant="default"
                             size="sm">
                             {!props.loading ? (
                                 translate("app.widgets.forms.cryptoTransfer.createTransfer")
                             ) : (
-                                <LoadingAlertDialog className="w-[25px] h-[25px] overflow-hidden" />
+                                <LoadingBalance className="w-[25px] h-[25px] overflow-hidden" />
                             )}
                         </Button>
                     </div>

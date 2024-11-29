@@ -69,7 +69,7 @@ export const CryptoTransfer = () => {
                     currency: "USDT",
                     value: {
                         accuracy: data.accuracy,
-                        quantity: +data.amount * data.accuracy
+                        quantity: Math.round(data.amount * data.accuracy)
                     }
                 }
             }),
