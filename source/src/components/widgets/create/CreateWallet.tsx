@@ -225,7 +225,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 render={({ field }) => (
                                     <FormItem className="w-1/2 p-2">
                                         <FormLabel>
-                                            {translate("resources.wallet.manage.fields.accountNumber")}
+                                            {translate("resources.wallet.manage.fields.merchantName")}
                                         </FormLabel>
                                         <FormControl>
                                             <Select

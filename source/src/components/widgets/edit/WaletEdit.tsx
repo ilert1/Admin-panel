@@ -229,7 +229,7 @@ export const EditWallet = (props: EditWalletProps) => {
                             name="account_id"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.accountNumber")}</FormLabel>
+                                    <FormLabel>{translate("resources.wallet.manage.fields.merchantName")}</FormLabel>
                                     <FormControl>
                                         <Select
                                             value={field.value}
