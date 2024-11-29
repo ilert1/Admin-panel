@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Loading } from "@/components/ui/loading";
+import { LoadingAlertDialog } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -126,7 +126,7 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
                     {controllerProps.isLoading || !controllerProps.record ? (
-                        <Loading />
+                        <LoadingAlertDialog />
                     ) : (
                         <EditContextProvider value={controllerProps}>
                             <Form {...form}>
