@@ -50,7 +50,7 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
 
     const formSchema = z.object({
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
-        description: z.string().min(1, translate("resources.terminals.errors.description")).trim(),
+        description: z.union([z.string().trim(), z.literal("")]),
         auth: z.string()
     });
 

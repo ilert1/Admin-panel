@@ -36,7 +36,7 @@ export const CreateTerminalDialog = ({ open, onOpenChange = () => {}, provider }
 
     const formSchema = z.object({
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
-        description: z.string().min(1, translate("resources.terminals.errors.description")).trim()
+        description: z.union([z.string().trim(), z.literal("")])
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
