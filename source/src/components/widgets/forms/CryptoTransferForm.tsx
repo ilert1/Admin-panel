@@ -103,6 +103,13 @@ export const CryptoTransferForm = (props: {
         if (checked && checked !== "indeterminate") form.setValue("amount", props.balance?.toString() || "");
     }, [checked]);
 
+    const isButtonDisabled = useMemo(() => {
+        const address = form.watch("address");
+        const amount = form.watch("amount");
+        return Boolean(address && amount);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [form.watch("address"), form.watch("amount")]);
+
     if (props.transferState === "process")
         return (
             <Form {...form}>
@@ -238,14 +245,14 @@ export const CryptoTransferForm = (props: {
                         </div>
                         <Button
                             className="md:ml-auto"
-                            disabled={props.loading}
+                            disabled={!isButtonDisabled}
                             type="submit"
                             variant="default"
                             size="sm">
                             {!props.loading ? (
                                 translate("app.widgets.forms.cryptoTransfer.createTransfer")
                             ) : (
-                                <LoadingAlertDialog className="w-[25px] h-[25px] overflow-hidden" />
+                                <LoadingAlertDialog className="w-[20px] h-[20px] overflow-hidden" />
                             )}
                         </Button>
                     </div>
