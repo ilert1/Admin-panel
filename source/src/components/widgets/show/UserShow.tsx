@@ -84,25 +84,12 @@ export const UserShow = (props: { id: string; isBrief: boolean; onOpenChange: (s
                         />
                     </div>
                     <TextField label={translate("resources.users.fields.login")} text={context.record.login} />
-                    <TextField
-                        label={translate("resources.users.fields.shop_api_key")}
-                        text={context.record.shop_api_key}
-                        copyValue
-                    />
+
                     <TextField label={translate("resources.users.fields.email")} text={context.record.email} />
-                    <TextField
-                        label={translate("resources.users.fields.shop_sign_key")}
-                        text={context.record.shop_sign_key}
-                        copyValue
-                    />
+
                     <TextField
                         label={translate("resources.users.fields.currency")}
                         text={context.record.shop_currency}
-                    />
-                    <TextField
-                        label={translate("resources.users.fields.shop_balance_key")}
-                        text={context.record.shop_balance_key}
-                        copyValue
                     />
                 </div>
 
