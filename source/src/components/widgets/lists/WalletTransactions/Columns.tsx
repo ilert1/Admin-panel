@@ -138,6 +138,16 @@ export const useGetWalletTransactionsColumns = () => {
             }
         },
         {
+            id: "pre_calculated_fee",
+            accessorKey: "pre_calculated_fee",
+            header: translate("resources.wallet.transactions.fields.pre_calculated_fee")
+        },
+        {
+            id: "total_fee",
+            accessorKey: "total_fee",
+            header: translate("resources.wallet.transactions.fields.total_fee")
+        },
+        {
             id: "actions",
             header: () => {
                 return <div className="text-center">{translate("resources.wallet.manage.fields.more")}</div>;

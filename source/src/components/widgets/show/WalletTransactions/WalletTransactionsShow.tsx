@@ -14,7 +14,10 @@ export const WalletTransactionsShow = ({ id }: WalletTransactionsShowProps) => {
 
     const context = useShowController<Cryptotransactions>({
         resource: permissions === "admin" ? "transaction" : "merchant/transaction",
-        id
+        id,
+        queryOptions: {
+            refetchInterval: 10000
+        }
     });
 
     if (context.isLoading || !context.record) {
@@ -78,6 +81,10 @@ export const WalletTransactionsShow = ({ id }: WalletTransactionsShowProps) => {
                     <TextField
                         label={translate("resources.wallet.transactions.fields.bandwidth_fee")}
                         text={String(context.record?.bandwidth_fee || "")}
+                    />
+                    <TextField
+                        label={translate("resources.wallet.transactions.fields.pre_calculated_fee")}
+                        text={String(context.record?.pre_calculated_fee || "")}
                     />
                 </div>
             </div>
