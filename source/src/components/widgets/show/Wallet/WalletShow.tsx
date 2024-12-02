@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
-import { useState } from "react";
-import { useDataProvider, usePermissions, useShowController, useTranslate } from "react-admin";
+import { useMemo, useState } from "react";
+import { useDataProvider, useGetList, usePermissions, useShowController, useTranslate } from "react-admin";
 import { DeleteWalletDialog } from "./DeleteWalletDialog";
 import { EditWalletDialog } from "./EditWalletDialog";
 import { useQuery } from "react-query";
@@ -20,6 +20,16 @@ export const WalletShow = (props: WalletShowProps) => {
     const context = useShowController<Wallet>({ resource: permissions === "admin" ? "wallet" : "merchant/wallet", id });
     const translate = useTranslate();
     const dataProvider = useDataProvider<WalletsDataProvider>();
+
+    const { data: accountsData } = useGetList<Account>("accounts", {
+        pagination: { perPage: 1000, page: 1 },
+        filter: { sort: "name", asc: "ASC" }
+    });
+
+    const currentAccount = useMemo(
+        () => accountsData?.find(item => item.id === context.record?.account_id),
+        [accountsData, context.record?.account_id]
+    );
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -84,6 +94,12 @@ export const WalletShow = (props: WalletShowProps) => {
                         label={translate("resources.wallet.manage.fields.currency")}
                         text={context.record.currency}
                     />
+                    {currentAccount && (
+                        <TextField
+                            label={translate("resources.wallet.manage.fields.accountNumber")}
+                            text={currentAccount.meta?.caption ? currentAccount.meta.caption : currentAccount.owner_id}
+                        />
+                    )}
                     <TextField
                         label={translate("resources.wallet.manage.fields.internalId")}
                         text={context.record.id}
