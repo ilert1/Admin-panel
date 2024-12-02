@@ -44,7 +44,7 @@ export const WalletsList = () => {
                 });
         });
 
-        await Promise.all(balancePromises);
+        await Promise.allSettled(balancePromises);
         setBalances(tempBalancesMap);
     };
 
