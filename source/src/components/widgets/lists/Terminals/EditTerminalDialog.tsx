@@ -47,8 +47,8 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-    console.log("hasErrors: ", hasErrors);
-    console.log("isValid: ", isValid);
+    /* console.log("hasErrors: ", hasErrors);
+    console.log("isValid: ", isValid); */
 
     const formSchema = z.object({
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
