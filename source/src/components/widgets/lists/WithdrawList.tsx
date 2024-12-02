@@ -192,8 +192,11 @@ export const WithdrawList = () => {
                 // eslint-disable-next-line react-hooks/rules-of-hooks
                 const { text, color } = useGetTransactionState({ state: row.original.state.state_int });
                 return (
-                    <div className={`px-3 py-0.5 rounded-20 font-normal text-base text-center text-white ${color}`}>
-                        <TextField text={text} />
+                    <div className="flex items-center justify-center">
+                        <span
+                            className={`px-3 py-0.5 rounded-20 text-white font-normal text-base text-center truncate ${color}`}>
+                            {text}
+                        </span>
                     </div>
                 );
             }
