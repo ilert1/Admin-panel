@@ -1486,7 +1486,7 @@ const translations = { ru, en };
 
 export const i18nProvider = polyglotI18nProvider(
     (locale: string) => translations[locale as "ru" | "en"],
-    "en",
+    localStorage.getItem("i18nextLng") ?? "en",
     [
         { locale: "ru", name: "Русский" },
         { locale: "en", name: "English" }
