@@ -18,11 +18,11 @@ export const CryptoTransferForm = (props: {
     balance: number;
     transferState: "process" | "success" | "error";
     setTransferState: (transferState: "process" | "success" | "error") => void;
-    create: (data: any) => void;
+    create: (data: { address: string; amount: number; accuracy: number }) => void;
     showMessage: string;
 }) => {
     const translate = useTranslate();
-    const [checked, setChecked] = useState<boolean | "indeterminate">(false);
+    const [checked, setChecked] = useState<boolean>(false);
     const [createOpen, setCreateOpen] = useState(false);
     const [sendAmount, setSendAmount] = useState(0);
     const { data: walletsData, fetchNextPage: walletsNextPage } = useInfiniteGetList("merchant/wallet", {
@@ -74,12 +74,6 @@ export const CryptoTransferForm = (props: {
         }
     }, [props.loading, totalAmount]);
 
-    useEffect(() => {
-        if (checked && checked !== "indeterminate") {
-            form.setValue("amount", props.balance);
-        }
-    }, [checked, props.balance, form]);
-
     function onSubmit(values: z.infer<typeof formSchema>) {
         props.create({
             ...values,
@@ -87,9 +81,17 @@ export const CryptoTransferForm = (props: {
         });
     }
 
-    useEffect(() => {
-        if (checked && checked !== "indeterminate") form.setValue("amount", props.balance);
-    }, [checked]);
+    const handleButtonAllTransfer = () => {
+        if (!checked) {
+            form.setValue("amount", props.balance, { shouldValidate: true });
+        } else {
+            form.setValue("amount", 0, { shouldValidate: true });
+        }
+
+        setChecked(!checked);
+        form.setFocus("amount");
+        form.trigger();
+    };
 
     if (props.transferState === "process")
         return (
@@ -168,7 +170,17 @@ export const CryptoTransferForm = (props: {
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                         : ""
                                                 }`}
-                                                {...field}>
+                                                {...field}
+                                                onChange={e => {
+                                                    const value = Number(e.target.value);
+                                                    field.onChange(value);
+                                                    if (value === props.balance) {
+                                                        setChecked(true);
+                                                    } else {
+                                                        setChecked(false);
+                                                    }
+                                                    form.trigger();
+                                                }}>
                                                 {fieldState.invalid && (
                                                     <TooltipProvider>
                                                         <Tooltip>
@@ -196,7 +208,7 @@ export const CryptoTransferForm = (props: {
                             />
                             <div className="flex-1 flex gap-2 items-center">
                                 <label
-                                    onClick={() => setChecked(!checked)}
+                                    onClick={handleButtonAllTransfer}
                                     className="flex gap-2 items-center self-start cursor-pointer [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
                                     <div className="relative w-4 h-4 rounded-full border transition-all bg-white dark:bg-black border-neutral-60 flex justify-center items-center">
                                         {checked && (
