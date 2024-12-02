@@ -33,6 +33,7 @@ export const Header = (props: { handleLogout: () => void }) => {
 
     const changeLocale = (value: string) => {
         if (locale !== value) {
+            localStorage.setItem("i18nextLng", value);
             setLocale(value);
         }
     };
