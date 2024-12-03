@@ -167,7 +167,6 @@ export const CryptoTransferForm = (props: {
                                             <Select
                                                 value={field.value}
                                                 onValueChange={e => {
-                                                    console.log(e);
                                                     field.onChange(e);
                                                 }}
                                                 disabled={props.loading}>
@@ -257,7 +256,7 @@ export const CryptoTransferForm = (props: {
                                                 }`}
                                                 {...field}
                                                 onChange={e => {
-                                                    const value = Number(e.target.value);
+                                                    const value = Number(e.target.value) || 0;
                                                     field.onChange(value);
                                                     if (value === props.balance) {
                                                         setChecked(true);
