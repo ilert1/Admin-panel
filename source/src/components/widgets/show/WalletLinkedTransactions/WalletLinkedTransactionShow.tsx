@@ -1,3 +1,4 @@
+import { LoadingAlertDialog } from "@/components/ui/loading";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { TextField } from "@/components/ui/text-field";
 import { XIcon } from "lucide-react";
@@ -9,31 +10,62 @@ interface WalletLinkedTransactionShowProps {
     onOpenChange: (state: boolean) => void;
 }
 
-export const WalletLinkedTransactionShow = ({ id, open, onOpenChange }: WalletLinkedTransactionShowProps) => {
+const WalletLinkedTransactionShowFields = ({ id }: { id: string }) => {
     const { permissions } = usePermissions();
+    const translate = useTranslate();
+
     const context = useShowController<WalletLinkedTransactions & { id: string }>({
         resource: permissions === "admin" ? "reconciliation" : "merchant/reconciliation",
         id
     });
 
-    // const context = {
-    //     isLoading: false,
-    //     record: {
-    //         scanned_at: "2024-11-22 13:55:05",
-    //         block_timestamp: "2024-11-22 13:55:05",
-    //         type: "transfer",
-    //         transaction_id: "9bd129aa-e695-4c59-91fb-5f2781457570",
-    //         source_address: "9bd129aa-e695-4c59-91fb-5f2781457570",
-    //         destnation_address: "9bd129aa-e695-4c59-91fb-5f2781457570",
-    //         amount: "123,12343",
-    //         currency: "USD",
-    //         token_address: "9bd129aa-e695-4c59-91fb-5f2781457570"
-    //     }
-    // };
+    if (context.isLoading || !context.record || !id) {
+        return <LoadingAlertDialog />;
+    }
 
+    return (
+        <div className="flex-1" tabIndex={-1}>
+            <div className="flex flex-col gap-6 px-[42px]">
+                <TextField text={context.record?.source_address} copyValue />
+                <div className="flex flex-col sm:grid sm:grid-cols-2 gap-y-4">
+                    <TextField
+                        label={translate("resources.wallet.linkedTransactions.fields.scannedAt")}
+                        text={context.record?.scanned_at}
+                    />
+                    <TextField
+                        label={translate("resources.wallet.linkedTransactions.fields.blockTimestamp")}
+                        text={context.record?.block_timestamp}
+                    />
+                    <TextField
+                        label={translate("resources.wallet.linkedTransactions.fields.sourceAddress")}
+                        text={context.record?.source_address}
+                        copyValue
+                    />
+                    <TextField
+                        label={translate("resources.wallet.linkedTransactions.fields.destnationAddress")}
+                        text={context.record?.destnation_address}
+                        copyValue
+                    />
+                    <TextField
+                        label={translate("resources.wallet.linkedTransactions.fields.amount")}
+                        text={context.record?.amount}
+                    />
+                    <TextField
+                        label={translate("resources.wallet.linkedTransactions.fields.currency")}
+                        text={context.record?.currency}
+                    />
+                    <TextField
+                        label={translate("resources.wallet.linkedTransactions.fields.type")}
+                        text={String(context.record?.type)}
+                    />
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export const WalletLinkedTransactionShow = ({ id, open, onOpenChange }: WalletLinkedTransactionShowProps) => {
     const translate = useTranslate();
-
-    if (context.isLoading || !context.record) return;
 
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
@@ -57,43 +89,8 @@ export const WalletLinkedTransactionShow = ({ id, open, onOpenChange }: WalletLi
                     </div>
                 </div>
 
-                <div className="flex-1" tabIndex={-1}>
-                    <div className="flex flex-col gap-6 px-[42px]">
-                        <TextField text={context.record?.source_address} copyValue />
-                        <div className="flex flex-col sm:grid sm:grid-cols-2 gap-y-4">
-                            <TextField
-                                label={translate("resources.wallet.linkedTransactions.fields.scannedAt")}
-                                text={context.record?.scanned_at}
-                            />
-                            <TextField
-                                label={translate("resources.wallet.linkedTransactions.fields.blockTimestamp")}
-                                text={context.record?.block_timestamp}
-                            />
-                            <TextField
-                                label={translate("resources.wallet.linkedTransactions.fields.sourceAddress")}
-                                text={context.record?.source_address}
-                                copyValue
-                            />
-                            <TextField
-                                label={translate("resources.wallet.linkedTransactions.fields.destnationAddress")}
-                                text={context.record?.destnation_address}
-                                copyValue
-                            />
-                            <TextField
-                                label={translate("resources.wallet.linkedTransactions.fields.amount")}
-                                text={context.record?.amount}
-                            />
-                            <TextField
-                                label={translate("resources.wallet.linkedTransactions.fields.currency")}
-                                text={context.record?.currency}
-                            />
-                            <TextField
-                                label={translate("resources.wallet.linkedTransactions.fields.type")}
-                                text={String(context.record?.type)}
-                            />
-                        </div>
-                    </div>
-                </div>
+                <WalletLinkedTransactionShowFields id={id} />
+
                 <SheetDescription></SheetDescription>
             </SheetContent>
         </Sheet>
