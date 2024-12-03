@@ -29,6 +29,7 @@ export const CryptoTransferForm = (props: {
     const [createOpen, setCreateOpen] = useState(false);
     const [sendAmount, setSendAmount] = useState(0);
     const [lastUsedWallet, setLastUsedWallet] = useState("");
+    const [shouldTrigger, setShouldTrigger] = useState(false);
 
     const { data: walletsData, fetchNextPage: walletsNextPage } = useInfiniteGetList("merchant/wallet", {
         pagination: { perPage: 25, page: 1 },
@@ -55,7 +56,6 @@ export const CryptoTransferForm = (props: {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        // mode: "onChange",
         defaultValues: {
             address: "",
             amount: undefined
@@ -114,10 +114,12 @@ export const CryptoTransferForm = (props: {
     useEffect(() => {
         if (props.repeatData) {
             const isFound = checkAddress(props.repeatData?.address);
-
             if (isFound && isFound[0]) {
                 form.setValue("address", props.repeatData.address, { shouldDirty: true });
-                form.setValue("amount", props.repeatData.amount, { shouldDirty: true, shouldValidate: true });
+                form.setValue("amount", props.repeatData.amount, { shouldDirty: true });
+
+                setShouldTrigger(true);
+
                 toast.success(translate("app.widgets.forms.cryptoTransfer.repeating"), {
                     description: translate("app.widgets.forms.cryptoTransfer.repeatDescription"),
                     duration: 3000,
@@ -133,6 +135,14 @@ export const CryptoTransferForm = (props: {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [form, props.repeatData]);
+
+    useEffect(() => {
+        if (shouldTrigger) {
+            form.trigger(["address", "amount"]);
+            setShouldTrigger(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [shouldTrigger]);
 
     useEffect(() => {
         async function fetch() {
