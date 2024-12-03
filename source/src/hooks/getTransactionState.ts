@@ -24,6 +24,7 @@ const states = [
     "Correction",
     "EmptyRequisites",
     "LimitFail",
+    "WaitingForAdminApproval",
     "CancelledByPayer"
 ];
 
