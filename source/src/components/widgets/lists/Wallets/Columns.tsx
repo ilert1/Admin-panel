@@ -86,7 +86,9 @@ export const useGetWalletsColumns = (data: Wallet[], balances: Map<string, Walle
             accessorKey: "description",
             header: translate("resources.wallet.manage.fields.descr"),
             cell: ({ row }) => {
-                return <TextField text={row.original.description || ""} wrap />;
+                return (
+                    <TextField text={row.original.description || ""} wrap lineClamp linesCount={1} minWidth="50px" />
+                );
             }
         },
         {
