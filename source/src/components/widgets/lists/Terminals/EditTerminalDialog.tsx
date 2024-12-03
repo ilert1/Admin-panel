@@ -1,11 +1,11 @@
 import {
-    AlertDialog,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
 import {
     useEditController,
     useRefresh,
@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Loading } from "@/components/ui/loading";
+import { LoadingAlertDialog } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -47,10 +47,12 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+    /* console.log("hasErrors: ", hasErrors);
+    console.log("isValid: ", isValid); */
 
     const formSchema = z.object({
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
-        description: z.string().min(1, translate("resources.terminals.errors.description")).trim(),
+        description: z.union([z.string().trim(), z.literal("")]),
         auth: z.string()
     });
 
@@ -110,21 +112,24 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
                 duration: 3000
             });
         } finally {
+            form.reset();
             setSubmitButtonDisabled(false);
             onOpenChange(false);
         }
     };
 
     return (
-        <AlertDialog open={open} onOpenChange={onOpenChange}>
-            <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
-                <AlertDialogHeader>
-                    <AlertDialogTitle className="text-center">
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent
+                disableOutsideClick
+                className="z-[60] bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
+                <DialogHeader>
+                    <DialogTitle className="text-center">
                         {translate("resources.terminals.editingTerminal")}
-                    </AlertDialogTitle>
-                    <AlertDialogDescription></AlertDialogDescription>
+                    </DialogTitle>
+                    <DialogDescription></DialogDescription>
                     {controllerProps.isLoading || !controllerProps.record ? (
-                        <Loading />
+                        <LoadingAlertDialog />
                     ) : (
                         <EditContextProvider value={controllerProps}>
                             <Form {...form}>
@@ -247,7 +252,7 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
 
                                         <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col sm:flex-row space-x-0 sm:space-x-2 mt-6">
                                             <Button
-                                                disabled={hasErrors && isValid && submitButtonDisabled}
+                                                disabled={(hasErrors && !isValid) || submitButtonDisabled}
                                                 type="submit"
                                                 variant="default"
                                                 className="flex-1">
@@ -266,9 +271,9 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
                             </Form>
                         </EditContextProvider>
                     )}
-                </AlertDialogHeader>
-                <AlertDialogFooter></AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+                </DialogHeader>
+                <DialogFooter></DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 };

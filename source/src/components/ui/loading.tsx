@@ -13,15 +13,15 @@ export const InitLoading = () => {
     );
 };
 
-export const Loading = ({ className }: { className?: string }) => {
+export const Loading = ({ className = "" }: { className?: string }) => {
     return (
-        <div className={`fixed inset-0 flex items-center justify-center ${className}`}>
+        <div className={`absolute inset-0 flex items-center justify-center ${className}`}>
             <RingSpinner />
         </div>
     );
 };
 
-export const LoadingAlertDialog = ({ className }: { className?: string }) => {
+export const LoadingAlertDialog = ({ className = "" }: { className?: string }) => {
     return (
         <div className={`flex justify-center items-center h-full w-full ${className}`}>
             <RingSpinner />
@@ -29,7 +29,7 @@ export const LoadingAlertDialog = ({ className }: { className?: string }) => {
     );
 };
 
-export const LoadingBalance = ({ className }: { className?: string }) => {
+export const LoadingBalance = ({ className = "" }: { className?: string }) => {
     return (
         <div className={`flex justify-center items-center ${className}`}>
             <RingSpinner />

@@ -1,18 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Loading, LoadingAlertDialog, LoadingBalance } from "@/components/ui/loading";
+import { LoadingBalance } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
-enum WalletTypes {
-    INTERNAL = "internal",
-    LINKED = "linked",
-    EXTERNAL = "external"
-}
-
-export const useGetWalletsColumns = (data: any, balances: Record<string, Amounts>) => {
+export const useGetWalletsColumns = (data: Wallet[], balances: Map<string, WalletBalance>) => {
     const translate = useTranslate();
     const [chosenId, setChosenId] = useState("");
     const [quickShowOpen, setQuickShowOpen] = useState(false);
@@ -60,16 +54,16 @@ export const useGetWalletsColumns = (data: any, balances: Record<string, Amounts
             id: "Balance",
             header: translate("resources.wallet.manage.fields.balance"),
             cell: ({ row }) => {
-                return balances[row.original.id]?.usdt_amount || balances[row.original.id]?.trx_amount ? (
+                return balances.get(row.original.id) ? (
                     <div className="flex flex-col items-left justify-center">
-                        {balances[row.original.id]?.usdt_amount != "0" && (
-                            <TextField text={`${balances[row.original.id]?.usdt_amount} USDT`} />
+                        {balances.get(row.original.id)?.usdt_amount != 0 && (
+                            <TextField text={`${balances.get(row.original.id)?.usdt_amount} USDT`} />
                         )}
-                        {balances[row.original.id]?.trx_amount !== "0" && (
-                            <TextField text={`${balances[row.original.id]?.trx_amount} TRX`} />
+                        {balances.get(row.original.id)?.trx_amount !== 0 && (
+                            <TextField text={`${balances.get(row.original.id)?.trx_amount} TRX`} />
                         )}
-                        {balances[row.original.id]?.usdt_amount === "0" &&
-                            balances[row.original.id]?.trx_amount === "0" &&
+                        {balances.get(row.original.id)?.usdt_amount === 0 &&
+                            balances.get(row.original.id)?.trx_amount === 0 &&
                             "-"}
                     </div>
                 ) : (

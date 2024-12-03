@@ -11,7 +11,7 @@ import { TriangleAlert, WalletMinimal } from "lucide-react";
 import { Icon } from "../shared/Icon";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectType } from "@/components/ui/select";
 import { CreateWalletDialog } from "../lists/Wallets";
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBalance } from "@/components/ui/loading";
 import { toast } from "sonner";
 
 export const CryptoTransferForm = (props: {
@@ -19,13 +19,13 @@ export const CryptoTransferForm = (props: {
     balance: number;
     transferState: "process" | "success" | "error";
     setTransferState: (transferState: "process" | "success" | "error") => void;
-    create: (data: unknown) => void;
+    create: (data: { address: string; amount: number; accuracy: number }) => void;
     showMessage: string;
     repeatData: { address: string; amount: number } | undefined;
 }) => {
     const translate = useTranslate();
     const dataProvider = useDataProvider();
-    const [checked, setChecked] = useState<boolean | "indeterminate">(false);
+    const [checked, setChecked] = useState<boolean>(false);
     const [createOpen, setCreateOpen] = useState(false);
     const [sendAmount, setSendAmount] = useState(0);
     const [lastUsedWallet, setLastUsedWallet] = useState("");
@@ -44,38 +44,30 @@ export const CryptoTransferForm = (props: {
     };
     const formSchema = z.object({
         address: z.string().regex(/T[A-Za-z1-9]{33}/, translate("app.widgets.forms.cryptoTransfer.addressMessage")),
-        amount: z
-            .string()
-            .regex(/^[+-]?([0-9]*[.])?[0-9]+$/, translate("app.widgets.forms.cryptoTransfer.amountMessage"))
-            .transform(v => parseFloat(v))
-            .pipe(
-                z
-                    .number()
-                    .min(2, translate("app.widgets.forms.cryptoTransfer.amountMinMessage"))
-                    .max(
-                        props.balance,
-                        translate("app.widgets.forms.cryptoTransfer.amountMaxMessage", { amount: props.balance })
-                    )
+        amount: z.coerce
+            .number({ message: translate("app.widgets.forms.cryptoTransfer.nan") })
+            .gt(2, translate("app.widgets.forms.cryptoTransfer.amountMinMessage"))
+            .lte(
+                props.balance,
+                translate("app.widgets.forms.cryptoTransfer.amountMaxMessage", { amount: props.balance })
             )
-            .transform(v => v.toString())
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             address: "",
-            amount: ""
+            amount: undefined
         }
     });
 
     const amount = form.watch("amount");
 
-    const accuracy = useMemo(() => Math.pow(10, ("" + amount).split(".")[1]?.length) || 100, [amount]);
+    const accuracy = useMemo(() => Math.pow(10, String(amount).split(".")[1]?.length) || 100, [amount]);
 
     const totalAmount = useMemo(() => {
-        const parsedAmount = parseFloat(amount);
-        if (parsedAmount > 2) {
-            const val = Math.round((parsedAmount - 2) * accuracy) / accuracy;
+        if (amount > 2) {
+            const val = Math.round((amount - 2) * accuracy) / accuracy;
             return val;
         }
         return 0;
@@ -87,12 +79,6 @@ export const CryptoTransferForm = (props: {
         }
     }, [props.loading, totalAmount]);
 
-    useEffect(() => {
-        if (checked && checked !== "indeterminate") {
-            form.setValue("amount", props.balance?.toString() || "");
-        }
-    }, [checked, props.balance, form]);
-
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
         props.create({
@@ -101,10 +87,17 @@ export const CryptoTransferForm = (props: {
         });
     }
 
-    useEffect(() => {
-        if (checked && checked !== "indeterminate") form.setValue("amount", props.balance?.toString() || "");
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [checked]);
+    const handleButtonAllTransfer = () => {
+        if (!checked) {
+            form.setValue("amount", props.balance, { shouldValidate: true });
+        } else {
+            form.setValue("amount", 0, { shouldValidate: true });
+        }
+
+        setChecked(!checked);
+        form.setFocus("amount");
+        form.trigger();
+    };
 
     const checkAddress = useCallback(
         (address: string) => {
@@ -123,7 +116,8 @@ export const CryptoTransferForm = (props: {
 
             if (isFound && isFound[0]) {
                 form.setValue("address", props.repeatData.address, { shouldDirty: true });
-                form.setValue("amount", String(props.repeatData.amount), { shouldDirty: true });
+                form.setValue("amount", props.repeatData.amount, { shouldDirty: true });
+                form.trigger();
                 toast.success(translate("app.widgets.forms.cryptoTransfer.repeating"), {
                     description: translate("app.widgets.forms.cryptoTransfer.repeatDescription"),
                     duration: 3000,
@@ -261,7 +255,16 @@ export const CryptoTransferForm = (props: {
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                         : ""
                                                 }`}
-                                                {...field}>
+                                                {...field}
+                                                onChange={e => {
+                                                    field.onChange(e.target.value);
+                                                    if (Number(e.target.value) === props.balance) {
+                                                        setChecked(true);
+                                                    } else {
+                                                        setChecked(false);
+                                                    }
+                                                    form.trigger();
+                                                }}>
                                                 {fieldState.invalid && (
                                                     <TooltipProvider>
                                                         <Tooltip>
@@ -289,7 +292,7 @@ export const CryptoTransferForm = (props: {
                             />
                             <div className="flex-1 flex gap-2 items-center">
                                 <label
-                                    onClick={() => setChecked(!checked)}
+                                    onClick={handleButtonAllTransfer}
                                     className="flex gap-2 items-center self-start cursor-pointer [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
                                     <div className="relative w-4 h-4 rounded-full border transition-all bg-white dark:bg-black border-neutral-60 flex justify-center items-center">
                                         {checked && (
@@ -319,14 +322,14 @@ export const CryptoTransferForm = (props: {
                         </div>
                         <Button
                             className="md:ml-auto"
-                            disabled={props.loading}
+                            disabled={props.loading || !form.formState.isDirty || !form.formState.isValid}
                             type="submit"
                             variant="default"
                             size="sm">
                             {!props.loading ? (
                                 translate("app.widgets.forms.cryptoTransfer.createTransfer")
                             ) : (
-                                <LoadingAlertDialog className="w-[20px] h-[20px] overflow-hidden" />
+                                <LoadingBalance className="w-[25px] h-[25px] overflow-hidden" />
                             )}
                         </Button>
                     </div>

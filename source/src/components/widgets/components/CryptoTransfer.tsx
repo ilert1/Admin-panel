@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useTranslate } from "react-admin";
+import { useRefresh, useTranslate } from "react-admin";
 import { BF_MANAGER_URL, API_URL } from "@/data/base";
 import { CryptoTransferForm } from "@/components/widgets/forms";
 import { parseJWT } from "@/helpers/jwt";
@@ -11,6 +11,8 @@ interface CryptoTransferProps {
 export const CryptoTransfer = ({ repeatData }: CryptoTransferProps) => {
     const translate = useTranslate();
     const [transferState, setTransferState] = useState<"process" | "success" | "error">("process");
+    const refresh = useRefresh();
+
     const [message, setMessage] = useState("");
 
     const merchantId = useMemo(() => {
@@ -22,11 +24,7 @@ export const CryptoTransfer = ({ repeatData }: CryptoTransferProps) => {
         }
     }, []);
 
-    const {
-        isLoading: balanceLoading,
-        data: balance,
-        refetch
-    } = useQuery(
+    const { isLoading: balanceLoading, data: balance } = useQuery(
         "accounts",
         () =>
             fetch(`${API_URL}/accounts/${merchantId}`, {
@@ -72,7 +70,7 @@ export const CryptoTransfer = ({ repeatData }: CryptoTransferProps) => {
                     currency: "USDT",
                     value: {
                         accuracy: data.accuracy,
-                        quantity: +data.amount * data.accuracy
+                        quantity: Math.round(data.amount * data.accuracy)
                     }
                 }
             }),
@@ -96,7 +94,7 @@ export const CryptoTransfer = ({ repeatData }: CryptoTransferProps) => {
             })
             .finally(() => {
                 setLocalLoading(false);
-                refetch();
+                refresh();
             });
     };
 

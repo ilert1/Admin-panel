@@ -1,11 +1,11 @@
 import {
-    AlertDialog,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
 import { useCreateController, useRefresh, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -15,7 +15,7 @@ import { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loading } from "@/components/ui/loading";
+import { LoadingAlertDialog } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
@@ -36,7 +36,7 @@ export const CreateTerminalDialog = ({ open, onOpenChange = () => {}, provider }
 
     const formSchema = z.object({
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
-        description: z.string().min(1, translate("resources.terminals.errors.description")).trim()
+        description: z.union([z.string().trim(), z.literal("")])
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -69,16 +69,18 @@ export const CreateTerminalDialog = ({ open, onOpenChange = () => {}, provider }
         }
     };
 
-    if (controllerProps.isLoading || theme.length === 0) return <Loading />;
+    if (controllerProps.isLoading || theme.length === 0) return <LoadingAlertDialog />;
 
     return (
-        <AlertDialog open={open} onOpenChange={onOpenChange}>
-            <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
-                <AlertDialogHeader>
-                    <AlertDialogTitle className="mb-4 text-center">
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent
+                disableOutsideClick
+                className="z-[60] bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
+                <DialogHeader>
+                    <DialogTitle className="mb-4 text-center">
                         {translate("resources.terminals.creatingTerminal")}
-                    </AlertDialogTitle>
-                    <AlertDialogDescription></AlertDialogDescription>
+                    </DialogTitle>
+                    <DialogDescription></DialogDescription>
                     <CreateContextProvider value={controllerProps}>
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -192,9 +194,9 @@ export const CreateTerminalDialog = ({ open, onOpenChange = () => {}, provider }
                             </form>
                         </Form>
                     </CreateContextProvider>
-                </AlertDialogHeader>
-                <AlertDialogFooter></AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+                </DialogHeader>
+                <DialogFooter></DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 };

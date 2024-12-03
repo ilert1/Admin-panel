@@ -2,13 +2,6 @@ import { BooleanField } from "@/components/ui/boolean-field";
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useState } from "react";
-import {
-    AlertDialog,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
 
 import {
     Dialog,
@@ -91,25 +84,12 @@ export const UserShow = (props: { id: string; isBrief: boolean; onOpenChange: (s
                         />
                     </div>
                     <TextField label={translate("resources.users.fields.login")} text={context.record.login} />
-                    <TextField
-                        label={translate("resources.users.fields.shop_api_key")}
-                        text={context.record.shop_api_key}
-                        copyValue
-                    />
+
                     <TextField label={translate("resources.users.fields.email")} text={context.record.email} />
-                    <TextField
-                        label={translate("resources.users.fields.shop_sign_key")}
-                        text={context.record.shop_sign_key}
-                        copyValue
-                    />
+
                     <TextField
                         label={translate("resources.users.fields.currency")}
                         text={context.record.shop_currency}
-                    />
-                    <TextField
-                        label={translate("resources.users.fields.shop_balance_key")}
-                        text={context.record.shop_balance_key}
-                        copyValue
                     />
                 </div>
 
@@ -126,18 +106,20 @@ export const UserShow = (props: { id: string; isBrief: boolean; onOpenChange: (s
                     </Button>
                 </div>
 
-                <AlertDialog open={showEditUser} onOpenChange={setShowEditUser}>
-                    <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px]  max-h-[100dvh] md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px] outline-none">
-                        <AlertDialogHeader>
-                            <AlertDialogTitle className="text-center mb-4">
+                <Dialog open={showEditUser} onOpenChange={setShowEditUser}>
+                    <DialogContent
+                        disableOutsideClick
+                        className="bg-muted max-w-full w-[716px] md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px] outline-none">
+                        <DialogHeader>
+                            <DialogTitle className="text-center mb-4">
                                 {translate("resources.users.editUser")}
-                            </AlertDialogTitle>
-                        </AlertDialogHeader>
+                            </DialogTitle>
+                        </DialogHeader>
 
                         <UserEdit record={context.record} id={id} closeDialog={() => setShowEditUser(false)} />
-                        <AlertDialogDescription />
-                    </AlertDialogContent>
-                </AlertDialog>
+                        <DialogDescription />
+                    </DialogContent>
+                </Dialog>
 
                 <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                     <DialogContent className="w-[253px] px-[24px] bg-muted">
@@ -150,7 +132,7 @@ export const UserShow = (props: { id: string; isBrief: boolean; onOpenChange: (s
                         <DialogFooter>
                             <div className="flex justify-around gap-[35px] w-full">
                                 <Button onClick={() => handleDelete()}>{translate("app.ui.actions.delete")}</Button>
-                                <Button onClick={() => setDialogOpen(false)} className="!ml-0 px-3">
+                                <Button variant="outline" onClick={() => setDialogOpen(false)} className="!ml-0 px-3">
                                     {translate("app.ui.actions.cancel")}
                                 </Button>
                             </div>

@@ -6,15 +6,13 @@ import { useTheme } from "@/components/providers";
 import { Input } from "@/components/ui/input";
 import { LangSwitcher } from "@/components/widgets/components/LangSwitcher";
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
 
 const realm = import.meta.env.VITE_KEYCLOAK_REALM;
 const kk = import.meta.env.VITE_KEYCLOAK_URL;
@@ -195,28 +193,37 @@ export const LoginPage = () => {
                     />
                 </div>
 
-                <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                    <AlertDialogContent className="w-[350px]">
-                        <AlertDialogHeader>
-                            <AlertDialogTitle className="text-center">
+                <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                    <DialogContent className="rounded-16 max-h-80 xl:max-h-none h-auto overflow-hidden w-[350px]">
+                        <DialogHeader>
+                            <DialogTitle className="text-center">
                                 {translate("app.login.accountConfigTitle")}
-                            </AlertDialogTitle>
-                            <AlertDialogDescription></AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
+                            </DialogTitle>
+                            <DialogDescription></DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
                             <div className="flex flex-col sm:flex-row justify-around gap-4 sm:gap-[35px] w-full">
                                 <a href={configureKKLink} target="_blank" rel="noopener noreferrer">
-                                    <AlertDialogAction className="w-full sm:w-40">
+                                    <Button
+                                        onClick={() => {
+                                            setDialogOpen(false);
+                                        }}
+                                        className="w-full sm:w-40">
                                         {translate("app.login.accountConfigConfirm")}
-                                    </AlertDialogAction>
+                                    </Button>
                                 </a>
-                                <AlertDialogCancel className="w-full !ml-0 px-3 sm:w-24">
+                                <Button
+                                    onClick={() => {
+                                        setDialogOpen(false);
+                                    }}
+                                    variant="secondary"
+                                    className="w-full !ml-0 px-3 sm:w-24">
                                     {translate("app.ui.actions.cancel")}
-                                </AlertDialogCancel>
+                                </Button>
                             </div>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
             </div>
         </>
     );

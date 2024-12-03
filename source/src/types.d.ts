@@ -407,17 +407,6 @@ interface WalletCreate {
     type: WalletTypes;
     blockchain: string;
     network: string;
-    currency: string;
-    account_id?: string;
-    minimal_ballance_limit: number;
-    accountNumber?: string;
-}
-
-interface WalletCreate {
-    description: string | null;
-    type: WalletTypes;
-    blockchain: string;
-    network: string;
     address?: string | null;
     currency: string;
     account_id?: string;
@@ -440,6 +429,14 @@ interface WalletStorage {
     state: "sealed" | "unsealed" | "waiting";
 }
 
+interface WalletBalance {
+    trx_amount: number;
+    usdt_amount: number;
+    wallet?: {
+        address: string;
+    };
+}
+
 interface Cryptotransactions {
     blowfish_id: string;
     id: string;
@@ -458,9 +455,6 @@ interface Cryptotransactions {
     created_at: string;
     updated_at: string;
     deleted_at: string;
-}
-
-interface Amounts {
-    usdt_amount?: string;
-    trx_amount?: string;
+    pre_calculated_fee: number;
+    total_fee: number;
 }

@@ -106,6 +106,7 @@ export const TerminalsList = () => {
     const [showAuthKeyOpen, setShowAuthKeyOpen] = useState(false);
 
     const [chosenId, setChosenId] = useState("");
+    const [authData, setAuthData] = useState("");
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -172,44 +173,14 @@ export const TerminalsList = () => {
                     <div className="flex items-center justify-center">
                         <Button
                             disabled={Object.keys(row.original.auth).length === 0}
-                            onClick={() => setShowAuthKeyOpen(true)}
+                            onClick={() => {
+                                setAuthData(JSON.stringify(row.original.auth));
+                                setShowAuthKeyOpen(true);
+                            }}
                             variant="clearBtn"
                             className="h-7 w-7 p-0 bg-transparent">
                             <EyeIcon className="text-green-50 size-7" />
                         </Button>
-
-                        <Dialog open={showAuthKeyOpen} onOpenChange={setShowAuthKeyOpen}>
-                            <DialogContent className="max-w-[478px] h-[295px] max-h-full overflow-auto bg-muted">
-                                <DialogHeader>
-                                    <DialogTitle className="text-center"></DialogTitle>
-                                    <DialogDescription></DialogDescription>
-                                    <div className="w-full flex flex-col items-center justify-end ">
-                                        <span className="self-start text-note-1">
-                                            {translate("resources.terminals.fields.auth")}
-                                        </span>
-                                        <MonacoEditor
-                                            height="144px"
-                                            code={JSON.stringify(row.original.auth)}
-                                            setCode={() => {}}
-                                            onErrorsChange={() => {}}
-                                            onValidChange={() => {}}
-                                            disabled
-                                        />
-                                    </div>
-                                </DialogHeader>
-                                <DialogFooter>
-                                    <div className="flex justify-end w-full pr-1">
-                                        <Button
-                                            variant={"outline"}
-                                            onClick={() => {
-                                                setShowAuthKeyOpen(false);
-                                            }}>
-                                            {translate("app.ui.actions.close")}
-                                        </Button>
-                                    </div>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
                     </div>
                 );
             }
@@ -286,6 +257,39 @@ export const TerminalsList = () => {
                             onOpenChange={setDeleteDialogOpen}
                             deleteId={chosenId}
                         />
+
+                        <Dialog open={showAuthKeyOpen} onOpenChange={setShowAuthKeyOpen}>
+                            <DialogContent className="max-w-[478px] max-h-[340px] overflow-auto bg-muted">
+                                <DialogHeader>
+                                    <DialogTitle className="text-center"></DialogTitle>
+                                    <DialogDescription></DialogDescription>
+                                    <div className="w-full flex flex-col items-center justify-end ">
+                                        <span className="self-start text-note-1">
+                                            {translate("resources.terminals.fields.auth")}
+                                        </span>
+                                        <MonacoEditor
+                                            height="144px"
+                                            code={authData}
+                                            setCode={() => {}}
+                                            onErrorsChange={() => {}}
+                                            onValidChange={() => {}}
+                                            disabled
+                                        />
+                                    </div>
+                                </DialogHeader>
+                                <DialogFooter>
+                                    <div className="flex justify-end w-full pr-1">
+                                        <Button
+                                            variant={"outline"}
+                                            onClick={() => {
+                                                setShowAuthKeyOpen(false);
+                                            }}>
+                                            {translate("app.ui.actions.close")}
+                                        </Button>
+                                    </div>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
                     </>
                 ) : (
                     <DataTable columns={columns} />

@@ -477,6 +477,7 @@ const ru: TranslationMessages = {
                     walletType: "Тип кошелька",
                     walletAddress: "Адрес кошелька",
                     accountNumber: "Номер счёта",
+                    merchantName: "Мерчант",
                     merchantId: "ID мерчанта",
                     currency: "Валюта",
                     descr: "Описание",
@@ -529,7 +530,8 @@ const ru: TranslationMessages = {
                     total_fee: "Общая комиссия",
                     bandwidth_fee: "Комиссия сети",
                     confirm: "Потвердить",
-                    confirmQuestion: "Потвердить операцию?"
+                    confirmQuestion: "Потвердить операцию?",
+                    pre_calculated_fee: "Предварительно рассчитанная комиссия"
                 },
                 error: "Ошибка",
                 errors: {
@@ -666,7 +668,7 @@ const ru: TranslationMessages = {
                     addressMessage: "Неверный адрес получателя TRC-20",
                     amount: "Сумма, USD₮",
                     amountMessage: "Введите корректное значение (например, 99.564)",
-                    amountMinMessage: "Сумма должна быть минимум 2 USD₮",
+                    amountMinMessage: "Сумма должна быть больше 2 USD₮",
                     amountMaxMessage: "Сумма должна быть максимум %{amount} USD₮",
                     commission: "Комиссия",
                     totalAmount: "Сумма выплаты",
@@ -681,7 +683,8 @@ const ru: TranslationMessages = {
                     repeating: "Повтор вывода криптовалюты",
                     repeatDescription: "Данные вывода скопированы в форму, проверьте их и подтвердите новый вывод",
                     noAddress: "Такого адреса нет в вашем аккаунте",
-                    error: "Ошибка"
+                    error: "Ошибка",
+                    nan: "Не является числом"
                 },
                 userCreate: {
                     title: "Добавление пользователя",
@@ -1226,6 +1229,7 @@ const en: TranslationMessages = {
                     walletType: "Wallet type",
                     walletAddress: "Wallet address",
                     accountNumber: "Account ID",
+                    merchantName: "Merchant",
                     merchantId: "Merchant ID",
                     currency: "Currency",
                     descr: "Description",
@@ -1275,7 +1279,8 @@ const en: TranslationMessages = {
                     total_fee: "Total fee",
                     bandwidth_fee: "Network fee",
                     confirm: "Confirm",
-                    confirmQuestion: "Confirm transaction?"
+                    confirmQuestion: "Confirm transaction?",
+                    pre_calculated_fee: "Precalculated fee"
                 },
                 error: "Error",
                 errors: {
@@ -1412,7 +1417,7 @@ const en: TranslationMessages = {
                     addressMessage: "Invalid TRC-20 recipient address",
                     amount: "Amount, USD₮",
                     amountMessage: "Insert correct amount (e.g. 99.564)",
-                    amountMinMessage: "Amount should be at least 2 USD₮",
+                    amountMinMessage: "Amount should be more than 2 USD₮",
                     amountMaxMessage: "Amount should be less than %{amount} USD₮",
                     commission: "Commission",
                     totalAmount: "Total amount",
@@ -1424,7 +1429,7 @@ const en: TranslationMessages = {
                     errorButton: "Try again",
                     createNewWallet: "Add New Wallet",
                     lastUsedWallet: "Last used",
-
+                    nan: "Is not a number",
                     repeating: "Repeat Cryptocurrency Withdrawal",
                     repeatDescription:
                         "The withdrawal data has been copied to the form. Please check it and confirm the new withdrawal.",
@@ -1501,7 +1506,7 @@ const translations = { ru, en };
 
 export const i18nProvider = polyglotI18nProvider(
     (locale: string) => translations[locale as "ru" | "en"],
-    "en",
+    localStorage.getItem("i18nextLng") ?? "en",
     [
         { locale: "ru", name: "Русский" },
         { locale: "en", name: "English" }

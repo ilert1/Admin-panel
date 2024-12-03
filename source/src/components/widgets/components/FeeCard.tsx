@@ -1,12 +1,11 @@
 import {
-    AlertDialog,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { TextField } from "@/components/ui/text-field";
@@ -96,22 +95,34 @@ export const FeeCard = (props: FeeCardProps) => {
             </div>
 
             <div className="">
-                <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-                    <AlertDialogContent className="w-[251px] bg-muted !z-[200]">
-                        <AlertDialogHeader>
-                            <AlertDialogTitle className="text-center">
+                <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+                    <DialogContent className="rounded-16 max-h-56 xl:max-h-none h-auto w-[251px] bg-muted !z-[200] overflow-hidden">
+                        <DialogHeader>
+                            <DialogTitle className="text-center">
                                 {translate("resources.direction.fees.deleteFee")}
-                            </AlertDialogTitle>
-                            <AlertDialogDescription></AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
+                            </DialogTitle>
+                            <DialogDescription></DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
                             <div className="flex justify-around w-full">
-                                <Button onClick={handleDelete}>{translate("app.ui.actions.delete")}</Button>
-                                <AlertDialogCancel>{translate("app.ui.actions.cancel")}</AlertDialogCancel>
+                                <Button
+                                    onClick={() => {
+                                        handleDelete();
+                                        setDeleteDialogOpen(false);
+                                    }}>
+                                    {translate("app.ui.actions.delete")}
+                                </Button>
+                                <Button
+                                    onClick={() => {
+                                        setDeleteDialogOpen(false);
+                                    }}
+                                    variant="outline">
+                                    {translate("app.ui.actions.cancel")}
+                                </Button>
                             </div>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
             </div>
         </>
     );
