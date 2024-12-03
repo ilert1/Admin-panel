@@ -134,8 +134,19 @@ export const useGetWalletTransactionsColumns = () => {
             accessorKey: "tx_id",
             header: translate("resources.wallet.transactions.fields.tx_id"),
             cell: ({ row }) => {
-                return <TextField text={row.original.tx_id} wrap copyValue />;
+                // console.log(row.original.tx_link);
+                return <TextField text={row.original.tx_id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />;
             }
+        },
+        {
+            id: "pre_calculated_fee",
+            accessorKey: "pre_calculated_fee",
+            header: translate("resources.wallet.transactions.fields.pre_calculated_fee")
+        },
+        {
+            id: "total_fee",
+            accessorKey: "total_fee",
+            header: translate("resources.wallet.transactions.fields.total_fee")
         },
         {
             id: "actions",

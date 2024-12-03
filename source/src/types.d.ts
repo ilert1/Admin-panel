@@ -455,4 +455,6 @@ interface Cryptotransactions {
     created_at: string;
     updated_at: string;
     deleted_at: string;
+    pre_calculated_fee: number;
+    total_fee: number;
 }

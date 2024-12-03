@@ -4,14 +4,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { useInfiniteGetList, useTranslate } from "react-admin";
-import { useEffect, useMemo, useState } from "react";
+import { useDataProvider, useInfiniteGetList, useTranslate } from "react-admin";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert, WalletMinimal } from "lucide-react";
 import { Icon } from "../shared/Icon";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectType, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectType } from "@/components/ui/select";
 import { CreateWalletDialog } from "../lists/Wallets";
 import { LoadingBalance } from "@/components/ui/loading";
+// import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LAST_USED_WALLET } from "@/lib/consts";
+import { toast } from "sonner";
 
 export const CryptoTransferForm = (props: {
     loading: boolean;
@@ -20,15 +23,20 @@ export const CryptoTransferForm = (props: {
     setTransferState: (transferState: "process" | "success" | "error") => void;
     create: (data: any) => void;
     showMessage: string;
+    repeatData: { address: string; amount: number } | undefined;
 }) => {
     const translate = useTranslate();
+    const dataProvider = useDataProvider();
     const [checked, setChecked] = useState<boolean | "indeterminate">(false);
     const [createOpen, setCreateOpen] = useState(false);
     const [sendAmount, setSendAmount] = useState(0);
+    const [lastUsedWallet, setLastUsedWallet] = useState("");
+
     const { data: walletsData, fetchNextPage: walletsNextPage } = useInfiniteGetList("merchant/wallet", {
         pagination: { perPage: 25, page: 1 },
         filter: { sort: "name", asc: "ASC" }
     });
+
     const walletScrollHandler = async (e: React.FormEvent) => {
         const target = e.target as HTMLElement;
 
@@ -89,13 +97,63 @@ export const CryptoTransferForm = (props: {
 
     useEffect(() => {
         if (checked && checked !== "indeterminate") form.setValue("amount", props.balance);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [checked]);
+
+    const checkAddress = useCallback(
+        (address: string) => {
+            return walletsData?.pages.map(page => {
+                return page.data.find(wallet => {
+                    return wallet.address === address;
+                });
+            });
+        },
+        [walletsData?.pages]
+    );
+
+    useEffect(() => {
+        if (props.repeatData) {
+            const isFound = checkAddress(props.repeatData?.address);
+
+            if (isFound && isFound[0]) {
+                form.setValue("address", props.repeatData.address);
+                form.setValue("amount", props.repeatData.amount);
+                toast.success(translate("app.widgets.forms.cryptoTransfer.repeating"), {
+                    description: translate("app.widgets.forms.cryptoTransfer.repeatDescription"),
+                    duration: 3000,
+                    dismissible: true
+                });
+            } else {
+                toast.error(translate("app.widgets.forms.cryptoTransfer.error"), {
+                    description: translate("app.widgets.forms.cryptoTransfer.noAddress"),
+                    duration: 3000,
+                    dismissible: true
+                });
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [form, props.repeatData]);
+
+    useEffect(() => {
+        async function fetch() {
+            const { data } = await dataProvider.getList("withdraw", {
+                pagination: { page: 1, perPage: 1 },
+                sort: { field: "id", order: "ASC" },
+                filter: {}
+            });
+            const isFound = checkAddress(data[0].destination.id);
+            if (isFound) {
+                setLastUsedWallet(data[0].destination.id);
+            }
+        }
+        fetch();
+    }, [checkAddress, dataProvider]);
 
     if (props.transferState === "process")
         return (
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="">
-                    <div className="flex flex-col max-w-[476px] px-6 py-4 bg-neutral-0 rounded-2xl gap-4">
+                    <div className="flex flex-col lg:w-[325px] max-w-[476px] px-6 py-4 bg-neutral-0 rounded-2xl gap-4">
                         <div className="flex-1">
                             <FormField
                                 disabled={props.loading}
@@ -109,25 +167,55 @@ export const CryptoTransferForm = (props: {
                                         <FormControl>
                                             <Select
                                                 value={field.value}
-                                                onValueChange={field.onChange}
+                                                onValueChange={e => {
+                                                    console.log(e);
+                                                    field.onChange(e);
+                                                }}
                                                 disabled={props.loading}>
                                                 <FormControl>
                                                     <SelectTrigger variant={SelectType.DEFAULT}>
-                                                        <SelectValue />
+                                                        <span className="truncate">{field.value}</span>
                                                     </SelectTrigger>
                                                 </FormControl>
                                                 <SelectContent
                                                     onScrollCapture={walletScrollHandler}
                                                     onScroll={walletScrollHandler}>
+                                                    {lastUsedWallet && (
+                                                        <SelectItem value={lastUsedWallet} variant={SelectType.DEFAULT}>
+                                                            <p className="truncate max-w-[235px]">{lastUsedWallet}</p>
+                                                            <p
+                                                                className="truncate max-w-[235px] text-note-2 text-neutral-50"
+                                                                style={{ bottom: "-.5" }}>
+                                                                {translate(
+                                                                    "app.widgets.forms.cryptoTransfer.lastUsedWallet"
+                                                                )}
+                                                            </p>
+                                                        </SelectItem>
+                                                    )}
                                                     {walletsData?.pages.map(page => {
-                                                        return page.data.map(wallet => (
-                                                            <SelectItem
-                                                                key={wallet.id}
-                                                                value={wallet.address}
-                                                                variant={SelectType.DEFAULT}>
-                                                                <p className="truncate max-w-36">{wallet.address}</p>
-                                                            </SelectItem>
-                                                        ));
+                                                        return page.data.map(wallet => {
+                                                            if (wallet.address === lastUsedWallet) {
+                                                                return;
+                                                            }
+                                                            return (
+                                                                <div
+                                                                    key={wallet.id}
+                                                                    className="relative flex flex-col gap-2">
+                                                                    <SelectItem
+                                                                        value={wallet.address}
+                                                                        variant={SelectType.DEFAULT}>
+                                                                        <p className="truncate max-w-[235px]">
+                                                                            {wallet.address}
+                                                                        </p>
+                                                                        <p
+                                                                            className="truncate max-w-[235px] text-note-2 text-neutral-50"
+                                                                            style={{ bottom: "-.5" }}>
+                                                                            {wallet.description}
+                                                                        </p>
+                                                                    </SelectItem>
+                                                                </div>
+                                                            );
+                                                        });
                                                     })}
                                                     <div className="sticky bottom-0 bg-black p-2 z-10 flex items-center w-full h-[48px]">
                                                         <Button

@@ -33,43 +33,52 @@ export const Header = (props: { handleLogout: () => void }) => {
 
     const changeLocale = (value: string) => {
         if (locale !== value) {
+            localStorage.setItem("i18nextLng", value);
             setLocale(value);
         }
     };
 
     const toggleTheme = () => {
-        if (theme === "light") {
-            setTheme("dark");
-        } else {
-            setTheme("light");
-        }
+        setTheme(theme === "light" ? "dark" : "light");
     };
 
-    const error = (message: string) => {
-        toast.error(translate("resources.transactions.show.error"), {
-            dismissible: true,
-            description: message,
-            duration: 3000
-        });
-    };
-
-    const { isLoading: totalLoading, data: totalAmount } = useQuery("totalAmount", () =>
-        fetch(`${API_URL}/accounts/balance/count`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+    const showError = (() => {
+        let errorShown = false;
+        return (message: string) => {
+            if (!errorShown) {
+                toast.error(translate("resources.transactions.show.error"), {
+                    dismissible: true,
+                    description: message,
+                    duration: 3000
+                });
+                errorShown = true;
+                setTimeout(() => (errorShown = false), 5000); // Сбрасываем флаг через 5 секунд
             }
-        })
-            .then(response => response.json())
-            .then(json => {
-                if (json.success) {
-                    return json.data;
-                } else {
-                    error(translate("app.ui.header.totalError"));
+        };
+    })();
+
+    const { isLoading: totalLoading, data: totalAmount } = useQuery(
+        "totalAmount",
+        async () => {
+            const response = await fetch(`${API_URL}/accounts/balance/count`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
                 }
-            })
-            .catch(() => {
-                error(translate("app.ui.header.totalError"));
-            })
+            });
+            if (!response.ok) {
+                throw new Error(translate("app.ui.header.totalError"));
+            }
+            const json = await response.json();
+            if (!json.success) {
+                throw new Error(translate("app.ui.header.totalError"));
+            }
+            return json.data;
+        },
+        {
+            retry: 2, // Ограничение повторных попыток
+            onError: () => showError(translate("app.ui.header.totalError")),
+            staleTime: 1000 * 60 * 5 // Кэширование на 5 минут
+        }
     );
 
     return (
@@ -155,13 +164,8 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                 ? translate("app.ui.roles.merchant")
                                                 : translate("app.ui.roles.admin")}
                                         </div>
-                                        {
-                                            //TODO: Set valid email
-                                        }
-                                        {identity.data.email ? (
+                                        {identity.data.email && (
                                             <div className="text-note-2 cursor-default">{identity.data.email}</div>
-                                        ) : (
-                                            <></>
                                         )}
                                     </div>
                                 </div>
