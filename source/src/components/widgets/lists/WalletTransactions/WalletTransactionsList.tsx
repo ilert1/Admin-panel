@@ -10,7 +10,10 @@ export const WalletTransactionsList = () => {
     const { permissions } = usePermissions();
 
     const listContext = useListController({
-        resource: permissions === "admin" ? "transaction" : "merchant/transaction"
+        resource: permissions === "admin" ? "transaction" : "merchant/transaction",
+        queryOptions: {
+            refetchInterval: 10000
+        }
     });
 
     const { columns, chosenId, openShowClicked, confirmOpen, setConfirmOpen, setOpenShowClicked } =

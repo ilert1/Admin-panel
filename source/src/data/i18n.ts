@@ -530,7 +530,8 @@ const ru: TranslationMessages = {
                     total_fee: "Общая комиссия",
                     bandwidth_fee: "Комиссия сети",
                     confirm: "Потвердить",
-                    confirmQuestion: "Потвердить операцию?"
+                    confirmQuestion: "Потвердить операцию?",
+                    pre_calculated_fee: "Предварительно рассчитанная комиссия"
                 },
                 error: "Ошибка",
                 errors: {
@@ -1277,7 +1278,8 @@ const en: TranslationMessages = {
                     total_fee: "Total fee",
                     bandwidth_fee: "Network fee",
                     confirm: "Confirm",
-                    confirmQuestion: "Confirm transaction?"
+                    confirmQuestion: "Confirm transaction?",
+                    pre_calculated_fee: "Precalculated fee"
                 },
                 error: "Error",
                 errors: {
