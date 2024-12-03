@@ -1,4 +1,4 @@
-import { useTranslate, useListController, ListContextProvider, useLocaleState } from "react-admin";
+import { useTranslate, useListController, ListContextProvider, useLocaleState, usePermissions } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import {
@@ -19,6 +19,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import useTransactionFilter from "@/hooks/useTransactionFilter";
 import fetchDictionaries from "@/helpers/get-dictionaries";
+import { useFetchMerchants } from "@/hooks";
 // import BarChart from "@/components/ui/Bar";
 // import { debounce } from "lodash";
 
@@ -259,11 +260,17 @@ export const TransactionList = () => {
     const listContext = useListController<Transaction.Transaction>();
     const translate = useTranslate();
     const [locale] = useLocaleState();
+    const { permissions } = usePermissions();
 
     const [typeTabActive, setTypeTabActive] = useState("");
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");
-    // const [chartOpen, setChartOpen] = useState(false);
+
+    let isLoading,
+        merchantsList: any[] = [];
+    if (permissions === "admin") {
+        ({ isLoading, merchantsList } = useFetchMerchants());
+    }
 
     const openSheet = (id: string) => {
         setShowTransactionId(id);
@@ -284,21 +291,81 @@ export const TransactionList = () => {
         {
             accessorKey: "id",
             header: translate("resources.transactions.fields.id"),
-            cell: ({ row }) => <TextField text={row.original.id} wrap copyValue />,
+            cell: ({ row }) => (
+                <TextField text={row.original.id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />
+            ),
             filterFn: "includesString"
         },
         {
             accessorKey: "meta.customer_data.customer_id",
             header: translate("resources.transactions.fields.meta.customer_id"),
             cell: ({ row }) => {
-                return <TextField text={row.original.meta.customer_data.customer_id} />;
+                return <TextField text={row.original.meta.customer_data.customer_id} wrap />;
             }
         },
         {
             accessorKey: "meta.customer_data.customer_payment_id",
             header: translate("resources.transactions.fields.meta.customer_payment_id"),
-            cell: ({ row }) => <TextField text={row.original.meta.customer_data.customer_payment_id} wrap copyValue />
+            cell: ({ row }) => (
+                <TextField
+                    text={row.original.meta.customer_data.customer_payment_id}
+                    wrap
+                    copyValue
+                    lineClamp
+                    linesCount={1}
+                    minWidth="50px"
+                />
+            )
         },
+        ...(permissions === "admin"
+            ? [
+                  {
+                      header: translate("resources.withdraw.fields.merchant"),
+                      cell: ({ row }: any) => {
+                          const sourceMerch =
+                              row.original.type !== 1 && merchantsList.find(el => el.id === row.original.source.id);
+                          const destMerch = merchantsList.find(el => el.id === row.original.destination.id);
+
+                          let merch;
+                          switch (row.original.type) {
+                              case 1:
+                                  merch = destMerch?.name;
+                                  break;
+                              case 2:
+                              case 4:
+                                  merch = sourceMerch?.name;
+                                  break;
+                              case 3:
+                                  merch = `${sourceMerch?.name} - ${destMerch?.name}`;
+                                  break;
+
+                              default:
+                                  merch = "";
+                          }
+
+                          /* console.log({
+                              type: row.original.type,
+                              source: merchantsList.find(el => el.id === row.original.source.id)?.name,
+                              destination: merchantsList.find(el => el.id === row.original.destination.id)?.name
+                          }); */
+
+                          return (
+                              <div>
+                                  <TextField text={merch} wrap />
+                                  <TextField
+                                      text={row.original.source.id}
+                                      wrap
+                                      copyValue
+                                      lineClamp
+                                      linesCount={1}
+                                      minWidth="50px"
+                                  />
+                              </div>
+                          );
+                      }
+                  }
+              ]
+            : []),
         {
             accessorKey: "type",
             header: translate("resources.transactions.fields.type"),
@@ -404,7 +471,7 @@ export const TransactionList = () => {
     // const startDate = new Date("2023-07-01");
     // const endDate = new Date("2023-09-15");
 
-    if (listContext.isLoading || !listContext.data) {
+    if (listContext.isLoading || !listContext.data || isLoading) {
         return <Loading />;
     } else {
         return (

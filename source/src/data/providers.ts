@@ -31,7 +31,7 @@ export class ProvidersDataProvider extends BaseDataProvider {
 
         return {
             data:
-                json.data.map((elem: { name: any }) => {
+                json.data.map((elem: { name: string }) => {
                     return {
                         id: elem.name,
                         ...elem
@@ -53,7 +53,7 @@ export class ProvidersDataProvider extends BaseDataProvider {
 
         return {
             data:
-                json.data.map((elem: { name: any }) => {
+                json.data.map((elem: { name: string }) => {
                     return {
                         id: elem.name,
                         ...elem
@@ -65,7 +65,7 @@ export class ProvidersDataProvider extends BaseDataProvider {
 
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
-            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
 
         if (!json.success) {

@@ -10,15 +10,13 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from "@/components/ui/alertdialog";
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
 import { useMediaQuery } from "react-responsive";
 import { useTransactionActions } from "@/hooks";
 
@@ -286,28 +284,36 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                                         {commitCaption}
                                     </Button>
 
-                                    <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                                        <AlertDialogContent className="w-[350px]">
-                                            <AlertDialogHeader>
-                                                <AlertDialogTitle className="text-center">
+                                    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                                        <DialogContent className="rounded-16 max-h-56 xl:max-h-none h-auto max-w-[350px] overflow-hidden">
+                                            <DialogHeader>
+                                                <DialogTitle className="text-center">
                                                     {translate("resources.transactions.show.commitTransaction")}
-                                                </AlertDialogTitle>
-                                                <AlertDialogDescription></AlertDialogDescription>
-                                            </AlertDialogHeader>
-                                            <AlertDialogFooter>
+                                                </DialogTitle>
+                                                <DialogDescription></DialogDescription>
+                                            </DialogHeader>
+                                            <DialogFooter>
                                                 <div className="flex flex-col sm:flex-row justify-around gap-4 sm:gap-[35px] w-full">
-                                                    <AlertDialogAction
-                                                        onClick={commitTransaction}
+                                                    <Button
+                                                        onClick={() => {
+                                                            commitTransaction();
+                                                            setDialogOpen(false);
+                                                        }}
                                                         className="w-full sm:w-40">
                                                         {translate("resources.transactions.show.commit")}
-                                                    </AlertDialogAction>
-                                                    <AlertDialogCancel className="w-full !ml-0 px-3 sm:w-24">
+                                                    </Button>
+                                                    <Button
+                                                        onClick={() => {
+                                                            setDialogOpen(false);
+                                                        }}
+                                                        variant="outline"
+                                                        className="w-full !ml-0 px-3 sm:w-24">
                                                         {translate("app.ui.actions.cancel")}
-                                                    </AlertDialogCancel>
+                                                    </Button>
                                                 </div>
-                                            </AlertDialogFooter>
-                                        </AlertDialogContent>
-                                    </AlertDialog>
+                                            </DialogFooter>
+                                        </DialogContent>
+                                    </Dialog>
                                 </>
                             )}
 

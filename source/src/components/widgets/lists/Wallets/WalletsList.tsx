@@ -4,25 +4,23 @@ import { Loading } from "@/components/ui/loading";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { CreateWalletDialog } from "./CreateWalletDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DataTable } from "../../shared";
 import { ShowWalletDialog } from "./ShowWalletDialog";
-import { VaultDataProvider } from "@/data";
+import { VaultDataProvider, WalletsDataProvider } from "@/data";
 import { useQuery } from "react-query";
 
 export const WalletsList = () => {
     const { permissions } = usePermissions();
-    const listContext = useListController(
+    const listContext = useListController<Wallet>(
         permissions === "admin" ? { resource: "wallet" } : { resource: "merchant/wallet" }
     );
-    console.log(listContext);
     const translate = useTranslate();
-
-    const { columns, chosenId, quickShowOpen, setQuickShowOpen } = useGetWalletsColumns();
-
+    // console.log(listContext?.perPage);
+    const [balances, setBalances] = useState<Map<string, WalletBalance>>();
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
-    const dataProvider = useDataProvider<VaultDataProvider>();
+    const dataProvider = useDataProvider<VaultDataProvider & WalletsDataProvider>();
     const { data: storageState } = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"), {
         enabled: permissions === "admin"
     });
@@ -30,6 +28,37 @@ export const WalletsList = () => {
     const handleCreateClick = () => {
         setCreateDialogOpen(true);
     };
+
+    const fetchBalances = async () => {
+        if (!listContext.data) return;
+
+        const tempBalancesMap: Map<string, WalletBalance> = new Map();
+
+        const balancePromises = listContext.data.map(async wallet => {
+            return dataProvider
+                .getWalletBalance(permissions === "admin" ? "wallet" : "merchant/wallet", wallet.id)
+                .then(data => {
+                    if (data) {
+                        tempBalancesMap.set(wallet.id, data);
+                    }
+                });
+        });
+
+        await Promise.allSettled(balancePromises);
+        setBalances(tempBalancesMap);
+    };
+
+    useEffect(() => {
+        if (listContext.data) {
+            fetchBalances();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [listContext.data]);
+
+    const { columns, chosenId, quickShowOpen, setQuickShowOpen } = useGetWalletsColumns(
+        listContext.data ?? [],
+        balances ?? new Map()
+    );
 
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;

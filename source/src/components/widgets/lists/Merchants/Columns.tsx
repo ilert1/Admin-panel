@@ -38,7 +38,7 @@ export const useGetMerchantColumns = () => {
                 return (
                     <div>
                         <TextField text={row.original.name} />
-                        <TextField copyValue text={row.original.id} />
+                        <TextField copyValue text={row.original.id} lineClamp linesCount={1} minWidth="50px" />
                     </div>
                 );
             }
@@ -53,7 +53,15 @@ export const useGetMerchantColumns = () => {
             accessorKey: "keycloak_id",
             header: "Keycloak ID",
             cell: ({ row }) => {
-                return <TextField text={row.original.keycloak_id ?? ""} copyValue />;
+                return (
+                    <TextField
+                        text={row.original.keycloak_id ?? ""}
+                        copyValue
+                        lineClamp
+                        linesCount={1}
+                        minWidth="50px"
+                    />
+                );
             }
         },
         {

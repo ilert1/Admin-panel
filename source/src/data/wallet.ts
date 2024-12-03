@@ -15,10 +15,7 @@ import { fetchUtils } from "react-admin";
 const API_URL = import.meta.env.VITE_WALLET_URL;
 
 export class WalletsDataProvider extends BaseDataProvider {
-    async getList(
-        resource: "wallet" | "transaction" | "merchant/transaction" | "merchant/wallet",
-        params: GetListParams
-    ): Promise<GetListResult> {
+    async getList(resource: string, params: GetListParams): Promise<GetListResult> {
         const data: { [key: string]: string } = {
             limit: params.pagination.perPage.toString(),
             offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
@@ -38,17 +35,13 @@ export class WalletsDataProvider extends BaseDataProvider {
         if (!json.success) {
             throw new Error(json.error);
         }
-
         return {
             data: json.data || [],
-            total: json?.total || 0
+            total: json?.meta?.total || 0
         };
     }
 
-    async getOne(
-        resource: "wallet" | "transaction" | "merchant/transaction" | "merchant/wallet",
-        params: GetOneParams
-    ): Promise<GetOneResult> {
+    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
         const url = `${API_URL}/${resource}/${params.id}`;
         const { json } = await fetchUtils.fetchJson(url, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
@@ -65,7 +58,27 @@ export class WalletsDataProvider extends BaseDataProvider {
         };
     }
 
-    async update(resource: "wallet" | "merchant/wallet", params: UpdateParams) {
+    async getWalletBalance(resource: string, id: string): Promise<WalletBalance> {
+        const { json } = await fetchUtils
+            .fetchJson(`${API_URL}/${resource}/${id}/balance`, {
+                method: "GET",
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            })
+            .catch(() => {
+                return { json: { success: false } };
+            });
+
+        if (!json.success) {
+            return {
+                usdt_amount: 0,
+                trx_amount: 0
+            };
+        }
+
+        return json?.data;
+    }
+
+    async update(resource: string, params: UpdateParams) {
         delete params.data.generatedAt;
         delete params.data.loadedAt;
 
@@ -84,25 +97,38 @@ export class WalletsDataProvider extends BaseDataProvider {
         return { data: json.data };
     }
 
-    async create(resource: "wallet" | "merchant/wallet", params: CreateParams): Promise<CreateResult> {
+    async create(resource: string, params: CreateParams): Promise<CreateResult> {
         const url = `${API_URL}/${resource}`;
 
-        const { json } = await fetchUtils.fetchJson(url, {
-            method: "POST",
-            body: JSON.stringify(params.data),
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
+        try {
+            const { json } = await fetchUtils.fetchJson(url, {
+                method: "POST",
+                body: JSON.stringify(params.data),
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            });
 
-        if (!json.success) {
-            throw new Error(json.error);
+            if (!json.success) {
+                if (json.status === 500) {
+                    throw new Error(JSON.stringify({ error_message: "Server error" }));
+                }
+                throw new Error(JSON.stringify(json.error));
+            }
+
+            return {
+                data: json.data
+            };
+        } catch (error) {
+            if (error instanceof Error) {
+                if (error.message) {
+                    throw new Error(JSON.stringify({ error_message: error.message }));
+                }
+            }
+
+            throw new Error(JSON.stringify({ error_message: "Server error" }));
         }
-
-        return {
-            data: json.data
-        };
     }
 
-    async delete(resource: "wallet" | "merchant/wallet", params: DeleteParams): Promise<DeleteResult> {
+    async delete(resource: string, params: DeleteParams): Promise<DeleteResult> {
         const url = `${API_URL}/${resource}/${params.id}`;
 
         const { json } = await fetchUtils.fetchJson(url, {

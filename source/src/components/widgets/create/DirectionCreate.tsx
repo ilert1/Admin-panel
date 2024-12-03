@@ -16,7 +16,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useFetchDataForDirections } from "@/hooks";
+import { useFetchDataForDirections, useGetTerminals } from "@/hooks";
 import { toast } from "sonner";
 import { useState } from "react";
 
@@ -30,7 +30,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const refresh = useRefresh();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-
+    const { terminals, getTerminals } = useGetTerminals();
     const onSubmit: SubmitHandler<Directions.DirectionCreate> = async data => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
@@ -56,6 +56,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
         dst_currency: z.string().min(1, translate("resources.direction.errors.dst_curr")),
         merchant: z.string().min(1, translate("resources.direction.errors.merchant")),
         provider: z.string().min(1, translate("resources.direction.errors.provider")),
+        terminal: z.string().min(1, translate("resources.direction.errors.terminal")),
         weight: z.coerce.number()
     });
 
@@ -69,6 +70,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             dst_currency: "",
             merchant: "",
             provider: "",
+            terminal: "",
             weight: 0
         }
     });
@@ -83,10 +85,10 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const currenciesDisabled = !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0);
     const merchantsDisabled = !(merchants && Array.isArray(merchants.data) && merchants?.data?.length > 0);
     const providersDisabled = !(providers && Array.isArray(providers.data) && providers?.data?.length > 0);
+    const terminalsDisabled = !(terminals && Array.isArray(terminals) && terminals?.length > 0);
 
     return (
         <CreateContextProvider value={controllerProps}>
-            {/* <p className="mb-2">{translate("resources.direction.note")}</p> */}
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="flex flex-wrap">
@@ -264,7 +266,10 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                     <FormLabel>{translate("resources.direction.provider")}</FormLabel>
                                     <Select
                                         value={field.value}
-                                        onValueChange={field.onChange}
+                                        onValueChange={e => {
+                                            getTerminals(e);
+                                            field.onChange(e);
+                                        }}
                                         disabled={providersDisabled}>
                                         <FormControl>
                                             <SelectTrigger variant={SelectType.GRAY}>
@@ -299,6 +304,46 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                         />
                         <FormField
                             control={form.control}
+                            name="terminal"
+                            render={({ field }) => (
+                                <FormItem className="w-full sm:w-1/2 p-2">
+                                    <FormLabel>{translate("resources.direction.fields.terminal")}</FormLabel>
+                                    <Select
+                                        value={field.value}
+                                        onValueChange={field.onChange}
+                                        disabled={terminalsDisabled}>
+                                        <FormControl>
+                                            <SelectTrigger variant={SelectType.GRAY}>
+                                                <SelectValue
+                                                    placeholder={
+                                                        terminalsDisabled
+                                                            ? translate("resources.direction.noTerminals")
+                                                            : ""
+                                                    }
+                                                />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                {!terminalsDisabled
+                                                    ? terminals.map(terminal => (
+                                                          <SelectItem
+                                                              key={terminal.terminal_id}
+                                                              value={terminal.terminal_id}
+                                                              variant={SelectType.GRAY}>
+                                                              {terminal.verbose_name}
+                                                          </SelectItem>
+                                                      ))
+                                                    : ""}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="weight"
                             render={({ field }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
@@ -316,7 +361,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                             control={form.control}
                             name="description"
                             render={({ field }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="w-full = p-2">
                                     <FormLabel>{translate("resources.direction.description")}</FormLabel>
                                     <FormControl>
                                         <div>

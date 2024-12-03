@@ -127,7 +127,10 @@ export const WalletStore = () => {
                             </div>
                         )}
 
-                        <Button onClick={storageInitiated} className="flex items-center gap-1">
+                        <Button
+                            disabled={loadingProcess}
+                            onClick={storageInitiated}
+                            className="flex items-center gap-1">
                             <CirclePlus width={16} height={16} />
                             <span className="text-sm">{translate("resources.wallet.storage.buttonForInitiated")}</span>
                         </Button>
@@ -153,7 +156,10 @@ export const WalletStore = () => {
 
                         {(stepForUnsealed === 0 || stepForUnsealed === "error") && (
                             <>
-                                <Button onClick={() => setStepForUnsealed(1)} className="flex items-center gap-1">
+                                <Button
+                                    disabled={loadingProcess}
+                                    onClick={() => setStepForUnsealed(1)}
+                                    className="flex items-center gap-1">
                                     <LockKeyholeOpen width={16} height={16} />
                                     <span className="text-sm">
                                         {translate("resources.wallet.storage.buttonForOpen")}
@@ -215,7 +221,10 @@ export const WalletStore = () => {
                                     )}
                                 />
 
-                                <Button type="submit" className="self-end flex items-center gap-1 min-w-28">
+                                <Button
+                                    disabled={loadingProcess}
+                                    type="submit"
+                                    className="self-end flex items-center gap-1 min-w-28">
                                     {loadingProcess ? (
                                         <LoadingAlertDialog className="!w-5 !h-5" />
                                     ) : (
@@ -264,6 +273,7 @@ export const WalletStore = () => {
                             {storageState?.state === "waiting" ? (
                                 <div className="flex gap-6">
                                     <Button
+                                        disabled={loadingProcess}
                                         onClick={cancelUnsealing}
                                         className="flex items-center gap-1 bg-red-40 hover:bg-red-30 active:bg-red-30 focus:bg-red-30 flex-1">
                                         {loadingProcess ? (
@@ -279,6 +289,7 @@ export const WalletStore = () => {
                                     </Button>
 
                                     <Button
+                                        disabled={loadingProcess}
                                         onClick={() => {
                                             setStepForUnsealed(1);
                                         }}
@@ -291,6 +302,7 @@ export const WalletStore = () => {
                                 </div>
                             ) : (
                                 <Button
+                                    disabled={loadingProcess}
                                     onClick={cancelUnsealing}
                                     className="flex items-center relative gap-1 bg-red-40 hover:bg-red-30 active:bg-red-30 focus:bg-red-30 flex-1">
                                     {loadingProcess ? (

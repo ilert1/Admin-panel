@@ -63,10 +63,15 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
         location.pathname = "/";
         logout();
     };
-
-    const [isSheetOpen, setSheetOpen] = useState(true);
+    const menuOpenState = localStorage.getItem("menuOpenState") === "false" ? false : true;
+    const [isSheetOpen, setSheetOpen] = useState(menuOpenState);
     const [showCaptions, setShowCaptions] = useState(true);
     const [testKeysModalOpen, setTestKeysModalOpen] = useState(false);
+
+    const handleMenuState = (state: boolean) => {
+        setSheetOpen(state);
+        localStorage.setItem("menuOpenState", String(state));
+    };
 
     useEffect(() => {
         isSheetOpen
@@ -98,7 +103,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                             </div>
                             <button className="flex flex-col items-center animate-in fade-in-0 transition-opacity duration-300">
                                 <ChevronLeftCircleIcon
-                                    onClick={() => setSheetOpen(!isSheetOpen)}
+                                    onClick={() => handleMenuState(!isSheetOpen)}
                                     className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-foreground"
                                 />
                             </button>
@@ -107,7 +112,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                         <div className="w-[70px] flex justify-center">
                             <button className="h-[63px] ">
                                 <ChevronRightCircleIcon
-                                    onClick={() => setSheetOpen(!isSheetOpen)}
+                                    onClick={() => handleMenuState(!isSheetOpen)}
                                     className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-foreground"
                                 />
                             </button>

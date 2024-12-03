@@ -12,7 +12,7 @@ import { TriangleAlert } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 
 export const UserCreateForm = (props: {
-    onSubmit: SubmitHandler<Omit<Users.User, "created_at" | "deleted_at" | "id">>;
+    onSubmit: SubmitHandler<Users.UserCreate>;
     isDisabled: boolean;
     currencies: Dictionaries.Currency[];
     buttonDisabled: boolean;
@@ -44,25 +44,7 @@ export const UserCreateForm = (props: {
             .string()
             .startsWith("-----BEGIN PUBLIC KEY-----", translate("app.widgets.forms.userCreate.publicKeyMessage"))
             .endsWith("-----END PUBLIC KEY-----", translate("app.widgets.forms.userCreate.publicKeyMessage")),
-        shop_currency: z.string().regex(/^[A-Z]{3}$/, translate("app.widgets.forms.userCreate.shopCurrencyMessage")),
-        shop_api_key: z
-            .string()
-            .regex(
-                /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/,
-                translate("app.widgets.forms.userCreate.keyMessage")
-            ),
-        shop_sign_key: z
-            .string()
-            .regex(
-                /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/,
-                translate("app.widgets.forms.userCreate.keyMessage")
-            ),
-        shop_balance_key: z
-            .string()
-            .regex(
-                /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/,
-                translate("app.widgets.forms.userCreate.keyMessage")
-            )
+        shop_currency: z.string().regex(/^[A-Z]{3}$/, translate("app.widgets.forms.userCreate.shopCurrencyMessage"))
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -73,10 +55,7 @@ export const UserCreateForm = (props: {
             email: "",
             password: "",
             public_key: "",
-            shop_currency: "",
-            shop_api_key: "",
-            shop_sign_key: "",
-            shop_balance_key: ""
+            shop_currency: ""
         }
     });
 
@@ -109,7 +88,7 @@ export const UserCreateForm = (props: {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(props.onSubmit)} className="flex flex-col gap-6" autoComplete="off">
-                <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-5 md:grid-flow-col gap-y-5 gap-x-4 items-stretch md:items-end">
+                <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-4 md:grid-flow-col gap-y-5 gap-x-4 items-stretch md:items-end">
                     <FormField
                         name="name"
                         control={form.control}
@@ -288,7 +267,7 @@ export const UserCreateForm = (props: {
                                     }}
                                     value={valueCurDialog}>
                                     <SelectTrigger
-                                        className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                        className={`dark:bg-muted text-sm text-neutral-100 dark:border-neutral-40 disabled:dark:bg-muted ${
                                             fieldState.invalid
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
@@ -371,108 +350,6 @@ export const UserCreateForm = (props: {
                             )}
                         />
                     </div>
-
-                    <FormField
-                        name="shop_api_key"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <FormItem className="space-y-1">
-                                <FormLabel>{translate("app.widgets.forms.userCreate.shopApiKey")}</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                            fieldState.invalid
-                                                ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                : ""
-                                        }`}
-                                        disabled={props.isDisabled}
-                                        {...field}>
-                                        {fieldState.invalid && (
-                                            <TooltipProvider>
-                                                <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <TriangleAlert className="text-red-40" width={14} height={14} />
-                                                    </TooltipTrigger>
-
-                                                    <TooltipContent className="border-none bottom-0" side="left">
-                                                        <FormMessage />
-                                                    </TooltipContent>
-                                                </Tooltip>
-                                            </TooltipProvider>
-                                        )}
-                                    </Input>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        name="shop_sign_key"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <FormItem className="space-y-1">
-                                <FormLabel>{translate("app.widgets.forms.userCreate.shopSignKey")}</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                            fieldState.invalid
-                                                ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                : ""
-                                        }`}
-                                        disabled={props.isDisabled}
-                                        {...field}>
-                                        {fieldState.invalid && (
-                                            <TooltipProvider>
-                                                <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <TriangleAlert className="text-red-40" width={14} height={14} />
-                                                    </TooltipTrigger>
-
-                                                    <TooltipContent className="border-none bottom-0" side="left">
-                                                        <FormMessage />
-                                                    </TooltipContent>
-                                                </Tooltip>
-                                            </TooltipProvider>
-                                        )}
-                                    </Input>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        name="shop_balance_key"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <FormItem className="space-y-1">
-                                <FormLabel>{translate("app.widgets.forms.userCreate.shopBalanceKey")}</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                            fieldState.invalid
-                                                ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                : ""
-                                        }`}
-                                        disabled={props.isDisabled}
-                                        {...field}>
-                                        {fieldState.invalid && (
-                                            <TooltipProvider>
-                                                <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <TriangleAlert className="text-red-40" width={14} height={14} />
-                                                    </TooltipTrigger>
-
-                                                    <TooltipContent className="border-none bottom-0" side="left">
-                                                        <FormMessage />
-                                                    </TooltipContent>
-                                                </Tooltip>
-                                            </TooltipProvider>
-                                        )}
-                                    </Input>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
                 </div>
 
                 <div className="self-end flex items-center gap-4">

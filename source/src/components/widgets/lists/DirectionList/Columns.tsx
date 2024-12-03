@@ -34,7 +34,7 @@ export const useGetDirectionsColumns = () => {
             accessorKey: "id",
             header: translate("resources.direction.fields.id"),
             cell: ({ row }) => {
-                return <TextField text={row.original.id} wrap copyValue />;
+                return <TextField text={row.original.id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />;
             }
         },
         {
@@ -79,6 +79,13 @@ export const useGetDirectionsColumns = () => {
             cell: ({ row }) => {
                 const obj: Provider = row.getValue("provider");
                 return <TextField text={obj.name} wrap />;
+            }
+        },
+        {
+            id: "terminal",
+            header: translate("resources.direction.fields.terminal"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.terminal?.verbose_name ?? ""} wrap />;
             }
         },
         {

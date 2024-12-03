@@ -18,7 +18,7 @@ export default defineConfig({
     server: {
         host: true
     },
-    base: "./",
+    base: "/",
     optimizeDeps: {
         include: ["chart.js"]
     }

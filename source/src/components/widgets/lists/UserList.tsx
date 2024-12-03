@@ -10,7 +10,7 @@ import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Loading } from "@/components/ui/loading";
 import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
-import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alertdialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { UserCreate } from "../create";
 
 const UserFilterSidebar = () => {
@@ -106,15 +106,18 @@ const UserFilterSidebar = () => {
                     <span>{translate("resources.users.createButton")}</span>
                 </Button>
 
-                <AlertDialog open={showAddUserDialog} onOpenChange={setShowAddUserDialog}>
-                    <AlertDialogContent className="z-[60] bg-muted max-w-full w-[716px] h-full max-h-[100dvh] md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
-                        <AlertDialogHeader>
-                            <AlertDialogTitle>{translate("app.widgets.forms.userCreate.title")}</AlertDialogTitle>
-                        </AlertDialogHeader>
+                <Dialog open={showAddUserDialog} onOpenChange={setShowAddUserDialog}>
+                    <DialogContent
+                        disableOutsideClick
+                        className="bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
+                        <DialogHeader>
+                            <DialogTitle>{translate("app.widgets.forms.userCreate.title")}</DialogTitle>
+                        </DialogHeader>
+                        <DialogDescription />
 
                         <UserCreate onOpenChange={setShowAddUserDialog} />
-                    </AlertDialogContent>
-                </AlertDialog>
+                    </DialogContent>
+                </Dialog>
             </div>
 
             <label
@@ -162,13 +165,13 @@ export const UserList = () => {
             id: "id",
             accessorKey: "id",
             header: translate("resources.users.fields.id"),
-            cell: ({ row }) => <TextField text={row.original.id} copyValue />
+            cell: ({ row }) => <TextField text={row.original.id} copyValue lineClamp linesCount={1} minWidth="50px" />
         },
         {
             id: "name",
             accessorKey: "name",
             header: translate("resources.users.fields.name"),
-            cell: ({ row }) => <TextField text={row.original.name} copyValue />
+            cell: ({ row }) => <TextField text={row.original.name} copyValue wrap />
         },
         {
             accessorKey: "active",
@@ -216,7 +219,6 @@ export const UserList = () => {
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>
                     <SheetContent
                         aria-describedby={undefined}
-                        // className="sm:max-w-[1015px] h-[502px] max-h-full w-full p-0 m-0 top-[84px] flex flex-col gap-0 outline-none overflow-y-auto"
                         className="sm:max-w-[1015px] h-full sm:h-[502px] max-h-[calc(100dvh-84px)] overflow-hidden w-full p-0 m-0 top-[84px] flex flex-col"
                         tabIndex={-1}
                         style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}

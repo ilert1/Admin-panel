@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useTranslate, useListController, ListContextProvider, usePermissions, useLocaleState } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
@@ -7,7 +8,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
@@ -15,7 +16,9 @@ import { Loading } from "@/components/ui/loading";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { Input } from "@/components/ui/input";
 import useWithdrawFilter from "@/hooks/useWithdrawFilter";
-import { CryptoTransfer } from "../components/CryptoTransfer";
+import { CryptoTransfer } from "../../components/CryptoTransfer";
+import fetchDictionaries from "@/helpers/get-dictionaries";
+import { useFetchMerchants, useGetTransactionState } from "@/hooks";
 
 const WithdrawFilterSidebar = () => {
     const {
@@ -86,7 +89,15 @@ export const WithdrawList = () => {
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const [locale] = useLocaleState();
+    const data = fetchDictionaries();
 
+    const [repeatData, setRepeatData] = useState<{ address: string; amount: number } | undefined>(undefined);
+
+    let isLoading,
+        merchantsList: any[] = [];
+    if (permissions === "admin") {
+        ({ isLoading, merchantsList } = useFetchMerchants());
+    }
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
@@ -103,12 +114,66 @@ export const WithdrawList = () => {
         {
             accessorKey: "id",
             header: translate("resources.withdraw.fields.id"),
-            cell: ({ row }) => <TextField text={row.original.id} wrap={"break-all"} copyValue />
+            cell: ({ row }) => (
+                <TextField
+                    text={row.original.id}
+                    wrap={"break-all"}
+                    copyValue
+                    lineClamp
+                    linesCount={1}
+                    minWidth="50px"
+                />
+            )
         },
         {
             accessorKey: "destination.id",
             header: translate("resources.withdraw.fields.destination.id"),
-            cell: ({ row }) => <TextField text={row.original.destination.id} wrap={"break-all"} copyValue />
+            cell: ({ row }) => (
+                <TextField text={row.original.destination.id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />
+            )
+        },
+        ...(permissions === "admin"
+            ? [
+                  {
+                      header: translate("resources.withdraw.fields.merchant"),
+                      cell: ({ row }: any) => {
+                          const merch = merchantsList.find(el => el.id === row.original.source.id);
+                          return (
+                              <div>
+                                  <TextField text={merch?.name ?? ""} wrap />
+                                  <TextField
+                                      text={row.original.source.id}
+                                      wrap
+                                      copyValue
+                                      lineClamp
+                                      linesCount={1}
+                                      minWidth="50px"
+                                  />
+                              </div>
+                          );
+                      }
+                  }
+              ]
+            : []),
+        {
+            header: translate("resources.withdraw.fields.idInBlockChain"),
+            cell: ({ row }) => {
+                const text = Object.hasOwn(row.original, "requisites") ? row.original.requisites[0].hash : "-";
+                return (
+                    <TextField
+                        text={text}
+                        wrap
+                        copyValue={text !== "-" ? true : false}
+                        link={
+                            Object.hasOwn(row.original, "requisites") ? `${row.original.requisites[0].hash_link}` : "-"
+                        }
+                        type={text !== "-" ? "link" : "text"}
+                        lineClamp
+                        linesCount={1}
+                        minWidth="50px"
+                    />
+                );
+            }
         },
         {
             accessorKey: "destination.amount.value",
@@ -122,10 +187,49 @@ export const WithdrawList = () => {
                     row.original.destination.amount.currency || ""
                 }`;
             }
+        },
+        ...(permissions === "merchant"
+            ? [
+                  {
+                      id: "resend",
+                      header: "",
+                      cell: ({ row }) => {
+                          return (
+                              <Button
+                                  onClick={() =>
+                                      setRepeatData({
+                                          address: row.original.destination.id,
+                                          amount:
+                                              row.original.destination.amount.value.quantity /
+                                              row.original.destination.amount.value.accuracy
+                                      })
+                                  }>
+                                  {translate("resources.withdraw.fields.resend")}
+                              </Button>
+                          );
+                      }
+                  }
+              ]
+            : []),
+
+        {
+            header: translate("resources.withdraw.fields.state"),
+            cell: ({ row }) => {
+                // eslint-disable-next-line react-hooks/rules-of-hooks
+                const { text, color } = useGetTransactionState({ state: row.original.state.state_int });
+                return (
+                    <div className="flex items-center justify-center">
+                        <span
+                            className={`px-3 py-0.5 rounded-20 text-white font-normal text-base text-center truncate ${color}`}>
+                            {text}
+                        </span>
+                    </div>
+                );
+            }
         }
     ];
 
-    if (listContext.isLoading || !listContext.data) {
+    if (listContext.isLoading || !listContext.data || isLoading) {
         return <Loading />;
     } else {
         return (
@@ -150,7 +254,7 @@ export const WithdrawList = () => {
 
                         {merchantOnly && (
                             <div className="max-w-80 mb-6 row-start-1 lg:col-start-2 lg:row-start-2">
-                                <CryptoTransfer />
+                                <CryptoTransfer repeatData={repeatData} />
                             </div>
                         )}
                     </div>
