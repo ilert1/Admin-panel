@@ -4,8 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { useInfiniteGetList, useTranslate } from "react-admin";
-import { useEffect, useMemo, useState } from "react";
+import { useDataProvider, useInfiniteGetList, useTranslate } from "react-admin";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert, WalletMinimal } from "lucide-react";
 import { Icon } from "../shared/Icon";
@@ -25,18 +25,17 @@ export const CryptoTransferForm = (props: {
     repeatData: { address: string; amount: number } | undefined;
 }) => {
     const translate = useTranslate();
+    const dataProvider = useDataProvider();
     const [checked, setChecked] = useState<boolean | "indeterminate">(false);
     const [createOpen, setCreateOpen] = useState(false);
     const [sendAmount, setSendAmount] = useState(0);
-
-    const lastUsedWallet = useMemo(() => {
-        return localStorage.getItem(LAST_USED_WALLET)?.toString();
-    }, []);
+    const [lastUsedWallet, setLastUsedWallet] = useState("");
 
     const { data: walletsData, fetchNextPage: walletsNextPage } = useInfiniteGetList("merchant/wallet", {
         pagination: { perPage: 25, page: 1 },
         filter: { sort: "name", asc: "ASC" }
     });
+
     const walletScrollHandler = async (e: React.FormEvent) => {
         const target = e.target as HTMLElement;
 
@@ -96,7 +95,6 @@ export const CryptoTransferForm = (props: {
     }, [checked, props.balance, form]);
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        localStorage.setItem(LAST_USED_WALLET, values.address);
         props.create({
             ...values,
             accuracy
@@ -108,13 +106,20 @@ export const CryptoTransferForm = (props: {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [checked]);
 
-    useEffect(() => {
-        if (props.repeatData) {
-            const isFound = walletsData?.pages.map(page => {
+    const checkAddress = useCallback(
+        (address: string) => {
+            return walletsData?.pages.map(page => {
                 return page.data.find(wallet => {
-                    return wallet.address === props.repeatData?.address;
+                    return wallet.address === address;
                 });
             });
+        },
+        [walletsData?.pages]
+    );
+
+    useEffect(() => {
+        if (props.repeatData) {
+            const isFound = checkAddress(props.repeatData?.address);
 
             if (isFound && isFound[0]) {
                 form.setValue("address", props.repeatData.address, { shouldDirty: true });
@@ -134,6 +139,21 @@ export const CryptoTransferForm = (props: {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [form, props.repeatData]);
+
+    useEffect(() => {
+        async function fetch() {
+            const { data } = await dataProvider.getList("withdraw", {
+                pagination: { page: 1, perPage: 1 },
+                sort: { field: "id", order: "ASC" },
+                filter: {}
+            });
+            const isFound = checkAddress(data[0].destination.id);
+            if (isFound) {
+                setLastUsedWallet(data[0].destination.id);
+            }
+        }
+        fetch();
+    }, [checkAddress, dataProvider]);
 
     if (props.transferState === "process")
         return (
