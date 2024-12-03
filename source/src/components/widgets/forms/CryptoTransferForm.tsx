@@ -46,7 +46,7 @@ export const CryptoTransferForm = (props: {
     const formSchema = z.object({
         address: z.string().regex(/T[A-Za-z1-9]{33}/, translate("app.widgets.forms.cryptoTransfer.addressMessage")),
         amount: z.coerce
-            .number()
+            .number({ message: translate("app.widgets.forms.cryptoTransfer.nan") })
             .gt(2, translate("app.widgets.forms.cryptoTransfer.amountMinMessage"))
             .lte(
                 props.balance,
@@ -257,9 +257,8 @@ export const CryptoTransferForm = (props: {
                                                 }`}
                                                 {...field}
                                                 onChange={e => {
-                                                    const value = Number(e.target.value) || 0;
-                                                    field.onChange(value);
-                                                    if (value === props.balance) {
+                                                    field.onChange(e.target.value);
+                                                    if (Number(e.target.value) === props.balance) {
                                                         setChecked(true);
                                                     } else {
                                                         setChecked(false);

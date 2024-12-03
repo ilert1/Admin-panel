@@ -683,7 +683,8 @@ const ru: TranslationMessages = {
                     repeating: "Повтор вывода криптовалюты",
                     repeatDescription: "Данные вывода скопированы в форму, проверьте их и подтвердите новый вывод",
                     noAddress: "Такого адреса нет в вашем аккаунте",
-                    error: "Ошибка"
+                    error: "Ошибка",
+                    nan: "Не является числом"
                 },
                 userCreate: {
                     title: "Добавление пользователя",
@@ -1428,7 +1429,7 @@ const en: TranslationMessages = {
                     errorButton: "Try again",
                     createNewWallet: "Add New Wallet",
                     lastUsedWallet: "Last used",
-
+                    nan: "Is not a number",
                     repeating: "Repeat Cryptocurrency Withdrawal",
                     repeatDescription:
                         "The withdrawal data has been copied to the form. Please check it and confirm the new withdrawal.",
