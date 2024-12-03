@@ -134,7 +134,8 @@ export const useGetWalletTransactionsColumns = () => {
             accessorKey: "tx_id",
             header: translate("resources.wallet.transactions.fields.tx_id"),
             cell: ({ row }) => {
-                return <TextField text={row.original.tx_id} wrap copyValue />;
+                // console.log(row.original.tx_link);
+                return <TextField text={row.original.tx_id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />;
             }
         },
         {
