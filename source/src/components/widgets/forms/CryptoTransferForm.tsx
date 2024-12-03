@@ -117,6 +117,7 @@ export const CryptoTransferForm = (props: {
             if (isFound && isFound[0]) {
                 form.setValue("address", props.repeatData.address);
                 form.setValue("amount", props.repeatData.amount);
+                form.trigger();
                 toast.success(translate("app.widgets.forms.cryptoTransfer.repeating"), {
                     description: translate("app.widgets.forms.cryptoTransfer.repeatDescription"),
                     duration: 3000,
