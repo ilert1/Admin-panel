@@ -120,6 +120,10 @@ export const CryptoTransferForm = (props: {
 
                 setShouldTrigger(true);
 
+                if (checked) {
+                    setChecked(false);
+                }
+
                 toast.success(translate("app.widgets.forms.cryptoTransfer.repeating"), {
                     description: translate("app.widgets.forms.cryptoTransfer.repeatDescription"),
                     duration: 3000,
