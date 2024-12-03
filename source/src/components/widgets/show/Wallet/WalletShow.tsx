@@ -118,6 +118,9 @@ export const WalletShow = (props: WalletShowProps) => {
                     />
                     <div className="col-span-2">
                         <TextField
+                            type="text"
+                            wrap={true}
+                            lineClamp={false}
                             label={translate("resources.wallet.manage.fields.descr")}
                             text={context.record.description ?? ""}
                         />
