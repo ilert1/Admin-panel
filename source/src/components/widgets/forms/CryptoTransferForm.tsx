@@ -55,6 +55,7 @@ export const CryptoTransferForm = (props: {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
+        // mode: "onChange",
         defaultValues: {
             address: "",
             amount: undefined
@@ -89,14 +90,14 @@ export const CryptoTransferForm = (props: {
 
     const handleButtonAllTransfer = () => {
         if (!checked) {
-            form.setValue("amount", props.balance, { shouldValidate: true });
+            form.setValue("amount", props.balance, { shouldValidate: true, shouldDirty: true });
         } else {
-            form.setValue("amount", 0, { shouldValidate: true });
+            form.setValue("amount", 0, { shouldValidate: true, shouldDirty: true });
         }
 
         setChecked(!checked);
         form.setFocus("amount");
-        form.trigger();
+        form.trigger("amount");
     };
 
     const checkAddress = useCallback(
@@ -116,8 +117,7 @@ export const CryptoTransferForm = (props: {
 
             if (isFound && isFound[0]) {
                 form.setValue("address", props.repeatData.address, { shouldDirty: true });
-                form.setValue("amount", props.repeatData.amount, { shouldDirty: true });
-                form.trigger();
+                form.setValue("amount", props.repeatData.amount, { shouldDirty: true, shouldValidate: true });
                 toast.success(translate("app.widgets.forms.cryptoTransfer.repeating"), {
                     description: translate("app.widgets.forms.cryptoTransfer.repeatDescription"),
                     duration: 3000,
@@ -263,7 +263,7 @@ export const CryptoTransferForm = (props: {
                                                     } else {
                                                         setChecked(false);
                                                     }
-                                                    form.trigger();
+                                                    form.trigger("amount");
                                                 }}>
                                                 {fieldState.invalid && (
                                                     <TooltipProvider>
