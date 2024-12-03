@@ -365,6 +365,7 @@ export const CryptoTransferForm = (props: {
                         type="button"
                         variant="default"
                         onClick={() => {
+                            form.reset();
                             props.setTransferState("process");
                         }}
                         size="sm">
