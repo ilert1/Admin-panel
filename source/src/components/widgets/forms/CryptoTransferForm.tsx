@@ -12,7 +12,6 @@ import { Icon } from "../shared/Icon";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectType } from "@/components/ui/select";
 import { CreateWalletDialog } from "../lists/Wallets";
 import { LoadingAlertDialog } from "@/components/ui/loading";
-import { LAST_USED_WALLET } from "@/lib/consts";
 import { toast } from "sonner";
 
 export const CryptoTransferForm = (props: {
@@ -48,7 +47,7 @@ export const CryptoTransferForm = (props: {
         amount: z
             .string()
             .regex(/^[+-]?([0-9]*[.])?[0-9]+$/, translate("app.widgets.forms.cryptoTransfer.amountMessage"))
-            .transform(v => parseInt(v))
+            .transform(v => parseFloat(v))
             .pipe(
                 z
                     .number()
@@ -95,6 +94,7 @@ export const CryptoTransferForm = (props: {
     }, [checked, props.balance, form]);
 
     function onSubmit(values: z.infer<typeof formSchema>) {
+        console.log(values);
         props.create({
             ...values,
             accuracy

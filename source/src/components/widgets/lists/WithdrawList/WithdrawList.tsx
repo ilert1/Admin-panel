@@ -188,25 +188,30 @@ export const WithdrawList = () => {
                 }`;
             }
         },
-        {
-            id: "resend",
-            header: "",
-            cell: ({ row }) => {
-                return (
-                    <Button
-                        onClick={() =>
-                            setRepeatData({
-                                address: row.original.destination.id,
-                                amount:
-                                    row.original.destination.amount.value.quantity /
-                                    row.original.destination.amount.value.accuracy
-                            })
-                        }>
-                        {translate("resources.withdraw.fields.resend")}
-                    </Button>
-                );
-            }
-        },
+        ...(permissions === "merchant"
+            ? [
+                  {
+                      id: "resend",
+                      header: "",
+                      cell: ({ row }) => {
+                          return (
+                              <Button
+                                  onClick={() =>
+                                      setRepeatData({
+                                          address: row.original.destination.id,
+                                          amount:
+                                              row.original.destination.amount.value.quantity /
+                                              row.original.destination.amount.value.accuracy
+                                      })
+                                  }>
+                                  {translate("resources.withdraw.fields.resend")}
+                              </Button>
+                          );
+                      }
+                  }
+              ]
+            : []),
+
         {
             header: translate("resources.withdraw.fields.state"),
             cell: ({ row }) => {
