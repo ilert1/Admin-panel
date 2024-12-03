@@ -20,7 +20,7 @@ export const CryptoTransferForm = (props: {
     balance: number;
     transferState: "process" | "success" | "error";
     setTransferState: (transferState: "process" | "success" | "error") => void;
-    create: (data: any) => void;
+    create: (data: unknown) => void;
     showMessage: string;
     repeatData: { address: string; amount: number } | undefined;
 }) => {
@@ -44,7 +44,6 @@ export const CryptoTransferForm = (props: {
             walletsNextPage();
         }
     };
-
     const formSchema = z.object({
         address: z.string().regex(/T[A-Za-z1-9]{33}/, translate("app.widgets.forms.cryptoTransfer.addressMessage")),
         amount: z
@@ -111,7 +110,6 @@ export const CryptoTransferForm = (props: {
 
     useEffect(() => {
         if (props.repeatData) {
-            console.log(props.repeatData);
             const isFound = walletsData?.pages.map(page => {
                 return page.data.find(wallet => {
                     return wallet.address === props.repeatData?.address;
@@ -119,8 +117,8 @@ export const CryptoTransferForm = (props: {
             });
 
             if (isFound && isFound[0]) {
-                form.setValue("address", props.repeatData.address);
-                form.setValue("amount", String(props.repeatData.amount));
+                form.setValue("address", props.repeatData.address, { shouldDirty: true });
+                form.setValue("amount", String(props.repeatData.amount), { shouldDirty: true });
                 toast.success(translate("app.widgets.forms.cryptoTransfer.repeating"), {
                     description: translate("app.widgets.forms.cryptoTransfer.repeatDescription"),
                     duration: 3000,
@@ -156,7 +154,6 @@ export const CryptoTransferForm = (props: {
                                             <Select
                                                 value={field.value}
                                                 onValueChange={e => {
-                                                    console.log(e);
                                                     field.onChange(e);
                                                 }}
                                                 disabled={props.loading}>
