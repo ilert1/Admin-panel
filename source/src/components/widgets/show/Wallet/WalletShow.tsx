@@ -96,7 +96,7 @@ export const WalletShow = (props: WalletShowProps) => {
                     />
                     {currentAccount && (
                         <TextField
-                            label={translate("resources.wallet.manage.fields.accountNumber")}
+                            label={translate("resources.wallet.manage.fields.merchantName")}
                             text={currentAccount.meta?.caption ? currentAccount.meta.caption : currentAccount.owner_id}
                         />
                     )}
