@@ -82,7 +82,7 @@ const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvider: (p
 };
 
 const TerminalTable = ({ provider, columns }: { provider: string; columns: ColumnDef<Directions.Terminal>[] }) => {
-    const terminalsContext = useListController({
+    const terminalsContext = useListController<Directions.Terminal>({
         resource: `provider/${provider}/terminal`
     });
 
