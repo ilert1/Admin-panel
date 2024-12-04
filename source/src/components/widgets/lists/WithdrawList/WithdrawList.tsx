@@ -8,7 +8,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
@@ -19,6 +19,7 @@ import useWithdrawFilter from "@/hooks/useWithdrawFilter";
 import { CryptoTransfer } from "../../components/CryptoTransfer";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useFetchMerchants, useGetTransactionState } from "@/hooks";
+import { debounce } from "lodash";
 
 const WithdrawFilterSidebar = () => {
     const {
@@ -90,7 +91,7 @@ export const WithdrawList = () => {
     const { permissions } = usePermissions();
     const [locale] = useLocaleState();
     const data = fetchDictionaries();
-
+    const type = "order_type";
     const [repeatData, setRepeatData] = useState<{ address: string; amount: number } | undefined>(undefined);
 
     let isLoading,
@@ -99,6 +100,35 @@ export const WithdrawList = () => {
         ({ isLoading, merchantsList } = useFetchMerchants());
     }
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
+
+    const [typeTabActive, setTypeTabActive] = useState("");
+    const chooseClassTabActive = useCallback(
+        (type: string) => {
+            return typeTabActive === type
+                ? "text-green-50 dark:text-green-40 border-b-2 dark:border-green-40 border-green-50 pb-1 duration-200"
+                : "pb-1 border-b-2 border-transparent duration-200 hover:text-green-40";
+        },
+        [typeTabActive]
+    );
+    const onTabChanged = (value: Dictionaries.TypeDescriptor) => {
+        setTypeTabActive(value.type_descr);
+        onPropertySelected(value.type);
+    };
+
+    const onPropertySelected = debounce((value: string | { from: string; to: string } | number) => {
+        if (value) {
+            listContext.setFilters({ ...listContext.filterValues, [type]: value }, listContext.displayedFilters);
+        } else {
+            Reflect.deleteProperty(listContext.filterValues, type);
+            listContext.setFilters(listContext.filterValues, listContext.displayedFilters);
+        }
+        listContext.setPage(1);
+    }, 300);
+
+    const clearTypeFilters = () => {
+        setTypeTabActive("");
+        listContext.setFilters({}, listContext.displayedFilters);
+    };
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
@@ -128,9 +158,13 @@ export const WithdrawList = () => {
         {
             accessorKey: "destination.id",
             header: translate("resources.withdraw.fields.destination.id"),
-            cell: ({ row }) => (
-                <TextField text={row.original.destination.id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />
-            )
+            cell: ({ row }) => {
+                const text = Object.hasOwn(row.original.destination, "requisites")
+                    ? row.original.destination.requisites[0].blockchain_address
+                    : "";
+
+                return <TextField text={text} wrap copyValue lineClamp linesCount={1} minWidth="50px" />;
+            }
         },
         ...(permissions === "admin"
             ? [
@@ -158,14 +192,19 @@ export const WithdrawList = () => {
         {
             header: translate("resources.withdraw.fields.idInBlockChain"),
             cell: ({ row }) => {
-                const text = Object.hasOwn(row.original, "requisites") ? row.original.requisites[0].hash : "-";
+                console.log(row.original);
+                const text = Object.hasOwn(row.original.destination, "requisites")
+                    ? row.original.destination.requisites[0].hash
+                    : "-";
                 return (
                     <TextField
                         text={text}
                         wrap
                         copyValue={text !== "-" ? true : false}
                         link={
-                            Object.hasOwn(row.original, "requisites") ? `${row.original.requisites[0].hash_link}` : "-"
+                            Object.hasOwn(row.original.destination, "requisites")
+                                ? `${row.original.destination.requisites[0].hash_link}`
+                                : "-"
                         }
                         type={text !== "-" ? "link" : "text"}
                         lineClamp
@@ -249,6 +288,30 @@ export const WithdrawList = () => {
                             <h3 className="mb-4 text-xl text-neutral-100">
                                 {translate("resources.withdraw.tableTitle")}
                             </h3>
+                            <div className="flex flex-wrap items-center justify-between gap-3 mb-8">
+                                <div className="flex items-center gap-3 flex-wrap">
+                                    <button
+                                        className={chooseClassTabActive("")}
+                                        onClick={clearTypeFilters}
+                                        disabled={typeTabActive === ""}>
+                                        {translate("resources.transactions.types.all")}
+                                    </button>
+
+                                    {Object.keys(data?.transactionTypes).map(item => (
+                                        <button
+                                            key={data?.transactionTypes?.[item].type}
+                                            className={chooseClassTabActive(data?.transactionTypes?.[item].type_descr)}
+                                            disabled={typeTabActive === data?.transactionTypes?.[item].type_descr}
+                                            onClick={() => onTabChanged(data?.transactionTypes?.[item])}>
+                                            {translate(
+                                                `resources.transactions.types.${data?.transactionTypes?.[
+                                                    item
+                                                ].type_descr.toLowerCase()}`
+                                            )}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
                             <DataTable columns={columns} data={[]} />
                         </div>
 

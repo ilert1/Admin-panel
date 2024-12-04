@@ -51,7 +51,7 @@ export const TextField = ({
     return (
         <div>
             {label && <small className="text-sm text-muted-foreground">{label}</small>}
-            {type === "text" && (
+            {(type === "text" || type === "link") && (
                 <p className="leading-5 flex flex-row gap-2">
                     {copyValue && text?.length > 0 && (
                         <span>
@@ -77,14 +77,15 @@ export const TextField = ({
                                   }
                                 : {})
                         }}>
-                        {currentText}
+                        {type === "link" ? (
+                            <a href={link} className="block hover:underline">
+                                {currentText}
+                            </a>
+                        ) : (
+                            currentText
+                        )}
                     </span>
                 </p>
-            )}
-            {type === "link" && (
-                <a href="#" className="block hover:underline">
-                    {text}
-                </a>
             )}
             {type === "internal-link" && (
                 <Link to={link} className="!text-card-foreground transition-colors hover:bg-muted/50">

@@ -137,6 +137,15 @@ declare namespace Transaction {
         destination: {
             id: string;
             amount: Omit<Amount, "type", "shop_currency">;
+
+            requisites: [
+                {
+                    hash: string;
+                    hash_link: string;
+                    blockchain_network: string;
+                    blockchain_address: string;
+                }
+            ];
         };
         dispute: boolean;
         fees: Fee[];
@@ -148,12 +157,6 @@ declare namespace Transaction {
         source: Account;
         state: State;
         type: number;
-        requisites: [
-            {
-                hash: string;
-                hash_link: string;
-            }
-        ];
     };
 
     type Fee = {
