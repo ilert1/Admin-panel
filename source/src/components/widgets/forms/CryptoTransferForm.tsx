@@ -81,7 +81,7 @@ export const CryptoTransferForm = (props: {
     }, [props.loading, totalAmount]);
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+        // console.log(values);
         props.create({
             ...values,
             accuracy

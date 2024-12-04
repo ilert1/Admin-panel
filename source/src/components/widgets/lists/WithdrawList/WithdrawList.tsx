@@ -192,7 +192,7 @@ export const WithdrawList = () => {
         {
             header: translate("resources.withdraw.fields.idInBlockChain"),
             cell: ({ row }) => {
-                console.log(row.original);
+                // console.log(row.original);
                 const text = Object.hasOwn(row.original.destination, "requisites")
                     ? row.original.destination.requisites[0].hash
                     : "-";
