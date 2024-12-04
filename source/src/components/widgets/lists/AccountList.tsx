@@ -1,7 +1,7 @@
 import { ListContextProvider, useListController, useTranslate, RecordContextProvider } from "react-admin";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
-import { XIcon, Copy, EyeIcon } from "lucide-react";
+import { XIcon, Copy, EyeIcon, Pen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { AccountShow } from "@/components/widgets/show";
@@ -11,6 +11,8 @@ import { Loading } from "@/components/ui/loading";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { toast } from "sonner";
 import { NumericFormat } from "react-number-format";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { AccountEdit } from "../edit/AccountEdit";
 
 const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
 const translations = ["active", "frozen", "blocked", "deleted"];
@@ -22,6 +24,7 @@ export const AccountList = () => {
     const data = fetchDictionaries();
 
     const [showOpen, setShowOpen] = useState(false);
+    const [showEditDialog, setShowEditDialog] = useState(false);
     const [showAccountId, setShowAccountId] = useState<string>("");
     const [showAccountCaption, setShowAccountCaption] = useState<string>("");
 
@@ -106,6 +109,25 @@ export const AccountList = () => {
             )
         },
         {
+            id: "actionEdit",
+            header: () => <div className="flex justify-center">{translate("resources.accounts.fields.edit")}</div>,
+            cell: ({ row }) => {
+                return (
+                    <div className="flex justify-center">
+                        <Button
+                            onClick={() => {
+                                setShowAccountId(row.original.id);
+                                setShowEditDialog(true);
+                            }}
+                            variant="textBtn"
+                            className="h-8 w-8 p-0">
+                            <Pen className="h-6 w-6" />
+                        </Button>
+                    </div>
+                );
+            }
+        },
+        {
             id: "history",
             header: translate("resources.accounts.fields.history"),
             cell: ({ row }) => {
@@ -128,6 +150,7 @@ export const AccountList = () => {
                 <ListContextProvider value={{ ...listContext }}>
                     <DataTable columns={columns} />
                 </ListContextProvider>
+
                 <Sheet onOpenChange={setShowOpen} open={showOpen}>
                     <SheetContent
                         className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col border-0"
@@ -148,7 +171,6 @@ export const AccountList = () => {
                                     </button>
                                 </div>
                                 <div className="text-display-2 mb-2">
-                                    {/* <TextField text={showAccountCaption} /> */}
                                     <span>{showAccountCaption}</span>
                                 </div>
                                 <TextField text={showAccountId} copyValue />
@@ -161,6 +183,21 @@ export const AccountList = () => {
                         </div>
                     </SheetContent>
                 </Sheet>
+
+                <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
+                    <DialogContent
+                        disableOutsideClick
+                        className="bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
+                        <DialogHeader>
+                            <DialogTitle className="text-xl text-center">
+                                {translate("resources.accounts.editDialogTitle")}
+                            </DialogTitle>
+                        </DialogHeader>
+
+                        <AccountEdit id={showAccountId} onOpenChange={setShowEditDialog} />
+                    </DialogContent>
+                    <DialogDescription />
+                </Dialog>
             </>
         );
     }
