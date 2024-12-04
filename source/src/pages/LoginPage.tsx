@@ -120,11 +120,7 @@ export const LoginPage = () => {
                         theme === "dark" ? "bg-neutral-0" : "bg-neutral-100"
                     }`}>
                     <div className="flex justify-center mb-2.5 mt-5">
-                        <img
-                            src="/MoneyGateLogo.svg"
-                            alt="Logo"
-                            className="h-20 w-56 pointer-events-none select-none"
-                        />
+                        <img src="/NoNameLogo.svg" alt="Logo" className="h-20 w-56 pointer-events-none select-none" />
                     </div>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-5">

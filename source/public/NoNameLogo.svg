@@ -1,6 +1,4 @@
-const LogoPicture = () => {
-    return (
-        <svg className="w-[177px] h-[124px]" viewBox="0 0 1777 1244" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg className="w-[177px] h-[124px]" viewBox="0 0 1777 1244" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g opacity="0.95">
                 <path
                     d="M416.029 768.073C402.26 781.841 383.587 789.576 364.115 789.576H197V622.461C197 602.99 204.735 584.316 218.503 570.548L570.548 218.503C584.316 204.735 602.99 197 622.461 197H789.576V394.525L416.029 768.073Z"
@@ -44,7 +42,3 @@ const LogoPicture = () => {
                 />
             </g>
         </svg>
-    );
-};
-
-export default LogoPicture;
