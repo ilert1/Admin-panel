@@ -297,6 +297,7 @@ namespace Directions {
     }
 
     interface Terminal {
+        id: string;
         terminal_id: string;
         verbose_name: string;
         description?: string | null;
