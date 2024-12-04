@@ -8,7 +8,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
@@ -20,6 +20,7 @@ import { CryptoTransfer } from "../../components/CryptoTransfer";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useFetchMerchants, useGetTransactionState } from "@/hooks";
 import { debounce } from "lodash";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const WithdrawFilterSidebar = () => {
     const {
@@ -91,8 +92,13 @@ export const WithdrawList = () => {
     const { permissions } = usePermissions();
     const [locale] = useLocaleState();
     const data = fetchDictionaries();
+
+    const location = useLocation();
+    const navigate = useNavigate();
+
     const type = "order_type";
     const [repeatData, setRepeatData] = useState<{ address: string; amount: number } | undefined>(undefined);
+    const [loading, setLoading] = useState(true);
 
     let isLoading,
         merchantsList: any[] = [];
@@ -101,7 +107,11 @@ export const WithdrawList = () => {
     }
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
 
-    const [typeTabActive, setTypeTabActive] = useState("");
+    const [typeTabActive, setTypeTabActive] = useState(() => {
+        const params = new URLSearchParams(location.search);
+        return params.get("filter") ? JSON.parse(params.get("filter")).order_type : "";
+    });
+
     const chooseClassTabActive = useCallback(
         (type: string) => {
             return typeTabActive === type
@@ -110,10 +120,6 @@ export const WithdrawList = () => {
         },
         [typeTabActive]
     );
-    const onTabChanged = (value: Dictionaries.TypeDescriptor) => {
-        setTypeTabActive(value.type_descr);
-        onPropertySelected(value.type);
-    };
 
     const onPropertySelected = debounce((value: string | { from: string; to: string } | number) => {
         if (value) {
@@ -125,10 +131,39 @@ export const WithdrawList = () => {
         listContext.setPage(1);
     }, 300);
 
+    const onTabChanged = (value: Dictionaries.TypeDescriptor) => {
+        const newParams = new URLSearchParams(location.search);
+        newParams.delete("filter");
+        newParams.set("filter", JSON.stringify({ order_type: value.type }));
+        navigate({ search: newParams.toString() });
+        setTypeTabActive(value.type_descr);
+    };
+
     const clearTypeFilters = () => {
         setTypeTabActive("");
+        const newParams = new URLSearchParams(location.search);
+        newParams.delete("filter");
+        navigate({ search: newParams.toString() });
+
         listContext.setFilters({}, listContext.displayedFilters);
     };
+
+    useEffect(() => {
+        if (data) {
+            const params = new URLSearchParams(location.search);
+            const type = params.get("filter") ? JSON.parse(params.get("filter")).order_type : "";
+
+            if (type) {
+                setTypeTabActive(data.transactionTypes[type]?.type_descr || "");
+                listContext.setFilters({ ...listContext.filterValues, order_type: type }, listContext.displayedFilters);
+            } else {
+                setTypeTabActive("");
+                listContext.setFilters({}, listContext.displayedFilters);
+            }
+
+            setLoading(false);
+        }
+    }, [data, location.search]);
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
@@ -192,7 +227,6 @@ export const WithdrawList = () => {
         {
             header: translate("resources.withdraw.fields.idInBlockChain"),
             cell: ({ row }) => {
-                console.log(row.original);
                 const text = Object.hasOwn(row.original.destination, "requisites")
                     ? row.original.destination.requisites[0].hash
                     : "-";
@@ -268,7 +302,7 @@ export const WithdrawList = () => {
         }
     ];
 
-    if (listContext.isLoading || !listContext.data || isLoading) {
+    if (listContext.isLoading || !listContext.data || isLoading || loading) {
         return <Loading />;
     } else {
         return (

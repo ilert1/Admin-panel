@@ -1,4 +1,4 @@
-import { ChangeEvent, UIEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useInfiniteGetList, useListContext, usePermissions, useTranslate } from "react-admin";
 import { toast } from "sonner";
 import { API_URL } from "@/data/base";
@@ -6,10 +6,14 @@ import { format } from "date-fns";
 import { debounce } from "lodash";
 import { DateRange } from "react-day-picker";
 import fetchDictionaries from "@/helpers/get-dictionaries";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: string) => void) => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const data = fetchDictionaries();
+
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const {
         data: accountsData,
@@ -114,9 +118,17 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         }
     };
 
+    // const onTabChanged = (value: Dictionaries.TypeDescriptor) => {
+    //     setTypeTabActive(value.type_descr);
+    //     onPropertySelected(value.type, "order_type");
+    // };
+
     const onTabChanged = (value: Dictionaries.TypeDescriptor) => {
+        const newParams = new URLSearchParams(location.search);
+        newParams.delete("filter");
+        newParams.set("filter", JSON.stringify({ order_type: value.type }));
+        navigate({ search: newParams.toString() });
         setTypeTabActive(value.type_descr);
-        onPropertySelected(value.type, "order_type");
     };
 
     const clearFilters = () => {
@@ -198,6 +210,21 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
             accountsNextPage();
         }
     };
+
+    useEffect(() => {
+        if (data) {
+            const params = new URLSearchParams(location.search);
+            const type = params.get("filter") ? JSON.parse(params.get("filter")).order_type : "";
+
+            if (type) {
+                setTypeTabActive(data.transactionTypes[type]?.type_descr || "");
+                setFilters({ ...filterValues, order_type: type }, displayedFilters);
+            } else {
+                setTypeTabActive("");
+                setFilters({}, displayedFilters);
+            }
+        }
+    }, [data, location.search]);
 
     return {
         translate,
