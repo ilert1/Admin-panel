@@ -43,7 +43,7 @@ const WalletLinkedTransactionShowFields = ({ id }: { id: string }) => {
                         copyValue
                     />
                     <TextField
-                        label={translate("resources.wallet.linkedTransactions.fields.destnationAddress")}
+                        label={translate("resources.wallet.linkedTransactions.fields.destinationAddress")}
                         text={context.record?.destnation_address}
                         copyValue
                     />
