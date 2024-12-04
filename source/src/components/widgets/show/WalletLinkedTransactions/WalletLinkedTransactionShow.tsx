@@ -2,7 +2,7 @@ import { LoadingAlertDialog } from "@/components/ui/loading";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { TextField } from "@/components/ui/text-field";
 import { XIcon } from "lucide-react";
-import { usePermissions, useShowController, useTranslate } from "react-admin";
+import { useLocaleState, usePermissions, useShowController, useTranslate } from "react-admin";
 
 interface WalletLinkedTransactionShowProps {
     id: string;
@@ -12,6 +12,7 @@ interface WalletLinkedTransactionShowProps {
 
 const WalletLinkedTransactionShowFields = ({ id }: { id: string }) => {
     const { permissions } = usePermissions();
+    const [locale] = useLocaleState();
     const translate = useTranslate();
 
     const context = useShowController<WalletLinkedTransactions & { id: string }>({
@@ -30,11 +31,11 @@ const WalletLinkedTransactionShowFields = ({ id }: { id: string }) => {
                 <div className="flex flex-col sm:grid sm:grid-cols-2 gap-y-4">
                     <TextField
                         label={translate("resources.wallet.linkedTransactions.fields.scannedAt")}
-                        text={context.record?.scanned_at}
+                        text={new Date(context.record?.scanned_at).toLocaleString(locale)}
                     />
                     <TextField
                         label={translate("resources.wallet.linkedTransactions.fields.blockTimestamp")}
-                        text={context.record?.block_timestamp}
+                        text={new Date(context.record?.block_timestamp).toLocaleString(locale)}
                     />
                     <TextField
                         label={translate("resources.wallet.linkedTransactions.fields.sourceAddress")}
