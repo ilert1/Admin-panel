@@ -549,6 +549,10 @@ const ru: TranslationMessages = {
             linkedTransactions: {
                 name: "Поступления на linked-кошелёк",
                 show: "Поступление на linked-кошелек",
+                manual_reconciliation: "Ручная сверка",
+                check: "Проверить",
+                notFound: "Транзакция не найдена",
+                successFound: "Транзакция успешно добавлена",
                 fields: {
                     scannedAt: "Время сканирования",
                     blockTimestamp: "Время генерации",
@@ -1313,6 +1317,10 @@ const en: TranslationMessages = {
             linkedTransactions: {
                 name: "Receipts to the linked-wallet",
                 show: "Receipt to a linked wallet",
+                manual_reconciliation: "Manual reconciliation",
+                check: "Check",
+                notFound: "Transaction was not found",
+                successFound: "Transaction added successfullly",
                 fields: {
                     scannedAt: "Scanned at",
                     blockTimestamp: "Block timestamp",
