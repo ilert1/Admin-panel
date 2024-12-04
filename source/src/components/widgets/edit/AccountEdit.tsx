@@ -1,4 +1,4 @@
-import { useEditController, EditContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
+import { useEditController, EditContextProvider, useTranslate, useRefresh, fetchUtils } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,8 @@ import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
 
+const BF_MANAGER_URL = import.meta.env.VITE_BF_MANAGER_URL;
+
 enum WalletTypes {
     INTERNAL = "internal",
     LINKED = "linked",
@@ -33,7 +35,6 @@ interface AccountEditProps {
 export const AccountEdit = (props: AccountEditProps) => {
     const params = useParams();
     const id = props.id || params.id;
-    const dataProvider = useDataProvider();
 
     const controllerProps = useEditController({ resource: "accounts", id });
     controllerProps.mutationMode = "pessimistic";
@@ -58,7 +59,7 @@ export const AccountEdit = (props: AccountEditProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             account_id: controllerProps.record?.id || id,
-            name: controllerProps.record?.name || "",
+            name: controllerProps.record?.meta?.caption || "",
             wallet_create: controllerProps.record?.wallet_create || false,
             wallet_type: controllerProps.record?.wallet_type || WalletTypes.INTERNAL,
             tron_wallet: controllerProps.record?.tron_wallet || "",
@@ -72,7 +73,7 @@ export const AccountEdit = (props: AccountEditProps) => {
         if (controllerProps.record) {
             form.reset({
                 account_id: controllerProps.record?.id || id,
-                name: controllerProps.record?.name || "",
+                name: controllerProps.record?.meta?.caption || "",
                 wallet_create: controllerProps.record?.wallet_create || false,
                 wallet_type: controllerProps.record?.wallet_type || WalletTypes.INTERNAL,
                 tron_wallet: controllerProps.record?.tron_wallet || "",
@@ -81,17 +82,23 @@ export const AccountEdit = (props: AccountEditProps) => {
                 provider_account: controllerProps.record?.provider_account || ""
             });
         }
-    }, [form, controllerProps.record, id]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [form]);
 
     const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async data => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
         try {
-            await dataProvider.update("account", {
-                id,
-                data,
-                previousData: undefined
+            const { json } = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/account`, {
+                method: "PUT",
+                body: JSON.stringify(data),
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
             });
+
+            if (!json.success) {
+                throw new Error(json.error);
+            }
+
             refresh();
             props.onOpenChange(false);
         } catch (error) {
