@@ -94,12 +94,12 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     {isSheetOpen ? (
                         <div className="flex flex-shrink-0 justify-center items-center h-[63px] gap-6">
                             <div className="flex items-center w-[189px] m-0 p-0">
-                                <div className="animate-in fade-in-0 transition-opacity duration-700">
+                                {/* <div className="animate-in fade-in-0 transition-opacity duration-700">
                                     <LogoPicture />
                                 </div>
                                 <div className="animate-in ml-4 fade-in-0 transition-opacity duration-700">
                                     <Logo />
-                                </div>
+                                </div> */}
                             </div>
                             <button className="flex flex-col items-center animate-in fade-in-0 transition-opacity duration-300">
                                 <ChevronLeftCircleIcon
