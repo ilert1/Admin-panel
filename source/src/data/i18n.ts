@@ -13,6 +13,18 @@ const ru: TranslationMessages = {
             merchant: {
                 name: "Мои счета"
             },
+            editDialogTitle: "Редактирование счета",
+            editFields: {
+                name: "Наименование",
+                wallet_create: "Создать кошелек",
+                wallet_type: "Тип кошелька",
+                tron_wallet: "Внутренний кошелёк провайдера",
+                tron_address: "Внешний кошелёк провайдера",
+                provider_account: "Счёт провайдера",
+                reward_account: "Буферный счёт",
+                stateActive: "Да",
+                stateInactive: "Нет"
+            },
             fields: {
                 owner: "Владелец",
                 state: "Статус",
@@ -22,11 +34,12 @@ const ru: TranslationMessages = {
                     blocked: "Заблокирован",
                     deleted: "Удален"
                 },
-
+                tron_wallet: "Внутренний кошелёк провайдера",
+                trc20: "Адрес для пополнения баланса мерчанта в агрегаторе",
                 type: "Тип счёта",
                 balance: "Баланс счёта",
                 history: "История по счёту",
-
+                edit: "Редактировать",
                 id: "ID",
                 owner_id: "ID владельца",
                 amounts: "Суммы",
@@ -781,6 +794,18 @@ const en: TranslationMessages = {
             merchant: {
                 name: "My accounts"
             },
+            editDialogTitle: "Edit account",
+            editFields: {
+                name: "Name",
+                wallet_create: "Wallet create",
+                wallet_type: "Wallet type",
+                tron_wallet: "Provider internal wallet",
+                tron_address: "Provider external wallet",
+                provider_account: "Provider account",
+                reward_account: "Buffer account",
+                stateActive: "Yes",
+                stateInactive: "No"
+            },
             fields: {
                 owner: "Owner",
                 state: "State",
@@ -793,8 +818,10 @@ const en: TranslationMessages = {
                 type: "Account type",
                 balance: "Account balance",
                 history: "Account history",
-
+                tron_wallet: "Tron wallet",
+                trc20: "Merchant balance replenishment address in aggregator",
                 id: "ID",
+                edit: "Edit",
                 owner_id: "Owner ID",
                 amounts: "Amounts",
                 amount: {
