@@ -31,6 +31,7 @@ const WalletManualReconciliationBar = () => {
     const handleCheckCLicked = async () => {
         try {
             const { json } = await fetchUtils.fetchJson(`${BASE_URL}/reconciliation/${inputVal}`, {
+                method: "POST",
                 user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
             });
             console.log(json);
