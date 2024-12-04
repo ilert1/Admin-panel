@@ -54,19 +54,46 @@ export const WalletLinkedTransactionsList = () => {
             id: "transaction_id",
             accessorKey: "transaction_id",
             header: translate("resources.wallet.linkedTransactions.fields.transactionId"),
-            cell: ({ row }) => <TextField text={row.original?.transaction_id} wrap copyValue />
+            cell: ({ row }) => (
+                <TextField
+                    text={row.original?.transaction_id}
+                    wrap
+                    copyValue
+                    lineClamp
+                    linesCount={1}
+                    minWidth="50px"
+                />
+            )
         },
         {
             id: "source_address",
             accessorKey: "source_address",
             header: translate("resources.wallet.linkedTransactions.fields.sourceAddress"),
-            cell: ({ row }) => <TextField text={row.original?.source_address} wrap copyValue />
+            cell: ({ row }) => (
+                <TextField
+                    text={row.original?.source_address}
+                    wrap
+                    copyValue
+                    lineClamp
+                    linesCount={1}
+                    minWidth="50px"
+                />
+            )
         },
         {
             id: "destnation_address",
             accessorKey: "destnation_address",
             header: translate("resources.wallet.linkedTransactions.fields.destinationAddress"),
-            cell: ({ row }) => <TextField text={row.original?.destnation_address} wrap copyValue />
+            cell: ({ row }) => (
+                <TextField
+                    text={row.original?.destnation_address}
+                    wrap
+                    copyValue
+                    lineClamp
+                    linesCount={1}
+                    minWidth="50px"
+                />
+            )
         },
         {
             id: "type",
