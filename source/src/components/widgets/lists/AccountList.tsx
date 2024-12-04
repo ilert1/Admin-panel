@@ -134,7 +134,7 @@ export const AccountList = () => {
                         tabIndex={-1}
                         style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
                         close={false}>
-                        <SheetHeader className="p-[42px] pb-[24px] flex-shrink-0">
+                        <SheetHeader className="p-[42px] pb-0 flex-shrink-0">
                             <div className="flex flex-col gap-2">
                                 <div className="flex justify-between items-center ">
                                     <SheetTitle className="!text-display-1">

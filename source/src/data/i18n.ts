@@ -22,7 +22,8 @@ const ru: TranslationMessages = {
                     blocked: "Заблокирован",
                     deleted: "Удален"
                 },
-
+                tron_wallet: "Адрес кошелька TRON",
+                trc20: "Адрес в сети TRC20",
                 type: "Тип счёта",
                 balance: "Баланс счёта",
                 history: "История по счёту",
@@ -789,7 +790,8 @@ const en: TranslationMessages = {
                 type: "Account type",
                 balance: "Account balance",
                 history: "Account history",
-
+                tron_wallet: "Tron wallet",
+                trc20: "TRC20",
                 id: "ID",
                 owner_id: "Owner ID",
                 amounts: "Amounts",

@@ -181,6 +181,26 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
     if (type === "compact") {
         return (
             <div className="mx-6">
+                {(context.record.meta?.TRC20 || context.record.meta?.tron_wallet) && (
+                    <div className="grid grid-cols-2 gap-2 mb-4 px-[18px]">
+                        {context.record.meta?.TRC20 && (
+                            <TextField
+                                label={translate("resources.accounts.fields.trc20")}
+                                text={context.record.meta?.TRC20}
+                                copyValue
+                            />
+                        )}
+
+                        {context.record.meta?.tron_wallet && (
+                            <TextField
+                                label={translate("resources.accounts.fields.tron_wallet")}
+                                text={context.record.meta?.tron_wallet}
+                                copyValue
+                            />
+                        )}
+                    </div>
+                )}
+
                 <DataTable
                     columns={historyColumns}
                     data={transactions}
@@ -208,6 +228,20 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
                     label={translate("resources.accounts.fields.type")}
                     text={data?.accountTypes[context.record.type]?.type_descr}
                 />
+                {context.record.meta?.TRC20 && (
+                    <TextField
+                        label={translate("resources.accounts.fields.trc20")}
+                        text={context.record.meta?.TRC20}
+                        copyValue
+                    />
+                )}
+                {context.record.meta?.tron_wallet && (
+                    <TextField
+                        label={translate("resources.accounts.fields.tron_wallet")}
+                        text={context.record.meta?.tron_wallet}
+                        copyValue
+                    />
+                )}
 
                 <div>
                     <small className="text-sm text-muted-foreground">
