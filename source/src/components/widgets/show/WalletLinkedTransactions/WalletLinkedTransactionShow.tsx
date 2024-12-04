@@ -15,7 +15,7 @@ const WalletLinkedTransactionShowFields = ({ id }: { id: string }) => {
     const [locale] = useLocaleState();
     const translate = useTranslate();
 
-    const context = useShowController<WalletLinkedTransactions & { id: string }>({
+    const context = useShowController<WalletLinkedTransactions>({
         resource: permissions === "admin" ? "reconciliation" : "merchant/reconciliation",
         id
     });

@@ -463,7 +463,7 @@ interface Cryptotransactions {
 }
 
 interface WalletLinkedTransactions {
-    id?: string;
+    id: string;
     scanned_at: string;
     block_timestamp: string;
     type: string;

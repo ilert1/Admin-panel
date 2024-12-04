@@ -108,7 +108,7 @@ const WalletManualReconciliationBar = () => {
 
 export const WalletLinkedTransactionsList = () => {
     const { permissions } = usePermissions();
-    const listContext = useListController(
+    const listContext = useListController<WalletLinkedTransactions>(
         permissions === "admin" ? { resource: "reconciliation" } : { resource: "merchant/reconciliation" }
     );
 
