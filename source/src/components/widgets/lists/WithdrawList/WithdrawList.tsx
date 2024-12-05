@@ -289,7 +289,7 @@ export const WithdrawList = () => {
             ? [
                   {
                       id: "resend",
-                      header: "",
+                      header: translate("resources.withdraw.fields.resend"),
                       cell: ({ row }: { row: Row<Transaction.Transaction> }) => {
                           if (Object.hasOwn(row.original.destination, "requisites")) {
                               const isFound = checkAddress(row.original.destination.requisites[0]?.blockchain_address);
