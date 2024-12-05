@@ -1,5 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useTranslate, useListController, ListContextProvider, usePermissions, useLocaleState } from "react-admin";
+import {
+    useTranslate,
+    useListController,
+    ListContextProvider,
+    usePermissions,
+    useLocaleState,
+    useInfiniteGetList
+} from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import {
@@ -113,6 +120,11 @@ export const WithdrawList = () => {
         return params.get("filter") ? JSON.parse(params.get("filter") as string).order_type : "";
     });
 
+    const { data: walletsData, fetchNextPage: walletsNextPage } = useInfiniteGetList("merchant/wallet", {
+        pagination: { perPage: 25, page: 1 },
+        filter: { sort: "name", asc: "ASC" }
+    });
+
     const chooseClassTabActive = useCallback(
         (type: string) => {
             return typeTabActive === type
@@ -164,6 +176,17 @@ export const WithdrawList = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 
+    const checkAddress = useCallback(
+        (address: string) => {
+            return walletsData?.pages.map(page => {
+                return page.data.find(wallet => {
+                    return wallet.address === address;
+                });
+            });
+        },
+        [walletsData?.pages]
+    );
+
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
             accessorKey: "created_at",
@@ -206,6 +229,7 @@ export const WithdrawList = () => {
                       header: translate("resources.withdraw.fields.merchant"),
                       cell: ({ row }: { row: Row<Transaction.Transaction> }) => {
                           const merch = merchantsList.find(el => el.id === row.original.source.id);
+
                           return (
                               <div>
                                   <TextField text={merch?.name ?? ""} wrap />
@@ -266,23 +290,28 @@ export const WithdrawList = () => {
                       id: "resend",
                       header: "",
                       cell: ({ row }: { row: Row<Transaction.Transaction> }) => {
-                          return (
-                              <Button
-                                  onClick={() => {
-                                      if (cryptoTransferState !== "process") {
-                                          setCryptoTransferState("process");
-                                      }
-
-                                      setRepeatData({
-                                          address: row.original.destination.requisites[0].blockchain_address,
-                                          amount:
-                                              row.original.destination.amount.value.quantity /
-                                              row.original.destination.amount.value.accuracy
-                                      });
-                                  }}>
-                                  {translate("resources.withdraw.fields.resend")}
-                              </Button>
-                          );
+                          if (Object.hasOwn(row.original.destination, "requisites")) {
+                              return checkAddress(row.original.destination.requisites[0].blockchain_address) ? (
+                                  <Button
+                                      onClick={() => {
+                                          if (cryptoTransferState !== "process") {
+                                              setCryptoTransferState("process");
+                                          }
+                                          setRepeatData({
+                                              address: row.original.destination.requisites[0].blockchain_address,
+                                              amount:
+                                                  row.original.destination.amount.value.quantity /
+                                                  row.original.destination.amount.value.accuracy
+                                          });
+                                      }}>
+                                      {translate("resources.withdraw.fields.resend")}
+                                  </Button>
+                              ) : (
+                                  <p className="text-center">-</p>
+                              );
+                          } else {
+                              return <p className="text-center">-</p>;
+                          }
                       }
                   }
               ]
