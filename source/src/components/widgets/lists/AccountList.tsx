@@ -5,7 +5,7 @@ import {
     RecordContextProvider,
     usePermissions
 } from "react-admin";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, Row } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
 import { XIcon, Copy, EyeIcon, Pen } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -122,7 +122,7 @@ export const AccountList = () => {
                       header: () => (
                           <div className="flex justify-center">{translate("resources.accounts.fields.edit")}</div>
                       ),
-                      cell: ({ row }) => {
+                      cell: ({ row }: { row: Row<Account> }) => {
                           return (
                               <div className="flex justify-center">
                                   <Button
