@@ -124,11 +124,8 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
     // };
 
     const onTabChanged = (value: Dictionaries.TypeDescriptor) => {
-        const newParams = new URLSearchParams(location.search);
-        newParams.delete("filter");
-        newParams.set("filter", JSON.stringify({ order_type: value.type }));
-        navigate({ search: newParams.toString() });
         setTypeTabActive(value.type_descr);
+        onPropertySelected(value.type, "order_type");
     };
 
     const clearFilters = () => {
@@ -224,7 +221,8 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
                 setFilters({}, displayedFilters);
             }
         }
-    }, [data, location.search]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data]);
 
     return {
         translate,

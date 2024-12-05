@@ -132,11 +132,8 @@ export const WithdrawList = () => {
     }, 300);
 
     const onTabChanged = (value: Dictionaries.TypeDescriptor) => {
-        const newParams = new URLSearchParams(location.search);
-        newParams.delete("filter");
-        newParams.set("filter", JSON.stringify({ order_type: value.type }));
-        navigate({ search: newParams.toString() });
         setTypeTabActive(value.type_descr);
+        onPropertySelected(value.type);
     };
 
     const clearTypeFilters = () => {
@@ -163,7 +160,8 @@ export const WithdrawList = () => {
 
             setLoading(false);
         }
-    }, [data, location.search]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data]);
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
@@ -330,7 +328,7 @@ export const WithdrawList = () => {
                                         disabled={typeTabActive === ""}>
                                         {translate("resources.transactions.types.all")}
                                     </button>
-
+                                    {/* 
                                     {Object.keys(data?.transactionTypes).map(item => (
                                         <button
                                             key={data?.transactionTypes?.[item].type}
@@ -343,7 +341,31 @@ export const WithdrawList = () => {
                                                 ].type_descr.toLowerCase()}`
                                             )}
                                         </button>
-                                    ))}
+                                    ))} */}
+                                    <button
+                                        key={3}
+                                        className={chooseClassTabActive("Transfer")}
+                                        disabled={typeTabActive === "Transfer"}
+                                        onClick={() =>
+                                            onTabChanged({
+                                                type: 3,
+                                                type_descr: "Transfer"
+                                            })
+                                        }>
+                                        {translate(`resources.transactions.types.transfer`)}
+                                    </button>
+                                    <button
+                                        key={4}
+                                        className={chooseClassTabActive("Reward")}
+                                        disabled={typeTabActive === "Reward"}
+                                        onClick={() =>
+                                            onTabChanged({
+                                                type: 4,
+                                                type_descr: "Reward"
+                                            })
+                                        }>
+                                        {translate(`resources.transactions.types.reward`)}
+                                    </button>
                                 </div>
                             </div>
                             <DataTable columns={columns} data={[]} />
