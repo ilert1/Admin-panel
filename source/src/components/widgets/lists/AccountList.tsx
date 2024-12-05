@@ -1,4 +1,10 @@
-import { ListContextProvider, useListController, useTranslate, RecordContextProvider } from "react-admin";
+import {
+    ListContextProvider,
+    useListController,
+    useTranslate,
+    RecordContextProvider,
+    usePermissions
+} from "react-admin";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/widgets/shared";
 import { XIcon, Copy, EyeIcon, Pen } from "lucide-react";
@@ -19,6 +25,7 @@ const translations = ["active", "frozen", "blocked", "deleted"];
 
 export const AccountList = () => {
     const listContext = useListController<Account>();
+    const { permissions } = usePermissions();
 
     const translate = useTranslate();
     const data = fetchDictionaries();
@@ -108,25 +115,31 @@ export const AccountList = () => {
                 </RecordContextProvider>
             )
         },
-        {
-            id: "actionEdit",
-            header: () => <div className="flex justify-center">{translate("resources.accounts.fields.edit")}</div>,
-            cell: ({ row }) => {
-                return (
-                    <div className="flex justify-center">
-                        <Button
-                            onClick={() => {
-                                setShowAccountId(row.original.id);
-                                setShowEditDialog(true);
-                            }}
-                            variant="textBtn"
-                            className="h-8 w-8 p-0">
-                            <Pen className="h-6 w-6" />
-                        </Button>
-                    </div>
-                );
-            }
-        },
+        ...(permissions === "admin"
+            ? [
+                  {
+                      id: "actionEdit",
+                      header: () => (
+                          <div className="flex justify-center">{translate("resources.accounts.fields.edit")}</div>
+                      ),
+                      cell: ({ row }) => {
+                          return (
+                              <div className="flex justify-center">
+                                  <Button
+                                      onClick={() => {
+                                          setShowAccountId(row.original.id);
+                                          setShowEditDialog(true);
+                                      }}
+                                      variant="textBtn"
+                                      className="h-8 w-8 p-0">
+                                      <Pen className="h-6 w-6" />
+                                  </Button>
+                              </div>
+                          );
+                      }
+                  }
+              ]
+            : []),
         {
             id: "history",
             header: translate("resources.accounts.fields.history"),
