@@ -73,7 +73,7 @@ declare namespace PayOut {
 declare namespace Transaction {
     type Account = {
         id: string;
-        amount: Omit<Amount, "type", "id">;
+        amount: Omit<Amount, "type", "id", "shop_currency">;
     };
 
     type RateInfo = {
@@ -134,9 +134,22 @@ declare namespace Transaction {
         id: string;
         committed: boolean;
         created_at: string;
-        destination: Account;
+        destination: {
+            id: string;
+            amount: Omit<Amount, "type", "shop_currency">;
+
+            requisites: [
+                {
+                    hash: string;
+                    hash_link: string;
+                    blockchain_network: string;
+                    blockchain_address: string;
+                }
+            ];
+        };
         dispute: boolean;
         fees: Fee[];
+        // owner_id: string;
         meta: Meta;
         payload?: Payload;
         rate_info: RateInfo;
@@ -207,6 +220,16 @@ declare namespace Users {
         password: string;
         state?: number;
     }
+    interface UserCreate {
+        state: number;
+        name: string;
+        login: string;
+        email: string;
+        public_key: string;
+        shop_currency: string;
+        password: string;
+        state?: number;
+    }
 }
 
 declare namespace Currencies {
@@ -273,6 +296,15 @@ namespace Directions {
         [key: string]: Fee;
     }
 
+    interface Terminal {
+        id: string;
+        terminal_id: string;
+        verbose_name: string;
+        description?: string | null;
+        provider: string;
+        auth: object;
+    }
+
     interface Direction {
         id: string;
         name: string;
@@ -286,6 +318,7 @@ namespace Directions {
         provider: Omit<Provider, "id">;
         auth_data: object;
         fees: Fees | Record<string, never> | null;
+        terminal: Terminal;
     }
 
     interface DirectionCreate {
@@ -373,12 +406,39 @@ interface Wallet {
     minimal_ballance_limit: number;
 }
 
+interface WalletCreate {
+    description: string | null;
+    type: WalletTypes;
+    blockchain: string;
+    network: string;
+    address?: string | null;
+    currency: string;
+    account_id?: string;
+    minimal_ballance_limit: number;
+    accountNumber?: string;
+    merchantId?: string;
+}
+
+interface WalletCreateMerchant {
+    address: string;
+    description: string | null;
+}
+
 interface WalletStorage {
+    initiated: boolean;
     recieved_shares: number;
     sealed: boolean;
     split_max: number;
     split_min: number;
     state: "sealed" | "unsealed" | "waiting";
+}
+
+interface WalletBalance {
+    trx_amount: number;
+    usdt_amount: number;
+    wallet?: {
+        address: string;
+    };
 }
 
 interface Cryptotransactions {
@@ -399,4 +459,19 @@ interface Cryptotransactions {
     created_at: string;
     updated_at: string;
     deleted_at: string;
+    pre_calculated_fee: number;
+    total_fee: number;
+}
+
+interface WalletLinkedTransactions {
+    id: string;
+    scanned_at: string;
+    block_timestamp: string;
+    type: string;
+    transaction_id: string;
+    source_address: string;
+    destnation_address: string;
+    amount: string;
+    currency: string;
+    token_address: string;
 }

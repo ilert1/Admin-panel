@@ -1,13 +1,19 @@
 import { useMemo, useState } from "react";
-import { useTranslate } from "react-admin";
+import { useRefresh, useTranslate } from "react-admin";
 import { BF_MANAGER_URL, API_URL } from "@/data/base";
 import { CryptoTransferForm } from "@/components/widgets/forms";
 import { parseJWT } from "@/helpers/jwt";
 import { useQuery } from "react-query";
 
-export const CryptoTransfer = () => {
+interface CryptoTransferProps {
+    repeatData: { address: string; amount: number } | undefined;
+}
+export const CryptoTransfer = ({ repeatData }: CryptoTransferProps) => {
     const translate = useTranslate();
     const [transferState, setTransferState] = useState<"process" | "success" | "error">("process");
+    const refresh = useRefresh();
+
+    const [message, setMessage] = useState("");
 
     const merchantId = useMemo(() => {
         const token = localStorage.getItem("access-token");
@@ -18,11 +24,7 @@ export const CryptoTransfer = () => {
         }
     }, []);
 
-    const {
-        isLoading: balanceLoading,
-        data: balance,
-        refetch
-    } = useQuery(
+    const { isLoading: balanceLoading, data: balance } = useQuery(
         "accounts",
         () =>
             fetch(`${API_URL}/accounts/${merchantId}`, {
@@ -42,6 +44,22 @@ export const CryptoTransfer = () => {
     const [localLoading, setLocalLoading] = useState(false);
     const isLoading = useMemo(() => balanceLoading || localLoading, [balanceLoading, localLoading]);
 
+    // Может понадобится потом, пока оставлю
+    // const errorMessagesMap: Record<string, string> = {
+    //     low_amount: translate("resources.withdraw.errors.lowAmountError"),
+    //     default: translate("resources.withdraw.errors.serverError")
+    // };
+
+    const getMessage = (json: any) => {
+        if (json.success) {
+            return translate("app.widgets.forms.cryptoTransfer.transferSuccess");
+        }
+        if (json.error) {
+            return json.error;
+        }
+        return translate("resources.withdraw.errors.serverError");
+    };
+
     const createTransfer = (data: any) => {
         setLocalLoading(true);
         fetch(`${BF_MANAGER_URL}/v1/withdraw/create`, {
@@ -52,7 +70,7 @@ export const CryptoTransfer = () => {
                     currency: "USDT",
                     value: {
                         accuracy: data.accuracy,
-                        quantity: +data.amount * data.accuracy
+                        quantity: Math.round(data.amount * data.accuracy)
                     }
                 }
             }),
@@ -64,8 +82,10 @@ export const CryptoTransfer = () => {
             .then(response => response.json())
             .then(json => {
                 if (json.success) {
+                    setMessage(getMessage(json));
                     setTransferState("success");
                 } else {
+                    setMessage(getMessage(json));
                     setTransferState("error");
                 }
             })
@@ -74,7 +94,7 @@ export const CryptoTransfer = () => {
             })
             .finally(() => {
                 setLocalLoading(false);
-                refetch();
+                refresh();
             });
     };
 
@@ -87,6 +107,8 @@ export const CryptoTransfer = () => {
                 balance={balance || 0}
                 transferState={transferState}
                 setTransferState={setTransferState}
+                showMessage={message}
+                repeatData={repeatData}
             />
         </div>
     );

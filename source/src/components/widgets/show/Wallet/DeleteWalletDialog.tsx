@@ -7,7 +7,7 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { useDelete, useRefresh, useTranslate } from "react-admin";
+import { useDelete, usePermissions, useRefresh, useTranslate } from "react-admin";
 
 export interface DeleteWalletDialogProps {
     open: boolean;
@@ -17,24 +17,21 @@ export interface DeleteWalletDialogProps {
 }
 export const DeleteWalletDialog = (props: DeleteWalletDialogProps) => {
     const { open, id, onOpenChange, onQuickShowOpenChange } = props;
-
+    const { permissions } = usePermissions();
     const refresh = useRefresh();
     const translate = useTranslate();
     const [deleteOne] = useDelete();
 
-    const handleDelete = () => {
-        const deleteElem = async () => {
-            try {
-                await deleteOne("wallet", {
-                    id
-                });
-                refresh();
-                onQuickShowOpenChange(false);
-            } catch (error) {
-                // Заглушка
-            }
-        };
-        deleteElem();
+    const deleteElem = async () => {
+        try {
+            await deleteOne(permissions === "admin" ? "wallet" : "merchant/wallet", {
+                id
+            });
+            refresh();
+            onQuickShowOpenChange(false);
+        } catch (error) {
+            // Заглушка
+        }
     };
 
     return (
@@ -48,7 +45,7 @@ export const DeleteWalletDialog = (props: DeleteWalletDialogProps) => {
                 </DialogHeader>
                 <DialogFooter>
                     <div className="flex justify-around w-full">
-                        <Button onClick={handleDelete}>{translate("app.ui.actions.delete")}</Button>
+                        <Button onClick={deleteElem}>{translate("app.ui.actions.delete")}</Button>
                         <Button
                             variant={"outline"}
                             onClick={() => {

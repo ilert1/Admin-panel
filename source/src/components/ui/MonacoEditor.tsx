@@ -1,5 +1,4 @@
-import * as monaco from "monaco-editor";
-import { Editor } from "@monaco-editor/react";
+import { BeforeMount, Editor, OnChange, OnValidate } from "@monaco-editor/react";
 import { LoadingAlertDialog } from "./loading";
 import { useCallback } from "react";
 
@@ -32,8 +31,8 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
         [onValidChange]
     );
 
-    const handleEditorChange = useCallback(
-        (value: string | undefined) => {
+    const handleEditorChange = useCallback<OnChange>(
+        value => {
             if (value !== undefined) {
                 setCode(value);
                 validateCode(value);
@@ -42,14 +41,14 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
         [setCode, validateCode]
     );
 
-    const handleValidation = useCallback(
-        (markers: monaco.editor.IMarker[]) => {
+    const handleValidation = useCallback<OnValidate>(
+        markers => {
             onErrorsChange(markers.length > 0);
         },
         [onErrorsChange]
     );
 
-    const handleEditorDidMount = useCallback((monaco: any) => {
+    const handleEditorDidMount = useCallback<BeforeMount>(monaco => {
         monaco.editor.defineTheme("myCustomTheme", {
             base: "vs-dark",
             inherit: true,
@@ -75,10 +74,9 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
     }, []);
 
     return (
-        <div className="h-full w-full border border-neutral-50 rounded-[4px] py-2 overflow-hidden">
+        <div className="h-48 w-full border border-neutral-50 rounded-[4px] py-2 overflow-hidden">
             <Editor
-                width={"90%"}
-                height={"144px"}
+                width={"99%"}
                 defaultLanguage="json"
                 value={code}
                 theme="myCustomTheme"

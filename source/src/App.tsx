@@ -37,7 +37,8 @@ import {
     StoreIcon,
     NetworkIcon,
     SignpostIcon,
-    CreditCardIcon
+    CreditCardIcon,
+    SquareTerminal
 } from "lucide-react";
 import { authProvider, ThemeProvider } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
@@ -47,29 +48,37 @@ import { InitLoading } from "./components/ui/loading";
 import { NotFound } from "./components/widgets/shared/NotFound";
 import WalletsLogo from "./lib/icons/Wallets";
 import { WalletStore } from "./pages/WalletStore";
+import { WalletLinkedTransactionsList } from "./components/widgets/lists/WalletLinkedTransactions";
+import { TerminalsList } from "./components/widgets/lists/Terminals";
 
 const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
 
 const dataProvider = combineDataProviders((resource: string) => {
-    switch (resource) {
-        case "transactions":
-            return new TransactionDataProvider();
-        case "users":
-            return new UsersDataProvider();
-        case "currency":
-            return new CurrenciesDataProvider();
-        case "merchant":
-            return new MerchantsDataProvider();
-        case "provider":
-            return new ProvidersDataProvider();
-        case "direction":
-            return new DirectionsDataProvider();
-        case "wallet":
-            return new WalletsDataProvider();
-        case "vault":
-            return new VaultDataProvider();
-        default:
-            return new BaseDataProvider();
+    if (resource === "transactions") {
+        return new TransactionDataProvider();
+    } else if (resource === "users") {
+        return new UsersDataProvider();
+    } else if (resource === "currency") {
+        return new CurrenciesDataProvider();
+    } else if (resource === "merchant") {
+        return new MerchantsDataProvider();
+    } else if (resource === "provider" || resource?.startsWith("provider/")) {
+        return new ProvidersDataProvider();
+    } else if (resource === "direction") {
+        return new DirectionsDataProvider();
+    } else if (
+        resource === "wallet" ||
+        resource === "transaction" ||
+        resource === "reconciliation" ||
+        resource === "merchant/wallet" ||
+        resource === "merchant/transaction" ||
+        resource === "merchant/reconciliation"
+    ) {
+        return new WalletsDataProvider();
+    } else if (resource === "vault") {
+        return new VaultDataProvider();
+    } else {
+        return new BaseDataProvider();
     }
 });
 
@@ -95,6 +104,16 @@ export const App = () => {
                             <Resource name="transactions" list={TransactionList} icon={HistoryIcon} />
                             <Resource name="withdraw" list={WithdrawList} icon={BitcoinIcon} />
 
+                            {WALLET_ENABLED && (
+                                <Resource name="wallet" list={WalletsList} icon={WalletsLogo}>
+                                    {permissions === "admin" && <Route path="storage" element={<WalletStore />} />}
+                                    {permissions === "admin" && (
+                                        <Route path="linkedTransactions" element={<WalletLinkedTransactionsList />} />
+                                    )}
+                                    <Route path="transactions" element={<WalletTransactionsList />} />
+                                </Resource>
+                            )}
+
                             {permissions === "admin" && (
                                 <>
                                     <Resource name="users" list={UserList} icon={UsersIcon} />
@@ -107,13 +126,8 @@ export const App = () => {
                                         icon={StoreIcon}
                                     />
                                     <Resource name="provider" list={ProvidersList} icon={NetworkIcon} />
+                                    <Resource name="terminals" list={TerminalsList} icon={SquareTerminal} />
                                     <Resource name="direction" list={DirectionsList} icon={SignpostIcon} />
-                                    {WALLET_ENABLED && (
-                                        <Resource name="wallet" list={WalletsList} icon={WalletsLogo}>
-                                            <Route path="storage" element={<WalletStore />} />
-                                            <Route path="transactions" element={<WalletTransactionsList />} />
-                                        </Resource>
-                                    )}
                                 </>
                             )}
 

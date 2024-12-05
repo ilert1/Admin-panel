@@ -11,7 +11,8 @@ export const TextField = ({
     copyValue = false,
     wrap = false,
     lineClamp = false,
-    linesCount = 3
+    linesCount = 3,
+    minWidth = "150px"
 }: {
     text: string;
     label?: string | undefined;
@@ -21,6 +22,7 @@ export const TextField = ({
     wrap?: boolean | "break-all";
     lineClamp?: boolean;
     linesCount?: number;
+    minWidth?: string;
 }) => {
     const currentText = useMemo(() => (text?.length > 0 ? text : "-"), [text]);
     const translate = useTranslate();
@@ -49,7 +51,7 @@ export const TextField = ({
     return (
         <div>
             {label && <small className="text-sm text-muted-foreground">{label}</small>}
-            {type === "text" && (
+            {(type === "text" || type === "link") && (
                 <p className="leading-5 flex flex-row gap-2">
                     {copyValue && text?.length > 0 && (
                         <span>
@@ -71,18 +73,19 @@ export const TextField = ({
                                       wordBreak: "break-word",
                                       textWrap: "wrap",
                                       maxWidth: "100%",
-                                      minWidth: "150px"
+                                      minWidth: minWidth
                                   }
                                 : {})
                         }}>
-                        {currentText}
+                        {type === "link" ? (
+                            <a href={link} className="block hover:underline">
+                                {currentText}
+                            </a>
+                        ) : (
+                            currentText
+                        )}
                     </span>
                 </p>
-            )}
-            {type === "link" && (
-                <a href="#" className="block hover:underline">
-                    {text}
-                </a>
             )}
             {type === "internal-link" && (
                 <Link to={link} className="!text-card-foreground transition-colors hover:bg-muted/50">

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { UserCreateForm } from "../forms";
 import { toast } from "sonner";
-import { CreateContextProvider, useCreateController, useTranslate } from "react-admin";
+import { CreateContextProvider, useCreateController, useRefresh, useTranslate } from "react-admin";
 import { useQuery } from "react-query";
 import { API_URL } from "@/data/base";
 import { useMemo, useState } from "react";
@@ -13,6 +13,7 @@ interface UserCreateProps {
 export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
     const translate = useTranslate();
     const navigate = useNavigate();
+    const refresh = useRefresh();
     const contrProps = useCreateController();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -44,7 +45,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
             }).then(response => response.json())
     );
 
-    const createUserRecord = (data: Omit<Users.User, "created_at" | "deleted_at" | "id">) => {
+    const createUserRecord = (data: Users.UserCreate) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
 
@@ -55,6 +56,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                 setSubmitButtonDisabled(false);
             }
         }
+        refresh();
         onOpenChange(false);
     };
 

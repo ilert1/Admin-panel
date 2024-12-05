@@ -1,22 +1,30 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
+import fetchDictionaries from "@/helpers/get-dictionaries";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
-import moment from "moment";
 import { useState } from "react";
-import { useTranslate } from "react-admin";
+import { usePermissions, useTranslate } from "react-admin";
+
 export const useGetWalletTransactionsColumns = () => {
     const translate = useTranslate();
-
+    const data = fetchDictionaries();
     const [chosenId, setChosenId] = useState("");
     const [openShowClicked, setOpenShowClicked] = useState(false);
+    const [confirmOpen, setConfirmOpen] = useState(false);
+
+    const { permissions } = usePermissions();
 
     const handleOpenShowClicked = (id: string) => {
         setChosenId(id);
         setOpenShowClicked(true);
     };
 
+    const handleConfirmShowClicked = (id: string) => {
+        setChosenId(id);
+        setConfirmOpen(true);
+    };
     const columns: ColumnDef<Cryptotransactions>[] = [
         {
             id: "created_at",
@@ -49,7 +57,7 @@ export const useGetWalletTransactionsColumns = () => {
             accessorKey: "id",
             header: translate("resources.wallet.transactions.fields.id"),
             cell: ({ row }) => {
-                return <TextField text={row.original.id} wrap copyValue />;
+                return <TextField text={row.original.id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />;
             }
         },
         {
@@ -57,7 +65,9 @@ export const useGetWalletTransactionsColumns = () => {
             accessorKey: "src_wallet",
             header: translate("resources.wallet.transactions.fields.src_wallet"),
             cell: ({ row }) => {
-                return <TextField text={row.original.src_wallet} wrap copyValue />;
+                return (
+                    <TextField text={row.original.src_wallet} wrap copyValue lineClamp linesCount={1} minWidth="50px" />
+                );
             }
         },
         {
@@ -65,7 +75,9 @@ export const useGetWalletTransactionsColumns = () => {
             accessorKey: "dst_wallet",
             header: translate("resources.wallet.transactions.fields.dst_wallet"),
             cell: ({ row }) => {
-                return <TextField text={row.original.dst_wallet} wrap copyValue />;
+                return (
+                    <TextField text={row.original.dst_wallet} wrap copyValue lineClamp linesCount={1} minWidth="50px" />
+                );
             }
         },
         {
@@ -84,12 +96,30 @@ export const useGetWalletTransactionsColumns = () => {
         {
             id: "state",
             accessorKey: "state",
-            header: translate("resources.wallet.transactions.fields.state")
+            header: translate("resources.wallet.transactions.fields.state"),
+            cell: ({ row }) => {
+                if (permissions === "admin" && (row.original.state === 21 || row.original.state === "21")) {
+                    return (
+                        <>
+                            <Button onClick={() => handleConfirmShowClicked(row.original.id)}>
+                                {translate("resources.wallet.transactions.fields.confirm")}
+                            </Button>
+                        </>
+                    );
+                } else {
+                    return translate(
+                        `resources.transactions.states.${data?.states?.[
+                            row.getValue("state") as string
+                        ]?.state_description?.toLowerCase()}`
+                    );
+                }
+            }
         },
         {
             id: "type",
             accessorKey: "type",
-            header: translate("resources.wallet.transactions.fields.type")
+            header: translate("resources.wallet.transactions.fields.type"),
+            cell: ({ row }) => data?.transactionTypes?.[row.getValue("type") as string]?.type_descr || ""
         },
         {
             id: "merchant_id",
@@ -104,16 +134,19 @@ export const useGetWalletTransactionsColumns = () => {
             accessorKey: "tx_id",
             header: translate("resources.wallet.transactions.fields.tx_id"),
             cell: ({ row }) => {
-                return <TextField text={row.original.tx_id} wrap copyValue />;
+                // console.log(row.original.tx_link);
+                return <TextField text={row.original.tx_id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />;
             }
         },
         {
-            id: "currency",
-            accessorKey: "currency",
-            header: translate("resources.wallet.transactions.fields.currency"),
-            cell: ({ row }) => {
-                return <TextField text={row.original.currency} wrap copyValue />;
-            }
+            id: "pre_calculated_fee",
+            accessorKey: "pre_calculated_fee",
+            header: translate("resources.wallet.transactions.fields.pre_calculated_fee")
+        },
+        {
+            id: "total_fee",
+            accessorKey: "total_fee",
+            header: translate("resources.wallet.transactions.fields.total_fee")
         },
         {
             id: "actions",
@@ -135,5 +168,5 @@ export const useGetWalletTransactionsColumns = () => {
         }
     ];
 
-    return { columns, chosenId, openShowClicked, setOpenShowClicked };
+    return { columns, chosenId, openShowClicked, confirmOpen, setConfirmOpen, setOpenShowClicked };
 };

@@ -21,8 +21,10 @@ export const EditWalletDialog = (props: EditWalletDialogProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="w-[716px] h-[464px] bg-muted pb-0">
-                <DialogHeader>
+            <DialogContent
+                disableOutsideClick
+                className="w-[716px] max-w-full max-h-full items-center justify-center flex">
+                <DialogHeader className="w-full">
                     <DialogTitle className="text-center mb-[24px]">
                         {translate("resources.wallet.manage.editingWallet")}
                     </DialogTitle>

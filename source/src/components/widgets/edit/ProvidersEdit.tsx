@@ -1,6 +1,6 @@
 import { useEditController, EditContextProvider, useTranslate, useDataProvider } from "react-admin";
 import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+import { Input, InputTypes } from "@/components/ui/input";
 import { FC, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Loading } from "@/components/ui/loading";
@@ -105,7 +105,7 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
                                     </FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} disabled />
+                                            <Input {...field} disabled variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -124,7 +124,7 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
                                     </FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} />
+                                            <Input {...field} variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />

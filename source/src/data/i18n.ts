@@ -13,6 +13,18 @@ const ru: TranslationMessages = {
             merchant: {
                 name: "Мои счета"
             },
+            editDialogTitle: "Редактирование счета",
+            editFields: {
+                name: "Наименование",
+                wallet_create: "Создать кошелек",
+                wallet_type: "Тип кошелька",
+                tron_wallet: "Внутренний кошелёк провайдера",
+                tron_address: "Внешний кошелёк провайдера",
+                provider_account: "Счёт провайдера",
+                reward_account: "Буферный счёт",
+                stateActive: "Да",
+                stateInactive: "Нет"
+            },
             fields: {
                 owner: "Владелец",
                 state: "Статус",
@@ -22,11 +34,12 @@ const ru: TranslationMessages = {
                     blocked: "Заблокирован",
                     deleted: "Удален"
                 },
-
+                tron_wallet: "Внутренний кошелёк провайдера",
+                trc20: "Адрес для пополнения баланса мерчанта в агрегаторе",
                 type: "Тип счёта",
                 balance: "Баланс счёта",
                 history: "История по счёту",
-
+                edit: "Редактировать",
                 id: "ID",
                 owner_id: "ID владельца",
                 amounts: "Суммы",
@@ -231,8 +244,14 @@ const ru: TranslationMessages = {
             name: "Вывод криптовалюты",
             tableTitle: "Отчет по выводам в криптовалюте",
             cryptoTransferTitle: "Перевод криптовалюты",
+            resendQuestion: "Повторить перевод?",
+            errors: {
+                lowAmountError: "Сумма перевода должна быть больше 2 USDT",
+                serverError: "Произошла неизвестная ошибка на сервере"
+            },
             fields: {
-                id: "ID",
+                id: "ID операции",
+
                 created_at: "Дата и время создания",
                 destination: {
                     id: "Адрес TRC20",
@@ -244,7 +263,11 @@ const ru: TranslationMessages = {
                 payload: {
                     hash: "Хеш",
                     hash_link: "Ссылка Tronscan"
-                }
+                },
+                merchant: "Мерчант",
+                state: "Состояние",
+                idInBlockChain: "ID в блокчейне",
+                resend: "Повторить"
             },
             download: {
                 downloadReportButtonText: "Скачать отчет",
@@ -362,11 +385,12 @@ const ru: TranslationMessages = {
                 description: "Описание",
                 api_key: "Информация об аутентификации",
                 merchantsDirections: "Направления мерчанта ",
-                isActive: "Активность"
+                isActive: "Активность",
+                terminal: "Терминал"
             },
             fees: {
                 fees: "Комиссии",
-                accountNumber: "Номер счета",
+                accountNumber: "ID счета",
                 feeAmount: "Размер комиссии",
                 feeType: "Тип комиссии",
                 currency: "Валюта",
@@ -383,7 +407,10 @@ const ru: TranslationMessages = {
                 dst_curr: "Конечная валюта обязательно должна быть выбрана",
                 merchant: "Мерчант обязательно должен быть выбран",
                 provider: "Провайдер обязательно должен быть выбран",
-                authError: "Ошибка при добавлении информации об аутентификации"
+                authError: "Ошибка при добавлении информации об аутентификации",
+                terminal: "Терминал обязательно должен быть выбран",
+                terminalError: "Произошла ошибка при загрузке терминалов",
+                noTerminalsError: "У выбранного провайдера нет терминалов"
             },
             create: "Добавить направление",
             sourceCurrency: "Валюта отправителя",
@@ -404,9 +431,30 @@ const ru: TranslationMessages = {
             noProviders: "Нет доступных провайдеров",
             noMerchants: "Нет доступных мерчантов",
             noCurrencies: "Нет доступных валют",
+            noTerminals: "Выберите провайдера перед выбором терминала",
             deleteDirection: "Удалить направление?",
             editingDirection: "Редактирование направления",
             creatingDirection: "Добавление направления"
+        },
+        terminals: {
+            name: "Терминал",
+            fields: {
+                verbose_name: "Наименование",
+                id: "ID",
+                description: "Описание",
+                provider: "Провайдер",
+                auth: "Ключ аутентификации"
+            },
+            errors: {
+                verbose_name: "У терминала обязательно должно быть имя",
+                description: "У терминала обязательно должно быть описание"
+            },
+            create: "Создать терминал",
+            selectHeader: "Провайдер",
+            selectPlaceholder: "Выберите провайдера",
+            creatingTerminal: "Создание терминала",
+            deleteHeader: "Удалить терминал?",
+            editingTerminal: "Редактирование терминала"
         },
         bankTransfer: {
             name: "Банковский перевод"
@@ -415,6 +463,9 @@ const ru: TranslationMessages = {
             name: "Управление криптокошельками",
             storage: {
                 name: "Хранилище",
+                initiatedTitle: "Хранилище не инициализировано",
+                buttonForInitiated: "Инициализировать",
+                initiatedError: "Ошибка инициализации",
                 titleClosed: "Распечатка хранилища",
                 buttonForOpen: "Распечатать",
                 buttonForClosed: "Запечатать",
@@ -439,6 +490,7 @@ const ru: TranslationMessages = {
                     walletType: "Тип кошелька",
                     walletAddress: "Адрес кошелька",
                     accountNumber: "Номер счёта",
+                    merchantName: "Мерчант",
                     merchantId: "ID мерчанта",
                     currency: "Валюта",
                     descr: "Описание",
@@ -446,8 +498,22 @@ const ru: TranslationMessages = {
                     blockchain: "Блокчейн",
                     contactType: "Тип контакта в блокчейне",
                     minRemaini: "Минимальная остаточная сумма",
-                    more: "Подробнее"
+                    more: "Подробнее",
+                    balance: "Баланс"
                 },
+                error: "Ошибка",
+                errors: {
+                    serverError: "Ошибка на стороне сервера. Попробуйте позже",
+                    selectAccount: "Выберите аккаунт",
+                    errorWhenEditing: "Произошлка ошибка при редактировании кошелька",
+                    errorWhenCreating: "Произошлка ошибка при создании кошелька",
+                    alreadyExists: "Кошелек с таким адресом уже существует",
+                    addressRequired: "Введите адрес кошелька",
+                    invalidTRCAddresss: "Неправильный формат TRC20 адреса",
+                    minBalance: "Минимальное значение 0",
+                    intOnly: "Значение должно быть целым числом, без дробной части"
+                },
+
                 creatingWallet: "Добавление кошелька",
                 editingWallet: "Редактирование кошелька",
                 deleteWallet: "Удалить кошелек?",
@@ -475,14 +541,41 @@ const ru: TranslationMessages = {
                     // TODO
                     tx_link: "",
                     total_fee: "Общая комиссия",
-                    bandwidth_fee: "Комиссия сети"
+                    bandwidth_fee: "Комиссия сети",
+                    confirm: "Потвердить",
+                    confirmQuestion: "Потвердить операцию?",
+                    pre_calculated_fee: "Предварительно рассчитанная комиссия"
+                },
+                error: "Ошибка",
+                errors: {
+                    failedToConfirm: "Не удалось потвердить транзакцию"
                 },
                 filterBar: {
                     searchById: "Поиск по ID операции",
                     created_at: "Дата создания",
                     updated_at: "Дата обновления",
+                    datePlaceholder: "Выберите дату",
                     paymentStatus: "Статус платежа",
                     resetFilters: "Сбросить фильтры"
+                }
+            },
+            linkedTransactions: {
+                name: "Поступления на linked-кошелёк",
+                show: "Поступление на linked-кошелек",
+                manual_reconciliation: "Ручная сверка",
+                check: "Проверить",
+                notFound: "Транзакция не найдена",
+                successFound: "Транзакция успешно добавлена",
+                fields: {
+                    scannedAt: "Время сканирования",
+                    blockTimestamp: "Время генерации",
+                    transactionId: "ID транзакции",
+                    sourceAddress: "Адрес кошелька отправителя",
+                    destinationAddress: "Адрес кошелька получателя",
+                    type: "Тип операции",
+                    amount: "Сумма прихода",
+                    currency: "Валюта",
+                    more: "Подробнее"
                 }
             }
         }
@@ -527,7 +620,8 @@ const ru: TranslationMessages = {
                 cancel: "Отменить",
                 areYouSure: "Вы точно хотите удалить элемент?",
                 chatWithSupport: "Чат с поддержкой",
-                close: "Закрыть"
+                close: "Закрыть",
+                confirm: "Потвердить"
             },
             pagination: {
                 next: "Далее",
@@ -606,7 +700,7 @@ const ru: TranslationMessages = {
                     addressMessage: "Неверный адрес получателя TRC-20",
                     amount: "Сумма, USD₮",
                     amountMessage: "Введите корректное значение (например, 99.564)",
-                    amountMinMessage: "Сумма должна быть минимум 2 USD₮",
+                    amountMinMessage: "Сумма должна быть больше 2 USD₮",
                     amountMaxMessage: "Сумма должна быть максимум %{amount} USD₮",
                     commission: "Комиссия",
                     totalAmount: "Сумма выплаты",
@@ -615,12 +709,19 @@ const ru: TranslationMessages = {
                     transferSuccess: "Перевод осуществлён!",
                     transferError: "Недостаточно средств на счёте",
                     successButton: "Перевести ещё",
-                    errorButton: "Попробовать снова"
+                    errorButton: "Попробовать снова",
+                    createNewWallet: "Добавить новый кошелек",
+                    lastUsedWallet: "Последний использованный",
+                    repeating: "Повтор вывода криптовалюты",
+                    repeatDescription: "Данные вывода скопированы в форму, проверьте их и подтвердите новый вывод",
+                    noAddress: "Такого адреса нет в вашем аккаунте",
+                    error: "Ошибка",
+                    nan: "Не является числом"
                 },
                 userCreate: {
                     title: "Добавление пользователя",
                     name: "Имя",
-                    nameMessage: "Пожалуйста, введите имя мерчанта",
+                    nameMessage: "Пожалуйста, введите имя мерчанта. Минимум 3 символа",
                     login: "Логин",
                     loginMessage: "Пожалуйста, введите логин мерчанта",
                     email: "Адрес эл.почты",
@@ -693,6 +794,18 @@ const en: TranslationMessages = {
             merchant: {
                 name: "My accounts"
             },
+            editDialogTitle: "Edit account",
+            editFields: {
+                name: "Name",
+                wallet_create: "Wallet create",
+                wallet_type: "Wallet type",
+                tron_wallet: "Provider internal wallet",
+                tron_address: "Provider external wallet",
+                provider_account: "Provider account",
+                reward_account: "Buffer account",
+                stateActive: "Yes",
+                stateInactive: "No"
+            },
             fields: {
                 owner: "Owner",
                 state: "State",
@@ -705,8 +818,10 @@ const en: TranslationMessages = {
                 type: "Account type",
                 balance: "Account balance",
                 history: "Account history",
-
+                tron_wallet: "Tron wallet",
+                trc20: "Merchant balance replenishment address in aggregator",
                 id: "ID",
+                edit: "Edit",
                 owner_id: "Owner ID",
                 amounts: "Amounts",
                 amount: {
@@ -913,8 +1028,14 @@ const en: TranslationMessages = {
             name: "Сrypto withdrawal",
             tableTitle: "Report on cryptocurrency withdrawals",
             cryptoTransferTitle: "Crypto transfer",
+            resendQuestion: "Repeat transaction?",
+
+            errors: {
+                lowAmountError: "The amount must be more than 2 USDT",
+                serverError: "An error occured on server"
+            },
             fields: {
-                id: "ID",
+                id: "Transaction ID",
                 created_at: "Created at",
                 destination: {
                     id: "TRC20 address",
@@ -926,7 +1047,11 @@ const en: TranslationMessages = {
                 payload: {
                     hash: "Hash",
                     hash_link: "Tronscan link"
-                }
+                },
+                merchant: "Merchant",
+                state: "State",
+                idInBlockChain: "ID in blockchain",
+                resend: "Resend"
             },
             download: {
                 downloadReportButtonText: "Download report",
@@ -1044,7 +1169,8 @@ const en: TranslationMessages = {
                 description: "Description",
                 api_key: "Auth data",
                 merchantsDirections: "Directions of merchant ",
-                isActive: "Activity"
+                isActive: "Activity",
+                terminal: "Terminal"
             },
             fees: {
                 fees: "Fees",
@@ -1065,7 +1191,10 @@ const en: TranslationMessages = {
                 dst_curr: "The destination currency must be selected",
                 merchant: "The merchant must be selected",
                 provider: "The provider must be selected",
-                authError: "An error has occurred while adding authentication information"
+                authError: "An error has occurred while adding authentication information",
+                terminal: "The terminal must be selected",
+                terminalError: "An error occured when fetching terminals",
+                noTerminalsError: "Chosen provider does not have any terminals"
             },
             create: "Add direction",
             sourceCurrency: "Source currency",
@@ -1087,9 +1216,30 @@ const en: TranslationMessages = {
             noProviders: "No available providers",
             noMerchants: "No available merchants",
             noCurrencies: "No available currencies",
+            noTerminals: "Select provider to select terminal",
             deleteDirection: "Delete direction?",
             editingDirection: "Editing direction",
             creatingDirection: "Creating direction"
+        },
+        terminals: {
+            name: "Terminal",
+            fields: {
+                verbose_name: "Name",
+                id: "ID",
+                description: "Description",
+                provider: "Provider",
+                auth: "Auth key"
+            },
+            errors: {
+                verbose_name: "The terminal must have a name",
+                description: "The terminal must have a description"
+            },
+            create: "Create terminal",
+            selectHeader: "Provider",
+            selectPlaceholder: "Select provider",
+            creatingTerminal: "Creating terminal",
+            deleteHeader: "Delete terminal?",
+            editingTerminal: "Editing terminal"
         },
         bankTransfer: {
             name: "Bank transfer"
@@ -1098,6 +1248,9 @@ const en: TranslationMessages = {
             name: "Managing сryptocurrencies",
             storage: {
                 name: "Storage",
+                initiatedTitle: "The storage is not initialized",
+                buttonForInitiated: "Initialize",
+                initiatedError: "Initialization error",
                 titleClosed: "Storage sealed",
                 buttonForOpen: "Unseal",
                 buttonForClosed: "Seal",
@@ -1121,7 +1274,8 @@ const en: TranslationMessages = {
                 fields: {
                     walletType: "Wallet type",
                     walletAddress: "Wallet address",
-                    accountNumber: "Account number",
+                    accountNumber: "Account ID",
+                    merchantName: "Merchant",
                     merchantId: "Merchant ID",
                     currency: "Currency",
                     descr: "Description",
@@ -1129,10 +1283,20 @@ const en: TranslationMessages = {
                     internalId: "Internal wallet ID",
                     blockchain: "Blockchain",
                     contactType: "Contact type in blockchain",
-                    minRemaini: "Minimum remaining amount"
+                    minRemaini: "Minimum remaining amount",
+                    balance: "Balance"
                 },
+                error: "Error",
                 errors: {
-                    id: "Id is required field"
+                    selectAccount: "Select account",
+                    errorWhenEditing: "An error occured when editing wallet",
+                    errorWhenCreating: "An error occured when creating wallet",
+                    serverError: "Server side error, try again later",
+                    alreadyExists: "Wallet with this address is already exists",
+                    addressRequired: "Address is required",
+                    invalidTRCAddresss: "Invalid TRC20 address",
+                    minBalance: "Minimum value is 0",
+                    intOnly: "Input should be a valid integer without fractional part"
                 },
                 creatingWallet: "Adding wallet",
                 editingWallet: "Editing wallet",
@@ -1159,14 +1323,41 @@ const en: TranslationMessages = {
                     currency: "Currency",
                     blowfish_id: "Blowfish id",
                     total_fee: "Total fee",
-                    bandwidth_fee: "Network fee"
+                    bandwidth_fee: "Network fee",
+                    confirm: "Confirm",
+                    confirmQuestion: "Confirm transaction?",
+                    pre_calculated_fee: "Precalculated fee"
+                },
+                error: "Error",
+                errors: {
+                    failedToConfirm: "Failed to confirm transaction"
                 },
                 filterBar: {
                     searchById: "Search by transaction ID",
                     paymentStatus: "Payment status",
                     created_at: "Creation date",
+                    datePlaceholder: "Select date",
                     updated_at: "Update date",
                     resetFilters: "Reset filters"
+                }
+            },
+            linkedTransactions: {
+                name: "Receipts to the linked-wallet",
+                show: "Receipt to a linked wallet",
+                manual_reconciliation: "Manual reconciliation",
+                check: "Check",
+                notFound: "Transaction was not found",
+                successFound: "Transaction added successfullly",
+                fields: {
+                    scannedAt: "Scanned at",
+                    blockTimestamp: "Block timestamp",
+                    transactionId: "Transaction ID",
+                    sourceAddress: "Source address",
+                    destinationAddress: "Destination address",
+                    type: "Type",
+                    amount: "Amount",
+                    currency: "Currency",
+                    more: "More"
                 }
             }
         }
@@ -1211,7 +1402,8 @@ const en: TranslationMessages = {
                 cancel: "Cancel",
                 areYouSure: "Are you sure you want delete this element?",
                 chatWithSupport: "Chat with support",
-                close: "Close"
+                close: "Close",
+                confirm: "Confirm"
             },
             pagination: {
                 next: "Next",
@@ -1290,7 +1482,7 @@ const en: TranslationMessages = {
                     addressMessage: "Invalid TRC-20 recipient address",
                     amount: "Amount, USD₮",
                     amountMessage: "Insert correct amount (e.g. 99.564)",
-                    amountMinMessage: "Amount should be at least 2 USD₮",
+                    amountMinMessage: "Amount should be more than 2 USD₮",
                     amountMaxMessage: "Amount should be less than %{amount} USD₮",
                     commission: "Commission",
                     totalAmount: "Total amount",
@@ -1299,12 +1491,20 @@ const en: TranslationMessages = {
                     transferSuccess: "Transfer is successful!",
                     transferError: "Insufficient funds in the account",
                     successButton: "Transfer more",
-                    errorButton: "Try again"
+                    errorButton: "Try again",
+                    createNewWallet: "Add New Wallet",
+                    lastUsedWallet: "Last used",
+                    nan: "Is not a number",
+                    repeating: "Repeat Cryptocurrency Withdrawal",
+                    repeatDescription:
+                        "The withdrawal data has been copied to the form. Please check it and confirm the new withdrawal.",
+                    noAddress: "This address is not in your account",
+                    error: "Error"
                 },
                 userCreate: {
                     title: "Adding a user",
                     name: "Name",
-                    nameMessage: "Please, enter merchant's name",
+                    nameMessage: "Please, enter merchant's name. Minimum 3 symbols",
                     login: "Login",
                     loginMessage: "Please, enter merchant's login",
                     email: "Email",
@@ -1371,7 +1571,7 @@ const translations = { ru, en };
 
 export const i18nProvider = polyglotI18nProvider(
     (locale: string) => translations[locale as "ru" | "en"],
-    "en",
+    localStorage.getItem("i18nextLng") ?? "en",
     [
         { locale: "ru", name: "Русский" },
         { locale: "en", name: "English" }

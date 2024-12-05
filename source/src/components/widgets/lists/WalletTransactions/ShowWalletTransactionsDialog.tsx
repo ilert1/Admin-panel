@@ -1,7 +1,6 @@
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { XIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
-import { WalletShow } from "../../show/Wallet/WalletShow";
 import { WalletTransactionsShow } from "../../show";
 
 interface ShowWalletTransactionsDialogProps {
@@ -9,13 +8,13 @@ interface ShowWalletTransactionsDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
-export const ShowWalletTransactionsDialog = (props: ShowWalletTransactionsDialogProps) => {
-    const { id, open, onOpenChange } = props;
+export const ShowWalletTransactionsDialog = ({ id, open, onOpenChange }: ShowWalletTransactionsDialogProps) => {
     const translate = useTranslate();
+
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
             <SheetContent
-                className="sm:max-w-[1015px] max-h-[calc(100dvh-84px)] h-full sm:h-[500px] w-full p-0 m-0 top-[84px] flex flex-col border-0 overflow-y-auto"
+                className="sm:max-w-[1015px] max-h-[calc(100dvh-84px)] h-full sm:h-[540px] w-full p-0 m-0 top-[84px] flex flex-col border-0 overflow-y-auto"
                 tabIndex={-1}
                 style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
                 close={false}>
@@ -35,7 +34,7 @@ export const ShowWalletTransactionsDialog = (props: ShowWalletTransactionsDialog
                 </div>
 
                 <div className="flex-1 overflow-auto" tabIndex={-1}>
-                    <WalletTransactionsShow id={id} onOpenChange={onOpenChange} />
+                    <WalletTransactionsShow id={id} />
                 </div>
                 <SheetDescription></SheetDescription>
             </SheetContent>

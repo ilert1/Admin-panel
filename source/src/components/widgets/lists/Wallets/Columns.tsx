@@ -1,25 +1,21 @@
 import { Button } from "@/components/ui/button";
+import { LoadingBalance } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
-enum WalletTypes {
-    INTERNAL = "internal",
-    LINKED = "linked",
-    EXTERNAL = "external"
-}
-export const useGetWalletsColumns = () => {
+
+export const useGetWalletsColumns = (data: Wallet[], balances: Map<string, WalletBalance>) => {
     const translate = useTranslate();
-
     const [chosenId, setChosenId] = useState("");
-
     const [quickShowOpen, setQuickShowOpen] = useState(false);
 
     const openSheet = (id: string) => {
         setChosenId(id);
         setQuickShowOpen(true);
     };
+
     const columns: ColumnDef<Wallet>[] = [
         {
             id: "type",
@@ -31,25 +27,50 @@ export const useGetWalletsColumns = () => {
             accessorKey: "address",
             header: translate("resources.wallet.manage.fields.walletAddress"),
             cell: ({ row }) => {
-                return <TextField text={row.original.address ?? ""} wrap copyValue />;
+                return (
+                    <TextField
+                        text={row.original.address ?? ""}
+                        wrap
+                        copyValue
+                        lineClamp
+                        linesCount={1}
+                        minWidth="50px"
+                    />
+                );
             }
         },
         {
-            id: "accountNumber",
-            accessorKey: "accountNumber",
+            id: "account_id",
+            accessorKey: "account_id",
             header: translate("resources.wallet.manage.fields.accountNumber"),
             cell: ({ row }) => {
-                if (row.original.type === WalletTypes.LINKED) return "-";
-                return <TextField text={row.original.account_id} wrap copyValue />;
+                return (
+                    <TextField text={row.original.account_id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />
+                );
             }
         },
+
         {
-            id: "merchantId",
-            accessorKey: "merchantId",
-            header: translate("resources.wallet.manage.fields.merchantId"),
+            id: "Balance",
+            header: translate("resources.wallet.manage.fields.balance"),
             cell: ({ row }) => {
-                if (row.original.type === WalletTypes.EXTERNAL) return "-";
-                return <TextField text={row.original.account_id} wrap copyValue />;
+                return balances.get(row.original.id) ? (
+                    <div className="flex flex-col items-left justify-center">
+                        {balances.get(row.original.id)?.usdt_amount != 0 && (
+                            <TextField text={`${balances.get(row.original.id)?.usdt_amount} USDT`} />
+                        )}
+                        {balances.get(row.original.id)?.trx_amount !== 0 && (
+                            <TextField text={`${balances.get(row.original.id)?.trx_amount} TRX`} />
+                        )}
+                        {balances.get(row.original.id)?.usdt_amount === 0 &&
+                            balances.get(row.original.id)?.trx_amount === 0 &&
+                            "-"}
+                    </div>
+                ) : (
+                    <div className="flex flex-col items-center justify-center">
+                        <LoadingBalance className="w-[15px] h-[15px] overflow-hidden" />
+                    </div>
+                );
             }
         },
         {
@@ -65,7 +86,9 @@ export const useGetWalletsColumns = () => {
             accessorKey: "description",
             header: translate("resources.wallet.manage.fields.descr"),
             cell: ({ row }) => {
-                return <TextField text={row.original.description || ""} wrap />;
+                return (
+                    <TextField text={row.original.description || ""} wrap lineClamp linesCount={1} minWidth="50px" />
+                );
             }
         },
         {
