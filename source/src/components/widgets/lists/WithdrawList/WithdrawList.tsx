@@ -178,11 +178,12 @@ export const WithdrawList = () => {
 
     const checkAddress = useCallback(
         (address: string) => {
-            return walletsData?.pages.map(page => {
+            const res = walletsData?.pages.map(page => {
                 return page.data.find(wallet => {
                     return wallet.address === address;
                 });
             });
+            return res;
         },
         [walletsData?.pages]
     );
@@ -291,7 +292,8 @@ export const WithdrawList = () => {
                       header: "",
                       cell: ({ row }: { row: Row<Transaction.Transaction> }) => {
                           if (Object.hasOwn(row.original.destination, "requisites")) {
-                              return checkAddress(row.original.destination.requisites[0].blockchain_address) ? (
+                              const isFound = checkAddress(row.original.destination.requisites[0]?.blockchain_address);
+                              return isFound && isFound[0] ? (
                                   <Button
                                       onClick={() => {
                                           if (cryptoTransferState !== "process") {
