@@ -29,6 +29,7 @@ const WalletManualReconciliationBar = () => {
     const refresh = useRefresh();
     const [isLoading, setIsLoading] = useState(false);
     const handleCheckCLicked = async () => {
+        if (isLoading) return;
         setIsLoading(true);
         try {
             const { json } = await fetchUtils.fetchJson(`${BASE_URL}/reconciliation/${inputVal}`, {
