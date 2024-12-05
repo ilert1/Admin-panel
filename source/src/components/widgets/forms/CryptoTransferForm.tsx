@@ -165,7 +165,7 @@ export const CryptoTransferForm = (props: {
                 .then(({ data }) => {
                     const isFound = checkAddress(data[0].destination.requisites[0].blockchain_address);
                     if (isFound) {
-                        console.log(data);
+                        // console.log(data);
                         setLastUsedWallet(data[0].destination.requisites[0].blockchain_address);
                     }
                 }),
