@@ -7,7 +7,7 @@ import {
     useRefresh,
     useTranslate
 } from "react-admin";
-import { Loading } from "@/components/ui/loading";
+import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
 import { Button } from "@/components/ui/button";
 import { EyeIcon } from "lucide-react";
@@ -27,8 +27,10 @@ const WalletManualReconciliationBar = () => {
     const [inputVal, setInputVal] = useState("");
     const translate = useTranslate();
     const refresh = useRefresh();
-
+    const [isLoading, setIsLoading] = useState(false);
     const handleCheckCLicked = async () => {
+        if (isLoading) return;
+        setIsLoading(true);
         try {
             const { json } = await fetchUtils.fetchJson(`${BASE_URL}/reconciliation/${inputVal}`, {
                 method: "POST",
@@ -56,6 +58,8 @@ const WalletManualReconciliationBar = () => {
                 dismissible: true,
                 duration: 3000
             });
+        } finally {
+            setIsLoading(false);
         }
     };
     return (
@@ -88,8 +92,12 @@ const WalletManualReconciliationBar = () => {
                                 onClick={handleCheckCLicked}
                                 variant="default"
                                 className="w-full sm:w-auto"
-                                disabled={!inputVal.length}>
-                                {translate("resources.wallet.linkedTransactions.check")}
+                                disabled={!inputVal.length || isLoading}>
+                                {isLoading ? (
+                                    <LoadingAlertDialog className="w-[20px] h-[20px]" />
+                                ) : (
+                                    translate("resources.wallet.linkedTransactions.check")
+                                )}
                             </Button>
                             <Button
                                 onClick={() => setManualClicked(false)}
