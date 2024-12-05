@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+import { LoadingBalance } from "@/components/ui/loading";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { VaultDataProvider } from "@/data";
 import {
@@ -20,9 +20,13 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
     const { permissions } = usePermissions();
 
     const [openAccordion, setOpenAccordion] = useState(true);
-    const { data: storageState } = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"), {
-        enabled: permissions === "admin"
-    });
+    const { data: storageState, isLoading: storageStateLoading } = useQuery(
+        ["walletStorage"],
+        () => dataProvider.getVaultState("vault"),
+        {
+            enabled: permissions === "admin"
+        }
+    );
 
     const customViewRoutes = {
         name: "wallet",
@@ -42,6 +46,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
             }
         ]
     };
+
     if (permissions === "admin") {
         customViewRoutes.childrens = [
             {
@@ -59,6 +64,55 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
             }
         ];
     }
+
+    const CurrentStateIcon = () => {
+        if (storageStateLoading) {
+            return <LoadingBalance className="ml-auto mr-5 w-6 h-6" />;
+        }
+
+        if (!storageState?.initiated) {
+            return (
+                <CirclePlus
+                    className={
+                        showCaptions
+                            ? "ml-auto w-full max-w-6 mr-5 text-green-40 [&>path]:!stroke-green-40"
+                            : "text-green-40 [&>path]:!stroke-green-40"
+                    }
+                />
+            );
+        } else if (storageState?.state === "sealed" && storageState?.initiated) {
+            return (
+                <LockKeyhole
+                    className={
+                        showCaptions
+                            ? "ml-auto w-full max-w-6 mr-5 text-green-40 [&>path]:!stroke-green-40"
+                            : "text-green-40 [&>path]:!stroke-green-40"
+                    }
+                />
+            );
+        } else if (storageState?.state === "unsealed" && storageState?.initiated) {
+            return (
+                <LockKeyholeOpen
+                    className={
+                        showCaptions
+                            ? "ml-auto w-full max-w-6 mr-5 text-red-40 [&>path]:!stroke-red-40"
+                            : "text-red-40 [&>path]:!stroke-red-40"
+                    }
+                />
+            );
+        } else if (storageState?.state === "waiting" && storageState?.initiated) {
+            return (
+                <RearLockKeyhole
+                    className={
+                        showCaptions
+                            ? "ml-auto w-full max-w-6 mr-5 text-yellow-40 [&>path]:!stroke-yellow-40"
+                            : "text-yellow-40 [&>path]:!stroke-yellow-40"
+                    }
+                />
+            );
+        }
+    };
+
     return (
         <div className="flex flex-col gap-4">
             <TooltipProvider delayDuration={100}>
@@ -114,46 +168,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                 </span>
                             )}
 
-                            {customRoute.showLock && permissions === "admin" && (
-                                <>
-                                    {!storageState?.initiated && (
-                                        <CirclePlus
-                                            className={
-                                                showCaptions
-                                                    ? "ml-auto w-full max-w-6 mr-5 text-green-40 [&>path]:!stroke-green-40"
-                                                    : "text-green-40 [&>path]:!stroke-green-40"
-                                            }
-                                        />
-                                    )}
-                                    {storageState?.state === "sealed" && storageState?.initiated && (
-                                        <LockKeyhole
-                                            className={
-                                                showCaptions
-                                                    ? "ml-auto w-full max-w-6 mr-5 text-green-40 [&>path]:!stroke-green-40"
-                                                    : "text-green-40 [&>path]:!stroke-green-40"
-                                            }
-                                        />
-                                    )}
-                                    {storageState?.state === "unsealed" && storageState?.initiated && (
-                                        <LockKeyholeOpen
-                                            className={
-                                                showCaptions
-                                                    ? "ml-auto w-full max-w-6 mr-5 text-red-40 [&>path]:!stroke-red-40"
-                                                    : "text-red-40 [&>path]:!stroke-red-40"
-                                            }
-                                        />
-                                    )}
-                                    {storageState?.state === "waiting" && storageState?.initiated && (
-                                        <RearLockKeyhole
-                                            className={
-                                                showCaptions
-                                                    ? "ml-auto w-full max-w-6 mr-5 text-yellow-40 [&>path]:!stroke-yellow-40"
-                                                    : "text-yellow-40 [&>path]:!stroke-yellow-40"
-                                            }
-                                        />
-                                    )}
-                                </>
-                            )}
+                            {customRoute.showLock && permissions === "admin" && <CurrentStateIcon />}
                         </NavLink>
                     ))}
                 </div>

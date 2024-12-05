@@ -108,217 +108,224 @@ export const WalletStore = () => {
     return (
         <section className="flex items-center justify-center">
             <div className="rounded-16 bg-neutral-0 p-[30px] flex flex-col gap-6 min-w-[500px]">
-                {storageStateLoading && <LoadingAlertDialog />}
-
-                {!storageState?.initiated && (
+                {storageStateLoading ? (
+                    <LoadingAlertDialog />
+                ) : (
                     <>
-                        {stepForUnsealed !== "error" ? (
-                            <h2 className="text-xl text-neutral-100 text-center">
-                                {translate("resources.wallet.storage.initiatedTitle")}
-                            </h2>
-                        ) : (
-                            <div className="flex flex-col items-center gap-1">
-                                <h2 className="text-xl text-red-40">
-                                    {translate("resources.wallet.storage.initiatedError")}
-                                </h2>
-                                <h3 className="text-sm text-neutral-100">
-                                    {translate("resources.wallet.storage.unsealed.errorSubtitle")}
-                                </h3>
-                            </div>
-                        )}
-
-                        <Button
-                            disabled={loadingProcess}
-                            onClick={storageInitiated}
-                            className="flex items-center gap-1">
-                            <CirclePlus width={16} height={16} />
-                            <span className="text-sm">{translate("resources.wallet.storage.buttonForInitiated")}</span>
-                        </Button>
-                    </>
-                )}
-
-                {storageState?.state === "sealed" && storageState?.initiated && (
-                    <>
-                        {stepForUnsealed !== "error" ? (
-                            <h2 className="text-xl text-neutral-100 text-center">
-                                {translate("resources.wallet.storage.titleClosed")}
-                            </h2>
-                        ) : (
-                            <div className="flex flex-col items-center gap-1">
-                                <h2 className="text-xl text-red-40">
-                                    {translate("resources.wallet.storage.unsealed.errorTitle")}
-                                </h2>
-                                <h3 className="text-sm text-neutral-100">
-                                    {translate("resources.wallet.storage.unsealed.errorSubtitle")}
-                                </h3>
-                            </div>
-                        )}
-
-                        {(stepForUnsealed === 0 || stepForUnsealed === "error") && (
+                        {!storageState?.initiated && (
                             <>
+                                {stepForUnsealed !== "error" ? (
+                                    <h2 className="text-xl text-neutral-100 text-center">
+                                        {translate("resources.wallet.storage.initiatedTitle")}
+                                    </h2>
+                                ) : (
+                                    <div className="flex flex-col items-center gap-1">
+                                        <h2 className="text-xl text-red-40">
+                                            {translate("resources.wallet.storage.initiatedError")}
+                                        </h2>
+                                        <h3 className="text-sm text-neutral-100">
+                                            {translate("resources.wallet.storage.unsealed.errorSubtitle")}
+                                        </h3>
+                                    </div>
+                                )}
+
                                 <Button
                                     disabled={loadingProcess}
-                                    onClick={() => setStepForUnsealed(1)}
+                                    onClick={storageInitiated}
                                     className="flex items-center gap-1">
-                                    <LockKeyholeOpen width={16} height={16} />
+                                    <CirclePlus width={16} height={16} />
                                     <span className="text-sm">
-                                        {translate("resources.wallet.storage.buttonForOpen")}
+                                        {translate("resources.wallet.storage.buttonForInitiated")}
                                     </span>
                                 </Button>
                             </>
                         )}
+
+                        {storageState?.state === "sealed" && storageState?.initiated && (
+                            <>
+                                {stepForUnsealed !== "error" ? (
+                                    <h2 className="text-xl text-neutral-100 text-center">
+                                        {translate("resources.wallet.storage.titleClosed")}
+                                    </h2>
+                                ) : (
+                                    <div className="flex flex-col items-center gap-1">
+                                        <h2 className="text-xl text-red-40">
+                                            {translate("resources.wallet.storage.unsealed.errorTitle")}
+                                        </h2>
+                                        <h3 className="text-sm text-neutral-100">
+                                            {translate("resources.wallet.storage.unsealed.errorSubtitle")}
+                                        </h3>
+                                    </div>
+                                )}
+
+                                {(stepForUnsealed === 0 || stepForUnsealed === "error") && (
+                                    <>
+                                        <Button
+                                            disabled={loadingProcess}
+                                            onClick={() => setStepForUnsealed(1)}
+                                            className="flex items-center gap-1">
+                                            <LockKeyholeOpen width={16} height={16} />
+                                            <span className="text-sm">
+                                                {translate("resources.wallet.storage.buttonForOpen")}
+                                            </span>
+                                        </Button>
+                                    </>
+                                )}
+                            </>
+                        )}
+
+                        {((storageState?.state === "sealed" && stepForUnsealed === 1) ||
+                            (storageState?.state === "waiting" && stepForUnsealed === 1)) &&
+                            storageState?.initiated && (
+                                <Form {...form}>
+                                    <form
+                                        onSubmit={form.handleSubmit(onSubmit)}
+                                        className="flex flex-col gap-6"
+                                        autoComplete="off">
+                                        <FormField
+                                            name="key_part"
+                                            control={form.control}
+                                            render={({ field, fieldState }) => (
+                                                <FormItem className="space-y-1">
+                                                    <FormLabel>{translate("resources.wallet.storage.key")}</FormLabel>
+
+                                                    <FormControl>
+                                                        <Textarea
+                                                            autoFocus
+                                                            className={`text-sm text-neutral-100 disabled:dark:bg-muted resize-none min-h-24 ${
+                                                                fieldState.invalid
+                                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50 active:border-red-50"
+                                                                    : ""
+                                                            }`}
+                                                            value={keyText}
+                                                            onChange={e => handleTextChange(e, field)}
+                                                            placeholder={translate("resources.wallet.storage.key")}>
+                                                            {fieldState.invalid && (
+                                                                <TooltipProvider>
+                                                                    <Tooltip>
+                                                                        <TooltipTrigger asChild>
+                                                                            <TriangleAlert
+                                                                                className="text-red-40"
+                                                                                width={14}
+                                                                                height={14}
+                                                                            />
+                                                                        </TooltipTrigger>
+
+                                                                        <TooltipContent
+                                                                            className="border-none bottom-0"
+                                                                            side="left">
+                                                                            <FormMessage />
+                                                                        </TooltipContent>
+                                                                    </Tooltip>
+                                                                </TooltipProvider>
+                                                            )}
+                                                        </Textarea>
+                                                    </FormControl>
+                                                </FormItem>
+                                            )}
+                                        />
+
+                                        <Button
+                                            disabled={loadingProcess}
+                                            type="submit"
+                                            className="self-end flex items-center gap-1 min-w-28">
+                                            {loadingProcess ? (
+                                                <LoadingAlertDialog className="!w-5 !h-5" />
+                                            ) : (
+                                                <span className="text-sm">
+                                                    {translate("resources.wallet.storage.buttonForSend")}
+                                                </span>
+                                            )}
+                                        </Button>
+                                    </form>
+                                </Form>
+                            )}
+
+                        {(storageState?.state === "waiting" || storageState?.state === "unsealed") &&
+                            storageState?.initiated &&
+                            stepForUnsealed !== 1 && (
+                                <>
+                                    <h2 className="text-xl text-neutral-100 text-center">
+                                        {storageState?.state === "waiting"
+                                            ? translate("resources.wallet.storage.titleClosed")
+                                            : translate("resources.wallet.storage.titleOpened")}
+                                    </h2>
+
+                                    <div className="flex flex-col gap-2">
+                                        <p className="text-base leading-[22px]">
+                                            {translate("resources.wallet.storage.unsealed.allKeys")}:{" "}
+                                            {storageState.split_max}
+                                        </p>
+                                        <p className="text-base leading-[22px]">
+                                            {translate("resources.wallet.storage.unsealed.requiredKeys")}:{" "}
+                                            {storageState.split_min}
+                                        </p>
+                                        {storageState?.state === "waiting" && (
+                                            <p className="text-base leading-[22px]">
+                                                {translate("resources.wallet.storage.unsealed.enteredKeys")}:{" "}
+                                                {storageState.recieved_shares}
+                                            </p>
+                                        )}
+
+                                        {storageState?.state === "waiting" && (
+                                            <p className="text-base leading-[22px] text-yellow-40">
+                                                {translate("resources.wallet.storage.unsealed.toFinishKeys")}:{" "}
+                                                {+storageState.split_min - +storageState.recieved_shares}
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    {storageState?.state === "waiting" ? (
+                                        <div className="flex gap-6">
+                                            <Button
+                                                disabled={loadingProcess}
+                                                onClick={cancelUnsealing}
+                                                className="flex items-center gap-1 bg-red-40 hover:bg-red-30 active:bg-red-30 focus:bg-red-30 flex-1">
+                                                {loadingProcess ? (
+                                                    <LoadingAlertDialog className="!w-5 !h-5" />
+                                                ) : (
+                                                    <>
+                                                        <LockKeyhole width={16} height={16} />
+                                                        <span className="text-sm">
+                                                            {translate("resources.wallet.storage.buttonForCancel")}
+                                                        </span>
+                                                    </>
+                                                )}
+                                            </Button>
+
+                                            <Button
+                                                disabled={loadingProcess}
+                                                onClick={() => {
+                                                    setStepForUnsealed(1);
+                                                }}
+                                                className="flex items-center gap-1 flex-1">
+                                                <KeyRound width={16} height={16} />
+                                                <span className="text-sm">
+                                                    {translate("resources.wallet.storage.buttonForEnterKey")}
+                                                </span>
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <Button
+                                            disabled={loadingProcess}
+                                            onClick={cancelUnsealing}
+                                            className="flex items-center relative gap-1 bg-red-40 hover:bg-red-30 active:bg-red-30 focus:bg-red-30 flex-1">
+                                            {loadingProcess ? (
+                                                <LoadingAlertDialog className="!w-5 !h-5" />
+                                            ) : (
+                                                <>
+                                                    <LockKeyhole width={16} height={16} />
+                                                    <span className="text-sm">
+                                                        {translate("resources.wallet.storage.buttonForClosed")}
+                                                    </span>
+                                                </>
+                                            )}
+                                        </Button>
+                                    )}
+                                </>
+                            )}
                     </>
                 )}
-
-                {((storageState?.state === "sealed" && stepForUnsealed === 1) ||
-                    (storageState?.state === "waiting" && stepForUnsealed === 1)) &&
-                    storageState?.initiated && (
-                        <Form {...form}>
-                            <form
-                                onSubmit={form.handleSubmit(onSubmit)}
-                                className="flex flex-col gap-6"
-                                autoComplete="off">
-                                <FormField
-                                    name="key_part"
-                                    control={form.control}
-                                    render={({ field, fieldState }) => (
-                                        <FormItem className="space-y-1">
-                                            <FormLabel>{translate("resources.wallet.storage.key")}</FormLabel>
-
-                                            <FormControl>
-                                                <Textarea
-                                                    autoFocus
-                                                    className={`text-sm text-neutral-100 disabled:dark:bg-muted resize-none min-h-24 ${
-                                                        fieldState.invalid
-                                                            ? "border-red-40 hover:border-red-50 focus-visible:border-red-50 active:border-red-50"
-                                                            : ""
-                                                    }`}
-                                                    value={keyText}
-                                                    onChange={e => handleTextChange(e, field)}
-                                                    placeholder={translate("resources.wallet.storage.key")}>
-                                                    {fieldState.invalid && (
-                                                        <TooltipProvider>
-                                                            <Tooltip>
-                                                                <TooltipTrigger asChild>
-                                                                    <TriangleAlert
-                                                                        className="text-red-40"
-                                                                        width={14}
-                                                                        height={14}
-                                                                    />
-                                                                </TooltipTrigger>
-
-                                                                <TooltipContent
-                                                                    className="border-none bottom-0"
-                                                                    side="left">
-                                                                    <FormMessage />
-                                                                </TooltipContent>
-                                                            </Tooltip>
-                                                        </TooltipProvider>
-                                                    )}
-                                                </Textarea>
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <Button
-                                    disabled={loadingProcess}
-                                    type="submit"
-                                    className="self-end flex items-center gap-1 min-w-28">
-                                    {loadingProcess ? (
-                                        <LoadingAlertDialog className="!w-5 !h-5" />
-                                    ) : (
-                                        <span className="text-sm">
-                                            {translate("resources.wallet.storage.buttonForSend")}
-                                        </span>
-                                    )}
-                                </Button>
-                            </form>
-                        </Form>
-                    )}
-
-                {(storageState?.state === "waiting" || storageState?.state === "unsealed") &&
-                    storageState?.initiated &&
-                    stepForUnsealed !== 1 && (
-                        <>
-                            <h2 className="text-xl text-neutral-100 text-center">
-                                {storageState?.state === "waiting"
-                                    ? translate("resources.wallet.storage.titleClosed")
-                                    : translate("resources.wallet.storage.titleOpened")}
-                            </h2>
-
-                            <div className="flex flex-col gap-2">
-                                <p className="text-base leading-[22px]">
-                                    {translate("resources.wallet.storage.unsealed.allKeys")}: {storageState.split_max}
-                                </p>
-                                <p className="text-base leading-[22px]">
-                                    {translate("resources.wallet.storage.unsealed.requiredKeys")}:{" "}
-                                    {storageState.split_min}
-                                </p>
-                                {storageState?.state === "waiting" && (
-                                    <p className="text-base leading-[22px]">
-                                        {translate("resources.wallet.storage.unsealed.enteredKeys")}:{" "}
-                                        {storageState.recieved_shares}
-                                    </p>
-                                )}
-
-                                {storageState?.state === "waiting" && (
-                                    <p className="text-base leading-[22px] text-yellow-40">
-                                        {translate("resources.wallet.storage.unsealed.toFinishKeys")}:{" "}
-                                        {+storageState.split_min - +storageState.recieved_shares}
-                                    </p>
-                                )}
-                            </div>
-
-                            {storageState?.state === "waiting" ? (
-                                <div className="flex gap-6">
-                                    <Button
-                                        disabled={loadingProcess}
-                                        onClick={cancelUnsealing}
-                                        className="flex items-center gap-1 bg-red-40 hover:bg-red-30 active:bg-red-30 focus:bg-red-30 flex-1">
-                                        {loadingProcess ? (
-                                            <LoadingAlertDialog className="!w-5 !h-5" />
-                                        ) : (
-                                            <>
-                                                <LockKeyhole width={16} height={16} />
-                                                <span className="text-sm">
-                                                    {translate("resources.wallet.storage.buttonForCancel")}
-                                                </span>
-                                            </>
-                                        )}
-                                    </Button>
-
-                                    <Button
-                                        disabled={loadingProcess}
-                                        onClick={() => {
-                                            setStepForUnsealed(1);
-                                        }}
-                                        className="flex items-center gap-1 flex-1">
-                                        <KeyRound width={16} height={16} />
-                                        <span className="text-sm">
-                                            {translate("resources.wallet.storage.buttonForEnterKey")}
-                                        </span>
-                                    </Button>
-                                </div>
-                            ) : (
-                                <Button
-                                    disabled={loadingProcess}
-                                    onClick={cancelUnsealing}
-                                    className="flex items-center relative gap-1 bg-red-40 hover:bg-red-30 active:bg-red-30 focus:bg-red-30 flex-1">
-                                    {loadingProcess ? (
-                                        <LoadingAlertDialog className="!w-5 !h-5" />
-                                    ) : (
-                                        <>
-                                            <LockKeyhole width={16} height={16} />
-                                            <span className="text-sm">
-                                                {translate("resources.wallet.storage.buttonForClosed")}
-                                            </span>
-                                        </>
-                                    )}
-                                </Button>
-                            )}
-                        </>
-                    )}
             </div>
         </section>
     );
