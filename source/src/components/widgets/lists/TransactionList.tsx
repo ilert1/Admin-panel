@@ -262,7 +262,10 @@ export const TransactionList = () => {
     const [locale] = useLocaleState();
     const { permissions } = usePermissions();
 
-    const [typeTabActive, setTypeTabActive] = useState("");
+    const [typeTabActive, setTypeTabActive] = useState(() => {
+        const params = new URLSearchParams(location.search);
+        return params.get("filter") ? JSON.parse(params.get("filter")).order_type : "";
+    });
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");
 
