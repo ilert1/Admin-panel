@@ -120,10 +120,12 @@ export const WithdrawList = () => {
         return params.get("filter") ? JSON.parse(params.get("filter") as string).order_type : "";
     });
 
-    const { data: walletsData, fetchNextPage: walletsNextPage } = useInfiniteGetList("merchant/wallet", {
-        pagination: { perPage: 25, page: 1 },
-        filter: { sort: "name", asc: "ASC" }
-    });
+    const { data: walletsData, fetchNextPage: walletsNextPage } = merchantOnly
+        ? useInfiniteGetList("merchant/wallet", {
+              pagination: { perPage: 25, page: 1 },
+              filter: { sort: "name", asc: "ASC" }
+          })
+        : { data: undefined, fetchNextPage: () => {} };
 
     const chooseClassTabActive = useCallback(
         (type: string) => {
@@ -176,17 +178,19 @@ export const WithdrawList = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 
-    const checkAddress = useCallback(
-        (address: string) => {
-            const res = walletsData?.pages.map(page => {
-                return page.data.find(wallet => {
-                    return wallet.address === address;
-                });
-            });
-            return res;
-        },
-        [walletsData?.pages]
-    );
+    const checkAddress = !merchantOnly
+        ? () => {}
+        : useCallback(
+              (address: string) => {
+                  const res = walletsData?.pages.map(page => {
+                      return page.data.find(wallet => {
+                          return wallet.address === address;
+                      });
+                  });
+                  return res;
+              },
+              [walletsData?.pages]
+          );
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
@@ -285,7 +289,7 @@ export const WithdrawList = () => {
                 }`;
             }
         },
-        ...(permissions === "merchant"
+        ...(merchantOnly
             ? [
                   {
                       id: "resend",
