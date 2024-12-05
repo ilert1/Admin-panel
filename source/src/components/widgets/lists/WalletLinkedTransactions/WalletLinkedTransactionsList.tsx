@@ -28,6 +28,7 @@ const WalletManualReconciliationBar = () => {
     const translate = useTranslate();
     const refresh = useRefresh();
     const [isLoading, setIsLoading] = useState(false);
+
     const handleCheckCLicked = async () => {
         if (isLoading) return;
         setIsLoading(true);
@@ -62,6 +63,10 @@ const WalletManualReconciliationBar = () => {
             setIsLoading(false);
         }
     };
+    const onOpenChange = () => {
+        setInputVal("");
+        setManualClicked(!manualClicked);
+    };
     return (
         <div className="flex justify-end items-end mb-6">
             <Button
@@ -70,7 +75,7 @@ const WalletManualReconciliationBar = () => {
                 <span>{translate("resources.wallet.linkedTransactions.manual_reconciliation")}</span>
             </Button>
 
-            <Dialog open={manualClicked} onOpenChange={setManualClicked}>
+            <Dialog open={manualClicked} onOpenChange={onOpenChange}>
                 <DialogContent
                     disableOutsideClick
                     className="bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[300px] mx-2 !overflow-y-auto rounded-[0] md:rounded-[16px]">
@@ -100,7 +105,7 @@ const WalletManualReconciliationBar = () => {
                                 )}
                             </Button>
                             <Button
-                                onClick={() => setManualClicked(false)}
+                                onClick={onOpenChange}
                                 variant="clearBtn"
                                 type="button"
                                 className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full sm:w-auto">
