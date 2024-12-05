@@ -269,7 +269,7 @@ export const WithdrawList = () => {
                               <Button
                                   onClick={() =>
                                       setRepeatData({
-                                          address: row.original.destination.id,
+                                          address: row.original.destination.requisites[0].blockchain_address,
                                           amount:
                                               row.original.destination.amount.value.quantity /
                                               row.original.destination.amount.value.accuracy
@@ -328,7 +328,7 @@ export const WithdrawList = () => {
                                         disabled={typeTabActive === ""}>
                                         {translate("resources.transactions.types.all")}
                                     </button>
-                                    {/* 
+                                    {/*
                                     {Object.keys(data?.transactionTypes).map(item => (
                                         <button
                                             key={data?.transactionTypes?.[item].type}
