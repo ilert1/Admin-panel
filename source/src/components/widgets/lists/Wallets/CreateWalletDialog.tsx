@@ -12,9 +12,10 @@ import { CreateWallet } from "../../create";
 interface CreateWalletDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
+    callbackData?: (data: Wallet) => void;
 }
 export const CreateWalletDialog = (props: CreateWalletDialogProps) => {
-    const { open, onOpenChange } = props;
+    const { open, onOpenChange, callbackData = () => {} } = props;
     const translate = useTranslate();
 
     return (
@@ -23,7 +24,7 @@ export const CreateWalletDialog = (props: CreateWalletDialogProps) => {
                 <DialogHeader>
                     <DialogTitle className="mb-4">{translate("resources.wallet.manage.creatingWallet")}</DialogTitle>
                     <DialogDescription></DialogDescription>
-                    <CreateWallet onOpenChange={onOpenChange} />
+                    <CreateWallet callbackData={callbackData} onOpenChange={onOpenChange} />
                 </DialogHeader>
                 <DialogFooter></DialogFooter>
             </DialogContent>

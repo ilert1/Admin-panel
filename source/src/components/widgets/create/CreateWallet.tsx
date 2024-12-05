@@ -25,7 +25,9 @@ import { TronWeb } from "tronweb";
 
 interface CreateWalletProps {
     onOpenChange: (state: boolean) => void;
+    callbackData: (data: Wallet) => void;
 }
+
 enum WalletTypes {
     INTERNAL = "internal",
     LINKED = "linked",
@@ -36,7 +38,7 @@ const isTRC20Address = (address: string): boolean => {
 };
 
 export const CreateWallet = (props: CreateWalletProps) => {
-    const { onOpenChange } = props;
+    const { onOpenChange, callbackData } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
     const dataProvider = useDataProvider();
@@ -71,8 +73,10 @@ export const CreateWallet = (props: CreateWalletProps) => {
         data.account_id = data.accountNumber;
         delete data.accountNumber;
         try {
-            await dataProvider.create("wallet", { data: data });
+            const json = await dataProvider.create<Wallet>("wallet", { data: data });
             refresh();
+
+            callbackData(json.data);
             onOpenChange(false);
         } catch (error) {
             toast.error(translate("resources.wallet.manage.error"), {
@@ -88,8 +92,10 @@ export const CreateWallet = (props: CreateWalletProps) => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
         try {
-            await dataProvider.create("merchant/wallet", { data });
+            const json = await dataProvider.create("merchant/wallet", { data });
             refresh();
+
+            callbackData(json.data);
             onOpenChange(false);
         } catch (error) {
             if (error instanceof Error) {
