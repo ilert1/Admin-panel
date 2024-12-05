@@ -91,7 +91,7 @@ const WalletManualReconciliationBar = () => {
                                 onClick={handleCheckCLicked}
                                 variant="default"
                                 className="w-full sm:w-auto"
-                                disabled={!inputVal.length}>
+                                disabled={!inputVal.length || isLoading}>
                                 {isLoading ? (
                                     <LoadingAlertDialog className="w-[20px] h-[20px]" />
                                 ) : (
