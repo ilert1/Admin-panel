@@ -8,7 +8,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
@@ -20,6 +20,7 @@ import { CryptoTransfer } from "../../components/CryptoTransfer";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useFetchMerchants, useGetTransactionState } from "@/hooks";
 import { debounce } from "lodash";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const WithdrawFilterSidebar = () => {
     const {
@@ -91,8 +92,13 @@ export const WithdrawList = () => {
     const { permissions } = usePermissions();
     const [locale] = useLocaleState();
     const data = fetchDictionaries();
+
+    const location = useLocation();
+    const navigate = useNavigate();
+
     const type = "order_type";
     const [repeatData, setRepeatData] = useState<{ address: string; amount: number } | undefined>(undefined);
+    const [loading, setLoading] = useState(true);
 
     let isLoading,
         merchantsList: any[] = [];
@@ -101,7 +107,11 @@ export const WithdrawList = () => {
     }
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
 
-    const [typeTabActive, setTypeTabActive] = useState("");
+    const [typeTabActive, setTypeTabActive] = useState(() => {
+        const params = new URLSearchParams(location.search);
+        return params.get("filter") ? JSON.parse(params.get("filter")).order_type : "";
+    });
+
     const chooseClassTabActive = useCallback(
         (type: string) => {
             return typeTabActive === type
@@ -110,10 +120,6 @@ export const WithdrawList = () => {
         },
         [typeTabActive]
     );
-    const onTabChanged = (value: Dictionaries.TypeDescriptor) => {
-        setTypeTabActive(value.type_descr);
-        onPropertySelected(value.type);
-    };
 
     const onPropertySelected = debounce((value: string | { from: string; to: string } | number) => {
         if (value) {
@@ -125,10 +131,37 @@ export const WithdrawList = () => {
         listContext.setPage(1);
     }, 300);
 
+    const onTabChanged = (value: Dictionaries.TypeDescriptor) => {
+        setTypeTabActive(value.type_descr);
+        onPropertySelected(value.type);
+    };
+
     const clearTypeFilters = () => {
         setTypeTabActive("");
+        const newParams = new URLSearchParams(location.search);
+        newParams.delete("filter");
+        navigate({ search: newParams.toString() });
+
         listContext.setFilters({}, listContext.displayedFilters);
     };
+
+    useEffect(() => {
+        if (data) {
+            const params = new URLSearchParams(location.search);
+            const type = params.get("filter") ? JSON.parse(params.get("filter")).order_type : "";
+
+            if (type) {
+                setTypeTabActive(data.transactionTypes[type]?.type_descr || "");
+                listContext.setFilters({ ...listContext.filterValues, order_type: type }, listContext.displayedFilters);
+            } else {
+                setTypeTabActive("");
+                listContext.setFilters({}, listContext.displayedFilters);
+            }
+
+            setLoading(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data]);
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
@@ -192,7 +225,6 @@ export const WithdrawList = () => {
         {
             header: translate("resources.withdraw.fields.idInBlockChain"),
             cell: ({ row }) => {
-                // console.log(row.original);
                 const text = Object.hasOwn(row.original.destination, "requisites")
                     ? row.original.destination.requisites[0].hash
                     : "-";
@@ -268,7 +300,7 @@ export const WithdrawList = () => {
         }
     ];
 
-    if (listContext.isLoading || !listContext.data || isLoading) {
+    if (listContext.isLoading || !listContext.data || isLoading || loading) {
         return <Loading />;
     } else {
         return (
@@ -296,7 +328,7 @@ export const WithdrawList = () => {
                                         disabled={typeTabActive === ""}>
                                         {translate("resources.transactions.types.all")}
                                     </button>
-
+                                    {/* 
                                     {Object.keys(data?.transactionTypes).map(item => (
                                         <button
                                             key={data?.transactionTypes?.[item].type}
@@ -309,7 +341,31 @@ export const WithdrawList = () => {
                                                 ].type_descr.toLowerCase()}`
                                             )}
                                         </button>
-                                    ))}
+                                    ))} */}
+                                    <button
+                                        key={3}
+                                        className={chooseClassTabActive("Transfer")}
+                                        disabled={typeTabActive === "Transfer"}
+                                        onClick={() =>
+                                            onTabChanged({
+                                                type: 3,
+                                                type_descr: "Transfer"
+                                            })
+                                        }>
+                                        {translate(`resources.transactions.types.transfer`)}
+                                    </button>
+                                    <button
+                                        key={4}
+                                        className={chooseClassTabActive("Reward")}
+                                        disabled={typeTabActive === "Reward"}
+                                        onClick={() =>
+                                            onTabChanged({
+                                                type: 4,
+                                                type_descr: "Reward"
+                                            })
+                                        }>
+                                        {translate(`resources.transactions.types.reward`)}
+                                    </button>
                                 </div>
                             </div>
                             <DataTable columns={columns} data={[]} />
