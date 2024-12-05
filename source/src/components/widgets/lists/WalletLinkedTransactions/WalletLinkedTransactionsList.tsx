@@ -37,7 +37,7 @@ const WalletManualReconciliationBar = () => {
                 method: "POST",
                 user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
             });
-            console.log(json);
+            // console.log(json);
             if (!json.success) {
                 toast.error("Error", {
                     description: json.error.error_message ?? translate("resources.wallet.linkedTransactions.notFound"),
