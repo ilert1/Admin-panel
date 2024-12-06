@@ -20,6 +20,8 @@ export const WalletTransactionsShow = ({ id }: WalletTransactionsShowProps) => {
         }
     });
 
+    console.log(context?.record);
+
     if (context.isLoading || !context.record) {
         return <Loading />;
     } else {
@@ -76,15 +78,15 @@ export const WalletTransactionsShow = ({ id }: WalletTransactionsShowProps) => {
                     />
                     <TextField
                         label={translate("resources.wallet.transactions.fields.total_fee")}
-                        text={String(context.record?.total_fee)}
+                        text={context.record?.total_fee >= 0 ? String(context.record?.total_fee) : ""}
                     />
                     <TextField
                         label={translate("resources.wallet.transactions.fields.bandwidth_fee")}
-                        text={String(context.record?.bandwidth_fee || "")}
+                        text={context.record?.bandwidth_fee >= 0 ? String(context.record?.bandwidth_fee) : ""}
                     />
                     <TextField
                         label={translate("resources.wallet.transactions.fields.pre_calculated_fee")}
-                        text={String(context.record?.pre_calculated_fee || "")}
+                        text={context.record?.pre_calculated_fee >= 0 ? String(context.record?.pre_calculated_fee) : ""}
                     />
                 </div>
             </div>

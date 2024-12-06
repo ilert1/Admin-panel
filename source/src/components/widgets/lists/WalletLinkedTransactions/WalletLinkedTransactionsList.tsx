@@ -7,7 +7,7 @@ import {
     useRefresh,
     useTranslate
 } from "react-admin";
-import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
+import { Loading, LoadingAlertDialog, LoadingBalance } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
 import { Button } from "@/components/ui/button";
 import { EyeIcon } from "lucide-react";
@@ -99,7 +99,9 @@ const WalletManualReconciliationBar = () => {
                                 className="w-full sm:w-auto"
                                 disabled={!inputVal.length || isLoading}>
                                 {isLoading ? (
-                                    <LoadingAlertDialog className="w-[20px] h-[20px]" />
+                                    <div className="flex flex-col items-center justify-center">
+                                        <LoadingBalance className="w-[15px] h-[15px] overflow-hidden" />
+                                    </div>
                                 ) : (
                                     translate("resources.wallet.linkedTransactions.check")
                                 )}

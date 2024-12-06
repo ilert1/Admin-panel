@@ -29,8 +29,10 @@ export const CryptoTransferForm = (props: {
     const [checked, setChecked] = useState<boolean>(false);
     const [createOpen, setCreateOpen] = useState(false);
     const [sendAmount, setSendAmount] = useState(0);
+    const [chosenAddress, setChosenAddress] = useState("");
     const [lastUsedWallet, setLastUsedWallet] = useState("");
     const [shouldTrigger, setShouldTrigger] = useState(false);
+    const [walletSelectOpen, setWalletSelectOpen] = useState(false);
 
     const {
         data: walletsData,
@@ -66,6 +68,24 @@ export const CryptoTransferForm = (props: {
             amount: undefined
         }
     });
+
+    useEffect(() => {
+        const isFound = checkAddress(chosenAddress);
+
+        if (chosenAddress && isFound && isFound[0]) {
+            form.reset({
+                address: chosenAddress,
+                amount: undefined
+            });
+
+            setChosenAddress("");
+
+            if (checked) {
+                setChecked(false);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [chosenAddress, walletsData?.pages]);
 
     const amount = form.watch("amount");
 
@@ -119,6 +139,7 @@ export const CryptoTransferForm = (props: {
     useEffect(() => {
         if (props.repeatData) {
             const isFound = checkAddress(props.repeatData?.address);
+
             if (isFound && isFound[0]) {
                 form.setValue("address", props.repeatData.address, { shouldDirty: true });
                 form.setValue("amount", props.repeatData.amount, { shouldDirty: true });
@@ -165,7 +186,6 @@ export const CryptoTransferForm = (props: {
                 .then(({ data }) => {
                     const isFound = checkAddress(data[0].destination.requisites[0].blockchain_address);
                     if (isFound) {
-                        // console.log(data);
                         setLastUsedWallet(data[0].destination.requisites[0].blockchain_address);
                     }
                 }),
@@ -189,10 +209,10 @@ export const CryptoTransferForm = (props: {
                                         </FormLabel>
                                         <FormControl>
                                             <Select
+                                                open={walletSelectOpen}
+                                                onOpenChange={setWalletSelectOpen}
                                                 value={field.value}
-                                                onValueChange={e => {
-                                                    field.onChange(e);
-                                                }}
+                                                onValueChange={field.onChange}
                                                 disabled={props.loading}>
                                                 <FormControl>
                                                     <SelectTrigger variant={SelectType.DEFAULT}>
@@ -356,7 +376,17 @@ export const CryptoTransferForm = (props: {
                         </Button>
                     </div>
                 </form>
-                <CreateWalletDialog open={createOpen} onOpenChange={setCreateOpen} />
+                <CreateWalletDialog
+                    callbackData={data => {
+                        if (data.address) {
+                            setChosenAddress(data.address);
+                            setWalletSelectOpen(false);
+                            setShouldTrigger(true);
+                        }
+                    }}
+                    open={createOpen}
+                    onOpenChange={setCreateOpen}
+                />
             </Form>
         );
     else if (props.transferState === "success" || props.transferState === "error")

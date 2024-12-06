@@ -1,7 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useTranslate, useListController, ListContextProvider, usePermissions, useLocaleState } from "react-admin";
+import {
+    useTranslate,
+    useListController,
+    ListContextProvider,
+    usePermissions,
+    useLocaleState,
+    useInfiniteGetList
+} from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, Row } from "@tanstack/react-table";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -99,9 +106,10 @@ export const WithdrawList = () => {
     const type = "order_type";
     const [repeatData, setRepeatData] = useState<{ address: string; amount: number } | undefined>(undefined);
     const [loading, setLoading] = useState(true);
+    const [cryptoTransferState, setCryptoTransferState] = useState<"process" | "success" | "error">("process");
 
     let isLoading,
-        merchantsList: any[] = [];
+        merchantsList: Merchant[] = [];
     if (permissions === "admin") {
         ({ isLoading, merchantsList } = useFetchMerchants());
     }
@@ -109,8 +117,15 @@ export const WithdrawList = () => {
 
     const [typeTabActive, setTypeTabActive] = useState(() => {
         const params = new URLSearchParams(location.search);
-        return params.get("filter") ? JSON.parse(params.get("filter")).order_type : "";
+        return params.get("filter") ? JSON.parse(params.get("filter") as string).order_type : "";
     });
+
+    const { data: walletsData, fetchNextPage: walletsNextPage } = merchantOnly
+        ? useInfiniteGetList("merchant/wallet", {
+              pagination: { perPage: 25, page: 1 },
+              filter: { sort: "name", asc: "ASC" }
+          })
+        : { data: undefined, fetchNextPage: () => {} };
 
     const chooseClassTabActive = useCallback(
         (type: string) => {
@@ -148,7 +163,7 @@ export const WithdrawList = () => {
     useEffect(() => {
         if (data) {
             const params = new URLSearchParams(location.search);
-            const type = params.get("filter") ? JSON.parse(params.get("filter")).order_type : "";
+            const type = params.get("filter") ? JSON.parse(params.get("filter") as string).order_type : "";
 
             if (type) {
                 setTypeTabActive(data.transactionTypes[type]?.type_descr || "");
@@ -162,6 +177,20 @@ export const WithdrawList = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
+
+    const checkAddress = !merchantOnly
+        ? () => {}
+        : useCallback(
+              (address: string) => {
+                  const res = walletsData?.pages.map(page => {
+                      return page.data.find(wallet => {
+                          return wallet.address === address;
+                      });
+                  });
+                  return res;
+              },
+              [walletsData?.pages]
+          );
 
     const columns: ColumnDef<Transaction.Transaction>[] = [
         {
@@ -203,8 +232,9 @@ export const WithdrawList = () => {
             ? [
                   {
                       header: translate("resources.withdraw.fields.merchant"),
-                      cell: ({ row }: any) => {
+                      cell: ({ row }: { row: Row<Transaction.Transaction> }) => {
                           const merch = merchantsList.find(el => el.id === row.original.source.id);
+
                           return (
                               <div>
                                   <TextField text={merch?.name ?? ""} wrap />
@@ -259,25 +289,35 @@ export const WithdrawList = () => {
                 }`;
             }
         },
-        ...(permissions === "merchant"
+        ...(merchantOnly
             ? [
                   {
                       id: "resend",
-                      header: "",
-                      cell: ({ row }) => {
-                          return (
-                              <Button
-                                  onClick={() =>
-                                      setRepeatData({
-                                          address: row.original.destination.requisites[0].blockchain_address,
-                                          amount:
-                                              row.original.destination.amount.value.quantity /
-                                              row.original.destination.amount.value.accuracy
-                                      })
-                                  }>
-                                  {translate("resources.withdraw.fields.resend")}
-                              </Button>
-                          );
+                      header: translate("resources.withdraw.fields.resend"),
+                      cell: ({ row }: { row: Row<Transaction.Transaction> }) => {
+                          if (Object.hasOwn(row.original.destination, "requisites")) {
+                              const isFound = checkAddress(row.original.destination.requisites[0]?.blockchain_address);
+                              return isFound && isFound[0] ? (
+                                  <Button
+                                      onClick={() => {
+                                          if (cryptoTransferState !== "process") {
+                                              setCryptoTransferState("process");
+                                          }
+                                          setRepeatData({
+                                              address: row.original.destination.requisites[0].blockchain_address,
+                                              amount:
+                                                  row.original.destination.amount.value.quantity /
+                                                  row.original.destination.amount.value.accuracy
+                                          });
+                                      }}>
+                                      {translate("resources.withdraw.fields.resend")}
+                                  </Button>
+                              ) : (
+                                  <p className="text-center">-</p>
+                              );
+                          } else {
+                              return <p className="text-center">-</p>;
+                          }
                       }
                   }
               ]
@@ -373,7 +413,11 @@ export const WithdrawList = () => {
 
                         {merchantOnly && (
                             <div className="max-w-80 mb-6 row-start-1 lg:col-start-2 lg:row-start-2">
-                                <CryptoTransfer repeatData={repeatData} />
+                                <CryptoTransfer
+                                    cryptoTransferState={cryptoTransferState}
+                                    setCryptoTransferState={setCryptoTransferState}
+                                    repeatData={repeatData}
+                                />
                             </div>
                         )}
                     </div>

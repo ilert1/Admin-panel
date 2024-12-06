@@ -6,11 +6,13 @@ import { parseJWT } from "@/helpers/jwt";
 import { useQuery } from "react-query";
 
 interface CryptoTransferProps {
+    cryptoTransferState: "process" | "success" | "error";
+    setCryptoTransferState: (state: "process" | "success" | "error") => void;
     repeatData: { address: string; amount: number } | undefined;
 }
-export const CryptoTransfer = ({ repeatData }: CryptoTransferProps) => {
+export const CryptoTransfer = ({ repeatData, cryptoTransferState, setCryptoTransferState }: CryptoTransferProps) => {
     const translate = useTranslate();
-    const [transferState, setTransferState] = useState<"process" | "success" | "error">("process");
+
     const refresh = useRefresh();
 
     const [message, setMessage] = useState("");
@@ -83,14 +85,14 @@ export const CryptoTransfer = ({ repeatData }: CryptoTransferProps) => {
             .then(json => {
                 if (json.success) {
                     setMessage(getMessage(json));
-                    setTransferState("success");
+                    setCryptoTransferState("success");
                 } else {
                     setMessage(getMessage(json));
-                    setTransferState("error");
+                    setCryptoTransferState("error");
                 }
             })
             .catch(() => {
-                setTransferState("error");
+                setCryptoTransferState("error");
             })
             .finally(() => {
                 setLocalLoading(false);
@@ -105,8 +107,8 @@ export const CryptoTransfer = ({ repeatData }: CryptoTransferProps) => {
                 loading={isLoading}
                 create={createTransfer}
                 balance={balance || 0}
-                transferState={transferState}
-                setTransferState={setTransferState}
+                transferState={cryptoTransferState}
+                setTransferState={setCryptoTransferState}
                 showMessage={message}
                 repeatData={repeatData}
             />
