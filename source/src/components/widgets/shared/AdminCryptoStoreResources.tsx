@@ -37,12 +37,6 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                 path: "/wallet",
                 icon: <DoubleWalletsIcon />,
                 showLock: false
-            },
-            {
-                name: "transactions",
-                path: "/wallet/transactions",
-                icon: <WalletCards />,
-                showLock: false
             }
         ]
     };
@@ -56,6 +50,12 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                 showLock: true
             },
             ...customViewRoutes.childrens,
+            {
+                name: "transactions",
+                path: "/wallet/transactions",
+                icon: <WalletCards />,
+                showLock: false
+            },
             {
                 name: "linkedTransactions",
                 path: "/wallet/linkedTransactions",
