@@ -141,12 +141,30 @@ export const useGetWalletTransactionsColumns = () => {
         {
             id: "pre_calculated_fee",
             accessorKey: "pre_calculated_fee",
-            header: translate("resources.wallet.transactions.fields.pre_calculated_fee")
+            header: translate("resources.wallet.transactions.fields.pre_calculated_fee"),
+            cell: ({ row }) => {
+                return (
+                    <TextField
+                        text={row.original.pre_calculated_fee >= 0 ? String(row.original.pre_calculated_fee) : ""}
+                    />
+                );
+            }
         },
         {
             id: "total_fee",
             accessorKey: "total_fee",
-            header: translate("resources.wallet.transactions.fields.total_fee")
+            header: translate("resources.wallet.transactions.fields.total_fee"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.total_fee >= 0 ? String(row.original.total_fee) : ""} />;
+            }
+        },
+        {
+            id: "bandwidth_fee",
+            accessorKey: "bandwidth_fee",
+            header: translate("resources.wallet.transactions.fields.bandwidth_fee"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.bandwidth_fee >= 0 ? String(row.original.bandwidth_fee) : ""} />;
+            }
         },
         {
             id: "actions",
