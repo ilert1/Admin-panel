@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectType } from "@/
 import { CreateWalletDialog } from "../lists/Wallets";
 import { LoadingBalance } from "@/components/ui/loading";
 import { toast } from "sonner";
+import { useQuery } from "react-query";
 
 export const CryptoTransferForm = (props: {
     loading: boolean;
@@ -28,10 +29,16 @@ export const CryptoTransferForm = (props: {
     const [checked, setChecked] = useState<boolean>(false);
     const [createOpen, setCreateOpen] = useState(false);
     const [sendAmount, setSendAmount] = useState(0);
+    const [chosenAddress, setChosenAddress] = useState("");
     const [lastUsedWallet, setLastUsedWallet] = useState("");
     const [shouldTrigger, setShouldTrigger] = useState(false);
+    const [walletSelectOpen, setWalletSelectOpen] = useState(false);
 
-    const { data: walletsData, fetchNextPage: walletsNextPage } = useInfiniteGetList("merchant/wallet", {
+    const {
+        data: walletsData,
+        isFetched: walletsDataFetched,
+        fetchNextPage: walletsNextPage
+    } = useInfiniteGetList("merchant/wallet", {
         pagination: { perPage: 25, page: 1 },
         filter: { sort: "name", asc: "ASC" }
     });
@@ -62,6 +69,24 @@ export const CryptoTransferForm = (props: {
         }
     });
 
+    useEffect(() => {
+        const isFound = checkAddress(chosenAddress);
+
+        if (chosenAddress && isFound && isFound[0]) {
+            form.reset({
+                address: chosenAddress,
+                amount: undefined
+            });
+
+            setChosenAddress("");
+
+            if (checked) {
+                setChecked(false);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [chosenAddress, walletsData?.pages]);
+
     const amount = form.watch("amount");
 
     const accuracy = useMemo(() => Math.pow(10, String(amount).split(".")[1]?.length) || 100, [amount]);
@@ -81,7 +106,7 @@ export const CryptoTransferForm = (props: {
     }, [props.loading, totalAmount]);
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+        // console.log(values);
         props.create({
             ...values,
             accuracy
@@ -114,6 +139,7 @@ export const CryptoTransferForm = (props: {
     useEffect(() => {
         if (props.repeatData) {
             const isFound = checkAddress(props.repeatData?.address);
+
             if (isFound && isFound[0]) {
                 form.setValue("address", props.repeatData.address, { shouldDirty: true });
                 form.setValue("amount", props.repeatData.amount, { shouldDirty: true });
@@ -148,20 +174,23 @@ export const CryptoTransferForm = (props: {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [shouldTrigger]);
 
-    useEffect(() => {
-        async function fetch() {
-            const { data } = await dataProvider.getList("withdraw", {
-                pagination: { page: 1, perPage: 1 },
-                sort: { field: "id", order: "ASC" },
-                filter: {}
-            });
-            const isFound = checkAddress(data[0].destination.id);
-            if (isFound) {
-                setLastUsedWallet(data[0].destination.id);
-            }
-        }
-        fetch();
-    }, [checkAddress, dataProvider]);
+    useQuery(
+        "withdrawList",
+        () =>
+            dataProvider
+                .getList("withdraw", {
+                    pagination: { page: 1, perPage: 1 },
+                    sort: { field: "id", order: "ASC" },
+                    filter: {}
+                })
+                .then(({ data }) => {
+                    const isFound = checkAddress(data[0].destination.requisites[0].blockchain_address);
+                    if (isFound) {
+                        setLastUsedWallet(data[0].destination.requisites[0].blockchain_address);
+                    }
+                }),
+        { enabled: props.transferState === "process" && walletsDataFetched }
+    );
 
     if (props.transferState === "process")
         return (
@@ -180,10 +209,10 @@ export const CryptoTransferForm = (props: {
                                         </FormLabel>
                                         <FormControl>
                                             <Select
+                                                open={walletSelectOpen}
+                                                onOpenChange={setWalletSelectOpen}
                                                 value={field.value}
-                                                onValueChange={e => {
-                                                    field.onChange(e);
-                                                }}
+                                                onValueChange={field.onChange}
                                                 disabled={props.loading}>
                                                 <FormControl>
                                                     <SelectTrigger variant={SelectType.DEFAULT}>
@@ -207,27 +236,26 @@ export const CryptoTransferForm = (props: {
                                                     )}
                                                     {walletsData?.pages.map(page => {
                                                         return page.data.map(wallet => {
-                                                            if (wallet.address === lastUsedWallet) {
-                                                                return;
+                                                            if (wallet.address !== lastUsedWallet) {
+                                                                return (
+                                                                    <div
+                                                                        key={wallet.id}
+                                                                        className="relative flex flex-col gap-2">
+                                                                        <SelectItem
+                                                                            value={wallet.address}
+                                                                            variant={SelectType.DEFAULT}>
+                                                                            <p className="truncate max-w-[235px]">
+                                                                                {wallet.address}
+                                                                            </p>
+                                                                            <p
+                                                                                className="truncate max-w-[235px] text-note-2 text-neutral-50"
+                                                                                style={{ bottom: "-.5" }}>
+                                                                                {wallet.description}
+                                                                            </p>
+                                                                        </SelectItem>
+                                                                    </div>
+                                                                );
                                                             }
-                                                            return (
-                                                                <div
-                                                                    key={wallet.id}
-                                                                    className="relative flex flex-col gap-2">
-                                                                    <SelectItem
-                                                                        value={wallet.address}
-                                                                        variant={SelectType.DEFAULT}>
-                                                                        <p className="truncate max-w-[235px]">
-                                                                            {wallet.address}
-                                                                        </p>
-                                                                        <p
-                                                                            className="truncate max-w-[235px] text-note-2 text-neutral-50"
-                                                                            style={{ bottom: "-.5" }}>
-                                                                            {wallet.description}
-                                                                        </p>
-                                                                    </SelectItem>
-                                                                </div>
-                                                            );
                                                         });
                                                     })}
                                                     <div className="sticky bottom-0 bg-black p-2 z-10 flex items-center w-full h-[48px]">
@@ -348,7 +376,17 @@ export const CryptoTransferForm = (props: {
                         </Button>
                     </div>
                 </form>
-                <CreateWalletDialog open={createOpen} onOpenChange={setCreateOpen} />
+                <CreateWalletDialog
+                    callbackData={data => {
+                        if (data.address) {
+                            setChosenAddress(data.address);
+                            setWalletSelectOpen(false);
+                            setShouldTrigger(true);
+                        }
+                    }}
+                    open={createOpen}
+                    onOpenChange={setCreateOpen}
+                />
             </Form>
         );
     else if (props.transferState === "success" || props.transferState === "error")

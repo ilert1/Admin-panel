@@ -297,6 +297,7 @@ namespace Directions {
     }
 
     interface Terminal {
+        id: string;
         terminal_id: string;
         verbose_name: string;
         description?: string | null;
@@ -463,7 +464,7 @@ interface Cryptotransactions {
 }
 
 interface WalletLinkedTransactions {
-    id?: string;
+    id: string;
     scanned_at: string;
     block_timestamp: string;
     type: string;

@@ -7,7 +7,7 @@ import {
     useRefresh,
     useTranslate
 } from "react-admin";
-import { Loading } from "@/components/ui/loading";
+import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
 import { Button } from "@/components/ui/button";
 import { EyeIcon } from "lucide-react";
@@ -27,14 +27,17 @@ const WalletManualReconciliationBar = () => {
     const [inputVal, setInputVal] = useState("");
     const translate = useTranslate();
     const refresh = useRefresh();
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleCheckCLicked = async () => {
+        if (isLoading) return;
+        setIsLoading(true);
         try {
             const { json } = await fetchUtils.fetchJson(`${BASE_URL}/reconciliation/${inputVal}`, {
                 method: "POST",
                 user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
             });
-            console.log(json);
+            // console.log(json);
             if (!json.success) {
                 toast.error("Error", {
                     description: json.error.error_message ?? translate("resources.wallet.linkedTransactions.notFound"),
@@ -56,7 +59,13 @@ const WalletManualReconciliationBar = () => {
                 dismissible: true,
                 duration: 3000
             });
+        } finally {
+            setIsLoading(false);
         }
+    };
+    const onOpenChange = () => {
+        setInputVal("");
+        setManualClicked(!manualClicked);
     };
     return (
         <div className="flex justify-end items-end mb-6">
@@ -66,7 +75,7 @@ const WalletManualReconciliationBar = () => {
                 <span>{translate("resources.wallet.linkedTransactions.manual_reconciliation")}</span>
             </Button>
 
-            <Dialog open={manualClicked} onOpenChange={setManualClicked}>
+            <Dialog open={manualClicked} onOpenChange={onOpenChange}>
                 <DialogContent
                     disableOutsideClick
                     className="bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[300px] mx-2 !overflow-y-auto rounded-[0] md:rounded-[16px]">
@@ -88,11 +97,15 @@ const WalletManualReconciliationBar = () => {
                                 onClick={handleCheckCLicked}
                                 variant="default"
                                 className="w-full sm:w-auto"
-                                disabled={!inputVal.length}>
-                                {translate("resources.wallet.linkedTransactions.check")}
+                                disabled={!inputVal.length || isLoading}>
+                                {isLoading ? (
+                                    <LoadingAlertDialog className="w-[20px] h-[20px]" />
+                                ) : (
+                                    translate("resources.wallet.linkedTransactions.check")
+                                )}
                             </Button>
                             <Button
-                                onClick={() => setManualClicked(false)}
+                                onClick={onOpenChange}
                                 variant="clearBtn"
                                 type="button"
                                 className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full sm:w-auto">
@@ -108,7 +121,7 @@ const WalletManualReconciliationBar = () => {
 
 export const WalletLinkedTransactionsList = () => {
     const { permissions } = usePermissions();
-    const listContext = useListController(
+    const listContext = useListController<WalletLinkedTransactions>(
         permissions === "admin" ? { resource: "reconciliation" } : { resource: "merchant/reconciliation" }
     );
 

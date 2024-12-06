@@ -58,14 +58,14 @@ export const AccountEdit = (props: AccountEditProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            account_id: controllerProps.record?.id || id,
-            name: controllerProps.record?.meta?.caption || "",
-            wallet_create: controllerProps.record?.wallet_create || false,
-            wallet_type: controllerProps.record?.wallet_type || WalletTypes.INTERNAL,
-            tron_wallet: controllerProps.record?.tron_wallet || "",
-            tron_address: controllerProps.record?.tron_address || "",
-            reward_account: controllerProps.record?.reward_account || "",
-            provider_account: controllerProps.record?.provider_account || ""
+            account_id: "",
+            name: "",
+            wallet_create: false,
+            wallet_type: WalletTypes.INTERNAL,
+            tron_wallet: "",
+            tron_address: "",
+            reward_account: "",
+            provider_account: ""
         }
     });
 
@@ -76,14 +76,14 @@ export const AccountEdit = (props: AccountEditProps) => {
                 name: controllerProps.record?.meta?.caption || "",
                 wallet_create: controllerProps.record?.wallet_create || false,
                 wallet_type: controllerProps.record?.wallet_type || WalletTypes.INTERNAL,
-                tron_wallet: controllerProps.record?.tron_wallet || "",
-                tron_address: controllerProps.record?.tron_address || "",
-                reward_account: controllerProps.record?.reward_account || "",
-                provider_account: controllerProps.record?.provider_account || ""
+                tron_wallet: controllerProps.record?.meta?.tron_wallet || "",
+                tron_address: controllerProps.record?.meta?.tron_address || "",
+                reward_account: controllerProps.record?.meta?.reward_account || "",
+                provider_account: controllerProps.record?.meta?.provider_account || ""
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [form]);
+    }, [form, controllerProps.record]);
 
     const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async data => {
         if (submitButtonDisabled) return;

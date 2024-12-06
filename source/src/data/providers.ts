@@ -29,6 +29,19 @@ export class ProvidersDataProvider extends BaseDataProvider {
             throw new Error(json.error);
         }
 
+        if (resource.includes("/terminal")) {
+            return {
+                data:
+                    json.data.map((elem: Directions.Terminal) => {
+                        return {
+                            ...elem,
+                            id: elem.terminal_id
+                        };
+                    }) || [],
+                total: json?.meta.total || 0
+            };
+        }
+
         return {
             data:
                 json.data.map((elem: { name: string }) => {

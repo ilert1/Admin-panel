@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useTranslate, useListController, ListContextProvider, usePermissions, useLocaleState } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, Row } from "@tanstack/react-table";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -135,9 +135,11 @@ export const WithdrawList = () => {
     const [locale] = useLocaleState();
 
     const [repeatData, setRepeatData] = useState<{ address: string; amount: number } | undefined>(undefined);
+    const [loading, setLoading] = useState(true);
+    const [cryptoTransferState, setCryptoTransferState] = useState<"process" | "success" | "error">("process");
 
     let isLoading,
-        merchantsList: any[] = [];
+        merchantsList: Merchant[] = [];
     if (permissions === "admin") {
         ({ isLoading, merchantsList } = useFetchMerchants());
     }
@@ -183,7 +185,7 @@ export const WithdrawList = () => {
             ? [
                   {
                       header: translate("resources.withdraw.fields.merchant"),
-                      cell: ({ row }: any) => {
+                      cell: ({ row }: { row: Row<Transaction.Transaction> }) => {
                           const merch = merchantsList.find(el => el.id === row.original.source.id);
                           return (
                               <div>
@@ -244,17 +246,21 @@ export const WithdrawList = () => {
                   {
                       id: "resend",
                       header: "",
-                      cell: ({ row }) => {
+                      cell: ({ row }: { row: Row<Transaction.Transaction> }) => {
                           return (
                               <Button
-                                  onClick={() =>
+                                  onClick={() => {
+                                      if (cryptoTransferState !== "process") {
+                                          setCryptoTransferState("process");
+                                      }
+
                                       setRepeatData({
-                                          address: row.original.destination.id,
+                                          address: row.original.destination.requisites[0].blockchain_address,
                                           amount:
                                               row.original.destination.amount.value.quantity /
                                               row.original.destination.amount.value.accuracy
-                                      })
-                                  }>
+                                      });
+                                  }}>
                                   {translate("resources.withdraw.fields.resend")}
                               </Button>
                           );
@@ -302,7 +308,11 @@ export const WithdrawList = () => {
 
                         {merchantOnly && (
                             <div className="max-w-80 mb-6 row-start-1 lg:col-start-2 lg:row-start-2">
-                                <CryptoTransfer repeatData={repeatData} />
+                                <CryptoTransfer
+                                    cryptoTransferState={cryptoTransferState}
+                                    setCryptoTransferState={setCryptoTransferState}
+                                    repeatData={repeatData}
+                                />
                             </div>
                         )}
                     </div>

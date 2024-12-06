@@ -36,7 +36,7 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
                 user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
                 body: undefined
             });
-            console.log(json);
+            // console.log(json);
             if (!json.success) {
                 throw new Error("");
             }

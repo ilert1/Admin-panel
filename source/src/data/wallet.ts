@@ -35,8 +35,20 @@ export class WalletsDataProvider extends BaseDataProvider {
         if (!json.success) {
             throw new Error(json.error);
         }
+
+        if (resource === "reconciliation") {
+            return {
+                data:
+                    json?.data?.map((data: WalletLinkedTransactions) => ({
+                        ...data,
+                        id: data.transaction_id
+                    })) || [],
+                total: json?.meta?.total || 0
+            };
+        }
+
         return {
-            data: json.data || [],
+            data: json?.data || [],
             total: json?.meta?.total || 0
         };
     }
@@ -51,9 +63,18 @@ export class WalletsDataProvider extends BaseDataProvider {
             throw new Error(json.error);
         }
 
+        if (resource === "reconciliation") {
+            return {
+                data: {
+                    ...json?.data,
+                    id: json?.data?.transaction_id
+                }
+            };
+        }
+
         return {
             data: {
-                ...json.data
+                ...json?.data
             }
         };
     }
