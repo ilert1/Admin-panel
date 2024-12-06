@@ -30,27 +30,17 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
     const handleConfirm = async (id: string) => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
-        onOpenChange(false);
         try {
-            toast.info("Info", {
-                description: translate("resources.wallet.transactions.confirmReqSend"),
-                duration: 3000,
-                dismissible: true
-            });
             const { json } = await fetchUtils.fetchJson(`${API_URL}/transaction/${id}/process`, {
                 method: "POST",
                 user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
                 body: undefined
             });
+            console.log(json);
             if (!json.success) {
                 throw new Error("");
             }
-            toast.success("Success", {
-                description: `${translate("resources.wallet.transactions.success")}\nid: ${json.id}`,
-                dismissible: true,
-                duration: 3000
-            });
-
+            onOpenChange(false);
             refresh();
         } catch (error) {
             toast.error(translate("resources.wallet.transactions.error"), {
