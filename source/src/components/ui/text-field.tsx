@@ -78,7 +78,7 @@ export const TextField = ({
                                 : {})
                         }}>
                         {type === "link" ? (
-                            <a href={link} target="_blank" className="block hover:underline">
+                            <a href={link} target="_blank" className="block hover:underline" rel="noreferrer">
                                 {currentText}
                             </a>
                         ) : (
