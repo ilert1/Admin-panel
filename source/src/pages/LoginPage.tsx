@@ -121,9 +121,9 @@ export const LoginPage = () => {
                     }`}>
                     <div className="flex justify-center mb-2.5 mt-5">
                         <img
-                            src="/NN logo colors.svg"
+                            src="/NoNameLogo.svg"
                             alt="Logo"
-                            className="h-[4.9rem] w-[7.9rem] pointer-events-none select-none"
+                            className="h-[78px] w-[126.93px] pointer-events-none select-none"
                         />
                     </div>
                     <form onSubmit={handleSubmit}>

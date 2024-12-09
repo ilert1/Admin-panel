@@ -95,9 +95,9 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                             <div className="flex items-center w-[189px] m-0 p-0">
                                 <div className="animate-in fade-in-0 transition-opacity duration-700">
                                     <img
-                                        src="/NN logo colors.svg"
+                                        src="/NoNameLogo.svg"
                                         alt="Logo"
-                                        className="h-14 w-[5.6rem] pointer-events-none select-none"
+                                        className="h-[55px] w-[89.51px] pointer-events-none select-none"
                                     />
                                 </div>
                             </div>
