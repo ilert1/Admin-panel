@@ -524,7 +524,7 @@ const ru: TranslationMessages = {
                 cryptotransaction: "Криптотранзакция",
                 allTransactions: "Все операции",
                 deletedTransactions: "Удаленные операции",
-                successMessage: "Транзакция успешно потверждена, ожидайте изменения статуса",
+                successMessage: "Запрос подтверждения транзакции отправлен, ожидайте изменения статуса",
                 fields: {
                     created_at: "Создана",
                     updated_at: "Обновлена",
@@ -1309,7 +1309,7 @@ const en: TranslationMessages = {
                 cryptotransaction: "Cryptotransaction",
                 allTransactions: "All transactions",
                 deletedTransactions: "Deleted transactions",
-                successMessage: "Transaction confirmed successfully, wait for status update.",
+                successMessage: "Confirmation request was send, wait for status update.",
                 fields: {
                     created_at: "Created at",
                     updated_at: "Updated at",
