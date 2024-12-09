@@ -32,11 +32,6 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
         setButtonDisabled(true);
         onOpenChange(false);
         try {
-            toast.info("Info", {
-                description: translate("resources.wallet.transactions.confirmReqSend"),
-                duration: 3000,
-                dismissible: true
-            });
             const { json } = await fetchUtils.fetchJson(`${API_URL}/transaction/${id}/process`, {
                 method: "POST",
                 user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
