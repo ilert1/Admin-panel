@@ -237,7 +237,8 @@ export const WithdrawList = () => {
             cell: ({ row }) => {
                 const text = Object.hasOwn(row.original.destination, "requisites")
                     ? row.original.destination.requisites[0].hash
-                    : "-";
+                    : "";
+
                 return (
                     <TextField
                         text={text}
@@ -248,7 +249,7 @@ export const WithdrawList = () => {
                                 ? `${row.original.destination.requisites[0].hash_link}`
                                 : "-"
                         }
-                        type={text !== "-" ? "link" : "text"}
+                        type={text ? "link" : "text"}
                         lineClamp
                         linesCount={1}
                         minWidth="50px"
