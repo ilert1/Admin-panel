@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import { useMemo, createElement, useState, useEffect } from "react";
 import { ChevronLeftCircleIcon, ChevronRightCircleIcon, KeyRound, ChevronLeft } from "lucide-react";
 // import Logo from "@/lib/icons/Logo";
-import LogoPicture from "@/lib/icons/LogoPicture";
 import { Button } from "@/components/ui/button";
 import { useGetResLabel } from "@/hooks/useGetResLabel";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -95,7 +94,11 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                         <div className="flex flex-shrink-0 justify-center items-center h-[63px] gap-6">
                             <div className="flex items-center w-[189px] m-0 p-0">
                                 <div className="animate-in fade-in-0 transition-opacity duration-700">
-                                    <LogoPicture />
+                                    <img
+                                        src="/NN logo colors.svg"
+                                        alt="Logo"
+                                        className="h-[124px] w-[177px] pointer-events-none select-none"
+                                    />
                                 </div>
                             </div>
                             <button className="flex flex-col items-center animate-in fade-in-0 transition-opacity duration-300">
