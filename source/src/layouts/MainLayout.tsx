@@ -91,7 +91,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                             : "w-[72px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden scrollbar-stable justify-start bg-header transition-[width] pt-6"
                     }>
                     {isSheetOpen ? (
-                        <div className="flex flex-shrink-0 justify-center items-center h-[63px] gap-6">
+                        <div className="flex flex-shrink-0 justify-center items-center h-[63px] gap-6 px-6">
                             <div className="flex items-center w-[189px] m-0 p-0">
                                 <div className="animate-in fade-in-0 transition-opacity duration-700">
                                     <img
