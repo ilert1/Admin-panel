@@ -97,7 +97,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                     <img
                                         src="/NN logo colors.svg"
                                         alt="Logo"
-                                        className="h-[124px] w-[177px] pointer-events-none select-none"
+                                        className="h-14 w-[5.6rem] pointer-events-none select-none"
                                     />
                                 </div>
                             </div>

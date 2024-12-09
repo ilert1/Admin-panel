@@ -123,7 +123,7 @@ export const LoginPage = () => {
                         <img
                             src="/NN logo colors.svg"
                             alt="Logo"
-                            className="h-20 w-56 pointer-events-none select-none"
+                            className="h-[4.9rem] w-[7.9rem] pointer-events-none select-none"
                         />
                     </div>
                     <form onSubmit={handleSubmit}>
