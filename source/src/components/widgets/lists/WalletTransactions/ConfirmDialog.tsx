@@ -59,7 +59,7 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="rounded-16 max-h-56 xl:max-h-none h-auto overflow-hidden w-[251px] bg-muted">
+            <DialogContent className="rounded-16 max-h-56 xl:max-h-none h-auto overflow-hidden w-[280px] bg-muted">
                 <DialogHeader>
                     <DialogTitle className="text-center">
                         {translate("resources.wallet.transactions.fields.confirmQuestion")}
@@ -67,7 +67,7 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
                     <DialogDescription></DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                    <div className="flex justify-around w-full">
+                    <div className="flex justify-around w-full gap-2">
                         <Button
                             onClick={() => {
                                 handleConfirm(id);
