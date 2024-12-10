@@ -20,7 +20,7 @@ export const WalletTransactionsShow = ({ id }: WalletTransactionsShowProps) => {
         }
     });
 
-    console.log(context?.record);
+    // console.log(context?.record);
 
     if (context.isLoading || !context.record) {
         return <Loading />;
