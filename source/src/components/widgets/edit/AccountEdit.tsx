@@ -18,6 +18,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
+import { TronWeb } from "tronweb";
 
 const BF_MANAGER_URL = import.meta.env.VITE_BF_MANAGER_URL;
 
@@ -44,13 +45,33 @@ export const AccountEdit = (props: AccountEditProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
 
+    const isTRC20Address = (address: string | undefined): boolean => {
+        if (address) {
+            return TronWeb.isAddress(address);
+        }
+
+        return true;
+    };
+
     const formSchema = z.object({
         account_id: z.string(),
         name: z.string().min(1).trim(),
         wallet_create: z.boolean().default(false),
         wallet_type: z.enum([WalletTypes.EXTERNAL, WalletTypes.INTERNAL, WalletTypes.LINKED]),
-        tron_wallet: z.string().trim(),
-        tron_address: z.string().trim(),
+        tron_wallet: z
+            .string()
+            .trim()
+            .optional()
+            .refine(isTRC20Address, {
+                message: translate("resources.wallet.manage.errors.invalidTRCAddresss")
+            }),
+        tron_address: z
+            .string()
+            .trim()
+            .optional()
+            .refine(isTRC20Address, {
+                message: translate("resources.wallet.manage.errors.invalidTRCAddresss")
+            }),
         reward_account: z.string().trim(),
         provider_account: z.string().trim().optional()
     });
