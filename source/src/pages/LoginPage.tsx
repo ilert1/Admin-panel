@@ -121,7 +121,7 @@ export const LoginPage = () => {
                     }`}>
                     <div className="flex justify-center mb-2.5 mt-5">
                         <img
-                            src="/NoNameLogo.svg"
+                            src={theme === "light" ? "/NoNameLogoLight.svg" : "/NoNameLogo.svg"}
                             alt="Logo"
                             className="h-[78px] w-[126.93px] pointer-events-none select-none"
                         />
