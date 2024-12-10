@@ -536,7 +536,7 @@ const ru: TranslationMessages = {
                     type: "Тип операции",
                     state: "Статус платежа",
                     merchant_id: "ID мерчанта",
-                    tx_id: "ID в блокчейне",
+                    tx_id: "Хэшлинк",
                     currency: "Валюта",
                     blowfish_id: "ID в Blowfish",
                     // TODO
@@ -1321,7 +1321,7 @@ const en: TranslationMessages = {
                     type: "Transaction type",
                     state: "Payment status",
                     merchant_id: "Merchant ID",
-                    tx_id: "ID in blockchain",
+                    tx_id: "Hashlink",
                     currency: "Currency",
                     blowfish_id: "Blowfish id",
                     total_fee: "Total fee",

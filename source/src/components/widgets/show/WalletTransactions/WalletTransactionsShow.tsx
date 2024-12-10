@@ -74,6 +74,8 @@ export const WalletTransactionsShow = ({ id }: WalletTransactionsShowProps) => {
                     <TextField
                         label={translate("resources.wallet.transactions.fields.tx_id")}
                         text={context.record?.tx_id}
+                        link={`https://shasta.tronscan.org/#/${context.record?.tx_link}`}
+                        type={context.record.tx_id ? "link" : "text"}
                         copyValue
                     />
                     <TextField
