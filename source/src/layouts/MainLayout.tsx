@@ -10,6 +10,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { KeysModal } from "@/components/widgets/components/KeysModal";
 import { Header } from "@/components/widgets/shared/Header";
 import { AdminCryptoStoreResources } from "@/components/widgets/shared";
+import { useTheme } from "@/components/providers";
 
 enum SplitLocations {
     show = "show",
@@ -25,6 +26,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const location = useLocation();
+    const { theme } = useTheme();
 
     const resourceName = useMemo(() => {
         const urlParts = location.pathname?.split("/")?.filter((s: string) => s?.length > 0);
@@ -95,7 +97,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                             <div className="flex items-center w-[189px] m-0 p-0">
                                 <div className="animate-in fade-in-0 transition-opacity duration-700">
                                     <img
-                                        src="/NoNameLogo.svg"
+                                        src={theme === "light" ? "/NoNameLogoLight.svg" : "/NoNameLogo.svg"}
                                         alt="Logo"
                                         className="h-[55px] w-[89.51px] pointer-events-none select-none"
                                     />
