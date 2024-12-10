@@ -169,14 +169,6 @@ export const useGetWalletTransactionsColumns = () => {
             }
         },
         {
-            id: "bandwidth_fee",
-            accessorKey: "bandwidth_fee",
-            header: translate("resources.wallet.transactions.fields.bandwidth_fee"),
-            cell: ({ row }) => {
-                return <TextField text={row.original.bandwidth_fee >= 0 ? String(row.original.bandwidth_fee) : ""} />;
-            }
-        },
-        {
             id: "actions",
             header: () => {
                 return <div className="text-center">{translate("resources.wallet.manage.fields.more")}</div>;
