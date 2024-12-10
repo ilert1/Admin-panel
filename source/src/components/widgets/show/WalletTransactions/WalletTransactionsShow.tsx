@@ -81,10 +81,6 @@ export const WalletTransactionsShow = ({ id }: WalletTransactionsShowProps) => {
                         text={context.record?.total_fee >= 0 ? String(context.record?.total_fee) : ""}
                     />
                     <TextField
-                        label={translate("resources.wallet.transactions.fields.bandwidth_fee")}
-                        text={context.record?.bandwidth_fee >= 0 ? String(context.record?.bandwidth_fee) : ""}
-                    />
-                    <TextField
                         label={translate("resources.wallet.transactions.fields.pre_calculated_fee")}
                         text={context.record?.pre_calculated_fee >= 0 ? String(context.record?.pre_calculated_fee) : ""}
                     />
