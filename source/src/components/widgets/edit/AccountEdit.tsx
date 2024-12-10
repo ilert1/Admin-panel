@@ -204,6 +204,7 @@ export const AccountEdit = (props: AccountEditProps) => {
                         />
 
                         <FormField
+                            disabled={form.getValues("wallet_create")}
                             control={form.control}
                             name="tron_wallet"
                             render={({ field }) => (
