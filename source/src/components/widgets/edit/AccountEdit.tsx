@@ -45,12 +45,8 @@ export const AccountEdit = (props: AccountEditProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
 
-    const isTRC20Address = (address: string | undefined): boolean => {
-        if (address) {
-            return TronWeb.isAddress(address);
-        }
-
-        return true;
+    const isTRC20Address = (address: string): boolean => {
+        return TronWeb.isAddress(address);
     };
 
     const formSchema = z.object({
@@ -61,19 +57,21 @@ export const AccountEdit = (props: AccountEditProps) => {
         tron_wallet: z
             .string()
             .trim()
-            .optional()
             .refine(isTRC20Address, {
                 message: translate("resources.wallet.manage.errors.invalidTRCAddresss")
-            }),
+            })
+            .optional()
+            .or(z.literal("")),
         tron_address: z
             .string()
             .trim()
-            .optional()
             .refine(isTRC20Address, {
                 message: translate("resources.wallet.manage.errors.invalidTRCAddresss")
-            }),
-        reward_account: z.string().trim(),
-        provider_account: z.string().trim().optional()
+            })
+            .optional()
+            .or(z.literal("")),
+        reward_account: z.string().trim().uuid().optional().or(z.literal("")),
+        provider_account: z.string().trim().uuid().optional().or(z.literal(""))
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
