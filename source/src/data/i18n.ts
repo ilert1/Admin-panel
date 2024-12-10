@@ -261,7 +261,7 @@ const ru: TranslationMessages = {
                     }
                 },
                 payload: {
-                    hash: "Хеш",
+                    hash: "Хэш",
                     hash_link: "Ссылка Tronscan"
                 },
                 merchant: "Мерчант",
@@ -537,7 +537,7 @@ const ru: TranslationMessages = {
                     state: "Статус платежа",
                     merchant_id: "ID мерчанта",
                     tx_id: "Хэшлинк",
-                    clickOnHashlink: "Хэш(нажмите на хэш чтобы открыть транзакцию в обозревателе блокчейна)",
+                    clickOnHashlink: "Хэш (нажмите на хэш чтобы открыть транзакцию в обозревателе блокчейна)",
                     currency: "Валюта",
                     blowfish_id: "ID в Blowfish",
                     // TODO
