@@ -266,7 +266,7 @@ const ru: TranslationMessages = {
                 },
                 merchant: "Мерчант",
                 state: "Состояние",
-                idInBlockChain: "ID в блокчейне",
+                idInBlockChain: "Хэшлинк",
                 resend: "Повторить"
             },
             download: {
@@ -537,6 +537,7 @@ const ru: TranslationMessages = {
                     state: "Статус платежа",
                     merchant_id: "ID мерчанта",
                     tx_id: "Хэшлинк",
+                    clickOnHashlink: "Хэш(нажмите на хэш чтобы открыть транзакцию в обозревателе блокчейна)",
                     currency: "Валюта",
                     blowfish_id: "ID в Blowfish",
                     // TODO
@@ -1051,7 +1052,7 @@ const en: TranslationMessages = {
                 },
                 merchant: "Merchant",
                 state: "State",
-                idInBlockChain: "ID in blockchain",
+                idInBlockChain: "Hashlink",
                 resend: "Resend"
             },
             download: {
@@ -1322,6 +1323,7 @@ const en: TranslationMessages = {
                     state: "Payment status",
                     merchant_id: "Merchant ID",
                     tx_id: "Hashlink",
+                    clickOnHashlink: "Hash (click on hash to open transaction in blockchain explorer)",
                     currency: "Currency",
                     blowfish_id: "Blowfish id",
                     total_fee: "Total fee",
