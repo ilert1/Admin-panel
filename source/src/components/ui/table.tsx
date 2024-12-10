@@ -14,8 +14,8 @@ const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableE
             const { scrollWidth, clientWidth, scrollLeft } = tableRef.current;
             const hasHorizontalScroll = scrollWidth > clientWidth;
 
-            setIsScrollableLeft(hasHorizontalScroll && scrollLeft > 30);
-            setIsScrollableRight(hasHorizontalScroll && scrollLeft + 30 < scrollWidth - clientWidth);
+            setIsScrollableLeft(hasHorizontalScroll && scrollLeft > 10);
+            setIsScrollableRight(hasHorizontalScroll && scrollLeft + 10 < scrollWidth - clientWidth);
         };
 
         React.useEffect(() => {
