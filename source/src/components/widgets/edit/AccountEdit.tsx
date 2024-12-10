@@ -21,6 +21,7 @@ import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "
 import { TronWeb } from "tronweb";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
+import { usePreventFocus } from "@/hooks";
 
 const BF_MANAGER_URL = import.meta.env.VITE_BF_MANAGER_URL;
 
@@ -131,6 +132,8 @@ export const AccountEdit = (props: AccountEditProps) => {
             });
         }
     };
+
+    usePreventFocus({ dependencies: [controllerProps.record] });
 
     if (controllerProps.isLoading || !controllerProps.record)
         return (
