@@ -443,7 +443,7 @@ const ru: TranslationMessages = {
                 id: "ID",
                 description: "Описание",
                 provider: "Провайдер",
-                auth: "Ключ аутентификации"
+                auth: "Данные аутентификации"
             },
             errors: {
                 verbose_name: "У терминала обязательно должно быть имя",
@@ -1229,7 +1229,7 @@ const en: TranslationMessages = {
                 id: "ID",
                 description: "Description",
                 provider: "Provider",
-                auth: "Auth key"
+                auth: "Auth data"
             },
             errors: {
                 verbose_name: "The terminal must have a name",
