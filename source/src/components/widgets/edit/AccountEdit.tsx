@@ -319,7 +319,7 @@ export const AccountEdit = (props: AccountEditProps) => {
                                     <FormControl>
                                         <div>
                                             <Input
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                                className={`dark:bg-muted text-sm text-neutral-100 ${
                                                     fieldState.invalid
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                         : ""

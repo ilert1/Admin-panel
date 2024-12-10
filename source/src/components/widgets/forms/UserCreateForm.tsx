@@ -267,7 +267,7 @@ export const UserCreateForm = (props: {
                                     }}
                                     value={valueCurDialog}>
                                     <SelectTrigger
-                                        className={`dark:bg-muted text-sm text-neutral-100 dark:border-neutral-40 disabled:dark:bg-muted ${
+                                        className={`dark:bg-muted text-sm text-neutral-100 dark:border-neutral-60 disabled:dark:bg-muted ${
                                             fieldState.invalid
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
