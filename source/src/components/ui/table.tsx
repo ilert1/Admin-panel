@@ -3,11 +3,60 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
-    ({ className, ...props }, ref) => (
-        <div className="relative w-full overflow-auto">
-            <table ref={ref} className={cn("w-full caption-bottom text-sm", className)} {...props} />
-        </div>
-    )
+    ({ className, ...props }, ref) => {
+        const [isScrollableLeft, setIsScrollableLeft] = React.useState(false);
+        const [isScrollableRight, setIsScrollableRight] = React.useState(false);
+        const tableRef = React.useRef<HTMLDivElement | null>(null);
+
+        const checkScrollState = () => {
+            if (!tableRef.current) return;
+
+            const { scrollWidth, clientWidth, scrollLeft } = tableRef.current;
+            const hasHorizontalScroll = scrollWidth > clientWidth;
+
+            setIsScrollableLeft(hasHorizontalScroll && scrollLeft > 30);
+            setIsScrollableRight(hasHorizontalScroll && scrollLeft + 30 < scrollWidth - clientWidth);
+        };
+
+        React.useEffect(() => {
+            checkScrollState();
+            const currentTableRef = tableRef.current;
+
+            if (currentTableRef) {
+                const resizeObserver = new ResizeObserver(checkScrollState);
+                resizeObserver.observe(currentTableRef);
+
+                const scrollHandler = () => checkScrollState();
+                currentTableRef.addEventListener("scroll", scrollHandler);
+
+                return () => {
+                    resizeObserver.unobserve(currentTableRef);
+                    currentTableRef.removeEventListener("scroll", scrollHandler);
+                };
+            }
+        }, [isScrollableLeft, isScrollableRight]);
+
+        return (
+            <div className="relative">
+                <div ref={tableRef} className="relative w-full overflow-auto">
+                    <table ref={ref} className={cn("w-full caption-bottom text-sm", className)} {...props} />
+                </div>
+                {/* Right shadow */}
+                <div
+                    className={`pointer-events-none absolute top-0 right-0 h-full w-6 sm:w-12 bg-gradient-to-l from-black to-transparent z-20 transition-opacity duration-300 ${
+                        isScrollableRight ? "opacity-100" : "opacity-0"
+                    }`}
+                />
+
+                {/* Left shadow */}
+                <div
+                    className={`pointer-events-none absolute top-0 left-0 h-full w-6 sm:w-12 bg-gradient-to-r from-black to-transparent z-20 transition-opacity duration-300 ${
+                        isScrollableLeft ? "opacity-100" : "opacity-0"
+                    }`}
+                />
+            </div>
+        );
+    }
 );
 Table.displayName = "Table";
 

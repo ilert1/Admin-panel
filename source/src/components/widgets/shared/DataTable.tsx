@@ -18,14 +18,27 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
-    const { columns, pagination = true } = props;
-    let data, total, page, perPage, setPage, setPerPage;
-    if (props.total) {
-        ({ data = [], total = 0, page = 1, perPage = 10, setPage = () => {}, setPerPage = () => {} } = props);
-    } else {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        ({ data, total, page, perPage, setPage, setPerPage } = useListContext());
-    }
+    const {
+        columns,
+        pagination = true,
+        data: propData = [],
+        total: propTotal = 0,
+        page: propPage = 1,
+        perPage: propPerPage = 10,
+        setPage: propSetPage = () => {},
+        setPerPage: propSetPerPage = () => {}
+    } = props;
+
+    const context = useListContext();
+    const isUsingContext = !props.total;
+
+    const data = isUsingContext ? context.data : propData;
+    const total = isUsingContext ? context.total : propTotal;
+    const page = isUsingContext ? context.page : propPage;
+    const perPage = isUsingContext ? context.perPage : propPerPage;
+    const setPage = isUsingContext ? context.setPage : propSetPage;
+    const setPerPage = isUsingContext ? context.setPerPage : propSetPerPage;
+
     const translate = useTranslate();
     const table = useReactTable({
         data,
@@ -47,7 +60,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
     }, [page, table]);
 
     return (
-        <div>
+        <>
             <Table className="bg-neutral-0">
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup, i) => (
@@ -205,6 +218,6 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                     </Select>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
