@@ -47,8 +47,8 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-    /* console.log("hasErrors: ", hasErrors);
-    console.log("isValid: ", isValid); */
+    const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
+    console.log(monacoEditorMounted);
 
     const formSchema = z.object({
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
@@ -239,6 +239,7 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
                                                         <MonacoEditor
                                                             height="144px"
                                                             width="100%"
+                                                            onMountEditor={() => setMonacoEditorMounted(true)}
                                                             onErrorsChange={setHasErrors}
                                                             onValidChange={setIsValid}
                                                             code={field.value}
@@ -252,7 +253,11 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
 
                                         <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col sm:flex-row space-x-0 sm:space-x-2 mt-6">
                                             <Button
-                                                disabled={(hasErrors && !isValid) || submitButtonDisabled}
+                                                disabled={
+                                                    (hasErrors && !isValid) ||
+                                                    submitButtonDisabled ||
+                                                    !monacoEditorMounted
+                                                }
                                                 type="submit"
                                                 variant="default"
                                                 className="flex-1">
