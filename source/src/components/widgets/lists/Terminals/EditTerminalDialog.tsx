@@ -48,7 +48,6 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
     const [isValid, setIsValid] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
-    console.log(monacoEditorMounted);
 
     const formSchema = z.object({
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
