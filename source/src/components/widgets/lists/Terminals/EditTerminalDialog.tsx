@@ -26,6 +26,7 @@ import { toast } from "sonner";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
+import { usePreventFocus } from "@/hooks";
 
 interface EditProviderDialogProps {
     open?: boolean;
@@ -116,6 +117,8 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
             onOpenChange(false);
         }
     };
+
+    usePreventFocus({ dependencies: [controllerProps.record] });
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
