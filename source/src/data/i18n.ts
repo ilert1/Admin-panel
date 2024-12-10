@@ -133,7 +133,7 @@ const ru: TranslationMessages = {
                     }
                 },
                 destination: {
-                    header: "Получатель",
+                    header: "Мерчант",
                     id: "ID",
                     amount: {
                         currency: "Валюта",
@@ -919,7 +919,7 @@ const en: TranslationMessages = {
                     }
                 },
                 destination: {
-                    header: "Receiver",
+                    header: "Merchant",
                     id: "ID",
                     amount: {
                         currency: "Currency",

@@ -91,12 +91,20 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
 
     useEffect(() => {
         async function fetch() {
-            if (!context.record?.destination.id) {
+            let payload;
+            if (context.record?.type == 1) {
+                payload = context.record?.destination;
+            }
+            if (context.record?.type == 2) {
+                payload = context.record?.source;
+            }
+
+            if (!payload?.id) {
                 return;
             }
             try {
                 const json = await dataProvider.getOne("merchant", {
-                    id: context.record?.destination.id
+                    id: payload?.id
                 });
                 setMerchantName(json.data.name);
             } catch (error) {
