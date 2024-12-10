@@ -91,12 +91,32 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
 
     useEffect(() => {
         async function fetch() {
-            if (!context.record?.destination.id) {
+            /* const sourceMerch = context.record?.type !== 1 && merchantsList.find(el => el.id === context.record?.source.id);
+            const destMerch = merchantsList.find(el => el.id === context.record?.destination.id); */
+
+            let merch_id;
+            switch (context.record?.type) {
+                case 1:
+                    merch_id = context.record?.destination?.id;
+                    break;
+                case 2:
+                case 4:
+                    merch_id = context.record?.source?.id;
+                    break;
+                case 3:
+                    merch_id = `${context.record?.source?.id} - ${context.record?.destination?.id}`;
+                    break;
+
+                default:
+                    merch_id = undefined;
+            }
+
+            if (!merch_id) {
                 return;
             }
             try {
                 const json = await dataProvider.getOne("merchant", {
-                    id: context.record?.destination.id
+                    id: merch_id
                 });
                 setMerchantName(json.data.name);
             } catch (error) {
