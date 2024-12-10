@@ -1,9 +1,16 @@
-import { useShowController, useTranslate, useGetManyReference, usePermissions, useLocaleState } from "react-admin";
+import {
+    useShowController,
+    useTranslate,
+    useGetManyReference,
+    usePermissions,
+    useLocaleState,
+    useDataProvider
+} from "react-admin";
 import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { BooleanField } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TableTypes } from "../shared/SimpleTable";
 import fetchDictionaries from "@/helpers/get-dictionaries";
@@ -29,6 +36,8 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     const context = useShowController<Transaction.Transaction>({ id: props.id });
     const [newState, setNewState] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [merchantName, setMerchantName] = useState("");
+    const dataProvider = useDataProvider();
 
     // const [stornoOpen, setStornoOpen] = useState(false);
     // const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
@@ -79,6 +88,25 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
         target: "id",
         id: trnId
     });
+
+    useEffect(() => {
+        async function fetch() {
+            if (!context.record?.destination.id) {
+                return;
+            }
+            try {
+                const json = await dataProvider.getOne("merchant", {
+                    id: context.record?.destination.id
+                });
+                setMerchantName(json.data.name);
+            } catch (error) {
+                // Заглушка
+            }
+        }
+        if (!context.isLoading) {
+            fetch();
+        }
+    }, [context.isLoading, context.record?.destination.id, dataProvider]);
 
     function computeValue(quantity: number, accuracy: number) {
         const value = (quantity || 0) / accuracy;
@@ -363,7 +391,8 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                         <span className="opacity-60 text-title-1">
                             {translate("resources.transactions.fields.destination.header")}
                         </span>
-                        <span>{context.record.destination.meta?.caption}</span>
+                        {/* <span>{context.record.destination.meta?.caption}</span> */}
+                        <span>{merchantName ?? ""}</span>
                     </div>
                 </div>
                 <SimpleTable columns={briefHistory} data={history ? history : []} tableType={TableTypes.COLORED} />
