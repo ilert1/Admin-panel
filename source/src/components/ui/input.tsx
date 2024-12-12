@@ -194,7 +194,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             props.onBlur?.(e);
         };
 
-        const showClearButton = inputValue && isFocused;
+        const showClearButton = React.useMemo(
+            () => inputValue && isFocused && !disabled,
+            [disabled, inputValue, isFocused]
+        );
 
         return (
             <div className="relative flex items-center w-full">
@@ -216,24 +219,22 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     ref={inputRef}
                     {...props}
                 />
-                {!disabled && (
-                    <button
-                        disabled={disabled}
-                        type="button"
-                        onMouseDown={handleClear}
-                        className={cn(
-                            showClearButton ? "flex" : "hidden",
-                            "absolute inset-y-0",
-                            type === "password" && children
-                                ? "right-16"
-                                : type === "password" || children
-                                ? "right-9"
-                                : "right-3",
-                            "items-center justify-center text-neutral-60 hover:text-neutral-80 transition-colors duration-200"
-                        )}>
-                        <X className="w-4 h-4" />
-                    </button>
-                )}
+                <button
+                    disabled={disabled}
+                    type="button"
+                    onMouseDown={handleClear}
+                    className={cn(
+                        showClearButton ? "flex" : "hidden",
+                        "absolute inset-y-0",
+                        type === "password" && children
+                            ? "right-16"
+                            : type === "password" || children
+                            ? "right-9"
+                            : "right-3",
+                        "items-center justify-center text-neutral-60 hover:text-neutral-80 transition-colors duration-200"
+                    )}>
+                    <X className="w-4 h-4" />
+                </button>
                 {type === "password" && (
                     <button
                         type="button"
