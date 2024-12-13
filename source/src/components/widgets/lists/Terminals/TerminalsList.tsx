@@ -240,21 +240,30 @@ export const TerminalsList = () => {
                 {provider ? (
                     <>
                         <TerminalTable provider={provider} columns={columns} />
+
                         <CreateTerminalDialog
                             provider={provider}
                             open={createDialogOpen}
                             onOpenChange={setCreateDialogOpen}
                         />
+
                         <EditTerminalDialog
                             provider={provider}
                             id={chosenId}
                             open={editDialogOpen}
-                            onOpenChange={setEditDialogOpen}
+                            onOpenChange={state => {
+                                setEditDialogOpen(state);
+                                setChosenId("");
+                            }}
                         />
+
                         <DeleteTerminalDialog
                             provider={provider}
                             open={deleteDialogOpen}
-                            onOpenChange={setDeleteDialogOpen}
+                            onOpenChange={state => {
+                                setDeleteDialogOpen(state);
+                                setChosenId("");
+                            }}
                             deleteId={chosenId}
                         />
 
