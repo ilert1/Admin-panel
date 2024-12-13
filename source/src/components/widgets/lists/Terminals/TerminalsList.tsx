@@ -251,19 +251,13 @@ export const TerminalsList = () => {
                             provider={provider}
                             id={chosenId}
                             open={editDialogOpen}
-                            onOpenChange={state => {
-                                setEditDialogOpen(state);
-                                setChosenId("");
-                            }}
+                            onOpenChange={setEditDialogOpen}
                         />
 
                         <DeleteTerminalDialog
                             provider={provider}
                             open={deleteDialogOpen}
-                            onOpenChange={state => {
-                                setDeleteDialogOpen(state);
-                                setChosenId("");
-                            }}
+                            onOpenChange={setDeleteDialogOpen}
                             deleteId={chosenId}
                         />
 
