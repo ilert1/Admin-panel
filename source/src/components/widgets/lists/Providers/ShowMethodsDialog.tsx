@@ -17,11 +17,8 @@ interface ShowMethodDialogProps {
     onOpenChange: (state: boolean) => void;
 }
 
-export const ShowMethodsDialog = (props: ShowMethodDialogProps) => {
-    const { id, open, onOpenChange } = props;
-
+const EditorDialog = ({ id }: { id: string }) => {
     const dataProvider = useDataProvider();
-    const translate = useTranslate();
 
     const [code, setCode] = useState("");
 
@@ -34,6 +31,22 @@ export const ShowMethodsDialog = (props: ShowMethodDialogProps) => {
     }, [dataProvider, id, setCode]);
 
     return (
+        <MonacoEditor
+            height="144px"
+            code={code}
+            setCode={() => {}}
+            onErrorsChange={() => {}}
+            onValidChange={() => {}}
+            disabled
+        />
+    );
+};
+
+export const ShowMethodsDialog = (props: ShowMethodDialogProps) => {
+    const { id, open, onOpenChange } = props;
+    const translate = useTranslate();
+
+    return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-w-[478px] h-[295px] max-h-full overflow-auto bg-muted">
                 <DialogHeader>
@@ -41,14 +54,7 @@ export const ShowMethodsDialog = (props: ShowMethodDialogProps) => {
                     <DialogDescription></DialogDescription>
                     <div className="w-full flex flex-col items-center justify-end ">
                         <span className="self-start text-note-1">{translate("resources.provider.fields.methods")}</span>
-                        <MonacoEditor
-                            height="144px"
-                            code={code}
-                            setCode={() => {}}
-                            onErrorsChange={() => {}}
-                            onValidChange={() => {}}
-                            disabled
-                        />
+                        <EditorDialog id={id} />
                     </div>
                 </DialogHeader>
                 <DialogFooter>
