@@ -1,12 +1,20 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 import { toast } from "sonner";
 import { API_URL } from "@/data/base";
 import { format } from "date-fns";
 import { debounce } from "lodash";
 import { DateRange } from "react-day-picker";
+import { useLocation, useNavigate } from "react-router-dom";
+import fetchDictionaries from "@/helpers/get-dictionaries";
 
 const useWithdrawFilter = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const data = fetchDictionaries();
+    const type = "order_type";
+    // const [loading, setLoading] = useState(true);
+
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
 
     const [startDate, setStartDate] = useState<Date | undefined>(
@@ -15,6 +23,12 @@ const useWithdrawFilter = () => {
     const [endDate, setEndDate] = useState<Date | undefined>(
         filterValues?.end_date ? new Date(filterValues?.end_date) : undefined
     );
+
+    const [typeTabActive, setTypeTabActive] = useState(() => {
+        const params = new URLSearchParams(location.search);
+        return params.get("filter") ? JSON.parse(params.get("filter")).order_type : "";
+    });
+
     const [operationId, setOperationId] = useState(filterValues?.id || "");
 
     const translate = useTranslate();
@@ -28,6 +42,16 @@ const useWithdrawFilter = () => {
             } else {
                 setFilters({ ...filterValues, [type]: value }, displayedFilters);
             }
+        } else {
+            Reflect.deleteProperty(filterValues, type);
+            setFilters(filterValues, displayedFilters);
+        }
+        setPage(1);
+    }, 300);
+
+    const onTabSelected = debounce((value: string | { from: string; to: string } | number) => {
+        if (value) {
+            setFilters({ ...filterValues, [type]: value }, displayedFilters);
         } else {
             Reflect.deleteProperty(filterValues, type);
             setFilters(filterValues, displayedFilters);
@@ -58,6 +82,7 @@ const useWithdrawFilter = () => {
         setStartDate(undefined);
         setEndDate(undefined);
         setOperationId("");
+        setTypeTabActive("");
         setFilters({}, displayedFilters);
         setPage(1);
     };
@@ -112,15 +137,61 @@ const useWithdrawFilter = () => {
         }
     };
 
+    const clearTypeFilters = () => {
+        setTypeTabActive("");
+        const newParams = new URLSearchParams(location.search);
+        newParams.delete("filter");
+        navigate({ search: newParams.toString() });
+
+        setFilters({}, displayedFilters);
+    };
+
+    const chooseClassTabActive = useCallback(
+        (type: string) => {
+            return typeTabActive === type
+                ? "text-green-50 dark:text-green-40 border-b-2 dark:border-green-40 border-green-50 pb-1 duration-200"
+                : "pb-1 border-b-2 border-transparent duration-200 hover:text-green-40";
+        },
+        [typeTabActive]
+    );
+
+    const onTabChanged = (value: Dictionaries.TypeDescriptor) => {
+        setTypeTabActive(value.type_descr);
+        onTabSelected(value.type);
+        // setLoading(true);
+    };
+
+    useEffect(() => {
+        if (data) {
+            const params = new URLSearchParams(location.search);
+            const type = params.get("filter") ? JSON.parse(params.get("filter")).order_type : "";
+
+            if (type) {
+                setTypeTabActive(data.transactionTypes[type]?.type_descr || "");
+                setFilters({ ...filterValues, order_type: type }, displayedFilters);
+            } else {
+                setTypeTabActive("");
+                setFilters({}, displayedFilters);
+            }
+
+            // setLoading(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data]);
+
     return {
-        translate,
         operationId,
-        onOperationIdChanged,
-        startDate,
         endDate,
+        startDate,
+        typeTabActive,
+        translate,
+        onOperationIdChanged,
         changeDate,
         handleDownloadReport,
-        clearFilters
+        clearFilters,
+        clearTypeFilters,
+        chooseClassTabActive,
+        onTabChanged
     };
 };
 

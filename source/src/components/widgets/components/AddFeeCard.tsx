@@ -206,12 +206,12 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                                     ? currencies.data.map((currency: any) => (
                                                                           <SelectItem
                                                                               key={currency.code}
-                                                                              disabled={
+                                                                              /* disabled={
                                                                                   !(
                                                                                       currency.code === "TRY" ||
                                                                                       currency.code === "USDT"
                                                                                   )
-                                                                              }
+                                                                              } */
                                                                               value={currency.code}>
                                                                               {currency.code}
                                                                           </SelectItem>

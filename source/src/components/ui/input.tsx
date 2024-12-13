@@ -194,7 +194,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             props.onBlur?.(e);
         };
 
-        const showClearButton = inputValue && isFocused;
+        const showClearButton = React.useMemo(
+            () => inputValue && isFocused && !disabled,
+            [disabled, inputValue, isFocused]
+        );
 
         return (
             <div className="relative flex items-center w-full">
@@ -206,8 +209,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     onBlur={handleBlur}
                     disabled={disabled}
                     className={cn(
-                        "flex h-9 w-full rounded-4 text-neutral-80 border border-neutral-40 hover:border-green-50 active:border-green-50 focus:border-green-50 bg-neutral-0 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-60 focus:outline-none disabled:border-neutral-70 disabled:bg-neutral-10 disabled:text-neutral-70 transition duration-200",
-                        `flex h-9 w-full rounded-4 text-neutral-80 border border-neutral-40 hover:border-green-50 active:border-green-50 focus:border-green-50 bg-neutral-0 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-50 focus:outline-none disabled:border-neutral-40 disabled:bg-neutral-10 transition duration-200 ${
+                        "flex h-9 w-full rounded-4 text-neutral-80 border border-neutral-60 hover:border-green-50 active:border-green-50 focus:border-green-50 bg-neutral-0 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-60 focus:outline-none disabled:text-neutral-70 transition duration-200",
+                        `flex h-9 w-full rounded-4 text-neutral-80 border border-neutral-60 hover:border-green-50 active:border-green-50 focus:border-green-50 bg-neutral-0 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-50 focus:outline-none disabled:border-neutral-40 disabled:dark:bg-neutral-10 disabled:bg-neutral-10 transition duration-200 ${
                             variant === InputTypes.GRAY ? "bg-muted" : ""
                         }`,
                         className,
@@ -216,24 +219,22 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     ref={inputRef}
                     {...props}
                 />
-                {!disabled && (
-                    <button
-                        disabled={disabled}
-                        type="button"
-                        onMouseDown={handleClear}
-                        className={cn(
-                            showClearButton ? "flex" : "hidden",
-                            "absolute inset-y-0",
-                            type === "password" && children
-                                ? "right-16"
-                                : type === "password" || children
-                                ? "right-9"
-                                : "right-3",
-                            "items-center justify-center text-neutral-60 hover:text-neutral-80 transition-colors duration-200"
-                        )}>
-                        <X className="w-4 h-4" />
-                    </button>
-                )}
+                <button
+                    disabled={disabled}
+                    type="button"
+                    onMouseDown={handleClear}
+                    className={cn(
+                        showClearButton ? "flex" : "hidden",
+                        "absolute inset-y-0",
+                        type === "password" && children
+                            ? "right-16"
+                            : type === "password" || children
+                            ? "right-9"
+                            : "right-3",
+                        "items-center justify-center text-neutral-60 hover:text-neutral-80 transition-colors duration-200"
+                    )}>
+                    <X className="w-4 h-4" />
+                </button>
                 {type === "password" && (
                     <button
                         type="button"

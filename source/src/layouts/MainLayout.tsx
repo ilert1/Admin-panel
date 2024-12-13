@@ -4,13 +4,13 @@ import { NavLink } from "react-router-dom";
 import { useMemo, createElement, useState, useEffect } from "react";
 import { ChevronLeftCircleIcon, ChevronRightCircleIcon, KeyRound, ChevronLeft } from "lucide-react";
 // import Logo from "@/lib/icons/Logo";
-import LogoPicture from "@/lib/icons/LogoPicture";
 import { Button } from "@/components/ui/button";
 import { useGetResLabel } from "@/hooks/useGetResLabel";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { KeysModal } from "@/components/widgets/components/KeysModal";
 import { Header } from "@/components/widgets/shared/Header";
 import { AdminCryptoStoreResources } from "@/components/widgets/shared";
+import { useTheme } from "@/components/providers";
 
 enum SplitLocations {
     show = "show",
@@ -26,6 +26,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const location = useLocation();
+    const { theme } = useTheme();
 
     const resourceName = useMemo(() => {
         const urlParts = location.pathname?.split("/")?.filter((s: string) => s?.length > 0);
@@ -92,10 +93,14 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                             : "w-[72px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden scrollbar-stable justify-start bg-header transition-[width] pt-6"
                     }>
                     {isSheetOpen ? (
-                        <div className="flex flex-shrink-0 justify-center items-center h-[63px] gap-6">
+                        <div className="flex flex-shrink-0 justify-center items-center h-[63px] gap-6 px-6">
                             <div className="flex items-center w-[189px] m-0 p-0">
                                 <div className="animate-in fade-in-0 transition-opacity duration-700">
-                                    <LogoPicture />
+                                    <img
+                                        src={theme === "light" ? "/NoNameLogoLight.svg" : "/NoNameLogo.svg"}
+                                        alt="Logo"
+                                        className="h-[55px] w-[89.51px] pointer-events-none select-none"
+                                    />
                                 </div>
                             </div>
                             <button className="flex flex-col items-center animate-in fade-in-0 transition-opacity duration-300">

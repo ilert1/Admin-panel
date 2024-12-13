@@ -20,7 +20,7 @@ export const WalletTransactionsShow = ({ id }: WalletTransactionsShowProps) => {
         }
     });
 
-    console.log(context?.record);
+    // console.log(context?.record);
 
     if (context.isLoading || !context.record) {
         return <Loading />;
@@ -72,17 +72,15 @@ export const WalletTransactionsShow = ({ id }: WalletTransactionsShowProps) => {
                         copyValue
                     />
                     <TextField
-                        label={translate("resources.wallet.transactions.fields.tx_id")}
+                        label={translate("resources.wallet.transactions.fields.clickOnHashlink")}
                         text={context.record?.tx_id}
+                        link={`https://shasta.tronscan.org/#/${context.record?.tx_link}`}
+                        type={context.record.tx_id ? "link" : "text"}
                         copyValue
                     />
                     <TextField
                         label={translate("resources.wallet.transactions.fields.total_fee")}
                         text={context.record?.total_fee >= 0 ? String(context.record?.total_fee) : ""}
-                    />
-                    <TextField
-                        label={translate("resources.wallet.transactions.fields.bandwidth_fee")}
-                        text={context.record?.bandwidth_fee >= 0 ? String(context.record?.bandwidth_fee) : ""}
                     />
                     <TextField
                         label={translate("resources.wallet.transactions.fields.pre_calculated_fee")}

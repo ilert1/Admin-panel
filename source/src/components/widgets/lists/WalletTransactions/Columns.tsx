@@ -5,11 +5,13 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
 import { useState } from "react";
-import { usePermissions, useTranslate } from "react-admin";
+import { useLocaleState, usePermissions, useTranslate } from "react-admin";
 
 export const useGetWalletTransactionsColumns = () => {
     const translate = useTranslate();
+    const [locale] = useLocaleState();
     const data = fetchDictionaries();
+
     const [chosenId, setChosenId] = useState("");
     const [openShowClicked, setOpenShowClicked] = useState(false);
     const [confirmOpen, setConfirmOpen] = useState(false);
@@ -32,10 +34,10 @@ export const useGetWalletTransactionsColumns = () => {
             header: translate("resources.wallet.transactions.fields.created_at"),
             cell: ({ row }) => {
                 return (
-                    <div>
-                        <p>{new Date(row.original.created_at).toLocaleDateString()}</p>
-                        <p>{new Date(row.original.created_at).toLocaleTimeString()}</p>
-                    </div>
+                    <>
+                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
+                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
+                    </>
                 );
             }
         },
@@ -45,10 +47,10 @@ export const useGetWalletTransactionsColumns = () => {
             header: translate("resources.wallet.transactions.fields.updated_at"),
             cell: ({ row }) => {
                 return (
-                    <div>
-                        <p>{new Date(row.original.updated_at).toLocaleDateString()}</p>
-                        <p>{new Date(row.original.updated_at).toLocaleTimeString()}</p>
-                    </div>
+                    <>
+                        <p className="text-nowrap">{new Date(row.original.updated_at).toLocaleDateString(locale)}</p>
+                        <p className="text-nowrap">{new Date(row.original.updated_at).toLocaleTimeString(locale)}</p>
+                    </>
                 );
             }
         },
@@ -134,8 +136,18 @@ export const useGetWalletTransactionsColumns = () => {
             accessorKey: "tx_id",
             header: translate("resources.wallet.transactions.fields.tx_id"),
             cell: ({ row }) => {
-                // console.log(row.original.tx_link);
-                return <TextField text={row.original.tx_id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />;
+                return (
+                    <TextField
+                        type={row.original.tx_link ? "link" : "text"}
+                        link={`https://shasta.tronscan.org/#/${row.original.tx_link}`}
+                        text={row.original.tx_id}
+                        wrap
+                        copyValue
+                        lineClamp
+                        linesCount={1}
+                        minWidth="50px"
+                    />
+                );
             }
         },
         {
@@ -156,14 +168,6 @@ export const useGetWalletTransactionsColumns = () => {
             header: translate("resources.wallet.transactions.fields.total_fee"),
             cell: ({ row }) => {
                 return <TextField text={row.original.total_fee >= 0 ? String(row.original.total_fee) : ""} />;
-            }
-        },
-        {
-            id: "bandwidth_fee",
-            accessorKey: "bandwidth_fee",
-            header: translate("resources.wallet.transactions.fields.bandwidth_fee"),
-            cell: ({ row }) => {
-                return <TextField text={row.original.bandwidth_fee >= 0 ? String(row.original.bandwidth_fee) : ""} />;
             }
         },
         {

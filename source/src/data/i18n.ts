@@ -133,7 +133,7 @@ const ru: TranslationMessages = {
                     }
                 },
                 destination: {
-                    header: "Получатель",
+                    header: "Мерчант",
                     id: "ID",
                     amount: {
                         currency: "Валюта",
@@ -261,12 +261,12 @@ const ru: TranslationMessages = {
                     }
                 },
                 payload: {
-                    hash: "Хеш",
+                    hash: "Хэш",
                     hash_link: "Ссылка Tronscan"
                 },
                 merchant: "Мерчант",
                 state: "Состояние",
-                idInBlockChain: "ID в блокчейне",
+                idInBlockChain: "Хэшлинк",
                 resend: "Повторить"
             },
             download: {
@@ -443,7 +443,7 @@ const ru: TranslationMessages = {
                 id: "ID",
                 description: "Описание",
                 provider: "Провайдер",
-                auth: "Ключ аутентификации"
+                auth: "Данные аутентификации"
             },
             errors: {
                 verbose_name: "У терминала обязательно должно быть имя",
@@ -524,6 +524,7 @@ const ru: TranslationMessages = {
                 cryptotransaction: "Криптотранзакция",
                 allTransactions: "Все операции",
                 deletedTransactions: "Удаленные операции",
+                successMessage: "Запрос подтверждения транзакции отправлен, ожидайте изменения статуса",
                 fields: {
                     created_at: "Создана",
                     updated_at: "Обновлена",
@@ -535,7 +536,8 @@ const ru: TranslationMessages = {
                     type: "Тип операции",
                     state: "Статус платежа",
                     merchant_id: "ID мерчанта",
-                    tx_id: "ID в блокчейне",
+                    tx_id: "Хэшлинк",
+                    clickOnHashlink: "Хэш (нажмите на хэш чтобы открыть транзакцию в обозревателе блокчейна)",
                     currency: "Валюта",
                     blowfish_id: "ID в Blowfish",
                     // TODO
@@ -917,7 +919,7 @@ const en: TranslationMessages = {
                     }
                 },
                 destination: {
-                    header: "Receiver",
+                    header: "Merchant",
                     id: "ID",
                     amount: {
                         currency: "Currency",
@@ -1050,7 +1052,7 @@ const en: TranslationMessages = {
                 },
                 merchant: "Merchant",
                 state: "State",
-                idInBlockChain: "ID in blockchain",
+                idInBlockChain: "Hashlink",
                 resend: "Resend"
             },
             download: {
@@ -1228,7 +1230,7 @@ const en: TranslationMessages = {
                 id: "ID",
                 description: "Description",
                 provider: "Provider",
-                auth: "Auth key"
+                auth: "Auth data"
             },
             errors: {
                 verbose_name: "The terminal must have a name",
@@ -1308,6 +1310,7 @@ const en: TranslationMessages = {
                 cryptotransaction: "Cryptotransaction",
                 allTransactions: "All transactions",
                 deletedTransactions: "Deleted transactions",
+                successMessage: "Confirmation request was send, wait for status update.",
                 fields: {
                     created_at: "Created at",
                     updated_at: "Updated at",
@@ -1319,7 +1322,8 @@ const en: TranslationMessages = {
                     type: "Transaction type",
                     state: "Payment status",
                     merchant_id: "Merchant ID",
-                    tx_id: "ID in blockchain",
+                    tx_id: "Hashlink",
+                    clickOnHashlink: "Hash (click on hash to open transaction in blockchain explorer)",
                     currency: "Currency",
                     blowfish_id: "Blowfish id",
                     total_fee: "Total fee",

@@ -56,7 +56,10 @@ export const WalletShow = (props: WalletShowProps) => {
         return (
             <div className="flex flex-col gap-6 px-[42px]">
                 <div className="flex flex-col sm:grid sm:grid-cols-2 gap-y-4">
-                    <TextField label={translate("resources.wallet.manage.fields.balance")} text={context.record.type} />
+                    <TextField
+                        label={translate("resources.wallet.manage.fields.walletType")}
+                        text={context.record.type}
+                    />
 
                     <div>
                         <small className="text-sm text-muted-foreground">

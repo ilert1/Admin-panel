@@ -334,7 +334,7 @@ export const EditWallet = (props: EditWalletProps) => {
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 p-2 border border-neutral-40 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1"
+                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1"
                                             />
                                         </div>
                                     </FormControl>
@@ -371,7 +371,7 @@ export const EditWallet = (props: EditWalletProps) => {
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 p-2 border border-neutral-40 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1 outline-none"
+                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1 outline-none"
                                             />
                                         </div>
                                     </FormControl>
@@ -380,7 +380,7 @@ export const EditWallet = (props: EditWalletProps) => {
                         />
                     </div>
 
-                    <div className="flex flex-col items-center sm:self-end sm:flex-row items-center gap-4">
+                    <div className="flex flex-col sm:self-end sm:flex-row items-center gap-4">
                         <Button type="submit" variant="default" className="w-full sm:w-auto">
                             {translate("app.ui.actions.save")}
                         </Button>

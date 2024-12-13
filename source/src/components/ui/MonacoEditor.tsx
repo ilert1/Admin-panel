@@ -1,4 +1,4 @@
-import { BeforeMount, Editor, OnChange, OnValidate } from "@monaco-editor/react";
+import { BeforeMount, Editor, OnChange, OnMount, OnValidate } from "@monaco-editor/react";
 import { LoadingAlertDialog } from "./loading";
 import { useCallback } from "react";
 
@@ -10,10 +10,11 @@ interface MonacoEditorProps {
     setCode: (value: string) => void;
     onErrorsChange: (hasErrors: boolean) => void;
     onValidChange: (isValid: boolean) => void;
+    onMountEditor?: OnMount;
 }
 
 export const MonacoEditor = (props: MonacoEditorProps) => {
-    const { code, disabled = false, setCode, onErrorsChange, onValidChange } = props;
+    const { code, disabled = false, setCode, onErrorsChange, onValidChange, onMountEditor = () => {} } = props;
 
     const validateCode = useCallback(
         (value: string) => {
@@ -82,6 +83,7 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
                 theme="myCustomTheme"
                 onChange={handleEditorChange}
                 onValidate={handleValidation}
+                onMount={onMountEditor}
                 loading={<LoadingAlertDialog />}
                 options={{
                     fontSize: 14,

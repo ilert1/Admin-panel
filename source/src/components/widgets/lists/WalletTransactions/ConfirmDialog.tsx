@@ -30,17 +30,21 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
     const handleConfirm = async (id: string) => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
+        onOpenChange(false);
         try {
             const { json } = await fetchUtils.fetchJson(`${API_URL}/transaction/${id}/process`, {
                 method: "POST",
                 user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
                 body: undefined
             });
-            // console.log(json);
             if (!json.success) {
                 throw new Error("");
             }
-            onOpenChange(false);
+            toast.success("Success", {
+                description: translate("resources.wallet.transactions.successMessage"),
+                dismissible: true,
+                duration: 3000
+            });
             refresh();
         } catch (error) {
             toast.error(translate("resources.wallet.transactions.error"), {
@@ -55,7 +59,7 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="rounded-16 max-h-56 xl:max-h-none h-auto overflow-hidden w-[251px] bg-muted">
+            <DialogContent className="rounded-16 max-h-56 xl:max-h-none h-auto overflow-hidden w-[280px] bg-muted">
                 <DialogHeader>
                     <DialogTitle className="text-center">
                         {translate("resources.wallet.transactions.fields.confirmQuestion")}
@@ -63,7 +67,7 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
                     <DialogDescription></DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                    <div className="flex justify-around w-full">
+                    <div className="flex justify-around w-full gap-2">
                         <Button
                             onClick={() => {
                                 handleConfirm(id);

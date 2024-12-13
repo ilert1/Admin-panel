@@ -18,14 +18,27 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
-    const { columns, pagination = true } = props;
-    let data, total, page, perPage, setPage, setPerPage;
-    if (props.total) {
-        ({ data = [], total = 0, page = 1, perPage = 10, setPage = () => {}, setPerPage = () => {} } = props);
-    } else {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        ({ data, total, page, perPage, setPage, setPerPage } = useListContext());
-    }
+    const {
+        columns,
+        pagination = true,
+        data: propData = [],
+        total: propTotal = 0,
+        page: propPage = 1,
+        perPage: propPerPage = 10,
+        setPage: propSetPage = () => {},
+        setPerPage: propSetPerPage = () => {}
+    } = props;
+
+    const context = useListContext();
+    const isUsingContext = !props.total;
+
+    const data = isUsingContext ? context.data : propData;
+    const total = isUsingContext ? context.total : propTotal;
+    const page = isUsingContext ? context.page : propPage;
+    const perPage = isUsingContext ? context.perPage : propPerPage;
+    const setPage = isUsingContext ? context.setPage : propSetPage;
+    const setPerPage = isUsingContext ? context.setPerPage : propSetPerPage;
+
     const translate = useTranslate();
     const table = useReactTable({
         data,
@@ -46,8 +59,85 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
         table.setPageIndex(page - 1);
     }, [page, table]);
 
+    const renderPagination = () => {
+        const totalPages = table.getPageCount();
+        const currentPage = table.getState().pagination.pageIndex + 1;
+        const pages = [];
+
+        if (totalPages > 6) {
+            if (currentPage <= 2) {
+                for (let i = 1; i <= 5; i++) {
+                    pages.push(i);
+                }
+                pages.push("...");
+                pages.push(totalPages);
+            } else if (currentPage >= totalPages - 1) {
+                pages.push(1);
+                pages.push("...");
+                for (let i = totalPages - 4; i <= totalPages; i++) {
+                    pages.push(i);
+                }
+            } else {
+                pages.push(1);
+                pages.push("...");
+                for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+                    pages.push(i);
+                }
+                pages.push("...");
+                pages.push(totalPages);
+            }
+        } else {
+            for (let i = 1; i <= totalPages; i++) {
+                pages.push(i);
+            }
+        }
+
+        return (
+            <div className="flex items-center space-x-2">
+                <Button
+                    aria-label="Go to previous page"
+                    variant="clearBtn"
+                    size="icon"
+                    onClick={() => setPage(currentPage - 1)}
+                    className="text-green-50 hover:text-green-30 disabled:text-neutral-30 size-5"
+                    disabled={currentPage === 1}>
+                    <CircleArrowLeftIcon className="size-4" aria-hidden="true" />
+                </Button>
+
+                {pages.map((page, index) =>
+                    typeof page === "number" ? (
+                        <Button
+                            key={index}
+                            size="sm"
+                            variant="clearBtn"
+                            onClick={() => setPage(page)}
+                            className={`m-0 p-0 text-sm font-medium hover:text-green-50 cursor-pointer ${
+                                page === currentPage ? "text-green-50" : ""
+                            }`}>
+                            {page}
+                        </Button>
+                    ) : (
+                        <div key={index} className="text-sm font-medium">
+                            {page}
+                        </div>
+                    )
+                )}
+
+                <Button
+                    aria-label="Go to next page"
+                    variant="clearBtn"
+                    size="icon"
+                    onClick={() => setPage(currentPage + 1)}
+                    className="text-green-50 hover:text-green-30 disabled:text-neutral-30 size-5"
+                    disabled={currentPage === totalPages}>
+                    <CircleArrowRightIcon className="size-4" aria-hidden="true" />
+                </Button>
+            </div>
+        );
+    };
+
     return (
-        <div>
+        <>
             <Table className="bg-neutral-0">
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup, i) => (
@@ -90,98 +180,11 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
             </Table>
 
             <div
-                className={`flex w-full items-center justify-between gap-4 overflow-auto p-1 sm:flex-row sm:gap-8  ${
+                className={`flex w-full items-center justify-between gap-4 overflow-auto p-1 sm:flex-row sm:gap-8 ${
                     pagination && total > perPage ? "" : "!justify-end"
                 }`}>
-                {pagination && total > perPage && (
-                    <div className="flex items-center space-x-2">
-                        <Button
-                            aria-label="Go to previous page"
-                            variant="clearBtn"
-                            size="icon"
-                            className="text-green-50 hover:text-green-30 disabled:text-neutral-30 size-5"
-                            onClick={() => {
-                                setPage(page - 1);
-                            }}
-                            disabled={!table.getCanPreviousPage()}>
-                            <CircleArrowLeftIcon className="size-4" aria-hidden="true" />
-                        </Button>
+                {pagination && total > perPage && renderPagination()}
 
-                        {table.getState().pagination.pageIndex > 1 && (
-                            <Button
-                                size={"sm"}
-                                variant="clearBtn"
-                                onClick={() => {
-                                    setPage(1);
-                                }}
-                                className="m-0 p-0 text-sm font-medium hover:text-green-50 cursor-pointer">
-                                1
-                            </Button>
-                        )}
-
-                        {table.getState().pagination.pageIndex > 2 && <div className="text-sm font-medium">...</div>}
-
-                        {table.getState().pagination.pageIndex > 0 && (
-                            <Button
-                                size={"sm"}
-                                variant="clearBtn"
-                                onClick={() => {
-                                    setPage(page - 1);
-                                }}
-                                className="m-0 p-0 text-sm font-medium hover:text-green-50 cursor-pointer">
-                                {table.getState().pagination.pageIndex}
-                            </Button>
-                        )}
-
-                        <Button
-                            size={"sm"}
-                            variant="clearBtn"
-                            className="text-sm font-medium text-green-50 hover:text-green-50 m-0 p-0">
-                            {table.getState().pagination.pageIndex + 1}
-                        </Button>
-
-                        {table.getPageCount() > table.getState().pagination.pageIndex + 2 && (
-                            <Button
-                                variant="clearBtn"
-                                size={"sm"}
-                                onClick={() => {
-                                    setPage(page + 1);
-                                }}
-                                className="m-0 p-0 text-sm font-medium hover:text-green-50 cursor-pointer">
-                                {table.getState().pagination.pageIndex + 2}
-                            </Button>
-                        )}
-
-                        {table.getPageCount() > 3 &&
-                            table.getState().pagination.pageIndex + 3 < table.getPageCount() && (
-                                <div className="text-sm font-medium">...</div>
-                            )}
-
-                        {table.getPageCount() > table.getState().pagination.pageIndex + 1 && (
-                            <Button
-                                size={"sm"}
-                                variant="clearBtn"
-                                onClick={() => {
-                                    setPage(table.getPageCount());
-                                }}
-                                className="m-0 p-0 text-sm font-medium hover:text-green-50 cursor-pointer">
-                                {table.getPageCount()}
-                            </Button>
-                        )}
-
-                        <Button
-                            aria-label="Go to next page"
-                            variant="clearBtn"
-                            size="icon"
-                            className="text-green-50 hover:text-green-30 disabled:text-neutral-30 size-5"
-                            onClick={() => {
-                                setPage(page + 1);
-                            }}
-                            disabled={!table.getCanNextPage()}>
-                            <CircleArrowRightIcon className="size-4" aria-hidden="true" />
-                        </Button>
-                    </div>
-                )}
                 <div className="flex items-center space-x-2">
                     <p className="whitespace-nowrap text-sm font-medium">
                         {translate("resources.transactions.pagination")}
@@ -205,6 +208,6 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                     </Select>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
