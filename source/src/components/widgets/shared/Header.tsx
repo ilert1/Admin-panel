@@ -130,7 +130,11 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                         {totalAmount?.map((el, index) => (
                                                             <div
                                                                 key={el.currency}
-                                                                className={`absolute inset-0 flex gap-4 items-center transition-transform duration-700 ease-in-out ${
+                                                                style={{
+                                                                    transition:
+                                                                        "opacity .1s ease-in-out, transform .3s ease-in-out"
+                                                                }}
+                                                                className={`absolute inset-0 flex gap-4 items-center ${
                                                                     totalAmount.length === 1
                                                                         ? "translate-y-0 opacity-100 z-10"
                                                                         : index === currentIndex
