@@ -475,3 +475,11 @@ interface WalletLinkedTransactions {
     currency: string;
     token_address: string;
 }
+
+interface Balance {
+    currency: string;
+    value: {
+        quantity: number;
+        accuracy: number;
+    };
+}

@@ -72,7 +72,7 @@ export const Header = (props: { handleLogout: () => void }) => {
             if (!json.success) {
                 throw new Error(translate("app.ui.header.totalError"));
             }
-            return json.data;
+            return json.data as Balance[];
         },
         {
             retry: 2, // Ограничение повторных попыток
@@ -107,7 +107,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     <span className="text-note-2 text-neutral-60">
                                         {translate("app.ui.header.totalBalance")}
                                     </span>
-                                    {totalLoading || !totalAmount[0] ? (
+                                    {totalLoading || !totalAmount?.[0] ? (
                                         <span>{translate("app.ui.header.totalLoading")}</span>
                                     ) : (
                                         <div className="flex gap-4 items-center">
@@ -169,29 +169,29 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         )}
                                     </div>
                                 </div>
-                                <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
+                                <div className="flex content-start items-center pl-4 pr-4 h-[50px] mb-1">
                                     <div className="flex flex-col gap-[2px] items-start">
                                         <span className="text-note-2 text-neutral-60">
                                             {translate("app.ui.header.accurateBalance")}
                                         </span>
-                                        {!totalLoading && totalAmount[0] ? (
-                                            <div className="flex gap-4 items-center">
-                                                <h1 className="text-display-4">
-                                                    <NumericFormat
-                                                        className="whitespace-nowrap"
-                                                        value={
-                                                            totalAmount[0].value.quantity /
-                                                            totalAmount[0].value.accuracy
-                                                        }
-                                                        displayType={"text"}
-                                                        thousandSeparator=" "
-                                                        decimalSeparator=","
-                                                    />
-                                                </h1>
-                                                <div className="w-6 flex justify-center">
-                                                    <Icon name={totalAmount[0].currency} folder="currency" />
+
+                                        {!totalLoading && totalAmount ? (
+                                            totalAmount.map(el => (
+                                                <div className="flex gap-4 items-center" key={el.currency}>
+                                                    <h1 className="text-display-4">
+                                                        <NumericFormat
+                                                            className="whitespace-nowrap"
+                                                            value={el.value.quantity / el.value.accuracy}
+                                                            displayType={"text"}
+                                                            thousandSeparator=" "
+                                                            decimalSeparator=","
+                                                        />
+                                                    </h1>
+                                                    <div className="w-6 flex justify-center">
+                                                        <Icon name={el.currency} folder="currency" />
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            ))
                                         ) : (
                                             <></>
                                         )}
