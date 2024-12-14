@@ -180,8 +180,8 @@ export const Header = (props: { handleLogout: () => void }) => {
                                 sideOffset={34}
                                 align="end"
                                 alignOffset={-18}
-                                className="p-0 w-72 bg-muted border border-neutral-80 z-[1000]">
-                                <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
+                                className="p-0 w-72 bg-muted border border-neutral-80 z-[1000] flex flex-col gap-2 !rounded-4">
+                                <div className="flex content-start items-center pl-4 pr-4 mt-3">
                                     <Avatar className="w-5 h-5">
                                         <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
                                             {identity.data.fullName
@@ -200,8 +200,8 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         )}
                                     </div>
                                 </div>
-                                <div className="flex content-start items-center pl-4 pr-4 h-[50px] mb-1">
-                                    <div className="flex flex-col gap-[2px] items-start">
+                                <div className="flex content-start items-center pl-4 pr-4 mb-1">
+                                    <div className="flex flex-col gap-[2px] items-start max-h-[250px] overflow-y-auto w-full">
                                         <span className="text-note-2 text-neutral-60">
                                             {translate("app.ui.header.accurateBalance")}
                                         </span>
@@ -229,7 +229,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     </div>
                                 </div>
 
-                                <div className="flex content-start items-center pl-4 pr-4 h-[50px]">
+                                <div className="flex content-start items-center pl-4 pr-4">
                                     <Switch
                                         checked={theme === "dark"}
                                         onCheckedChange={toggleTheme}
