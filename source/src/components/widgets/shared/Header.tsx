@@ -84,12 +84,10 @@ export const Header = (props: { handleLogout: () => void }) => {
 
     useEffect(() => {
         let interval: NodeJS.Timeout;
-        console.log(totalAmount);
         if (totalAmount) {
             interval = setInterval(() => {
                 setCurrentIndex(prevIndex => (prevIndex + 1) % totalAmount.length);
             }, 5000);
-            console.log(interval);
         }
         return () => clearInterval(interval);
     }, [totalAmount, currentIndex]);
@@ -120,7 +118,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     <span className="text-note-2 text-neutral-60">
                                         {translate("app.ui.header.totalBalance")}
                                     </span>
-                                    {totalLoading && totalAmount ? (
+                                    {totalLoading && !totalAmount ? (
                                         <span>{translate("app.ui.header.totalLoading")}</span>
                                     ) : (
                                         <div className="w-full relative overflow-hidden">
