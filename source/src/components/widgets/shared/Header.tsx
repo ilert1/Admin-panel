@@ -131,7 +131,9 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                             <div
                                                                 key={el.currency}
                                                                 className={`absolute inset-0 flex gap-4 items-center transition-transform duration-700 ease-in-out ${
-                                                                    index === currentIndex
+                                                                    totalAmount.length === 1
+                                                                        ? "translate-y-0 opacity-100 z-10"
+                                                                        : index === currentIndex
                                                                         ? "translate-y-0 opacity-100 z-10 delay-[0s]"
                                                                         : index ===
                                                                           (currentIndex + 1) % totalAmount.length
