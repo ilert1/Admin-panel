@@ -107,7 +107,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     <span className="text-note-2 text-neutral-60">
                                         {translate("app.ui.header.totalBalance")}
                                     </span>
-                                    {totalLoading || !totalAmount ? (
+                                    {totalLoading || !totalAmount[0] ? (
                                         <span>{translate("app.ui.header.totalLoading")}</span>
                                     ) : (
                                         <div className="flex gap-4 items-center">
@@ -117,8 +117,8 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                         className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-[98px] block"
                                                         value={
                                                             Math.round(
-                                                                (totalAmount.value.quantity /
-                                                                    totalAmount.value.accuracy) *
+                                                                (totalAmount[0].value.quantity /
+                                                                    totalAmount[0].value.accuracy) *
                                                                     10000
                                                             ) / 10000
                                                         }
@@ -129,7 +129,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                 </h1>
                                             </DropdownMenuTrigger>
                                             <div className="w-6 flex justify-center">
-                                                <Icon name={totalAmount.currency} folder="currency" />
+                                                <Icon name={totalAmount[0].currency} folder="currency" />
                                             </div>
                                         </div>
                                     )}
@@ -174,19 +174,22 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         <span className="text-note-2 text-neutral-60">
                                             {translate("app.ui.header.accurateBalance")}
                                         </span>
-                                        {!totalLoading && totalAmount ? (
+                                        {!totalLoading && totalAmount[0] ? (
                                             <div className="flex gap-4 items-center">
                                                 <h1 className="text-display-4">
                                                     <NumericFormat
                                                         className="whitespace-nowrap"
-                                                        value={totalAmount.value.quantity / totalAmount.value.accuracy}
+                                                        value={
+                                                            totalAmount[0].value.quantity /
+                                                            totalAmount[0].value.accuracy
+                                                        }
                                                         displayType={"text"}
                                                         thousandSeparator=" "
                                                         decimalSeparator=","
                                                     />
                                                 </h1>
                                                 <div className="w-6 flex justify-center">
-                                                    <Icon name={totalAmount.currency} folder="currency" />
+                                                    <Icon name={totalAmount[0].currency} folder="currency" />
                                                 </div>
                                             </div>
                                         ) : (
