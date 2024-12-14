@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { API_URL } from "@/data/base";
 import Blowfish from "@/lib/icons/Blowfish";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useGetIdentity, useI18nProvider, useLocaleState, usePermissions, useTranslate } from "react-admin";
 import { NumericFormat } from "react-number-format";
 import { useQuery } from "react-query";
@@ -30,6 +30,7 @@ export const Header = (props: { handleLogout: () => void }) => {
     const { permissions } = usePermissions();
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
     const { getLocales } = useI18nProvider();
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     const changeLocale = (value: string) => {
         if (locale !== value) {
@@ -81,6 +82,18 @@ export const Header = (props: { handleLogout: () => void }) => {
         }
     );
 
+    useEffect(() => {
+        let interval: NodeJS.Timeout;
+        console.log(totalAmount);
+        if (totalAmount) {
+            interval = setInterval(() => {
+                setCurrentIndex(prevIndex => (prevIndex + 1) % totalAmount.length);
+            }, 5000);
+            console.log(interval);
+        }
+        return () => clearInterval(interval);
+    }, [totalAmount, currentIndex]);
+
     return (
         <header
             className="flex flex-shrink-0 h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z"
@@ -107,30 +120,44 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     <span className="text-note-2 text-neutral-60">
                                         {translate("app.ui.header.totalBalance")}
                                     </span>
-                                    {totalLoading || !totalAmount?.[0] ? (
+                                    {totalLoading && totalAmount ? (
                                         <span>{translate("app.ui.header.totalLoading")}</span>
                                     ) : (
-                                        <div className="flex gap-4 items-center">
+                                        <div className="w-full relative overflow-hidden">
                                             <DropdownMenuTrigger>
                                                 <h1 className="text-display-5">
-                                                    <NumericFormat
-                                                        className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-[98px] block"
-                                                        value={
-                                                            Math.round(
-                                                                (totalAmount[0].value.quantity /
-                                                                    totalAmount[0].value.accuracy) *
-                                                                    10000
-                                                            ) / 10000
-                                                        }
-                                                        displayType={"text"}
-                                                        thousandSeparator=" "
-                                                        decimalSeparator=","
-                                                    />
+                                                    <div className="absolute inset-0">
+                                                        {totalAmount?.map((el, index) => (
+                                                            <div
+                                                                key={el.currency}
+                                                                className={`absolute inset-0 flex gap-4 items-center transition-transform duration-700 ease-in-out ${
+                                                                    index === currentIndex
+                                                                        ? "translate-y-0 opacity-100 z-10 delay-[0s]"
+                                                                        : index ===
+                                                                          (currentIndex + 1) % totalAmount.length
+                                                                        ? "translate-y-full opacity-100 z-0 delay-[0.3s]"
+                                                                        : "translate-y-[200%] opacity-0 z-0 delay-[0.3s]"
+                                                                }`}>
+                                                                <NumericFormat
+                                                                    className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-[98px] block"
+                                                                    value={
+                                                                        Math.round(
+                                                                            (el.value.quantity / el.value.accuracy) *
+                                                                                10000
+                                                                        ) / 10000
+                                                                    }
+                                                                    displayType={"text"}
+                                                                    thousandSeparator=" "
+                                                                    decimalSeparator=","
+                                                                />
+                                                                <div className="w-6 flex justify-center">
+                                                                    <Icon name={el.currency} folder="currency" />
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
                                                 </h1>
                                             </DropdownMenuTrigger>
-                                            <div className="w-6 flex justify-center">
-                                                <Icon name={totalAmount[0].currency} folder="currency" />
-                                            </div>
                                         </div>
                                     )}
                                 </div>
