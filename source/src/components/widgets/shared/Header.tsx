@@ -141,7 +141,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                         ? "translate-y-0 opacity-100 z-10 delay-[0s]"
                                                                         : index ===
                                                                           (currentIndex + 1) % totalAmount.length
-                                                                        ? "translate-y-full opacity-100 z-0 delay-[0.3s]"
+                                                                        ? "translate-y-full opacity-0 z-0 delay-[0.3s]"
                                                                         : "translate-y-[200%] opacity-0 z-0 delay-[0.3s]"
                                                                 }`}>
                                                                 <NumericFormat
