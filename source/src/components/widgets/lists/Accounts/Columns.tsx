@@ -1,33 +1,19 @@
-import {
-    ListContextProvider,
-    useListController,
-    useTranslate,
-    RecordContextProvider,
-    usePermissions
-} from "react-admin";
-import { ColumnDef, Row } from "@tanstack/react-table";
-import { DataTable } from "@/components/widgets/shared";
-import { XIcon, Copy, EyeIcon, Pen } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { AccountShow } from "@/components/widgets/show";
-import { useState } from "react";
-import { TextField } from "@/components/ui/text-field";
-import { Loading } from "@/components/ui/loading";
 import fetchDictionaries from "@/helpers/get-dictionaries";
-import { toast } from "sonner";
+import { ColumnDef, Row } from "@tanstack/react-table";
+import { Copy, EyeIcon, Pen } from "lucide-react";
+import { useState } from "react";
+import { RecordContextProvider, usePermissions, useTranslate } from "react-admin";
 import { NumericFormat } from "react-number-format";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { AccountEdit } from "../edit/AccountEdit";
+import { toast } from "sonner";
 
 const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
 const translations = ["active", "frozen", "blocked", "deleted"];
 
-export const AccountList = () => {
-    const listContext = useListController<Account>();
+export const useGetAccountsColumns = () => {
+    const translate = useTranslate();
     const { permissions } = usePermissions();
 
-    const translate = useTranslate();
     const data = fetchDictionaries();
 
     const [showOpen, setShowOpen] = useState(false);
@@ -155,63 +141,14 @@ export const AccountList = () => {
             }
         }
     ];
-    if (listContext.isLoading || !listContext.data) {
-        return <Loading />;
-    } else {
-        return (
-            <>
-                <ListContextProvider value={{ ...listContext }}>
-                    <DataTable columns={columns} />
-                </ListContextProvider>
 
-                <Sheet onOpenChange={setShowOpen} open={showOpen}>
-                    <SheetContent
-                        className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col border-0"
-                        tabIndex={-1}
-                        style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
-                        close={false}>
-                        <SheetHeader className="p-[42px] pb-0 flex-shrink-0">
-                            <div className="flex flex-col gap-2">
-                                <div className="flex justify-between items-center ">
-                                    <SheetTitle className="!text-display-1">
-                                        {translate("app.ui.accountHistory")}
-                                    </SheetTitle>
-
-                                    <button
-                                        onClick={() => setShowOpen(false)}
-                                        className="text-gray-500 hover:text-gray-700 transition-colors border-0 outline-0">
-                                        <XIcon className="h-[28px] w-[28px]" />
-                                    </button>
-                                </div>
-                                <div className="text-display-2 mb-2">
-                                    <span>{showAccountCaption}</span>
-                                </div>
-                                <TextField text={showAccountId} copyValue />
-                            </div>
-                        </SheetHeader>
-
-                        <div className="flex-1 overflow-auto" tabIndex={-1}>
-                            <SheetDescription></SheetDescription>
-                            <AccountShow id={showAccountId} type="compact" />
-                        </div>
-                    </SheetContent>
-                </Sheet>
-
-                <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
-                    <DialogContent
-                        disableOutsideClick
-                        className="bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
-                        <DialogHeader>
-                            <DialogTitle className="text-xl text-center">
-                                {translate("resources.accounts.editDialogTitle")}
-                            </DialogTitle>
-                        </DialogHeader>
-
-                        <AccountEdit id={showAccountId} onOpenChange={setShowEditDialog} />
-                    </DialogContent>
-                    <DialogDescription />
-                </Dialog>
-            </>
-        );
-    }
+    return {
+        columns,
+        showOpen,
+        setShowOpen,
+        showEditDialog,
+        setShowEditDialog,
+        showAccountId,
+        showAccountCaption
+    };
 };

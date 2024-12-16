@@ -1,10 +1,10 @@
-export { AccountList } from "./AccountList";
+export { AccountList } from "./Accounts";
 export { TransactionList } from "./TransactionList";
 export { WithdrawList } from "./WithdrawList";
 export { UserList } from "./UserList";
 export { MerchantList } from "./Merchants";
 export { CurrenciesList } from "./CurrenciesList";
 export { ProvidersList } from "./Providers/ProvidersList";
-export { DirectionsList } from "./Directions/DirectionsList";
+export { DirectionsList } from "./Directions";
 export { WalletsList } from "./Wallets";
 export { WalletTransactionsList } from "./WalletTransactions";
