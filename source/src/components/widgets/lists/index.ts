@@ -1,7 +1,7 @@
 export { AccountList } from "./Accounts";
 export { TransactionList } from "./Transactions";
 export { WithdrawList } from "./Withdraw";
-export { UserList } from "./UserList";
+export { UserList } from "./Users";
 export { CurrenciesList } from "./Currencies";
 export { MerchantList } from "./Merchants";
 export { ProvidersList } from "./Providers";
