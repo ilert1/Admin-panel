@@ -22,7 +22,8 @@ import {
     ProvidersList,
     DirectionsList,
     WalletsList,
-    WalletTransactionsList
+    WalletTransactionsList,
+    TerminalsList
 } from "@/components/widgets/lists";
 import { MerchantCreate } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
@@ -49,7 +50,6 @@ import { NotFound } from "./components/widgets/shared/NotFound";
 import WalletsLogo from "./lib/icons/Wallets";
 import { WalletStore } from "./pages/WalletStore";
 import { WalletLinkedTransactionsList } from "./components/widgets/lists/WalletLinkedTransactions";
-import { TerminalsList } from "./components/widgets/lists/Terminals";
 
 const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
 
