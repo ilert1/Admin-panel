@@ -144,33 +144,3 @@ export const useGetMerchantColumns = () => {
         setDeleteDialogOpen
     };
 };
-
-// {
-//     id: "actions",
-//     cell: ({ row }) => {
-//         return (
-//             <DropdownMenu>
-//                 <DropdownMenuTrigger asChild>
-//                     <Button variant="textBtn" className="h-8 w-8 p-0">
-//                         <span className="sr-only">Open menu</span>
-//                         <MoreHorizontal className="h-4 w-4" />
-//                     </Button>
-//                 </DropdownMenuTrigger>
-//                 <DropdownMenuContent align="end">
-//                     <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
-//                         {translate("app.ui.actions.quick_show")}
-//                     </DropdownMenuItem>
-//                     <DropdownMenuItem onClick={() => navigate(`/merchant/${row.original.id}/show`)}>
-//                         {translate("app.ui.actions.show")}
-//                     </DropdownMenuItem>
-//                     <DropdownMenuItem onClick={() => navigate(`/merchant/${row.original.id}/edit/`)}>
-//                         {translate("app.ui.actions.edit")}
-//                     </DropdownMenuItem>
-//                     <DropdownMenuItem onClick={() => handleDeleteClicked(row.original.id)}>
-//                         <p className="text-popover-foreground">{translate("app.ui.actions.delete")}</p>
-//                     </DropdownMenuItem>
-//                 </DropdownMenuContent>
-//             </DropdownMenu>
-//         );
-//     }
-// }
