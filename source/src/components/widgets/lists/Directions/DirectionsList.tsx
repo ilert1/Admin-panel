@@ -7,7 +7,7 @@ import { Loading, LoadingAlertDialog } from "@/components/ui/loading";
 
 import { useGetDirectionsColumns } from "./Columns";
 import { PlusCircle, XIcon } from "lucide-react";
-import { ShowSheet } from "./ShowSheet";
+import { ShowDirectionSheet } from "./ShowDirectionSheet";
 import { CreateDirectionDialog } from "./CreateDirectionDialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { debounce } from "lodash";
@@ -133,10 +133,12 @@ export const DirectionsList = () => {
 
                     <CreateDirectionDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
                 </div>
+
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />
                 </ListContextProvider>
-                <ShowSheet id={chosenId} open={quickShowOpen} onOpenChange={setQuickShowOpen} />
+
+                <ShowDirectionSheet id={chosenId} open={quickShowOpen} onOpenChange={setQuickShowOpen} />
             </>
         );
     }

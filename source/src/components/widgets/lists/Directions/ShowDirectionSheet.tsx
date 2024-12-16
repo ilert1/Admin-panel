@@ -4,13 +4,13 @@ import { DirectionsShow } from "../../show";
 import { useTranslate } from "react-admin";
 import React from "react";
 
-export interface ShowSheetProps {
+export interface ShowDirectionSheetProps {
     id?: string;
     open?: boolean;
     onOpenChange?: (state: boolean) => void;
 }
 
-export const ShowSheet: React.FC<ShowSheetProps> = props => {
+export const ShowDirectionSheet: React.FC<ShowDirectionSheetProps> = props => {
     const translate = useTranslate();
     const { id = "", open, onOpenChange = () => {} } = props;
 
