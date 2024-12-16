@@ -1,5 +1,5 @@
-import { useTranslate, useDataProvider, useRefresh } from "react-admin";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useTranslate, useDataProvider, useRefresh, useEditController, EditContextProvider } from "react-admin";
+import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -9,38 +9,60 @@ import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "
 import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePreventFocus } from "@/hooks";
+import { Loading } from "@/components/ui/loading";
 
 enum PositionEnum {
     BEFORE = "before",
     AFTER = "after"
 }
-let renderCount = 0;
 
-export const CurrencyEdit = ({
-    record,
-    closeDialog
-}: {
-    record: Currencies.Currency | undefined;
-    closeDialog: () => void;
-}) => {
+export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () => void }) => {
     const dataProvider = useDataProvider();
+
+    const controllerProps = useEditController({ resource: "currency", id });
+    controllerProps.mutationMode = "pessimistic";
 
     const translate = useTranslate();
     const refresh = useRefresh();
-    const inputRef = useRef<HTMLInputElement>(null);
-    // Focus blur hack
-    renderCount++;
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
-    const onSubmit: SubmitHandler<Omit<Currencies.Currency, "id">> = async data => {
+    const formSchema = z.object({
+        code: z.string().min(1, translate("resources.currency.errors.code")),
+        position: z.enum([PositionEnum.AFTER, PositionEnum.BEFORE]),
+        symbol: z.string().trim().nullable(),
+        is_coin: z.boolean().default(false)
+    });
+
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            code: controllerProps.record?.code || "",
+            position: controllerProps.record?.position || PositionEnum.BEFORE,
+            symbol: controllerProps.record?.symbol || "",
+            is_coin: controllerProps.record?.is_coin || false
+        }
+    });
+
+    useEffect(() => {
+        if (controllerProps.record) {
+            form.reset({
+                code: controllerProps.record?.code || "",
+                position: controllerProps.record?.position || PositionEnum.BEFORE,
+                symbol: controllerProps.record?.symbol || "",
+                is_coin: controllerProps.record?.is_coin || false
+            });
+        }
+    }, [form, controllerProps.record]);
+
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
         try {
             await dataProvider.update("currency", {
-                id: record?.id,
+                id,
                 data: data,
                 previousData: undefined
             });
@@ -56,180 +78,166 @@ export const CurrencyEdit = ({
         }
     };
 
-    const formSchema = z.object({
-        code: z.string().min(1, translate("resources.currency.errors.code")),
-        position: z.enum([PositionEnum.AFTER, PositionEnum.BEFORE]),
-        symbol: z.string().trim().nullable(),
-        is_coin: z.boolean().default(false)
-    });
+    usePreventFocus({ dependencies: [controllerProps.record] });
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            code: record?.code || "",
-            position: record?.position || PositionEnum.BEFORE,
-            symbol: record?.symbol || "",
-            is_coin: record?.is_coin || false
-        }
-    });
-
-    usePreventFocus({ dependencies: [record] });
+    if (controllerProps.isLoading || !controllerProps.record) return <Loading />;
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" autoFocus={false}>
-                <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:grid-flow-col gap-y-5 gap-x-4 md:items-end">
-                    <FormField
-                        control={form.control}
-                        name="code"
-                        render={({ field }) => (
-                            <FormItem className="space-y-1">
-                                <FormLabel>{translate("resources.currency.fields.currencyName")}</FormLabel>
-                                <FormControl>
-                                    <Input {...field} disabled />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        control={form.control}
-                        name="symbol"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="space-y-1">
-                                <FormLabel>{translate("resources.currency.fields.symbol")}</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                            fieldState.invalid
-                                                ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                : ""
-                                        }`}
-                                        {...field}
-                                        ref={inputRef}
-                                        onFocus={() => {
-                                            if (renderCount === 1) {
-                                                inputRef?.current?.blur();
-                                            }
-                                            inputRef?.current?.focus();
-                                        }}
-                                        value={field.value ?? ""}>
-                                        {fieldState.invalid && (
-                                            <TooltipProvider>
-                                                <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <TriangleAlert className="text-red-40" width={14} height={14} />
-                                                    </TooltipTrigger>
-
-                                                    <TooltipContent className="border-none bottom-0" side="left">
-                                                        <FormMessage />
-                                                    </TooltipContent>
-                                                </Tooltip>
-                                            </TooltipProvider>
-                                        )}
-                                    </Input>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        control={form.control}
-                        name="is_coin"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="space-y-1">
-                                <FormLabel>{translate("resources.currency.fields.type")}</FormLabel>
-                                <Select
-                                    onValueChange={value => field.onChange(value === "true")}
-                                    value={field.value ? "true" : "false"}>
+        <EditContextProvider value={controllerProps}>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" autoFocus={false}>
+                    <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:grid-flow-col gap-y-5 gap-x-4 md:items-end">
+                        <FormField
+                            control={form.control}
+                            name="code"
+                            render={({ field }) => (
+                                <FormItem className="space-y-1">
+                                    <FormLabel>{translate("resources.currency.fields.currencyName")}</FormLabel>
                                     <FormControl>
-                                        <SelectTrigger
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}>
-                                            <div className="mr-auto">
-                                                <SelectValue
-                                                    placeholder={translate("resources.currency.fields.type")}
-                                                />
-                                            </div>
-                                        </SelectTrigger>
+                                        <Input {...field} disabled />
                                     </FormControl>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            <SelectItem value="false">
-                                                {translate("resources.currency.fields.fiat")}
-                                            </SelectItem>
-                                            <SelectItem value="true">
-                                                {translate("resources.currency.fields.crypto")}
-                                            </SelectItem>
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                    <FormField
-                        control={form.control}
-                        name="position"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="space-y-1">
-                                <FormLabel>{translate("resources.currency.fields.symbPos")}</FormLabel>
-                                <FormControl>
-                                    <Select
-                                        onValueChange={value => field.onChange(value as PositionEnum)}
-                                        value={field.value}>
-                                        <SelectTrigger
+                        <FormField
+                            control={form.control}
+                            name="symbol"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="space-y-1">
+                                    <FormLabel>{translate("resources.currency.fields.symbol")}</FormLabel>
+                                    <FormControl>
+                                        <Input
                                             className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
                                                 fieldState.invalid
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                     : ""
-                                            }`}>
-                                            <div className="mr-auto">
-                                                <SelectValue
-                                                    placeholder={translate("resources.currency.fields.symbPos")}
-                                                />
-                                            </div>
-                                        </SelectTrigger>
+                                            }`}
+                                            {...field}
+                                            value={field.value ?? ""}>
+                                            {fieldState.invalid && (
+                                                <TooltipProvider>
+                                                    <Tooltip>
+                                                        <TooltipTrigger asChild>
+                                                            <TriangleAlert
+                                                                className="text-red-40"
+                                                                width={14}
+                                                                height={14}
+                                                            />
+                                                        </TooltipTrigger>
+
+                                                        <TooltipContent className="border-none bottom-0" side="left">
+                                                            <FormMessage />
+                                                        </TooltipContent>
+                                                    </Tooltip>
+                                                </TooltipProvider>
+                                            )}
+                                        </Input>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="is_coin"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="space-y-1">
+                                    <FormLabel>{translate("resources.currency.fields.type")}</FormLabel>
+                                    <Select
+                                        onValueChange={value => field.onChange(value === "true")}
+                                        value={field.value ? "true" : "false"}>
+                                        <FormControl>
+                                            <SelectTrigger
+                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                                    fieldState.invalid
+                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                        : ""
+                                                }`}>
+                                                <div className="mr-auto">
+                                                    <SelectValue
+                                                        placeholder={translate("resources.currency.fields.type")}
+                                                    />
+                                                </div>
+                                            </SelectTrigger>
+                                        </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                <SelectItem value={PositionEnum.BEFORE}>
-                                                    {translate("resources.currency.fields.before")}
+                                                <SelectItem value="false">
+                                                    {translate("resources.currency.fields.fiat")}
                                                 </SelectItem>
-                                                <SelectItem value={PositionEnum.AFTER}>
-                                                    {translate("resources.currency.fields.after")}
+                                                <SelectItem value="true">
+                                                    {translate("resources.currency.fields.crypto")}
                                                 </SelectItem>
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </div>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                <div className="sm:self-end flex flex-col sm:flex-row items-center gap-4">
-                    <Button
-                        type="submit"
-                        variant="default"
-                        className="w-full sm:w flex-1"
-                        disabled={submitButtonDisabled}>
-                        {translate("app.ui.actions.save")}
-                    </Button>
+                        <FormField
+                            control={form.control}
+                            name="position"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="space-y-1">
+                                    <FormLabel>{translate("resources.currency.fields.symbPos")}</FormLabel>
+                                    <FormControl>
+                                        <Select
+                                            onValueChange={value => field.onChange(value as PositionEnum)}
+                                            value={field.value}>
+                                            <SelectTrigger
+                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                                    fieldState.invalid
+                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
+                                                        : ""
+                                                }`}>
+                                                <div className="mr-auto">
+                                                    <SelectValue
+                                                        placeholder={translate("resources.currency.fields.symbPos")}
+                                                    />
+                                                </div>
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectItem value={PositionEnum.BEFORE}>
+                                                        {translate("resources.currency.fields.before")}
+                                                    </SelectItem>
+                                                    <SelectItem value={PositionEnum.AFTER}>
+                                                        {translate("resources.currency.fields.after")}
+                                                    </SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
 
-                    <Button
-                        variant="clearBtn"
-                        className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full">
-                        {translate("app.ui.actions.cancel")}
-                    </Button>
-                </div>
-            </form>
-        </Form>
+                    <div className="sm:self-end flex flex-col sm:flex-row items-center gap-4">
+                        <Button
+                            type="submit"
+                            variant="default"
+                            className="w-full sm:w flex-1"
+                            disabled={submitButtonDisabled}>
+                            {translate("app.ui.actions.save")}
+                        </Button>
+
+                        <Button
+                            type="button"
+                            onClick={() => closeDialog()}
+                            variant="clearBtn"
+                            className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full">
+                            {translate("app.ui.actions.cancel")}
+                        </Button>
+                    </div>
+                </form>
+            </Form>
+        </EditContextProvider>
     );
 };
