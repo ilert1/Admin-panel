@@ -5,6 +5,8 @@ import { CirclePlus, EyeIcon, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
+export type MerchantTypeToShow = "fees" | "directions" | undefined;
+
 export const useGetMerchantColumns = () => {
     const translate = useTranslate();
 
@@ -13,7 +15,7 @@ export const useGetMerchantColumns = () => {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [showSheetOpen, setShowSheetOpen] = useState(false);
-    const [showType, setShowType] = useState<"fees" | "directions">();
+    const [showType, setShowType] = useState<MerchantTypeToShow>();
 
     const handleEditClicked = (id: string) => {
         setChosenId(id);
@@ -23,7 +25,7 @@ export const useGetMerchantColumns = () => {
         setChosenId(id);
         setDeleteDialogOpen(true);
     };
-    const handleShowClicked = (id: string, type: string) => {
+    const handleShowClicked = (id: string, type: MerchantTypeToShow) => {
         setChosenId(id);
         setShowType(type);
         setShowSheetOpen(true);

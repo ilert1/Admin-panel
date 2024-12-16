@@ -14,9 +14,7 @@ interface EditMerchantDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
-export const EditMerchantDialog = (props: EditMerchantDialogProps) => {
-    const { id, open, onOpenChange } = props;
-
+export const EditMerchantDialog = ({ id, open, onOpenChange }: EditMerchantDialogProps) => {
     const translate = useTranslate();
 
     return (
@@ -28,10 +26,13 @@ export const EditMerchantDialog = (props: EditMerchantDialogProps) => {
                     <DialogTitle className="mb-4 text-center">
                         {translate("resources.merchant.editingMerchant")}
                     </DialogTitle>
-                    <DialogDescription></DialogDescription>
+
+                    <DialogDescription />
+
                     <MerchantEdit id={id} onOpenChange={onOpenChange} />
                 </DialogHeader>
-                <DialogFooter></DialogFooter>
+
+                <DialogFooter />
             </DialogContent>
         </Dialog>
     );

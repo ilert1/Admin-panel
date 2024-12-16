@@ -14,9 +14,8 @@ interface DeleteMerchantDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
-export const DeleteMerchantDialog = (props: DeleteMerchantDialogProps) => {
-    const { id, open, onOpenChange } = props;
 
+export const DeleteMerchantDialog = ({ id, open, onOpenChange }: DeleteMerchantDialogProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
     const [deleteOne] = useDelete();
@@ -47,11 +46,14 @@ export const DeleteMerchantDialog = (props: DeleteMerchantDialogProps) => {
             <DialogContent className="max-w-[251px] max-h-[200px] sm:max-h-[140px] bg-muted overflow-auto">
                 <DialogHeader>
                     <DialogTitle className="text-center">{translate("resources.merchant.delete")}</DialogTitle>
-                    <DialogDescription></DialogDescription>
+
+                    <DialogDescription />
                 </DialogHeader>
+
                 <DialogFooter>
                     <div className="flex flex-col gap-4 sm:gap-0 sm:flex-row justify-around w-full">
                         <Button onClick={handleDelete}>{translate("app.ui.actions.delete")}</Button>
+
                         <Button
                             variant={"outline"}
                             onClick={() => {

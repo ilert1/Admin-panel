@@ -11,19 +11,19 @@ import { AddFeeCard } from "../../components/AddFeeCard";
 import { useGetMerchantShowColumns } from "./Columns";
 import { SimpleTable } from "../../shared";
 import { TableTypes } from "../../shared/SimpleTable";
+import { MerchantTypeToShow } from "../../lists/Merchants/Columns";
 
 interface MerchantShowProps {
     id: string;
-    type: "fees" | "directions";
+    type: MerchantTypeToShow;
 }
 
 const API_URL = import.meta.env.VITE_ENIGMA_URL;
 
-export const MerchantShow = (props: MerchantShowProps) => {
-    const { id, type } = props;
+export const MerchantShow = ({ id, type }: MerchantShowProps) => {
     const translate = useTranslate();
     const data = fetchDictionaries();
-    const context = useShowController({ resource: "merchant", id: props.id });
+    const context = useShowController({ resource: "merchant", id });
     const { columns } = useGetMerchantShowColumns();
 
     const messagesEndRef = useRef<HTMLDivElement>(null);

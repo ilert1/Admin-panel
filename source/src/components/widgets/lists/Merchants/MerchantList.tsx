@@ -42,19 +42,24 @@ export const MerchantList = () => {
                     <Button onClick={handleCreateClick} variant="default">
                         {translate("resources.merchant.createNew")}
                     </Button>
-                    <CreateMerchantDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
-                    <DeleteMerchantDialog id={chosenId} open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} />
-                    <EditMerchantDialog id={chosenId} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
-                    <ShowMerchantSheet
-                        id={chosenId}
-                        open={showSheetOpen}
-                        onOpenChange={setShowSheetOpen}
-                        showType={showType}
-                    />
                 </div>
+
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />
                 </ListContextProvider>
+
+                <CreateMerchantDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+
+                <DeleteMerchantDialog id={chosenId} open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} />
+
+                <EditMerchantDialog id={chosenId} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
+
+                <ShowMerchantSheet
+                    id={chosenId}
+                    open={showSheetOpen}
+                    onOpenChange={setShowSheetOpen}
+                    showType={showType}
+                />
             </>
         );
     }
