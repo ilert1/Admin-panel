@@ -54,7 +54,7 @@ import { WalletStore } from "./pages/WalletStore";
 const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
 
 const dataProvider = combineDataProviders((resource: string) => {
-    if (resource === "transactions") {
+    if (resource?.startsWith("transactions")) {
         return new TransactionDataProvider();
     } else if (resource === "users") {
         return new UsersDataProvider();
@@ -62,7 +62,7 @@ const dataProvider = combineDataProviders((resource: string) => {
         return new CurrenciesDataProvider();
     } else if (resource === "merchant") {
         return new MerchantsDataProvider();
-    } else if (resource === "provider" || resource?.startsWith("provider/")) {
+    } else if (resource?.startsWith("provider")) {
         return new ProvidersDataProvider();
     } else if (resource === "direction") {
         return new DirectionsDataProvider();

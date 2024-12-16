@@ -1,16 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
-import fetchDictionaries from "@/helpers/get-dictionaries";
-import { useFetchMerchants } from "@/hooks";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useLocaleState, usePermissions, useTranslate } from "react-admin";
 
 export type MerchantTypeToShow = "fees" | "directions" | undefined;
 
 export const useGetTransactionColumns = () => {
-    const data = fetchDictionaries();
     const translate = useTranslate();
     const [locale] = useLocaleState();
     const { permissions } = usePermissions();
@@ -19,36 +16,12 @@ export const useGetTransactionColumns = () => {
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");
 
-    const { isLoading, merchantsList } =
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        permissions === "admin" ? useFetchMerchants() : { isLoading: false, merchantsList: [] };
-
     const openSheet = (id: string) => {
         setShowTransactionId(id);
         setShowOpen(true);
     };
 
-    const merchantNameGenerate = useCallback(
-        (type: number, source: string, destination: string) => {
-            const sourceMerch = merchantsList.find(el => el.id === source);
-            const destMerch = merchantsList.find(el => el.id === destination);
-
-            switch (type) {
-                case 1:
-                    return <TextField text={destMerch?.name || ""} wrap />;
-                case 2:
-                case 4:
-                    return <TextField text={sourceMerch?.name || ""} wrap />;
-                case 3:
-                    return <TextField text={`${sourceMerch?.name} - ${destMerch?.name}`} wrap />;
-                default:
-                    return <TextField text="" wrap />;
-            }
-        },
-        [merchantsList]
-    );
-
-    const columns: ColumnDef<Transaction.Transaction>[] = [
+    const columns: ColumnDef<Transaction.TransactionView>[] = [
         {
             accessorKey: "created_at",
             header: translate("resources.transactions.fields.createdAt"),
@@ -71,7 +44,7 @@ export const useGetTransactionColumns = () => {
             accessorKey: "meta.customer_data.customer_id",
             header: translate("resources.transactions.fields.meta.customer_id"),
             cell: ({ row }) => {
-                return <TextField text={row.original.meta.customer_data.customer_id} wrap />;
+                return <TextField text={row.original.customer_id} wrap />;
             }
         },
         {
@@ -79,7 +52,7 @@ export const useGetTransactionColumns = () => {
             header: translate("resources.transactions.fields.meta.customer_payment_id"),
             cell: ({ row }) => (
                 <TextField
-                    text={row.original.meta.customer_data.customer_payment_id}
+                    text={row.original.customer_payment_id}
                     wrap
                     copyValue
                     lineClamp
@@ -92,16 +65,12 @@ export const useGetTransactionColumns = () => {
             ? [
                   {
                       header: translate("resources.withdraw.fields.merchant"),
-                      cell: ({ row }: { row: Row<Transaction.Transaction> }) => {
+                      cell: ({ row }: { row: Row<Transaction.TransactionView> }) => {
                           return (
                               <div>
-                                  {merchantNameGenerate(
-                                      row.original.type,
-                                      row.original.source.id,
-                                      row.original.destination.id
-                                  )}
+                                  <TextField text={row.original.participant_name} wrap />
                                   <TextField
-                                      text={row.original.source.id}
+                                      text={row.original.participant_id}
                                       wrap
                                       copyValue
                                       lineClamp
@@ -117,64 +86,36 @@ export const useGetTransactionColumns = () => {
         {
             accessorKey: "type",
             header: translate("resources.transactions.fields.type"),
-            cell: ({ row }) =>
-                translate(
-                    `resources.transactions.types.${data?.transactionTypes?.[
-                        row.original.type
-                    ]?.type_descr?.toLowerCase()}`
-                ) || ""
+            cell: ({ row }) => translate(`resources.transactions.types.${row.original.type_text.toLowerCase()}`) || ""
         },
         {
             accessorKey: "state",
             header: translate("resources.transactions.fields.state.title"),
-            cell: ({ row }) =>
-                translate(`resources.transactions.states.${row.original.state?.state_description?.toLowerCase()}`) || ""
+            cell: ({ row }) => translate(`resources.transactions.states.${row.original.state_text.toLowerCase()}`) || ""
         },
         {
             accessorKey: "sourceValue",
             header: translate("resources.transactions.fields.sourceValue"),
             cell: ({ row }) => {
-                const value =
-                    (row.original.source.amount.value.quantity || 0) / row.original.source.amount.value.accuracy;
-                if (isNaN(value)) return "-";
-                return `${value.toFixed(Math.log10(row.original.source.amount.value.accuracy))} ${
-                    row.original.source.amount.currency || ""
-                }`;
+                return `${row.original.source_amount_value} ${row.original.source_amount_currency || ""}`;
             }
         },
         {
             accessorKey: "destValue",
             header: translate("resources.transactions.fields.destValue"),
             cell: ({ row }) => {
-                const value =
-                    (row.original.destination.amount.value.quantity || 0) /
-                    row.original.destination.amount.value.accuracy;
-                if (isNaN(value)) return "-";
-                return `${value.toFixed(Math.log10(row.original.destination.amount.value.accuracy))} ${
-                    row.original.destination.amount.currency || ""
-                }`;
+                return `${row.original.destination_amount_value} ${row.original.destination_amount_currency || ""}`;
             }
         },
         {
             accessorKey: "rate_info",
             header: translate("resources.transactions.fields.rateInfo"),
-            cell: ({ row }) => {
-                const rateInfo: Transaction.RateInfo = row.original.rate_info;
-                if (rateInfo) {
-                    return (
-                        <>
-                            <p className="text-neutral-60 dark:text-neutral-70">{`${rateInfo.s_currency} / ${rateInfo.d_currency}:`}</p>
-                            <p>
-                                {((rateInfo.value.quantity || 0) / rateInfo.value.accuracy).toFixed(
-                                    Math.log10(rateInfo.value.accuracy)
-                                )}
-                            </p>
-                        </>
-                    );
-                } else {
-                    return 0;
-                }
-            }
+            cell: ({ row }) => (
+                <>
+                    <p className="text-neutral-60 dark:text-neutral-70">{`${row.original.rate_source_currency} / ${row.original.rate_destination_currency}:`}</p>
+                    <p>{row.original.rate}</p>
+                </>
+            )
         },
         {
             id: "actions",
@@ -217,7 +158,6 @@ export const useGetTransactionColumns = () => {
 
     return {
         columns,
-        isLoading,
         showOpen,
         setShowOpen,
         showTransactionId

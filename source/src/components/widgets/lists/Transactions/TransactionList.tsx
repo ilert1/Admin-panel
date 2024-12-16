@@ -7,16 +7,16 @@ import { useGetTransactionColumns } from "./Columns";
 import { ShowTransactionSheet } from "./ShowTransactionSheet";
 
 export const TransactionList = () => {
-    const listContext = useListController<Transaction.Transaction>();
+    const listContext = useListController<Transaction.TransactionView>({ resource: "transactions/view" });
 
     const [typeTabActive, setTypeTabActive] = useState(() => {
         const params = new URLSearchParams(location.search);
         return params.get("filter") ? JSON.parse(params.get("filter") as string).order_type : "";
     });
 
-    const { columns, isLoading, showOpen, setShowOpen, showTransactionId } = useGetTransactionColumns();
+    const { columns, showOpen, setShowOpen, showTransactionId } = useGetTransactionColumns();
 
-    if (listContext.isLoading || !listContext.data || isLoading) {
+    if (listContext.isLoading || !listContext.data) {
         return <Loading />;
     } else {
         return (
@@ -39,7 +39,7 @@ export const TransactionList = () => {
                         />
                     </div> */}
 
-                    <DataTable data={[]} columns={columns} />
+                    <DataTable columns={columns} />
                 </ListContextProvider>
 
                 <ShowTransactionSheet id={showTransactionId} open={showOpen} onOpenChange={setShowOpen} />

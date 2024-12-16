@@ -159,6 +159,28 @@ declare namespace Transaction {
         type: number;
     };
 
+    type TransactionView = {
+        id: string;
+        created_at: string;
+        updated_at: string;
+        type_id: number;
+        type_text: string;
+        state_id: number;
+        state_text: string;
+        state_final: boolean;
+        participant_id: string;
+        participant_name: string;
+        customer_id: string;
+        customer_payment_id: string;
+        source_amount_currency: string;
+        source_amount_value: string;
+        destination_amount_currency: string;
+        destination_amount_value: string;
+        rate: string;
+        rate_source_currency: string;
+        rate_destination_currency: string;
+    };
+
     type Fee = {
         recipient: string;
         type: number;

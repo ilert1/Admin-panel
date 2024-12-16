@@ -211,23 +211,27 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                         {translate("resources.transactions.types.all")}
                     </button>
 
-                    {Object.keys(data?.transactionTypes).map(item => {
-                        if (data?.transactionTypes?.[item].type === 1 || data?.transactionTypes?.[item].type === 2) {
-                            return (
-                                <button
-                                    key={data?.transactionTypes?.[item].type}
-                                    className={chooseClassTabActive(data?.transactionTypes?.[item].type_descr)}
-                                    disabled={typeTabActive === data?.transactionTypes?.[item].type_descr}
-                                    onClick={() => onTabChanged(data?.transactionTypes?.[item])}>
-                                    {translate(
-                                        `resources.transactions.types.${data?.transactionTypes?.[
-                                            item
-                                        ].type_descr.toLowerCase()}`
-                                    )}
-                                </button>
-                            );
-                        }
-                    })}
+                    {data?.transactionTypes &&
+                        Object.keys(data?.transactionTypes).map(item => {
+                            if (
+                                data?.transactionTypes?.[item].type === 1 ||
+                                data?.transactionTypes?.[item].type === 2
+                            ) {
+                                return (
+                                    <button
+                                        key={data?.transactionTypes?.[item].type}
+                                        className={chooseClassTabActive(data?.transactionTypes?.[item].type_descr)}
+                                        disabled={typeTabActive === data?.transactionTypes?.[item].type_descr}
+                                        onClick={() => onTabChanged(data?.transactionTypes?.[item])}>
+                                        {translate(
+                                            `resources.transactions.types.${data?.transactionTypes?.[
+                                                item
+                                            ].type_descr.toLowerCase()}`
+                                        )}
+                                    </button>
+                                );
+                            }
+                        })}
                 </div>
 
                 {/* <div className="flex items-center gap-1">
