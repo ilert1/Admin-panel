@@ -23,6 +23,7 @@ import {
     DirectionsList,
     WalletsList,
     WalletTransactionsList,
+    WalletLinkedTransactionsList,
     TerminalsList
 } from "@/components/widgets/lists";
 import { MerchantCreate } from "@/components/widgets/create";
@@ -49,7 +50,6 @@ import { InitLoading } from "./components/ui/loading";
 import { NotFound } from "./components/widgets/shared/NotFound";
 import WalletsLogo from "./lib/icons/Wallets";
 import { WalletStore } from "./pages/WalletStore";
-import { WalletLinkedTransactionsList } from "./components/widgets/lists/WalletLinkedTransactions";
 
 const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
 
