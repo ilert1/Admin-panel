@@ -4,7 +4,7 @@ export { WithdrawList } from "./WithdrawList";
 export { UserList } from "./UserList";
 export { CurrenciesList } from "./CurrenciesList";
 export { MerchantList } from "./Merchants";
-export { ProvidersList } from "./Providers/ProvidersList";
+export { ProvidersList } from "./Providers";
 export { TerminalsList } from "./Terminals";
 export { DirectionsList } from "./Directions";
 export { WalletsList } from "./Wallets";
