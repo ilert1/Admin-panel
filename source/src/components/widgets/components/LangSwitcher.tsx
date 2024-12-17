@@ -9,10 +9,17 @@ import { LanguagesIcon } from "lucide-react";
 import { useI18nProvider, useLocaleState } from "react-admin";
 import { useState } from "react";
 
-export const LangSwitcher = () => {
+export interface LangSwitcherProps {
+    modal?: boolean;
+}
+
+export const LangSwitcher = (props: LangSwitcherProps) => {
+    const { modal = false } = props;
+
     const [locale, setLocale] = useLocaleState();
     const changeLocale = (value: string) => {
         if (locale !== value) {
+            localStorage.setItem("i18nextLng", value);
             setLocale(value);
         }
     };
@@ -20,7 +27,7 @@ export const LangSwitcher = () => {
     const { getLocales } = useI18nProvider();
 
     return (
-        <DropdownMenu onOpenChange={setLangOpen} modal={false}>
+        <DropdownMenu onOpenChange={setLangOpen} modal={modal}>
             <DropdownMenuTrigger asChild className="">
                 <Avatar
                     className={

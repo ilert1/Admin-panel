@@ -9,35 +9,26 @@ import {
 import { API_URL } from "@/data/base";
 import Blowfish from "@/lib/icons/Blowfish";
 import { useEffect, useMemo, useState } from "react";
-import { useGetIdentity, useI18nProvider, useLocaleState, usePermissions, useTranslate } from "react-admin";
+import { useGetIdentity, usePermissions, useTranslate } from "react-admin";
 import { NumericFormat } from "react-number-format";
 import { useQuery } from "react-query";
 import { toast } from "sonner";
 import { Icon } from "./Icon";
-import { EllipsisVerticalIcon, LanguagesIcon } from "lucide-react";
+import { EllipsisVerticalIcon } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
+import { LangSwitcher } from "../components/LangSwitcher";
 // import { debounce } from "lodash";
 
 export const Header = (props: { handleLogout: () => void }) => {
     const { setTheme, theme } = useTheme();
-    const [locale, setLocale] = useLocaleState();
     const identity = useGetIdentity();
     const [profileOpen, setProfileOpen] = useState(false);
-    const [langOpen, setLangOpen] = useState(false);
     // const [chatOpen, setChatOpen] = useState(false);
     // const debounced = debounce(setChatOpen, 120);
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
-    const { getLocales } = useI18nProvider();
     const [currentIndex, setCurrentIndex] = useState(0);
-
-    const changeLocale = (value: string) => {
-        if (locale !== value) {
-            localStorage.setItem("i18nextLng", value);
-            setLocale(value);
-        }
-    };
 
     const toggleTheme = () => {
         setTheme(theme === "light" ? "dark" : "light");
@@ -292,28 +283,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     <ChatSheet locale={locale} />
                                 </SheetContent>
                             </Sheet> */}
-                        <DropdownMenu open={langOpen} onOpenChange={setLangOpen} modal={true}>
-                            <DropdownMenuTrigger asChild>
-                                <Avatar
-                                    className={
-                                        langOpen
-                                            ? "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
-                                            : "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 hover:text-neutral-100 border-2 border-neutral-50 hover:border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
-                                    }>
-                                    <LanguagesIcon className="h-[30px] w-[30px]" />
-                                </Avatar>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="p-0 bg-muted border border-neutral-100 z-[60]">
-                                {getLocales?.().map(locale => (
-                                    <DropdownMenuItem
-                                        key={locale.locale}
-                                        onClick={() => changeLocale(locale.locale)}
-                                        className="text-title-2 py-[14px] focus:bg-green-50 focus:cursor-pointer pl-4 pr-4">
-                                        {locale.name}
-                                    </DropdownMenuItem>
-                                ))}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                        <LangSwitcher modal />
                     </div>
                 </div>
             )}
