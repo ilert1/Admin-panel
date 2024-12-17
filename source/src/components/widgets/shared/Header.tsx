@@ -103,8 +103,8 @@ export const Header = (props: { handleLogout: () => void }) => {
                             <div
                                 className={
                                     profileOpen
-                                        ? "flex gap-4 items-center justify-center py-1 px-4 bg-muted rounded-4 border border-neutral-80 box-border transition-colors transition-150 cursor-default"
-                                        : "flex gap-4 items-center justify-center py-1 px-4 bg-muted rounded-4 border border-muted box-border transition-colors transition-150 cursor-default"
+                                        ? "flex gap-4 items-center justify-center py-1 pl-4 pr-2 bg-muted rounded-4 border border-neutral-80 box-border transition-colors transition-150 cursor-default"
+                                        : "flex gap-4 items-center justify-center py-1 pl-4 pr-2 bg-muted rounded-4 border border-muted box-border transition-colors transition-150 cursor-default"
                                 }>
                                 <DropdownMenuTrigger asChild>
                                     <Avatar className="flex items-center justify-center w-[60px] h-[60px] border-2 border-green-40 bg-muted cursor-pointer">
@@ -133,7 +133,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                     transition:
                                                                         "opacity .1s ease-in-out, transform .3s ease-in-out"
                                                                 }}
-                                                                className={`absolute inset-0 flex gap-4 items-center ${
+                                                                className={`absolute inset-0 flex justify-between items-center ${
                                                                     totalAmount.length === 1
                                                                         ? "translate-y-0 opacity-100 z-10"
                                                                         : index === currentIndex
@@ -144,7 +144,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                         : "translate-y-[200%] opacity-0 z-0 delay-300"
                                                                 }`}>
                                                                 <NumericFormat
-                                                                    className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-[98px] block"
+                                                                    className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-full block text-display-4"
                                                                     value={
                                                                         Math.round(
                                                                             (el.value.quantity / el.value.accuracy) *
@@ -155,7 +155,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                     thousandSeparator=" "
                                                                     decimalSeparator=","
                                                                 />
-                                                                <div className="w-6 flex justify-center">
+                                                                <div className="flex justify-center">
                                                                     <Icon name={el.currency} folder="currency" />
                                                                 </div>
                                                             </div>
@@ -214,15 +214,18 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                 <div
                                                     className="flex items-center w-[100%] justify-between"
                                                     key={el.currency}>
-                                                    <h1 className="text-display-4">
+                                                    <h4 className="text-display-4">
                                                         <NumericFormat
                                                             className="whitespace-nowrap"
                                                             value={el.value.quantity / el.value.accuracy}
                                                             displayType={"text"}
                                                             thousandSeparator=" "
                                                             decimalSeparator=","
+                                                            style={{
+                                                                fontSize: "20px !important"
+                                                            }}
                                                         />
-                                                    </h1>
+                                                    </h4>
                                                     <div className="flex justify-center">
                                                         <Icon name={el.currency} folder="currency" />
                                                     </div>
@@ -236,11 +239,11 @@ export const Header = (props: { handleLogout: () => void }) => {
 
                                 <div className="flex content-start items-center pl-4 pr-4">
                                     <Switch
-                                        checked={theme === "dark"}
+                                        checked={theme === "light"}
                                         onCheckedChange={toggleTheme}
-                                        className="border-green-50 data-[state=checked]:bg-muted data-[state=unchecked]:bg-muted"
+                                        className="border-green-40 data-[state=checked]:bg-muted data-[state=unchecked]:bg-muted"
                                     />
-                                    <span className="ml-3 cursor-default">
+                                    <span className="ml-3 cursor-default text-neutral-50">
                                         {theme === "dark" ? translate("app.theme.light") : translate("app.theme.dark")}
                                     </span>
                                 </div>
