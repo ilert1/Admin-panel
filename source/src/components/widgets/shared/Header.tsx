@@ -82,7 +82,7 @@ export const Header = (props: { handleLogout: () => void }) => {
         }
         return () => clearInterval(interval);
     }, [totalAmount, currentIndex]);
-    console.log(identity?.data);
+
     return (
         <header
             className="flex flex-shrink-0 h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z"
