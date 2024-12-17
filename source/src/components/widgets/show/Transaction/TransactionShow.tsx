@@ -145,11 +145,18 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                         )}
 
                         <div className="flex gap-6">
-                            {showDispute && <Button onClick={switchDispute}>{disputeCaption}</Button>}
+                            {showDispute && (
+                                <Button disabled={!context.record?.state.final} onClick={switchDispute}>
+                                    {disputeCaption}
+                                </Button>
+                            )}
 
                             {showCommit && (
                                 <>
-                                    <Button variant={"secondary"} onClick={() => setDialogOpen(true)}>
+                                    <Button
+                                        disabled={!context.record?.state.final}
+                                        variant={"secondary"}
+                                        onClick={() => setDialogOpen(true)}>
                                         {commitCaption}
                                     </Button>
 
