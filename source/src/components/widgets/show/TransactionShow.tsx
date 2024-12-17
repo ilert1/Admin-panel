@@ -1,16 +1,9 @@
-import {
-    useShowController,
-    useTranslate,
-    useGetManyReference,
-    usePermissions,
-    useLocaleState,
-    useDataProvider
-} from "react-admin";
+import { useShowController, useTranslate, useGetManyReference, usePermissions, useLocaleState } from "react-admin";
 import { SimpleTable } from "@/components/widgets/shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { BooleanField } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TableTypes } from "../shared/SimpleTable";
 import fetchDictionaries from "@/helpers/get-dictionaries";
@@ -25,34 +18,17 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useMediaQuery } from "react-responsive";
-import { useTransactionActions } from "@/hooks";
+import { useFetchMerchants, useTransactionActions } from "@/hooks";
 
 export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     const data = fetchDictionaries();
     const translate = useTranslate();
     const [locale] = useLocaleState();
 
-    const { permissions, isLoading } = usePermissions();
+    const { permissions } = usePermissions();
     const context = useShowController<Transaction.Transaction>({ id: props.id });
     const [newState, setNewState] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
-    const [merchantName, setMerchantName] = useState("");
-    const dataProvider = useDataProvider();
-
-    // const [stornoOpen, setStornoOpen] = useState(false);
-    // const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
-    // const { data: currencies } = useQuery("currencies", () =>
-    //     fetch(`${API_URL}/dictionaries/curr`, {
-    //         headers: {
-    //             Authorization: `Bearer ${localStorage.getItem("access-token")}`
-    //         }
-    //     }).then(response => response.json())
-    // );
-    // const sortedCurrencies = useMemo(() => {
-    //     return (
-    //         currencies?.data?.sort((a: Currencies.Currency, b: Currencies.Currency) => a.prior_gr - b.prior_gr) || []
-    //     );
-    // }, [currencies]);
 
     const {
         switchDispute,
@@ -66,22 +42,6 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
         commitTransaction
     } = useTransactionActions(data, context.record);
 
-    // useEffect(() => {
-    //     EventBus.getInstance().registerUnique(
-    //         EVENT_STORNO,
-    //         (data: {
-    //             sourceValue: string;
-    //             destValue: string;
-    //             source: string;
-    //             currency: string;
-    //             destination: string;
-    //         }) => {
-    //             makeStorno(data);
-    //             setStornoOpen(false);
-    //         }
-    //     );
-    // }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
     const trnId = useMemo<string>(() => context.record?.id || "", [context]);
 
     const { data: history } = useGetManyReference("transactions", {
@@ -89,44 +49,29 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
         id: trnId
     });
 
-    useEffect(() => {
-        async function fetch() {
-            /* const sourceMerch = context.record?.type !== 1 && merchantsList.find(el => el.id === context.record?.source.id);
-            const destMerch = merchantsList.find(el => el.id === context.record?.destination.id); */
+    const { isLoading, merchantsList } =
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        permissions === "admin" ? useFetchMerchants() : { isLoading: false, merchantsList: [] };
 
-            let merch_id;
-            switch (context.record?.type) {
+    const merchantNameGenerate = useCallback(
+        (type: number, source: string, destination: string) => {
+            const sourceMerch = merchantsList.find(el => el.id === source);
+            const destMerch = merchantsList.find(el => el.id === destination);
+
+            switch (type) {
                 case 1:
-                    merch_id = context.record?.destination?.id;
-                    break;
+                    return <TextField text={destMerch?.name || ""} wrap />;
                 case 2:
                 case 4:
-                    merch_id = context.record?.source?.id;
-                    break;
+                    return <TextField text={sourceMerch?.name || ""} wrap />;
                 case 3:
-                    merch_id = `${context.record?.source?.id} - ${context.record?.destination?.id}`;
-                    break;
-
+                    return <TextField text={`${sourceMerch?.name} - ${destMerch?.name}`} wrap />;
                 default:
-                    merch_id = undefined;
+                    return <TextField text="" wrap />;
             }
-
-            if (!merch_id) {
-                return;
-            }
-            try {
-                const json = await dataProvider.getOne("merchant", {
-                    id: merch_id
-                });
-                setMerchantName(json.data.name);
-            } catch (error) {
-                // Заглушка
-            }
-        }
-        if (!context.isLoading) {
-            fetch();
-        }
-    }, [context.isLoading, context.record?.destination.id, dataProvider]);
+        },
+        [merchantsList]
+    );
 
     function computeValue(quantity: number, accuracy: number) {
         const value = (quantity || 0) / accuracy;
@@ -407,13 +352,21 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                             )}
                         </span>
                     </div>
-                    <div className="flex flex-col">
-                        <span className="opacity-60 text-title-1">
-                            {translate("resources.transactions.fields.destination.header")}
-                        </span>
-                        {/* <span>{context.record.destination.meta?.caption}</span> */}
-                        <span>{merchantName ?? ""}</span>
-                    </div>
+
+                    {permissions === "admin" && (
+                        <div className="flex flex-col">
+                            <span className="opacity-60 text-title-1">
+                                {translate("resources.transactions.fields.destination.header")}
+                            </span>
+                            <span>
+                                {merchantNameGenerate(
+                                    context.record?.type,
+                                    context.record?.source?.id,
+                                    context.record?.destination?.id
+                                )}
+                            </span>
+                        </div>
+                    )}
                 </div>
                 <SimpleTable columns={briefHistory} data={history ? history : []} tableType={TableTypes.COLORED} />
                 {context.record.committed && (
