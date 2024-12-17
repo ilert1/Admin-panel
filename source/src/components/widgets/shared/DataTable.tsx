@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CircleArrowLeftIcon, CircleArrowRightIcon } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useListContext, useTranslate } from "react-admin";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -59,7 +59,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
         table.setPageIndex(page - 1);
     }, [page, table]);
 
-    const renderPagination = () => {
+    const renderPagination = useCallback(() => {
         const totalPages = table.getPageCount();
         const currentPage = table.getState().pagination.pageIndex + 1;
         const pages = [];
@@ -134,7 +134,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                 </Button>
             </div>
         );
-    };
+    }, [setPage, table]);
 
     return (
         <>
