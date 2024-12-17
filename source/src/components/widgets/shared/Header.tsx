@@ -91,7 +91,7 @@ export const Header = (props: { handleLogout: () => void }) => {
         }
         return () => clearInterval(interval);
     }, [totalAmount, currentIndex]);
-
+    console.log(identity?.data);
     return (
         <header
             className="flex flex-shrink-0 h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z"
@@ -111,6 +111,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         <Blowfish />
                                     </Avatar>
                                 </DropdownMenuTrigger>
+
                                 <div className="flex flex-col gap-[2px] items-start min-w-[137px]">
                                     <span className={"text-neutral-100 text-title-2 cursor-default"}>
                                         {identity.data.fullName ? identity.data.fullName : ""}
@@ -181,7 +182,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                 align="end"
                                 alignOffset={-18}
                                 className="p-0 w-72 bg-muted border border-neutral-80 z-[1000] flex flex-col gap-2 !rounded-4">
-                                <div className="flex content-start items-center pl-4 pr-4 mt-3">
+                                <div className="flex content-start items-center pl-4 pr-4 mt-[0.8rem]">
                                     <Avatar className="w-5 h-5">
                                         <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
                                             {identity.data.fullName
@@ -196,19 +197,23 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                 : translate("app.ui.roles.admin")}
                                         </div>
                                         {identity.data.email && (
-                                            <div className="text-note-2 cursor-default">{identity.data.email}</div>
+                                            <div className="text-note-2 cursor-default text-neutral-40">
+                                                {identity.data.email}
+                                            </div>
                                         )}
                                     </div>
                                 </div>
                                 <div className="flex content-start items-center pl-4 pr-4 mb-1">
                                     <div className="flex flex-col gap-[2px] items-start max-h-[250px] overflow-y-auto w-full">
-                                        <span className="text-note-2 text-neutral-60">
+                                        <span className="text-note-2 text-neutral-40 mt-[0.5rem] mb-1">
                                             {translate("app.ui.header.accurateBalance")}
                                         </span>
 
                                         {!totalLoading && totalAmount ? (
                                             totalAmount.map(el => (
-                                                <div className="flex gap-4 items-center" key={el.currency}>
+                                                <div
+                                                    className="flex items-center w-[100%] justify-between"
+                                                    key={el.currency}>
                                                     <h1 className="text-display-4">
                                                         <NumericFormat
                                                             className="whitespace-nowrap"
@@ -218,7 +223,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                             decimalSeparator=","
                                                         />
                                                     </h1>
-                                                    <div className="w-6 flex justify-center">
+                                                    <div className="flex justify-center">
                                                         <Icon name={el.currency} folder="currency" />
                                                     </div>
                                                 </div>
