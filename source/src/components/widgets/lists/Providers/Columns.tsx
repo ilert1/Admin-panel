@@ -13,7 +13,6 @@ export const useGetProvidersColumns = () => {
     const [chosenId, setChosenId] = useState("");
 
     const [dialogOpen, setDialogOpen] = useState(false);
-    const [showOpen, setShowOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [showMethodsOpen, setSowMethodsOpen] = useState(false);
@@ -148,48 +147,12 @@ export const useGetProvidersColumns = () => {
         chosenId,
         dialogOpen,
         deleteDialogOpen,
-        showOpen,
         columns,
         editDialogOpen,
         showMethodsOpen,
         setSowMethodsOpen,
         setEditDialogOpen,
         setDeleteDialogOpen,
-        setShowOpen,
         setDialogOpen
     };
 };
-// {
-//     id: "actions",
-//     cell: ({ row }) => {
-//         return (
-//             <DropdownMenu>
-//                 <DropdownMenuTrigger asChild>
-//                     <Button variant="textBtn" className="h-8 w-8 p-0">
-//                         <span className="sr-only">Open menu</span>
-//                         <MoreHorizontal className="h-4 w-4" />
-//                     </Button>
-//                 </DropdownMenuTrigger>
-//                 <DropdownMenuContent align="end">
-//                     <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
-//                         {translate("app.ui.actions.quick_show")}
-//                     </DropdownMenuItem>
-//                     <DropdownMenuItem onClick={() => navigate(`/provider/${row.original.id}/show`)}>
-//                         {translate("app.ui.actions.show")}
-//                     </DropdownMenuItem>
-//                     <DropdownMenuItem onClick={() => navigate(`/provider/${row.original.id}/edit/`)}>
-//                         {translate("app.ui.actions.edit")}
-//                     </DropdownMenuItem>
-//                     <DropdownMenuItem onClick={() => handleDeleteClicked(row.original.id)}>
-//                         <p className="text-popover-foreground">{translate("app.ui.actions.delete")}</p>
-//                     </DropdownMenuItem>
-//                     <DropdownMenuItem onClick={() => handleClickGenerate(row.original.id)}>
-//                         <p className="text-popover-foreground">
-//                             {translate("resources.providers.fields.regenKey")}
-//                         </p>
-//                     </DropdownMenuItem>
-//                 </DropdownMenuContent>
-//             </DropdownMenu>
-//         );
-//     }
-// }

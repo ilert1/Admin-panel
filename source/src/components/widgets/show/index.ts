@@ -3,7 +3,6 @@ export { TransactionShow } from "./TransactionShow";
 export { WithdrawShow } from "./WithdrawShow";
 export { UserShow } from "./UserShow";
 export { MerchantShow } from "./Merchant";
-export { ProvidersShow } from "./ProvidersShow";
 export { DirectionsShow } from "./Direction";
 export { WalletShow } from "./Wallet";
 export { WalletTransactionsShow } from "./WalletTransactions";
