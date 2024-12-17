@@ -30,6 +30,21 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     const [newState, setNewState] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
 
+    // const [stornoOpen, setStornoOpen] = useState(false);
+    // const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
+    // const { data: currencies } = useQuery("currencies", () =>
+    //     fetch(`${API_URL}/dictionaries/curr`, {
+    //         headers: {
+    //             Authorization: `Bearer ${localStorage.getItem("access-token")}`
+    //         }
+    //     }).then(response => response.json())
+    // );
+    // const sortedCurrencies = useMemo(() => {
+    //     return (
+    //         currencies?.data?.sort((a: Currencies.Currency, b: Currencies.Currency) => a.prior_gr - b.prior_gr) || []
+    //     );
+    // }, [currencies]);
+
     const {
         switchDispute,
         showDispute,
@@ -41,6 +56,22 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
         commitCaption,
         commitTransaction
     } = useTransactionActions(data, context.record);
+
+    // useEffect(() => {
+    //     EventBus.getInstance().registerUnique(
+    //         EVENT_STORNO,
+    //         (data: {
+    //             sourceValue: string;
+    //             destValue: string;
+    //             source: string;
+    //             currency: string;
+    //             destination: string;
+    //         }) => {
+    //             makeStorno(data);
+    //             setStornoOpen(false);
+    //         }
+    //     );
+    // }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const trnId = useMemo<string>(() => context.record?.id || "", [context]);
 
@@ -334,6 +365,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                         <span className="opacity-60 text-title-1">
                             {translate("resources.transactions.fields.type")}
                         </span>
+
                         <span>
                             {translate(
                                 `resources.transactions.types.${data?.transactionTypes[
@@ -346,6 +378,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                         <span className="opacity-60 text-title-1">
                             {translate("resources.transactions.fields.state.state_description")}
                         </span>
+
                         <span>
                             {translate(
                                 `resources.transactions.states.${context.record.state.state_description.toLowerCase()}`
@@ -358,6 +391,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                             <span className="opacity-60 text-title-1">
                                 {translate("resources.transactions.fields.destination.header")}
                             </span>
+
                             <span>
                                 {merchantNameGenerate(
                                     context.record?.type,
@@ -368,8 +402,13 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                         </div>
                     )}
                 </div>
+
                 <SimpleTable columns={briefHistory} data={history ? history : []} tableType={TableTypes.COLORED} />
-                {context.record.committed && (
+
+                {(permissions === "admin" ||
+                    (permissions === "merchant" &&
+                        context.record.committed &&
+                        context.record.state.state_int === 16)) && (
                     <div className="flex flex-col gap-2 min-h-[100px]">
                         <span>{translate("resources.transactions.fields.fees")}</span>
 
@@ -378,7 +417,7 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
                             data={
                                 permissions === "admin"
                                     ? context.record.fees
-                                    : context.record.fees.filter(item => item.type !== 2)
+                                    : context.record.fees.filter(item => item.type === 2)
                             }
                             tableType={TableTypes.COLORED}
                         />
