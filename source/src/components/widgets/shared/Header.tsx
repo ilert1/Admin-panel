@@ -283,7 +283,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     <ChatSheet locale={locale} />
                                 </SheetContent>
                             </Sheet> */}
-                        <LangSwitcher modal />
+                        <LangSwitcher />
                     </div>
                 </div>
             )}
