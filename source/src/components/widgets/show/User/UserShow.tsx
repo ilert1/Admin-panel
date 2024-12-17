@@ -2,61 +2,30 @@ import { BooleanField } from "@/components/ui/boolean-field";
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useState } from "react";
-
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle
-} from "@/components/ui/dialog";
-import { useDelete, useRefresh, useShowController, useTranslate } from "react-admin";
+import { useShowController, useTranslate } from "react-admin";
 import { Button } from "@/components/ui/button";
-import { UserEdit } from "../edit";
-import { useToast } from "@/components/ui/use-toast";
+import { EditUserDialog } from "./EditUserDialog";
+import { DeleteUserDialog } from "./DeleteUserDialog";
 
 const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
 const translations = ["active", "frozen", "blocked", "deleted"];
 
-export const UserShow = (props: { id: string; isBrief: boolean; onOpenChange: (state: boolean) => void }) => {
+interface UserShowProps {
+    id: string;
+    isBrief: boolean;
+    onOpenChange: (state: boolean) => void;
+}
+
+export const UserShow = ({ id, isBrief, onOpenChange }: UserShowProps) => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [showEditUser, setShowEditUser] = useState(false);
 
     const translate = useTranslate();
-    const { id, isBrief, onOpenChange } = props;
-    const context = useShowController({ id, queryOptions: { refetchOnWindowFocus: false, refetchInterval: false } });
+    const context = useShowController<Users.User>({
+        id,
+        queryOptions: { refetchOnWindowFocus: false, refetchInterval: false }
+    });
     const localIsBrief = isBrief || false;
-
-    const { toast } = useToast();
-
-    const [deleteOne] = useDelete();
-    const refresh = useRefresh();
-
-    const handleDelete = () => {
-        const deleteElem = async () => {
-            try {
-                await deleteOne("users", {
-                    id
-                });
-                toast({
-                    variant: "success",
-                    title: translate("resources.users.create.success"),
-                    description: translate("resources.users.deleteMessages.deleteSuccess")
-                });
-                onOpenChange(false);
-                refresh();
-                setDialogOpen(false);
-            } catch (error) {
-                toast({
-                    variant: "destructive",
-                    title: translate("resources.users.create.error"),
-                    description: translate("resources.users.deleteMessages.deleteError")
-                });
-            }
-        };
-        deleteElem();
-    };
 
     if (context.isLoading || context.isFetching || !context.record) {
         return <LoadingAlertDialog />;
@@ -68,14 +37,17 @@ export const UserShow = (props: { id: string; isBrief: boolean; onOpenChange: (s
             <div className="relative">
                 <div className="px-[42px] pb-[25px] flex flex-col sm:flex-row justify-between">
                     <TextField text={id} copyValue />
+
                     <div className="flex items-center justify-center">
                         <span className={`px-3 py-0.5 rounded-20 font-normal text-base text-center ${styles[index]}`}>
                             {translate(`resources.accounts.fields.states.${translations[index]}`)}
                         </span>
                     </div>
                 </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 px-[42px] gap-y-2 sm:gap-y-6 pb-[24px]">
                     <TextField label={translate("resources.users.fields.name")} text={context.record.name} copyValue />
+
                     <div className="max-w-96">
                         <TextField
                             label={translate("resources.users.fields.public_key")}
@@ -83,6 +55,7 @@ export const UserShow = (props: { id: string; isBrief: boolean; onOpenChange: (s
                             copyValue
                         />
                     </div>
+
                     <TextField label={translate("resources.users.fields.login")} text={context.record.login} />
 
                     <TextField label={translate("resources.users.fields.email")} text={context.record.email} />
@@ -106,39 +79,14 @@ export const UserShow = (props: { id: string; isBrief: boolean; onOpenChange: (s
                     </Button>
                 </div>
 
-                <Dialog open={showEditUser} onOpenChange={setShowEditUser}>
-                    <DialogContent
-                        disableOutsideClick
-                        className="bg-muted max-w-full w-[716px] md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px] outline-none">
-                        <DialogHeader>
-                            <DialogTitle className="text-center mb-4">
-                                {translate("resources.users.editUser")}
-                            </DialogTitle>
-                        </DialogHeader>
+                <EditUserDialog open={showEditUser} onOpenChange={setShowEditUser} id={id} record={context.record} />
 
-                        <UserEdit record={context.record} id={id} closeDialog={() => setShowEditUser(false)} />
-                        <DialogDescription />
-                    </DialogContent>
-                </Dialog>
-
-                <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                    <DialogContent className="w-[253px] px-[24px] bg-muted">
-                        <DialogHeader>
-                            <DialogTitle className="text-center">
-                                {translate("resources.users.deleteThisUser")}
-                            </DialogTitle>
-                            <DialogDescription />
-                        </DialogHeader>
-                        <DialogFooter>
-                            <div className="flex justify-around gap-[35px] w-full">
-                                <Button onClick={() => handleDelete()}>{translate("app.ui.actions.delete")}</Button>
-                                <Button variant="outline" onClick={() => setDialogOpen(false)} className="!ml-0 px-3">
-                                    {translate("app.ui.actions.cancel")}
-                                </Button>
-                            </div>
-                        </DialogFooter>
-                    </DialogContent>
-                </Dialog>
+                <DeleteUserDialog
+                    open={dialogOpen}
+                    onOpenChange={setDialogOpen}
+                    onQuickShowOpenChange={onOpenChange}
+                    id={id}
+                />
             </div>
         );
     } else {

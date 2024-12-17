@@ -14,7 +14,7 @@ import { BaseDataProvider, BF_MANAGER_URL } from "./base";
 
 export class UsersDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
-        const data: any = {
+        const data: { [key: string]: string } = {
             limit: params.pagination.perPage.toString(),
             offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
         };
