@@ -95,7 +95,7 @@ export const UserEdit = ({
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" autoComplete="off">
-                <div className="grid grid-cols-1 grid-rows-4">
+                <div className="grid grid-cols-1 grid-rows-4 gap-4">
                     <FormField
                         name="name"
                         control={form.control}
