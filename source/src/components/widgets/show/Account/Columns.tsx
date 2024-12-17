@@ -1,3 +1,4 @@
+import { TextField } from "@/components/ui/text-field";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { ColumnDef } from "@tanstack/react-table";
 import { useLocaleState, useTranslate } from "react-admin";
@@ -40,7 +41,7 @@ export const useGetAccountShowColumns = () => {
         }
     ];
 
-    const historyColumns: ColumnDef<Transaction.Transaction>[] = [
+    const historyColumns: ColumnDef<Transaction.TransactionView>[] = [
         {
             id: "created_at",
             accessorKey: "created_at",
@@ -57,22 +58,24 @@ export const useGetAccountShowColumns = () => {
         {
             id: "id",
             accessorKey: "id",
-            header: translate("resources.transactions.fields.id")
+            header: translate("resources.transactions.fields.id"),
+            cell: ({ row }) => <TextField text={row.original.id} wrap copyValue />,
+            filterFn: "includesString"
         },
         {
             id: "type",
             accessorKey: "type",
             header: translate("resources.transactions.fields.type"),
-            cell: ({ row }) => dataDictionaries?.transactionTypes[row?.original?.type]?.type_descr || ""
+            cell: ({ row }) => translate(`resources.transactions.types.${row.original.type_text.toLowerCase()}`) || ""
         },
         {
-            id: "state",
-            accessorKey: "state.state_description",
-            header: translate("resources.transactions.fields.state.title")
+            accessorKey: "state",
+            header: translate("resources.transactions.fields.state.title"),
+            cell: ({ row }) => translate(`resources.transactions.states.${row.original.state_text.toLowerCase()}`) || ""
         },
         {
             id: "final",
-            accessorKey: "state.final",
+            accessorKey: "state_final",
             header: translate("resources.transactions.fields.state.final")
         },
         {
@@ -80,12 +83,7 @@ export const useGetAccountShowColumns = () => {
             accessorKey: "source.amount.value.quantity",
             header: translate("resources.transactions.fields.source.amount.getAmount"),
             cell: ({ row }) => {
-                const val = row?.original?.source?.amount.value.quantity / row?.original?.source?.amount.value.accuracy;
-                return (
-                    <div className="text-center">
-                        <span>{val ? val + " " + row?.original?.source?.amount.currency : "-"}</span>
-                    </div>
-                );
+                return `${row.original.source_amount_value} ${row.original.source_amount_currency || ""}`;
             }
         },
         {
@@ -93,36 +91,18 @@ export const useGetAccountShowColumns = () => {
             accessorKey: "destination.amount.value.quantity",
             header: translate("resources.transactions.fields.destination.amount.sendAmount"),
             cell: ({ row }) => {
-                const val =
-                    row?.original?.destination?.amount.value.quantity /
-                    row?.original?.destination?.amount.value.accuracy;
-                return (
-                    <div className="text-center">
-                        <span>{val ? val + " " + row?.original?.destination?.amount.currency : "-"}</span>
-                    </div>
-                );
+                return `${row.original.destination_amount_value} ${row.original.destination_amount_currency || ""}`;
             }
         },
         {
             accessorKey: "rate_info",
             header: translate("resources.transactions.fields.rateInfo"),
-            cell: ({ row }) => {
-                const rateInfo: Transaction.RateInfo = row?.original?.rate_info;
-                if (rateInfo) {
-                    return (
-                        <>
-                            <p className="text-neutral-60 dark:text-neutral-70">{`${rateInfo?.s_currency} / ${rateInfo?.d_currency}:`}</p>
-                            <p>
-                                {((rateInfo?.value.quantity || 0) / rateInfo?.value?.accuracy).toFixed(
-                                    Math.log10(rateInfo?.value?.accuracy)
-                                )}
-                            </p>
-                        </>
-                    );
-                } else {
-                    return 0;
-                }
-            }
+            cell: ({ row }) => (
+                <>
+                    <p className="text-neutral-60 dark:text-neutral-70">{`${row.original.rate_source_currency} / ${row.original.rate_destination_currency}:`}</p>
+                    <p>{row.original.rate}</p>
+                </>
+            )
         }
     ];
 

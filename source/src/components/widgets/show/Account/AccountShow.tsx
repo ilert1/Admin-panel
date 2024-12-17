@@ -1,61 +1,24 @@
-import { useDataProvider, useGetList, useShowController, useTranslate } from "react-admin";
+import { ListContextProvider, useListController, useShowController, useTranslate } from "react-admin";
 import { DataTable, SimpleTable } from "@/components/widgets/shared";
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
-import { useEffect, useState } from "react";
 import { useGetAccountShowColumns } from "./Columns";
 
 export const AccountShow = (props: { id: string; type?: "compact" }) => {
     const { id, type } = props;
     const translate = useTranslate();
-    const dataProvider = useDataProvider();
 
     const context = useShowController({ id });
 
     const { columns, historyColumns, dataDictionaries } = useGetAccountShowColumns();
 
-    const [transactions, setTransactions] = useState<Transaction.Transaction[]>([]);
-    const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(10);
-
-    const {
-        data: trans,
-        isFetching,
-        total = 1
-    } = useGetList("transactions", {
-        filter: {
-            accountId: id
-        },
-        pagination: {
-            page: 1,
-            perPage: 10
-        }
+    const listContext = useListController<Transaction.TransactionView>({
+        resource: "transactions/view",
+        filter: { accountId: id },
+        disableSyncWithLocation: true
     });
 
-    useEffect(() => {
-        if (trans) {
-            setTransactions(trans);
-        }
-    }, [trans]);
-
-    useEffect(() => {
-        const refetch = async () => {
-            const { data } = await dataProvider.getList("transactions", {
-                filter: {
-                    accountId: id
-                },
-                pagination: {
-                    page: page,
-                    perPage: perPage
-                },
-                sort: { field: "id", order: "ASC" }
-            });
-            setTransactions(data);
-        };
-        refetch();
-    }, [dataProvider, id, page, perPage]);
-
-    if (context.isLoading || !context.record || !transactions || isFetching) {
+    if (context.isLoading || !context.record || listContext.isLoading || !listContext.data) {
         return <LoadingAlertDialog />;
     }
     if (type === "compact") {
@@ -81,15 +44,9 @@ export const AccountShow = (props: { id: string; type?: "compact" }) => {
                     </div>
                 )}
 
-                <DataTable
-                    columns={historyColumns}
-                    data={transactions}
-                    total={total}
-                    page={page}
-                    setPage={setPage}
-                    perPage={perPage}
-                    setPerPage={setPerPage}
-                />
+                <ListContextProvider value={{ ...listContext }}>
+                    <DataTable columns={historyColumns} />
+                </ListContextProvider>
             </div>
         );
     } else {
