@@ -1,11 +1,10 @@
-import { useShowController, useTranslate, useGetManyReference, usePermissions, useLocaleState } from "react-admin";
+import { useShowController, useTranslate, useGetManyReference, usePermissions } from "react-admin";
 import { SimpleTable } from "@/components/widgets/shared";
-import { ColumnDef } from "@tanstack/react-table";
 import { BooleanField } from "@/components/ui/boolean-field";
 import { TextField } from "@/components/ui/text-field";
 import { useCallback, useMemo, useState } from "react";
 import { LoadingAlertDialog } from "@/components/ui/loading";
-import { TableTypes } from "../shared/SimpleTable";
+import { TableTypes } from "../../shared/SimpleTable";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
@@ -18,12 +17,13 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useMediaQuery } from "react-responsive";
-import { useFetchMerchants, useTransactionActions } from "@/hooks";
+import { useTransactionActions } from "./useTransactionActions";
+import { useFetchMerchants } from "@/hooks";
+import { useGetTransactionShowColumns } from "./Columns";
 
 export const TransactionShow = (props: { id: string; type?: "compact" }) => {
     const data = fetchDictionaries();
     const translate = useTranslate();
-    const [locale] = useLocaleState();
 
     const { permissions } = usePermissions();
     const context = useShowController<Transaction.Transaction>({ id: props.id });
@@ -56,6 +56,8 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
         commitCaption,
         commitTransaction
     } = useTransactionActions(data, context.record);
+
+    const { feesColumns, historyColumns, briefHistory, computeValue } = useGetTransactionShowColumns();
 
     // useEffect(() => {
     //     EventBus.getInstance().registerUnique(
@@ -104,163 +106,6 @@ export const TransactionShow = (props: { id: string; type?: "compact" }) => {
         [merchantsList]
     );
 
-    function computeValue(quantity: number, accuracy: number) {
-        const value = (quantity || 0) / accuracy;
-        if (isNaN(value)) return "-";
-        return value.toFixed(Math.log10(accuracy));
-    }
-
-    const feesColumns: ColumnDef<Transaction.Fee>[] = [
-        {
-            id: "recipient",
-            accessorKey: "recipient",
-            header: translate("resources.transactions.fields.recipient")
-        },
-        {
-            id: "type",
-            accessorKey: "type",
-            header: translate("resources.transactions.fields.type"),
-            cell: ({ row }) =>
-                translate(
-                    `resources.transactions.types.${data?.feeTypes[row.original.type]?.type_descr.toLowerCase()}`
-                ) || ""
-        },
-        {
-            id: "currency",
-            accessorKey: "currency",
-            header: translate("resources.transactions.fields.currency")
-        },
-        {
-            id: "value",
-            accessorKey: "value",
-            header: translate("resources.transactions.fields.value"),
-            cell: ({ row }) => computeValue(row.original.value.quantity, row.original.value.accuracy)
-        }
-    ];
-
-    const historyColumns: ColumnDef<Transaction.Transaction>[] = [
-        {
-            id: "createdAt",
-            accessorKey: "created_at",
-            header: translate("resources.transactions.fields.created_at"),
-            cell: ({ row }) => {
-                return (
-                    <>
-                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
-                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
-                    </>
-                );
-            }
-        },
-        {
-            id: "id",
-            accessorKey: "id",
-            header: translate("resources.transactions.fields.id")
-        },
-        {
-            id: "type",
-            accessorKey: "type",
-            header: translate("resources.transactions.fields.type"),
-            cell: ({ row }) =>
-                translate(
-                    `resources.transactions.types.${data?.transactionTypes[
-                        row.original.type
-                    ]?.type_descr.toLowerCase()}`
-                ) || ""
-        },
-        {
-            id: "state",
-            accessorKey: "state.state_description",
-            header: translate("resources.transactions.fields.state.title")
-        },
-        {
-            id: "final",
-            accessorKey: "state.final",
-            header: translate("resources.transactions.fields.state.final")
-        },
-        {
-            id: "committed",
-            accessorKey: "committed",
-            header: translate("resources.transactions.fields.committed")
-        },
-        {
-            id: "dispute",
-            accessorKey: "dispute",
-            header: translate("resources.transactions.fields.dispute")
-        },
-        {
-            id: "external_status",
-            accessorKey: "meta.external_status",
-            header: translate("resources.transactions.fields.meta.external_status")
-        }
-    ];
-
-    const briefHistory: ColumnDef<Transaction.Transaction>[] = [
-        {
-            id: "createdAt",
-            accessorKey: "created_at",
-            header: translate("resources.transactions.fields.created_at"),
-            cell: ({ row }) => {
-                return (
-                    <>
-                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
-                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
-                    </>
-                );
-            }
-        },
-        {
-            id: "id",
-            accessorKey: "id",
-            header: translate("resources.transactions.fields.id")
-        },
-        {
-            id: "type",
-            accessorKey: "type",
-            header: translate("resources.transactions.fields.type"),
-            cell: ({ row }) =>
-                translate(
-                    `resources.transactions.types.${data?.transactionTypes[
-                        row.original.type
-                    ]?.type_descr.toLowerCase()}`
-                ) || ""
-        },
-        {
-            id: "state",
-            accessorKey: "state",
-            header: translate("resources.transactions.fields.state.title"),
-            cell: ({ row }) =>
-                translate(`resources.transactions.states.${row.original.state?.state_description?.toLowerCase()}`) || ""
-        },
-        {
-            id: "source_amount",
-            accessorKey: "source",
-            header: translate("resources.transactions.fields.source.amount.getAmount"),
-            cell: ({ row }) => {
-                const val = row.original.source.amount.value.quantity / row.original.source.amount.value.accuracy;
-                return (
-                    <div className="text-center">
-                        <span>{val ? val + " " + row.original.source.amount.currency : "-"}</span>
-                    </div>
-                );
-            }
-        },
-        {
-            id: "destination_amount",
-            accessorKey: "source",
-            header: translate("resources.transactions.fields.destination.amount.sendAmount"),
-
-            cell: ({ row }) => {
-                const val =
-                    row.original.destination.amount.value.quantity / row.original.destination.amount.value.accuracy;
-                return (
-                    <div className="text-center">
-                        <span>{val ? val + " " + row.original.destination.amount.currency : "-"}</span>
-                    </div>
-                );
-            }
-        }
-    ];
     const isMobile = useMediaQuery({ query: `(max-width: 655px)` });
 
     if (context.isLoading || context.isFetching || !context.record || isLoading) {

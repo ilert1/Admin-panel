@@ -1,5 +1,5 @@
 export { AccountShow } from "./Account";
-export { TransactionShow } from "./TransactionShow";
+export { TransactionShow } from "./Transaction";
 export { WithdrawShow } from "./WithdrawShow";
 export { UserShow } from "./UserShow";
 export { MerchantShow } from "./Merchant";
