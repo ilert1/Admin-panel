@@ -125,32 +125,6 @@ export const useGetTransactionColumns = () => {
                         <span className="sr-only">Open menu</span>
                         <EyeIcon className="text-green-50 size-7" />
                     </Button>
-                    // <RecordContextProvider value={row.original}>
-                    //     <DropdownMenu>
-                    //         <DropdownMenuTrigger asChild>
-                    //             <Button variant="clearBtn" className="w-full p-0">
-                    //                 <span className="sr-only">Open menu</span>
-                    //                 <EyeIcon className="text-green-50 size-7" />
-                    //             </Button>
-                    //         </DropdownMenuTrigger>
-                    //         <DropdownMenuContent align="end">
-                    //             <DropdownMenuItem onClick={() => openSheet(row.original.id)} className="border-none">
-                    //                 {translate("app.ui.actions.quick_show")}
-                    //             </DropdownMenuItem>
-                    //             <DropdownMenuItem
-                    //                 onClick={() => navigate(`/transactions/${row.original.id}/show`)}
-                    //                 className="border-none">
-                    //                 {translate("app.ui.actions.show")}
-                    //             </DropdownMenuItem>
-                    //             {adminOnly && <DropdownMenuSeparator />}
-                    //             <TransactionActions
-                    //                 dictionaries={data}
-                    //                 stornoOpen={() => setStornoOpen(true)}
-                    //                 stornoClose={() => setStornoOpen(false)}
-                    //             />
-                    //         </DropdownMenuContent>
-                    //     </DropdownMenu>
-                    // </RecordContextProvider>
                 );
             }
         }
