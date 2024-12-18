@@ -124,7 +124,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                     transition:
                                                                         "opacity .1s ease-in-out, transform .3s ease-in-out"
                                                                 }}
-                                                                className={`absolute inset-0 flex justify-between items-center ${
+                                                                className={`absolute inset-0 flex gap-[6px] items-center ${
                                                                     totalAmount.length === 1
                                                                         ? "translate-y-0 opacity-100 z-10"
                                                                         : index === currentIndex
@@ -198,12 +198,16 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         )}
                                     </div>
                                 </div>
-                                <div className="flex content-start items-center pl-4 pr-4 mb-1">
-                                    <div className="flex flex-col gap-[2px] items-start max-h-[250px] overflow-y-auto w-full">
-                                        <span className="text-note-2 text-neutral-40 mt-[0.5rem] mb-1">
-                                            {translate("app.ui.header.accurateBalance")}
-                                        </span>
-
+                                <div className="flex flex-col content-start items-center pl-4 pr-2 mb-1">
+                                    <span className="text-note-2 self-start text-neutral-40 mt-[0.5rem] mb-1">
+                                        {translate("app.ui.header.accurateBalance")}
+                                    </span>{" "}
+                                    <div
+                                        className={`flex flex-col gap-[2px] items-start max-h-[250px] pr-2 w-full overflow-x-hidden pr-2 ${
+                                            totalAmount && totalAmount.length > 7
+                                                ? "overflow-y-auto"
+                                                : "overflow-y-hidden"
+                                        } `}>
                                         {!totalLoading && totalAmount ? (
                                             totalAmount.map(el => (
                                                 <div
