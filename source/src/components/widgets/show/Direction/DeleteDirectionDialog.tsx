@@ -8,6 +8,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useDelete, useRefresh, useTranslate } from "react-admin";
+import { toast } from "sonner";
 
 export interface DeleteDirectionDialogProps {
     open: boolean;
@@ -31,7 +32,11 @@ export const DeleteDirectionDialog = (props: DeleteDirectionDialogProps) => {
                 refresh();
                 onQuickShowOpenChange(false);
             } catch (error) {
-                // Заглушка
+                toast.error("Error", {
+                    description: "Something went wrong",
+                    dismissible: true,
+                    duration: 3000
+                });
             }
         };
         deleteElem();
