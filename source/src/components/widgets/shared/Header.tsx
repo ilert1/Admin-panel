@@ -201,17 +201,16 @@ export const Header = (props: { handleLogout: () => void }) => {
                                 <div className="flex flex-col content-start items-center pl-4 pr-2 mb-1">
                                     <span className="text-note-2 self-start text-neutral-40 mt-[0.5rem] mb-1">
                                         {translate("app.ui.header.accurateBalance")}
-                                    </span>{" "}
+                                    </span>
                                     <div
-                                        className={`flex flex-col gap-[2px] items-start max-h-[250px] pr-2 w-full overflow-x-hidden pr-2 ${
-                                            totalAmount && totalAmount.length > 7
-                                                ? "overflow-y-auto"
-                                                : "overflow-y-hidden"
-                                        } `}>
+                                        className={`flex flex-col gap-[2px] items-start max-h-[250px] w-full pr-2 overflow-x-hidden pb-[1px] overflow-y-auto`}
+                                        style={{
+                                            scrollbarGutter: "stable"
+                                        }}>
                                         {!totalLoading && totalAmount ? (
                                             totalAmount.map(el => (
                                                 <div
-                                                    className="flex items-center w-[100%] justify-between"
+                                                    className="flex items-center w-full justify-between"
                                                     key={el.currency}>
                                                     <h4 className="text-display-4">
                                                         <NumericFormat
@@ -221,7 +220,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                             thousandSeparator=" "
                                                             decimalSeparator=","
                                                             style={{
-                                                                fontSize: "20px !important"
+                                                                fontSize: "20px"
                                                             }}
                                                         />
                                                     </h4>
