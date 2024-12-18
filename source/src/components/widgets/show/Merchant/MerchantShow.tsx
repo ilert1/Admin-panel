@@ -12,6 +12,7 @@ import { useGetMerchantShowColumns } from "./Columns";
 import { SimpleTable } from "../../shared";
 import { TableTypes } from "../../shared/SimpleTable";
 import { MerchantTypeToShow } from "../../lists/Merchants/Columns";
+import { toast } from "sonner";
 
 interface MerchantShowProps {
     id: string;
@@ -51,14 +52,18 @@ export const MerchantShow = ({ id, type }: MerchantShowProps) => {
 
                 setMerchantDirections(json.data);
             } catch (error) {
-                // toast({});
+                toast.error("Error", {
+                    description: "Something went wrong",
+                    dismissible: true,
+                    duration: 3000
+                });
             }
         };
 
-        if (context.record) {
+        if (context.record && type === "directions") {
             fetchMerchantDirections();
         }
-    }, [context.record]);
+    }, [context.record, type]);
 
     if (context.isLoading || !context.record || !data) {
         return <Loading />;
@@ -131,5 +136,3 @@ export const MerchantShow = ({ id, type }: MerchantShowProps) => {
         </div>
     );
 };
-
-// directions
