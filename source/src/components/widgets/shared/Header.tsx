@@ -94,8 +94,8 @@ export const Header = (props: { handleLogout: () => void }) => {
                             <div
                                 className={
                                     profileOpen
-                                        ? "flex gap-4 items-center justify-center py-1 pl-4 pr-2 bg-muted rounded-4 border border-neutral-80 box-border transition-colors transition-150 cursor-default"
-                                        : "flex gap-4 items-center justify-center py-1 pl-4 pr-2 bg-muted rounded-4 border border-muted box-border transition-colors transition-150 cursor-default"
+                                        ? "flex gap-4 items-center justify-center py-1 pl-4 pr-4 bg-muted rounded-4 border border-neutral-80 box-border transition-colors transition-150 cursor-default"
+                                        : "flex gap-4 items-center justify-center py-1 pl-4 pr-4 bg-muted rounded-4 border border-muted box-border transition-colors transition-150 cursor-default"
                                 }>
                                 <DropdownMenuTrigger asChild>
                                     <Avatar className="flex items-center justify-center w-[60px] h-[60px] border-2 border-green-40 bg-muted cursor-pointer">
@@ -124,7 +124,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                     transition:
                                                                         "opacity .1s ease-in-out, transform .3s ease-in-out"
                                                                 }}
-                                                                className={`absolute inset-0 flex justify-between items-center ${
+                                                                className={`absolute inset-0 flex justify-between items-center gap-[4px] ${
                                                                     totalAmount.length === 1
                                                                         ? "translate-y-0 opacity-100 z-10"
                                                                         : index === currentIndex
@@ -194,12 +194,16 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         )}
                                     </div>
                                 </div>
-                                <div className="flex content-start items-center pl-4 pr-4 mb-1">
-                                    <div className="flex flex-col gap-[2px] items-start max-h-[250px] overflow-y-auto w-full">
-                                        <span className="text-note-2 text-neutral-40 mt-[0.5rem] mb-1">
-                                            {translate("app.ui.header.accurateBalance")}
-                                        </span>
-
+                                <div className="flex flex-col content-start items-center pl-4 pr-2 mb-1">
+                                    <span className="text-note-2 self-start text-neutral-40 mt-[0.5rem] mb-1">
+                                        {translate("app.ui.header.accurateBalance")}
+                                    </span>
+                                    <div
+                                        className={`flex flex-col gap-[2px] items-start max-h-[250px] w-full overflow-x-hidden pr-2 ${
+                                            totalAmount && totalAmount.length > 7
+                                                ? "overflow-y-auto"
+                                                : "overflow-y-hidden"
+                                        } `}>
                                         {!totalLoading && totalAmount ? (
                                             totalAmount.map(el => (
                                                 <div
