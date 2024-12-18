@@ -11,11 +11,9 @@ import { LoadingBalance } from "@/components/ui/loading";
 interface WalletShowProps {
     id: string;
     onOpenChange: (state: boolean) => void;
-    type?: string;
 }
 
-export const WalletShow = (props: WalletShowProps) => {
-    const { id, type, onOpenChange } = props;
+export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const { permissions } = usePermissions();
     const context = useShowController<Wallet>({ resource: permissions === "admin" ? "wallet" : "merchant/wallet", id });
     const translate = useTranslate();
@@ -52,106 +50,94 @@ export const WalletShow = (props: WalletShowProps) => {
 
     if (context.isLoading || !context.record) return;
 
-    if (type === "compact") {
-        return (
-            <div className="flex flex-col gap-6 px-[42px]">
-                <div className="flex flex-col sm:grid sm:grid-cols-2 gap-y-4">
-                    <TextField
-                        label={translate("resources.wallet.manage.fields.walletType")}
-                        text={context.record.type}
-                    />
+    return (
+        <div className="flex flex-col gap-6 px-[42px]">
+            <div className="flex flex-col sm:grid sm:grid-cols-2 gap-y-4">
+                <TextField label={translate("resources.wallet.manage.fields.walletType")} text={context.record.type} />
 
-                    <div>
-                        <small className="text-sm text-muted-foreground">
-                            {translate("resources.wallet.manage.fields.balance")}
-                        </small>
+                <div>
+                    <small className="text-sm text-muted-foreground">
+                        {translate("resources.wallet.manage.fields.balance")}
+                    </small>
 
-                        {!walletBalanceFetching ? (
-                            <div className="flex flex-col items-left justify-center">
-                                {walletBalance?.usdt_amount != 0 && (
-                                    <TextField text={`${walletBalance?.usdt_amount} USDT`} />
-                                )}
-                                {walletBalance?.trx_amount !== 0 && (
-                                    <TextField text={`${walletBalance?.trx_amount} TRX`} />
-                                )}
-                                {walletBalance?.usdt_amount === 0 && walletBalance?.trx_amount === 0 && (
-                                    <TextField text="" />
-                                )}
-                            </div>
-                        ) : (
-                            <LoadingBalance className="text-base w-[15px] h-[15px] overflow-hidden" />
-                        )}
-                    </div>
-
-                    <TextField
-                        label={translate("resources.wallet.manage.fields.walletAddress")}
-                        text={context.record.address ?? ""}
-                        copyValue
-                    />
-                    <TextField
-                        label={translate("resources.wallet.manage.fields.accountNumber")}
-                        text={context.record.account_id}
-                        copyValue
-                    />
-                    <TextField
-                        label={translate("resources.wallet.manage.fields.currency")}
-                        text={context.record.currency}
-                    />
-                    {currentAccount && (
-                        <TextField
-                            label={translate("resources.wallet.manage.fields.merchantName")}
-                            text={currentAccount.meta?.caption ? currentAccount.meta.caption : currentAccount.owner_id}
-                        />
+                    {!walletBalanceFetching ? (
+                        <div className="flex flex-col items-left justify-center">
+                            {walletBalance?.usdt_amount != 0 && (
+                                <TextField text={`${walletBalance?.usdt_amount} USDT`} />
+                            )}
+                            {walletBalance?.trx_amount !== 0 && <TextField text={`${walletBalance?.trx_amount} TRX`} />}
+                            {walletBalance?.usdt_amount === 0 && walletBalance?.trx_amount === 0 && (
+                                <TextField text="" />
+                            )}
+                        </div>
+                    ) : (
+                        <LoadingBalance className="text-base w-[15px] h-[15px] overflow-hidden" />
                     )}
-                    <TextField
-                        label={translate("resources.wallet.manage.fields.internalId")}
-                        text={context.record.id}
-                    />
-                    <TextField
-                        label={translate("resources.wallet.manage.fields.blockchain")}
-                        text={context.record.blockchain}
-                    />
-                    <TextField
-                        label={translate("resources.wallet.manage.fields.contactType")}
-                        text={context.record.network}
-                    />
-                    <TextField
-                        label={translate("resources.wallet.manage.fields.minRemaini")}
-                        text={String(context.record.minimal_ballance_limit)}
-                    />
-                    <div className="col-span-2">
-                        <TextField
-                            type="text"
-                            wrap={true}
-                            lineClamp={false}
-                            label={translate("resources.wallet.manage.fields.descr")}
-                            text={context.record.description ?? ""}
-                        />
-                    </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row justify-end gap-4 px-[21px] sm:px-[42px] mb-4">
-                    <Button onClick={() => handleEditClicked()} className="text-title-1">
-                        {translate("app.ui.actions.edit")}
-                    </Button>
-
-                    <Button
-                        variant={"outline"}
-                        className="border-[1px] border-neutral-50 text-neutral-50 bg-transparent"
-                        onClick={() => handleDeleteClicked()}>
-                        {translate("app.ui.actions.delete")}
-                    </Button>
-                </div>
-                <DeleteWalletDialog
-                    id={id}
-                    open={deleteDialogOpen}
-                    onOpenChange={setDeleteDialogOpen}
-                    onQuickShowOpenChange={onOpenChange}
+                <TextField
+                    label={translate("resources.wallet.manage.fields.walletAddress")}
+                    text={context.record.address ?? ""}
+                    copyValue
                 />
-                <EditWalletDialog id={id} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
+                <TextField
+                    label={translate("resources.wallet.manage.fields.accountNumber")}
+                    text={context.record.account_id}
+                    copyValue
+                />
+                <TextField
+                    label={translate("resources.wallet.manage.fields.currency")}
+                    text={context.record.currency}
+                />
+                {currentAccount && (
+                    <TextField
+                        label={translate("resources.wallet.manage.fields.merchantName")}
+                        text={currentAccount.meta?.caption ? currentAccount.meta.caption : currentAccount.owner_id}
+                    />
+                )}
+                <TextField label={translate("resources.wallet.manage.fields.internalId")} text={context.record.id} />
+                <TextField
+                    label={translate("resources.wallet.manage.fields.blockchain")}
+                    text={context.record.blockchain}
+                />
+                <TextField
+                    label={translate("resources.wallet.manage.fields.contactType")}
+                    text={context.record.network}
+                />
+                <TextField
+                    label={translate("resources.wallet.manage.fields.minRemaini")}
+                    text={String(context.record.minimal_ballance_limit)}
+                />
+                <div className="col-span-2">
+                    <TextField
+                        type="text"
+                        wrap={true}
+                        lineClamp={false}
+                        label={translate("resources.wallet.manage.fields.descr")}
+                        text={context.record.description ?? ""}
+                    />
+                </div>
             </div>
-        );
-    } else {
-        return <></>;
-    }
+
+            <div className="flex flex-col sm:flex-row justify-end gap-4 px-[21px] sm:px-[42px] mb-4">
+                <Button onClick={() => handleEditClicked()} className="text-title-1">
+                    {translate("app.ui.actions.edit")}
+                </Button>
+
+                <Button
+                    variant={"outline"}
+                    className="border-[1px] border-neutral-50 text-neutral-50 bg-transparent"
+                    onClick={() => handleDeleteClicked()}>
+                    {translate("app.ui.actions.delete")}
+                </Button>
+            </div>
+            <DeleteWalletDialog
+                id={id}
+                open={deleteDialogOpen}
+                onOpenChange={setDeleteDialogOpen}
+                onQuickShowOpenChange={onOpenChange}
+            />
+            <EditWalletDialog id={id} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
+        </div>
+    );
 };
