@@ -53,7 +53,7 @@ export const EditAuthData = (props: EditAuthDataProps) => {
             });
             onOpenChange(false);
             refresh();
-        } catch (error: any) {
+        } catch (error) {
             toast.error("Error", {
                 description: translate("resources.direction.errors.authError"),
                 dismissible: true,
