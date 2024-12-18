@@ -32,21 +32,6 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     const [newState, setNewState] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
 
-    // const [stornoOpen, setStornoOpen] = useState(false);
-    // const { data: accounts } = useGetList("accounts", { pagination: { perPage: 100, page: 1 } });
-    // const { data: currencies } = useQuery("currencies", () =>
-    //     fetch(`${API_URL}/dictionaries/curr`, {
-    //         headers: {
-    //             Authorization: `Bearer ${localStorage.getItem("access-token")}`
-    //         }
-    //     }).then(response => response.json())
-    // );
-    // const sortedCurrencies = useMemo(() => {
-    //     return (
-    //         currencies?.data?.sort((a: Currencies.Currency, b: Currencies.Currency) => a.prior_gr - b.prior_gr) || []
-    //     );
-    // }, [currencies]);
-
     const {
         switchDispute,
         showDispute,
@@ -60,22 +45,6 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     } = useTransactionActions(data, context.record);
 
     const { feesColumns, briefHistory } = useGetTransactionShowColumns();
-
-    // useEffect(() => {
-    //     EventBus.getInstance().registerUnique(
-    //         EVENT_STORNO,
-    //         (data: {
-    //             sourceValue: string;
-    //             destValue: string;
-    //             source: string;
-    //             currency: string;
-    //             destination: string;
-    //         }) => {
-    //             makeStorno(data);
-    //             setStornoOpen(false);
-    //         }
-    //     );
-    // }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const trnId = useMemo<string>(() => context.record?.id || "", [context]);
 
@@ -191,23 +160,6 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                 </Dialog>
                             </>
                         )}
-
-                        {/* <Sheet open={stornoOpen} onOpenChange={setStornoOpen}>
-                                    <SheetContent
-                                        className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
-                                        side={isMobile ? "bottom" : "right"}>
-                                        <ScrollArea className="h-full [&>div>div]:!block">
-                                            <SheetHeader className="mb-2">
-                                                <SheetTitle>{translate("resources.transactions.show.storno")}</SheetTitle>
-                                            </SheetHeader>
-
-                                            <TransactionStorno
-                                                accounts={accounts || []}
-                                                currencies={sortedCurrencies || []}
-                                            />
-                                        </ScrollArea>
-                                    </SheetContent>
-                                </Sheet> */}
                     </div>
                 </div>
             )}
