@@ -13,6 +13,7 @@ export const LangSwitcher = () => {
     const [locale, setLocale] = useLocaleState();
     const changeLocale = (value: string) => {
         if (locale !== value) {
+            localStorage.setItem("i18nextLng", value);
             setLocale(value);
         }
     };
@@ -20,7 +21,7 @@ export const LangSwitcher = () => {
     const { getLocales } = useI18nProvider();
 
     return (
-        <DropdownMenu onOpenChange={setLangOpen} modal={false}>
+        <DropdownMenu onOpenChange={setLangOpen}>
             <DropdownMenuTrigger asChild className="">
                 <Avatar
                     className={

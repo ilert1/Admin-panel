@@ -4,7 +4,7 @@ export function Icon({ name, folder = "" }: { name: string; folder?: string }) {
     const [isImageError, setIsImageError] = useState(false);
 
     if (isImageError) {
-        return <span>{name}</span>;
+        return <span className="text-green-40 text-display-4">{name}</span>;
     }
 
     return (
