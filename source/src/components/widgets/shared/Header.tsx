@@ -209,7 +209,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                 <div
                                                     className="flex items-center w-full justify-between"
                                                     key={el.currency}>
-                                                    <h4 className="text-display-4">
+                                                    <h4 className="text-display-4 overflow-y-hidden">
                                                         <NumericFormat
                                                             className="whitespace-nowrap"
                                                             value={el.value.quantity / el.value.accuracy}
@@ -221,7 +221,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                             }}
                                                         />
                                                     </h4>
-                                                    <div className="flex justify-center">
+                                                    <div className="flex justify-center overflow-y-hidden">
                                                         <Icon name={el.currency} folder="currency" />
                                                     </div>
                                                 </div>
