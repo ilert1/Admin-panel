@@ -55,7 +55,7 @@ export const UserListFilter = () => {
 
     return (
         <div className="flex flex-col gap-4 mb-6">
-            <div className="flex justify-between items-end">
+            <div className="flex justify-between items-end flex-wrap gap-4">
                 <div className="flex items-end gap-4">
                     <label className="flex flex-col gap-2 lg:min-w-52">
                         <span className="font-normal text-base">
