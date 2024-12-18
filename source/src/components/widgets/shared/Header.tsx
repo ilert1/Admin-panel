@@ -216,9 +216,6 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                             displayType={"text"}
                                                             thousandSeparator=" "
                                                             decimalSeparator=","
-                                                            style={{
-                                                                fontSize: "20px"
-                                                            }}
                                                         />
                                                     </h4>
                                                     <div className="flex justify-center overflow-y-hidden">
