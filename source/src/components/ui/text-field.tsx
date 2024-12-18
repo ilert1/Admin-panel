@@ -2,6 +2,7 @@ import { Copy } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import { Link, useTranslate } from "react-admin";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 export const TextField = ({
     text,
@@ -12,7 +13,8 @@ export const TextField = ({
     wrap = false,
     lineClamp = false,
     linesCount = 3,
-    minWidth = "150px"
+    minWidth = "150px",
+    className = ""
 }: {
     text: string;
     label?: string | undefined;
@@ -23,6 +25,7 @@ export const TextField = ({
     lineClamp?: boolean;
     linesCount?: number;
     minWidth?: string;
+    className?: string;
 }) => {
     const currentText = useMemo(() => (text?.length > 0 ? text : "-"), [text]);
     const translate = useTranslate();
@@ -52,7 +55,7 @@ export const TextField = ({
         <div>
             {label && <small className="text-sm text-muted-foreground">{label}</small>}
             {(type === "text" || type === "link") && (
-                <p className="leading-5 flex flex-row gap-2">
+                <p className={cn("leading-5 flex flex-row gap-2", className)}>
                     {copyValue && text?.length > 0 && (
                         <span>
                             <Copy
@@ -88,7 +91,7 @@ export const TextField = ({
                 </p>
             )}
             {type === "internal-link" && (
-                <Link to={link} className="!text-card-foreground transition-colors hover:bg-muted/50">
+                <Link to={link} className={cn("!text-card-foreground transition-colors hover:bg-muted/50", className)}>
                     <span className="font-medium">{text}</span>
                 </Link>
             )}
