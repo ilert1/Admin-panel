@@ -203,10 +203,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         {translate("app.ui.header.accurateBalance")}
                                     </span>
                                     <div
-                                        className={`flex flex-col gap-[2px] items-start max-h-[250px] w-full pr-2 overflow-x-hidden pb-[1px] overflow-y-auto`}
-                                        style={{
-                                            scrollbarGutter: "stable"
-                                        }}>
+                                        className={`flex flex-col gap-[2px] items-start max-h-[250px] w-full pr-2 overflow-x-hidden pb-[1px] overflow-y-auto scrollbar-stable`}>
                                         {!totalLoading && totalAmount ? (
                                             totalAmount.map(el => (
                                                 <div
