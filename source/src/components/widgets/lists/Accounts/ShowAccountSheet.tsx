@@ -47,7 +47,7 @@ export const ShowAccountSheet: React.FC<ShowSheetProps> = ({
 
                 <div className="flex-1 overflow-auto" tabIndex={-1}>
                     <SheetDescription />
-                    <AccountShow id={accountId} type="compact" />
+                    <AccountShow id={accountId} />
                 </div>
             </SheetContent>
         </Sheet>
