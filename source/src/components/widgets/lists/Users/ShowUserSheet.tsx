@@ -5,12 +5,12 @@ import { useTranslate } from "react-admin";
 import React from "react";
 
 export interface ShowSheetProps {
-    id: string;
-    open: boolean;
-    onOpenChange: (state: boolean) => void;
+    id?: string;
+    open?: boolean;
+    onOpenChange?: (state: boolean) => void;
 }
 
-export const ShowUserSheet: React.FC<ShowSheetProps> = ({ id, open, onOpenChange }) => {
+export const ShowUserSheet: React.FC<ShowSheetProps> = ({ id = "", open, onOpenChange = () => {} }) => {
     const translate = useTranslate();
 
     return (

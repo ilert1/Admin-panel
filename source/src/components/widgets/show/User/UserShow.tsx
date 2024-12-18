@@ -1,6 +1,6 @@
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useShowController, useTranslate } from "react-admin";
 import { Button } from "@/components/ui/button";
 import { EditUserDialog } from "./EditUserDialog";
@@ -15,14 +15,15 @@ interface UserShowProps {
 }
 
 export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
+    const context = useShowController<Users.User>({ id });
+    const translate = useTranslate();
+
     const [dialogOpen, setDialogOpen] = useState(false);
     const [showEditUser, setShowEditUser] = useState(false);
 
-    const translate = useTranslate();
-    const context = useShowController<Users.User>({
-        id,
-        queryOptions: { refetchOnWindowFocus: false, refetchInterval: false }
-    });
+    const handleEditClicked = useCallback(() => {
+        setShowEditUser(prev => !prev);
+    }, []);
 
     if (context.isLoading || context.isFetching || !context.record) {
         return <LoadingAlertDialog />;
@@ -60,7 +61,7 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
             </div>
 
             <div className="flex justify-end gap-4 px-[42px] mb-4">
-                <Button disabled={index !== 0} onClick={() => setShowEditUser(true)} className="text-title-1">
+                <Button disabled={index !== 0} onClick={handleEditClicked} className="text-title-1">
                     {translate("resources.users.edit")}
                 </Button>
 
@@ -72,7 +73,7 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
                 </Button>
             </div>
 
-            <EditUserDialog open={showEditUser} onOpenChange={setShowEditUser} id={id} record={context.record} />
+            <EditUserDialog record={context.record} open={showEditUser} onOpenChange={setShowEditUser} id={id} />
 
             <DeleteUserDialog
                 open={dialogOpen}

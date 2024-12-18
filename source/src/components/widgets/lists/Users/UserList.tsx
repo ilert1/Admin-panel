@@ -17,7 +17,8 @@ export const UserList = () => {
             <>
                 <ListContextProvider value={listContext}>
                     <UserListFilter />
-                    <DataTable columns={columns} data={[]} />
+
+                    <DataTable columns={columns} />
                 </ListContextProvider>
 
                 <ShowUserSheet id={userId} open={showOpen} onOpenChange={setShowOpen} />

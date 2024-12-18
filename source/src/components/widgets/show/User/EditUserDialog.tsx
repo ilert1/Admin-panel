@@ -27,7 +27,7 @@ export const EditUserDialog = ({ record, open, id, onOpenChange }: EditUserDialo
                     <DialogTitle className="text-center mb-4">{translate("resources.users.editUser")}</DialogTitle>
                 </DialogHeader>
 
-                <UserEdit record={record} id={id} closeDialog={() => onOpenChange(false)} />
+                <UserEdit record={record} id={id} onOpenChange={onOpenChange} />
                 <DialogDescription />
                 <DialogFooter />
             </DialogContent>
