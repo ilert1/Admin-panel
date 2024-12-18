@@ -13,7 +13,6 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useParams } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
@@ -24,15 +23,11 @@ export interface DirectionEditProps {
     onOpenChange: (state: boolean) => void;
 }
 
-export const DirectionEdit = (props: DirectionEditProps) => {
-    const params = useParams();
-    const id = props.id || params.id;
+export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const dataProvider = useDataProvider();
     const { currencies, merchants, providers, isLoading: loadingData } = useFetchDataForDirections();
+    const controllerProps = useEditController({ resource: "direction", id, mutationMode: "pessimistic" });
 
-    const controllerProps = useEditController({ resource: "direction", id });
-    const { record, isLoading } = useEditController({ resource: "direction", id });
-    controllerProps.mutationMode = "pessimistic";
     const { terminals, getTerminals } = useGetTerminals();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -55,33 +50,33 @@ export const DirectionEdit = (props: DirectionEditProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: record?.name || "",
-            active: record?.active || true,
-            description: record?.description || "",
-            src_currency: record?.src_currency.code || "",
-            dst_currency: record?.dst_currency.code || "",
-            merchant: record?.merchant.id || "",
-            provider: record?.provider.name || "",
-            terminal: record?.terminal?.terminal_id || "",
-            weight: record?.weight || 0
+            name: controllerProps.record?.name || "",
+            active: controllerProps.record?.active || true,
+            description: controllerProps.record?.description || "",
+            src_currency: controllerProps.record?.src_currency.code || "",
+            dst_currency: controllerProps.record?.dst_currency.code || "",
+            merchant: controllerProps.record?.merchant.id || "",
+            provider: controllerProps.record?.provider.name || "",
+            terminal: controllerProps.record?.terminal?.terminal_id || "",
+            weight: controllerProps.record?.weight || 0
         }
     });
 
     useEffect(() => {
-        if (record) {
+        if (controllerProps.record) {
             form.reset({
-                name: record?.name || "",
-                active: record?.active || true,
-                description: record?.description || "",
-                src_currency: record?.src_currency.code || "",
-                dst_currency: record?.dst_currency.code || "",
-                merchant: record?.merchant.id || "",
-                provider: record?.provider.name || "",
-                terminal: record?.terminal?.terminal_id || "",
-                weight: record?.weight || 0
+                name: controllerProps.record?.name || "",
+                active: controllerProps.record?.active || true,
+                description: controllerProps.record?.description || "",
+                src_currency: controllerProps.record?.src_currency.code || "",
+                dst_currency: controllerProps.record?.dst_currency.code || "",
+                merchant: controllerProps.record?.merchant.id || "",
+                provider: controllerProps.record?.provider.name || "",
+                terminal: controllerProps.record?.terminal?.terminal_id || "",
+                weight: controllerProps.record?.weight || 0
             });
         }
-    }, [form, record]);
+    }, [form, controllerProps.record]);
 
     const onSubmit: SubmitHandler<Directions.DirectionCreate> = async data => {
         if (submitButtonDisabled) return;
@@ -93,22 +88,22 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                 previousData: undefined
             });
             refresh();
-            props.onOpenChange(false);
+            onOpenChange(false);
         } catch (error) {
             setSubmitButtonDisabled(false);
         }
     };
 
     useEffect(() => {
-        getTerminals(record.provider.name);
+        getTerminals(controllerProps.record.provider.name);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [record.provider.name, record.provider]);
+    }, [controllerProps.record.provider.name, controllerProps.record.provider]);
 
-    usePreventFocus({ dependencies: [record] });
+    usePreventFocus({ dependencies: [controllerProps.record] });
 
     const terminalsDisabled = !(terminals && Array.isArray(terminals) && terminals?.length > 0);
 
-    if (isLoading || !record || loadingData)
+    if (controllerProps.isLoading || !controllerProps.record || loadingData)
         return (
             <div className="h-[150px]">
                 <Loading />
@@ -377,7 +372,7 @@ export const DirectionEdit = (props: DirectionEditProps) => {
                                 variant="deleteGray"
                                 className="flex-1"
                                 onClick={() => {
-                                    props.onOpenChange(false);
+                                    onOpenChange(false);
                                 }}>
                                 {translate("app.ui.actions.cancel")}
                             </Button>
