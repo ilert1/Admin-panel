@@ -4,7 +4,7 @@ export function Icon({ name, folder = "", textSmall = false }: { name: string; f
     const [isImageError, setIsImageError] = useState(false);
 
     if (isImageError) {
-        return <span className={`text-green-40 ${textSmall ? "" : "text-display-4"}`}>{name}</span>;
+        return <span className={`text-green-40 ${textSmall ? "" : "text-display-4"} overflow-hidden`}>{name}</span>;
     }
 
     return (
