@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-export function Icon({ name, folder = "" }: { name: string; folder?: string }) {
+export function Icon({ name, folder = "", textSmall = false }: { name: string; folder?: string; textSmall?: boolean }) {
     const [isImageError, setIsImageError] = useState(false);
 
     if (isImageError) {
-        return <span className="text-green-40 text-display-4">{name}</span>;
+        return <span className={`text-green-40 ${textSmall ? "" : "text-display-4"}`}>{name}</span>;
     }
 
     return (
