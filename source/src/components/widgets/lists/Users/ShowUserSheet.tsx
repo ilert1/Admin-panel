@@ -32,7 +32,7 @@ export const ShowUserSheet: React.FC<ShowSheetProps> = ({ id, open, onOpenChange
                 </div>
 
                 <div className="flex-1 overflow-auto" tabIndex={-1}>
-                    <UserShow id={id} isBrief onOpenChange={onOpenChange} />
+                    <UserShow id={id} onOpenChange={onOpenChange} />
                 </div>
                 <SheetDescription />
             </SheetContent>
