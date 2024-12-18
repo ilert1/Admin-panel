@@ -216,7 +216,11 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                         data={
                             permissions === "admin"
                                 ? context.record.fees
-                                : context.record.fees.filter(item => item.type === 2)
+                                : context.record.fees.filter(
+                                      item =>
+                                          (item.type === 1 && item.direction === 1) ||
+                                          (item.type === 2 && item.direction === 2)
+                                  )
                         }
                         tableType={TableTypes.COLORED}
                     />
