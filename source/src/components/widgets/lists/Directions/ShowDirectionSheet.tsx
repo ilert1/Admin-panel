@@ -38,7 +38,7 @@ export const ShowDirectionSheet: React.FC<ShowDirectionSheetProps> = props => {
                     </div>
 
                     <div className="flex-1 overflow-auto" tabIndex={-1}>
-                        <DirectionsShow id={id} type="compact" onOpenChange={onOpenChange} />
+                        <DirectionsShow id={id} onOpenChange={onOpenChange} />
                     </div>
                     <SheetDescription></SheetDescription>
                 </SheetContent>
