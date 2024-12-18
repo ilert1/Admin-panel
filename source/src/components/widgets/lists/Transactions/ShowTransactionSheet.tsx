@@ -37,7 +37,7 @@ export const ShowTransactionSheet: React.FC<ShowTransactionSheetProps> = ({ id, 
 
                 <div className="flex-1 overflow-auto" tabIndex={-1}>
                     <SheetDescription />
-                    <TransactionShow id={id} type="compact" />
+                    <TransactionShow id={id} />
                 </div>
             </SheetContent>
         </Sheet>

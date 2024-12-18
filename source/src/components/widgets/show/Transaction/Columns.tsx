@@ -43,63 +43,6 @@ export const useGetTransactionShowColumns = () => {
         }
     ];
 
-    const historyColumns: ColumnDef<Transaction.Transaction>[] = [
-        {
-            id: "createdAt",
-            accessorKey: "created_at",
-            header: translate("resources.transactions.fields.created_at"),
-            cell: ({ row }) => {
-                return (
-                    <>
-                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
-                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
-                    </>
-                );
-            }
-        },
-        {
-            id: "id",
-            accessorKey: "id",
-            header: translate("resources.transactions.fields.id")
-        },
-        {
-            id: "type",
-            accessorKey: "type",
-            header: translate("resources.transactions.fields.type"),
-            cell: ({ row }) =>
-                translate(
-                    `resources.transactions.types.${dataDictionaries?.transactionTypes[
-                        row.original.type
-                    ]?.type_descr.toLowerCase()}`
-                ) || ""
-        },
-        {
-            id: "state",
-            accessorKey: "state.state_description",
-            header: translate("resources.transactions.fields.state.title")
-        },
-        {
-            id: "final",
-            accessorKey: "state.final",
-            header: translate("resources.transactions.fields.state.final")
-        },
-        {
-            id: "committed",
-            accessorKey: "committed",
-            header: translate("resources.transactions.fields.committed")
-        },
-        {
-            id: "dispute",
-            accessorKey: "dispute",
-            header: translate("resources.transactions.fields.dispute")
-        },
-        {
-            id: "external_status",
-            accessorKey: "meta.external_status",
-            header: translate("resources.transactions.fields.meta.external_status")
-        }
-    ];
-
     const briefHistory: ColumnDef<Transaction.Transaction>[] = [
         {
             id: "createdAt",
@@ -167,5 +110,5 @@ export const useGetTransactionShowColumns = () => {
         }
     ];
 
-    return { feesColumns, historyColumns, briefHistory, computeValue };
+    return { feesColumns, briefHistory };
 };
