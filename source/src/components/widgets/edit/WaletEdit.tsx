@@ -13,7 +13,6 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useGetAccounts } from "@/hooks";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";
@@ -40,8 +39,7 @@ enum WalletTypes {
     EXTERNAL = "external"
 }
 
-export const EditWallet = (props: EditWalletProps) => {
-    const { id, onOpenChange } = props;
+export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
     const dataProvider = useDataProvider();
@@ -52,7 +50,8 @@ export const EditWallet = (props: EditWalletProps) => {
     const isMerchant = permissions === "merchant";
     const { record, isLoading } = useEditController({
         resource: !isMerchant ? "wallet" : "merchant/wallet",
-        id
+        id,
+        mutationMode: "pessimistic"
     });
     const {
         data: accountsData,
@@ -64,7 +63,7 @@ export const EditWallet = (props: EditWalletProps) => {
         filter: { sort: "name", asc: "ASC" }
     });
 
-    const accountScrollHandler = async e => {
+    const accountScrollHandler = async (e: React.FormEvent) => {
         const target = e.target as HTMLElement;
 
         if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {

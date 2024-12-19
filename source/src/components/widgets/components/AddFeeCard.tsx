@@ -29,11 +29,10 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const { id, resource, onOpenChange, fees, setFees, variants } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
-    const feeDataProvider = feesDataProvider({ id, resource: resource });
+    const feeDataProvider = feesDataProvider({ id, resource });
     const data = fetchDictionaries();
 
     const { isLoading } = useCreateController({ resource });
-    const controllerProps = useCreateController({ resource });
 
     const { currencies, isLoading: loadingData } = useFetchDataForDirections();
 
@@ -91,7 +90,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const currenciesDisabled = !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0);
 
     return (
-        <div>
+        <>
             <Form {...form}>
                 <form className="space-y-6">
                     <div className="mb-[16px]">
@@ -263,6 +262,6 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                     {translate("app.ui.actions.cancel")}
                 </Button>
             </div>
-        </div>
+        </>
     );
 };

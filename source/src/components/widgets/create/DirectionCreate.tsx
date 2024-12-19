@@ -24,7 +24,6 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const dataProvider = useDataProvider();
     const { currencies, merchants, providers, isLoading: loadingData } = useFetchDataForDirections();
 
-    const { isLoading } = useCreateController({ resource: "direction" });
     const controllerProps = useCreateController();
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -75,7 +74,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
         }
     });
 
-    if (isLoading || loadingData)
+    if (controllerProps.isLoading || loadingData)
         return (
             <div className="h-[140px]">
                 <Loading />

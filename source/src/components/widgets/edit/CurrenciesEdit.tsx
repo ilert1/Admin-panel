@@ -21,8 +21,7 @@ enum PositionEnum {
 export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () => void }) => {
     const dataProvider = useDataProvider();
 
-    const controllerProps = useEditController({ resource: "currency", id });
-    controllerProps.mutationMode = "pessimistic";
+    const controllerProps = useEditController({ resource: "currency", id, mutationMode: "pessimistic" });
 
     const translate = useTranslate();
     const refresh = useRefresh();

@@ -13,7 +13,6 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useParams } from "react-router-dom";
 import { z } from "zod";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,12 +35,8 @@ interface AccountEditProps {
     onOpenChange: (state: boolean) => void;
 }
 
-export const AccountEdit = (props: AccountEditProps) => {
-    const params = useParams();
-    const id = props.id || params.id;
-
-    const controllerProps = useEditController({ resource: "accounts", id });
-    controllerProps.mutationMode = "pessimistic";
+export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
+    const controllerProps = useEditController({ resource: "accounts", id, mutationMode: "pessimistic" });
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -122,7 +117,7 @@ export const AccountEdit = (props: AccountEditProps) => {
             }
 
             refresh();
-            props.onOpenChange(false);
+            onOpenChange(false);
         } catch (error) {
             setSubmitButtonDisabled(false);
             toast.error("Error", {
@@ -489,7 +484,7 @@ export const AccountEdit = (props: AccountEditProps) => {
                             variant="deleteGray"
                             className="flex-1"
                             onClick={() => {
-                                props.onOpenChange(false);
+                                onOpenChange(false);
                             }}>
                             {translate("app.ui.actions.cancel")}
                         </Button>

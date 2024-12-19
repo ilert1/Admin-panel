@@ -17,7 +17,7 @@ import { CircleChevronRight } from "lucide-react";
 
 export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
-    const controllerProps = useCreateController({ resource: "merchant" });
+    const controllerProps = useCreateController();
     const data = fetchDictionaries();
     const feeDataProvider = feesDataProvider({ id: "", resource: FeesResource.MERCHANT });
 
@@ -110,6 +110,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
     });
 
     if (controllerProps.isLoading) return <Loading />;
+
     return (
         <CreateContextProvider value={controllerProps}>
             <Form {...form}>
