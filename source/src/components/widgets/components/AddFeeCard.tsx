@@ -20,13 +20,12 @@ export interface AddFeeCardProps {
     id: string;
     resource: FeesResource;
     onOpenChange: (state: boolean) => void;
-    fees?: Directions.FeeCreate[];
     setFees?: React.Dispatch<React.SetStateAction<Directions.FeeCreate[]>>;
     variants?: string[];
 }
 
 export const AddFeeCard = (props: AddFeeCardProps) => {
-    const { id, resource, onOpenChange, fees, setFees, variants } = props;
+    const { id, resource, onOpenChange, setFees, variants } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
     const feeDataProvider = feesDataProvider({ id, resource });
@@ -36,20 +35,20 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
 
     const { currencies, isLoading: loadingData } = useFetchDataForDirections();
 
-    const onSubmit = async (data: any) => {
-        data.type = Number(data.type);
-        data.direction = Number(data.direction);
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        const reqData: Directions.FeeCreate = {
+            ...data,
+            type: Number(data.type),
+            direction: Number(data.direction),
+            recipient: resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee"
+        };
+
         if (setFees) {
-            if (fees?.length) {
-                data.innerId = fees[fees.length - 1].innerId + 1;
-            } else {
-                data.innerId = 1;
-            }
-            setFees((prev: any) => [...prev, data]);
+            setFees(prev => [...prev, reqData]);
             onOpenChange(false);
         } else {
             try {
-                await feeDataProvider.addFee(data);
+                await feeDataProvider.addFee(reqData);
                 refresh();
                 onOpenChange(false);
             } catch (error) {
@@ -202,7 +201,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                         <SelectContent>
                                                             <SelectGroup>
                                                                 {!currenciesDisabled && !variants
-                                                                    ? currencies.data.map((currency: any) => (
+                                                                    ? currencies.data.map(currency => (
                                                                           <SelectItem
                                                                               key={currency.code}
                                                                               /* disabled={

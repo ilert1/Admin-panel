@@ -19,9 +19,6 @@ const feesDataProvider = (props: FeesDataProviderProps) => {
     };
 
     const addFee = async (body: Directions.FeeCreate) => {
-        // console.log(body);
-        body.recipient = resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee";
-
         const json = await fetchUtils.fetchJson(`${API_URL}/${resource}/${id}/fee`, {
             method: "PUT",
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },

@@ -36,18 +36,11 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
         }
     }, [addNewFeeClicked]);
 
-    const handleDeleteFee = (id: string) => {
-        const newFees = fees.filter(el => {
-            return el.innerId !== id;
-        });
-        setFees(newFees);
-    };
-
     const onSubmit: SubmitHandler<Merchant> = async data => {
-        // Проверяем, заблокирована ли кнопка
         if (submitButtonDisabled) return;
 
         setSubmitButtonDisabled(true);
+
         if (data?.description?.length === 0) {
             data.description = null;
         }
@@ -59,11 +52,9 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
             const info = await dataProvider.create("merchant", { data });
             feeDataProvider.setId(info.data.id);
 
-            await Promise.all(
-                fees.map(async el => {
-                    await feeDataProvider.addFee(el);
-                })
-            );
+            await fees.reduce((accum, item) => {
+                return accum.then(() => feeDataProvider.addFee(item));
+            }, Promise.resolve());
 
             refresh();
             onOpenChange(false);
@@ -73,6 +64,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                 dismissible: true,
                 duration: 3000
             });
+        } finally {
             setSubmitButtonDisabled(false);
         }
     };
@@ -184,18 +176,16 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                     <h3 className="text-display-3 mt-[16px] mb-[16px]">{translate("resources.direction.fees.fees")}</h3>
                     <div className="max-h-[40vh] overflow-auto pr-[10px]">
                         {fees &&
-                            fees.map(el => {
+                            fees.map((el, index) => {
                                 return (
                                     <FeeCard
-                                        key={el.innerId}
+                                        key={index}
                                         account={""}
                                         currency={el.currency}
                                         feeAmount={el.value}
                                         feeType={data.feeTypes[el.type]?.type_descr || ""}
                                         id={""}
                                         resource={FeesResource.MERCHANT}
-                                        innerId={el.innerId}
-                                        deleteFunction={handleDeleteFee}
                                         description={el.description}
                                     />
                                 );
@@ -206,7 +196,6 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                 onOpenChange={setAddNewFeeClicked}
                                 resource={FeesResource.MERCHANT}
                                 setFees={setFees}
-                                fees={fees}
                             />
                         )}
                         <div ref={messagesEndRef} />

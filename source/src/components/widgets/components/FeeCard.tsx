@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { feesDataProvider, FeesResource } from "@/data";
 import { useState } from "react";
 import { useRefresh, useTranslate } from "react-admin";
+import { toast } from "sonner";
 
 interface FeeCardProps {
     account: string;
@@ -22,15 +23,14 @@ interface FeeCardProps {
     resource: FeesResource;
     id: string;
     description?: string;
-    innerId?: string;
-    deleteFunction?: (innerId: string) => void;
 }
 export const FeeCard = (props: FeeCardProps) => {
-    const { account, feeAmount, feeType, currency, id, resource, description = "", innerId, deleteFunction } = props;
+    const { account, feeAmount, feeType, currency, id, resource, description = "" } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
 
     const feeDataProvider = feesDataProvider({ resource, id });
+
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const handleDeleteClicked = () => {
@@ -38,16 +38,17 @@ export const FeeCard = (props: FeeCardProps) => {
     };
 
     const handleDelete = async () => {
-        if (innerId && deleteFunction) {
-            deleteFunction(innerId);
-        } else {
-            try {
-                await feeDataProvider.removeFee(account);
-                await refresh();
-                setDeleteDialogOpen(false);
-            } catch (error) {
-                // TODO
-            }
+        try {
+            await feeDataProvider.removeFee(account);
+
+            refresh();
+            setDeleteDialogOpen(false);
+        } catch (error) {
+            toast.error("Error", {
+                description: "Something went wrong",
+                dismissible: true,
+                duration: 3000
+            });
         }
     };
     return (
@@ -87,7 +88,7 @@ export const FeeCard = (props: FeeCardProps) => {
                         </div>
                     </div>
                     <div className="flex justify-end mt-6">
-                        <Button variant={"deleteGray"} onClick={innerId ? handleDelete : handleDeleteClicked}>
+                        <Button variant={"deleteGray"} onClick={handleDeleteClicked}>
                             {translate("app.ui.actions.delete")}
                         </Button>
                     </div>
