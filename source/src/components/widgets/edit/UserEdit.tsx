@@ -35,6 +35,13 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                 data,
                 previousData: undefined
             });
+
+            toast.success(translate("resources.users.create.success"), {
+                dismissible: true,
+                duration: 3000,
+                description: translate("resources.users.editSuccessMessage")
+            });
+
             refresh();
             onOpenChange(false);
         } catch (error) {
