@@ -1,142 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no" />
-        <meta name="theme-color" content="#000000" />
-        <link rel="manifest" href="./manifest.json" />
-        <link rel="shortcut icon" href="./favicon.svg" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
-            rel="stylesheet"
-        />
-        <title>Blowfish | Back Office</title>
-        <style>
-            .not-clicked {
-                overflow: hidden;
-                max-height: 0;
-                transition: max-height 0.8s ease;
-                padding: 0 !important;
-            }
-            .clicked {
-                max-height: 1000px;
-                transition: max-height 0.6s ease;
+
+<head>
+    <meta charset="utf-8" />
+    <meta
+        name="viewport"
+        content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
+    />
+    <meta
+        name="theme-color"
+        content="#000000"
+    />
+    <link
+        rel="manifest"
+        href="./manifest.json"
+    />
+    <link
+        rel="shortcut icon"
+        href="./favicon.svg"
+    />
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    />
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet"
+    />
+    <title>Blowfish | Back Office</title>
+    <style>
+        .not-clicked {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.8s ease;
+            padding: 0 !important;
+        }
+
+        .clicked {
+            max-height: 1000px;
+            transition: max-height 0.6s ease;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
             }
 
-            @keyframes slideInLeft {
-                from {
-                    transform: translateX(-100%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .animate-in-left {
+            animation: slideInLeft 0.5s ease-out forwards;
+        }
+
+        .scrollbar-x {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(35, 118, 72, 1) rgba(0, 0, 0, 1);
+        }
+
+        * {
+            font-family: "Jost", sans-serif;
+        }
+
+        .monaco-editor * {
+            font-family: sans-serif !important;
+            font-size: 16px;
+        }
+
+        .z {
+            z-index: 60 !important;
+        }
+
+        .z100 {
+            z-index: 100 !important;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Jost", sans-serif;
+            font-optical-sizing: auto;
+            background-color: rgba(19, 35, 44, 1);
+        }
+
+        .loader-container {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url("/LoginBackground.svg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-color: rgba(19, 35, 44, 1);
+        }
+
+        .loader {
+            width: 6rem;
+            /* Equivalent to w-24 */
+            height: 6rem;
+            /* Equivalent to h-24 */
+            animation: spin 1s linear infinite;
+        }
+
+        .loader-circle {
+            stroke-dasharray: 282.7;
+            stroke-dashoffset: 70.68;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
             }
 
-            .animate-in-left {
-                animation: slideInLeft 0.5s ease-out forwards;
+            100% {
+                transform: rotate(360deg);
             }
+        }
+    </style>
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    />
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet"
+    />
+</head>
 
-            .scrollbar-x {
-                scrollbar-width: thin;
-                scrollbar-color: rgba(35, 118, 72, 1) rgba(0, 0, 0, 1);
-            }
-
-            * {
-                font-family: "Jost", sans-serif;
-            }
-            .monaco-editor * {
-                font-family: sans-serif !important;
-                font-size: 16px;
-            }
-            .z {
-                z-index: 60 !important;
-            }
-
-            .z100 {
-                z-index: 100 !important;
-            }
-
-            body {
-                margin: 0;
-                padding: 0;
-                font-family: "Jost", sans-serif;
-                font-optical-sizing: auto;
-                background-color: rgba(19, 35, 44, 1);
-            }
-
-            .loader-container {
-                position: fixed;
-                inset: 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background-image: url("/LoginBackground.svg");
-                background-size: cover;
-                background-repeat: no-repeat;
-                background-color: rgba(19, 35, 44, 1);
-            }
-
-            .loader {
-                width: 6rem;
-                /* Equivalent to w-24 */
-                height: 6rem;
-                /* Equivalent to h-24 */
-                animation: spin 1s linear infinite;
-            }
-
-            .loader-circle {
-                stroke-dasharray: 282.7;
-                stroke-dashoffset: 70.68;
-            }
-
-            @keyframes spin {
-                0% {
-                    transform: rotate(0deg);
-                }
-
-                100% {
-                    transform: rotate(360deg);
-                }
-            }
-        </style>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
-            rel="stylesheet"
-        />
-    </head>
-
-    <body>
-        <noscript> You need to enable JavaScript to run this app. </noscript>
-        <div id="root">
-            <div class="loader-container">
-                <div class="loader">
-                    <svg viewBox="0 0 100 100">
-                        <defs>
-                            <linearGradient id="spinner-gradient" x1="0%" y1="0%" x2="100%">
-                                <stop offset="28.01%" stop-color="#57CD8C"></stop>
-                                <stop offset="69.22%" stop-color="#237648"></stop>
-                            </linearGradient>
-                        </defs>
-                        <circle
-                            class="loader-circle"
-                            fill="none"
-                            stroke="url(#spinner-gradient)"
-                            cx="50"
-                            cy="50"
-                            r="45"
-                            stroke-width="10"
-                            stroke-linecap="round"
-                        ></circle>
-                    </svg>
-                </div>
+<body>
+    <noscript> You need to enable JavaScript to run this app. </noscript>
+    <div id="root">
+        <div class="loader-container">
+            <div class="loader">
+                <svg viewBox="0 0 100 100">
+                    <defs>
+                        <lineargradient
+                            id="spinner-gradient"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                        >
+                            <stop
+                                offset="28.01%"
+                                stop-color="#57CD8C"
+                            ></stop>
+                            <stop
+                                offset="69.22%"
+                                stop-color="#237648"
+                            ></stop>
+                        </lineargradient>
+                    </defs>
+                    <circle
+                        class="loader-circle"
+                        fill="none"
+                        stroke="url(#spinner-gradient)"
+                        cx="50"
+                        cy="50"
+                        r="45"
+                        stroke-width="10"
+                        stroke-linecap="round"
+                    ></circle>
+                </svg>
             </div>
         </div>
-    </body>
-    <script type="module" src="/src/index.tsx"></script>
+    </div>
+</body>
+<script
+    type="module"
+    src="/src/index.tsx"
+></script>
+
 </html>
