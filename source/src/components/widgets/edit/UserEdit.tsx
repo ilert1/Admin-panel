@@ -2,31 +2,27 @@ import { useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ChangeEvent, DragEvent, useState } from "react";
+import { ChangeEvent, DragEvent, useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
-import { DialogClose } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { usePreventFocus } from "@/hooks";
+import { Loading } from "@/components/ui/loading";
 
-export const UserEdit = ({
-    id,
-    record,
-    closeDialog
-}: {
+interface UserEditProps {
     id: string;
     record: Omit<Users.User, "created_at" | "deleted_at" | "id">;
-    closeDialog: () => void;
-}) => {
+    onOpenChange: (state: boolean) => void;
+}
+
+export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
     const dataProvider = useDataProvider();
     const translate = useTranslate();
     const refresh = useRefresh();
-
-    const [fileContent, setFileContent] = useState(record?.public_key || "");
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -40,7 +36,7 @@ export const UserEdit = ({
                 previousData: undefined
             });
             refresh();
-            closeDialog();
+            onOpenChange(false);
         } catch (error) {
             toast.error("Error", {
                 description: translate("resources.currency.errors.alreadyInUse"),
@@ -58,18 +54,17 @@ export const UserEdit = ({
             const reader = new FileReader();
             reader.onload = () => {
                 if (typeof reader.result === "string") {
-                    setFileContent(reader.result.replaceAll("\n", ""));
                     form.setValue("public_key", reader.result.replaceAll("\n", ""));
                 }
             };
             reader.readAsText(file);
         }
     };
+
     const handleTextChange = (
         e: ChangeEvent<HTMLTextAreaElement>,
         field: ControllerRenderProps<z.infer<typeof formSchema>>
     ) => {
-        setFileContent(e.target.value);
         form.setValue("public_key", e.target.value);
         field.onChange(e.target.value);
     };
@@ -86,16 +81,32 @@ export const UserEdit = ({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: record?.name || "",
-            public_key: fileContent
+            public_key: record?.public_key || ""
         }
     });
 
+    useEffect(() => {
+        if (record) {
+            form.reset({
+                name: record?.name || "",
+                public_key: record?.public_key || ""
+            });
+        }
+    }, [form, record]);
+
     usePreventFocus({ dependencies: [record] });
+
+    if (!record)
+        return (
+            <div className="h-[150px]">
+                <Loading />
+            </div>
+        );
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" autoComplete="off">
-                <div className="grid grid-cols-1 grid-rows-4">
+                <div className="grid grid-cols-1 grid-rows-4 gap-4">
                     <FormField
                         name="name"
                         control={form.control}
@@ -145,7 +156,7 @@ export const UserEdit = ({
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                     : ""
                                             }`}
-                                            value={fileContent}
+                                            value={field.value}
                                             onChange={e => handleTextChange(e, field)}
                                             placeholder={translate(
                                                 "app.widgets.forms.userCreate.publicKeyPlaceholder"
@@ -179,13 +190,13 @@ export const UserEdit = ({
                         {translate("app.ui.actions.save")}
                     </Button>
 
-                    <DialogClose asChild>
-                        <Button
-                            variant="clearBtn"
-                            className="border border-neutral-50 rounded-4 hover:border-neutral-100">
-                            {translate("app.widgets.forms.userCreate.cancelBtn")}
-                        </Button>
-                    </DialogClose>
+                    <Button
+                        type="button"
+                        onClick={() => onOpenChange(false)}
+                        variant="clearBtn"
+                        className="border border-neutral-50 rounded-4 hover:border-neutral-100">
+                        {translate("app.widgets.forms.userCreate.cancelBtn")}
+                    </Button>
                 </div>
             </form>
         </Form>

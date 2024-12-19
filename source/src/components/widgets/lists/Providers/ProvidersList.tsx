@@ -1,11 +1,7 @@
 import { ListContextProvider, useListController, useTranslate, useRefresh } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { useMediaQuery } from "react-responsive";
 import { Loading } from "@/components/ui/loading";
-import { ProvidersShow } from "../../show/ProvidersShow";
 import { KeysModal } from "../../components/KeysModal";
 import { DeleteProviderDialog } from "./DeleteProviderDialog";
 import { useGetProvidersColumns } from "./Columns";
@@ -33,18 +29,14 @@ export const ProvidersList = () => {
         chosenId,
         dialogOpen,
         deleteDialogOpen,
-        showOpen,
         columns,
         editDialogOpen,
         showMethodsOpen,
         setSowMethodsOpen,
         setEditDialogOpen,
         setDeleteDialogOpen,
-        setShowOpen,
         setDialogOpen
     } = useGetProvidersColumns();
-
-    const isMobile = useMediaQuery({ query: `(max-width: 767px)` });
 
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
@@ -59,13 +51,17 @@ export const ProvidersList = () => {
                                 <span className="text-title-1">{translate("resources.provider.createNew")}</span>
                             </Button>
                         </div>
+
                         <CreateProviderDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+
                         <EditProviderDialog id={chosenId} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
+
                         <DeleteProviderDialog
                             open={deleteDialogOpen}
                             onOpenChange={setDeleteDialogOpen}
                             deleteId={chosenId}
                         />
+
                         <KeysModal
                             open={dialogOpen}
                             onOpenChange={setDialogOpen}
@@ -73,25 +69,14 @@ export const ProvidersList = () => {
                             name={chosenId}
                             refresh={handleRefresh}
                         />
+
                         <ShowMethodsDialog id={chosenId} open={showMethodsOpen} onOpenChange={setSowMethodsOpen} />
                     </div>
                 </div>
+
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />
                 </ListContextProvider>
-                <Sheet open={showOpen} onOpenChange={setShowOpen}>
-                    <SheetContent
-                        className={isMobile ? "w-full h-4/5" : "max-w-[400px] sm:max-w-[540px]"}
-                        side={isMobile ? "bottom" : "right"}>
-                        <ScrollArea className="h-full">
-                            <SheetHeader className="mb-2">
-                                <SheetTitle>{translate("resources.providers.showTitle")}</SheetTitle>
-                                <SheetDescription></SheetDescription>
-                            </SheetHeader>
-                            <ProvidersShow id={chosenId} />
-                        </ScrollArea>
-                    </SheetContent>
-                </Sheet>
             </>
         );
     }

@@ -6,14 +6,13 @@ import { format } from "date-fns";
 import { debounce } from "lodash";
 import { DateRange } from "react-day-picker";
 import fetchDictionaries from "@/helpers/get-dictionaries";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: string) => void) => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const data = fetchDictionaries();
 
     const location = useLocation();
-    const navigate = useNavigate();
 
     const {
         data: accountsData,
@@ -200,7 +199,7 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         }
     };
 
-    const accountScrollHandler = async e => {
+    const accountScrollHandler = async (e: React.FormEvent) => {
         const target = e.target as HTMLElement;
 
         if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
@@ -211,7 +210,7 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
     useEffect(() => {
         if (data) {
             const params = new URLSearchParams(location.search);
-            const type = params.get("filter") ? JSON.parse(params.get("filter")).order_type : "";
+            const type = params.get("filter") ? JSON.parse(params.get("filter") as string).order_type : "";
 
             if (type) {
                 setTypeTabActive(data.transactionTypes[type]?.type_descr || "");

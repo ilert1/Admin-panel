@@ -5,6 +5,8 @@ import { CirclePlus, EyeIcon, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
+export type MerchantTypeToShow = "fees" | "directions" | undefined;
+
 export const useGetMerchantColumns = () => {
     const translate = useTranslate();
 
@@ -13,7 +15,7 @@ export const useGetMerchantColumns = () => {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [showSheetOpen, setShowSheetOpen] = useState(false);
-    const [showType, setShowType] = useState<"fees" | "directions">();
+    const [showType, setShowType] = useState<MerchantTypeToShow>();
 
     const handleEditClicked = (id: string) => {
         setChosenId(id);
@@ -23,7 +25,7 @@ export const useGetMerchantColumns = () => {
         setChosenId(id);
         setDeleteDialogOpen(true);
     };
-    const handleShowClicked = (id: string, type: string) => {
+    const handleShowClicked = (id: string, type: MerchantTypeToShow) => {
         setChosenId(id);
         setShowType(type);
         setShowSheetOpen(true);
@@ -142,33 +144,3 @@ export const useGetMerchantColumns = () => {
         setDeleteDialogOpen
     };
 };
-
-// {
-//     id: "actions",
-//     cell: ({ row }) => {
-//         return (
-//             <DropdownMenu>
-//                 <DropdownMenuTrigger asChild>
-//                     <Button variant="textBtn" className="h-8 w-8 p-0">
-//                         <span className="sr-only">Open menu</span>
-//                         <MoreHorizontal className="h-4 w-4" />
-//                     </Button>
-//                 </DropdownMenuTrigger>
-//                 <DropdownMenuContent align="end">
-//                     <DropdownMenuItem onClick={() => openSheet(row.original.id)}>
-//                         {translate("app.ui.actions.quick_show")}
-//                     </DropdownMenuItem>
-//                     <DropdownMenuItem onClick={() => navigate(`/merchant/${row.original.id}/show`)}>
-//                         {translate("app.ui.actions.show")}
-//                     </DropdownMenuItem>
-//                     <DropdownMenuItem onClick={() => navigate(`/merchant/${row.original.id}/edit/`)}>
-//                         {translate("app.ui.actions.edit")}
-//                     </DropdownMenuItem>
-//                     <DropdownMenuItem onClick={() => handleDeleteClicked(row.original.id)}>
-//                         <p className="text-popover-foreground">{translate("app.ui.actions.delete")}</p>
-//                     </DropdownMenuItem>
-//                 </DropdownMenuContent>
-//             </DropdownMenu>
-//         );
-//     }
-// }

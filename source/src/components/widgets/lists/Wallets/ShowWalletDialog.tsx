@@ -36,7 +36,7 @@ export const ShowWalletDialog = (props: ShowWalletDialogProps) => {
                 </div>
 
                 <div className="flex-1" tabIndex={-1}>
-                    <WalletShow id={id} onOpenChange={onOpenChange} type="compact" />
+                    <WalletShow id={id} onOpenChange={onOpenChange} />
                 </div>
                 <SheetDescription></SheetDescription>
             </SheetContent>

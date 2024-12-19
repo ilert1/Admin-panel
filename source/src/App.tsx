@@ -22,7 +22,9 @@ import {
     ProvidersList,
     DirectionsList,
     WalletsList,
-    WalletTransactionsList
+    WalletTransactionsList,
+    WalletLinkedTransactionsList,
+    TerminalsList
 } from "@/components/widgets/lists";
 import { MerchantCreate } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
@@ -48,13 +50,11 @@ import { InitLoading } from "./components/ui/loading";
 import { NotFound } from "./components/widgets/shared/NotFound";
 import WalletsLogo from "./lib/icons/Wallets";
 import { WalletStore } from "./pages/WalletStore";
-import { WalletLinkedTransactionsList } from "./components/widgets/lists/WalletLinkedTransactions";
-import { TerminalsList } from "./components/widgets/lists/Terminals";
 
 const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
 
 const dataProvider = combineDataProviders((resource: string) => {
-    if (resource === "transactions") {
+    if (resource?.startsWith("transactions")) {
         return new TransactionDataProvider();
     } else if (resource === "users") {
         return new UsersDataProvider();
@@ -62,7 +62,7 @@ const dataProvider = combineDataProviders((resource: string) => {
         return new CurrenciesDataProvider();
     } else if (resource === "merchant") {
         return new MerchantsDataProvider();
-    } else if (resource === "provider" || resource?.startsWith("provider/")) {
+    } else if (resource?.startsWith("provider")) {
         return new ProvidersDataProvider();
     } else if (resource === "direction") {
         return new DirectionsDataProvider();

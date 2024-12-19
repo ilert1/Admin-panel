@@ -52,7 +52,7 @@ export const FeeCard = (props: FeeCardProps) => {
     };
     return (
         <>
-            <div className="mb-[16px] overflow-auto">
+            <div className="mt-[2px] mb-[16px]">
                 <div className="bg-neutral-0 border border-neutral-70 rounded-[8px] px-[8px] pt-[16px] pb-[8px]">
                     <div className="w-full grid grid-cols-2 gap-y-[8px] gap-2">
                         <div className="flex flex-col gap-[4px] col-span-2 sm:col-span-1">

@@ -13,10 +13,9 @@ interface CreateMerchantDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
-export const CreateMerchantDialog = (props: CreateMerchantDialogProps) => {
-    const { open, onOpenChange } = props;
-
+export const CreateMerchantDialog = ({ open, onOpenChange }: CreateMerchantDialogProps) => {
     const translate = useTranslate();
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
@@ -26,10 +25,13 @@ export const CreateMerchantDialog = (props: CreateMerchantDialogProps) => {
                     <DialogTitle className="mb-4 text-center">
                         {translate("resources.merchant.creatingMerchant")}
                     </DialogTitle>
-                    <DialogDescription></DialogDescription>
+
+                    <DialogDescription />
+
                     <MerchantCreate onOpenChange={onOpenChange} />
                 </DialogHeader>
-                <DialogFooter></DialogFooter>
+
+                <DialogFooter />
             </DialogContent>
         </Dialog>
     );

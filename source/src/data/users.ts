@@ -14,7 +14,7 @@ import { BaseDataProvider, BF_MANAGER_URL } from "./base";
 
 export class UsersDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
-        const data: any = {
+        const data: { [key: string]: string } = {
             limit: params.pagination.perPage.toString(),
             offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
         };
@@ -34,16 +34,15 @@ export class UsersDataProvider extends BaseDataProvider {
     }
 
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
-        const json = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/${resource}/${params.id}`, {
-            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
+        const { json } = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/${resource}/${params.id}`, {
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
-        if (!json.json.success) {
-            throw new Error(json.json);
+
+        if (!json.success) {
+            throw new Error(json.error);
         }
 
-        return {
-            data: json.json.data
-        };
+        return { data: json.data };
     }
 
     async create(resource: string, params: CreateParams): Promise<CreateResult> {

@@ -2,16 +2,16 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { XIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
 import { MerchantShow } from "../../show";
+import { MerchantTypeToShow } from "./Columns";
 
 interface ShowMerchantSheetProps {
     id: string;
-    showType: "fees" | "directions";
+    showType: MerchantTypeToShow;
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
-export const ShowMerchantSheet = (props: ShowMerchantSheetProps) => {
+export const ShowMerchantSheet = ({ id, showType, open, onOpenChange }: ShowMerchantSheetProps) => {
     const translate = useTranslate();
-    const { id, showType, open, onOpenChange } = props;
 
     return (
         <>
