@@ -3,7 +3,7 @@ import { LoadingAlertDialog } from "@/components/ui/loading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { debounce } from "lodash";
 import { XIcon } from "lucide-react";
-import { UIEvent, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useInfiniteGetList, useListContext, useTranslate } from "react-admin";
 
 export const DirectionListFilter = () => {
@@ -38,10 +38,10 @@ export const DirectionListFilter = () => {
         onPropertySelected(merchant, "merchant");
     };
 
-    const accountScrollHandler = async (e: UIEvent<HTMLDivElement>) => {
+    const accountScrollHandler = async (e: React.FormEvent) => {
         const target = e.target as HTMLElement;
 
-        if (target.scrollHeight - target.scrollTop === target.clientHeight) {
+        if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
             merchantsNextPage();
         }
     };
@@ -64,7 +64,7 @@ export const DirectionListFilter = () => {
                         <SelectValue placeholder={translate("resources.transactions.filter.filterAllPlaceholder")} />
                     </SelectTrigger>
 
-                    <SelectContent align="start" onScrollCapture={accountScrollHandler}>
+                    <SelectContent align="start" onScroll={accountScrollHandler} onScrollCapture={accountScrollHandler}>
                         <SelectItem value="null">{translate("resources.transactions.filter.showAll")}</SelectItem>
 
                         {merchantsData?.pages.map(page => {
