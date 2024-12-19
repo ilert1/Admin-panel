@@ -1,10 +1,11 @@
 import { ReactNode, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import { useGetList, useTranslate } from "react-admin";
-import { BF_MANAGER_URL, API_URL } from "@/data/base";
+import { BF_MANAGER_URL } from "@/data/base";
 import { PayOutForm } from "@/components/widgets/forms";
 import { toast } from "sonner";
 import { NavLink } from "react-router-dom";
+import { useFetchCurrencies } from "@/hooks/useFetchCurrencies";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
@@ -28,14 +29,7 @@ export const PayOutPage = () => {
     const { data: accounts } = useGetList("accounts");
 
     const currency = useMemo(() => accounts?.[0]?.amounts?.[0]?.shop_currency, [accounts]);
-
-    const { data: currencies } = useQuery<{ data: Dictionaries.Currency[] }>("currencies", () =>
-        fetch(`${API_URL}/dictionaries/curr`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
-        }).then(response => response.json())
-    );
+    const { data: currencies } = useFetchCurrencies();
 
     const { isLoading: initialLoading, data: payMethods } = useQuery<PayOut.Response, unknown, PayOut.PayMethod[] | []>(
         ["paymethods", currency],

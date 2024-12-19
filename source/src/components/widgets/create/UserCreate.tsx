@@ -1,7 +1,5 @@
 import { toast } from "sonner";
 import { CreateContextProvider, useCreateController, useDataProvider, useRefresh, useTranslate } from "react-admin";
-import { useQuery } from "react-query";
-import { API_URL } from "@/data/base";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { useFetchCurrencies } from "@/hooks/useFetchCurrencies";
 
 interface UserCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -27,15 +26,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [valueCurDialog, setValueCurDialog] = useState("");
 
-    const { isLoading: currenciesLoading, data: currencies } = useQuery<{ data: Dictionaries.Currency[] }>(
-        "currencies",
-        () =>
-            fetch(`${API_URL}/dictionaries/curr`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
-            }).then(response => response.json())
-    );
+    const { isLoading: currenciesLoading, data: currencies } = useFetchCurrencies();
 
     const sortedCurrencies = useMemo(() => {
         return currencies?.data.sort((a, b) => (a["alpha-3"] > b["alpha-3"] ? 1 : -1)) || [];
