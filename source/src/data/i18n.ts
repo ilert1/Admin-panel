@@ -628,7 +628,8 @@ const ru: TranslationMessages = {
                 areYouSure: "Вы точно хотите удалить элемент?",
                 chatWithSupport: "Чат с поддержкой",
                 close: "Закрыть",
-                confirm: "Потвердить"
+                confirm: "Потвердить",
+                search: "Поиск..."
             },
             pagination: {
                 next: "Далее",
@@ -1413,7 +1414,8 @@ const en: TranslationMessages = {
                 areYouSure: "Are you sure you want delete this element?",
                 chatWithSupport: "Chat with support",
                 close: "Close",
-                confirm: "Confirm"
+                confirm: "Confirm",
+                search: "Search..."
             },
             pagination: {
                 next: "Next",
