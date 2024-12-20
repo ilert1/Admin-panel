@@ -99,7 +99,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                     <FormLabel>{translate("resources.direction.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} className="bg-muted" variant={InputTypes.GRAY} />
+                                            <Input {...field} variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
