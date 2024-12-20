@@ -113,7 +113,7 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                     />
 
                     {adminOnly && (
-                        <div className="flex flex-1 flex-grow-100 basis-[500px] md:flex-col gap-2 items-center md:items-start">
+                        <div className="flex flex-1 flex-grow-100 md:basis-[500px] md:flex-col gap-2 items-center md:items-start">
                             <span className="md:text-nowrap">
                                 {translate("resources.transactions.filter.filterByAccount")}
                             </span>

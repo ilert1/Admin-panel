@@ -35,7 +35,7 @@ export const DirectionListFilter = () => {
 
     return (
         <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
-            <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start min-w-52">
+            <div className="flex flex-1 flex-grow-100 min-w-[500px] md:flex-col gap-2 items-center md:items-start">
                 <span className="md:text-nowrap">{translate("resources.transactions.filter.filterByAccount")}</span>
 
                 <MerchantSelectFilter merchant={merchantId} onMerchantChanged={onAccountChanged} resource="merchant" />
