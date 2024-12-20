@@ -1,7 +1,7 @@
 import { LoadingAlertDialog } from "@/components/ui/loading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useCallback, useMemo } from "react";
-import { useInfiniteGetList, useTranslate } from "react-admin";
+import { useGetList, useTranslate } from "react-admin";
 
 interface MerchantSelectFilterProps {
     merchant: string;
@@ -14,25 +14,12 @@ type ResourceData<T> = T extends "accounts" ? Account : Merchant;
 export const MerchantSelectFilter = ({ merchant, onMerchantChanged, resource }: MerchantSelectFilterProps) => {
     const translate = useTranslate();
 
-    const {
-        data: merchantData,
-        isFetchingNextPage,
-        hasNextPage,
-        fetchNextPage: merchantNextPage
-    } = useInfiniteGetList<ResourceData<typeof resource>>(resource, {
-        pagination: { perPage: 25, page: 1 },
+    const { data: merchantData, isFetching } = useGetList<ResourceData<typeof resource>>(resource, {
+        pagination: { perPage: 10000, page: 1 },
         filter: { sort: "name", asc: "ASC" }
     });
 
-    const accountsLoadingProcess = useMemo(() => isFetchingNextPage && hasNextPage, [isFetchingNextPage, hasNextPage]);
-
-    const accountScrollHandler = async (e: React.FormEvent) => {
-        const target = e.target as HTMLElement;
-
-        if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
-            merchantNextPage();
-        }
-    };
+    const merchantsLoadingProcess = useMemo(() => isFetching, [isFetching]);
 
     const merchantName = useCallback(
         (merchant: ResourceData<typeof resource>) => {
@@ -53,18 +40,16 @@ export const MerchantSelectFilter = ({ merchant, onMerchantChanged, resource }: 
                 <SelectValue placeholder={translate("resources.transactions.filter.filterAllPlaceholder")} />
             </SelectTrigger>
 
-            <SelectContent align="start" onScrollCapture={accountScrollHandler} onScroll={accountScrollHandler}>
+            <SelectContent align="start">
                 <SelectItem value="null">{translate("resources.transactions.filter.showAll")}</SelectItem>
 
-                {merchantData?.pages.map(page => {
-                    return page.data.map(merchant => (
-                        <SelectItem key={merchant.id} value={merchant.id}>
-                            <p className="truncate max-w-36">{merchantName(merchant)}</p>
-                        </SelectItem>
-                    ));
-                })}
+                {merchantData?.map(merchant => (
+                    <SelectItem key={merchant.id} value={merchant.id}>
+                        <p className="truncate max-w-36">{merchantName(merchant)}</p>
+                    </SelectItem>
+                ))}
 
-                {accountsLoadingProcess && (
+                {merchantsLoadingProcess && (
                     <SelectItem value="null" disabled className="flex max-h-8">
                         <LoadingAlertDialog className="-scale-[.25]" />
                     </SelectItem>
