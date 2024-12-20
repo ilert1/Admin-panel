@@ -18,7 +18,7 @@ export const MerchantSelectFilter = ({ merchant, onMerchantChanged, resource }: 
         data: merchantData,
         isFetchingNextPage,
         hasNextPage,
-        fetchNextPage: merhcntNextPage
+        fetchNextPage: merchantNextPage
     } = useInfiniteGetList<ResourceData<typeof resource>>(resource, {
         pagination: { perPage: 25, page: 1 },
         filter: { sort: "name", asc: "ASC" }
@@ -30,7 +30,7 @@ export const MerchantSelectFilter = ({ merchant, onMerchantChanged, resource }: 
         const target = e.target as HTMLElement;
 
         if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
-            merhcntNextPage();
+            merchantNextPage();
         }
     };
 
