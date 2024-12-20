@@ -237,7 +237,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         {theme === "dark" ? translate("app.theme.light") : translate("app.theme.dark")}
                                     </span>
                                 </div>
-                                <DropdownMenuItem className="pl-4 pr-4 h-[50px] hover:text-white focus:text-white hover:bg-green-50 cursor-pointer text-title-2 focus:bg-green-50 ">
+                                <DropdownMenuItem className="pl-4 pr-4 h-[50px] hover:text-white focus:text-white hover:bg-green-50 cursor-pointer text-title-2 focus:bg-green-50">
                                     <span>{translate("ra.auth.logout")}</span>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>

@@ -132,8 +132,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                                     to={`/${resource}`}
                                                     className={
                                                         resourceName[0] === resource
-                                                            ? "flex items-center gap-3 text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2"
-                                                            : "flex items-center gap-3 hover:text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2"
+                                                            ? "bg-neutral-20 w-full flex items-center gap-3 text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2"
+                                                            : "flex items-center gap-3 hover:bg-neutral-20 w-full hover:text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2"
                                                     }>
                                                     {createElement(resources[resource].icon, {})}
                                                     {showCaptions && (
@@ -209,7 +209,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     )}
                 </aside>
 
-                <div className="bg-muted grow overflow-y-auto scrollbar-stable transition-[margin-left] relative">
+                <div className="bg-neutral-20 dark:bg-muted grow overflow-y-auto scrollbar-stable transition-[margin-left] relative">
                     <main className={`p-6 pr-4 container ${resourceName[0] == "error" ? "h-full" : ""}`}>
                         {resourceName[0] !== "bank-transfer" && resourceName[0] !== "error" && (
                             <h1 className="text-3xl mb-6">{pageTitle}</h1>
