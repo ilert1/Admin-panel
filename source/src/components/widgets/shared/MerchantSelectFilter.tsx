@@ -61,18 +61,18 @@ export const MerchantSelectFilter = ({ merchant, onMerchantChanged, resource }: 
         // </Select>
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-                <Button variant="outline" role="combobox" aria-expanded={open} className="w-[200px] justify-between">
+                <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between">
                     {merchant
                         ? merchantName(merchantData?.find(account => account.id === merchant))
                         : translate("resources.transactions.filter.filterAllPlaceholder")}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0">
+            <PopoverContent className="w-full p-0">
                 <Command
                     filter={(value, search) => {
                         const extendValue = merchantName(merchantData?.find(account => account.id === value));
-                        if (extendValue && extendValue.includes(search)) return 1;
+                        if (extendValue && extendValue.toLowerCase().includes(search.toLocaleLowerCase())) return 1;
                         return 0;
                     }}>
                     <CommandInput placeholder={translate("app.ui.actions.search")} />
