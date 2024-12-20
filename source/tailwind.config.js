@@ -115,7 +115,9 @@ module.exports = {
                     info_bold: "hsl(var(--green-50))",
                     warning: "hsl(var(--yellow-40))",
                     error: "hsl(var(--red-40))"
-                }
+                },
+                primary: "hsl(var(--text-primary))",
+                controlElements: "hsl(var(--text-control-elements))"
             },
             borderRadius: {
                 4: "4px",

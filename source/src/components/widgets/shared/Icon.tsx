@@ -1,10 +1,13 @@
+// import { USDTIcon } from "@/lib/icons/USDT";
 import { useState } from "react";
 
 export function Icon({ name, folder = "", textSmall = false }: { name: string; folder?: string; textSmall?: boolean }) {
     const [isImageError, setIsImageError] = useState(false);
 
     if (isImageError) {
-        return <span className={`text-green-40 ${textSmall ? "" : "text-display-4"} overflow-hidden`}>{name}</span>;
+        return (
+            <span className={`text-controlElements ${textSmall ? "" : "text-display-4"} overflow-hidden`}>{name}</span>
+        );
     }
 
     return (
