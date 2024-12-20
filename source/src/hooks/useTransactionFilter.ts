@@ -1,5 +1,5 @@
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
-import { useInfiniteGetList, useListContext, usePermissions, useTranslate } from "react-admin";
+import { useListContext, usePermissions, useTranslate } from "react-admin";
 import { toast } from "sonner";
 import { API_URL } from "@/data/base";
 import { format } from "date-fns";
@@ -13,16 +13,6 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
     const data = fetchDictionaries();
 
     const location = useLocation();
-
-    const {
-        data: accountsData,
-        isFetchingNextPage,
-        hasNextPage,
-        fetchNextPage: accountsNextPage
-    } = useInfiniteGetList("accounts", {
-        pagination: { perPage: 25, page: 1 },
-        filter: { sort: "name", asc: "ASC" }
-    });
 
     const [startDate, setStartDate] = useState<Date | undefined>(
         filterValues?.start_date ? new Date(filterValues?.start_date) : undefined
@@ -49,7 +39,6 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
 
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
-    const accountsLoadingProcess = useMemo(() => isFetchingNextPage && hasNextPage, [isFetchingNextPage, hasNextPage]);
 
     const chooseClassTabActive = useCallback(
         (type: string) => {
@@ -199,14 +188,6 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         }
     };
 
-    const accountScrollHandler = async (e: React.FormEvent) => {
-        const target = e.target as HTMLElement;
-
-        if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
-            accountsNextPage();
-        }
-    };
-
     useEffect(() => {
         if (data) {
             const params = new URLSearchParams(location.search);
@@ -227,9 +208,6 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         translate,
         data,
         adminOnly,
-        accountsData,
-        accountScrollHandler,
-        accountsLoadingProcess,
         operationId,
         onOperationIdChanged,
         customerPaymentId,

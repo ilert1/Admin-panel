@@ -1,27 +1,16 @@
 import { Button } from "@/components/ui/button";
-import { LoadingAlertDialog } from "@/components/ui/loading";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { debounce } from "lodash";
 import { XIcon } from "lucide-react";
-import { useMemo, useState } from "react";
-import { useInfiniteGetList, useListContext, useTranslate } from "react-admin";
+import { useState } from "react";
+import { useListContext, useTranslate } from "react-admin";
+import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 
 export const DirectionListFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-    const {
-        data: merchantsData,
-        isFetchingNextPage,
-        hasNextPage,
-        fetchNextPage: merchantsNextPage
-    } = useInfiniteGetList("merchant", {
-        pagination: { perPage: 25, page: 1 },
-        filter: { sort: "name", asc: "ASC" }
-    });
 
     const translate = useTranslate();
 
     const [merchantId, setMerchantId] = useState("");
-    const accountsLoadingProcess = useMemo(() => isFetchingNextPage && hasNextPage, [isFetchingNextPage, hasNextPage]);
 
     const onPropertySelected = debounce((value: string, type: "merchant") => {
         if (value) {
@@ -38,14 +27,6 @@ export const DirectionListFilter = () => {
         onPropertySelected(merchant, "merchant");
     };
 
-    const accountScrollHandler = async (e: React.FormEvent) => {
-        const target = e.target as HTMLElement;
-
-        if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
-            merchantsNextPage();
-        }
-    };
-
     const clearFilters = () => {
         setMerchantId("");
         setFilters({}, displayedFilters);
@@ -57,31 +38,7 @@ export const DirectionListFilter = () => {
             <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start min-w-52">
                 <span className="md:text-nowrap">{translate("resources.transactions.filter.filterByAccount")}</span>
 
-                <Select
-                    onValueChange={val => (val !== "null" ? onAccountChanged(val) : onAccountChanged(""))}
-                    value={merchantId}>
-                    <SelectTrigger className="text-ellipsis">
-                        <SelectValue placeholder={translate("resources.transactions.filter.filterAllPlaceholder")} />
-                    </SelectTrigger>
-
-                    <SelectContent align="start" onScroll={accountScrollHandler} onScrollCapture={accountScrollHandler}>
-                        <SelectItem value="null">{translate("resources.transactions.filter.showAll")}</SelectItem>
-
-                        {merchantsData?.pages.map(page => {
-                            return page.data.map(merchant => (
-                                <SelectItem key={merchant.id} value={merchant.id}>
-                                    <p className="truncate max-w-36">{merchant.name}</p>
-                                </SelectItem>
-                            ));
-                        })}
-
-                        {accountsLoadingProcess && (
-                            <SelectItem value="null" disabled className="flex max-h-8">
-                                <LoadingAlertDialog className="-scale-[.25]" />
-                            </SelectItem>
-                        )}
-                    </SelectContent>
-                </Select>
+                <MerchantSelectFilter merchant={merchantId} onMerchantChanged={onAccountChanged} resource="merchant" />
             </div>
 
             <Button
