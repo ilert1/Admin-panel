@@ -132,8 +132,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                                     to={`/${resource}`}
                                                     className={
                                                         resourceName[0] === resource
-                                                            ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                                            : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                                            ? "flex items-center gap-3 text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2"
+                                                            : "flex items-center gap-3 hover:text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2"
                                                     }>
                                                     {createElement(resources[resource].icon, {})}
                                                     {showCaptions && (

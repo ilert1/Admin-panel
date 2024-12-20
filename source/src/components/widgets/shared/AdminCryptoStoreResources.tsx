@@ -75,8 +75,8 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                 <CirclePlus
                     className={
                         showCaptions
-                            ? "ml-auto w-full max-w-6 mr-5 text-green-40 [&>path]:!stroke-green-40"
-                            : "text-green-40 [&>path]:!stroke-green-40"
+                            ? "ml-auto w-full max-w-6 mr-5 text-controlElements [&>path]:!stroke-controlElements"
+                            : "text-controlElements [&>path]:!stroke-controlElements"
                     }
                 />
             );
@@ -85,8 +85,8 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                 <LockKeyhole
                     className={
                         showCaptions
-                            ? "ml-auto w-full max-w-6 mr-5 text-green-40 [&>path]:!stroke-green-40"
-                            : "text-green-40 [&>path]:!stroke-green-40"
+                            ? "ml-auto w-full max-w-6 mr-5 text-controlElements [&>path]:!stroke-controlElements"
+                            : "text-controlElements [&>path]:!stroke-controlElements"
                     }
                 />
             );
@@ -120,7 +120,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                     <TooltipTrigger asChild>
                         <button
                             onClick={() => setOpenAccordion(!openAccordion)}
-                            className={`pointer text-left flex items-center hover:text-green-40 [&:hover>svg>path]:stroke-green-40 [&>svg>path]:transition-all animate-in fade-in-0 transition-colors duration-150 ${
+                            className={`pointer text-left flex items-center hover:text-controlElements [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all animate-in fade-in-0 transition-colors duration-150 ${
                                 showCaptions ? "gap-3" : ""
                             }`}>
                             {customViewRoutes.icon}
@@ -144,7 +144,11 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                         sideOffset={12}
                         side="right">
                         {translate(`resources.${customViewRoutes.name}.name`)}
-                        <ChevronLeft className="absolute -left-[13px] top-1.5 text-green-40" width={20} height={20} />
+                        <ChevronLeft
+                            className="absolute -left-[13px] top-1.5 text-controlElements"
+                            width={20}
+                            height={20}
+                        />
                     </TooltipContent>
                 </Tooltip>
             </TooltipProvider>
@@ -157,8 +161,8 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                             to={customRoute.path}
                             className={
                                 location.pathname === customRoute.path
-                                    ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2 dark:[&>svg>path]:stroke-green-40 [&>svg>path]:stroke-green-40 [&>svg>path]:transition-all"
-                                    : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2 [&:hover>svg>path]:stroke-green-40 [&>svg>path]:transition-all"
+                                    ? "flex items-center gap-3 text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 dark:[&>svg>path]:stroke-controlElements [&>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
+                                    : "flex items-center gap-3 hover:text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
                             }>
                             {(!customRoute.showLock || (customRoute.showLock && showCaptions)) && customRoute.icon}
 
