@@ -4,6 +4,7 @@ import { usePermissions, useRedirect, useTranslate } from "react-admin";
 import { API_URL, BF_MANAGER_URL } from "@/data/base";
 import { PayInForm } from "@/components/widgets/forms";
 import { toast } from "sonner";
+import { useFetchCurrencies } from "@/hooks/useFetchCurrencies";
 
 export const PayInPage = () => {
     const translate = useTranslate();
@@ -35,13 +36,7 @@ export const PayInPage = () => {
         }).then(response => response.json())
     );
 
-    const { isLoading: currenciesLoading, data: currencies } = useQuery("currencies", () =>
-        fetch(`${API_URL}/dictionaries/curr`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
-        }).then(response => response.json())
-    );
+    const { isLoading: currenciesLoading, data: currencies } = useFetchCurrencies();
 
     useEffect(() => {
         if (!adminOnly) {

@@ -89,12 +89,17 @@ const ru: TranslationMessages = {
             showHeader: "Информация о пользователе",
             showDescription: "Подробная информация о пользователе с ID %{id}",
             editUser: "Редактирование пользователя",
+            editSuccessMessage: "Пользователь успешно изменен",
             create: {
                 success: "Готово",
                 successMessage: "Пользователь создан",
                 error: "Ошибка",
                 errorMessage: "Не удалось создать пользователя",
                 deleteError: "Не удалось создать пользователя"
+            },
+            deleteMessages: {
+                deleteSuccess: "Успешно удален",
+                deleteError: "Ошибка при удалении пользователя"
             }
         },
         transactions: {
@@ -623,7 +628,8 @@ const ru: TranslationMessages = {
                 areYouSure: "Вы точно хотите удалить элемент?",
                 chatWithSupport: "Чат с поддержкой",
                 close: "Закрыть",
-                confirm: "Потвердить"
+                confirm: "Потвердить",
+                search: "Поиск..."
             },
             pagination: {
                 next: "Далее",
@@ -872,6 +878,7 @@ const en: TranslationMessages = {
             showHeader: "User info",
             showDescription: "Detailed information about user with ID %{id}",
             editUser: "Edit user",
+            editSuccessMessage: "The user has been successfully edited",
             create: {
                 success: "Success",
                 successMessage: "User is created",
@@ -1407,7 +1414,8 @@ const en: TranslationMessages = {
                 areYouSure: "Are you sure you want delete this element?",
                 chatWithSupport: "Chat with support",
                 close: "Close",
-                confirm: "Confirm"
+                confirm: "Confirm",
+                search: "Search..."
             },
             pagination: {
                 next: "Next",

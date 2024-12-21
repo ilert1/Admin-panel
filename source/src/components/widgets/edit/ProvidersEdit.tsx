@@ -16,17 +16,9 @@ export interface ProviderEditParams {
     onClose?: () => void;
 }
 
-export const ProvidersEdit: FC<ProviderEditParams> = params => {
+export const ProvidersEdit: FC<ProviderEditParams> = ({ id, onClose = () => {} }) => {
     const dataProvider = useDataProvider();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [error, setError] = useState(false);
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const { id, onClose = () => {} } = params;
-
-    const { record, isLoading } = useEditController({ resource: "provider", id });
-
-    const controllerProps = useEditController({ resource: "provider", id });
-    controllerProps.mutationMode = "pessimistic";
+    const controllerProps = useEditController({ resource: "provider", id, mutationMode: "pessimistic" });
 
     const translate = useTranslate();
 
@@ -44,23 +36,23 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: record?.name || "",
-            public_key: record?.public_key || "",
-            fields_json_schema: record?.fields_json_schema || "",
-            methods: JSON.stringify(record?.methods) || ""
+            name: controllerProps.record?.name || "",
+            public_key: controllerProps.record?.public_key || "",
+            fields_json_schema: controllerProps.record?.fields_json_schema || "",
+            methods: JSON.stringify(controllerProps.record?.methods) || ""
         }
     });
 
     useEffect(() => {
-        if (record) {
+        if (controllerProps.record) {
             form.reset({
-                name: record.name || "",
-                public_key: record.public_key || "",
-                fields_json_schema: record.fields_json_schema || "",
-                methods: JSON.stringify(record.methods, null, 2) || ""
+                name: controllerProps.record.name || "",
+                public_key: controllerProps.record.public_key || "",
+                fields_json_schema: controllerProps.record.fields_json_schema || "",
+                methods: JSON.stringify(controllerProps.record.methods, null, 2) || ""
             });
         }
-    }, [form, record]);
+    }, [form, controllerProps.record]);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
@@ -85,9 +77,9 @@ export const ProvidersEdit: FC<ProviderEditParams> = params => {
         onClose();
     };
 
-    usePreventFocus({ dependencies: [record] });
+    usePreventFocus({ dependencies: [controllerProps.record] });
 
-    if (isLoading || !record) return <Loading />;
+    if (controllerProps.isLoading || !controllerProps.record) return <Loading />;
     return (
         <EditContextProvider value={controllerProps}>
             <Form {...form}>

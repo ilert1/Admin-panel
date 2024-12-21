@@ -15,9 +15,7 @@ export interface ProviderCreateProps {
     onClose?: () => void;
 }
 
-export const ProviderCreate = (props: ProviderCreateProps) => {
-    const { onClose = () => {} } = props;
-
+export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController();
     const { theme } = useTheme();

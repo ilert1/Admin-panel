@@ -38,6 +38,7 @@ export const useCreateTestKeys = (isModalOpen: boolean, isTest: boolean, name: s
             };
             realKeysGen();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isModalOpen, isTest]);
 
     return { privateKey, publicKey, isLoading, setIsLoading };

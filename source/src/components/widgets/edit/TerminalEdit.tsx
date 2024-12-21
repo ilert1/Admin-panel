@@ -33,9 +33,11 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
     const translate = useTranslate();
     const refresh = useRefresh();
 
-    const { record, isLoading } = useEditController({ resource: `provider/${provider}/terminal`, id });
-    const controllerProps = useEditController({ resource: `provider/${provider}/terminal`, id });
-    controllerProps.mutationMode = "pessimistic";
+    const controllerProps = useEditController({
+        resource: `provider/${provider}/terminal`,
+        id,
+        mutationMode: "pessimistic"
+    });
 
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(false);
@@ -51,21 +53,21 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            verbose_name: record?.verbose_name || "",
-            description: record?.description || "",
-            auth: JSON.stringify(record?.auth) || ""
+            verbose_name: controllerProps.record?.verbose_name || "",
+            description: controllerProps.record?.description || "",
+            auth: JSON.stringify(controllerProps.record?.auth) || ""
         }
     });
 
     useEffect(() => {
-        if (record) {
+        if (controllerProps.record) {
             form.reset({
-                verbose_name: record.verbose_name || "",
-                description: record.description || "",
-                auth: JSON.stringify(record.auth, null, 2) || ""
+                verbose_name: controllerProps.record.verbose_name || "",
+                description: controllerProps.record.description || "",
+                auth: JSON.stringify(controllerProps.record.auth, null, 2) || ""
             });
         }
-    }, [form, record]);
+    }, [form, controllerProps.record]);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
@@ -85,7 +87,7 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
             if (data.auth) {
                 data.auth = JSON.parse(data.auth);
 
-                if (JSON.stringify(record.auth) !== JSON.stringify(data.auth)) {
+                if (JSON.stringify(controllerProps.record.auth) !== JSON.stringify(data.auth)) {
                     await fetchUtils.fetchJson(`${API_URL}/provider/${provider}/terminal/${id}`, {
                         method: "PATCH",
                         body: JSON.stringify({
@@ -110,9 +112,9 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
         }
     };
 
-    usePreventFocus({ dependencies: [record] });
+    usePreventFocus({ dependencies: [controllerProps.record] });
 
-    if (isLoading || !record) return <Loading />;
+    if (controllerProps.isLoading || !controllerProps.record) return <Loading />;
     return (
         <EditContextProvider value={controllerProps}>
             <Form {...form}>

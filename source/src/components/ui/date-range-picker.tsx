@@ -30,7 +30,7 @@ export function DateRangePicker({
                         <Button
                             variant={"outline"}
                             className={
-                                "flex flex-1 justify-between items-center gap-3 text-neutral-100 duration-200 px-3 py-2 border-green-40 min-w-56"
+                                "flex flex-1 justify-between items-center gap-3 font-normal text-neutral-100 duration-200 px-3 py-2 border-green-40 min-w-56"
                             }>
                             {dateRange?.from ? (
                                 dateRange.to && dateRange.from !== dateRange.to ? (

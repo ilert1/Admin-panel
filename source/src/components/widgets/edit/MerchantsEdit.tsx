@@ -4,8 +4,6 @@ import { Input, InputTypes } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
 import { Loading } from "@/components/ui/loading";
-
-import { useParams } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
@@ -22,17 +20,11 @@ interface MerchantEditProps {
     onOpenChange: (state: boolean) => void;
 }
 
-export const MerchantEdit = (props: MerchantEditProps) => {
-    const params = useParams();
-    const id = props.id || params.id || "";
+export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
     const data = fetchDictionaries();
-
-    const { onOpenChange } = props;
     const dataProvider = useDataProvider();
 
-    const controllerProps = useEditController({ resource: "merchant", id });
-    controllerProps.mutationMode = "pessimistic";
-    const { record, isLoading } = useEditController({ resource: "merchant", id });
+    const { record, isLoading } = useEditController({ resource: "merchant", id, mutationMode: "pessimistic" });
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
 

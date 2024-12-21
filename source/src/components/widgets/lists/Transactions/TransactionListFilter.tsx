@@ -5,12 +5,12 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
-import { LoadingAlertDialog } from "@/components/ui/loading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import useTransactionFilter from "@/hooks/useTransactionFilter";
 import { Button } from "@/components/ui/button";
 import { XIcon } from "lucide-react";
+import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 
 interface TranactionListFilterProps {
     typeTabActive: string;
@@ -24,9 +24,6 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
         translate,
         data,
         adminOnly,
-        accountsData,
-        accountScrollHandler,
-        accountsLoadingProcess,
         operationId,
         onOperationIdChanged,
         customerPaymentId,
@@ -116,45 +113,16 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                     />
 
                     {adminOnly && (
-                        <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start min-w-40">
+                        <div className="flex flex-1 flex-grow-100 md:basis-[500px] md:flex-col gap-2 items-center md:items-start">
                             <span className="md:text-nowrap">
                                 {translate("resources.transactions.filter.filterByAccount")}
                             </span>
 
-                            <Select
-                                onValueChange={val => (val !== "null" ? onAccountChanged(val) : onAccountChanged(""))}
-                                value={account}>
-                                <SelectTrigger className="text-ellipsis">
-                                    <SelectValue
-                                        placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
-                                    />
-                                </SelectTrigger>
-
-                                <SelectContent
-                                    align="start"
-                                    onScrollCapture={accountScrollHandler}
-                                    onScroll={accountScrollHandler}>
-                                    <SelectItem value="null">
-                                        {translate("resources.transactions.filter.showAll")}
-                                    </SelectItem>
-
-                                    {accountsData?.pages.map(page => {
-                                        return page.data.map(account => (
-                                            <SelectItem key={account.id} value={account.id}>
-                                                <p className="truncate max-w-36">
-                                                    {account.meta?.caption ? account.meta.caption : account.owner_id}
-                                                </p>
-                                            </SelectItem>
-                                        ));
-                                    })}
-
-                                    {accountsLoadingProcess && (
-                                        <SelectItem value="null" disabled className="flex max-h-8">
-                                            <LoadingAlertDialog className="-scale-[.25]" />
-                                        </SelectItem>
-                                    )}
-                                </SelectContent>
-                            </Select>
+                            <MerchantSelectFilter
+                                merchant={account}
+                                onMerchantChanged={onAccountChanged}
+                                resource="accounts"
+                            />
                         </div>
                     )}
 

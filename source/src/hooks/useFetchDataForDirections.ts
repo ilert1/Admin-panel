@@ -3,9 +3,12 @@ import { CurrenciesDataProvider, MerchantsDataProvider, ProvidersDataProvider } 
 import { usePermissions } from "react-admin";
 
 export const useFetchDataForDirections = () => {
-    const [currencies, setCurrencies] = useState<{ data: Currencies.Currency[]; total: any }>({ data: [], total: 0 });
-    const [merchants, setMerchants] = useState<{ data: Merchant[]; total: any }>({ data: [], total: 0 });
-    const [providers, setProviders] = useState<{ data: Provider[]; total: any }>({ data: [], total: 0 });
+    const [currencies, setCurrencies] = useState<{ data: Currencies.Currency[]; total: number }>({
+        data: [],
+        total: 0
+    });
+    const [merchants, setMerchants] = useState<{ data: Merchant[]; total: number }>({ data: [], total: 0 });
+    const [providers, setProviders] = useState<{ data: Provider[]; total: number }>({ data: [], total: 0 });
     const [isLoading, setIsLoading] = useState(true);
     const { permissions } = usePermissions();
     const [error, setError] = useState<Error | null>(null);
@@ -36,6 +39,7 @@ export const useFetchDataForDirections = () => {
         };
 
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return { currencies, merchants, providers, isLoading, error };

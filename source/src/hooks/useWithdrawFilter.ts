@@ -26,7 +26,7 @@ const useWithdrawFilter = () => {
 
     const [typeTabActive, setTypeTabActive] = useState(() => {
         const params = new URLSearchParams(location.search);
-        return params.get("filter") ? JSON.parse(params.get("filter")).order_type : "";
+        return params.get("filter") ? JSON.parse(params.get("filter") as string).order_type : "";
     });
 
     const [operationId, setOperationId] = useState(filterValues?.id || "");
@@ -164,7 +164,7 @@ const useWithdrawFilter = () => {
     useEffect(() => {
         if (data) {
             const params = new URLSearchParams(location.search);
-            const type = params.get("filter") ? JSON.parse(params.get("filter")).order_type : "";
+            const type = params.get("filter") ? JSON.parse(params.get("filter") as string).order_type : "";
 
             if (type) {
                 setTypeTabActive(data.transactionTypes[type]?.type_descr || "");

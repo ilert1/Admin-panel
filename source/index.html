@@ -20,6 +20,7 @@
                 transition: max-height 0.8s ease;
                 padding: 0 !important;
             }
+
             .clicked {
                 max-height: 1000px;
                 transition: max-height 0.6s ease;
@@ -30,6 +31,7 @@
                     transform: translateX(-100%);
                     opacity: 0;
                 }
+
                 to {
                     transform: translateX(0);
                     opacity: 1;
@@ -48,10 +50,12 @@
             * {
                 font-family: "Jost", sans-serif;
             }
+
             .monaco-editor * {
                 font-family: sans-serif !important;
                 font-size: 16px;
             }
+
             .z {
                 z-index: 60 !important;
             }
@@ -118,10 +122,10 @@
                 <div class="loader">
                     <svg viewBox="0 0 100 100">
                         <defs>
-                            <linearGradient id="spinner-gradient" x1="0%" y1="0%" x2="100%">
+                            <lineargradient id="spinner-gradient" x1="0%" y1="0%" x2="100%">
                                 <stop offset="28.01%" stop-color="#57CD8C"></stop>
                                 <stop offset="69.22%" stop-color="#237648"></stop>
-                            </linearGradient>
+                            </lineargradient>
                         </defs>
                         <circle
                             class="loader-circle"
