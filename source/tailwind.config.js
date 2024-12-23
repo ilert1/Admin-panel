@@ -142,11 +142,12 @@ module.exports = {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out"
             },
+
             boxShadow: {
-                1: "box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04)",
-                2: "box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.08)",
-                3: "box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.08)",
-                4: "box-shadow: 0px 6px 16px 0px rgba(0, 0, 0, 0.08)"
+                1: "0px 2px 4px rgba(0, 0, 0, 0.25)",
+                2: "0px 2px 8px 0px rgba(0, 0, 0, 0.08)",
+                3: "0px 6px 12px 0px rgba(0, 0, 0, 0.08)",
+                4: "0px 6px 16px 0px rgba(0, 0, 0, 0.08)"
             },
             fontSize: {
                 "display-1": ["32px", { lineHeight: "40px", fontWeight: 400 }],

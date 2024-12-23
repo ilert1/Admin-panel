@@ -45,12 +45,16 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
     } = useTransactionFilter(typeTabActive, setTypeTabActive);
     // const debounced = debounce(setChartOpen, 200);
 
+    // text-neutral-60 dark:text-black
+    // text-neutral-70
     return (
         <div className="mb-6">
             <div className="w-full mb-6">
                 <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
                     <label className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
-                        <span className="md:text-nowrap">{translate("resources.transactions.filter.filterById")}</span>
+                        <span className="md:text-nowrap text-neutral-60 dark:text-black">
+                            {translate("resources.transactions.filter.filterById")}
+                        </span>
                         <Input
                             className="flex-1 text-sm placeholder:text-neutral-70"
                             placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
@@ -60,7 +64,7 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                     </label>
 
                     <label className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
-                        <span className="md:text-nowrap">
+                        <span className="md:text-nowrap text-neutral-60 dark:text-black">
                             {translate("resources.transactions.filter.filterCustomerPaymentId")}
                         </span>
                         <Input
@@ -72,7 +76,7 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                     </label>
 
                     <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start min-w-36">
-                        <span className="md:text-nowrap">
+                        <span className="md:text-nowrap text-neutral-60 dark:text-black">
                             {translate("resources.transactions.filter.filterByOrderStatus")}
                         </span>
 

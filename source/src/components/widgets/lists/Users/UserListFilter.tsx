@@ -58,7 +58,7 @@ export const UserListFilter = () => {
             <div className="flex justify-between items-end flex-wrap gap-4">
                 <div className="flex items-end gap-4">
                     <label className="flex flex-col gap-2 lg:min-w-52">
-                        <span className="font-normal text-base">
+                        <span className="font-normal text-base text-neutral-60 dark:text-black">
                             {translate("resources.users.filter.filterByUsername")}
                         </span>
                         <Input
@@ -70,7 +70,7 @@ export const UserListFilter = () => {
                     </label>
 
                     <label className="flex flex-col gap-2 lg:min-w-52">
-                        <span className="font-normal text-base">
+                        <span className="font-normal text-base text-neutral-60 dark:text-black">
                             {translate("resources.users.filter.filterByUserId")}
                         </span>
                         <Input
@@ -82,7 +82,7 @@ export const UserListFilter = () => {
                     </label>
 
                     <Button
-                        className="ml-0 sm:ml-auto flex items-center gap-1 w-auto h-auto px"
+                        className="ml-0 sm:ml-auto flex items-center gap-1 w-auto h-auto px text-neutral-70"
                         onClick={clearFilters}
                         variant="clearBtn"
                         size="default"

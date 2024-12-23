@@ -195,7 +195,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                             </FormControl>
                                             <SelectContent>
                                                 {!isMerchant ? (
-                                                    <SelectGroup>
+                                                    <SelectGroup className="p-0">
                                                         <SelectItem
                                                             value={WalletTypes.LINKED}
                                                             variant={SelectType.GRAY}>
@@ -314,7 +314,11 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                     <FormLabel>{translate("resources.wallet.manage.fields.minRemaini")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} className="bg-muted" variant={InputTypes.GRAY} />
+                                            <Input
+                                                {...field}
+                                                className="bg-white dark:bg-muted"
+                                                variant={InputTypes.GRAY}
+                                            />
                                         </div>
                                     </FormControl>
                                 </FormItem>
@@ -333,7 +337,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1"
+                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto bg-white dark:bg-muted shadow-1 text-title-1"
                                             />
                                         </div>
                                     </FormControl>
@@ -385,9 +389,9 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                         </Button>
                         <Button
                             onClick={() => onOpenChange(false)}
-                            variant="clearBtn"
+                            variant="deleteGray"
                             type="button"
-                            className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full sm:w-auto">
+                            className="w-full sm:w-auto">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>

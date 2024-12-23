@@ -209,7 +209,10 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     )}
                 </aside>
 
-                <div className="bg-neutral-20 dark:bg-muted grow overflow-y-auto scrollbar-stable transition-[margin-left] relative">
+                <div
+                    className={`bg-neutral-20 dark:bg-muted grow overflow-y-auto scrollbar-stable transition-[margin-left] relative  ${
+                        resourceName[1] === "storage" ? " overflow-y-hidden overflow-x-hidden" : ""
+                    }`}>
                     <main className={`p-6 pr-4 container ${resourceName[0] == "error" ? "h-full" : ""}`}>
                         {resourceName[0] !== "bank-transfer" && resourceName[0] !== "error" && (
                             <h1 className="text-3xl mb-6">{pageTitle}</h1>

@@ -660,7 +660,7 @@ const ru: TranslationMessages = {
         },
         theme: {
             light: "Светлая тема",
-            dark: "Темная тема"
+            dark: "Тёмная тема"
         },
         widgets: {
             forms: {

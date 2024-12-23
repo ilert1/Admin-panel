@@ -227,11 +227,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                             {translate("app.ui.actions.save")}
                         </Button>
 
-                        <Button
-                            type="button"
-                            onClick={() => closeDialog()}
-                            variant="clearBtn"
-                            className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full">
+                        <Button type="button" onClick={() => closeDialog()} variant="deleteGray">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>

@@ -111,13 +111,13 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                             size="sm"
                             variant="clearBtn"
                             onClick={() => setPage(page)}
-                            className={`m-0 p-0 text-sm font-medium hover:text-green-50 cursor-pointer ${
+                            className={`m-0 p-0 text-sm font-normal hover:text-green-50 cursor-pointer ${
                                 page === currentPage ? "text-green-50" : ""
                             }`}>
                             {page}
                         </Button>
                     ) : (
-                        <div key={index} className="text-sm font-medium">
+                        <div key={index} className="text-sm font-normal">
                             {page}
                         </div>
                     )
@@ -146,7 +146,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                                 return (
                                     <TableHead
                                         key={j}
-                                        className="text-white text-base border border-muted px-4 py-[9px] leading-4 text-left">
+                                        className="text-white text-base border border-neutral-40 dark:border-muted px-4 py-[9px] leading-4 text-left">
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(header.column.columnDef.header, header.getContext())}
@@ -161,7 +161,9 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                         table.getRowModel().rows.map((row, i) => (
                             <TableRow key={i} data-state={row.getIsSelected() && "selected"} className="border-muted ">
                                 {row.getVisibleCells().map((cell, j) => (
-                                    <TableCell key={j} className="text-sm border border-muted text-neutral-100 py-2">
+                                    <TableCell
+                                        key={j}
+                                        className="text-sm border border-neutral-40 dark:border-muted text-green-60 text-neutral-100 py-2">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}
@@ -186,7 +188,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                 {pagination && total > perPage && renderPagination()}
 
                 <div className="flex items-center space-x-2">
-                    <p className="whitespace-nowrap text-sm font-medium">
+                    <p className="whitespace-nowrap text-sm font-normal text-neutral-90 dark:text-black">
                         {translate("resources.transactions.pagination")}
                     </p>
                     <Select
@@ -195,7 +197,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                             table.setPageSize(Number(value));
                             setPerPage(Number(value));
                         }}>
-                        <SelectTrigger className="h-8 border-none bg-green-60 p-1 w-auto gap-0.5">
+                        <SelectTrigger className="h-8 border-none bg-white dark:bg-green-60 p-1 w-auto gap-0.5">
                             <SelectValue placeholder={table.getState().pagination.pageSize} />
                         </SelectTrigger>
                         <SelectContent side="top">

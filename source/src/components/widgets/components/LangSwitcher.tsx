@@ -27,9 +27,10 @@ export const LangSwitcher = () => {
                     className={
                         langOpen
                             ? "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 dark:text-neutral-100 border-2 border-green-50 bg-green-0 dark:bg-green-50 transition-colors duration-150"
-                            : "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 dark:hover:text-neutral-100 border-2 border-neutral-50 hover:border-green-50 bg-white dark:hover:bg-green-50  transition-colors duration-150"
+                            : "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 dark:hover:text-neutral-100 border-2 border-neutral-50 hover:border-green-50 bg-white dark:bg-muted dark:hover:bg-green-50  transition-colors duration-150"
                     }>
-                    <LanguagesIcon className="h-[30px] w-[30px]" />
+                    {/* <LanguagesIcon className="h-[30px] w-[30px]" /> */}
+                    <span className="text-display-3">{locale.toUpperCase()}</span>
                 </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="p-0 bg-muted border border-neutral-100 z-[60]">

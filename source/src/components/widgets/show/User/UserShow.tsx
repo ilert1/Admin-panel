@@ -36,7 +36,8 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
                 <TextField text={id} copyValue />
 
                 <div className="flex items-center justify-center">
-                    <span className={`px-3 py-0.5 rounded-20 font-normal text-base text-center ${styles[index]}`}>
+                    <span
+                        className={`px-3 py-0.5 rounded-20 font-normal text-white text-base text-center ${styles[index]}`}>
                         {translate(`resources.accounts.fields.states.${translations[index]}`)}
                     </span>
                 </div>
@@ -60,15 +61,12 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
                 <TextField label={translate("resources.users.fields.currency")} text={context.record.shop_currency} />
             </div>
 
-            <div className="flex justify-end gap-4 px-[42px] mb-4">
+            <div className="flex justify-end gap-4 px-[42px] mb-4 text-white font-normal">
                 <Button disabled={index !== 0} onClick={handleEditClicked} className="text-title-1">
                     {translate("resources.users.edit")}
                 </Button>
 
-                <Button
-                    variant={"outline"}
-                    className="border-[1px] border-neutral-50 text-neutral-50 bg-transparent"
-                    onClick={() => setDialogOpen(true)}>
+                <Button variant={"deleteGray"} onClick={() => setDialogOpen(true)}>
                     {translate("resources.users.delete")}
                 </Button>
             </div>

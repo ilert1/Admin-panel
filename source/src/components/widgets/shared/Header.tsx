@@ -173,7 +173,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                 sideOffset={34}
                                 align="end"
                                 alignOffset={-18}
-                                className={`p-0 w-72 bg-muted border border-neutral-60 z-[1000] flex flex-col gap-2 !rounded-4`}>
+                                className={`p-0 w-72 bg-muted border border-green-20 dark:border-neutral-60 z-[1000] flex flex-col gap-2 !rounded-4`}>
                                 <div className="flex content-start items-center pl-4 pr-4 mt-[0.8rem]">
                                     <Avatar className="w-5 h-5">
                                         <AvatarFallback
@@ -231,14 +231,14 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     <Switch
                                         checked={theme === "light"}
                                         onCheckedChange={toggleTheme}
-                                        className="dark:border-green-40 data-[state=checked]:bg-black data-[state=unchecked]:bg-muted"
+                                        className="dark:border-green-40 data-[state=checked]:bg-green-60 data-[state=unchecked]:bg-muted"
                                     />
                                     <span className="ml-3 cursor-default text-neutral-50">
                                         {theme === "dark" ? translate("app.theme.light") : translate("app.theme.dark")}
                                     </span>
                                 </div>
                                 <DropdownMenuItem
-                                    className="pl-4 pr-4 h-[50px] hover:text-white focus:text-white hover:bg-green-50 cursor-pointer text-title-2 focus:bg-green-50"
+                                    className="pl-4 pr-4 h-[50px] hover:text-white focus:text-white hover:bg-green-50 cursor-pointer text-title-2 focus:bg-green-50 rounded-none"
                                     onClick={props.handleLogout}>
                                     <span>{translate("ra.auth.logout")}</span>
                                 </DropdownMenuItem>

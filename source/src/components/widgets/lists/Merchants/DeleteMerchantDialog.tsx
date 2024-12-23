@@ -55,7 +55,7 @@ export const DeleteMerchantDialog = ({ id, open, onOpenChange }: DeleteMerchantD
                         <Button onClick={handleDelete}>{translate("app.ui.actions.delete")}</Button>
 
                         <Button
-                            variant={"outline"}
+                            variant={"deleteGray"}
                             onClick={() => {
                                 onOpenChange(false);
                             }}>

@@ -13,6 +13,7 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
+import { LoginBackground } from "@/lib/icons/LoginBackground";
 
 const realm = import.meta.env.VITE_KEYCLOAK_REALM;
 const kk = import.meta.env.VITE_KEYCLOAK_URL;
@@ -101,24 +102,17 @@ export const LoginPage = () => {
             setter(e.target.value);
             if (error) setError("");
         };
-
+    const loginBg = LoginBackground(theme === "dark" ? "#237648" : "#62D093");
     return (
         <>
             <div className="flex flex-shrink-0 justify-end h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z">
                 <LangSwitcher />
             </div>
 
-            <div
-                className="relative flex items-center justify-center bg-loginBG overflow-hidden min-h-[508px] h-[calc(100vh-84px)]"
-                style={{
-                    backgroundImage: "url(/LoginBackground.svg)",
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat"
-                }}>
+            <div className="relative flex items-center justify-center bg-loginBG overflow-hidden min-h-[508px] h-[calc(100vh-84px)]">
+                {loginBg}
                 <div
-                    className={`mx-4 my-4 overflow-y-auto w-full max-w-md px-8 sm:px-16 pb-16 rounded-16 shadow-md min-w-[240px] z-10 ${
-                        theme === "dark" ? "bg-neutral-0" : "bg-neutral-100"
-                    }`}>
+                    className={`mx-4 my-4 overflow-y-auto w-full max-w-md px-8 sm:px-16 pb-16 rounded-16 shadow-md min-w-[240px] z-10 bg-white dark:bg-neutral-0`}>
                     <div className="flex justify-center mb-2.5 mt-5">
                         <img
                             src={theme === "light" ? "/NoNameLogoLight.svg" : "/NoNameLogo.svg"}
@@ -137,10 +131,9 @@ export const LoginPage = () => {
                                 type="text"
                                 value={username}
                                 onChange={handleChange(setUsername)}
-                                className=" block w-full border-gray-300 rounded-md shadow-sm text-title-1"
+                                className=" block w-full border-gray-300 rounded-md shadow-1 text-title-1"
                             />
                         </div>
-
                         <div className="mb-5 relative">
                             <label htmlFor="password" className="block text-note-1 text-neutral-30 mb-1">
                                 {translate("app.login.password")}
@@ -152,11 +145,10 @@ export const LoginPage = () => {
                                     type={showPassword ? "text" : "password"}
                                     value={password}
                                     onChange={handleChange(setPassword)}
-                                    className=" block w-full border-gray-300 rounded-md shadow-sm pr-10 text-title-1"
+                                    className=" block w-full border-gray-300 rounded-md shadow-1 pr-10 text-title-1"
                                 />
                             </div>
                         </div>
-
                         <div className="mb-5">
                             <label htmlFor="username" className="block text-note-1 text-neutral-30 mb-1">
                                 {translate("app.login.totp")}
@@ -167,7 +159,7 @@ export const LoginPage = () => {
                                 type="text"
                                 value={totpCode}
                                 onChange={handleChange(setTotpCode)}
-                                className=" block w-full border-gray-300 rounded-md shadow-sm text-title-1"
+                                className=" block w-full border-gray-300 rounded-md shadow-1 text-title-1"
                             />
 
                             <div className="flex justify-center mt-4">
@@ -176,11 +168,9 @@ export const LoginPage = () => {
                                 </a>
                             </div>
                         </div>
-
                         <Button type="submit" color="primary" variant="default" className="w-full">
                             {translate("app.login.login")}
                         </Button>
-
                         {error && <div className="text-red-30 text-note-1 mt-5">{error}</div>}
                     </form>
                 </div>

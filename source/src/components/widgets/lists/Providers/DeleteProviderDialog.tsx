@@ -44,7 +44,7 @@ export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-[251px] max-h-[200px] sm:max-h-[140px] bg-muted overflow-auto">
+            <DialogContent className="max-w-[270px] max-h-[200px] sm:max-h-[140px] bg-muted overflow-auto">
                 <DialogHeader>
                     <DialogTitle className="text-center">
                         {translate("resources.provider.deleteProviderQuestion")}

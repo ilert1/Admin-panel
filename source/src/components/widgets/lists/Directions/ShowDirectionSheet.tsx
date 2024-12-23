@@ -24,7 +24,7 @@ export const ShowDirectionSheet: React.FC<ShowDirectionSheetProps> = props => {
                     <div className="p-[42px] pb-[0px] flex-shrink-0">
                         <div>
                             <div className="flex justify-between items-center">
-                                <SheetTitle className="text-display-1">
+                                <SheetTitle className="!text-display-1">
                                     {translate("resources.direction.direction")}
                                 </SheetTitle>
                                 <button
