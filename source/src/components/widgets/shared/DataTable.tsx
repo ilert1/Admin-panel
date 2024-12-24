@@ -99,7 +99,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                     variant="clearBtn"
                     size="icon"
                     onClick={() => setPage(currentPage - 1)}
-                    className="text-green-50 hover:text-green-30 disabled:text-neutral-30 size-5"
+                    className="dark:text-green-50 hover:text-green-30 disabled:text-neutral-30 size-5 text-neutral-90"
                     disabled={currentPage === 1}>
                     <CircleArrowLeftIcon className="size-4" aria-hidden="true" />
                 </Button>
@@ -111,7 +111,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                             size="sm"
                             variant="clearBtn"
                             onClick={() => setPage(page)}
-                            className={`m-0 p-0 text-sm font-normal hover:text-green-50 cursor-pointer ${
+                            className={`m-0 p-0 text-sm font-normal hover:text-green-50 cursor-pointer text-neutral-90 ${
                                 page === currentPage ? "text-green-50" : ""
                             }`}>
                             {page}
@@ -128,7 +128,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                     variant="clearBtn"
                     size="icon"
                     onClick={() => setPage(currentPage + 1)}
-                    className="text-green-50 hover:text-green-30 disabled:text-neutral-30 size-5"
+                    className="dark:text-green-50 hover:text-green-30 disabled:text-neutral-30 size-5 text-neutral-90"
                     disabled={currentPage === totalPages}>
                     <CircleArrowRightIcon className="size-4" aria-hidden="true" />
                 </Button>
