@@ -215,7 +215,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     }`}>
                     <main className={`p-6 pr-4 container ${resourceName[0] == "error" ? "h-full" : ""}`}>
                         {resourceName[0] !== "bank-transfer" && resourceName[0] !== "error" && (
-                            <h1 className="text-3xl mb-6">{pageTitle}</h1>
+                            <h1 className="text-3xl mb-6 text-green-60 dark:text-white">{pageTitle}</h1>
                         )}
                         {children}
                     </main>

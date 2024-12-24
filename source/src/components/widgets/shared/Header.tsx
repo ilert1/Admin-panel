@@ -95,7 +95,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                             <div
                                 className={
                                     profileOpen
-                                        ? `border-green-20 border-2 dark:border-[1px] flex gap-4 items-center justify-center py-1 pl-4 pr-4 bg-muted rounded-4 border dark:border-neutral-80 box-border transition-colors transition-150 cursor-default`
+                                        ? `border-green-40  dark:border-[1px] flex gap-4 items-center justify-center py-1 pl-4 pr-4 bg-muted rounded-4 border dark:border-neutral-80 box-border transition-colors transition-150 cursor-default`
                                         : `border-green-20 flex gap-4 items-center justify-center py-1 pl-4 pr-4 bg-white dark:bg-muted rounded-4 border dark:border-muted box-border transition-colors transition-150 cursor-default`
                                 }>
                                 <DropdownMenuTrigger asChild>
@@ -105,10 +105,10 @@ export const Header = (props: { handleLogout: () => void }) => {
                                 </DropdownMenuTrigger>
 
                                 <div className="flex flex-col gap-[2px] items-start min-w-[137px]">
-                                    <span className={"text-neutral-100 text-title-2 cursor-default"}>
+                                    <span className={"text-neutral-100 text-title-2 cursor-default "}>
                                         {identity.data.fullName ? identity.data.fullName : ""}
                                     </span>
-                                    <span className="text-note-2 text-neutral-60 dark:text-neutral-20">
+                                    <span className="text-note-2 text-neutral-60 dark:text-neutral-40">
                                         {translate("app.ui.header.totalBalance")}
                                     </span>
                                     {totalLoading && !totalAmount ? (
@@ -184,7 +184,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         </AvatarFallback>
                                     </Avatar>
                                     <div className="ml-3 text-neutral-100">
-                                        <div className="text-title-1 cursor-default">
+                                        <div className="text-title-1 cursor-default text-green-60 dark:text-white">
                                             {merchantOnly
                                                 ? translate("app.ui.roles.merchant")
                                                 : translate("app.ui.roles.admin")}
@@ -240,7 +240,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                 <DropdownMenuItem
                                     className="pl-4 pr-4 h-[50px] hover:text-white focus:text-white hover:bg-green-50 cursor-pointer text-title-2 focus:bg-green-50 rounded-none"
                                     onClick={props.handleLogout}>
-                                    <span>{translate("ra.auth.logout")}</span>
+                                    <span className="text-green-60 dark:text-white">{translate("ra.auth.logout")}</span>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>

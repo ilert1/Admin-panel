@@ -69,7 +69,11 @@ const DialogTitle = React.forwardRef<
     React.ElementRef<typeof DialogPrimitive.Title>,
     React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
 >(({ className, ...props }, ref) => (
-    <DialogPrimitive.Title ref={ref} className={cn("text-xl font-normal", className)} {...props} />
+    <DialogPrimitive.Title
+        ref={ref}
+        className={cn("text-xl font-normal !text-green-60 dark:text-white", className)}
+        {...props}
+    />
 ));
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
 
