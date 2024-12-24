@@ -13,8 +13,8 @@ export const FilterBar = () => {
     const data = fetchDictionaries();
     const translate = useTranslate();
 
-    const [allOperationsClicked, setAllOperationsClicked] = useState(true);
-    const [deletedOperationsClicked, setDeletedOperationsClicked] = useState(false);
+    // const [allOperationsClicked, setAllOperationsClicked] = useState(true);
+    // const [deletedOperationsClicked, setDeletedOperationsClicked] = useState(false);
 
     const [filterId, setFilterId] = useState("");
 
