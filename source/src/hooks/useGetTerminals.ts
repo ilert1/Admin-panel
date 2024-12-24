@@ -21,10 +21,10 @@ export const useGetTerminals = () => {
                 throw new Error("no_terminals");
             }
             setTerminals(json.data);
-        } catch (error: any) {
+        } catch (error) {
             setTerminals([]);
             let message = "terminalError";
-            if (error.message === "no_terminals") {
+            if (error instanceof Error && error.message === "no_terminals") {
                 message = "noTerminalsError";
             }
             toast.error("Error", {

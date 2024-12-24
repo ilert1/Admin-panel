@@ -102,8 +102,8 @@ export const PayOutPage = () => {
 
                 return false;
             }
-        } catch (error: any) {
-            error(error.message);
+        } catch (err) {
+            if (err instanceof Error) error(err.message);
 
             return false;
         } finally {
