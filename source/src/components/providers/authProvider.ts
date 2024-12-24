@@ -49,11 +49,10 @@ export const authProvider: AuthProvider = {
                 client_id: clientId,
                 grant_type: "password",
                 username,
-                password,
-                totp: totpCode
+                password
             };
 
-            const body = new URLSearchParams(totpCode ? bodyObject : { ...bodyObject });
+            const body = new URLSearchParams(totpCode ? { ...bodyObject, totp: totpCode } : bodyObject);
 
             const response = await fetchUtils.fetchJson(keycloakLoginUrl, {
                 method: "POST",
