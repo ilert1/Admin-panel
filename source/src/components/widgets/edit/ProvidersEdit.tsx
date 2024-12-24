@@ -1,7 +1,7 @@
 import { useEditController, EditContextProvider, useTranslate, useDataProvider } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/input";
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
@@ -16,7 +16,7 @@ export interface ProviderEditParams {
     onClose?: () => void;
 }
 
-export const ProvidersEdit: FC<ProviderEditParams> = ({ id, onClose = () => {} }) => {
+export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) => {
     const dataProvider = useDataProvider();
     const controllerProps = useEditController({ resource: "provider", id, mutationMode: "pessimistic" });
 
