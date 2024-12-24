@@ -163,7 +163,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                                 {row.getVisibleCells().map((cell, j) => (
                                     <TableCell
                                         key={j}
-                                        className="text-sm border border-neutral-40 dark:border-muted text-green-60 text-neutral-100 py-2">
+                                        className="text-sm border border-neutral-40 dark:border-muted text-green-60 dark:text-neutral-100 py-2">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}
