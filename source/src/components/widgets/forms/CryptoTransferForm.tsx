@@ -11,7 +11,7 @@ import { TriangleAlert, WalletMinimal } from "lucide-react";
 import { Icon } from "../shared/Icon";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectType } from "@/components/ui/select";
 import { CreateWalletDialog } from "../lists/Wallets";
-import { LoadingAlertDialog, LoadingBalance } from "@/components/ui/loading";
+import { LoadingBlock, LoadingBalance } from "@/components/ui/loading";
 import { toast } from "sonner";
 import { useQuery } from "react-query";
 
@@ -225,7 +225,7 @@ export const CryptoTransferForm = (props: {
                                                     onScroll={walletScrollHandler}>
                                                     {walletsDataLoading ? (
                                                         <div className="flex items-center justify-center p-4">
-                                                            <LoadingAlertDialog />
+                                                            <LoadingBlock />
                                                         </div>
                                                     ) : (
                                                         <>

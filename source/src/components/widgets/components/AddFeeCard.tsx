@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { feesDataProvider, FeesResource } from "@/data";
@@ -83,7 +83,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     if (isLoading || loadingData)
         return (
             <div className="h-[320px]">
-                <LoadingAlertDialog />
+                <LoadingBlock />
             </div>
         );
     const currenciesDisabled = !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0);

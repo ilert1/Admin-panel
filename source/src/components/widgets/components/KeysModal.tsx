@@ -8,7 +8,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { useCreateTestKeys } from "@/hooks/useCreateTestKeys";
 import { Copy } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
@@ -65,7 +65,7 @@ export const KeysModal = (props: KeysModalProps) => {
                             </h4>
                         </div>
                         {isLoading ? (
-                            <LoadingAlertDialog />
+                            <LoadingBlock />
                         ) : (
                             <>
                                 <div className="flex flex-col gap-[4px]">

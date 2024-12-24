@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { VaultDataProvider } from "@/data";
@@ -109,7 +109,7 @@ export const WalletStore = () => {
         <section className="flex items-center justify-center">
             <div className="rounded-16 bg-neutral-0 p-[30px] flex flex-col gap-6 min-w-[500px]">
                 {storageStateLoading ? (
-                    <LoadingAlertDialog />
+                    <LoadingBlock />
                 ) : (
                     <>
                         {!storageState?.initiated && (
@@ -230,7 +230,7 @@ export const WalletStore = () => {
                                             type="submit"
                                             className="self-end flex items-center gap-1 min-w-28">
                                             {loadingProcess ? (
-                                                <LoadingAlertDialog className="!w-5 !h-5" />
+                                                <LoadingBlock className="!w-5 !h-5" />
                                             ) : (
                                                 <span className="text-sm">
                                                     {translate("resources.wallet.storage.buttonForSend")}
@@ -282,7 +282,7 @@ export const WalletStore = () => {
                                                 onClick={cancelUnsealing}
                                                 className="flex items-center gap-1 bg-red-40 hover:bg-red-30 active:bg-red-30 focus:bg-red-30 flex-1">
                                                 {loadingProcess ? (
-                                                    <LoadingAlertDialog className="!w-5 !h-5" />
+                                                    <LoadingBlock className="!w-5 !h-5" />
                                                 ) : (
                                                     <>
                                                         <LockKeyhole width={16} height={16} />
@@ -311,7 +311,7 @@ export const WalletStore = () => {
                                             onClick={cancelUnsealing}
                                             className="flex items-center relative gap-1 bg-red-40 hover:bg-red-30 active:bg-red-30 focus:bg-red-30 flex-1">
                                             {loadingProcess ? (
-                                                <LoadingAlertDialog className="!w-5 !h-5" />
+                                                <LoadingBlock className="!w-5 !h-5" />
                                             ) : (
                                                 <>
                                                     <LockKeyhole width={16} height={16} />

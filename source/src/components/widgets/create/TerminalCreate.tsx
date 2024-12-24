@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
@@ -60,7 +60,7 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
         }
     };
 
-    if (controllerProps.isLoading || theme.length === 0) return <LoadingAlertDialog />;
+    if (controllerProps.isLoading || theme.length === 0) return <LoadingBlock />;
 
     return (
         <CreateContextProvider value={controllerProps}>

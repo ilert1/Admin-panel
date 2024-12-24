@@ -21,7 +21,7 @@ export const Loading = ({ className = "" }: { className?: string }) => {
     );
 };
 
-export const LoadingAlertDialog = ({ className = "" }: { className?: string }) => {
+export const LoadingBlock = ({ className = "" }: { className?: string }) => {
     return (
         <div className={`flex justify-center items-center h-full w-full ${className}`}>
             <RingSpinner />

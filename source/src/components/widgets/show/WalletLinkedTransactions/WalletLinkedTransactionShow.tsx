@@ -1,4 +1,4 @@
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useLocaleState, usePermissions, useShowController, useTranslate } from "react-admin";
 
@@ -13,7 +13,7 @@ export const WalletLinkedTransactionShow = ({ id }: { id: string }) => {
     });
 
     if (context.isLoading || !context.record || !id) {
-        return <LoadingAlertDialog />;
+        return <LoadingBlock />;
     }
 
     return (

@@ -2,7 +2,7 @@ import { useShowController, useTranslate, useGetManyReference, usePermissions } 
 import { SimpleTable } from "@/components/widgets/shared";
 import { TextField } from "@/components/ui/text-field";
 import { useCallback, useMemo, useState } from "react";
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { TableTypes } from "../../shared/SimpleTable";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -78,7 +78,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     );
 
     if (context.isLoading || context.isFetching || !context.record || isLoading) {
-        return <LoadingAlertDialog />;
+        return <LoadingBlock />;
     }
 
     return (

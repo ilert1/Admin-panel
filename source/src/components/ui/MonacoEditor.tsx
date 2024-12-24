@@ -1,5 +1,5 @@
 import { BeforeMount, Editor, OnChange, OnMount, OnValidate } from "@monaco-editor/react";
-import { LoadingAlertDialog } from "./loading";
+import { LoadingBlock } from "./loading";
 import { useCallback } from "react";
 
 interface MonacoEditorProps {
@@ -84,7 +84,7 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
                 onChange={handleEditorChange}
                 onValidate={handleValidation}
                 onMount={onMountEditor}
-                loading={<LoadingAlertDialog />}
+                loading={<LoadingBlock />}
                 options={{
                     fontSize: 14,
                     lineHeight: 20,

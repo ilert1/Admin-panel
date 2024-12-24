@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input, InputTypes } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import {
     Select,
     SelectContent,
@@ -171,7 +171,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
     const accountsDisabled =
         !(accountsData && Array.isArray(accountsData.pages) && accountsData?.pages.length > 0) || !accountsData;
 
-    if (isLoading || isFetchingPermissions) return <LoadingAlertDialog />;
+    if (isLoading || isFetchingPermissions) return <LoadingBlock />;
     return (
         <FormProvider {...form}>
             {!isMerchant ? (

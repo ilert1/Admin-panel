@@ -1,4 +1,4 @@
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useCallback, useState } from "react";
 import { useShowController, useTranslate } from "react-admin";
@@ -26,7 +26,7 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
     }, []);
 
     if (context.isLoading || context.isFetching || !context.record) {
-        return <LoadingAlertDialog />;
+        return <LoadingBlock />;
     }
     const index = context.record.state - 1;
 

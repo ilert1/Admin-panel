@@ -1,7 +1,7 @@
 import { UIEvent, useMemo, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useInfiniteGetList, useTranslate } from "react-admin";
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 
 export const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvider: (provider: string) => void }) => {
     const {
@@ -53,7 +53,7 @@ export const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvi
 
                         {providersLoadingProcess && (
                             <SelectItem value="null" disabled className="flex max-h-8">
-                                <LoadingAlertDialog className="-scale-[.25]" />
+                                <LoadingBlock className="-scale-[.25]" />
                             </SelectItem>
                         )}
                     </SelectContent>

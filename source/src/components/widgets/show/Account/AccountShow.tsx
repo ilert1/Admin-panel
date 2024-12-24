@@ -1,6 +1,6 @@
 import { ListContextProvider, useListController, useShowController, useTranslate } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useGetAccountShowColumns } from "./Columns";
 
@@ -22,7 +22,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     });
 
     if (context.isLoading || !context.record || listContext.isLoading || !listContext.data) {
-        return <LoadingAlertDialog />;
+        return <LoadingBlock />;
     }
 
     return (
