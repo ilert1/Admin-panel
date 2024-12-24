@@ -46,23 +46,7 @@ export const CryptoTransfer = ({ repeatData, cryptoTransferState, setCryptoTrans
     const [localLoading, setLocalLoading] = useState(false);
     const isLoading = useMemo(() => balanceLoading || localLoading, [balanceLoading, localLoading]);
 
-    // Может понадобится потом, пока оставлю
-    // const errorMessagesMap: Record<string, string> = {
-    //     low_amount: translate("resources.withdraw.errors.lowAmountError"),
-    //     default: translate("resources.withdraw.errors.serverError")
-    // };
-
-    const getMessage = (json: any) => {
-        if (json.success) {
-            return translate("app.widgets.forms.cryptoTransfer.transferSuccess");
-        }
-        if (json.error) {
-            return json.error;
-        }
-        return translate("resources.withdraw.errors.serverError");
-    };
-
-    const createTransfer = (data: any) => {
+    const createTransfer = (data: { address: string; amount: number; accuracy: number }) => {
         setLocalLoading(true);
         fetch(`${BF_MANAGER_URL}/v1/withdraw/create`, {
             method: "POST",
@@ -84,10 +68,10 @@ export const CryptoTransfer = ({ repeatData, cryptoTransferState, setCryptoTrans
             .then(response => response.json())
             .then(json => {
                 if (json.success) {
-                    setMessage(getMessage(json));
+                    setMessage(translate("app.widgets.forms.cryptoTransfer.transferSuccess"));
                     setCryptoTransferState("success");
                 } else {
-                    setMessage(getMessage(json));
+                    setMessage(json.error ?? translate("resources.withdraw.errors.serverError"));
                     setCryptoTransferState("error");
                 }
             })
