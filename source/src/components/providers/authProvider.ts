@@ -36,7 +36,7 @@ export const authProvider: AuthProvider = {
                 localStorage.setItem("access-token", access_token);
                 localStorage.setItem("refresh-token", refresh_token);
 
-                const decodedToken: any = jwtDecode(access_token);
+                const decodedToken: JWT.Payload = jwtDecode(access_token);
                 localStorage.setItem("user", JSON.stringify(decodedToken));
                 return Promise.resolve();
             } catch (error) {
@@ -53,11 +53,7 @@ export const authProvider: AuthProvider = {
                 totp: totpCode
             };
 
-            //console.log(bodyObject);
-
-            const { totp, ...shortBody } = bodyObject;
-
-            const body = new URLSearchParams(totpCode ? bodyObject : shortBody);
+            const body = new URLSearchParams(totpCode ? bodyObject : { ...bodyObject });
 
             const response = await fetchUtils.fetchJson(keycloakLoginUrl, {
                 method: "POST",
@@ -70,7 +66,7 @@ export const authProvider: AuthProvider = {
             localStorage.setItem("access-token", access_token);
             localStorage.setItem("refresh-token", refresh_token);
 
-            const decodedToken: any = jwtDecode(access_token);
+            const decodedToken: JWT.Payload = jwtDecode(access_token);
             localStorage.setItem("user", JSON.stringify(decodedToken));
             return Promise.resolve();
         } catch (error) {
