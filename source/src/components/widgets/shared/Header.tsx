@@ -95,7 +95,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                             <div
                                 className={
                                     profileOpen
-                                        ? `border-green-20 border-2 dark:border-0 flex gap-4 items-center justify-center py-1 pl-4 pr-4 bg-muted rounded-4 border dark:border-neutral-80 box-border transition-colors transition-150 cursor-default`
+                                        ? `border-green-20 border-2 dark:border-[1px] flex gap-4 items-center justify-center py-1 pl-4 pr-4 bg-muted rounded-4 border dark:border-neutral-80 box-border transition-colors transition-150 cursor-default`
                                         : `border-green-20 flex gap-4 items-center justify-center py-1 pl-4 pr-4 bg-white dark:bg-muted rounded-4 border dark:border-muted box-border transition-colors transition-150 cursor-default`
                                 }>
                                 <DropdownMenuTrigger asChild>
