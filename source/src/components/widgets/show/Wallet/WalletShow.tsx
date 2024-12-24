@@ -15,7 +15,10 @@ interface WalletShowProps {
 
 export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const { permissions } = usePermissions();
-    const context = useShowController<Wallet>({ resource: permissions === "admin" ? "wallet" : "merchant/wallet", id });
+    const context = useShowController<Wallets.Wallet>({
+        resource: permissions === "admin" ? "wallet" : "merchant/wallet",
+        id
+    });
     const translate = useTranslate();
     const dataProvider = useDataProvider<WalletsDataProvider>();
 
@@ -32,7 +35,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
 
-    const { data: walletBalance, isFetching: walletBalanceFetching } = useQuery<WalletBalance>(
+    const { data: walletBalance, isFetching: walletBalanceFetching } = useQuery<Wallets.WalletBalance>(
         ["walletBalance"],
         () => dataProvider.getWalletBalance(permissions === "admin" ? "wallet" : "merchant/wallet", id),
         {

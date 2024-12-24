@@ -6,7 +6,7 @@ import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
-export const useGetWalletsColumns = (data: Wallet[], balances: Map<string, WalletBalance>) => {
+export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<string, Wallets.WalletBalance>) => {
     const translate = useTranslate();
     const [chosenId, setChosenId] = useState("");
     const [quickShowOpen, setQuickShowOpen] = useState(false);
@@ -16,7 +16,7 @@ export const useGetWalletsColumns = (data: Wallet[], balances: Map<string, Walle
         setQuickShowOpen(true);
     };
 
-    const columns: ColumnDef<Wallet>[] = [
+    const columns: ColumnDef<Wallets.Wallet>[] = [
         {
             id: "type",
             accessorKey: "type",

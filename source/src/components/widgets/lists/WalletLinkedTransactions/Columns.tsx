@@ -14,7 +14,7 @@ export const useGetWalletLinkedTransactionColumns = () => {
     const [chosenId, setChosenId] = useState("");
     const [quickShowOpen, setQuickShowOpen] = useState(false);
 
-    const columns: ColumnDef<WalletLinkedTransactions>[] = [
+    const columns: ColumnDef<Wallets.WalletLinkedTransactions>[] = [
         {
             id: "scanned_at",
             accessorKey: "scanned_at",

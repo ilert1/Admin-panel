@@ -64,7 +64,7 @@ export const Header = (props: { handleLogout: () => void }) => {
             if (!json.success) {
                 throw new Error(translate("app.ui.header.totalError"));
             }
-            return json.data as Balance[];
+            return json.data as AccountBalance[];
         },
         {
             retry: 2, // Ограничение повторных попыток

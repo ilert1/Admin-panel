@@ -27,7 +27,7 @@ export const useGetWalletTransactionsColumns = () => {
         setChosenId(id);
         setConfirmOpen(true);
     };
-    const columns: ColumnDef<Cryptotransactions>[] = [
+    const columns: ColumnDef<Wallets.Cryptotransactions>[] = [
         {
             id: "created_at",
             accessorKey: "created_at",

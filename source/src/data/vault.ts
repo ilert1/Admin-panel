@@ -4,7 +4,7 @@ import { fetchUtils } from "react-admin";
 const API_URL = import.meta.env.VITE_WALLET_URL;
 
 export class VaultDataProvider extends BaseDataProvider {
-    async getVaultState(resource: "vault"): Promise<WalletStorage> {
+    async getVaultState(resource: "vault"): Promise<Wallets.WalletStorage> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/state`, {
             method: "GET",
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
@@ -27,7 +27,7 @@ export class VaultDataProvider extends BaseDataProvider {
     async addPartialKey(
         resource: "vault",
         params: { key_part: string }
-    ): Promise<{ data: WalletStorage; success: boolean; error: string }> {
+    ): Promise<{ data: Wallets.WalletStorage; success: boolean; error: string }> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/partial`, {
             method: "POST",
             body: JSON.stringify(params),
