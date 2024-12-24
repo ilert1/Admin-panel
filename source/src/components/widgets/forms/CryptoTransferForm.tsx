@@ -11,7 +11,7 @@ import { TriangleAlert, WalletMinimal } from "lucide-react";
 import { Icon } from "../shared/Icon";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectType } from "@/components/ui/select";
 import { CreateWalletDialog } from "../lists/Wallets";
-import { LoadingBalance } from "@/components/ui/loading";
+import { LoadingAlertDialog, LoadingBalance } from "@/components/ui/loading";
 import { toast } from "sonner";
 import { useQuery } from "react-query";
 
@@ -37,6 +37,7 @@ export const CryptoTransferForm = (props: {
     const {
         data: walletsData,
         isFetched: walletsDataFetched,
+        isFetching: walletsDataLoading,
         fetchNextPage: walletsNextPage
     } = useInfiniteGetList("merchant/wallet", {
         pagination: { perPage: 25, page: 1 },
@@ -222,55 +223,69 @@ export const CryptoTransferForm = (props: {
                                                 <SelectContent
                                                     onScrollCapture={walletScrollHandler}
                                                     onScroll={walletScrollHandler}>
-                                                    {lastUsedWallet && (
-                                                        <SelectItem value={lastUsedWallet} variant={SelectType.DEFAULT}>
-                                                            <p className="truncate max-w-[235px]">{lastUsedWallet}</p>
-                                                            <p
-                                                                className="truncate max-w-[235px] text-note-2 text-neutral-50"
-                                                                style={{ bottom: "-.5" }}>
-                                                                {translate(
-                                                                    "app.widgets.forms.cryptoTransfer.lastUsedWallet"
-                                                                )}
-                                                            </p>
-                                                        </SelectItem>
+                                                    {walletsDataLoading ? (
+                                                        <div className="flex items-center justify-center p-4">
+                                                            <LoadingAlertDialog />
+                                                        </div>
+                                                    ) : (
+                                                        <>
+                                                            {lastUsedWallet && (
+                                                                <SelectItem
+                                                                    value={lastUsedWallet}
+                                                                    variant={SelectType.DEFAULT}>
+                                                                    <p className="truncate max-w-[235px]">
+                                                                        {lastUsedWallet}
+                                                                    </p>
+                                                                    <p
+                                                                        className="truncate max-w-[235px] text-note-2 text-neutral-50"
+                                                                        style={{ bottom: "-.5" }}>
+                                                                        {translate(
+                                                                            "app.widgets.forms.cryptoTransfer.lastUsedWallet"
+                                                                        )}
+                                                                    </p>
+                                                                </SelectItem>
+                                                            )}
+
+                                                            {walletsData?.pages.map(page => {
+                                                                return page.data.map(wallet => {
+                                                                    if (wallet.address !== lastUsedWallet) {
+                                                                        return (
+                                                                            <div
+                                                                                key={wallet.id}
+                                                                                className="relative flex flex-col gap-2">
+                                                                                <SelectItem
+                                                                                    value={wallet.address}
+                                                                                    variant={SelectType.DEFAULT}>
+                                                                                    <p className="truncate max-w-[235px]">
+                                                                                        {wallet.address}
+                                                                                    </p>
+                                                                                    <p
+                                                                                        className="truncate max-w-[235px] text-note-2 text-neutral-50"
+                                                                                        style={{ bottom: "-.5" }}>
+                                                                                        {wallet.description}
+                                                                                    </p>
+                                                                                </SelectItem>
+                                                                            </div>
+                                                                        );
+                                                                    }
+                                                                });
+                                                            })}
+
+                                                            <div className="sticky bottom-0 bg-black p-2 z-10 flex items-center w-full h-[48px]">
+                                                                <Button
+                                                                    variant={"default"}
+                                                                    className="h-full py-[6px] px-[16px] w-full flex gap-[6px] justify-center items-center"
+                                                                    onClick={() => setCreateOpen(true)}>
+                                                                    <WalletMinimal className="w-4 h-4" />
+                                                                    <p className="text-title-1">
+                                                                        {translate(
+                                                                            "app.widgets.forms.cryptoTransfer.createNewWallet"
+                                                                        )}
+                                                                    </p>
+                                                                </Button>
+                                                            </div>
+                                                        </>
                                                     )}
-                                                    {walletsData?.pages.map(page => {
-                                                        return page.data.map(wallet => {
-                                                            if (wallet.address !== lastUsedWallet) {
-                                                                return (
-                                                                    <div
-                                                                        key={wallet.id}
-                                                                        className="relative flex flex-col gap-2">
-                                                                        <SelectItem
-                                                                            value={wallet.address}
-                                                                            variant={SelectType.DEFAULT}>
-                                                                            <p className="truncate max-w-[235px]">
-                                                                                {wallet.address}
-                                                                            </p>
-                                                                            <p
-                                                                                className="truncate max-w-[235px] text-note-2 text-neutral-50"
-                                                                                style={{ bottom: "-.5" }}>
-                                                                                {wallet.description}
-                                                                            </p>
-                                                                        </SelectItem>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        });
-                                                    })}
-                                                    <div className="sticky bottom-0 bg-black p-2 z-10 flex items-center w-full h-[48px]">
-                                                        <Button
-                                                            variant={"default"}
-                                                            className="h-full py-[6px] px-[16px] w-full flex gap-[6px] justify-center items-center"
-                                                            onClick={() => setCreateOpen(true)}>
-                                                            <WalletMinimal className="w-4 h-4" />
-                                                            <p className="text-title-1">
-                                                                {translate(
-                                                                    "app.widgets.forms.cryptoTransfer.createNewWallet"
-                                                                )}
-                                                            </p>
-                                                        </Button>
-                                                    </div>
                                                 </SelectContent>
                                             </Select>
                                         </FormControl>
