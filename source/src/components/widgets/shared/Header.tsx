@@ -136,7 +136,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                         : "translate-y-[200%] opacity-0 z-0 delay-300"
                                                                 }`}>
                                                                 <NumericFormat
-                                                                    className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-full block"
+                                                                    className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-full block text-green-60 dark:text-white"
                                                                     value={
                                                                         Math.round(
                                                                             (el.value.quantity / el.value.accuracy) *
@@ -207,7 +207,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                 <div
                                                     className="flex items-center w-full justify-between"
                                                     key={el.currency}>
-                                                    <h4 className="text-display-4 overflow-y-hidden">
+                                                    <h4 className="text-display-4 overflow-y-hidden text-green-60 dark:text-white">
                                                         <NumericFormat
                                                             className="whitespace-nowrap"
                                                             value={el.value.quantity / el.value.accuracy}
@@ -238,9 +238,9 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     </span>
                                 </div>
                                 <DropdownMenuItem
-                                    className="pl-4 pr-4 h-[50px] hover:text-white focus:text-white hover:bg-green-50 cursor-pointer text-title-2 focus:bg-green-50 rounded-none"
+                                    className="pl-4 pr-4 h-[50px] hover:text-white focus:text-white hover:bg-green-50 cursor-pointer text-title-2 focus:bg-green-50 rounded-none text-green-60"
                                     onClick={props.handleLogout}>
-                                    <span className="text-green-60 dark:text-white">{translate("ra.auth.logout")}</span>
+                                    <span className="">{translate("ra.auth.logout")}</span>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
