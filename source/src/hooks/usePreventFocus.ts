@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from "react";
 
 interface Props {
-    dependencies?: any[];
+    dependencies?: unknown[];
     initialDelay?: number;
     tabIndexResetDelay?: number;
 }
