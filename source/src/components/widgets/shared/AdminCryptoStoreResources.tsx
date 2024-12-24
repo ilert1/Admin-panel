@@ -155,7 +155,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
 
             {openAccordion && (
                 <div
-                    className={`flex flex-col gap-4 bg-white dark:bg-muted  py-1  mr-[1px] ${
+                    className={`flex flex-col gap-4 bg-green-0 dark:bg-muted  py-1  mr-[1px] ${
                         showCaptions ? "pl-4" : "-ml-6 pl-6"
                     }`}>
                     {customViewRoutes.childrens.map((customRoute, index) => (
@@ -164,8 +164,8 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                             to={customRoute.path}
                             className={
                                 location.pathname === customRoute.path
-                                    ? "bg-neutral-20 dark:bg-muted flex items-center gap-3 text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 dark:[&>svg>path]:stroke-controlElements [&>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
-                                    : "hover:bg-neutral-20 dark:hover:bg-muted flex items-center gap-3 hover:text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
+                                    ? "dark:bg-muted flex items-center gap-3 text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 dark:[&>svg>path]:stroke-controlElements [&>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
+                                    : " dark:hover:bg-muted flex items-center gap-3 hover:text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
                             }>
                             {(!customRoute.showLock || (customRoute.showLock && showCaptions)) && customRoute.icon}
 
