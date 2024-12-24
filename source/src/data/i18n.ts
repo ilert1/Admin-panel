@@ -665,25 +665,6 @@ const ru: TranslationMessages = {
         },
         widgets: {
             forms: {
-                payin: {
-                    source: "Счет источник",
-                    selectSource: "Выберите счет источник",
-                    destination: "Счет получатель",
-                    selectDestination: "Выберите счет получатель",
-                    sourceCurrency: "Валюта источника",
-                    selectSourceCurrency: "Выберите валюту источника",
-                    destinationCurrency: "Валюта получателя",
-                    selectDestinationCurrency: "Выберите валюту получаетля",
-                    sourceMessage: "Пожалуйста, выберите счет источник",
-                    destinationMessage: "Пожалуйста, выберите счет получатель",
-                    sourceCurrencyMessage: "Пожалуйста, выберите вылюту источника",
-                    destinationCurrencyMessage: "Пожалуйста, выберите вылюту получателя",
-                    sourceValueMessage: "Некорректное значение",
-                    destValueMessage: "Некорректное значение",
-                    sourceValue: "Сумма пополнения",
-                    destValue: "Сумма зачисления",
-                    createOrder: "Создать ордер"
-                },
                 payout: {
                     title: "Банковский перевод",
                     payMethod: "Метод оплаты",
@@ -701,7 +682,8 @@ const ru: TranslationMessages = {
                     create: "Создать",
                     successTitle: "Заявка успешно создана",
                     successDescription: "Вы можете отследить её статус в разделе",
-                    errorTitle: "Ошибка создания заявки"
+                    errorTitle: "Ошибка создания заявки",
+                    createOrder: "Создать ордер"
                 },
                 cryptoTransfer: {
                     address: "Адрес получателя TRC20",
@@ -767,9 +749,6 @@ const ru: TranslationMessages = {
         }
     },
     pages: {
-        payin: {
-            header: "Пополнение"
-        },
         cryptoTransfer: {
             header: "Перевод криптовалюты"
         }
@@ -1451,25 +1430,6 @@ const en: TranslationMessages = {
         },
         widgets: {
             forms: {
-                payin: {
-                    source: "Source account",
-                    selectSource: "Select source account",
-                    destination: "Destination account",
-                    selectDestination: "Select destination account",
-                    sourceCurrency: "Source currency",
-                    selectSourceCurrency: "Select source currency",
-                    destinationCurrency: "Destination currency",
-                    selectDestinationCurrency: "Select destination currency",
-                    sourceMessage: "Please, select source account",
-                    destinationMessage: "Please, select destination account",
-                    sourceCurrencyMessage: "Please, select source currency",
-                    destinationCurrencyMessage: "Please, select destination currency",
-                    sourceValueMessage: "Wrong value",
-                    destValueMessage: "Wrong value",
-                    sourceValue: "Source value",
-                    destValue: "Destination value",
-                    createOrder: "Create order"
-                },
                 payout: {
                     title: "Bank transfer",
                     payMethod: "Pay method",
@@ -1487,7 +1447,8 @@ const en: TranslationMessages = {
                     create: "Created",
                     successTitle: "The request has been successfully created",
                     successDescription: "You can track her status in the section",
-                    errorTitle: "Request creation error"
+                    errorTitle: "Request creation error",
+                    createOrder: "Create order"
                 },
                 cryptoTransfer: {
                     address: "TRC20 recipient address",
@@ -1554,9 +1515,6 @@ const en: TranslationMessages = {
         }
     },
     pages: {
-        payin: {
-            header: "Pay In"
-        },
         cryptoTransfer: {
             header: "Crypto Wallet Transfer"
         }

@@ -235,7 +235,7 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
 
                 <div className="flex items-center justify-end gap-4">
                     <Button disabled={loading} type="submit">
-                        {translate("app.widgets.forms.payin.createOrder")}
+                        {translate("app.widgets.forms.payout.createOrder")}
                     </Button>
 
                     <NavLink to={"/"}>
