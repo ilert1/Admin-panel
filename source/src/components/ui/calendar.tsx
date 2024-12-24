@@ -84,7 +84,9 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
                                 }
                                 className={
                                     "text-sm font-medium dark:text-neutral-90 text-neutral-80 rounded-4 px-1 py-1.5 pointer" +
-                                    (option.value === value ? " bg-green-50 dark:text-neutral-90 text-neutral-0" : "") +
+                                    (option.value === value
+                                        ? " bg-green-50 dark:text-neutral-90 text-neutral-10"
+                                        : "") +
                                     (option.disabled ? " text-muted-foreground opacity-40 select-none" : "")
                                 }
                                 key={`${option.value}-${id}`}>

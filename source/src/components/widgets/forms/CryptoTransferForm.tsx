@@ -258,7 +258,7 @@ export const CryptoTransferForm = (props: {
                                                             }
                                                         });
                                                     })}
-                                                    <div className="sticky bottom-0 bg-black p-2 z-10 flex items-center w-full h-[48px]">
+                                                    <div className="sticky bottom-0 bg-neutral-20 dark:bg-black p-2 z-10 flex items-center w-full h-[48px]">
                                                         <Button
                                                             variant={"default"}
                                                             className="h-full py-[6px] px-[16px] w-full flex gap-[6px] justify-center items-center"

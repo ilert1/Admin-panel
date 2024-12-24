@@ -58,7 +58,7 @@ export const UserListFilter = () => {
             <div className="flex justify-between items-end flex-wrap gap-4">
                 <div className="flex items-end gap-4">
                     <label className="flex flex-col gap-2 lg:min-w-52">
-                        <span className="font-normal text-base text-neutral-60 dark:text-black">
+                        <span className="font-normal text-base text-neutral-60 dark:text-neutral-30">
                             {translate("resources.users.filter.filterByUsername")}
                         </span>
                         <Input
@@ -70,7 +70,7 @@ export const UserListFilter = () => {
                     </label>
 
                     <label className="flex flex-col gap-2 lg:min-w-52">
-                        <span className="font-normal text-base text-neutral-60 dark:text-black">
+                        <span className="font-normal text-base text-neutral-60 dark:text-white">
                             {translate("resources.users.filter.filterByUserId")}
                         </span>
                         <Input
@@ -82,12 +82,12 @@ export const UserListFilter = () => {
                     </label>
 
                     <Button
-                        className="ml-0 sm:ml-auto flex items-center gap-1 w-auto h-auto px text-neutral-70"
+                        className="ml-0 sm:ml-auto flex items-center gap-1 w-auto h-auto px text-neutral-70 dark:text-neutral-50"
                         onClick={clearFilters}
                         variant="clearBtn"
                         size="default"
                         disabled={!userInputId && !username && !checkedActivity}>
-                        <span>{translate("resources.transactions.filter.clearFilters")}</span>
+                        <span className="">{translate("resources.transactions.filter.clearFilters")}</span>
                         <XIcon className="size-4" />
                     </Button>
                 </div>
@@ -108,7 +108,7 @@ export const UserListFilter = () => {
                 <div className="relative w-4 h-4 rounded-full border transition-all bg-white dark:bg-black border-neutral-60 flex justify-center items-center">
                     {checkedActivity && <div id="checked" className="w-2.5 h-2.5 rounded-full bg-green-50"></div>}
                 </div>
-                <span className="font-normal text-sm text-netural-60 dark:text-neutral-40 transition-all">
+                <span className="font-normal text-sm text-neutral-70 dark:text-neutral-40 transition-all">
                     {translate("resources.users.filter.filterByActivity")}
                 </span>
             </label>

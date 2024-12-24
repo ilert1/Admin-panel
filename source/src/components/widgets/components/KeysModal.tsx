@@ -75,7 +75,7 @@ export const KeysModal = (props: KeysModalProps) => {
                                     <div className="flex items-center justify-center gap-2">
                                         <textarea
                                             value={privateKey}
-                                            className="w-full h-24 p-2 border border-neutral-400 rounded resize-none overflow-auto bg-muted text-neutral-50 dark:text-neutral-70"
+                                            className="w-full h-24 p-2 border border-neutral-400 rounded resize-none overflow-auto dark:bg-muted text-neutral-50 dark:text-neutral-70"
                                             readOnly
                                             id="private"
                                         />
@@ -102,7 +102,7 @@ export const KeysModal = (props: KeysModalProps) => {
                                     <div className="flex items-center justify-center gap-2">
                                         <textarea
                                             value={publicKey}
-                                            className="w-full h-24 p-2 border border-neutral-400 rounded resize-none overflow-auto bg-muted text-neutral-50 dark:text-neutral-70"
+                                            className="w-full h-24 p-2 border border-neutral-400 rounded resize-none overflow-auto dark:bg-muted text-neutral-50 dark:text-neutral-70"
                                             readOnly
                                             id="public"
                                         />

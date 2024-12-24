@@ -97,7 +97,7 @@ export const ProvidersEdit: FC<ProviderEditParams> = ({ id, onClose = () => {} }
                                     </FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} disabled variant={InputTypes.GRAY} />
+                                            <Input {...field} disabled variant={InputTypes.GRAY} className="shadow-1" />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -116,7 +116,7 @@ export const ProvidersEdit: FC<ProviderEditParams> = ({ id, onClose = () => {} }
                                     </FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} variant={InputTypes.GRAY} />
+                                            <Input {...field} variant={InputTypes.GRAY} className="shadow-1" />
                                         </div>
                                     </FormControl>
                                     <FormMessage />

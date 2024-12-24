@@ -52,7 +52,7 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
             <div className="w-full mb-6">
                 <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
                     <label className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
-                        <span className="md:text-nowrap text-neutral-60 dark:text-black">
+                        <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
                             {translate("resources.transactions.filter.filterById")}
                         </span>
                         <Input
@@ -64,7 +64,7 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                     </label>
 
                     <label className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
-                        <span className="md:text-nowrap text-neutral-60 dark:text-black">
+                        <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
                             {translate("resources.transactions.filter.filterCustomerPaymentId")}
                         </span>
                         <Input
@@ -76,7 +76,7 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                     </label>
 
                     <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start min-w-36">
-                        <span className="md:text-nowrap text-neutral-60 dark:text-black">
+                        <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
                             {translate("resources.transactions.filter.filterByOrderStatus")}
                         </span>
 
@@ -121,7 +121,7 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
 
                     {adminOnly && (
                         <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start min-w-40">
-                            <span className="md:text-nowrap">
+                            <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
                                 {translate("resources.transactions.filter.filterByAccount")}
                             </span>
 
@@ -163,7 +163,7 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                     )}
 
                     <Button
-                        className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7"
+                        className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7 text-neutral-70 dark:text-neutral-50"
                         onClick={clearFilters}
                         variant="clearBtn"
                         size="default"

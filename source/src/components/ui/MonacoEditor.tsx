@@ -88,31 +88,6 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
         [isDark]
     );
 
-    // const handleEditorDidMount = useCallback<BeforeMount>(monaco => {
-    //     monaco.editor.defineTheme("myCustomTheme", {
-    //         base: "vs",
-    //         inherit: true,
-    //         rules: [
-    //             { token: "identifier", foreground: "#237648" },
-    //             { token: "keyword", foreground: "#237648" },
-    //             { token: "number", foreground: "#237648" },
-    //             { token: "string", foreground: "#237648" },
-    //             { token: "comment", foreground: "FFD700" },
-    //             { token: "delimiter", foreground: "#237648" },
-    //             { token: "operator", foreground: "#237648" },
-    //             { foreground: "#237648", token: "string" },
-    //             { token: "string.key.json", foreground: "#237648" },
-    //             { token: "delimiter.bracket", foreground: "#237648" },
-    //             { token: "delimiter.curly", foreground: "#237648" }
-    //         ],
-    //         colors: {
-    //             // "editor.background": "#ffffff",
-    //             // "editorLineNumber.foreground": "#ffffff",
-    //             // "editor.foreground": "#237648"
-    //         }
-    //     });
-    // }, []);
-
     return (
         <div className="h-48 w-full border border-neutral-50 rounded-[4px] py-2 overflow-hidden">
             <Editor
