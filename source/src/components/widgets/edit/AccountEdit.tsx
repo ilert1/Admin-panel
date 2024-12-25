@@ -29,6 +29,12 @@ interface AccountEditProps {
     onOpenChange: (state: boolean) => void;
 }
 
+enum WalletTypes {
+    INTERNAL = "internal",
+    LINKED = "linked",
+    EXTERNAL = "external"
+}
+
 export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
     const controllerProps = useEditController({ resource: "accounts", id, mutationMode: "pessimistic" });
 
@@ -45,7 +51,7 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
         account_id: z.string(),
         name: z.string().min(1).trim(),
         wallet_create: z.boolean().default(false),
-        wallet_type: z.enum([Wallets.WalletTypes.EXTERNAL, Wallets.WalletTypes.INTERNAL, Wallets.WalletTypes.LINKED]),
+        wallet_type: z.enum([WalletTypes.EXTERNAL, WalletTypes.INTERNAL, WalletTypes.LINKED]),
         tron_wallet: z
             .string()
             .trim()
@@ -72,7 +78,7 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
             account_id: "",
             name: "",
             wallet_create: false,
-            wallet_type: Wallets.WalletTypes.INTERNAL,
+            wallet_type: WalletTypes.INTERNAL,
             tron_wallet: "",
             tron_address: "",
             reward_account: "",
@@ -86,7 +92,7 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                 account_id: controllerProps.record?.id || id,
                 name: controllerProps.record?.meta?.caption || "",
                 wallet_create: controllerProps.record?.wallet_create || false,
-                wallet_type: controllerProps.record?.wallet_type || Wallets.WalletTypes.INTERNAL,
+                wallet_type: controllerProps.record?.wallet_type || WalletTypes.INTERNAL,
                 tron_wallet: controllerProps.record?.meta?.tron_wallet || "",
                 tron_address: controllerProps.record?.meta?.tron_address || "",
                 reward_account: controllerProps.record?.meta?.reward_account || "",
@@ -256,7 +262,7 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                                                 <div className="mr-auto">
                                                     <SelectValue
                                                         placeholder={translate("resources.direction.fields.active")}
-                                                        defaultValue={Wallets.WalletTypes.INTERNAL}
+                                                        defaultValue={WalletTypes.INTERNAL}
                                                     />
                                                 </div>
                                                 {fieldState.invalid && (
@@ -283,16 +289,12 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
 
                                         <SelectContent>
                                             <SelectGroup>
-                                                <SelectItem
-                                                    value={Wallets.WalletTypes.LINKED}
-                                                    variant={SelectType.GRAY}>
-                                                    {Wallets.WalletTypes.LINKED}
+                                                <SelectItem value={WalletTypes.LINKED} variant={SelectType.GRAY}>
+                                                    {WalletTypes.LINKED}
                                                 </SelectItem>
 
-                                                <SelectItem
-                                                    value={Wallets.WalletTypes.INTERNAL}
-                                                    variant={SelectType.GRAY}>
-                                                    {Wallets.WalletTypes.INTERNAL}
+                                                <SelectItem value={WalletTypes.INTERNAL} variant={SelectType.GRAY}>
+                                                    {WalletTypes.INTERNAL}
                                                 </SelectItem>
                                             </SelectGroup>
                                         </SelectContent>
