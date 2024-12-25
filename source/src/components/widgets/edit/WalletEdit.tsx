@@ -33,6 +33,12 @@ interface EditWalletProps {
     onOpenChange: (state: boolean) => void;
 }
 
+enum WalletTypes {
+    INTERNAL = "internal",
+    LINKED = "linked",
+    EXTERNAL = "external"
+}
+
 export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -104,7 +110,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
     };
 
     const formSchema = z.object({
-        type: z.enum([Wallets.WalletTypes.EXTERNAL, Wallets.WalletTypes.INTERNAL, Wallets.WalletTypes.LINKED]),
+        type: z.enum([WalletTypes.EXTERNAL, WalletTypes.INTERNAL, WalletTypes.LINKED]),
         blockchain: z.string().min(1),
         network: z.string().min(1),
         currency: z.string().min(1),
@@ -123,7 +129,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            type: Wallets.WalletTypes.INTERNAL,
+            type: WalletTypes.INTERNAL,
             currency: "USDT",
             description: "",
             blockchain: "TRON",
@@ -152,7 +158,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                 blockchain: record?.blockchain || "",
                 minimal_ballance_limit: record?.minimal_ballance_limit || 0,
                 network: record?.network || "",
-                type: record?.type || Wallets.WalletTypes.INTERNAL,
+                type: record?.type || WalletTypes.INTERNAL,
                 account_id: record?.account_id || ""
             });
             formMerchant.reset({
@@ -183,7 +189,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                                 <SelectTrigger variant={SelectType.GRAY}>
                                                     <SelectValue
                                                         placeholder={translate("resources.direction.fields.active")}
-                                                        defaultValue={Wallets.WalletTypes.INTERNAL}
+                                                        defaultValue={WalletTypes.INTERNAL}
                                                     />
                                                 </SelectTrigger>
                                             </FormControl>
@@ -191,23 +197,23 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                                 {!isMerchant ? (
                                                     <SelectGroup>
                                                         <SelectItem
-                                                            value={Wallets.WalletTypes.LINKED}
+                                                            value={WalletTypes.LINKED}
                                                             variant={SelectType.GRAY}>
-                                                            {Wallets.WalletTypes.LINKED}
+                                                            {WalletTypes.LINKED}
                                                         </SelectItem>
 
                                                         <SelectItem
-                                                            value={Wallets.WalletTypes.INTERNAL}
+                                                            value={WalletTypes.INTERNAL}
                                                             variant={SelectType.GRAY}>
-                                                            {Wallets.WalletTypes.INTERNAL}
+                                                            {WalletTypes.INTERNAL}
                                                         </SelectItem>
                                                     </SelectGroup>
                                                 ) : (
                                                     <SelectGroup>
                                                         <SelectItem
-                                                            value={Wallets.WalletTypes.EXTERNAL}
+                                                            value={WalletTypes.EXTERNAL}
                                                             variant={SelectType.GRAY}>
-                                                            {Wallets.WalletTypes.EXTERNAL}
+                                                            {WalletTypes.EXTERNAL}
                                                         </SelectItem>
                                                     </SelectGroup>
                                                 )}
