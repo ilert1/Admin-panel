@@ -114,13 +114,13 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
     };
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 ">
             <TooltipProvider delayDuration={100}>
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <button
                             onClick={() => setOpenAccordion(!openAccordion)}
-                            className={`pointer text-left flex items-center hover:text-controlElements [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all animate-in fade-in-0 transition-colors duration-150 ${
+                            className={`pl-6 pointer hover:bg-neutral-20 text-left flex items-center hover:text-controlElements [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all animate-in fade-in-0 transition-colors duration-150 ${
                                 showCaptions ? "gap-3" : ""
                             }`}>
                             {customViewRoutes.icon}
@@ -155,7 +155,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
 
             {openAccordion && (
                 <div
-                    className={`flex flex-col gap-4 bg-green-0 dark:bg-muted  py-1  mr-[1px] ${
+                    className={`flex flex-col gap-4 bg-green-0 dark:bg-muted pl-6 ml-4 py-1 mr-[1px] ${
                         showCaptions ? "pl-4" : "-ml-6 pl-6"
                     }`}>
                     {customViewRoutes.childrens.map((customRoute, index) => (

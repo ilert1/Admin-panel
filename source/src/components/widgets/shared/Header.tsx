@@ -105,7 +105,10 @@ export const Header = (props: { handleLogout: () => void }) => {
                                 </DropdownMenuTrigger>
 
                                 <div className="flex flex-col gap-[2px] items-start min-w-[137px]">
-                                    <span className={"text-neutral-100 text-title-2 cursor-default "}>
+                                    <span
+                                        className={
+                                            "text-neutral-90 dark:text-neutral-100 text-title-2 cursor-default "
+                                        }>
                                         {identity.data.fullName ? identity.data.fullName : ""}
                                     </span>
                                     <span className="text-note-2 text-neutral-60 dark:text-neutral-40">
@@ -136,7 +139,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                         : "translate-y-[200%] opacity-0 z-0 delay-300"
                                                                 }`}>
                                                                 <NumericFormat
-                                                                    className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-full block text-green-60 dark:text-white"
+                                                                    className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-full block text-neutral-90 dark:text-white"
                                                                     value={
                                                                         Math.round(
                                                                             (el.value.quantity / el.value.accuracy) *
@@ -184,7 +187,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         </AvatarFallback>
                                     </Avatar>
                                     <div className="ml-3 text-neutral-100">
-                                        <div className="text-title-1 cursor-default text-green-60 dark:text-white">
+                                        <div className="text-title-1 cursor-default text-neutral-90 dark:text-white">
                                             {merchantOnly
                                                 ? translate("app.ui.roles.merchant")
                                                 : translate("app.ui.roles.admin")}
@@ -207,7 +210,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                 <div
                                                     className="flex items-center w-full justify-between"
                                                     key={el.currency}>
-                                                    <h4 className="text-display-4 overflow-y-hidden text-green-60 dark:text-white">
+                                                    <h4 className="text-display-4 overflow-y-hidden text-neutral-90 dark:text-white">
                                                         <NumericFormat
                                                             className="whitespace-nowrap"
                                                             value={el.value.quantity / el.value.accuracy}

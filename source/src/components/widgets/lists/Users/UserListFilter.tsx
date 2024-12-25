@@ -82,7 +82,7 @@ export const UserListFilter = () => {
                     </label>
 
                     <Button
-                        className="ml-0 sm:ml-auto flex items-center gap-1 w-auto h-auto px text-neutral-70 dark:text-neutral-50"
+                        className="ml-0 sm:ml-auto flex items-center gap-1 w-auto h-auto px text-neutral-70 dark:text-neutral-50 active:text-green-50 hover:text-green-60"
                         onClick={clearFilters}
                         variant="clearBtn"
                         size="default"
@@ -98,7 +98,6 @@ export const UserListFilter = () => {
                     <CirclePlus width={16} height={16} />
                     <span>{translate("resources.users.createButton")}</span>
                 </Button>
-
                 <CreateUserDialog open={showAddUserDialog} onOpenChange={setShowAddUserDialog} />
             </div>
 
