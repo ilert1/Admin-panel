@@ -128,11 +128,11 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                         {translate("app.ui.actions.edit")}
                     </Button>
 
-                    <Button className="bg-muted" variant={"outline"} onClick={handleChangeAuthDataClicked}>
+                    <Button className="dark:bg-muted" variant={"deleteGray"} onClick={handleChangeAuthDataClicked}>
                         {translate("app.ui.actions.changeSecretKey")}
                     </Button>
 
-                    <Button className="" onClick={handleDeleteClicked}>
+                    <Button className="" onClick={handleDeleteClicked} variant={"deleteGray"}>
                         {translate("app.ui.actions.delete")}
                     </Button>
                 </div>

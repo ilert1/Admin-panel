@@ -25,7 +25,6 @@ export const ShowAccountSheet: React.FC<ShowSheetProps> = ({
             <SheetContent
                 className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col border-0"
                 tabIndex={-1}
-                style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
                 close={false}>
                 <SheetHeader className="p-[42px] pb-0 flex-shrink-0">
                     <div className="flex flex-col gap-2">

@@ -89,8 +89,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 <aside
                     className={
                         isSheetOpen
-                            ? "w-[280px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden scrollbar-stable justify-start bg-header transition-[width] pt-6"
-                            : "w-[72px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden scrollbar-stable justify-start bg-header transition-[width] pt-6"
+                            ? "w-[280px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden justify-start bg-header transition-[width] pt-6"
+                            : "w-[72px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden justify-start bg-header transition-[width] pt-6"
                     }>
                     {isSheetOpen ? (
                         <div className="flex flex-shrink-0 justify-center items-center h-[63px] gap-6 px-6">
@@ -106,7 +106,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                             <button className="flex flex-col items-center animate-in fade-in-0 transition-opacity duration-300">
                                 <ChevronLeftCircleIcon
                                     onClick={() => handleMenuState(!isSheetOpen)}
-                                    className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-foreground"
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-green-60 dark:hover:text-white"
                                 />
                             </button>
                         </div>
@@ -115,13 +115,13 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                             <button className="h-[63px] ">
                                 <ChevronRightCircleIcon
                                     onClick={() => handleMenuState(!isSheetOpen)}
-                                    className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-foreground"
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-green-60 dark:hover:text-white border-none outline-none"
                                 />
                             </button>
                         </div>
                     )}
 
-                    <nav className="flex flex-col items-baseline text-base gap-4 mt-6 pl-6">
+                    <nav className="flex flex-col items-baseline text-base gap-4 mt-6">
                         {Object.keys(resources).map(resource => {
                             if (!resource.includes("wallet")) {
                                 return (
@@ -132,8 +132,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                                     to={`/${resource}`}
                                                     className={
                                                         resourceName[0] === resource
-                                                            ? "flex items-center gap-3 text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
-                                                            : "flex items-center gap-3 hover:text-green-40 animate-in fade-in-0 transition-colors duration-150 py-2"
+                                                            ? "pl-6 bg-neutral-20 dark:bg-black w-full flex items-center gap-3 text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2"
+                                                            : "pl-6 flex items-center gap-3 hover:bg-neutral-20 dark:hover:bg-black w-full hover:text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2"
                                                     }>
                                                     {createElement(resources[resource].icon, {})}
                                                     {showCaptions && (
@@ -209,10 +209,13 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     )}
                 </aside>
 
-                <div className="bg-muted grow overflow-y-auto scrollbar-stable transition-[margin-left] relative">
+                <div
+                    className={`bg-neutral-20 dark:bg-muted grow overflow-y-auto scrollbar-stable transition-[margin-left] relative  ${
+                        resourceName[1] === "storage" ? " overflow-y-hidden overflow-x-hidden" : ""
+                    }`}>
                     <main className={`p-6 pr-4 container ${resourceName[0] == "error" ? "h-full" : ""}`}>
                         {resourceName[0] !== "bank-transfer" && resourceName[0] !== "error" && (
-                            <h1 className="text-3xl mb-6">{pageTitle}</h1>
+                            <h1 className="text-3xl mb-6 text-neutral-90 dark:text-white">{pageTitle}</h1>
                         )}
                         {children}
                     </main>

@@ -19,12 +19,11 @@ export const ShowMerchantSheet = ({ id, showType, open, onOpenChange }: ShowMerc
                 <SheetContent
                     className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] overflow-hidden w-full p-0 m-0 top-[84px] flex flex-col border-0"
                     tabIndex={-1}
-                    style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
                     close={false}>
                     <div className="p-[42px] pb-[0px] flex-shrink-0">
                         <div>
                             <div className="flex justify-between items-center">
-                                <SheetTitle className="text-display-1">
+                                <SheetTitle className="!text-display-1">
                                     {translate("resources.merchant.merchant")}
                                 </SheetTitle>
                                 <button

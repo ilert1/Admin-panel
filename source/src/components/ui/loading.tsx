@@ -1,10 +1,17 @@
+import { useTheme } from "../providers";
+
 export const InitLoading = () => {
+    const { theme } = useTheme();
+    const isDark = theme === "dark";
+    const bgImage = isDark ? 'url("/LoginBackground.svg")' : 'url("/LoginBackgroundLight.svg")';
+    const bgColor = isDark ? "rgba(19, 35, 44, 1)" : "#f2f2f2";
+
     return (
         <div
             className="fixed inset-0 flex items-center justify-center"
             style={{
-                backgroundImage: 'url("/LoginBackground.png")',
-                backgroundColor: "rgba(19, 35, 44, 1)",
+                backgroundImage: bgImage,
+                backgroundColor: bgColor,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat"
             }}>

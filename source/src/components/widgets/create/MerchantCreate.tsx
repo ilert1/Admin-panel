@@ -116,7 +116,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                     <FormLabel>{translate("resources.merchant.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} variant={InputTypes.GRAY} />
+                                            <Input {...field} className="shadow-1" variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -131,7 +131,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                     <FormLabel>{translate("resources.merchant.fields.id")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} variant={InputTypes.GRAY} />
+                                            <Input {...field} className="shadow-1" variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -146,7 +146,12 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                     <FormLabel>{translate("resources.merchant.fields.descr")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} value={field.value ?? ""} variant={InputTypes.GRAY} />
+                                            <Input
+                                                {...field}
+                                                className="shadow-1"
+                                                value={field.value ?? ""}
+                                                variant={InputTypes.GRAY}
+                                            />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -161,7 +166,12 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                     <FormLabel>Keycloak ID</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} value={field.value ?? ""} variant={InputTypes.GRAY} />
+                                            <Input
+                                                {...field}
+                                                className="shadow-1"
+                                                value={field.value ?? ""}
+                                                variant={InputTypes.GRAY}
+                                            />
                                         </div>
                                     </FormControl>
                                     <FormMessage />

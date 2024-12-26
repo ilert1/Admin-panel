@@ -86,7 +86,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                                     </FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} variant={InputTypes.GRAY} />
+                                            <Input {...field} variant={InputTypes.GRAY} className="shadow-1" />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -105,7 +105,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                                     </FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} variant={InputTypes.GRAY} />
+                                            <Input {...field} variant={InputTypes.GRAY} className="shadow-1" />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -146,8 +146,8 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                             </Button>
                             <Button
                                 type="button"
-                                variant="outline"
-                                className="flex-1 mt-4 sm:mt-0 border-neutral-50 text-neutral-50 bg-muted w-full sm:w-1/2"
+                                variant="deleteGray"
+                                className="flex-1 mt-4 sm:mt-0  w-full sm:w-1/2"
                                 onClick={onClose}>
                                 {translate("app.ui.actions.cancel")}
                             </Button>

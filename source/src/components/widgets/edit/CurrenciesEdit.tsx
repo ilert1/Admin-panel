@@ -108,7 +108,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                     <FormLabel>{translate("resources.currency.fields.symbol")}</FormLabel>
                                     <FormControl>
                                         <Input
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                            className={`dark:bg-muted text-sm text-neutral-100 shadow-1 disabled:dark:bg-muted ${
                                                 fieldState.invalid
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                     : ""
@@ -150,7 +150,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                         value={field.value ? "true" : "false"}>
                                         <FormControl>
                                             <SelectTrigger
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                                className={`dark:bg-muted text-sm text-neutral-100 shadow-1 disabled:dark:bg-muted ${
                                                     fieldState.invalid
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                         : ""
@@ -189,7 +189,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                             onValueChange={value => field.onChange(value as PositionEnum)}
                                             value={field.value}>
                                             <SelectTrigger
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                                className={`dark:bg-muted text-sm text-neutral-100 shadow-1 disabled:dark:bg-muted ${
                                                     fieldState.invalid
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                         : ""
@@ -227,11 +227,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                             {translate("app.ui.actions.save")}
                         </Button>
 
-                        <Button
-                            type="button"
-                            onClick={() => closeDialog()}
-                            variant="clearBtn"
-                            className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full">
+                        <Button type="button" onClick={() => closeDialog()} variant="deleteGray">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>

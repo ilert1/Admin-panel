@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-    "inline-flex items-center justify-center whitespace-nowrap rounded-4 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 duration-200 select-none",
+    "inline-flex items-center justify-center whitespace-nowrap rounded-4 text-sm font-normal ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 duration-200 select-none",
     {
         variants: {
             variant: {
@@ -17,10 +17,10 @@ const buttonVariants = cva(
                     "border border-green-50 bg-neutral-0 text-green-50 hover:border-green-50 active:bg-neutral-0 active:text-green-40 active:border-green-40 focus:bg-neutral-0 focus:text-green-40 focus:border-green-40 disabled:bg-neutral-20 disabled:border-neutral-80 disabled:text-neutral-80",
                 textBtn:
                     "bg-neutral-0 text-green-50 hover:text-green-50 active:text-neutral-100 disabled:text-neutral-80",
-                clearBtn: "text-neutral-50 hover:text-neutral-100",
+                clearBtn: "text-neutral-50 hover:text-neutral-100 active:text-red-40",
                 error: "border border-red-40 text-red-40 hover:bg-red-0 active:bg-neutral-0",
                 deleteGray:
-                    "border hover:border-green-50 active:bg-neutral-0 active:text-green-40 active:border-green-40 focus:bg-neutral-0 focus:text-green-40 focus:border-green-40 disabled:bg-neutral-20 disabled:border-neutral-80 disabled:text-neutral-80 border-neutral-50 text-neutral-50 bg-muted"
+                    "border border-green-50 hover:border-green-50 hover:bg-green-50 dark:hover:bg-muted hover:text-white active:bg-neutral-0 active:text-green-40 active:border-green-40 focus:bg-neutral-0 focus:text-green-40 focus:border-green-40 disabled:bg-neutral-20 disabled:border-neutral-80 disabled:text-neutral-80 dark:border-neutral-50 text-green-50 dark:text-neutral-50 bg-neutral-20 dark:bg-muted dark:hover:border-green-50 dark:hover:text-neutral-50"
             },
             size: {
                 default: "h-9 px-4 py-2",

@@ -35,7 +35,9 @@ export const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvi
     return (
         <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
             <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start min-w-52">
-                <span className="md:text-nowrap">{translate("resources.terminals.selectHeader")}</span>
+                <span className="md:text-nowrap text-neutral-70 dark:text-neutral-30">
+                    {translate("resources.terminals.selectHeader")}
+                </span>
 
                 <Select onValueChange={onProviderChanged} value={providerName}>
                     <SelectTrigger className="text-ellipsis">

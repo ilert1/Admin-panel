@@ -18,7 +18,6 @@ export const ShowUserSheet: React.FC<ShowSheetProps> = ({ id = "", open, onOpenC
             <SheetContent
                 className="sm:max-w-[1015px] h-full sm:h-[502px] max-h-[calc(100dvh-84px)] overflow-hidden w-full p-0 m-0 top-[84px] flex flex-col"
                 tabIndex={-1}
-                style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
                 close={false}>
                 <div className="p-[42px] pb-[0px] flex-shrink-0">
                     <div className="flex justify-between items-center pb-2">

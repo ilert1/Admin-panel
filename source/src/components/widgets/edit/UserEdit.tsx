@@ -122,7 +122,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                                 <FormLabel>{translate("app.widgets.forms.userCreate.name")}</FormLabel>
                                 <FormControl>
                                     <Input
-                                        className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                        className={`dark:bg-muted text-sm text-neutral-100 shadow-1 disabled:dark:bg-muted ${
                                             fieldState.invalid
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
@@ -158,7 +158,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                                     <FormLabel>{translate("app.widgets.forms.userCreate.publicKey")}</FormLabel>
                                     <FormControl>
                                         <Textarea
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted h-full resize-none min-h-20 ${
+                                            className={`dark:bg-muted text-sm text-neutral-100 shadow-1 disabled:dark:bg-muted h-full resize-none min-h-20 ${
                                                 fieldState.invalid
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                     : ""
@@ -200,7 +200,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                     <Button
                         type="button"
                         onClick={() => onOpenChange(false)}
-                        variant="clearBtn"
+                        variant="deleteGray"
                         className="border border-neutral-50 rounded-4 hover:border-neutral-100">
                         {translate("app.widgets.forms.userCreate.cancelBtn")}
                     </Button>

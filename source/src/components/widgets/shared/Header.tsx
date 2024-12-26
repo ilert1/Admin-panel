@@ -13,10 +13,10 @@ import { useGetIdentity, usePermissions, useTranslate } from "react-admin";
 import { NumericFormat } from "react-number-format";
 import { useQuery } from "react-query";
 import { toast } from "sonner";
-import { Icon } from "./Icon";
 import { EllipsisVerticalIcon } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { LangSwitcher } from "../components/LangSwitcher";
+import { CurrencyIcon } from "./CurrencyIcon";
 // import { debounce } from "lodash";
 
 export const Header = (props: { handleLogout: () => void }) => {
@@ -94,8 +94,8 @@ export const Header = (props: { handleLogout: () => void }) => {
                             <div
                                 className={
                                     profileOpen
-                                        ? "flex gap-4 items-center justify-center py-1 pl-4 pr-4 bg-muted rounded-4 border border-neutral-80 box-border transition-colors transition-150 cursor-default"
-                                        : "flex gap-4 items-center justify-center py-1 pl-4 pr-4 bg-muted rounded-4 border border-muted box-border transition-colors transition-150 cursor-default"
+                                        ? `border-green-40  dark:border-[1px] flex gap-4 items-center justify-center py-1 pl-4 pr-4 bg-muted rounded-4 border dark:border-neutral-80 box-border transition-colors transition-150 cursor-default`
+                                        : `border-green-20 flex gap-4 items-center justify-center py-1 pl-4 pr-4 bg-white dark:bg-muted rounded-4 border dark:border-muted box-border transition-colors transition-150 cursor-default`
                                 }>
                                 <DropdownMenuTrigger asChild>
                                     <Avatar className="flex items-center justify-center w-[60px] h-[60px] border-2 border-green-40 bg-muted cursor-pointer">
@@ -104,10 +104,13 @@ export const Header = (props: { handleLogout: () => void }) => {
                                 </DropdownMenuTrigger>
 
                                 <div className="flex flex-col gap-[2px] items-start min-w-[137px]">
-                                    <span className={"text-neutral-100 text-title-2 cursor-default"}>
+                                    <span
+                                        className={
+                                            "text-neutral-90 dark:text-neutral-100 text-title-2 cursor-default "
+                                        }>
                                         {identity.data.fullName ? identity.data.fullName : ""}
                                     </span>
-                                    <span className="text-note-2 text-neutral-60">
+                                    <span className="text-note-2 text-neutral-60 dark:text-neutral-40">
                                         {translate("app.ui.header.totalBalance")}
                                     </span>
                                     {totalLoading && !totalAmount ? (
@@ -135,7 +138,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                         : "translate-y-[200%] opacity-0 z-0 delay-300"
                                                                 }`}>
                                                                 <NumericFormat
-                                                                    className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-full block"
+                                                                    className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-full block text-neutral-90 dark:text-white"
                                                                     value={
                                                                         Math.round(
                                                                             (el.value.quantity / el.value.accuracy) *
@@ -147,11 +150,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                     decimalSeparator=","
                                                                 />
                                                                 <div className="flex justify-center">
-                                                                    <Icon
-                                                                        name={el.currency}
-                                                                        folder="currency"
-                                                                        textSmall
-                                                                    />
+                                                                    <CurrencyIcon name={el.currency} textSmall />
                                                                 </div>
                                                             </div>
                                                         ))}
@@ -165,8 +164,8 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     <div
                                         className={
                                             profileOpen
-                                                ? "text-green-40 focus:outline-0"
-                                                : "group-hover:text-green-40 outline-none hover:text-green-40 transition-colors"
+                                                ? "border-0 outline-none text-controlElements focus:outline-0"
+                                                : "border-0 group-hover:text-controlElements outline-none hover:text-controlElements transition-colors"
                                         }>
                                         <EllipsisVerticalIcon />
                                     </div>
@@ -176,17 +175,18 @@ export const Header = (props: { handleLogout: () => void }) => {
                                 sideOffset={34}
                                 align="end"
                                 alignOffset={-18}
-                                className="p-0 w-72 bg-muted border border-neutral-80 z-[1000] flex flex-col gap-2 !rounded-4">
+                                className={`p-0 w-72 bg-muted border border-green-20 dark:border-neutral-60 z-[1000] flex flex-col gap-2 !rounded-4`}>
                                 <div className="flex content-start items-center pl-4 pr-4 mt-[0.8rem]">
                                     <Avatar className="w-5 h-5">
-                                        <AvatarFallback className="bg-green-50 transition-colors text-body cursor-default">
+                                        <AvatarFallback
+                                            className={`bg-green-50 transition-colors text-primary cursor-default`}>
                                             {identity.data.fullName
                                                 ? identity.data.fullName[0].toLocaleUpperCase()
                                                 : ""}
                                         </AvatarFallback>
                                     </Avatar>
                                     <div className="ml-3 text-neutral-100">
-                                        <div className="text-title-1 cursor-default">
+                                        <div className="text-title-1 cursor-default text-neutral-90 dark:text-white">
                                             {merchantOnly
                                                 ? translate("app.ui.roles.merchant")
                                                 : translate("app.ui.roles.admin")}
@@ -199,17 +199,17 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     </div>
                                 </div>
                                 <div className="flex flex-col content-start items-center pl-4 pr-2 mb-1">
-                                    <span className="text-note-2 self-start text-neutral-40 mt-[0.5rem] mb-1">
+                                    <span className="text-note-2 self-start text-neutral-60 dark:text-neutral-40 mt-[0.5rem] mb-1">
                                         {translate("app.ui.header.accurateBalance")}
                                     </span>
                                     <div
-                                        className={`flex flex-col gap-[2px] items-start max-h-[250px] w-full pr-2 overflow-x-hidden overflow-y-auto scrollbar-stable`}>
+                                        className={`flex flex-col gap-[2px] items-start max-h-[250px] w-full pr-2 overflow-x-hidden overflow-y-auto `}>
                                         {!totalLoading && totalAmount ? (
                                             totalAmount.map(el => (
                                                 <div
                                                     className="flex items-center w-full justify-between"
                                                     key={el.currency}>
-                                                    <h4 className="text-display-4 overflow-y-hidden">
+                                                    <h4 className="text-display-4 overflow-y-hidden text-neutral-90 dark:text-white">
                                                         <NumericFormat
                                                             className="whitespace-nowrap"
                                                             value={el.value.quantity / el.value.accuracy}
@@ -219,7 +219,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                         />
                                                     </h4>
                                                     <div className="flex justify-center overflow-y-hidden">
-                                                        <Icon name={el.currency} folder="currency" />
+                                                        <CurrencyIcon name={el.currency} />
                                                     </div>
                                                 </div>
                                             ))
@@ -233,16 +233,16 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     <Switch
                                         checked={theme === "light"}
                                         onCheckedChange={toggleTheme}
-                                        className="border-green-40 data-[state=checked]:bg-muted data-[state=unchecked]:bg-muted"
+                                        className="dark:border-green-40 data-[state=checked]:bg-green-60 data-[state=unchecked]:bg-muted"
                                     />
                                     <span className="ml-3 cursor-default text-neutral-50">
                                         {theme === "dark" ? translate("app.theme.light") : translate("app.theme.dark")}
                                     </span>
                                 </div>
                                 <DropdownMenuItem
-                                    className="pl-4 pr-4 h-[50px] hover:bg-green-50 hover:cursor-pointer text-title-2 focus:bg-green-50"
+                                    className="pl-4 pr-4 h-[50px] hover:text-white focus:text-white hover:bg-green-50 cursor-pointer text-title-2 focus:bg-green-50 rounded-none text-green-60 dark:text-white"
                                     onClick={props.handleLogout}>
-                                    {translate("ra.auth.logout")}
+                                    <span className="">{translate("ra.auth.logout")}</span>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>

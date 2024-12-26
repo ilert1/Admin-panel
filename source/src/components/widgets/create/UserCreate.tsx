@@ -133,7 +133,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                         <FormLabel>{translate("app.widgets.forms.userCreate.name")}</FormLabel>
                                         <FormControl>
                                             <Input
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                                className={`dark:bg-muted text-sm text-neutral-100 shadow-1 disabled:dark:bg-muted ${
                                                     fieldState.invalid
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                         : ""
@@ -177,7 +177,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                         <FormLabel>{translate("app.widgets.forms.userCreate.login")}</FormLabel>
                                         <FormControl>
                                             <Input
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                                className={`dark:bg-muted text-sm text-neutral-100 shadow-1  disabled:dark:bg-muted ${
                                                     fieldState.invalid
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                         : ""
@@ -221,7 +221,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                         <FormLabel>{translate("app.widgets.forms.userCreate.email")}</FormLabel>
                                         <FormControl>
                                             <Input
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                                className={`dark:bg-muted text-sm text-neutral-100 shadow-1 disabled:dark:bg-muted ${
                                                     fieldState.invalid
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                         : ""
@@ -271,7 +271,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                         <FormControl>
                                             <Input
                                                 type="text"
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
+                                                className={`dark:bg-muted text-sm text-neutral-100 shadow-1 disabled:dark:bg-muted ${
                                                     fieldState.invalid
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                         : ""
@@ -327,7 +327,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                             }}
                                             value={valueCurDialog}>
                                             <SelectTrigger
-                                                className={`dark:bg-muted text-sm text-neutral-100 dark:border-neutral-60 disabled:dark:bg-muted ${
+                                                className={`dark:bg-muted text-sm text-neutral-100 shadow-1 dark:border-neutral-60 disabled:dark:bg-muted ${
                                                     fieldState.invalid
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                         : ""
@@ -384,7 +384,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                             <FormLabel>{translate("app.widgets.forms.userCreate.publicKey")}</FormLabel>
                                             <FormControl>
                                                 <Textarea
-                                                    className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted h-full resize-none min-h-20 ${
+                                                    className={`dark:bg-muted text-sm text-neutral-100 shadow-1 disabled:dark:bg-muted h-full resize-none min-h-20 ${
                                                         fieldState.invalid
                                                             ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                             : ""
@@ -431,8 +431,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                 onClick={() => {
                                     onOpenChange(false);
                                 }}
-                                variant="clearBtn"
-                                className="border border-neutral-50 rounded-4 hover:border-neutral-100">
+                                variant="deleteGray">
                                 {translate("app.widgets.forms.userCreate.cancelBtn")}
                             </Button>
                         </div>

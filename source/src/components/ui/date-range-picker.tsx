@@ -26,11 +26,11 @@ export function DateRangePicker({
             <PopoverTrigger asChild>
                 <div className="flex flex-col sm:flex-row items-stretch flex-wrap gap-2 sm:gap-3">
                     <div className="relative flex md:flex-col gap-2 items-center md:items-start flex-1">
-                        {title && <span>{title}</span>}
+                        {title && <span className="text-neutral-60 dark:text-neutral-30">{title}</span>}
                         <Button
                             variant={"outline"}
                             className={
-                                "flex flex-1 justify-between items-center gap-3 font-normal text-neutral-100 duration-200 px-3 py-2 border-green-40 min-w-56"
+                                "flex flex-1 justify-between items-center gap-3 duration-200 px-3 py-2 border-green-40 min-w-56 text-neutral-80"
                             }>
                             {dateRange?.from ? (
                                 dateRange.to && dateRange.from !== dateRange.to ? (
@@ -54,7 +54,7 @@ export function DateRangePicker({
                                     }}
                                     tabIndex={-1}
                                     className={
-                                        "flex items-center justify-center text-neutral-60 hover:text-neutral-80 transition-colors duration-200"
+                                        "flex items-center justify-centertext-neutral-60 hover:text-neutral-80 transition-colors duration-200"
                                     }>
                                     <X className="w-4 h-4" />
                                 </span>

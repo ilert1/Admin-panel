@@ -35,7 +35,7 @@ export function SimpleTable<TData, TValue>({
                                     key={j}
                                     className={
                                         tableType === TableTypes.COLORED
-                                            ? "bg-green-50 text-neutral-100 border border-x border-muted"
+                                            ? "bg-green-50 text-white dark:text-neutral-100 border border-x border-muted"
                                             : ""
                                     }>
                                     {header.isPlaceholder

@@ -57,31 +57,31 @@ export const FeeCard = (props: FeeCardProps) => {
                 <div className="bg-neutral-0 border border-neutral-70 rounded-[8px] px-[8px] pt-[16px] pb-[8px]">
                     <div className="w-full grid grid-cols-2 gap-y-[8px] gap-2">
                         <div className="flex flex-col gap-[4px] col-span-2 sm:col-span-1">
-                            <Label className="text-title-1 text-neutral-40" htmlFor="">
+                            <Label className="text-title-1 text-neutral-60 dark:text-neutral-40" htmlFor="">
                                 {translate("resources.direction.fees.accountNumber")}
                             </Label>
                             <TextField copyValue text={account} />
                         </div>
                         <div className="flex flex-col gap-[4px] col-span-2 sm:col-span-1">
-                            <Label className="text-title-1 text-neutral-40" htmlFor="">
+                            <Label className="text-title-1 text-neutral-60 dark:text-neutral-40" htmlFor="">
                                 {translate("resources.direction.fees.feeAmount")}
                             </Label>
                             <TextField text={String(feeAmount)} />
                         </div>
                         <div className="flex flex-col gap-[4px] col-span-2 sm:col-span-1">
-                            <Label className="text-title-1 text-neutral-40" htmlFor="">
+                            <Label className="text-title-1 text-neutral-60 dark:text-neutral-40" htmlFor="">
                                 {translate("resources.direction.fees.feeType")}
                             </Label>
                             <TextField text={String(feeType)} />
                         </div>
                         <div className="flex flex-col gap-[4px] col-span-2 sm:col-span-1">
-                            <Label className="text-title-1 text-neutral-40" htmlFor="">
+                            <Label className="text-title-1 text-neutral-60 dark:text-neutral-40" htmlFor="">
                                 {translate("resources.direction.fees.currency")}
                             </Label>
                             <TextField text={String(currency)} />
                         </div>
                         <div className="flex flex-col gap-[4px] col-span-2">
-                            <Label className="text-title-1 text-neutral-40" htmlFor="">
+                            <Label className="text-title-1 text-neutral-60 dark:text-neutral-40" htmlFor="">
                                 {translate("resources.direction.fees.descr")}
                             </Label>
                             <Textarea readOnly className="!text-body resize-none" value={description} />
@@ -117,7 +117,7 @@ export const FeeCard = (props: FeeCardProps) => {
                                     onClick={() => {
                                         setDeleteDialogOpen(false);
                                     }}
-                                    variant="outline">
+                                    variant="deleteGray">
                                     {translate("app.ui.actions.cancel")}
                                 </Button>
                             </div>

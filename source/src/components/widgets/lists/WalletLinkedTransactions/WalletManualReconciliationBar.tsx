@@ -84,7 +84,12 @@ export const WalletManualReconciliationBar = () => {
                                 {translate("resources.wallet.linkedTransactions.fields.transactionId")}
                             </Label>
 
-                            <Input id="inputManual" value={inputVal} onChange={e => setInputVal(e.target.value)} />
+                            <Input
+                                id="inputManual"
+                                value={inputVal}
+                                onChange={e => setInputVal(e.target.value)}
+                                className="shadow-1"
+                            />
                         </div>
 
                         <div className="flex flex-col sm:self-end sm:flex-row items-center gap-4">
@@ -104,9 +109,9 @@ export const WalletManualReconciliationBar = () => {
 
                             <Button
                                 onClick={onOpenChange}
-                                variant="clearBtn"
+                                variant="deleteGray"
                                 type="button"
-                                className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full sm:w-auto">
+                                className="w-full sm:w-auto">
                                 {translate("app.ui.actions.cancel")}
                             </Button>
                         </div>
