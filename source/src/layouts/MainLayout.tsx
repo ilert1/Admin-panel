@@ -155,7 +155,6 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                                                 {getResLabel(resources[resource].name, permissions)}
                                                 <ChevronLeft
                                                     className="absolute -left-[13px] top-1.5 text-green-40"
-                                                    color="text-red-40"
                                                     width={20}
                                                     height={20}
                                                 />
