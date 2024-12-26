@@ -49,7 +49,7 @@ export const RingSpinner = () => {
             <defs>
                 <linearGradient id="spinner-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="28.01%" stopColor="#57CD8C" />
-                    <stop offset="69.22%" stopColor="#237648" />
+                    <stop offset="69.22%" stopColor="#57CD8C00" />
                 </linearGradient>
             </defs>
             <circle
