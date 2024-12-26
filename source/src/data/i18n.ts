@@ -518,7 +518,6 @@ const ru: TranslationMessages = {
                     minBalance: "Минимальное значение 0",
                     intOnly: "Значение должно быть целым числом, без дробной части"
                 },
-
                 creatingWallet: "Добавление кошелька",
                 editingWallet: "Редактирование кошелька",
                 deleteWallet: "Удалить кошелек?",

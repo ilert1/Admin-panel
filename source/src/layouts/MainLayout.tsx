@@ -115,7 +115,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                             <button className="h-[63px] ">
                                 <ChevronRightCircleIcon
                                     onClick={() => handleMenuState(!isSheetOpen)}
-                                    className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-green-60 dark:hover:text-white"
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-green-60 dark:hover:text-white border-none outline-none"
                                 />
                             </button>
                         </div>

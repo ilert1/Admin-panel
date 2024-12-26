@@ -112,7 +112,8 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
             );
         }
     };
-
+    console.log(customViewRoutes.childrens);
+    console.log(`resources.wallet.${customViewRoutes.childrens[0].name}.name`);
     return (
         <div className="flex flex-col gap-4 ">
             <TooltipProvider delayDuration={100}>
@@ -155,35 +156,55 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                         />
                     </TooltipContent>
                 </Tooltip>
-            </TooltipProvider>
 
-            {openAccordion && (
-                <div
-                    className={`flex flex-col gap-4 bg-green-0 dark:bg-muted pl-6 py-1 mr-[1px] ${
-                        showCaptions ? "pl-4" : "-ml-6 pl-4"
-                    }`}>
-                    {customViewRoutes.childrens.map((customRoute, index) => (
-                        <NavLink
-                            key={index}
-                            to={customRoute.path}
-                            className={
-                                location.pathname === customRoute.path
-                                    ? "pl-4 dark:bg-muted flex items-center gap-3 text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 dark:[&>svg>path]:stroke-controlElements [&>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
-                                    : "pl-4 dark:hover:bg-muted flex items-center gap-3 hover:text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
-                            }>
-                            {(!customRoute.showLock || (customRoute.showLock && showCaptions)) && customRoute.icon}
+                {openAccordion && (
+                    <div
+                        className={`flex flex-col gap-4 bg-green-0 dark:bg-muted pl-6 py-1 mr-[1px] ${
+                            showCaptions ? "pl-4" : "-ml-6 pl-4"
+                        }`}>
+                        {customViewRoutes.childrens.map((customRoute, index) => (
+                            <Tooltip key={index}>
+                                <TooltipTrigger asChild>
+                                    <NavLink
+                                        to={customRoute.path}
+                                        className={`${showCaptions ? "" : "ml-2"} ${
+                                            location.pathname === customRoute.path
+                                                ? "pl-4 dark:bg-muted flex items-center gap-3 text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 dark:[&>svg>path]:stroke-controlElements [&>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
+                                                : "pl-4 dark:hover:bg-muted flex items-center gap-3 hover:text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
+                                        }`}>
+                                        {(!customRoute.showLock || (customRoute.showLock && showCaptions)) &&
+                                            customRoute.icon}
 
-                            {showCaptions && (
-                                <span className="animate-in fade-in-0 transition-opacity p-0 m-0 leading-[22px]">
+                                        {showCaptions && (
+                                            <span className="animate-in fade-in-0 transition-opacity p-0 m-0 leading-[22px]">
+                                                {translate(`resources.wallet.${customRoute.name}.name`)}
+                                            </span>
+                                        )}
+
+                                        {customRoute.showLock && permissions === "admin" && <CurrentStateIcon />}
+                                    </NavLink>
+                                </TooltipTrigger>
+
+                                <TooltipContent
+                                    className={
+                                        showCaptions
+                                            ? "hidden"
+                                            : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 after:rotate-45"
+                                    }
+                                    sideOffset={12}
+                                    side="right">
                                     {translate(`resources.wallet.${customRoute.name}.name`)}
-                                </span>
-                            )}
-
-                            {customRoute.showLock && permissions === "admin" && <CurrentStateIcon />}
-                        </NavLink>
-                    ))}
-                </div>
-            )}
+                                    <ChevronLeft
+                                        className="absolute -left-[13px] top-1.5 text-controlElements"
+                                        width={20}
+                                        height={20}
+                                    />
+                                </TooltipContent>
+                            </Tooltip>
+                        ))}
+                    </div>
+                )}
+            </TooltipProvider>
         </div>
     );
 };
