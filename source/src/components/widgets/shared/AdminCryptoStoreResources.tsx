@@ -112,8 +112,6 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
             );
         }
     };
-    console.log(customViewRoutes.childrens);
-    console.log(`resources.wallet.${customViewRoutes.childrens[0].name}.name`);
     return (
         <div className="flex flex-col gap-4 ">
             <TooltipProvider delayDuration={100}>
