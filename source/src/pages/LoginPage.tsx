@@ -179,7 +179,7 @@ export const LoginPage = () => {
                     <img
                         src="/BlowFish.svg"
                         alt="Decorative"
-                        className="w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] xl:w-[400px] xl:h-[400px]pointer-events-none select-none -z-50"
+                        className="w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] xl:w-[400px] xl:h-[400px] pointer-events-none select-none -z-50"
                     />
                 </div>
 
