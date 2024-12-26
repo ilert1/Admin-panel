@@ -120,7 +120,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                     <TooltipTrigger asChild>
                         <button
                             onClick={() => setOpenAccordion(!openAccordion)}
-                            className={`pl-6 pointer hover:bg-neutral-20 text-left flex items-center hover:text-controlElements [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all animate-in fade-in-0 transition-colors duration-150 ${
+                            className={`pl-6 pointer hover:bg-neutral-20 dark:hover:bg-black text-left flex items-center hover:text-controlElements [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all animate-in fade-in-0 transition-colors duration-150 ${
                                 showCaptions ? "gap-3" : ""
                             }`}>
                             {customViewRoutes.icon}
@@ -140,7 +140,11 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                     </TooltipTrigger>
 
                     <TooltipContent
-                        className="after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 after:rotate-45"
+                        className={
+                            showCaptions
+                                ? "hidden"
+                                : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 after:rotate-45"
+                        }
                         sideOffset={12}
                         side="right">
                         {translate(`resources.${customViewRoutes.name}.name`)}
@@ -155,8 +159,8 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
 
             {openAccordion && (
                 <div
-                    className={`flex flex-col gap-4 bg-green-0 dark:bg-muted pl-6 ml-4 py-1 mr-[1px] ${
-                        showCaptions ? "pl-4" : "-ml-6 pl-6"
+                    className={`flex flex-col gap-4 bg-green-0 dark:bg-muted pl-6 py-1 mr-[1px] ${
+                        showCaptions ? "pl-4" : "-ml-6 pl-4"
                     }`}>
                     {customViewRoutes.childrens.map((customRoute, index) => (
                         <NavLink
@@ -164,8 +168,8 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                             to={customRoute.path}
                             className={
                                 location.pathname === customRoute.path
-                                    ? "dark:bg-muted flex items-center gap-3 text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 dark:[&>svg>path]:stroke-controlElements [&>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
-                                    : " dark:hover:bg-muted flex items-center gap-3 hover:text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
+                                    ? "pl-4 dark:bg-muted flex items-center gap-3 text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 dark:[&>svg>path]:stroke-controlElements [&>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
+                                    : "pl-4 dark:hover:bg-muted flex items-center gap-3 hover:text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
                             }>
                             {(!customRoute.showLock || (customRoute.showLock && showCaptions)) && customRoute.icon}
 

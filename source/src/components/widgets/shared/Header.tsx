@@ -13,7 +13,6 @@ import { useGetIdentity, usePermissions, useTranslate } from "react-admin";
 import { NumericFormat } from "react-number-format";
 import { useQuery } from "react-query";
 import { toast } from "sonner";
-import { Icon } from "./Icon";
 import { EllipsisVerticalIcon } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { LangSwitcher } from "../components/LangSwitcher";
@@ -204,7 +203,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         {translate("app.ui.header.accurateBalance")}
                                     </span>
                                     <div
-                                        className={`flex flex-col gap-[2px] items-start max-h-[250px] w-full pr-2 overflow-x-hidden overflow-y-auto scrollbar-stable`}>
+                                        className={`flex flex-col gap-[2px] items-start max-h-[250px] w-full pr-2 overflow-x-hidden overflow-y-auto `}>
                                         {!totalLoading && totalAmount ? (
                                             totalAmount.map(el => (
                                                 <div
@@ -241,7 +240,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     </span>
                                 </div>
                                 <DropdownMenuItem
-                                    className="pl-4 pr-4 h-[50px] hover:text-white focus:text-white hover:bg-green-50 cursor-pointer text-title-2 focus:bg-green-50 rounded-none text-green-60"
+                                    className="pl-4 pr-4 h-[50px] hover:text-white focus:text-white hover:bg-green-50 cursor-pointer text-title-2 focus:bg-green-50 rounded-none text-green-60 dark:text-white"
                                     onClick={props.handleLogout}>
                                     <span className="">{translate("ra.auth.logout")}</span>
                                 </DropdownMenuItem>

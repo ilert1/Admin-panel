@@ -89,8 +89,8 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                 <aside
                     className={
                         isSheetOpen
-                            ? "w-[280px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden scrollbar-stable justify-start bg-header transition-[width] pt-6"
-                            : "w-[72px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden scrollbar-stable justify-start bg-header transition-[width] pt-6"
+                            ? "w-[280px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden justify-start bg-header transition-[width] pt-6"
+                            : "w-[72px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden justify-start bg-header transition-[width] pt-6"
                     }>
                     {isSheetOpen ? (
                         <div className="flex flex-shrink-0 justify-center items-center h-[63px] gap-6 px-6">
