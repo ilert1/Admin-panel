@@ -28,6 +28,12 @@ interface CreateWalletProps {
     callbackData: (data: Wallets.Wallet) => void;
 }
 
+enum WalletTypes {
+    INTERNAL = "internal",
+    LINKED = "linked",
+    EXTERNAL = "external"
+}
+
 const isTRC20Address = (address: string): boolean => {
     return TronWeb.isAddress(address);
 };
@@ -114,7 +120,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
     };
 
     const formSchema = z.object({
-        type: z.enum([Wallets.WalletTypes.EXTERNAL, Wallets.WalletTypes.INTERNAL, Wallets.WalletTypes.LINKED]),
+        type: z.enum([WalletTypes.EXTERNAL, WalletTypes.INTERNAL, WalletTypes.LINKED]),
         accountNumber: z.string().min(1, translate("resources.wallet.manage.errors.selectAccount")),
         blockchain: z.string(),
         network: z.string(),
@@ -139,7 +145,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            type: isMerchant ? Wallets.WalletTypes.EXTERNAL : Wallets.WalletTypes.INTERNAL,
+            type: isMerchant ? WalletTypes.EXTERNAL : WalletTypes.INTERNAL,
             currency: "USDT",
             description: "",
             accountNumber: "",
@@ -185,7 +191,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                                     <SelectTrigger variant={SelectType.GRAY} className="shadow-1">
                                                         <SelectValue
                                                             placeholder={translate("resources.direction.fields.active")}
-                                                            defaultValue={Wallets.WalletTypes.INTERNAL}
+                                                            defaultValue={WalletTypes.INTERNAL}
                                                         />
                                                     </SelectTrigger>
                                                 </FormControl>
@@ -193,23 +199,23 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                                     {!isMerchant ? (
                                                         <SelectGroup>
                                                             <SelectItem
-                                                                value={Wallets.WalletTypes.LINKED}
+                                                                value={WalletTypes.LINKED}
                                                                 variant={SelectType.GRAY}>
-                                                                {Wallets.WalletTypes.LINKED}
+                                                                {WalletTypes.LINKED}
                                                             </SelectItem>
 
                                                             <SelectItem
-                                                                value={Wallets.WalletTypes.INTERNAL}
+                                                                value={WalletTypes.INTERNAL}
                                                                 variant={SelectType.GRAY}>
-                                                                {Wallets.WalletTypes.INTERNAL}
+                                                                {WalletTypes.INTERNAL}
                                                             </SelectItem>
                                                         </SelectGroup>
                                                     ) : (
                                                         <SelectGroup>
                                                             <SelectItem
-                                                                value={Wallets.WalletTypes.EXTERNAL}
+                                                                value={WalletTypes.EXTERNAL}
                                                                 variant={SelectType.GRAY}>
-                                                                {Wallets.WalletTypes.EXTERNAL}
+                                                                {WalletTypes.EXTERNAL}
                                                             </SelectItem>
                                                         </SelectGroup>
                                                     )}
