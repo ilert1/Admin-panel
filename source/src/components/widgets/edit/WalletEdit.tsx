@@ -13,6 +13,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
+import { WalletTypes } from "@/helpers/wallet-types";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";
@@ -31,12 +32,6 @@ import { z } from "zod";
 interface EditWalletProps {
     id: string;
     onOpenChange: (state: boolean) => void;
-}
-
-enum WalletTypes {
-    INTERNAL = "internal",
-    LINKED = "linked",
-    EXTERNAL = "external"
 }
 
 export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
@@ -353,7 +348,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto bg-white dark:bg-muted shadow-1 text-title-1 shadow-1"
+                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto bg-white dark:bg-muted text-title-1 shadow-1"
                                             />
                                         </div>
                                     </FormControl>

@@ -22,16 +22,11 @@ import { toast } from "sonner";
 import { Form, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { TronWeb } from "tronweb";
+import { WalletTypes } from "@/helpers/wallet-types";
 
 interface CreateWalletProps {
     onOpenChange: (state: boolean) => void;
     callbackData: (data: Wallets.Wallet) => void;
-}
-
-enum WalletTypes {
-    INTERNAL = "internal",
-    LINKED = "linked",
-    EXTERNAL = "external"
 }
 
 const isTRC20Address = (address: string): boolean => {

@@ -21,18 +21,13 @@ import { TronWeb } from "tronweb";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
 import { usePreventFocus } from "@/hooks";
+import { WalletTypes } from "@/helpers/wallet-types";
 
 const BF_MANAGER_URL = import.meta.env.VITE_BF_MANAGER_URL;
 
 interface AccountEditProps {
     id?: string;
     onOpenChange: (state: boolean) => void;
-}
-
-enum WalletTypes {
-    INTERNAL = "internal",
-    LINKED = "linked",
-    EXTERNAL = "external"
 }
 
 export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {

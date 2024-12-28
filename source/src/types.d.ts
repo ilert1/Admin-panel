@@ -418,12 +418,6 @@ declare namespace Dictionaries {
 }
 
 declare namespace Wallets {
-    enum WalletTypes {
-        INTERNAL = "internal",
-        LINKED = "linked",
-        EXTERNAL = "external"
-    }
-
     interface Wallet {
         id: string;
         description: string | null;
