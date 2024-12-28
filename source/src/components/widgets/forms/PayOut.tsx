@@ -10,6 +10,7 @@ import { useMemo, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
+import { LoadingBlock } from "@/components/ui/loading";
 
 interface IProps {
     currencies: Dictionaries.Currency[] | undefined;
@@ -134,12 +135,20 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            {payMethodsWithId &&
-                                                payMethodsWithId?.map(method => (
-                                                    <SelectItem key={method.id} value={method.id}>
-                                                        {`${method.bankName} (${method.paymentTypeName}, ${method.fiatCurrency})`}
-                                                    </SelectItem>
-                                                ))}
+                                            {loading ? (
+                                                <div className="flex items-center justify-center p-4">
+                                                    <LoadingBlock />
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    {payMethodsWithId &&
+                                                        payMethodsWithId?.map(method => (
+                                                            <SelectItem key={method.id} value={method.id}>
+                                                                {`${method.bankName} (${method.paymentTypeName}, ${method.fiatCurrency})`}
+                                                            </SelectItem>
+                                                        ))}
+                                                </>
+                                            )}
                                         </SelectContent>
                                     </Select>
                                 </FormItem>

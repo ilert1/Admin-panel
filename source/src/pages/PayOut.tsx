@@ -31,7 +31,11 @@ export const PayOutPage = () => {
     const currency = useMemo(() => accounts?.[0]?.amounts?.[0]?.shop_currency, [accounts]);
     const { data: currencies } = useFetchCurrencies();
 
-    const { isLoading: initialLoading, data: payMethods } = useQuery<PayOut.Response, unknown, PayOut.PayMethod[] | []>(
+    const {
+        isLoading: initialLoading,
+        isFetching,
+        data: payMethods
+    } = useQuery<PayOut.Response, unknown, PayOut.PayMethod[] | []>(
         ["paymethods", currency],
         async () => {
             if (currency) {
@@ -49,7 +53,10 @@ export const PayOutPage = () => {
     );
 
     const [localLoading, setLocalLoading] = useState(false);
-    const isLoading = useMemo(() => initialLoading || localLoading, [initialLoading, localLoading]);
+    const isLoading = useMemo(
+        () => initialLoading || localLoading || isFetching,
+        [initialLoading, localLoading, isFetching]
+    );
 
     const createPayOut = async (data: { payMethod: PayOut.PayMethod; [key: string]: string | PayOut.PayMethod }) => {
         try {
