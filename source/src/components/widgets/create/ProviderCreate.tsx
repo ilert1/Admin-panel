@@ -86,7 +86,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                                     </FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} variant={InputTypes.GRAY} className="shadow-1" />
+                                            <Input {...field} variant={InputTypes.GRAY} className="" />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -105,7 +105,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                                     </FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} variant={InputTypes.GRAY} className="shadow-1" />
+                                            <Input {...field} variant={InputTypes.GRAY} className="" />
                                         </div>
                                     </FormControl>
                                     <FormMessage />

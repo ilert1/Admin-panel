@@ -48,29 +48,33 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
         <div className="mb-6">
             <div className="w-full mb-6">
                 <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
-                    <label className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
-                        <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
-                            {translate("resources.transactions.filter.filterById")}
-                        </span>
+                    <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
+                        <label>
+                            <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
+                                {translate("resources.transactions.filter.filterById")}
+                            </span>
+                        </label>
+
                         <Input
-                            className="flex-1 text-sm placeholder:text-neutral-70"
+                            className="flex-1 text-sm placeholder:text-neutral-70 h-[38px]"
                             placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
                             value={operationId}
                             onChange={onOperationIdChanged}
                         />
-                    </label>
-
-                    <label className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
-                        <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
-                            {translate("resources.transactions.filter.filterCustomerPaymentId")}
-                        </span>
+                    </div>
+                    <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
+                        <label>
+                            <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
+                                {translate("resources.transactions.filter.filterCustomerPaymentId")}
+                            </span>
+                        </label>
                         <Input
-                            className="flex-1 text-sm placeholder:text-neutral-70"
+                            className="flex-1 text-sm placeholder:text-neutral-70 h-[38px]"
                             placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
                             value={customerPaymentId}
                             onChange={onCustomerPaymentIdChanged}
                         />
-                    </label>
+                    </div>
 
                     <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start min-w-36">
                         <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
@@ -82,7 +86,7 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                                 val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged("")
                             }
                             value={orderStatusFilter}>
-                            <SelectTrigger className="text-ellipsis">
+                            <SelectTrigger className="text-ellipsis h-[38px]">
                                 <SelectValue
                                     placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
                                 />

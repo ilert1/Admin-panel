@@ -123,7 +123,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                             <>
                                 <Button
                                     disabled={!context.record?.state.final}
-                                    variant={"secondary"}
+                                    variant={"default"}
                                     onClick={() => setDialogOpen(true)}>
                                     {commitCaption}
                                 </Button>

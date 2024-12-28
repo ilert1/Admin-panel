@@ -188,7 +188,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                                 onValueChange={field.onChange}
                                                 disabled={isMerchant}>
                                                 <FormControl>
-                                                    <SelectTrigger variant={SelectType.GRAY} className="shadow-1">
+                                                    <SelectTrigger variant={SelectType.GRAY} className="">
                                                         <SelectValue
                                                             placeholder={translate("resources.direction.fields.active")}
                                                             defaultValue={WalletTypes.INTERNAL}
@@ -232,7 +232,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 render={({ field }) => (
                                     <FormItem className="w-1/2 p-2">
                                         <FormLabel>
-                                            {translate("resources.wallet.manage.fields.merchantName")}
+                                            {translate("resources.wallet.manage.fields.accountNumber")}
                                         </FormLabel>
                                         <FormControl>
                                             <Select
@@ -240,7 +240,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                                 onValueChange={field.onChange}
                                                 disabled={accountsDisabled}>
                                                 <FormControl>
-                                                    <SelectTrigger variant={SelectType.GRAY} className="shadow-1">
+                                                    <SelectTrigger variant={SelectType.GRAY} className="">
                                                         <SelectValue />
                                                     </SelectTrigger>
                                                 </FormControl>
@@ -277,12 +277,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                         <FormLabel>{translate("resources.wallet.manage.fields.currency")}</FormLabel>
                                         <FormControl>
                                             <div>
-                                                <Input
-                                                    {...field}
-                                                    className="shadow-1"
-                                                    variant={InputTypes.GRAY}
-                                                    disabled
-                                                />
+                                                <Input {...field} className="" variant={InputTypes.GRAY} disabled />
                                             </div>
                                         </FormControl>
                                     </FormItem>
@@ -296,12 +291,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                         <FormLabel>{translate("resources.wallet.manage.fields.blockchain")}</FormLabel>
                                         <FormControl>
                                             <div>
-                                                <Input
-                                                    disabled
-                                                    {...field}
-                                                    className="shadow-1"
-                                                    variant={InputTypes.GRAY}
-                                                />
+                                                <Input disabled {...field} className="" variant={InputTypes.GRAY} />
                                             </div>
                                         </FormControl>
                                     </FormItem>
@@ -316,12 +306,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                         <FormLabel>{translate("resources.wallet.manage.fields.contactType")}</FormLabel>
                                         <FormControl>
                                             <div>
-                                                <Input
-                                                    disabled
-                                                    {...field}
-                                                    className="shadow-1"
-                                                    variant={InputTypes.GRAY}
-                                                />
+                                                <Input disabled {...field} className="" variant={InputTypes.GRAY} />
                                             </div>
                                         </FormControl>
                                     </FormItem>
@@ -335,7 +320,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                         <FormLabel>{translate("resources.wallet.manage.fields.minRemaini")}</FormLabel>
                                         <FormControl>
                                             <div>
-                                                <Input {...field} className="shadow-1" variant={InputTypes.GRAY} />
+                                                <Input {...field} className="" variant={InputTypes.GRAY} />
                                             </div>
                                         </FormControl>
                                         <FormMessage />
@@ -353,7 +338,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto dark:bg-muted shadow-1 text-title-1 outline-none"
+                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto dark:bg-muted  text-title-1 outline-none"
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -391,7 +376,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                             <div>
                                                 <Input
                                                     {...field}
-                                                    className="shadow-1"
+                                                    className=""
                                                     variant={InputTypes.GRAY}
                                                     value={field.value ?? ""}
                                                     disabled={!isMerchant}
@@ -415,7 +400,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                                     {...field}
                                                     value={field.value ?? ""}
                                                     placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                    className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto shadow-1 text-title-1 outline-none"
+                                                    className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto text-neutral-80 dark:text-white text-title-1 outline-none dark:bg-muted border-neutral-40"
                                                 />
                                             </div>
                                         </FormControl>

@@ -133,7 +133,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
                     onClick={() => handleDeleteClicked()}>
                     {translate("app.ui.actions.delete")}
                     </Button> */}
-                <Button variant={"deleteGray"} onClick={() => handleEditClicked()}>
+                <Button variant={"deleteGray"} onClick={() => handleDeleteClicked()}>
                     {translate("resources.users.delete")}
                 </Button>
 

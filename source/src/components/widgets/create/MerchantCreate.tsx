@@ -116,7 +116,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                     <FormLabel>{translate("resources.merchant.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} className="shadow-1" variant={InputTypes.GRAY} />
+                                            <Input {...field} className="" variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -131,7 +131,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                     <FormLabel>{translate("resources.merchant.fields.id")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} className="shadow-1" variant={InputTypes.GRAY} />
+                                            <Input {...field} className="" variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -148,7 +148,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                         <div>
                                             <Input
                                                 {...field}
-                                                className="shadow-1"
+                                                className=""
                                                 value={field.value ?? ""}
                                                 variant={InputTypes.GRAY}
                                             />
@@ -168,7 +168,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                         <div>
                                             <Input
                                                 {...field}
-                                                className="shadow-1"
+                                                className=""
                                                 value={field.value ?? ""}
                                                 variant={InputTypes.GRAY}
                                             />

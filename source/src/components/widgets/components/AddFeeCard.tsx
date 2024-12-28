@@ -105,7 +105,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                 <div>
                                                     <Select value={field.value} onValueChange={field.onChange}>
                                                         <FormControl>
-                                                            <SelectTrigger className="shadow-1">
+                                                            <SelectTrigger>
                                                                 <SelectValue />
                                                             </SelectTrigger>
                                                         </FormControl>
@@ -134,7 +134,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                             <FormLabel>{translate("resources.direction.fees.feeAmount")}</FormLabel>
                                             <FormControl>
                                                 <div>
-                                                    <Input {...field} className="shadow-1" />
+                                                    <Input {...field} />
                                                 </div>
                                             </FormControl>
                                         </FormItem>
@@ -153,7 +153,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                         onValueChange={field.onChange}
                                                         disabled={currenciesDisabled}>
                                                         <FormControl>
-                                                            <SelectTrigger className="shadow-1">
+                                                            <SelectTrigger>
                                                                 <SelectValue />
                                                             </SelectTrigger>
                                                         </FormControl>
@@ -186,7 +186,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                         onValueChange={field.onChange}
                                                         disabled={currenciesDisabled}>
                                                         <FormControl>
-                                                            <SelectTrigger className="shadow-1">
+                                                            <SelectTrigger>
                                                                 <SelectValue
                                                                     placeholder={
                                                                         currenciesDisabled
@@ -235,7 +235,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                             <FormLabel>{translate("resources.direction.description")}</FormLabel>
                                             <FormControl>
                                                 <div>
-                                                    <Input {...field} value={field.value ?? ""} className="shadow-1" />
+                                                    <Input {...field} value={field.value ?? ""} />
                                                 </div>
                                             </FormControl>
                                         </FormItem>

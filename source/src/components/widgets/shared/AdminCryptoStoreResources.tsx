@@ -193,7 +193,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                     side="right">
                                     {translate(`resources.wallet.${customRoute.name}.name`)}
                                     <ChevronLeft
-                                        className="absolute -left-[13px] top-1.5 text-controlElements"
+                                        className="absolute -left-[13px] top-1.5 text-green-40"
                                         width={20}
                                         height={20}
                                     />

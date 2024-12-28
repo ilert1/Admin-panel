@@ -99,7 +99,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                     <FormLabel>{translate("resources.direction.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} variant={InputTypes.GRAY} className="shadow-1" />
+                                            <Input {...field} variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -116,7 +116,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         value={field.value ? "true" : "false"}
                                         onValueChange={value => field.onChange(value === "true")}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY} className="shadow-1">
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={translate("resources.direction.fields.active")}
                                                 />
@@ -148,7 +148,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         onValueChange={field.onChange}
                                         disabled={currenciesDisabled}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY} className="shadow-1">
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={
                                                         currenciesDisabled
@@ -188,7 +188,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         onValueChange={field.onChange}
                                         disabled={currenciesDisabled}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY} className="shadow-1">
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={
                                                         currenciesDisabled
@@ -228,7 +228,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         onValueChange={field.onChange}
                                         disabled={merchantsDisabled}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY} className="shadow-1">
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={
                                                         merchantsDisabled
@@ -271,7 +271,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         }}
                                         disabled={providersDisabled}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY} className="shadow-1">
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={
                                                         providersDisabled
@@ -312,7 +312,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         onValueChange={field.onChange}
                                         disabled={terminalsDisabled}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY} className="shadow-1">
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={
                                                         terminalsDisabled
@@ -349,12 +349,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                     <FormLabel>{translate("resources.direction.weight")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input
-                                                {...field}
-                                                value={field.value ?? 0}
-                                                variant={InputTypes.GRAY}
-                                                className="shadow-1"
-                                            />
+                                            <Input {...field} value={field.value ?? 0} variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -369,12 +364,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                     <FormLabel>{translate("resources.direction.description")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input
-                                                {...field}
-                                                value={field.value ?? ""}
-                                                variant={InputTypes.GRAY}
-                                                className="shadow-1"
-                                            />
+                                            <Input {...field} value={field.value ?? ""} variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
