@@ -16,6 +16,7 @@ export const useGetProvidersColumns = () => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [showMethodsOpen, setSowMethodsOpen] = useState(false);
+    const [confirmKeysCreatingOpen, setConfirmKeysCreatingOpen] = useState(false);
 
     const handleDeleteClicked = async (id: string) => {
         setChosenId(id);
@@ -29,7 +30,7 @@ export const useGetProvidersColumns = () => {
 
     const handleClickGenerate = async (id: string) => {
         setChosenId(id);
-        setDialogOpen(true);
+        setConfirmKeysCreatingOpen(true);
     };
 
     const handleShowMethodsClicked = (id: string) => {
@@ -150,9 +151,11 @@ export const useGetProvidersColumns = () => {
         columns,
         editDialogOpen,
         showMethodsOpen,
+        confirmKeysCreatingOpen,
         setSowMethodsOpen,
         setEditDialogOpen,
         setDeleteDialogOpen,
-        setDialogOpen
+        setDialogOpen,
+        setConfirmKeysCreatingOpen
     };
 };

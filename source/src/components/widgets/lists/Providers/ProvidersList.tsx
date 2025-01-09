@@ -10,6 +10,7 @@ import { useState } from "react";
 import { CirclePlus } from "lucide-react";
 import { CreateProviderDialog } from "./CreateProviderDialog";
 import { ShowMethodsDialog } from "./ShowMethodsDialog";
+import { ConfirmCreatingDialog } from "./ConfirmCreatingDialog";
 
 export const ProvidersList = () => {
     const listContext = useListController<Provider>();
@@ -35,7 +36,9 @@ export const ProvidersList = () => {
         setSowMethodsOpen,
         setEditDialogOpen,
         setDeleteDialogOpen,
-        setDialogOpen
+        setDialogOpen,
+        confirmKeysCreatingOpen,
+        setConfirmKeysCreatingOpen
     } = useGetProvidersColumns();
 
     if (listContext.isLoading || !listContext.data) {
@@ -51,6 +54,11 @@ export const ProvidersList = () => {
                                 <span className="text-title-1">{translate("resources.provider.createNew")}</span>
                             </Button>
                         </div>
+                        <ConfirmCreatingDialog
+                            open={confirmKeysCreatingOpen}
+                            onOpenChange={setConfirmKeysCreatingOpen}
+                            setConfirmed={setDialogOpen}
+                        />
 
                         <CreateProviderDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
 
