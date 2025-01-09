@@ -16,8 +16,8 @@ import {
 import { LoginBackground } from "@/lib/icons/LoginBackground";
 import SunIcon from "../../public/Sun.svg?react";
 import MoonIcon from "../../public/Moon.svg?react";
-import { TextField } from "@/components/ui/text-field";
 import { Text } from "@/components/ui/text";
+import { cn } from "@/lib/utils";
 
 const realm = import.meta.env.VITE_KEYCLOAK_REALM;
 const kk = import.meta.env.VITE_KEYCLOAK_URL;
@@ -114,48 +114,53 @@ export const LoginPage = () => {
     return (
         <>
             <div className="flex flex-shrink-0 justify-end h-[84px] items-center gap-8 bg-header px-4 relative z-100 pointer-events-auto z">
-                <div className="flex border border-neutral-50 rounded-full items-center bg-white dark:bg-black">
-                    {theme === "dark" ? (
-                        <>
-                            <div
-                                className="rounded-full bg-neutral-50 overflow-hidden cursor-pointer m-[5px] mr-0"
-                                onClick={toggleTheme}
+                <div
+                    className="flex border border-neutral-50 rounded-full items-center bg-white dark:bg-black relative w-[140px] h-[60px] overflow-hidden cursor-pointer"
+                    onClick={toggleTheme}>
+                    <div className="flex items-center absolute">
+                        <div
+                            className={cn(
+                                "rounded-full bg-neutral-50 overflow-hidden m-[5px] mr-0 duration-500 opacity:duration-0",
+                                theme === "dark" ? "-translate-x-0 ml-[7px]" : "translate-x-[150%] opacity-0"
+                            )}
+                            style={{
+                                boxShadow: "0px 0px 16px rgba(255, 2555, 255, 0.75)"
+                            }}>
+                            <MoonIcon
+                                style={{ backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}
+                                className="shadow-1"
+                            />
+                        </div>
+                        <div
+                            className={cn(
+                                "rounded-full overflow-hidden cursor-pointer ml-0 duration-500 opacity:duration-0",
+                                theme === "dark" ? "-translate-x-full ml-[7px] opacity-0" : "translate-x-1/4 transform"
+                            )}>
+                            <SunIcon
                                 style={{
-                                    boxShadow: "0px 0px 16px rgba(255, 2555, 255, 0.75)"
-                                }}>
-                                <MoonIcon
-                                    style={{ backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}
-                                    className="shadow-1"
-                                />
-                            </div>
-                            <Text
-                                text="Темная"
-                                className="px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100"
+                                    boxShadow: "0px 0px 12px rgba(241, 197, 42, 0.75)",
+                                    borderRadius: "50%",
+                                    border: "0"
+                                }}
+                                className="shadow-1"
                             />
-                        </>
-                    ) : (
-                        <>
-                            <Text
-                                className="px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100"
-                                text="Светлая"
-                            />
-                            <div
-                                onClick={toggleTheme}
-                                className="rounded-full overflow-hidden cursor-pointer ml-0"
-                                style={{}}>
-                                <SunIcon
-                                    style={{
-                                        backdropFilter: "blur(4px)",
-                                        WebkitBackdropFilter: "blur(4px)",
-                                        boxShadow: "0px 0px 16px rgba(241, 197, 42, 0.75)",
-                                        borderRadius: "50%",
-                                        border: "0"
-                                    }}
-                                    className="shadow-1"
-                                />
-                            </div>
-                        </>
-                    )}
+                        </div>
+                    </div>
+
+                    <Text
+                        text="Темная"
+                        className={cn(
+                            "px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100 duration-500",
+                            theme === "dark" ? "opacity-100 translate-x-[75%] ml-[7px]" : "-translate-x-0 opacity-0"
+                        )}
+                    />
+                    <Text
+                        className={cn(
+                            "px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100 duration-500",
+                            theme === "dark" ? "-translate-x-full ml-[7px] opacity-0" : "-translate-x-full"
+                        )}
+                        text="Светлая"
+                    />
                 </div>
                 <LangSwitcher />
             </div>
