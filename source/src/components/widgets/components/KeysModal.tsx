@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { LoadingBlock } from "@/components/ui/loading";
+import { TextField } from "@/components/ui/text-field";
 import { useCreateTestKeys } from "@/hooks/useCreateTestKeys";
 import { Copy } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
@@ -57,12 +58,15 @@ export const KeysModal = (props: KeysModalProps) => {
                     <DialogTitle />
                     <DialogDescription />
                     <div className="flex flex-col gap-[24px] max-h-[468px] w-full">
-                        <div className="text-center">
-                            <h4 className="text-display-4 text-neutral-100">
-                                {isTest
-                                    ? translate("resources.provider.keysCreating")
-                                    : translate("resources.provider.realKeysCreating")}
-                            </h4>
+                        <div className="text-center flex items-center justify-center">
+                            <TextField
+                                text={
+                                    isTest
+                                        ? translate("resources.provider.keysCreating")
+                                        : translate("resources.provider.realKeysCreating")
+                                }
+                                className="!text-display-4"
+                            />
                         </div>
                         {isLoading ? (
                             <LoadingBlock />
@@ -130,10 +134,10 @@ export const KeysModal = (props: KeysModalProps) => {
                     <DialogFooter className="flex !justify-between">
                         <div className="flex flex-col gap-2 sm:flex-row sm:gap-0 justify-between w-full">
                             <div className="flex flex-col">
-                                <span className="text-red-20 text-title-1">
+                                <span className="text-red-40 dark:text-red-20 text-title-1">
                                     {translate("resources.provider.warning")}
                                 </span>
-                                <span className="text-red-20 text-title-1">
+                                <span className="text-red-40 dark:text-red-20 text-title-1">
                                     {translate("resources.provider.sendToDevOps")}
                                 </span>
                             </div>

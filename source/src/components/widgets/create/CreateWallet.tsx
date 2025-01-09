@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { Form, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { TronWeb } from "tronweb";
+import { Textarea } from "@/components/ui/textarea";
 
 interface CreateWalletProps {
     onOpenChange: (state: boolean) => void;
@@ -334,12 +335,13 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                     <FormItem className="w-full p-2">
                                         <FormLabel>{translate("resources.wallet.manage.fields.descr")}</FormLabel>
                                         <FormControl>
-                                            <textarea
+                                            <Textarea
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto dark:bg-muted  text-title-1 outline-none"
+                                                className="w-full h-24 p-2 rounded resize-none overflow-auto dark:bg-muted text-title-1 outline-none"
                                             />
+                                            {/* border border-neutral-60 */}
                                         </FormControl>
                                     </FormItem>
                                 )}

@@ -85,9 +85,10 @@ export const MerchantShow = ({ id, type }: MerchantShowProps) => {
                         </div>
                     </div>
                     <div className="flex flex-col bg-neutral-0 px-[32px] rounded-[8px] w-full mx-[10px] mt-[10px] overflow-hidden">
-                        <h3 className="text-display-3 mt-[16px] mb-[16px]">
-                            {translate("resources.direction.fees.fees")}
-                        </h3>
+                        <TextField
+                            text={translate("resources.direction.fees.fees")}
+                            className="text-display-3 mt-[16px] mb-[16px]"
+                        />
                         <div className="max-h-[42vh] overflow-auto pr-[10px]">
                             {fees && Object.keys(fees).length !== 0
                                 ? Object.keys(fees).map(key => {
@@ -127,7 +128,7 @@ export const MerchantShow = ({ id, type }: MerchantShowProps) => {
                 </>
             ) : (
                 <div className="mt-5 w-full flex flex-col gap-[8px]">
-                    <span className="text-display-3 text-white">
+                    <span className="text-display-3 text-neutral-90 dark:text-neutral-30">
                         {translate("resources.merchant.fields.directions")}
                     </span>
                     <SimpleTable columns={columns} tableType={TableTypes.COLORED} data={merchantDirections} />

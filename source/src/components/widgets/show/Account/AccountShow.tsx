@@ -33,6 +33,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                         <TextField
                             label={translate("resources.accounts.fields.trc20")}
                             text={context.record.meta?.TRC20}
+                            className="text-neutral-90 dark:text-neutral-30"
                             copyValue
                         />
                     )}
@@ -42,6 +43,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                             label={translate("resources.accounts.fields.tron_wallet")}
                             text={context.record.meta?.tron_wallet}
                             copyValue
+                            className="text-neutral-90 dark:text-neutral-30"
                         />
                     )}
                 </div>

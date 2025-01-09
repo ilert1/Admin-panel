@@ -20,7 +20,7 @@ export const ShowWalletTransactionsDialog = ({ id, open, onOpenChange }: ShowWal
                 <div className="p-[42px] pb-[0px] flex-shrink-0">
                     <div>
                         <div className="flex justify-between items-center">
-                            <SheetTitle className="text-display-1 break-words overflow-hidden">
+                            <SheetTitle className="!text-display-1 break-words overflow-hidden text-neutral-90 dark:text-neutral-30">
                                 {translate("resources.wallet.transactions.cryptotransaction")}
                             </SheetTitle>
                             <button

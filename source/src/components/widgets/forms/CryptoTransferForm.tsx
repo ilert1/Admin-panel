@@ -205,7 +205,7 @@ export const CryptoTransferForm = (props: {
                                 name="address"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-note-1">
+                                        <FormLabel className="text-note-1 text-neutral-80 dark:text-neutral-30">
                                             {translate("app.widgets.forms.cryptoTransfer.address")}
                                         </FormLabel>
                                         <FormControl>
@@ -299,7 +299,7 @@ export const CryptoTransferForm = (props: {
                                 name="amount"
                                 render={({ field, fieldState }) => (
                                     <FormItem>
-                                        <FormLabel className="text-note-1">
+                                        <FormLabel className="text-note-1 text-neutral-80 dark:text-neutral-30">
                                             {translate("app.widgets.forms.cryptoTransfer.amount")}
                                         </FormLabel>
                                         <FormControl>
@@ -366,13 +366,13 @@ export const CryptoTransferForm = (props: {
                                 <span className="text-neutral-60 dark:text-neutral-40">
                                     {translate("app.widgets.forms.cryptoTransfer.commission")}
                                 </span>
-                                <span>2 USD₮</span>
+                                <span className="text-neutral-80 dark:text-neutral-30">2 USD₮</span>
                             </div>
                             <div className="flex flex-col items-start">
                                 <span className="text-neutral-60 dark:text-neutral-40">
                                     {translate("app.widgets.forms.cryptoTransfer.totalAmount")}
                                 </span>
-                                <span>{sendAmount + " USD₮"}</span>
+                                <span className="text-neutral-80 dark:text-neutral-30">{sendAmount + " USD₮"}</span>
                             </div>
                         </div>
                         <Button

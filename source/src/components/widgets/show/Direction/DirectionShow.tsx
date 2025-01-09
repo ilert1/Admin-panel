@@ -138,7 +138,10 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                 </div>
 
                 <div className="flex flex-col bg-neutral-0 px-[32px] rounded-[8px] w-full mx-[10px] mt-[10px]">
-                    <h3 className="text-display-3 mt-[16px] mb-[16px]">{translate("resources.direction.fees.fees")}</h3>
+                    <TextField
+                        text={translate("resources.direction.fees.fees")}
+                        className="text-display-3 mt-[16px] mb-[16px]"
+                    />
 
                     <div className="max-h-[45vh] overflow-auto pr-[10px]">
                         {fees && Object.keys(fees).length !== 0

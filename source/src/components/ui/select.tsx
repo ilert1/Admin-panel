@@ -87,7 +87,7 @@ const SelectItem = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Item
             ref={ref}
             className={cn(
                 `${
-                    variant === SelectType.GRAY ? "bg-white dark:bg-black" : "bg-red-40"
+                    variant === SelectType.GRAY ? "bg-white dark:bg-black" : ""
                 } relative cursor-pointer flex w-full select-none items-center py-2 pl-8 pr-2 text-neutral-80 text-sm outline-none focus:bg-green-50 focus:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:hover:bg-green-50 dark:focus:bg-green-50`,
                 className
             )}

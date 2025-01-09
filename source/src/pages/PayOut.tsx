@@ -114,7 +114,9 @@ export const PayOutPage = () => {
     return (
         <div className="flex items-center justify-center md:absolute md:top-0 md:bottom-20 md:left-0 md:right-0">
             <div className="p-[30px] rounded-16 bg-neutral-0 max-w-[700px] w-full md:mx-4">
-                <h1 className="mb-6 text-xl text-center">{translate("app.widgets.forms.payout.title")}</h1>
+                <h1 className="mb-6 text-xl text-center text-neutral-80 dark:text-neutral-30">
+                    {translate("app.widgets.forms.payout.title")}
+                </h1>
 
                 <PayOutForm
                     currencies={currencies?.data}

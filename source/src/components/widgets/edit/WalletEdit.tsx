@@ -13,6 +13,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";
@@ -348,11 +349,11 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                     <FormControl>
                                         <div>
                                             <Label />
-                                            <textarea
+                                            <Textarea
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto bg-white dark:bg-muted  text-title-1 "
+                                                className="w-full h-24 p-2 rounded resize-none overflow-auto bg-white dark:bg-muted text-title-1 "
                                             />
                                         </div>
                                     </FormControl>

@@ -53,14 +53,16 @@ export const ShowMethodsDialog = (props: ShowMethodDialogProps) => {
                     <DialogTitle className="text-center"></DialogTitle>
                     <DialogDescription></DialogDescription>
                     <div className="w-full flex flex-col items-center justify-end ">
-                        <span className="self-start text-note-1">{translate("resources.provider.fields.methods")}</span>
+                        <span className="self-start text-note-1 text-neutral-80 dark:text-neutral-30 mb-2">
+                            {translate("resources.provider.fields.methods")}
+                        </span>
                         <EditorDialog id={id} />
                     </div>
                 </DialogHeader>
                 <DialogFooter>
                     <div className="flex justify-end w-full pr-1">
                         <Button
-                            variant={"outline"}
+                            variant="deleteGray"
                             onClick={() => {
                                 onOpenChange(false);
                             }}>

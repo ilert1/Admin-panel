@@ -168,7 +168,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                         className={`${showCaptions ? "" : "ml-2"} ${
                                             location.pathname === customRoute.path
                                                 ? "pl-4 dark:bg-muted flex items-center gap-3 text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 dark:[&>svg>path]:stroke-controlElements [&>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
-                                                : "pl-4 dark:hover:bg-muted flex items-center gap-3 hover:text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
+                                                : "pl-4 dark:hover:bg-muted flex items-center gap-3 hover:text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all text-neutral-90"
                                         }`}>
                                         {(!customRoute.showLock || (customRoute.showLock && showCaptions)) &&
                                             customRoute.icon}
@@ -193,7 +193,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                     side="right">
                                     {translate(`resources.wallet.${customRoute.name}.name`)}
                                     <ChevronLeft
-                                        className="absolute -left-[13px] top-1.5 text-green-40"
+                                        className="absolute -left-[13px] top-1.5 text-green-40 "
                                         width={20}
                                         height={20}
                                     />
