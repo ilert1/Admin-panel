@@ -57,6 +57,13 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
         monaco => {
             const mainColor = isDark ? "008C99" : "#237648";
             const editorTheme = isDark ? "vs-dark" : "vs";
+            const colors = isDark
+                ? {
+                      "editor.background": "#13232C",
+                      "editorLineNumber.foreground": "#5C5C5C",
+                      "editor.foreground": "#008C99"
+                  }
+                : null;
             return monaco.editor.defineTheme("myCustomTheme", {
                 base: editorTheme,
                 inherit: true,
@@ -73,16 +80,11 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
                     { token: "delimiter.bracket", foreground: mainColor },
                     { token: "delimiter.curly", foreground: mainColor }
                 ],
-
-                ...(isDark
-                    ? {
-                          colors: {
-                              "editor.background": "#13232C",
-                              "editorLineNumber.foreground": "#5C5C5C",
-                              "editor.foreground": "#008C99"
-                          }
-                      }
-                    : { colors: {} })
+                colors: {
+                    "editor.lineHighlightBackground": "#00000000",
+                    "editor.lineHighlightBorder": "#00000000",
+                    ...colors
+                }
             });
         },
         [isDark]
@@ -95,7 +97,6 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
                 defaultLanguage="json"
                 value={code}
                 theme="myCustomTheme"
-                // theme="vs-light"
                 onChange={handleEditorChange}
                 onValidate={handleValidation}
                 onMount={onMountEditor}
@@ -107,6 +108,16 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
                     scrollBeyondLastLine: false,
                     minimap: { enabled: false },
                     wordWrap: "on",
+                    scrollbar: {
+                        vertical: "auto",
+                        horizontal: "auto",
+                        verticalScrollbarSize: 10,
+                        horizontalScrollbarSize: 10
+                    },
+                    stickyScroll: {
+                        enabled: false
+                    },
+                    overviewRulerLanes: 0,
                     lineNumbers: "on",
                     scrollBeyondLastColumn: 0,
                     suggestOnTriggerCharacters: false,

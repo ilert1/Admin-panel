@@ -37,10 +37,10 @@ export const ShowAccountSheet: React.FC<ShowSheetProps> = ({
                                 <XIcon className="h-[28px] w-[28px]" />
                             </button>
                         </div>
-                        <div className="text-display-2 mb-2">
+                        <div className="text-display-2 mb-2 text-neutral-90 dark:text-neutral-30">
                             <span>{accountCaption}</span>
                         </div>
-                        <TextField text={accountId} copyValue />
+                        <TextField text={accountId} copyValue className="text-neutral-90 dark:text-neutral-30" />
                     </div>
                 </SheetHeader>
 

@@ -14,6 +14,7 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { WalletTypes } from "@/helpers/wallet-types";
+import { Textarea } from "@/components/ui/textarea";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";
@@ -181,7 +182,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                         <FormLabel>{translate("resources.wallet.manage.fields.walletType")}</FormLabel>
                                         <Select value={field.value} onValueChange={field.onChange}>
                                             <FormControl>
-                                                <SelectTrigger variant={SelectType.GRAY} className="shadow-1">
+                                                <SelectTrigger variant={SelectType.GRAY} className="">
                                                     <SelectValue
                                                         placeholder={translate("resources.direction.fields.active")}
                                                         defaultValue={WalletTypes.INTERNAL}
@@ -223,15 +224,14 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             name="account_id"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.merchantName")}</FormLabel>
+                                    <FormLabel>{translate("resources.wallet.manage.fields.accountNumber")}</FormLabel>
                                     <FormControl>
                                         <Select
                                             value={field.value}
                                             onValueChange={field.onChange}
-                                            disabled={accountsDisabled}
-                                            shadow-1>
+                                            disabled={accountsDisabled}>
                                             <FormControl>
-                                                <SelectTrigger variant={SelectType.GRAY} shadow-1>
+                                                <SelectTrigger variant={SelectType.GRAY}>
                                                     <SelectValue />
                                                 </SelectTrigger>
                                             </FormControl>
@@ -269,7 +269,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                         <div>
                                             <Input
                                                 {...field}
-                                                className="bg-muted shadow-1"
+                                                className="bg-muted "
                                                 variant={InputTypes.GRAY}
                                                 disabled
                                             />
@@ -289,7 +289,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                             <Input
                                                 disabled
                                                 {...field}
-                                                className="bg-muted shadow-1"
+                                                className="bg-muted "
                                                 variant={InputTypes.GRAY}
                                             />
                                         </div>
@@ -309,7 +309,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                             <Input
                                                 disabled
                                                 {...field}
-                                                className="bg-muted shadow-1"
+                                                className="bg-muted "
                                                 variant={InputTypes.GRAY}
                                             />
                                         </div>
@@ -327,7 +327,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                         <div>
                                             <Input
                                                 {...field}
-                                                className="bg-white dark:bg-muted shadow-1"
+                                                className="bg-white dark:bg-muted "
                                                 variant={InputTypes.GRAY}
                                             />
                                         </div>
@@ -344,11 +344,11 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                     <FormControl>
                                         <div>
                                             <Label />
-                                            <textarea
+                                            <Textarea
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto bg-white dark:bg-muted text-title-1 shadow-1"
+                                                className="w-full h-24 p-2 rounded resize-none overflow-auto bg-white dark:bg-muted text-title-1 "
                                             />
                                         </div>
                                     </FormControl>
@@ -385,7 +385,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto shadow-1 text-title-1 outline-none"
+                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto text-title-1 text-neutral-80 dark:text-white outline-none dark:bg-muted"
                                             />
                                         </div>
                                     </FormControl>

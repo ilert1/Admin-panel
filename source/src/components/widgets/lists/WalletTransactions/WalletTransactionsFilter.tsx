@@ -101,12 +101,19 @@ export const WalletTransactionsFilter = () => {
     return (
         <div className="mb-6">
             <div className="w-full mb-6 flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
-                <label className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
-                    <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
-                        {translate("resources.wallet.transactions.filterBar.searchById")}
-                    </span>
-                    <Input placeholder="ID" value={transactionId} onChange={onTransactionIdChanged} />
-                </label>
+                <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
+                    <label>
+                        <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
+                            {translate("resources.wallet.transactions.filterBar.searchById")}
+                        </span>
+                    </label>
+                    <Input
+                        placeholder="ID"
+                        value={transactionId}
+                        onChange={onTransactionIdChanged}
+                        className="h-[38px]"
+                    />
+                </div>
 
                 <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start min-w-36">
                     <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
@@ -116,7 +123,7 @@ export const WalletTransactionsFilter = () => {
                     <Select
                         onValueChange={val => (val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged(""))}
                         value={stateFilter}>
-                        <SelectTrigger className="text-ellipsis">
+                        <SelectTrigger className="text-ellipsis h-[38px]">
                             <SelectValue
                                 placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
                             />

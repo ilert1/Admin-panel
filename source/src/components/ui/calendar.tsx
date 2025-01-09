@@ -40,7 +40,7 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
                     "h-5 w-5 bg-transparent p-0 opacity-50 hover:opacity-100 font-bold absolute right-4 top-[22px] z-10"
                 ),
                 selected:
-                    "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+                    "bg-primary dark:bg-black text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
                 day: "p-0 text-sm font-normal dark:text-neutral-90 text-neutral-80 [&.day-range-end]:text-neutral-0 [&.day-range-start]:text-neutral-0 dark:[&.day-range-end]:text-neutral-100 dark:[&.day-range-start]:text-neutral-100",
                 hidden: "invisible",
                 outside: "text-muted-foreground opacity-40",

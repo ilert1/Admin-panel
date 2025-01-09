@@ -87,7 +87,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 <div className={`flex justify-between flex-wrap gap-4`}>
                     {showState && (
                         <div className="flex gap-2 items-center">
-                            <span>{translate("resources.transactions.fields.state.state_description")}</span>
+                            <TextField text={translate("resources.transactions.fields.state.state_description")} />
                             <Select value={newState} onValueChange={setNewState}>
                                 <SelectTrigger className="w-[180px] border-">
                                     <SelectValue
@@ -123,7 +123,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                             <>
                                 <Button
                                     disabled={!context.record?.state.final}
-                                    variant={"secondary"}
+                                    variant={"default"}
                                     onClick={() => setDialogOpen(true)}>
                                     {commitCaption}
                                 </Button>
@@ -167,24 +167,24 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 <div className="flex flex-col">
                     <span className="opacity-60 text-title-1">{translate("resources.transactions.fields.type")}</span>
 
-                    <span>
-                        {translate(
+                    <TextField
+                        text={translate(
                             `resources.transactions.types.${data?.transactionTypes[
                                 context.record.type
                             ]?.type_descr.toLowerCase()}`
                         )}
-                    </span>
+                    />
                 </div>
                 <div className="flex flex-col">
                     <span className="opacity-60 text-title-1">
                         {translate("resources.transactions.fields.state.state_description")}
                     </span>
 
-                    <span>
-                        {translate(
+                    <TextField
+                        text={translate(
                             `resources.transactions.states.${context.record.state.state_description.toLowerCase()}`
                         )}
-                    </span>
+                    />
                 </div>
 
                 {permissions === "admin" && (

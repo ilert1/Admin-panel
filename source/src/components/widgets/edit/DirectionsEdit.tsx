@@ -123,7 +123,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                     <FormLabel>{translate("resources.direction.fields.name")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} variant={InputTypes.GRAY} className="shadow-1" />
+                                            <Input {...field} variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -138,7 +138,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                     <FormLabel>{translate("resources.direction.sourceCurrency")}</FormLabel>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY} className="shadow-1">
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue />
                                             </SelectTrigger>
                                         </FormControl>
@@ -169,7 +169,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                     <FormLabel>{translate("resources.direction.merchant")}</FormLabel>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY} className="shadow-1">
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue />
                                             </SelectTrigger>
                                         </FormControl>
@@ -200,7 +200,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                     <FormLabel>{translate("resources.direction.destinationCurrency")}</FormLabel>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY} className="shadow-1">
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue />
                                             </SelectTrigger>
                                         </FormControl>
@@ -238,7 +238,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                             field.onChange(e);
                                         }}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY} className="shadow-1">
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue />
                                             </SelectTrigger>
                                         </FormControl>
@@ -273,7 +273,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                         onValueChange={field.onChange}
                                         disabled={terminalsDisabled}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY} className="shadow-1">
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={
                                                         terminalsDisabled
@@ -312,7 +312,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                         value={field.value ? "true" : "false"}
                                         onValueChange={value => field.onChange(value === "true")}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY} className="shadow-1">
+                                            <SelectTrigger variant={SelectType.GRAY}>
                                                 <SelectValue
                                                     placeholder={translate("resources.direction.fields.active")}
                                                 />
@@ -341,7 +341,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                     <FormLabel>{translate("resources.direction.weight")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input {...field} variant={InputTypes.GRAY} className="shadow-1" />
+                                            <Input {...field} variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -356,12 +356,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                     <FormLabel>{translate("resources.direction.description")}</FormLabel>
                                     <FormControl>
                                         <div>
-                                            <Input
-                                                {...field}
-                                                value={field.value ?? ""}
-                                                variant={InputTypes.GRAY}
-                                                className="shadow-1"
-                                            />
+                                            <Input {...field} value={field.value ?? ""} variant={InputTypes.GRAY} />
                                         </div>
                                     </FormControl>
                                     <FormMessage />

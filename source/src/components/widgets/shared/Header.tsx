@@ -167,7 +167,13 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                 ? "border-0 outline-none text-controlElements focus:outline-0"
                                                 : "border-0 group-hover:text-controlElements outline-none hover:text-controlElements transition-colors"
                                         }>
-                                        <EllipsisVerticalIcon />
+                                        <EllipsisVerticalIcon
+                                            className={
+                                                profileOpen
+                                                    ? "text-green-50 dark:text-green-40"
+                                                    : "text-green-60 hover:text-green-50 dark:text-white dark:hover:text-green-40"
+                                            }
+                                        />
                                     </div>
                                 </DropdownMenuTrigger>
                             </div>

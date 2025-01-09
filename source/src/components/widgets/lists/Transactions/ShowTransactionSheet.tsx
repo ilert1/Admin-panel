@@ -32,7 +32,7 @@ export const ShowTransactionSheet: React.FC<ShowTransactionSheetProps> = ({ id, 
                                 <XIcon className="h-[28px] w-[28px]" />
                             </button>
                         </div>
-                        <TextField text={id} copyValue />
+                        <TextField text={id} copyValue className="text-neutral-90 dark:text-neutral-30" />
                     </div>
                 </SheetHeader>
 

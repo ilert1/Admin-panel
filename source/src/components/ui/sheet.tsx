@@ -19,7 +19,7 @@ const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <SheetPrimitive.Overlay
         className={cn(
-            "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500 ease-out",
+            "fixed inset-0 z-50 bg-black/35 dark:bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500 ease-out",
             className
         )}
         {...props}
@@ -83,7 +83,11 @@ const SheetTitle = React.forwardRef<
     React.ElementRef<typeof SheetPrimitive.Title>,
     React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>
 >(({ className, ...props }, ref) => (
-    <SheetPrimitive.Title ref={ref} className={cn("font-semibold text-foreground", className)} {...props} />
+    <SheetPrimitive.Title
+        ref={ref}
+        className={cn("font-semibold text-neutral-90 dark:text-neutral-30", className)}
+        {...props}
+    />
 ));
 SheetTitle.displayName = SheetPrimitive.Title.displayName;
 

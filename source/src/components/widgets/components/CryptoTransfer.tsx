@@ -4,6 +4,7 @@ import { BF_MANAGER_URL, API_URL } from "@/data/base";
 import { CryptoTransferForm } from "@/components/widgets/forms";
 import { parseJWT } from "@/helpers/jwt";
 import { useQuery } from "react-query";
+import { TextField } from "@/components/ui/text-field";
 
 interface CryptoTransferProps {
     cryptoTransferState: "process" | "success" | "error";
@@ -86,7 +87,7 @@ export const CryptoTransfer = ({ repeatData, cryptoTransferState, setCryptoTrans
 
     return (
         <div className="flex flex-col gap-4">
-            <h4 className="text-display-4 text-neutral-100">{translate("resources.withdraw.cryptoTransferTitle")}</h4>
+            <TextField className="!text-display-4" text={translate("resources.withdraw.cryptoTransferTitle")} />
             <CryptoTransferForm
                 loading={isLoading}
                 create={createTransfer}

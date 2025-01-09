@@ -84,12 +84,7 @@ export const WalletManualReconciliationBar = () => {
                                 {translate("resources.wallet.linkedTransactions.fields.transactionId")}
                             </Label>
 
-                            <Input
-                                id="inputManual"
-                                value={inputVal}
-                                onChange={e => setInputVal(e.target.value)}
-                                className="shadow-1"
-                            />
+                            <Input id="inputManual" value={inputVal} onChange={e => setInputVal(e.target.value)} />
                         </div>
 
                         <div className="flex flex-col sm:self-end sm:flex-row items-center gap-4">

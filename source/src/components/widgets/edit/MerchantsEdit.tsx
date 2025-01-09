@@ -14,6 +14,7 @@ import { CircleChevronRight } from "lucide-react";
 import { AddFeeCard } from "../components/AddFeeCard";
 import { FeesResource } from "@/data";
 import { usePreventFocus } from "@/hooks";
+import { TextField } from "@/components/ui/text-field";
 
 interface MerchantEditProps {
     id?: string;
@@ -171,7 +172,10 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
             </Form>
             <div className="px-2 mt-[10px] w-full">
                 <div className="flex flex-col bg-neutral-0 px-[32px] rounded-[8px] w-full">
-                    <h3 className="text-display-3 mt-[16px] mb-[16px]">{translate("resources.direction.fees.fees")}</h3>
+                    <TextField
+                        text={translate("resources.direction.fees.fees")}
+                        className="text-display-3 mt-[16px] mb-[16px]"
+                    />
                     <div className="max-h-[40vh] overflow-auto pr-[10px]">
                         {fees && Object.keys(fees).length !== 0
                             ? Object.keys(fees).map(key => {

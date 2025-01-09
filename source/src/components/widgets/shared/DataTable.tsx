@@ -173,7 +173,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                         <TableRow>
                             <TableCell
                                 colSpan={columns.length}
-                                className="h-24 text-center text-sm border border-muted ">
+                                className="h-24 text-center text-sm border border-muted text-neutral-90 dark:text-neutral-30">
                                 {translate("resources.transactions.undefined")}
                             </TableCell>
                         </TableRow>
