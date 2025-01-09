@@ -14,6 +14,10 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { LoginBackground } from "@/lib/icons/LoginBackground";
+import SunIcon from "../../public/Sun.svg?react";
+import MoonIcon from "../../public/Moon.svg?react";
+import { TextField } from "@/components/ui/text-field";
+import { Text } from "@/components/ui/text";
 
 const realm = import.meta.env.VITE_KEYCLOAK_REALM;
 const kk = import.meta.env.VITE_KEYCLOAK_URL;
@@ -24,12 +28,12 @@ export const LoginPage = () => {
     const [password, setPassword] = useState("");
     const [totpCode, setTotpCode] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
+    const { setTheme, theme } = useTheme();
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
     const [formEnabled, setFormEnabled] = useState(true);
-    const { theme } = useTheme();
 
     const translate = useTranslate();
     const login = useLogin();
@@ -102,10 +106,57 @@ export const LoginPage = () => {
             setter(e.target.value);
             if (error) setError("");
         };
+
+    const toggleTheme = () => {
+        setTheme(theme === "light" ? "dark" : "light");
+    };
     const loginBg = LoginBackground(theme === "dark" ? "#237648" : "#62D093");
     return (
         <>
-            <div className="flex flex-shrink-0 justify-end h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z">
+            <div className="flex flex-shrink-0 justify-end h-[84px] items-center gap-8 bg-header px-4 relative z-100 pointer-events-auto z">
+                <div className="flex border border-neutral-50 rounded-full items-center bg-white dark:bg-black">
+                    {theme === "dark" ? (
+                        <>
+                            <div
+                                className="rounded-full bg-neutral-50 overflow-hidden cursor-pointer m-[5px] mr-0"
+                                onClick={toggleTheme}
+                                style={{
+                                    boxShadow: "0px 0px 16px rgba(255, 2555, 255, 0.75)"
+                                }}>
+                                <MoonIcon
+                                    style={{ backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}
+                                    className="shadow-1"
+                                />
+                            </div>
+                            <Text
+                                text="Темная"
+                                className="px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100"
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <Text
+                                className="px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100"
+                                text="Светлая"
+                            />
+                            <div
+                                onClick={toggleTheme}
+                                className="rounded-full overflow-hidden cursor-pointer ml-0"
+                                style={{}}>
+                                <SunIcon
+                                    style={{
+                                        backdropFilter: "blur(4px)",
+                                        WebkitBackdropFilter: "blur(4px)",
+                                        boxShadow: "0px 0px 16px rgba(241, 197, 42, 0.75)",
+                                        borderRadius: "50%",
+                                        border: "0"
+                                    }}
+                                    className="shadow-1"
+                                />
+                            </div>
+                        </>
+                    )}
+                </div>
                 <LangSwitcher />
             </div>
 
@@ -175,14 +226,6 @@ export const LoginPage = () => {
                     </form>
                 </div>
 
-                <div className="absolute bottom-[-20px] right-[-20px] p-4">
-                    <img
-                        src="/BlowFish.svg"
-                        alt="Decorative"
-                        className="w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] xl:w-[400px] xl:h-[400px] pointer-events-none select-none -z-50"
-                    />
-                </div>
-
                 <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                     <DialogContent className="rounded-16 max-h-80 xl:max-h-none h-auto overflow-hidden w-[350px]">
                         <DialogHeader>
@@ -214,6 +257,13 @@ export const LoginPage = () => {
                         </DialogFooter>
                     </DialogContent>
                 </Dialog>
+                <div className="absolute bottom-[-20px] right-[-20px] p-4">
+                    <img
+                        src="/BlowFish.svg"
+                        alt="Decorative"
+                        className="w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] xl:w-[400px] xl:h-[400px] pointer-events-none select-none -z-50"
+                    />
+                </div>
             </div>
         </>
     );
