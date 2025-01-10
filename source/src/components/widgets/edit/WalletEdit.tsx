@@ -170,7 +170,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
     if (isLoading || isFetchingPermissions) return <LoadingBlock />;
     return (
         <FormProvider {...form}>
-            {!isMerchant ? (
+            {!isMerchant && record?.type !== WalletTypes.EXTERNAL ? (
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full">
                     <div className="flex flex-wrap">
                         <FormField
@@ -190,29 +190,15 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                {!isMerchant ? (
-                                                    <SelectGroup className="p-0">
-                                                        <SelectItem
-                                                            value={WalletTypes.LINKED}
-                                                            variant={SelectType.GRAY}>
-                                                            {WalletTypes.LINKED}
-                                                        </SelectItem>
+                                                <SelectGroup className="p-0">
+                                                    <SelectItem value={WalletTypes.LINKED} variant={SelectType.GRAY}>
+                                                        {WalletTypes.LINKED}
+                                                    </SelectItem>
 
-                                                        <SelectItem
-                                                            value={WalletTypes.INTERNAL}
-                                                            variant={SelectType.GRAY}>
-                                                            {WalletTypes.INTERNAL}
-                                                        </SelectItem>
-                                                    </SelectGroup>
-                                                ) : (
-                                                    <SelectGroup>
-                                                        <SelectItem
-                                                            value={WalletTypes.EXTERNAL}
-                                                            variant={SelectType.GRAY}>
-                                                            {WalletTypes.EXTERNAL}
-                                                        </SelectItem>
-                                                    </SelectGroup>
-                                                )}
+                                                    <SelectItem value={WalletTypes.INTERNAL} variant={SelectType.GRAY}>
+                                                        {WalletTypes.INTERNAL}
+                                                    </SelectItem>
+                                                </SelectGroup>
                                             </SelectContent>
                                         </Select>
                                     </FormItem>
