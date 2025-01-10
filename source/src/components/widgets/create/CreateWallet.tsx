@@ -24,6 +24,7 @@ import { z } from "zod";
 import { TronWeb } from "tronweb";
 import { WalletTypes } from "@/helpers/wallet-types";
 import { Textarea } from "@/components/ui/textarea";
+import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 
 interface CreateWalletProps {
     onOpenChange: (state: boolean) => void;
@@ -42,22 +43,6 @@ export const CreateWallet = (props: CreateWalletProps) => {
 
     const { permissions, isLoading } = usePermissions();
     const { isLoading: loadingMerchantList, merchants } = useFetchDataForDirections();
-    const {
-        data: accountsData,
-        hasNextPage,
-        fetchNextPage: accountsNextPage
-    } = useInfiniteGetList("accounts", {
-        pagination: { perPage: 25, page: 1 },
-        filter: { sort: "name", asc: "ASC" }
-    });
-
-    const accountScrollHandler = async (e: React.UIEvent<HTMLElement>) => {
-        const target = e.target as HTMLElement;
-
-        if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
-            accountsNextPage();
-        }
-    };
 
     const isMerchant = permissions === "merchant";
 
@@ -160,8 +145,6 @@ export const CreateWallet = (props: CreateWalletProps) => {
     usePreventFocus({ dependencies: [] });
     const merchantsDisabled =
         !(merchants && Array.isArray(merchants.data) && merchants?.data?.length > 0) || !isMerchant;
-    const accountsDisabled =
-        !(accountsData && Array.isArray(accountsData.pages) && accountsData?.pages.length > 0) || !accountsData;
 
     if (isLoading || loadingMerchantList) return <LoadingBlock />;
     return (
@@ -228,37 +211,15 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 render={({ field }) => (
                                     <FormItem className="w-1/2 p-2">
                                         <FormLabel>
-                                            {translate("resources.wallet.manage.fields.accountNumber")}
+                                            {translate("resources.wallet.manage.fields.merchantName")}
                                         </FormLabel>
                                         <FormControl>
-                                            <Select
-                                                value={field.value}
-                                                onValueChange={field.onChange}
-                                                disabled={accountsDisabled}>
-                                                <FormControl>
-                                                    <SelectTrigger variant={SelectType.GRAY} className="">
-                                                        <SelectValue />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent
-                                                    onScrollCapture={accountScrollHandler}
-                                                    onScroll={accountScrollHandler}>
-                                                    {accountsData?.pages.map(page => {
-                                                        return page.data.map(account => (
-                                                            <SelectItem
-                                                                key={account.id}
-                                                                value={account.id}
-                                                                variant={SelectType.GRAY}>
-                                                                <p className="truncate max-w-36">
-                                                                    {account.meta?.caption
-                                                                        ? account.meta.caption
-                                                                        : account.owner_id}
-                                                                </p>
-                                                            </SelectItem>
-                                                        ));
-                                                    })}
-                                                </SelectContent>
-                                            </Select>
+                                            <MerchantSelectFilter
+                                                className="bg-white dark:bg-muted"
+                                                merchant={field.value}
+                                                onMerchantChanged={field.onChange}
+                                                resource="accounts"
+                                            />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -397,7 +358,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                                     {...field}
                                                     value={field.value ?? ""}
                                                     placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                    className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto text-neutral-80 dark:text-white text-title-1 outline-none dark:bg-muted border-neutral-40"
+                                                    className="w-full h-24 p-2 border rounded resize-none overflow-auto text-neutral-80 dark:text-white text-title-1 outline-none dark:bg-muted border-neutral-40"
                                                 />
                                             </div>
                                         </FormControl>

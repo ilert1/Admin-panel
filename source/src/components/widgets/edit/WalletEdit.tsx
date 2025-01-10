@@ -29,6 +29,7 @@ import {
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 
 interface EditWalletProps {
     id: string;
@@ -49,23 +50,6 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
         id,
         mutationMode: "pessimistic"
     });
-    const {
-        data: accountsData,
-        hasNextPage,
-        isFetching,
-        fetchNextPage: accountsNextPage
-    } = useInfiniteGetList("accounts", {
-        pagination: { perPage: 25, page: 1 },
-        filter: { sort: "name", asc: "ASC" }
-    });
-
-    const accountScrollHandler = async (e: React.FormEvent) => {
-        const target = e.target as HTMLElement;
-
-        if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
-            accountsNextPage();
-        }
-    };
 
     const onSubmit: SubmitHandler<Wallets.WalletCreate> = async data => {
         if (buttonDisabled) return;
@@ -142,11 +126,6 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
     });
 
     useEffect(() => {
-        accountsData?.pages.forEach(page => {
-            if (page.data.indexOf(record.account_id) < 0) {
-                accountsNextPage();
-            }
-        });
         if (record) {
             form.reset({
                 currency: record?.currency || "",
@@ -161,11 +140,9 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                 description: record?.description || ""
             });
         }
-    }, [form, record, accountsData, formMerchant, accountsNextPage]);
+    }, [form, record, formMerchant]);
 
     usePreventFocus({ dependencies: [record] });
-    const accountsDisabled =
-        !(accountsData && Array.isArray(accountsData.pages) && accountsData?.pages.length > 0) || !accountsData;
 
     if (isLoading || isFetchingPermissions) return <LoadingBlock />;
     return (
@@ -210,36 +187,14 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             name="account_id"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.accountNumber")}</FormLabel>
+                                    <FormLabel>{translate("resources.wallet.manage.fields.merchantName")}</FormLabel>
                                     <FormControl>
-                                        <Select
-                                            value={field.value}
-                                            onValueChange={field.onChange}
-                                            disabled={accountsDisabled}>
-                                            <FormControl>
-                                                <SelectTrigger variant={SelectType.GRAY}>
-                                                    <SelectValue />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent
-                                                onScrollCapture={accountScrollHandler}
-                                                onScroll={accountScrollHandler}>
-                                                {accountsData?.pages.map(page => {
-                                                    return page.data.map(account => (
-                                                        <SelectItem
-                                                            key={account.id}
-                                                            value={account.id}
-                                                            variant={SelectType.GRAY}>
-                                                            <p className="truncate max-w-36">
-                                                                {account.meta?.caption
-                                                                    ? account.meta.caption
-                                                                    : account.owner_id}
-                                                            </p>
-                                                        </SelectItem>
-                                                    ));
-                                                })}
-                                            </SelectContent>
-                                        </Select>
+                                        <MerchantSelectFilter
+                                            className="bg-white dark:bg-muted"
+                                            merchant={field.value}
+                                            onMerchantChanged={field.onChange}
+                                            resource="accounts"
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
