@@ -115,12 +115,12 @@ export const LoginPage = () => {
         <>
             <div className="flex flex-shrink-0 justify-end h-[84px] items-center gap-8 bg-header px-4 relative z-100 pointer-events-auto z">
                 <div
-                    className="flex border border-neutral-50 rounded-full items-center bg-white dark:bg-black relative w-[140px] h-[60px] overflow-hidden cursor-pointer"
+                    className="flex border border-neutral-50 rounded-full items-center bg-white dark:bg-black relative w-[140px] h-[60px] overflow-hidden cursor-pointer z-[-2]"
                     onClick={toggleTheme}>
                     <div className="flex items-center absolute">
                         <div
                             className={cn(
-                                "rounded-full bg-neutral-50 overflow-hidden m-[5px] mr-0 duration-500 opacity:duration-0",
+                                "rounded-full bg-neutral-50 overflow-hidden m-[5px] mr-0 duration-500 opacity:duration-0 z-1",
                                 theme === "dark" ? "-translate-x-0 ml-[7px]" : "translate-x-[150%] opacity-0"
                             )}
                             style={{
@@ -133,7 +133,7 @@ export const LoginPage = () => {
                         </div>
                         <div
                             className={cn(
-                                "rounded-full overflow-hidden cursor-pointer ml-0 duration-500 opacity:duration-0",
+                                "rounded-full overflow-hidden cursor-pointer ml-0 duration-500 opacity:duration-0 z-1",
                                 theme === "dark" ? "-translate-x-full ml-[7px] opacity-0" : "translate-x-1/4 transform"
                             )}>
                             <SunIcon
@@ -150,13 +150,13 @@ export const LoginPage = () => {
                     <Text
                         text="Темная"
                         className={cn(
-                            "px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100 duration-500",
+                            "px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100 duration-500 z-[-1]",
                             theme === "dark" ? "opacity-100 translate-x-[75%] ml-[7px]" : "-translate-x-0 opacity-0"
                         )}
                     />
                     <Text
                         className={cn(
-                            "px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100 duration-500",
+                            "px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100 duration-500 z-[-1]",
                             theme === "dark" ? "-translate-x-full ml-[7px] opacity-0" : "-translate-x-full"
                         )}
                         text="Светлая"
