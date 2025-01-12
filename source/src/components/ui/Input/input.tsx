@@ -41,6 +41,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         const [showPassword, setShowPassword] = React.useState(false);
         const [isFocused, setIsFocused] = React.useState(false);
+        const [isActive, setIsActive] = React.useState(false);
 
         const inputRef = React.useRef<HTMLInputElement>(null);
         const iconsBoxRef = React.useRef<HTMLSpanElement>(null);
@@ -72,11 +73,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
             setIsFocused(true);
+            setIsActive(true); // Активируем div, когда input в фокусе
+            setIsActive(true); // Активируем div, когда input в фокусе
             props.onFocus?.(e);
         };
 
         const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
             setIsFocused(false);
+            setIsActive(false);
             props.onBlur?.(e);
         };
 
@@ -85,28 +89,25 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             [disabled, inputValue, isFocused]
         );
 
-        const inputRightBorder = showClearButton || error || type === "password";
-
         React.useEffect(() => {
             const container = iconsBoxRef.current;
 
             if (container && container.lastElementChild) {
-                (container.lastElementChild as HTMLElement).classList.add(
-                    "!pr-[13.3px]",
-                    "border",
-                    "border-r-[1px]",
-                    "rounded-r-md"
-                );
+                (container.lastElementChild as HTMLElement).classList.add("!pr-[13.3px]", "rounded-r-md");
             }
         }, [showClearButton, error, type]);
 
         return (
             <div className="flex flex-col w-full gap-[4px]">
-                {label && <label className="block text-note-1 text-neutral-30">{label}</label>}
+                {label && <label className="block text-note-1 text-neutral-80 dark:text-neutral-30 ">{label}</label>}
                 <div
                     className={cn(
-                        "relative flex items-center w-full hover:border hover:border-green-50",
-                        shadow ? "shadow-1 rounded-md" : ""
+                        "relative flex items-center w-full border hover:border-green-40",
+                        "border-neutral-40",
+                        "dark:border-neutral-60",
+                        shadow ? "shadow-1 rounded-md" : "",
+                        isFocused || isActive ? "!border-green-50" : "",
+                        disabled ? "border-neutral-40 hover:border-neutral-40" : ""
                     )}>
                     <input
                         type={type === "password" && showPassword ? "text" : type}
@@ -116,13 +117,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         onBlur={handleBlur}
                         disabled={disabled}
                         className={cn(
-                            "flex h-9 w-full px-3 py-2 border border-r-0 !rounded-l-md text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus:outline-none transition duration-200",
-                            "text-neutral-80 bg-neutral-0 border-neutral-40 hover:border-green-50 active:border-green-50 focus:border-green-50 placeholder:text-neutral-60 disabled:text-neutral-70 !text-neutral-80",
-                            "dark:bg-neutral-100 dark:border-neutral-60 dark:!text-white",
-                            `disabled:border-neutral-40 disabled:dark:bg-neutral-10 disabled:bg-neutral-10 transition duration-200 !text-neutral-80 dark:!text-white ${
-                                variant === InputTypes.GRAY ? "bg-white dark:bg-muted" : ""
-                            }`,
-                            !inputRightBorder ? "!border-r-[1px] rounded-md" : "border-r-0 rounded-l-md",
+                            "flex h-9 w-full px-3 py-2 rounded-md text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus:outline-none transition duration-200",
+                            "text-neutral-80 bg-neutral-0",
+                            "dark:text-neutral-0 dark:bg-neutral-100 dark:placeholder:text-neutral-70",
+                            "disabled:bg-neutral-20 disabled:dark:bg-neutral-90 disabled:text-neutral-80 disabled:dark:text-neutral-60",
+                            variant === InputTypes.GRAY ? "bg-white dark:bg-muted" : "",
                             className
                         )}
                         ref={inputRef}

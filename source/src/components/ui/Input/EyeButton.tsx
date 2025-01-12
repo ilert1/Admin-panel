@@ -14,23 +14,31 @@ export const EyeButton = (props: EyeButtonProps) => {
     return (
         <span
             className={cn(
-                "flex items-center justify-center cursor-pointer h-[36px] border border-l-0 rounded-r-md pr-[4px] transition-colors duration-200",
-                "bg-neutral-0 border-neutral-40",
-                "dark:bg-neutral-100 dark:border-neutral-60"
+                "flex items-center justify-center cursor-pointer h-[36px] rounded-r-md pr-[4px] transition-colors duration-200",
+                "bg-neutral-0",
+                "dark:bg-neutral-100"
             )}
             onClick={() => setShowPassword(!showPassword)}>
             {showPassword ? (
                 <EyeOff
                     className={cn(
                         "h-5 w-5",
-                        disabled ? "text-neutral-60" : inputValue ? "text-green-50" : "text-green-40"
+                        disabled
+                            ? "text-neutral-80 dark:text-neutral-60"
+                            : inputValue
+                            ? "text-green-50"
+                            : "text-green-40"
                     )}
                 />
             ) : (
                 <Eye
                     className={cn(
                         "h-5 w-5",
-                        disabled ? "text-neutral-60" : inputValue ? "text-green-50" : "text-green-40"
+                        disabled
+                            ? "text-neutral-80 dark:text-neutral-60"
+                            : inputValue
+                            ? "text-green-50"
+                            : "text-green-40"
                     )}
                 />
             )}

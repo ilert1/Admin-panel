@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 
 interface ClearButtonProps {
@@ -8,7 +9,11 @@ export const ClearButton = (props: ClearButtonProps) => {
 
     return (
         <span
-            className="pr-[4px] flex items-center justify-center bg-black h-[36px] border-neutral-60 border border-x-0 cursor-pointer"
+            className={cn(
+                "pr-[4px] flex items-center justify-center bg-black h-[36px] cursor-pointer",
+                "bg-neutral-0 text-neutral-60",
+                "dark:bg-neutral-100 dark:text-neutral-40"
+            )}
             onMouseDown={handleClear}>
             <X className="w-4 h-4" />
         </span>

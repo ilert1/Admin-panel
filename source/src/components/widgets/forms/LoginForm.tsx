@@ -81,7 +81,7 @@ export const LoginForm = (props: LoginFormProps) => {
                         type="text"
                         value={username}
                         onChange={handleChange(setUsername)}
-                        className="block w-full border-gray-300 text-title-1"
+                        className="block w-full text-title-1"
                         label={translate("app.login.usernameOrEmail")}
                         shadow
                     />
@@ -91,7 +91,7 @@ export const LoginForm = (props: LoginFormProps) => {
                         type="password"
                         value={password}
                         onChange={handleChange(setPassword)}
-                        className="block w-full border-gray-300 text-title-1"
+                        className="block w-full text-title-1"
                         label={translate("app.login.password")}
                         shadow
                     />
@@ -101,7 +101,7 @@ export const LoginForm = (props: LoginFormProps) => {
                         type="text"
                         value={totpCode}
                         onChange={handleChange(setTotpCode)}
-                        className="block w-full border-neutral-40 text-title-1"
+                        className="block w-full text-title-1"
                         label={translate("app.login.totp")}
                         shadow
                     />
