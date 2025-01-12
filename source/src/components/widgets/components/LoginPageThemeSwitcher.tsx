@@ -48,7 +48,7 @@ export const LoginPageThemeSwitcher = (props: LoginPageThemeSwitcherProps) => {
                 </div>
                 <div
                     className={cn(
-                        "flex items-center justify-end w-full h-full z-2 ml-1",
+                        "flex items-center justify-end w-full h-full ml-1 z-[-1]",
                         theme === "dark" ? "translate-x-0" : "-translate-x-[60%]"
                     )}>
                     <Text
