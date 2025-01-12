@@ -34,7 +34,7 @@ export const LoginPageThemeSwitcher = (props: LoginPageThemeSwitcherProps) => {
                     <div
                         className={cn(
                             "rounded-full overflow-hidden cursor-pointer ml-0 duration-500 opacity:duration-0 z-1 ease-in-out",
-                            theme === "dark" ? "translate-x-full opacity-0" : "translate-x-[165%] opacity-100"
+                            theme === "dark" ? "translate-x-[15%] opacity-0" : "translate-x-[165%] opacity-100"
                         )}>
                         <SunIcon
                             style={{
