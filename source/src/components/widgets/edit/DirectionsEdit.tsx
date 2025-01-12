@@ -1,6 +1,6 @@
 import { useEditController, EditContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Input, InputTypes } from "@/components/ui/input";
+import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Loading } from "@/components/ui/loading";

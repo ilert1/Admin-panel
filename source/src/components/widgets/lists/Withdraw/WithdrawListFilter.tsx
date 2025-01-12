@@ -7,7 +7,7 @@ import {
 import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input/input";
 import useWithdrawFilter from "@/hooks/useWithdrawFilter";
 
 export const WithdrawListFilter = () => {

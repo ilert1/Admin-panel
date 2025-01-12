@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from "@/components/ui/button";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input, InputTypes } from "@/components/ui/input";
+import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Label } from "@/components/ui/label";
 import { LoadingBlock } from "@/components/ui/loading";
 import {

@@ -7,7 +7,7 @@ import {
     useRefresh
 } from "react-admin";
 import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input/input";
 import { FC, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Loading } from "@/components/ui/loading";

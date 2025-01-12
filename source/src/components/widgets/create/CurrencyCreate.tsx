@@ -1,6 +1,6 @@
 import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Loading } from "@/components/ui/loading";

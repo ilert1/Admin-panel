@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input/input";
 import useTransactionFilter from "@/hooks/useTransactionFilter";
 import { Button } from "@/components/ui/button";
 import { XIcon } from "lucide-react";
