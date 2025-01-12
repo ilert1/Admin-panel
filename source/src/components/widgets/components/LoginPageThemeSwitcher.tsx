@@ -57,7 +57,7 @@ export const LoginPageThemeSwitcher = (props: LoginPageThemeSwitcherProps) => {
                             "absolute px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100 duration-500 text-center w-full z-[-1] select-none ease-in-out",
                             theme === "dark"
                                 ? "opacity-100 opacity:duration-0"
-                                : "opacity-0 translate-x-[0%] opacity:duration-500"
+                                : "opacity-0 translate-x-[0%] opacity:duration-200"
                         )}
                     />
                     <Text
@@ -65,7 +65,7 @@ export const LoginPageThemeSwitcher = (props: LoginPageThemeSwitcherProps) => {
                         className={cn(
                             "absolute px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100 duration-500 text-center w-full z-[-1] select-none ease-in-out",
                             theme === "dark"
-                                ? "opacity-0 -translate-x-[0%] opacity:duration-500"
+                                ? "opacity-0 -translate-x-[0%] opacity:duration-200"
                                 : "opacity-100 opacity:duration-0"
                         )}
                     />
