@@ -83,19 +83,15 @@ export const MerchantSelectFilter = ({
                     />
                 </Button>
             </PopoverTrigger>
-
-            <PopoverContent
-                className={
-                    "md:w-[--radix-popover-trigger-width] md:max-h-[--radix-popover-content-available-height] p-0 z-[70] min-w-[8rem] overflow-hidden rounded-4 border border-green-50 bg-white dark:bg-neutral-0 shadow-1 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 " +
-                    className
-                }>
-                <Command className="" filter={merchantFilter}>
-                    <CommandInput className="" placeholder={translate("app.ui.actions.search")} />
+            <PopoverContent className="md:w-[--radix-popover-trigger-width] md:max-h-[--radix-popover-content-available-height] p-0 z-[60] min-w-[8rem] overflow-hidden rounded-4 border border-green-50 bg-white dark:bg-red-0 shadow-1 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 ">
+                <Command filter={merchantFilter}>
+                    <CommandInput placeholder={translate("app.ui.actions.search")} />
 
                     <CommandList className="">
                         <CommandGroup>
                             <CommandItem
                                 value={"null"}
+                                className="bg-white dark:bg-neutral-0 cursor-pointer"
                                 onSelect={() => {
                                     onMerchantChanged("");
                                     setOpen(false);
@@ -110,7 +106,11 @@ export const MerchantSelectFilter = ({
                             </CommandItem>
 
                             {merchantData?.map(account => (
-                                <CommandItem key={account.id} value={account.id} onSelect={onSelectMerchant}>
+                                <CommandItem
+                                    key={account.id}
+                                    value={account.id}
+                                    onSelect={onSelectMerchant}
+                                    className="bg-white dark:bg-neutral-0 cursor-pointer">
                                     {merchantName(account)}
                                     <Check
                                         className={cn(
