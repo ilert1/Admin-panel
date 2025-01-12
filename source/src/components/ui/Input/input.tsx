@@ -15,11 +15,24 @@ interface InputProps extends BasicInputProps {
     variant?: InputTypes;
     error?: boolean | string;
     label?: string;
+    shadow?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
     (
-        { className, type, value: propValue, onChange, disabled, children, variant, error = false, label, ...props },
+        {
+            className,
+            type,
+            value: propValue,
+            onChange,
+            disabled,
+            children,
+            variant,
+            error = false,
+            label,
+            shadow = false,
+            ...props
+        },
         ref
     ) => {
         const [inputValue, setInputValue] = React.useState<string | number | readonly string[] | undefined>(
@@ -90,7 +103,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         return (
             <div className="flex flex-col w-full gap-[4px]">
                 {label && <label className="block text-note-1 text-neutral-30">{label}</label>}
-                <div className="relative flex items-center w-full">
+                <div
+                    className={cn(
+                        "relative flex items-center w-full hover:border hover:border-green-50",
+                        shadow ? "shadow-1 rounded-md" : ""
+                    )}>
                     <input
                         type={type === "password" && showPassword ? "text" : type}
                         value={inputValue}
@@ -99,7 +116,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         onBlur={handleBlur}
                         disabled={disabled}
                         className={cn(
-                            "flex h-9 w-full border border-r-0 !rounded-l-md text-neutral-80 border-neutral-40 dark:border-neutral-60 hover:border-green-50 active:border-green-50 focus:border-green-50 bg-neutral-0 dark:bg-neutral-100 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-60 focus:outline-none disabled:text-neutral-70 transition duration-200 !text-neutral-80 dark:!text-white ",
+                            "flex h-9 w-full px-3 py-2 border border-r-0 !rounded-l-md text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus:outline-none transition duration-200",
+                            "text-neutral-80 bg-neutral-0 border-neutral-40 hover:border-green-50 active:border-green-50 focus:border-green-50 placeholder:text-neutral-60 disabled:text-neutral-70 !text-neutral-80",
+                            "dark:bg-neutral-100 dark:border-neutral-60 dark:!text-white",
                             `disabled:border-neutral-40 disabled:dark:bg-neutral-10 disabled:bg-neutral-10 transition duration-200 !text-neutral-80 dark:!text-white ${
                                 variant === InputTypes.GRAY ? "bg-white dark:bg-muted" : ""
                             }`,
