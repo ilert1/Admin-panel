@@ -55,14 +55,18 @@ export const LoginPageThemeSwitcher = (props: LoginPageThemeSwitcherProps) => {
                         text={translate("app.login.darkTheme")}
                         className={cn(
                             "absolute px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100 duration-500 text-center w-full z-[-1] select-none ease-in-out",
-                            theme === "dark" ? "opacity-100" : "opacity-0 translate-x-[0%]"
+                            theme === "dark"
+                                ? "opacity-100 opacity:duration-0"
+                                : "opacity-0 translate-x-[0%] opacity:duration-500"
                         )}
                     />
                     <Text
                         text={translate("app.login.lightTheme")}
                         className={cn(
                             "absolute px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100 duration-500 text-center w-full z-[-1] select-none ease-in-out",
-                            theme === "dark" ? "opacity-0 -translate-x-[0%]" : "opacity-100"
+                            theme === "dark"
+                                ? "opacity-0 -translate-x-[0%] opacity:duration-500"
+                                : "opacity-100 opacity:duration-0"
                         )}
                     />
                 </div>
