@@ -14,6 +14,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { LoginBackground } from "@/lib/icons/LoginBackground";
+import { LoginPageThemeSwitcher } from "@/components/widgets/components/LoginPageThemeSwitcher";
 
 const realm = import.meta.env.VITE_KEYCLOAK_REALM;
 const kk = import.meta.env.VITE_KEYCLOAK_URL;
@@ -24,12 +25,12 @@ export const LoginPage = () => {
     const [password, setPassword] = useState("");
     const [totpCode, setTotpCode] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
+    const { setTheme, theme } = useTheme();
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
     const [formEnabled, setFormEnabled] = useState(true);
-    const { theme } = useTheme();
 
     const translate = useTranslate();
     const login = useLogin();
@@ -102,10 +103,12 @@ export const LoginPage = () => {
             setter(e.target.value);
             if (error) setError("");
         };
+
     const loginBg = LoginBackground(theme === "dark" ? "#237648" : "#62D093");
     return (
         <>
-            <div className="flex flex-shrink-0 justify-end h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z">
+            <div className="flex flex-shrink-0 justify-end h-[84px] items-center gap-8 bg-header px-4 relative z-100 pointer-events-auto z">
+                <LoginPageThemeSwitcher theme={theme} setTheme={setTheme} translate={translate} />
                 <LangSwitcher />
             </div>
 
@@ -175,14 +178,6 @@ export const LoginPage = () => {
                     </form>
                 </div>
 
-                <div className="absolute bottom-[-20px] right-[-20px] p-4">
-                    <img
-                        src="/BlowFish.svg"
-                        alt="Decorative"
-                        className="w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] xl:w-[400px] xl:h-[400px] pointer-events-none select-none -z-50"
-                    />
-                </div>
-
                 <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                     <DialogContent className="rounded-16 max-h-80 xl:max-h-none h-auto overflow-hidden w-[350px]">
                         <DialogHeader>
@@ -214,6 +209,13 @@ export const LoginPage = () => {
                         </DialogFooter>
                     </DialogContent>
                 </Dialog>
+                <div className="absolute bottom-[-20px] right-[-20px] p-4">
+                    <img
+                        src="/BlowFish.svg"
+                        alt="Decorative"
+                        className="w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] xl:w-[400px] xl:h-[400px] pointer-events-none select-none -z-50"
+                    />
+                </div>
             </div>
         </>
     );
