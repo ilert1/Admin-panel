@@ -29,10 +29,7 @@ export const LoginPageThemeSwitcher = (props: LoginPageThemeSwitcherProps) => {
                         style={{
                             boxShadow: "0px 0px 16px rgba(255, 2555, 255, 0.75)"
                         }}>
-                        <MoonIcon
-                            style={{ backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}
-                            className="shadow-1 z-2"
-                        />
+                        <MoonIcon className="shadow-1 z-2" />
                     </div>
                     <div
                         className={cn(
