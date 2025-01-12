@@ -23,7 +23,7 @@ export const LoginPageThemeSwitcher = (props: LoginPageThemeSwitcherProps) => {
                 <div className="flex items-center">
                     <div
                         className={cn(
-                            "absolute rounded-full bg-neutral-50 overflow-hidden m-[5px] mr-0 duration-500 opacity:duration-0 z-1",
+                            "absolute rounded-full bg-neutral-50 overflow-hidden m-[5px] mr-0 duration-500 opacity:duration-0 z-1 ease-in-out",
                             theme === "dark" ? "translate-x-0 ml-[7px] opacity-100" : "translate-x-[160%] opacity-0"
                         )}
                         style={{
@@ -33,7 +33,7 @@ export const LoginPageThemeSwitcher = (props: LoginPageThemeSwitcherProps) => {
                     </div>
                     <div
                         className={cn(
-                            "rounded-full overflow-hidden cursor-pointer ml-0 duration-500 opacity:duration-0 z-1",
+                            "rounded-full overflow-hidden cursor-pointer ml-0 duration-500 opacity:duration-0 z-1 ease-in-out",
                             theme === "dark" ? "translate-x-full opacity-0" : "translate-x-[165%] opacity-100"
                         )}>
                         <SunIcon
@@ -54,14 +54,14 @@ export const LoginPageThemeSwitcher = (props: LoginPageThemeSwitcherProps) => {
                     <Text
                         text={translate("app.login.darkTheme")}
                         className={cn(
-                            "absolute px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100 duration-500 text-center w-full z-[-1]",
+                            "absolute px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100 duration-500 text-center w-full z-[-1] select-none ease-in-out",
                             theme === "dark" ? "opacity-100" : "opacity-0 translate-x-[0%]"
                         )}
                     />
                     <Text
                         text={translate("app.login.lightTheme")}
                         className={cn(
-                            "absolute px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100 duration-500 text-center w-full z-[-1]",
+                            "absolute px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-100 duration-500 text-center w-full z-[-1] select-none ease-in-out",
                             theme === "dark" ? "opacity-0 -translate-x-[0%]" : "opacity-100"
                         )}
                     />
