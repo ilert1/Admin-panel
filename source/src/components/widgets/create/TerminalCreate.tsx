@@ -156,7 +156,7 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
                             <Button
                                 type="button"
                                 variant="deleteGray"
-                                className="flex-1 mt-4 sm:mt-0 border-neutral-50 text-neutral-50 bg-muted w-full sm:w-1/2"
+                                className="flex-1 mt-4 sm:mt-0 w-full sm:w-1/2"
                                 onClick={() => {
                                     form.reset();
                                     onClose();
