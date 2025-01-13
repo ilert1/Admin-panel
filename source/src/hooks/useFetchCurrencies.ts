@@ -1,5 +1,6 @@
-import { API_URL } from "@/data/base";
 import { useQuery } from "react-query";
+
+import { API_URL } from "@/data/base";
 
 export const useFetchCurrencies = () => {
     const { isLoading, data } = useQuery<{ data: Dictionaries.Currency[] }>("currencies", () =>

@@ -163,9 +163,6 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                             name="value"
                             render={({ field, fieldState }) => (
                                 <FormItem>
-                                    <FormLabel>
-                                        {translate("app.widgets.forms.payout.value", { currency: currency || "" })}
-                                    </FormLabel>
                                     <FormControl>
                                         <Input
                                             disabled={loading}
@@ -174,25 +171,13 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                     : ""
                                             }`}
-                                            {...field}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Input>
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            label={translate("app.widgets.forms.payout.value", {
+                                                currency: currency || ""
+                                            })}
+                                            {...field}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -207,7 +192,6 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                             name={item}
                             render={({ field, fieldState }) => (
                                 <FormItem>
-                                    <FormLabel>{translate(`app.widgets.forms.payout.${item}`)}</FormLabel>
                                     <FormControl>
                                         <Input
                                             disabled={loading}
@@ -216,25 +200,11 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                     : ""
                                             }`}
-                                            {...field}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Input>
+                                            label={translate(`app.widgets.forms.payout.${item}`)}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            {...field}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -248,10 +218,7 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                     </Button>
 
                     <NavLink to={"/"}>
-                        <Button
-                            disabled={loading}
-                            variant="clearBtn"
-                            className="border border-neutral-50 rounded-4 hover:border-neutral-100">
+                        <Button disabled={loading} variant="outline_sec">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </NavLink>

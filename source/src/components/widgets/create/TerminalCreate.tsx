@@ -9,8 +9,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoadingBlock } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { TriangleAlert } from "lucide-react";
 
 export interface ProviderCreateProps {
     provider: string;
@@ -72,7 +70,6 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
                             name="verbose_name"
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.terminals.fields.verbose_name")}</FormLabel>
                                     <FormControl>
                                         <Input
                                             className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
@@ -80,28 +77,14 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                     : ""
                                             }`}
+                                            label={translate("resources.terminals.fields.verbose_name")}
                                             autoCorrect="off"
                                             autoCapitalize="none"
                                             spellCheck="false"
-                                            {...field}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Input>
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            {...field}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -111,7 +94,7 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
                             name="description"
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.terminals.fields.description")}</FormLabel>
+                                    <FormLabel></FormLabel>
                                     <FormControl>
                                         <Input
                                             className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
@@ -119,28 +102,14 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                     : ""
                                             }`}
+                                            label={translate("resources.terminals.fields.description")}
                                             autoCorrect="off"
                                             autoCapitalize="none"
                                             spellCheck="false"
-                                            {...field}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Input>
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            {...field}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}

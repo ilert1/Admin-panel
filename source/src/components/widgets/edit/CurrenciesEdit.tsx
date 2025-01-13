@@ -7,8 +7,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { toast } from "sonner";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { TriangleAlert } from "lucide-react";
 import { useEffect, useState } from "react";
 import { usePreventFocus } from "@/hooks";
 import { Loading } from "@/components/ui/loading";
@@ -105,7 +103,6 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                             name="symbol"
                             render={({ field, fieldState }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>{translate("resources.currency.fields.symbol")}</FormLabel>
                                     <FormControl>
                                         <Input
                                             className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
@@ -113,26 +110,12 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                     : ""
                                             }`}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            label={translate("resources.currency.fields.symbol")}
                                             {...field}
-                                            value={field.value ?? ""}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Input>
+                                            value={field.value ?? ""}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

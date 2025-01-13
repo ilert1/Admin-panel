@@ -85,17 +85,9 @@ export const KeysModal = (props: KeysModalProps) => {
                                         />
                                         <Button
                                             onClick={handlePrivateCopy}
-                                            variant={"clearBtn"}
-                                            className={
-                                                copyPrivateClicked
-                                                    ? "ml-0 text-center py-[16px] px-[10px] !bg-green-20 dark:!bg-green-50"
-                                                    : "ml-0 text-center py-[16px] px-[10px]"
-                                            }>
-                                            <Copy
-                                                className={`w-4 h-4 ${
-                                                    copyPrivateClicked ? "text-neutral-100" : "text-green-50"
-                                                }`}
-                                            />
+                                            variant={copyPrivateClicked ? "default" : "text_btn"}
+                                            className="ml-0 text-center py-[16px] px-[10px]">
+                                            <Copy className="w-4 h-4" />
                                         </Button>
                                     </div>
                                 </div>
@@ -112,17 +104,9 @@ export const KeysModal = (props: KeysModalProps) => {
                                         />
                                         <Button
                                             onClick={handlePublicCopy}
-                                            variant={copyPublicClicked ? "default" : "clearBtn"}
-                                            className={
-                                                copyPublicClicked
-                                                    ? "ml-0 text-center py-[16px] px-[10px] !bg-green-20 dark:!bg-green-50"
-                                                    : "ml-0 text-center py-[16px] px-[10px]"
-                                            }>
-                                            <Copy
-                                                className={`w-4 h-4 ${
-                                                    copyPublicClicked ? "text-neutral-100" : "text-green-50"
-                                                }`}
-                                            />
+                                            variant={copyPublicClicked ? "default" : "text_btn"}
+                                            className="ml-0 text-center py-[16px] px-[10px]">
+                                            <Copy className="w-4 h-4" />
                                         </Button>
                                     </div>
                                 </div>

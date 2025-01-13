@@ -7,5 +7,10 @@
     "semi": true,
     "trailingComma": "none",
     "arrowParens": "avoid",
-    "endOfLine": "auto"
+    "endOfLine": "auto",
+    "importOrderSeparation": true,
+    "importOrderCaseInsensitive": true,
+    "importOrderParserPlugins": ["classProperties", "decorators-legacy", "typescript"],
+    "importOrder": ["<THIRD_PARTY_MODULES>", "^@/(.*)$", "^../(.*)", "^./(.*)", "^[./]*(.*\\.css)$"],
+    "plugins": ["@trivago/prettier-plugin-sort-imports"]
 }

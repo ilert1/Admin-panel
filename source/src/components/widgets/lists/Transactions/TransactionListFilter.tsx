@@ -42,22 +42,16 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
     } = useTransactionFilter(typeTabActive, setTypeTabActive);
     // const debounced = debounce(setChartOpen, 200);
 
-    // text-neutral-60 dark:text-black
-    // text-neutral-70
     return (
         <div className="mb-6">
             <div className="w-full mb-6">
                 <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
                     <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
-                        <label>
-                            <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
-                                {translate("resources.transactions.filter.filterById")}
-                            </span>
-                        </label>
-
                         <Input
-                            className="flex-1 text-sm placeholder:text-neutral-70 h-[38px]"
+                            className="flex-1"
+                            label={translate("resources.transactions.filter.filterById")}
                             placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
+                            labelSize="title-2"
                             value={operationId}
                             onChange={onOperationIdChanged}
                         />
@@ -69,7 +63,7 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                             </span>
                         </label>
                         <Input
-                            className="flex-1 text-sm placeholder:text-neutral-70 h-[38px]"
+                            className="flex-1"
                             placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
                             value={customerPaymentId}
                             onChange={onCustomerPaymentIdChanged}
@@ -135,9 +129,9 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                     )}
 
                     <Button
-                        className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7 text-neutral-70 dark:text-neutral-50 active:text-green-50 hover:text-green-60"
+                        className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7"
                         onClick={clearFilters}
-                        variant="clearBtn"
+                        variant="text_btn_sec"
                         size="default"
                         disabled={
                             !operationId &&

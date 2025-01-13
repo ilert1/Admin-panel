@@ -118,7 +118,7 @@ export const useGetAccountsColumns = () => {
                                           setShowAccountId(row.original.id);
                                           setShowEditDialog(true);
                                       }}
-                                      variant="textBtn"
+                                      variant="text_btn"
                                       className="h-8 w-8 p-0">
                                       <Pen className="h-6 w-6" />
                                   </Button>

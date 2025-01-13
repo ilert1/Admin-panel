@@ -1,5 +1,6 @@
-import { AuthProvider, fetchUtils } from "react-admin";
 import { jwtDecode, JwtPayload } from "jwt-decode";
+import { AuthProvider, fetchUtils } from "react-admin";
+
 import { isTokenStillFresh } from "@/helpers/jwt";
 
 interface KeycloakJwtPayload extends JwtPayload {

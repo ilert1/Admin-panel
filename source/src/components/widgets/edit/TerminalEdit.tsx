@@ -17,8 +17,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { toast } from "sonner";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
-import { TriangleAlert } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface ProviderEditParams {
     provider: string;
@@ -125,11 +123,6 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
                             name="verbose_name"
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>
-                                        <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.terminals.fields.verbose_name")}
-                                        </span>
-                                    </FormLabel>
                                     <FormControl>
                                         <Input
                                             className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
@@ -137,28 +130,14 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                     : ""
                                             }`}
+                                            label={translate("resources.terminals.fields.verbose_name")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
                                             autoCorrect="off"
                                             autoCapitalize="none"
                                             spellCheck="false"
-                                            {...field}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Input>
+                                            {...field}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -168,11 +147,6 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
                             name="description"
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>
-                                        <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.terminals.fields.description")}
-                                        </span>
-                                    </FormLabel>
                                     <FormControl>
                                         <Input
                                             className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
@@ -180,28 +154,14 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                     : ""
                                             }`}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            label={translate("resources.terminals.fields.description")}
                                             autoCorrect="off"
                                             autoCapitalize="none"
                                             spellCheck="false"
-                                            {...field}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Input>
+                                            {...field}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}

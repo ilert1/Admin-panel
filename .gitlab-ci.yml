@@ -6,24 +6,23 @@ include:
       - deploy.yml
 
 variables:
-  PROJECT_NAME:   ${PROJECT_NAME}
-  PROJECT_DIR:    ${PROJECT_DIR}
-  WORK_DIR:       ${PROJECT_DIR}/${PROJECT_NAME}
-  IMAGE_NAME:     ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
+  PROJECT_NAME: ${PROJECT_NAME}
+  PROJECT_DIR: ${PROJECT_DIR}
+  WORK_DIR: ${PROJECT_DIR}/${PROJECT_NAME}
+  IMAGE_NAME: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
 
 stages:
   - build
   - deploy
-
 
 ### build
 
 build-develop:
   extends: .pre-build
   variables:
-    ENVIRONMENT:   develop
-    IMAGE_TAG:     develop
-    APP_CONFIG:    ${BF_DEVELOP_APP_CONFIG}
+    ENVIRONMENT: develop
+    IMAGE_TAG: develop
+    APP_CONFIG: ${BF_DEVELOP_APP_CONFIG}
   only:
     refs:
       - develop
@@ -31,9 +30,9 @@ build-develop:
 build-master-blowfish:
   extends: .pre-build
   variables:
-    ENVIRONMENT:   master
-    IMAGE_TAG:     master-blowfish
-    APP_CONFIG:    ${BF_MASTER_APP_CONFIG}
+    ENVIRONMENT: master
+    IMAGE_TAG: master-blowfish
+    APP_CONFIG: ${BF_MASTER_APP_CONFIG}
   only:
     refs:
       - master
@@ -41,9 +40,9 @@ build-master-blowfish:
 build-master-noname:
   extends: .pre-build
   variables:
-    ENVIRONMENT:   master
-    IMAGE_TAG:     master-noname
-    APP_CONFIG:    ${NN_MASTER_APP_CONFIG}
+    ENVIRONMENT: master
+    IMAGE_TAG: master-noname
+    APP_CONFIG: ${NN_MASTER_APP_CONFIG}
   only:
     refs:
       - master
@@ -51,9 +50,9 @@ build-master-noname:
 build-production-blowfish:
   extends: .pre-build
   variables:
-    ENVIRONMENT:   production
-    IMAGE_TAG:     ${CI_COMMIT_TAG}-blowfish
-    APP_CONFIG:    ${BF_PRODUCTION_APP_CONFIG}
+    ENVIRONMENT: production
+    IMAGE_TAG: ${CI_COMMIT_TAG}-blowfish
+    APP_CONFIG: ${BF_PRODUCTION_APP_CONFIG}
   only:
     - tags
   except:
@@ -62,25 +61,24 @@ build-production-blowfish:
 build-production-noname:
   extends: .pre-build
   variables:
-    ENVIRONMENT:   production
-    IMAGE_TAG:     ${CI_COMMIT_TAG}-noname
-    APP_CONFIG:    ${NN_PRODUCTION_APP_CONFIG}
+    ENVIRONMENT: production
+    IMAGE_TAG: ${CI_COMMIT_TAG}-noname
+    APP_CONFIG: ${NN_PRODUCTION_APP_CONFIG}
   only:
     - tags
   except:
-    - branches    
-
+    - branches
 
 ### deploy
 
 deploy-develop:
   extends: .pre-deploy
   variables:
-    ENVIRONMENT:       develop
-    IMAGE_TAG:         develop
-    APP_CONFIG:        ${BF_DEVELOP_APP_CONFIG}
-    SSH_HOST:          ${BF_DEVELOP_SSH_HOST}
-    SSH_PRIVATE_KEY:   ${BF_DEVELOP_SSH_PRIVATE_KEY}
+    ENVIRONMENT: develop
+    IMAGE_TAG: develop
+    APP_CONFIG: ${BF_DEVELOP_APP_CONFIG}
+    SSH_HOST: ${BF_DEVELOP_SSH_HOST}
+    SSH_PRIVATE_KEY: ${BF_DEVELOP_SSH_PRIVATE_KEY}
   only:
     refs:
       - develop
@@ -90,11 +88,11 @@ deploy-develop:
 deploy-master-blowfish:
   extends: .pre-deploy
   variables:
-    ENVIRONMENT:       master
-    IMAGE_TAG:         master-blowfish
-    APP_CONFIG:        ${BF_MASTER_APP_CONFIG}
-    SSH_HOST:          ${BF_MASTER_SSH_HOST}
-    SSH_PRIVATE_KEY:   ${BF_MASTER_SSH_PRIVATE_KEY}
+    ENVIRONMENT: master
+    IMAGE_TAG: master-blowfish
+    APP_CONFIG: ${BF_MASTER_APP_CONFIG}
+    SSH_HOST: ${BF_MASTER_SSH_HOST}
+    SSH_PRIVATE_KEY: ${BF_MASTER_SSH_PRIVATE_KEY}
   only:
     refs:
       - master
@@ -104,11 +102,11 @@ deploy-master-blowfish:
 deploy-master-noname:
   extends: .pre-deploy
   variables:
-    ENVIRONMENT:       master
-    IMAGE_TAG:         master-noname
-    APP_CONFIG:        ${NN_MASTER_APP_CONFIG}
-    SSH_HOST:          ${NN_MASTER_SSH_HOST}
-    SSH_PRIVATE_KEY:   ${NN_MASTER_SSH_PRIVATE_KEY}
+    ENVIRONMENT: master
+    IMAGE_TAG: master-noname
+    APP_CONFIG: ${NN_MASTER_APP_CONFIG}
+    SSH_HOST: ${NN_MASTER_SSH_HOST}
+    SSH_PRIVATE_KEY: ${NN_MASTER_SSH_PRIVATE_KEY}
   only:
     refs:
       - master
@@ -118,11 +116,11 @@ deploy-master-noname:
 deploy-production-blowfish:
   extends: .pre-deploy
   variables:
-    ENVIRONMENT:       production
-    IMAGE_TAG:         ${CI_COMMIT_TAG}-blowfish
-    APP_CONFIG:        ${BF_PRODUCTION_APP_CONFIG}
-    SSH_HOST:          ${BF_PRODUCTION_SSH_HOST}
-    SSH_PRIVATE_KEY:   ${BF_PRODUCTION_SSH_PRIVATE_KEY}
+    ENVIRONMENT: production
+    IMAGE_TAG: ${CI_COMMIT_TAG}-blowfish
+    APP_CONFIG: ${BF_PRODUCTION_APP_CONFIG}
+    SSH_HOST: ${BF_PRODUCTION_SSH_HOST}
+    SSH_PRIVATE_KEY: ${BF_PRODUCTION_SSH_PRIVATE_KEY}
   only:
     - tags
   except:
@@ -134,11 +132,11 @@ deploy-production-blowfish:
 deploy-production-noname:
   extends: .pre-deploy
   variables:
-    ENVIRONMENT:       production
-    IMAGE_TAG:         ${CI_COMMIT_TAG}-noname
-    APP_CONFIG:        ${NN_PRODUCTION_APP_CONFIG}
-    SSH_HOST:          ${NN_PRODUCTION_SSH_HOST}
-    SSH_PRIVATE_KEY:   ${NN_PRODUCTION_SSH_PRIVATE_KEY}
+    ENVIRONMENT: production
+    IMAGE_TAG: ${CI_COMMIT_TAG}-noname
+    APP_CONFIG: ${NN_PRODUCTION_APP_CONFIG}
+    SSH_HOST: ${NN_PRODUCTION_SSH_HOST}
+    SSH_PRIVATE_KEY: ${NN_PRODUCTION_SSH_PRIVATE_KEY}
   only:
     - tags
   except:

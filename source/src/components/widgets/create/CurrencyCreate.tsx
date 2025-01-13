@@ -35,7 +35,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
             closeDialog();
         } catch (error) {
             toast.error("Error", {
-                description: translate("resources.currency.errors.alreadyInUse"),
+                description: translate("resources.currency.error.alreadyInUse"),
                 dismissible: true,
                 duration: 3000
             });
@@ -44,7 +44,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
     };
 
     const formSchema = z.object({
-        code: z.string().min(1, translate("resources.currency.errors.code")),
+        code: z.string().min(1, translate("resources.currency.error.code")),
         position: z.enum([PositionEnum.AFTER, PositionEnum.BEFORE]),
         symbol: z.string().trim().nullable(),
         is_coin: z.boolean().default(false)
@@ -72,7 +72,6 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                             name="code"
                             render={({ field, fieldState }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>{translate("resources.currency.fields.currencyName")}</FormLabel>
                                     <FormControl>
                                         <Input
                                             className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
@@ -80,25 +79,11 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                                                     ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                     : ""
                                             }`}
-                                            {...field}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Input>
+                                            label={translate("resources.currency.fields.currencyName")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            {...field}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -109,7 +94,6 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                             name="symbol"
                             render={({ field, fieldState }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>{translate("resources.currency.fields.symbol")}</FormLabel>
                                     <FormControl>
                                         <Input
                                             className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
@@ -118,25 +102,11 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                                                     : ""
                                             }`}
                                             {...field}
-                                            value={field.value ?? ""}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Input>
+                                            label={translate("resources.currency.fields.symbol")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            value={field.value ?? ""}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}

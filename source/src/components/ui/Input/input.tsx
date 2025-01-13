@@ -1,8 +1,8 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { ClearButton } from "./clearButton";
 import { ErrorBadge } from "./ErrorBadge";
 import { EyeButton } from "./EyeButton";
+import { ClearButton } from "./ClearButton";
 
 export type BasicInputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
@@ -11,11 +11,15 @@ export enum InputTypes {
     GRAY = "gray"
 }
 
+export type LabelSize = "note-1" | "title-2";
+
 interface InputProps extends BasicInputProps {
     variant?: InputTypes;
-    error?: boolean | string;
     label?: string;
     shadow?: boolean;
+    error?: boolean | string;
+    errorMessage?: string | React.ReactNode;
+    labelSize?: LabelSize;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -29,7 +33,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             children,
             variant,
             error = false,
+            errorMessage = "",
             label,
+            labelSize = "note-1",
             shadow = false,
             ...props
         },
@@ -45,6 +51,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         const inputRef = React.useRef<HTMLInputElement>(null);
         const iconsBoxRef = React.useRef<HTMLSpanElement>(null);
+        const containerRef = React.useRef<HTMLDivElement>(null);
 
         React.useEffect(() => {
             if (propValue !== undefined) {
@@ -56,6 +63,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         const handleClear = (e: React.MouseEvent) => {
             e.preventDefault();
+            e.stopPropagation();
             setInputValue("");
             if (onChange) {
                 const event = { target: { value: "" } } as React.ChangeEvent<HTMLInputElement>;
@@ -73,14 +81,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
             setIsFocused(true);
-            setIsActive(true); // Активируем div, когда input в фокусе
-            setIsActive(true); // Активируем div, когда input в фокусе
             props.onFocus?.(e);
         };
 
         const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
             setIsFocused(false);
-            setIsActive(false);
             props.onBlur?.(e);
         };
 
@@ -97,18 +102,42 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             }
         }, [showClearButton, error, type]);
 
+        React.useEffect(() => {
+            const handleDocumentClick = (e: MouseEvent) => {
+                if (
+                    containerRef.current &&
+                    !containerRef.current.contains(e.target as Node) &&
+                    document.activeElement === inputRef.current
+                ) {
+                    setIsFocused(false);
+                    inputRef.current?.blur();
+                    props.onBlur?.(e as any);
+                }
+            };
+
+            document.addEventListener("mousedown", handleDocumentClick);
+
+            return () => {
+                document.removeEventListener("mousedown", handleDocumentClick);
+            };
+        }, [props]);
+
         return (
-            <div className="flex flex-col w-full gap-[4px]">
-                {label && <label className="block text-note-1 text-neutral-80 dark:text-neutral-30 ">{label}</label>}
+            <div className="flex flex-col w-full gap-[4px]" ref={containerRef}>
+                {label && (
+                    <label className={`block text-${labelSize} text-neutral-80 dark:text-neutral-30 md:text-nowrap`}>
+                        {label}
+                    </label>
+                )}
                 <div
                     className={cn(
-                        "relative flex items-center w-full border hover:border-green-40 ",
+                        "relative flex items-center w-full border hover:border-green-40 transition-colors duration-200",
                         "border-neutral-40",
                         "dark:border-neutral-60",
+                        isFocused ? "!border-green-50" : "",
                         shadow ? "shadow-1 rounded-md" : "",
-                        isFocused || isActive ? "!border-green-50" : "",
                         disabled ? "border-neutral-40 hover:border-neutral-40" : "",
-                        error ? "border-red-40 dark:border-red-40" : ""
+                        error ? "!border-red-40 dark:!border-red-40" : ""
                     )}>
                     <input
                         type={type === "password" && showPassword ? "text" : type}
@@ -118,10 +147,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         onBlur={handleBlur}
                         disabled={disabled}
                         className={cn(
-                            "flex h-9 w-full px-3 py-2 rounded-md text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus:outline-none transition duration-200",
-                            "text-neutral-80 bg-neutral-0",
-                            "dark:text-neutral-0 dark:bg-neutral-100 dark:placeholder:text-neutral-70",
-                            "disabled:bg-neutral-20 disabled:dark:bg-neutral-90 disabled:text-neutral-80 disabled:dark:text-neutral-60",
+                            "flex h-9 w-full px-3 py-2 rounded-md text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus:outline-none z-1",
+                            "!text-neutral-80 bg-neutral-0",
+                            "dark:!text-neutral-0 dark:bg-neutral-100 dark:placeholder:!text-neutral-70",
+                            "disabled:bg-neutral-20 disabled:dark:bg-neutral-90 disabled:!text-neutral-80 disabled:dark:!text-neutral-60",
                             variant === InputTypes.GRAY ? "bg-white dark:bg-muted" : "",
                             className
                         )}
@@ -130,7 +159,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     />
                     <span className="flex" ref={iconsBoxRef}>
                         {showClearButton && <ClearButton handleClear={handleClear} />}
-                        {error && <ErrorBadge />}
+                        {error && <ErrorBadge errorMessage={errorMessage} />}
                         {type === "password" && (
                             <EyeButton
                                 disabled={disabled ?? false}
@@ -140,13 +169,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                             />
                         )}
                     </span>
-
-                    {children && (
-                        <div className="absolute right-3 top-0 bottom-0 flex items-center justify-center">
-                            {children}
-                        </div>
-                    )}
                 </div>
+                <span className="!text-note-1 inline sm:hidden">{errorMessage}</span>
+                {children && (
+                    <div className="absolute right-3 top-0 bottom-0 flex items-center justify-center">{children}</div>
+                )}
             </div>
         );
     }

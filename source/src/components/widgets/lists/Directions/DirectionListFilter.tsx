@@ -42,9 +42,9 @@ export const DirectionListFilter = () => {
             </div>
 
             <Button
-                className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7 text-neutral-70 dark:text-neutral-50 active:text-green-50 hover:text-green-60"
+                className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7"
                 onClick={clearFilters}
-                variant="clearBtn"
+                variant="text_btn_sec"
                 size="default"
                 disabled={!merchantId}>
                 <span>{translate("resources.transactions.filter.clearFilters")}</span>

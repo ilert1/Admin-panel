@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -36,9 +36,10 @@
             input:-webkit-autofill:hover,
             input:-webkit-autofill:focus,
             input:-webkit-autofill:active {
-                -webkit-box-shadow: 0 0 0 30px var(--autofill-bg-color) inset !important;
+                -webkit-box-shadow: 0 0 0 30px var(--autofill-bg-color) inset;
                 -webkit-text-fill-color: var(--autofill-text-color);
                 -webkit-background-clip: text;
+                background-color: var(--autofill-bg-color);
                 caret-color: var(--autofill-caret-color);
             }
 

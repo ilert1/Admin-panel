@@ -6,8 +6,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useDataProvider, useInfiniteGetList, useTranslate } from "react-admin";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { TriangleAlert, WalletMinimal } from "lucide-react";
+import { WalletMinimal } from "lucide-react";
 import { Icon } from "../shared/Icon";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectType } from "@/components/ui/select";
 import { CreateWalletDialog } from "../lists/Wallets";
@@ -299,9 +298,6 @@ export const CryptoTransferForm = (props: {
                                 name="amount"
                                 render={({ field, fieldState }) => (
                                     <FormItem>
-                                        <FormLabel className="text-note-1 text-neutral-80 dark:text-neutral-30">
-                                            {translate("app.widgets.forms.cryptoTransfer.amount")}
-                                        </FormLabel>
                                         <FormControl>
                                             <Input
                                                 autoComplete="off"
@@ -310,6 +306,9 @@ export const CryptoTransferForm = (props: {
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                         : ""
                                                 }`}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate("app.widgets.forms.cryptoTransfer.amount")}
                                                 {...field}
                                                 onChange={e => {
                                                     field.onChange(e.target.value);
@@ -319,27 +318,8 @@ export const CryptoTransferForm = (props: {
                                                         setChecked(false);
                                                     }
                                                     form.trigger("amount");
-                                                }}>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
-                                            </Input>
+                                                }}
+                                            />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>

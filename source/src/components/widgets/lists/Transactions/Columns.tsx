@@ -122,7 +122,7 @@ export const useGetTransactionColumns = () => {
             id: "actions",
             cell: ({ row }) => {
                 return (
-                    <Button onClick={() => openSheet(row.original.id)} variant="clearBtn" className="w-full p-0">
+                    <Button onClick={() => openSheet(row.original.id)} variant="text_btn" className="w-full p-0">
                         <span className="sr-only">Open menu</span>
                         <EyeIcon className="text-green-50 size-7" />
                     </Button>

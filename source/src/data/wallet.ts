@@ -1,4 +1,3 @@
-import { BaseDataProvider } from "./base";
 import {
     CreateParams,
     CreateResult,
@@ -11,6 +10,8 @@ import {
     UpdateParams
 } from "react-admin";
 import { fetchUtils } from "react-admin";
+
+import { BaseDataProvider } from "./base";
 
 const API_URL = import.meta.env.VITE_WALLET_URL;
 

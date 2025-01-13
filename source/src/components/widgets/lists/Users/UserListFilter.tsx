@@ -82,9 +82,9 @@ export const UserListFilter = () => {
                     </label>
 
                     <Button
-                        className="ml-0 sm:ml-auto flex items-center gap-1 w-auto h-auto px text-neutral-70 dark:text-neutral-50 active:text-green-50 hover:text-green-60"
+                        className="ml-0 sm:ml-auto flex items-center gap-1 w-auto h-auto px"
                         onClick={clearFilters}
-                        variant="clearBtn"
+                        variant="text_btn"
                         size="default"
                         disabled={!userInputId && !username && !checkedActivity}>
                         <span className="">{translate("resources.transactions.filter.clearFilters")}</span>

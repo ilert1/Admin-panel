@@ -32,11 +32,11 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
                 caption_label: "flex justify-center text-green-40 items-center",
                 nav: "flex",
                 button_previous: cn(
-                    buttonVariants({ variant: "textBtn" }),
+                    buttonVariants({ variant: "text_btn" }),
                     "h-5 w-5 bg-transparent p-0 opacity-50 hover:opacity-100 font-bold absolute left-4 top-[22px] z-10"
                 ),
                 button_next: cn(
-                    buttonVariants({ variant: "textBtn" }),
+                    buttonVariants({ variant: "text_btn" }),
                     "h-5 w-5 bg-transparent p-0 opacity-50 hover:opacity-100 font-bold absolute right-4 top-[22px] z-10"
                 ),
                 selected:

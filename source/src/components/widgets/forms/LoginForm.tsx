@@ -108,14 +108,17 @@ export const LoginForm = (props: LoginFormProps) => {
                 </div>
 
                 <div className="flex justify-center mt-4 mb-7">
-                    <a className="text-xs text-green-50 dark:text-green-40" href={configure2faLink}>
-                        {translate("app.login.configure2fa")}
-                    </a>
+                    <Button variant={"text_btn"}>
+                        <a href={configure2faLink} className="underline underline-offset-4">
+                            {translate("app.login.configure2fa")}
+                        </a>
+                    </Button>
                 </div>
 
-                <Button type="submit" color="primary" variant="default" className="w-full">
+                <Button type="submit" className="w-full">
                     {translate("app.login.login")}
                 </Button>
+
                 {error && <div className="text-red-30 text-note-1 mt-5">{error}</div>}
             </form>
         </div>

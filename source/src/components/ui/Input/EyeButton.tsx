@@ -11,6 +11,9 @@ interface EyeButtonProps {
 export const EyeButton = (props: EyeButtonProps) => {
     const { showPassword, disabled, inputValue, setShowPassword } = props;
 
+    const withInputStyles = "text-green-50 hover:text-green-40 dark:hover:text-green-40";
+    const withoutInputStyles = "text-green-50 dark:text-green-40 hover:text-green-40 dark:hover:text-green-40";
+
     return (
         <span
             className={cn(
@@ -22,12 +25,12 @@ export const EyeButton = (props: EyeButtonProps) => {
             {showPassword ? (
                 <EyeOff
                     className={cn(
-                        "h-5 w-5",
+                        "h-5 w-5 ",
                         disabled
                             ? "text-neutral-80 dark:text-neutral-60"
                             : inputValue
-                            ? "text-green-50"
-                            : "text-green-50 dark:text-green-40 "
+                            ? withInputStyles
+                            : withoutInputStyles
                     )}
                 />
             ) : (
@@ -37,8 +40,8 @@ export const EyeButton = (props: EyeButtonProps) => {
                         disabled
                             ? "text-neutral-80 dark:text-neutral-60"
                             : inputValue
-                            ? "text-green-50"
-                            : "text-green-50 dark:text-green-40 "
+                            ? withInputStyles
+                            : withoutInputStyles
                     )}
                 />
             )}

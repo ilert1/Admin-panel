@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+
 import { MerchantsDataProvider } from "@/data";
 
 export const useFetchMerchants = () => {
