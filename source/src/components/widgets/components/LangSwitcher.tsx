@@ -33,7 +33,9 @@ export const LangSwitcher = () => {
                     <span className="text-display-3">{locale.toUpperCase()}</span>
                 </Avatar>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="p-0 bg-muted border border-neutral-100 z-[60]">
+            <DropdownMenuContent
+                align="end"
+                className="p-0 bg-muted border border-green-40 dark:border-neutral-100 z-[60]">
                 {getLocales?.().map(locale => (
                     <DropdownMenuItem
                         key={locale.locale}

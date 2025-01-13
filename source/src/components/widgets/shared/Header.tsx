@@ -185,7 +185,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                 <div className="flex content-start items-center pl-4 pr-4 mt-[0.8rem]">
                                     <Avatar className="w-5 h-5">
                                         <AvatarFallback
-                                            className={`bg-green-50 transition-colors text-primary cursor-default`}>
+                                            className={`bg-green-50 transition-colors text-primary cursor-default text-white`}>
                                             {identity.data.fullName
                                                 ? identity.data.fullName[0].toLocaleUpperCase()
                                                 : ""}

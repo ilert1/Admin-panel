@@ -91,7 +91,7 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
     );
 
     return (
-        <div className="h-48 w-full border border-neutral-50 rounded-[4px] py-2 overflow-hidden">
+        <div className="h-48 w-full border border-neutral-50 rounded-[4px] py-2 bg-white dark:bg-muted overflow-hidden">
             <Editor
                 width={"99%"}
                 defaultLanguage="json"
