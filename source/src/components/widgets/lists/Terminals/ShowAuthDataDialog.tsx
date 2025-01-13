@@ -47,7 +47,7 @@ export const ShowAuthDataDialog = (props: ShowAuthDataProps) => {
                 <DialogFooter>
                     <div className="flex justify-end w-full pr-1">
                         <Button
-                            variant={"outline"}
+                            variant={"deleteGray"}
                             onClick={() => {
                                 onOpenChange(false);
                             }}>
