@@ -84,7 +84,7 @@ export const UserListFilter = () => {
                     <Button
                         className="ml-0 sm:ml-auto flex items-center gap-1 w-auto h-auto px"
                         onClick={clearFilters}
-                        variant="text_btn"
+                        variant="text_btn_sec"
                         size="default"
                         disabled={!userInputId && !username && !checkedActivity}>
                         <span className="">{translate("resources.transactions.filter.clearFilters")}</span>
@@ -93,6 +93,7 @@ export const UserListFilter = () => {
                 </div>
 
                 <Button
+                variant={"text_btn"}
                     onClick={() => setShowAddUserDialog(true)}
                     className="flex items-center justify-center gap-1 font-normal">
                     <CirclePlus width={16} height={16} />
