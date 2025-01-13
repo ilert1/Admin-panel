@@ -5,7 +5,6 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Avatar } from "@/components/ui/avatar";
-import { LanguagesIcon } from "lucide-react";
 import { useI18nProvider, useLocaleState } from "react-admin";
 import { useState } from "react";
 
