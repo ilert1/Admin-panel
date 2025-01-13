@@ -27,7 +27,7 @@ export const EyeButton = (props: EyeButtonProps) => {
                             ? "text-neutral-80 dark:text-neutral-60"
                             : inputValue
                             ? "text-green-50"
-                            : "text-green-40"
+                            : "text-green-50 dark:text-green-40 "
                     )}
                 />
             ) : (
@@ -38,7 +38,7 @@ export const EyeButton = (props: EyeButtonProps) => {
                             ? "text-neutral-80 dark:text-neutral-60"
                             : inputValue
                             ? "text-green-50"
-                            : "text-green-40"
+                            : "text-green-50 dark:text-green-40 "
                     )}
                 />
             )}

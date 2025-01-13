@@ -102,12 +102,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 {label && <label className="block text-note-1 text-neutral-80 dark:text-neutral-30 ">{label}</label>}
                 <div
                     className={cn(
-                        "relative flex items-center w-full border hover:border-green-40",
+                        "relative flex items-center w-full border hover:border-green-40 ",
                         "border-neutral-40",
                         "dark:border-neutral-60",
                         shadow ? "shadow-1 rounded-md" : "",
                         isFocused || isActive ? "!border-green-50" : "",
-                        disabled ? "border-neutral-40 hover:border-neutral-40" : ""
+                        disabled ? "border-neutral-40 hover:border-neutral-40" : "",
+                        error ? "border-red-40 dark:border-red-40" : ""
                     )}>
                     <input
                         type={type === "password" && showPassword ? "text" : type}
