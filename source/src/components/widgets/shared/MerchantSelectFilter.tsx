@@ -83,7 +83,7 @@ export const MerchantSelectFilter = ({
                     />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="md:w-[--radix-popover-trigger-width] md:max-h-[--radix-popover-content-available-height] p-0 z-[60] min-w-[8rem] overflow-hidden rounded-4 border border-green-50 bg-white dark:bg-red-0 shadow-1 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 ">
+            <PopoverContent className="md:w-[--radix-popover-trigger-width] md:max-h-[--radix-popover-content-available-height] p-0 z-[60] min-w-[8rem] overflow-hidden rounded-4 border border-green-50 bg-white dark:bg-black shadow-1 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 ">
                 <Command filter={merchantFilter}>
                     <CommandInput placeholder={translate("app.ui.actions.search")} />
 
@@ -91,7 +91,7 @@ export const MerchantSelectFilter = ({
                         <CommandGroup>
                             <CommandItem
                                 value={"null"}
-                                className="bg-white dark:bg-neutral-0 cursor-pointer"
+                                className="bg-white dark:bg-neutral-0 cursor-pointer hover:!text-white dark:hover:bg-green-50"
                                 onSelect={() => {
                                     onMerchantChanged("");
                                     setOpen(false);
@@ -110,7 +110,7 @@ export const MerchantSelectFilter = ({
                                     key={account.id}
                                     value={account.id}
                                     onSelect={onSelectMerchant}
-                                    className="bg-white dark:bg-neutral-0 cursor-pointer">
+                                    className="bg-white dark:bg-neutral-0 cursor-pointer hover:!text-white dark:hover:bg-green-50">
                                     {merchantName(account)}
                                     <Check
                                         className={cn(

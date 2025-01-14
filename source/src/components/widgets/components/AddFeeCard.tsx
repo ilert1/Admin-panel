@@ -144,7 +144,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                     control={form.control}
                                     name="type"
                                     render={({ field }) => (
-                                        <FormItem className="p-2">
+                                        <FormItem className="p-2 col-span-2">
                                             <FormLabel>{translate("resources.direction.fees.feeType")}</FormLabel>
                                             <FormControl>
                                                 <div>

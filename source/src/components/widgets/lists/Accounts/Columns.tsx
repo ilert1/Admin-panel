@@ -119,7 +119,7 @@ export const useGetAccountsColumns = () => {
                                           setShowEditDialog(true);
                                       }}
                                       variant="textBtn"
-                                      className="h-8 w-8 p-0">
+                                      className="h-8 w-8 p-0 bg-transparent">
                                       <Pen className="h-6 w-6" />
                                   </Button>
                               </div>

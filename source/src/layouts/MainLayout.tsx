@@ -95,7 +95,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                     {isSheetOpen ? (
                         <div className="flex flex-shrink-0 justify-center items-center h-[63px] gap-6 px-6">
                             <div className="flex items-center w-[189px] m-0 p-0">
-                                <div className="animate-in fade-in-0 transition-opacity duration-700">
+                                <div className="animate-in fade-in-0 transition-opacity duration-700 pointer-events-none select-none">
                                     <img
                                         src={theme === "light" ? "/NoNameLogoLight.svg" : "/NoNameLogo.svg"}
                                         alt="Logo"

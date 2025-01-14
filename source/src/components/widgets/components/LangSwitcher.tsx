@@ -5,7 +5,6 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Avatar } from "@/components/ui/avatar";
-import { LanguagesIcon } from "lucide-react";
 import { useI18nProvider, useLocaleState } from "react-admin";
 import { useState } from "react";
 
@@ -33,12 +32,14 @@ export const LangSwitcher = () => {
                     <span className="text-display-3">{locale.toUpperCase()}</span>
                 </Avatar>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="p-0 bg-muted border border-neutral-100 z-[60]">
+            <DropdownMenuContent
+                align="end"
+                className="p-0 bg-muted border border-green-40 dark:border-neutral-100 z-[60]">
                 {getLocales?.().map(locale => (
                     <DropdownMenuItem
                         key={locale.locale}
                         onClick={() => changeLocale(locale.locale)}
-                        className="text-title-2 py-[14px] focus:bg-green-50 focus:cursor-pointer pl-4 pr-4">
+                        className="text-title-2 py-[14px] focus:bg-green-50 focus:cursor-pointer pl-4 pr-4 hover:text-white focus:text-white">
                         {locale.name}
                     </DropdownMenuItem>
                 ))}

@@ -5,20 +5,13 @@ import { Loading } from "@/components/ui/loading";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { CreateTerminalDialog } from "./CreateTerminalDialog";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle
-} from "@/components/ui/dialog";
-import { MonacoEditor } from "@/components/ui/MonacoEditor";
+
 import { DeleteTerminalDialog } from "./DeleteTerminalDialog";
 import { EditTerminalDialog } from "./EditTerminalDialog";
 import { TerminalsListFilter } from "./TerminalsListFilter";
 import { TerminalListTable } from "./TerminalsListTable";
 import { useGetTerminalColumns } from "./Columns";
+import { ShowAuthDataDialog } from "./ShowAuthDataDialog";
 
 export const TerminalsList = () => {
     const providerContext = useListController<Provider>({ resource: "provider" });
@@ -84,42 +77,11 @@ export const TerminalsList = () => {
                             onOpenChange={setDeleteDialogOpen}
                             deleteId={chosenId}
                         />
-
-                        <Dialog open={showAuthKeyOpen} onOpenChange={setShowAuthKeyOpen}>
-                            <DialogContent className="max-w-[478px] max-h-[340px] overflow-auto bg-muted">
-                                <DialogHeader>
-                                    <DialogTitle className="text-center" />
-                                    <DialogDescription />
-
-                                    <div className="w-full flex flex-col items-center justify-end ">
-                                        <span className="self-start text-note-1">
-                                            {translate("resources.terminals.fields.auth")}
-                                        </span>
-
-                                        <MonacoEditor
-                                            height="144px"
-                                            code={authData}
-                                            setCode={() => {}}
-                                            onErrorsChange={() => {}}
-                                            onValidChange={() => {}}
-                                            disabled
-                                        />
-                                    </div>
-                                </DialogHeader>
-
-                                <DialogFooter>
-                                    <div className="flex justify-end w-full pr-1">
-                                        <Button
-                                            variant={"outline"}
-                                            onClick={() => {
-                                                setShowAuthKeyOpen(false);
-                                            }}>
-                                            {translate("app.ui.actions.close")}
-                                        </Button>
-                                    </div>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
+                        <ShowAuthDataDialog
+                            open={showAuthKeyOpen}
+                            onOpenChange={setShowAuthKeyOpen}
+                            authData={authData}
+                        />
                     </>
                 ) : (
                     <DataTable columns={columns} />
