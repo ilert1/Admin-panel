@@ -97,7 +97,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             const container = iconsBoxRef.current;
 
             if (container && container.lastElementChild) {
-                (container.lastElementChild as HTMLElement).classList.add("!pr-[13.3px]", "rounded-r-md");
+                (container.lastElementChild as HTMLElement).classList.add("!pr-[13.3px]", "rounded-r-4");
             }
         }, [showClearButton, error, type]);
 
@@ -122,7 +122,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         }, [props]);
 
         return (
-            <div className="flex flex-col w-full gap-[4px] rounded-md" ref={containerRef}>
+            <div className="flex flex-col w-full gap-[4px] rounded-4" ref={containerRef}>
                 {label && (
                     <label
                         className={cn(
@@ -138,11 +138,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 )}
                 <div
                     className={cn(
-                        "relative flex items-center w-full border hover:border-green-40 transition-colors duration-200",
+                        "relative flex items-center w-full border hover:border-green-40 transition-colors duration-200 rounded-4",
                         "border-neutral-40",
                         "dark:border-neutral-60",
                         isFocused ? "!border-green-50" : "",
-                        shadow ? "shadow-1 rounded-md" : "",
+                        shadow ? "shadow-1" : "",
                         disabled ? "border-neutral-40 hover:border-neutral-40" : "",
                         error ? "!border-red-40 dark:!border-red-40" : ""
                     )}>
@@ -154,7 +154,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         onBlur={handleBlur}
                         disabled={disabled}
                         className={cn(
-                            "flex h-9 w-full px-3 py-2 rounded-md text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus:outline-none z-1",
+                            "flex h-9 w-full px-3 py-2 rounded-4 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus:outline-none z-1",
                             "!text-neutral-80 bg-neutral-0",
                             "dark:!text-neutral-0 dark:bg-neutral-100 dark:placeholder:!text-neutral-70",
                             "disabled:bg-neutral-20 disabled:dark:bg-neutral-90 disabled:!text-neutral-80 disabled:dark:!text-neutral-60",

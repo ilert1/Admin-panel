@@ -17,7 +17,7 @@ export const EyeButton = (props: EyeButtonProps) => {
     return (
         <span
             className={cn(
-                "flex items-center justify-center cursor-pointer h-[36px] rounded-r-md pr-[4px] transition-colors duration-200",
+                "flex items-center justify-center cursor-pointer h-[36px] rounded-r-md pr-[4px] ",
                 "bg-neutral-0",
                 "dark:bg-neutral-100"
             )}
@@ -25,7 +25,7 @@ export const EyeButton = (props: EyeButtonProps) => {
             {showPassword ? (
                 <EyeOff
                     className={cn(
-                        "h-5 w-5 ",
+                        "h-5 w-5 transition-colors duration-200 ",
                         disabled
                             ? "text-neutral-80 dark:text-neutral-60"
                             : inputValue
@@ -36,7 +36,7 @@ export const EyeButton = (props: EyeButtonProps) => {
             ) : (
                 <Eye
                     className={cn(
-                        "h-5 w-5",
+                        "h-5 w-5 transition-colors duration-200 ",
                         disabled
                             ? "text-neutral-80 dark:text-neutral-60"
                             : inputValue

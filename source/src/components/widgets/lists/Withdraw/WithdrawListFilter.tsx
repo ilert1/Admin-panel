@@ -32,14 +32,13 @@ export const WithdrawListFilter = () => {
                 <div className="w-full mb-6 flex flex-col justify-start sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
                     <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start md:max-w-96">
                         <label>
-                            <span className="md:text-nowrap text-neutral-60 dark:text-white">
-                                {translate("resources.withdraw.filter.filterById")}
-                            </span>
+                            <span className="md:text-nowrap text-neutral-60 dark:text-white"></span>
                         </label>
                         <Input
                             className="flex-1 text-sm placeholder:text-neutral-70"
                             placeholder={translate("resources.withdraw.filter.filterByIdPlaceholder")}
                             value={operationId}
+                            title={translate("resources.withdraw.filter.filterById")}
                             onChange={onOperationIdChanged}
                         />
                     </div>

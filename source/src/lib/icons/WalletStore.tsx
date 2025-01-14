@@ -1,7 +1,7 @@
 export const DoubleWalletsIcon = () => (
     <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
-            className="stroke-neutral-100 dark:stroke-neutral-60"
+            className="stroke-neutral-90 dark:stroke-neutral-0"
             d="M1.88318 4.125V15.2678C1.88318 15.69 2.05089 16.0949 2.34941 16.3934C2.64794 16.6919 3.05283 16.8596 3.47501 16.8596H7.04332C7.04332 16.8596 7.04332 15.2066 7.04332 14.1046V11.9005V10.7984"
             stroke="white"
             strokeWidth="2"
@@ -9,7 +9,7 @@ export const DoubleWalletsIcon = () => (
             strokeLinejoin="round"
         />
         <path
-            className="stroke-neutral-100 dark:stroke-neutral-60"
+            className="stroke-neutral-90 dark:stroke-neutral-0"
             d="M14.6178 5.71686V3.32912C14.6178 3.11803 14.534 2.91558 14.3847 2.76632C14.2354 2.61706 14.033 2.5332 13.8219 2.5332H3.47501C3.05283 2.5332 2.64794 2.70091 2.34941 2.99944C2.05089 3.29797 1.88318 3.70285 1.88318 4.12503C1.88318 4.54721 2.05089 4.9521 2.34941 5.25063C2.64794 5.54915 3.05283 5.71686 3.47501 5.71686H15.4137C15.6248 5.71686 15.8273 5.80072 15.9765 5.94998C16.1258 6.09925 16.2097 6.30169 16.2097 6.51278"
             stroke="white"
             strokeWidth="2"
@@ -17,7 +17,7 @@ export const DoubleWalletsIcon = () => (
             strokeLinejoin="round"
         />
         <path
-            className="stroke-neutral-100 dark:stroke-neutral-60"
+            className="stroke-neutral-90 dark:stroke-neutral-0"
             d="M6.99451 9.63477V20.7776C6.99451 21.1998 7.16222 21.6046 7.46074 21.9032C7.75927 22.2017 8.16416 22.3694 8.58634 22.3694H20.5251C20.7362 22.3694 20.9386 22.2856 21.0879 22.1363C21.2371 21.987 21.321 21.7846 21.321 21.5735V18.3898"
             stroke="white"
             strokeWidth="2"
@@ -25,7 +25,7 @@ export const DoubleWalletsIcon = () => (
             strokeLinejoin="round"
         />
         <path
-            className="stroke-neutral-100 dark:stroke-neutral-60"
+            className="stroke-neutral-90 dark:stroke-neutral-0"
             d="M19.7292 11.2266V8.83888C19.7292 8.62779 19.6453 8.42535 19.496 8.27609C19.3468 8.12682 19.1443 8.04297 18.9332 8.04297H8.58634C8.16416 8.04297 7.75927 8.21068 7.46074 8.50921C7.16222 8.80773 6.99451 9.21262 6.99451 9.6348C6.99451 10.057 7.16222 10.4619 7.46074 10.7604C7.75927 11.0589 8.16416 11.2266 8.58634 11.2266H20.5251C20.7362 11.2266 20.9386 11.3105 21.0879 11.4597C21.2371 11.609 21.321 11.8115 21.321 12.0225V15.2062M21.321 15.2062H18.9332C18.5111 15.2062 18.1062 15.3739 17.8076 15.6724C17.5091 15.971 17.3414 16.3759 17.3414 16.798C17.3414 17.2202 17.5091 17.6251 17.8076 17.9236C18.1062 18.2222 18.5111 18.3899 18.9332 18.3899H21.321C21.5321 18.3899 21.7345 18.306 21.8838 18.1567C22.033 18.0075 22.1169 17.805 22.1169 17.594V16.0021C22.1169 15.791 22.033 15.5886 21.8838 15.4393C21.7345 15.2901 21.5321 15.2062 21.321 15.2062Z"
             stroke="white"
             strokeWidth="2"
@@ -36,13 +36,7 @@ export const DoubleWalletsIcon = () => (
 );
 
 export const RearLockKeyhole = ({ className }: { className: string }) => (
-    <svg
-        className={className}
-        width="24"
-        height="25"
-        viewBox="0 0 24 25"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg">
+    <svg className={className} width="24" height="25" viewBox="0 0 24 25" fill="" xmlns="http://www.w3.org/2000/svg">
         <path
             d="M12 17.4512C12.5523 17.4512 13 17.0035 13 16.4512C13 15.8989 12.5523 15.4512 12 15.4512C11.4477 15.4512 11 15.8989 11 16.4512C11 17.0035 11.4477 17.4512 12 17.4512Z"
             stroke="#F3BE00"
@@ -76,7 +70,7 @@ export const BitcoinWalletIcon = () => (
         fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <path
-            className="stroke-neutral-100 dark:stroke-neutral-60"
+            className="stroke-neutral-90 dark:stroke-neutral-0 "
             d="M7 7.45117H19C19.5304 7.45117 20.0391 7.66189 20.4142 8.03696C20.7893 8.41203 21 8.92074 21 9.45117V19.4512C21 19.9816 20.7893 20.4903 20.4142 20.8654C20.0391 21.2405 19.5304 21.4512 19 21.4512H5C4.46957 21.4512 3.96086 21.2405 3.58579 20.8654C3.21071 20.4903 3 19.9816 3 19.4512V5.45117C3 4.92074 3.21071 4.41203 3.58579 4.03696C3.96086 3.66189 4.46957 3.45117 5 3.45117H19"
             stroke="white"
             strokeWidth="2"
@@ -84,7 +78,7 @@ export const BitcoinWalletIcon = () => (
             strokeLinejoin="round"
         />
         <path
-            className="stroke-neutral-100 dark:stroke-neutral-60"
+            className="stroke-neutral-90 dark:stroke-neutral-0"
             d="M12.0871 18.3818C14.6605 18.853 15.296 15.1113 12.7226 14.6395M12.0871 18.3818L9 17.8162M12.0871 18.3818L11.9063 19.4512M10.664 14.2628L12.7232 14.6395C15.2966 15.1113 15.9321 11.369 13.3581 10.8978L10.27 10.3322M13.3576 10.8978L13.5395 9.82844M9.84665 19.0739L11.4804 9.45117"
             stroke="white"
             strokeWidth="1.5"
@@ -98,21 +92,21 @@ export const WalletLinkedTransactionsIcon = () => (
     <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
             d="M11 14.5233C11.2157 14.7895 11.491 15.0098 11.8071 15.1692C12.1232 15.3287 12.4727 15.4235 12.8319 15.4472C13.1912 15.471 13.5518 15.4231 13.8893 15.3069C14.2267 15.1907 14.5332 15.0089 14.7878 14.7737L16.2949 13.3825C16.7525 12.9452 17.0056 12.3595 16.9999 11.7516C16.9942 11.1437 16.73 10.5621 16.2643 10.1322C15.7986 9.70234 15.1686 9.4585 14.51 9.45321C13.8514 9.44793 13.2169 9.68163 12.7432 10.104L11.8791 10.897"
-            className="stroke-neutral-100 dark:stroke-neutral-60"
+            className="stroke-neutral-90 dark:stroke-neutral-0"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
         />
         <path
             d="M13 14.3829C12.7843 14.1167 12.509 13.8964 12.1929 13.737C11.8768 13.5776 11.5273 13.4828 11.1681 13.459C10.8088 13.4353 10.4482 13.4831 10.1107 13.5994C9.77327 13.7156 9.46683 13.8974 9.21218 14.1325L7.7051 15.5237C7.24755 15.961 6.99437 16.5467 7.00009 17.1546C7.00582 17.7626 7.26998 18.3441 7.73569 18.774C8.2014 19.2039 8.8314 19.4478 9.48999 19.453C10.1486 19.4583 10.7831 19.2246 11.2568 18.8023L12.1158 18.0093"
-            className="stroke-neutral-100 dark:stroke-neutral-60"
+            className="stroke-neutral-90 dark:stroke-neutral-0"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
         />
         <path
             d="M7 7.45312H19C19.5304 7.45313 20.0391 7.66384 20.4142 8.03891C20.7893 8.41398 21 8.92269 21 9.45312V19.4531C21 19.9836 20.7893 20.4923 20.4142 20.8673C20.0391 21.2424 19.5304 21.4531 19 21.4531H5C4.46957 21.4531 3.96086 21.2424 3.58579 20.8673C3.21071 20.4923 3 19.9836 3 19.4531V5.45312C3 4.92269 3.21071 4.41398 3.58579 4.03891C3.96086 3.66384 4.46957 3.45313 5 3.45312H19"
-            className="stroke-neutral-100 dark:stroke-neutral-60"
+            className="stroke-neutral-90 dark:stroke-neutral-0"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"

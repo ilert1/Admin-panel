@@ -18,6 +18,7 @@ import { Switch } from "@/components/ui/switch";
 import { LangSwitcher } from "../components/LangSwitcher";
 import { CurrencyIcon } from "./CurrencyIcon";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 // import { debounce } from "lodash";
 
 export const Header = (props: { handleLogout: () => void }) => {
@@ -93,11 +94,15 @@ export const Header = (props: { handleLogout: () => void }) => {
                     <div className="flex items-center gap-8 relative !z-60">
                         <DropdownMenu open={profileOpen} onOpenChange={setProfileOpen} modal={true}>
                             <div
-                                className={
+                                className={cn(
+                                    "flex gap-4 items-center justify-center py-1 pl-4 pr-4 rounded-4 border box-border cursor-default",
                                     profileOpen
-                                        ? `border-green-40  dark:border-[1px] flex gap-4 items-center justify-center py-1 pl-4 pr-4 bg-muted rounded-4 border dark:border-neutral-80 box-border transition-colors transition-150 cursor-default`
-                                        : `border-green-20 flex gap-4 items-center justify-center py-1 pl-4 pr-4 bg-white dark:bg-muted rounded-4 border dark:border-muted box-border transition-colors transition-150 cursor-default`
-                                }>
+                                        ? `border-green-40 dark:border-[1px] bg-muted dark:border-neutral-20`
+                                        : `border-green-20 bg-white dark:bg-muted dark:border-muted  cursor-default`
+                                )}
+                                style={{
+                                    transition: "border-color .15s"
+                                }}>
                                 <DropdownMenuTrigger asChild>
                                     <Avatar className="flex items-center justify-center w-[60px] h-[60px] border-2 border-green-40 bg-muted cursor-pointer">
                                         <Blowfish />
@@ -179,7 +184,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                 sideOffset={34}
                                 align="end"
                                 alignOffset={-18}
-                                className={`p-0 w-72 bg-muted border border-green-20 dark:border-neutral-60 z-[1000] flex flex-col gap-2 !rounded-4 bg-green-0 dark:bg-muted `}>
+                                className={`p-0 w-72 bg-muted border border-green-20 dark:border-neutral-20 z-[1000] flex flex-col gap-2 !rounded-4 bg-green-0 dark:bg-muted `}>
                                 <div className="flex content-start items-center pl-4 pr-4 mt-[0.8rem]">
                                     <Avatar className="w-5 h-5">
                                         <AvatarFallback

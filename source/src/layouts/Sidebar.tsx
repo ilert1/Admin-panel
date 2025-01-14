@@ -89,8 +89,8 @@ export const Sidebar = (props: SidebarProps) => {
                                             to={`/${resource}`}
                                             className={
                                                 resourceName[0] === resource
-                                                    ? " pl-6 bg-neutral-20 dark:bg-black w-full flex items-center gap-3 text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2"
-                                                    : "pl-6 flex items-center gap-3 hover:bg-neutral-20 dark:hover:bg-black w-full hover:text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2"
+                                                    ? " pl-6 bg-neutral-20 dark:bg-black w-full flex items-center gap-3 text-controlElements animate-in fade-in-0 py-2"
+                                                    : "pl-6 flex items-center gap-3 hover:bg-neutral-20 dark:hover:bg-black w-full hover:text-controlElements animate-in fade-in-0 py-2"
                                             }>
                                             {createElement(resources[resource].icon, {})}
                                             {showCaptions && (

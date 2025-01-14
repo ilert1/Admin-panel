@@ -25,17 +25,17 @@ export const LangSwitcher = () => {
             <DropdownMenuTrigger asChild className="select-none">
                 <Avatar
                     className={cn(
-                        "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 border-2 transition-colors duration-150",
+                        "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 border-2",
                         langOpen
-                            ? "dark:text-neutral-100 border-green-20 bg-green-0 dark:bg-green-50"
+                            ? "dark:text-neutral-50 border-neutral-20 bg-green-0 dark:bg-muted"
                             : "dark:hover:text-neutral-100 border-neutral-50 hover:border-green-20 bg-white dark:bg-muted dark:hover:bg-green-50"
                     )}>
-                    <span className="text-display-3">{locale.toUpperCase()}</span>
+                    <span className="text-display-3 transition-colors duration-150">{locale.toUpperCase()}</span>
                 </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent
                 align="end"
-                className="p-0 bg-muted border border-green-20 dark:border-neutral-80 z-[60] ">
+                className="p-0 bg-muted border border-green-20 dark:border-neutral-20 z-[60] ">
                 {getLocales?.().map(locale => (
                     <DropdownMenuItem
                         key={locale.locale}

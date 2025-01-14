@@ -7,6 +7,7 @@ import {
     RearLockKeyhole,
     WalletLinkedTransactionsIcon
 } from "@/lib/icons/WalletStore";
+import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronLeft, CirclePlus, LockKeyhole, LockKeyholeOpen, Vault, WalletCards } from "lucide-react";
 import { useState } from "react";
 import { useDataProvider, usePermissions, useTranslate } from "react-admin";
@@ -163,13 +164,23 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                         {customViewRoutes.childrens.map((customRoute, index) => (
                             <Tooltip key={index}>
                                 <TooltipTrigger asChild>
+                                    {/* className={cn(
+                                            "pl-4 flex items-center gap-3 animate-in fade-in-0 transition-colors duration-150 py-2 dark:text-neutral-0",
+                                            showCaptions ? "" : "ml-2",
+                                            location.pathname === customRoute.path
+                                                ? "dark:bg-muted [&>span]:text-green-40 dark:[&:hover>svg>path]:stroke-green-50 [&>svg>path]:stroke-red-40 [&>svg>path]:transition-all"
+                                                : "dark:hover:bg-muted hover:text-controlElements [&:hover>svg>path]:stroke-green-50 dark:[&:hover>svg>path]:stroke-green-40 [&>svg>path]:transition-all text-neutral-90"
+                                        )}> */}
+
                                     <NavLink
                                         to={customRoute.path}
-                                        className={`${showCaptions ? "" : "ml-2"} ${
+                                        className={cn(
+                                            "pl-4 flex items-center gap-3 fade-in-0 transition-colors duration-150 py-2 animate-in",
+                                            showCaptions ? "" : "ml-2",
                                             location.pathname === customRoute.path
-                                                ? "pl-4 dark:bg-muted flex items-center gap-3 text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 dark:[&>svg>path]:stroke-controlElements [&>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
-                                                : "pl-4 dark:hover:bg-muted flex items-center gap-3 hover:text-controlElements animate-in fade-in-0 transition-colors duration-150 py-2 [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all text-neutral-90"
-                                        }`}>
+                                                ? "dark:bg-muted text-controlElements dark:[&>svg>path]:stroke-controlElements [&>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
+                                                : "text-neutral-90 dark:text-neutral-0 dark:hover:bg-muted hover:text-controlElements dark:hover:text-controlElements dark:[&>svg>path]:stroke-neutral-0 [&>svg>path]:stroke-neutral-90 [&:hover>svg>path]:stroke-controlElements dark:[&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all"
+                                        )}>
                                         {(!customRoute.showLock || (customRoute.showLock && showCaptions)) &&
                                             customRoute.icon}
 

@@ -102,16 +102,12 @@ export const WalletTransactionsFilter = () => {
         <div className="mb-6">
             <div className="w-full mb-6 flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
                 <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
-                    <label>
-                        <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
-                            {translate("resources.wallet.transactions.filterBar.searchById")}
-                        </span>
-                    </label>
                     <Input
+                        label={translate("resources.wallet.transactions.filterBar.searchById")}
+                        labelSize="title-2"
                         placeholder="ID"
                         value={transactionId}
                         onChange={onTransactionIdChanged}
-                        className="h-[38px]"
                     />
                 </div>
 
