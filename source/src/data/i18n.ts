@@ -745,7 +745,9 @@ const ru: TranslationMessages = {
                 "Ваш аккаунт требует настройки, выполните пожалуйста требуемые действия на следующей странице, затем повторите попытку входа",
             accountConfigConfirm: "Настроить",
             totp: "Код двухфакторной аутентификации",
-            configure2fa: "Настроить двухфакторную аутентификацию"
+            configure2fa: "Настроить двухфакторную аутентификацию",
+            lightTheme: "Светлая",
+            darkTheme: "Тёмная"
         }
     },
     pages: {
@@ -1512,7 +1514,9 @@ const en: TranslationMessages = {
                 "Your account needs to be configured, please follow the required steps on the next page, then try logging in again",
             accountConfigConfirm: "Configure",
             totp: "Two-factor authentication code",
-            configure2fa: "Configure Two-factor auth"
+            configure2fa: "Configure Two-factor auth",
+            lightTheme: "Light",
+            darkTheme: "Dark"
         }
     },
     pages: {

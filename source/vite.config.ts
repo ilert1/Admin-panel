@@ -1,7 +1,8 @@
+import { defineConfig } from "vite";
+import svgr from "vite-plugin-svgr";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { fileURLToPath } from "url";
-import { defineConfig } from "vite";
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -14,7 +15,7 @@ export default defineConfig({
             "@": path.resolve(__dirname, "./src")
         }
     },
-    plugins: [react()],
+    plugins: [react(), svgr()],
     server: {
         host: true
     },

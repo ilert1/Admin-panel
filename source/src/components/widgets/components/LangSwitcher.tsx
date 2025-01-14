@@ -22,7 +22,7 @@ export const LangSwitcher = () => {
 
     return (
         <DropdownMenu onOpenChange={setLangOpen}>
-            <DropdownMenuTrigger asChild className="">
+            <DropdownMenuTrigger asChild className="select-none">
                 <Avatar
                     className={cn(
                         "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 border-2 transition-colors duration-150",

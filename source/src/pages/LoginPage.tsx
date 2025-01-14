@@ -6,12 +6,13 @@ import { LangSwitcher } from "@/components/widgets/components/LangSwitcher";
 import { LoginBackground } from "@/lib/icons/LoginBackground";
 import { LoginForm } from "@/components/widgets/forms/LoginForm";
 import { AccountConfigDialog } from "@/components/widgets/components/AccountConfigDialog";
+import { LoginPageThemeSwitcher } from "@/components/widgets/components/LoginPageThemeSwitcher";
 
 export const LoginPage = () => {
     const translate = useTranslate();
     const login = useLogin();
     const navigate = useNavigate();
-    const { theme } = useTheme();
+    const { theme, setTheme } = useTheme();
 
     const [configDialogOpen, setConfigDialogOpen] = useState(false);
     const [error, setError] = useState("");
@@ -48,7 +49,8 @@ export const LoginPage = () => {
     const loginBg = LoginBackground(theme === "dark" ? "#237648" : "#62D093");
     return (
         <>
-            <div className="flex flex-shrink-0 justify-end h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z">
+            <div className="flex flex-shrink-0 justify-end h-[84px] items-center gap-8 bg-header px-4 relative z-100 pointer-events-auto z">
+                <LoginPageThemeSwitcher theme={theme} setTheme={setTheme} translate={translate} />
                 <LangSwitcher />
             </div>
 

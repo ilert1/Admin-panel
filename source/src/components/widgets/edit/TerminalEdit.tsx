@@ -203,7 +203,7 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
                             <Button
                                 type="button"
                                 variant="outline"
-                                className="flex-1 mt-4 sm:mt-0 border-neutral-50 text-neutral-50 bg-muted w-full sm:w-1/2"
+                                className="flex-1 mt-4 sm:mt-0 w-full sm:w-1/2"
                                 onClick={() => onClose()}>
                                 {translate("app.ui.actions.cancel")}
                             </Button>
