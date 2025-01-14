@@ -11,6 +11,7 @@ import useTransactionFilter from "@/hooks/useTransactionFilter";
 import { Button } from "@/components/ui/button";
 import { XIcon } from "lucide-react";
 import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
+import { Label } from "@/components/ui/label";
 
 interface TranactionListFilterProps {
     typeTabActive: string;
@@ -50,30 +51,25 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                         <Input
                             className="flex-1"
                             label={translate("resources.transactions.filter.filterById")}
-                            placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
                             labelSize="title-2"
+                            placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
                             value={operationId}
                             onChange={onOperationIdChanged}
                         />
                     </div>
                     <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
-                        <label>
-                            <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
-                                {translate("resources.transactions.filter.filterCustomerPaymentId")}
-                            </span>
-                        </label>
                         <Input
                             className="flex-1"
                             placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
                             value={customerPaymentId}
                             onChange={onCustomerPaymentIdChanged}
+                            label={translate("resources.transactions.filter.filterCustomerPaymentId")}
+                            labelSize="title-2"
                         />
                     </div>
 
                     <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start min-w-36">
-                        <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
-                            {translate("resources.transactions.filter.filterByOrderStatus")}
-                        </span>
+                        <Label>{translate("resources.transactions.filter.filterByOrderStatus")}</Label>
 
                         <Select
                             onValueChange={val =>
@@ -116,9 +112,9 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
 
                     {adminOnly && (
                         <div className="flex flex-1 flex-grow-100 md:basis-[500px] md:flex-col gap-2 items-center md:items-start">
-                            <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
+                            <Label className="md:text-nowrap">
                                 {translate("resources.transactions.filter.filterByAccount")}
-                            </span>
+                            </Label>
 
                             <MerchantSelectFilter
                                 merchant={account}

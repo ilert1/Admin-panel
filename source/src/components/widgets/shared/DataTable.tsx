@@ -96,10 +96,10 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
             <div className="flex items-center space-x-2">
                 <Button
                     aria-label="Go to previous page"
-                    variant="clearBtn"
+                    variant="text_btn"
                     size="icon"
                     onClick={() => setPage(currentPage - 1)}
-                    className="dark:text-green-50 hover:text-green-30 disabled:text-neutral-30 size-5 text-neutral-90"
+                    className="size-5"
                     disabled={currentPage === 1}>
                     <CircleArrowLeftIcon className="size-4" aria-hidden="true" />
                 </Button>
@@ -109,10 +109,10 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                         <Button
                             key={index}
                             size="sm"
-                            variant="clearBtn"
+                            variant="text_btn"
                             onClick={() => setPage(page)}
-                            className={`m-0 p-0 text-sm font-normal hover:text-green-50 cursor-pointer text-neutral-90 ${
-                                page === currentPage ? "text-green-50" : ""
+                            className={`m-0 p-0 text-sm font-normal cursor-pointer ${
+                                page === currentPage ? "text-green-50" : "text-neutral-90 dark:text-neutral-0"
                             }`}>
                             {page}
                         </Button>
@@ -125,10 +125,10 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
 
                 <Button
                     aria-label="Go to next page"
-                    variant="clearBtn"
+                    variant="text_btn"
                     size="icon"
                     onClick={() => setPage(currentPage + 1)}
-                    className="dark:text-green-50 hover:text-green-30 disabled:text-neutral-30 size-5 text-neutral-90"
+                    className="size-5"
                     disabled={currentPage === totalPages}>
                     <CircleArrowRightIcon className="size-4" aria-hidden="true" />
                 </Button>
@@ -163,7 +163,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                                 {row.getVisibleCells().map((cell, j) => (
                                     <TableCell
                                         key={j}
-                                        className="text-sm border border-neutral-40 dark:border-muted text-green-60 dark:text-neutral-100 py-2">
+                                        className="text-sm border border-neutral-40 dark:border-muted text-green-60 dark:text-neutral-100 py-2 bg-neutral-0 dark:bg-neutral-100">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}
@@ -173,7 +173,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                         <TableRow>
                             <TableCell
                                 colSpan={columns.length}
-                                className="h-24 text-center text-sm border border-muted text-neutral-90 dark:text-neutral-30">
+                                className="h-24 text-center text-sm border border-muted text-neutral-90 dark:text-neutral-30 bg-white dark:bg-black">
                                 {translate("resources.transactions.undefined")}
                             </TableCell>
                         </TableRow>
@@ -188,7 +188,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                 {pagination && total > perPage && renderPagination()}
 
                 <div className="flex items-center space-x-2">
-                    <p className="whitespace-nowrap text-sm font-normal text-neutral-90 dark:text-neutral-30">
+                    <p className="whitespace-nowrap text-sm font-normal text-neutral-90 dark:text-neutral-0">
                         {translate("resources.transactions.pagination")}
                     </p>
                     <Select
@@ -197,7 +197,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                             table.setPageSize(Number(value));
                             setPerPage(Number(value));
                         }}>
-                        <SelectTrigger className="h-8 border-none bg-white dark:bg-green-60 p-1 w-auto gap-0.5">
+                        <SelectTrigger className="h-8 border-none bg-white dark:bg-green-60 p-1 w-auto gap-0.5 text-neutral-90 dark:text-white">
                             <SelectValue placeholder={table.getState().pagination.pageSize} />
                         </SelectTrigger>
                         <SelectContent side="top">

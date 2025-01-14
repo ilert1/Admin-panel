@@ -1,4 +1,4 @@
-export function RUBIcon({ fill }: { fill?: string }) {
+export function RUBIcon({ fill }: { fill?: boolean }) {
     return (
         <svg width="13" height="14" viewBox="0 0 13 14" xmlns="http://www.w3.org/2000/svg">
             <path

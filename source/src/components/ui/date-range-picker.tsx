@@ -25,7 +25,7 @@ export function DateRangePicker({
         <Popover open={openPopover} onOpenChange={setOpenPopover}>
             <PopoverTrigger asChild>
                 <div className="flex flex-col sm:flex-row items-stretch flex-wrap gap-2 sm:gap-3">
-                    <div className="relative flex md:flex-col gap-2 items-center md:items-start flex-1">
+                    <div className="relative flex md:flex-col gap-[4px] items-center md:items-start flex-1">
                         {title && <span className="text-neutral-60 dark:text-neutral-30">{title}</span>}
                         <Button
                             variant={"outline"}

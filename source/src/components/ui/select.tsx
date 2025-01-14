@@ -29,7 +29,7 @@ const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrimitive.T
                 className={cn(
                     `${
                         variant === SelectType.GRAY ? "!bg-white dark:!bg-muted " : ""
-                    } flex h-9 w-full items-center justify-between text-start border border-neutral-40 dark:border-neutral-60 rounded-4 hover:border-green-20 bg-neutral-0 px-3 py-2 text-sm ring-offset-background [&:is([data-state='open'])]:border-green-50 active:border-green-50 disabled:cursor-not-allowed [&>span]:line-clamp-1 focus:outline-none [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180 text-neutral-80`,
+                    } flex h-9 w-full items-center justify-between text-start border border-neutral-40 dark:border-neutral-60 rounded-4 hover:border-green-20 bg-neutral-0 dark:bg-neutral-100 px-3 py-2 text-sm ring-offset-background [&:is([data-state='open'])]:border-green-50 active:border-green-50 disabled:cursor-not-allowed [&>span]:line-clamp-1 focus:outline-none [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180 text-neutral-80`,
                     className
                 )}
                 {...props}>
@@ -54,7 +54,7 @@ const SelectContent = React.forwardRef<
         <SelectPrimitive.Content
             ref={ref}
             className={cn(
-                "relative z-[60] max-h-96 min-w-[8rem] overflow-hidden rounded-4 border border-green-50 bg-white dark:bg-neutral-0 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+                "relative z-[60] max-h-96 min-w-[8rem] overflow-hidden rounded-4 border border-green-50 bg-white dark:bg-neutral-100 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
                 position === "popper" && "data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1",
                 className
             )}
@@ -88,7 +88,7 @@ const SelectItem = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Item
             className={cn(
                 `${
                     variant === SelectType.GRAY ? "bg-white dark:bg-black" : ""
-                } relative cursor-pointer flex w-full select-none items-center py-2 pl-8 pr-2 text-neutral-80 text-sm outline-none focus:bg-green-50 focus:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:hover:bg-green-50 dark:focus:bg-green-50`,
+                } relative cursor-pointer flex w-full select-none items-center py-2 pl-8 pr-2 text-neutral-80 dark:text-neutral-30 text-sm outline-none focus:bg-green-50 focus:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:hover:bg-green-50 dark:hover:text-neutral-0 dark:focus:bg-green-50`,
                 className
             )}
             {...props}>

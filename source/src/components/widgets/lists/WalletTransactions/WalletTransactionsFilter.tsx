@@ -165,7 +165,7 @@ export const WalletTransactionsFilter = () => {
                 <Button
                     className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7 text-neutral-70 dark:text-neutral-50 active:text-green-50 hover:text-green-60"
                     onClick={clearFilters}
-                    variant="clearBtn"
+                    variant="text_btn"
                     size="default"
                     disabled={!transactionId && !stateFilter && !dateCreate && !dateUpdate && !typeTabActive}>
                     <span>{translate("resources.transactions.filter.clearFilters")}</span>

@@ -23,7 +23,7 @@ export const MerchantSelectFilter = ({
 }: MerchantSelectFilterProps) => {
     const translate = useTranslate();
 
-    const { data: merchantData, isFetching } = useGetList<ResourceData<typeof resource>>(
+    const { data: merchantData } = useGetList<ResourceData<typeof resource>>(
         resource,
         {
             pagination: { perPage: 10000, page: 1 },
@@ -60,12 +60,12 @@ export const MerchantSelectFilter = ({
         <Popover modal open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
                 <Button
-                    variant="clearBtn"
+                    variant="text_btn"
                     role="combobox"
                     aria-expanded={open}
-                    disabled={isFetching}
+                    disabled={merchantData === undefined || !merchantData.length}
                     className={
-                        "w-full font-normal justify-between flex h-9 flex-1 items-center text-start border border-neutral-40 dark:border-neutral-60 rounded-4 hover:border-green-20 bg-neutral-0 px-3 py-2 text-sm ring-offset-background [&:is([data-state='open'])]:border-green-50 active:border-green-50 disabled:cursor-not-allowed [&>span]:line-clamp-1 focus:outline-none [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180 " +
+                        "w-full font-normal justify-between flex h-9 flex-1 items-center text-start border border-neutral-40 dark:border-neutral-60 rounded-4 hover:border-green-20 bg-neutral-0 dark:bg-neutral-100 px-3 py-2 text-sm ring-offset-background [&:is([data-state='open'])]:border-green-50 active:border-green-50 disabled:cursor-not-allowed [&>span]:line-clamp-1 focus:outline-none [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180 " +
                         className
                     }>
                     {merchant ? (
@@ -86,7 +86,7 @@ export const MerchantSelectFilter = ({
 
             <PopoverContent
                 className={
-                    "md:w-[--radix-popover-trigger-width] md:max-h-[--radix-popover-content-available-height] p-0 z-[70] min-w-[8rem] overflow-hidden rounded-4 border border-green-50 bg-white dark:bg-neutral-0 shadow-1 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 " +
+                    "md:w-[--radix-popover-trigger-width] md:max-h-[--radix-popover-content-available-height] p-0 z-[70] min-w-[8rem] overflow-hidden rounded-4 border border-green-50 bg-white dark:bg-neutral-100 shadow-1 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 " +
                     className
                 }>
                 <Command className="" filter={merchantFilter}>

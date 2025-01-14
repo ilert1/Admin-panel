@@ -17,6 +17,7 @@ import { EllipsisVerticalIcon } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { LangSwitcher } from "../components/LangSwitcher";
 import { CurrencyIcon } from "./CurrencyIcon";
+import { Button } from "@/components/ui/button";
 // import { debounce } from "lodash";
 
 export const Header = (props: { handleLogout: () => void }) => {
@@ -104,13 +105,10 @@ export const Header = (props: { handleLogout: () => void }) => {
                                 </DropdownMenuTrigger>
 
                                 <div className="flex flex-col gap-[2px] items-start min-w-[137px]">
-                                    <span
-                                        className={
-                                            "text-neutral-90 dark:text-neutral-100 text-title-2 cursor-default "
-                                        }>
+                                    <span className={"text-neutral-90 dark:text-neutral-0 text-title-2 cursor-default"}>
                                         {identity.data.fullName ? identity.data.fullName : ""}
                                     </span>
-                                    <span className="text-note-2 text-neutral-60 dark:text-neutral-40">
+                                    <span className="text-note-2 text-neutral-70 dark:text-neutral-60">
                                         {translate("app.ui.header.totalBalance")}
                                     </span>
                                     {totalLoading && !totalAmount ? (
@@ -181,11 +179,11 @@ export const Header = (props: { handleLogout: () => void }) => {
                                 sideOffset={34}
                                 align="end"
                                 alignOffset={-18}
-                                className={`p-0 w-72 bg-muted border border-green-20 dark:border-neutral-60 z-[1000] flex flex-col gap-2 !rounded-4`}>
+                                className={`p-0 w-72 bg-muted border border-green-20 dark:border-neutral-60 z-[1000] flex flex-col gap-2 !rounded-4 bg-green-0 dark:bg-muted `}>
                                 <div className="flex content-start items-center pl-4 pr-4 mt-[0.8rem]">
                                     <Avatar className="w-5 h-5">
                                         <AvatarFallback
-                                            className={`bg-green-50 transition-colors text-primary cursor-default`}>
+                                            className={`bg-green-50 transition-colors text-primary text-neutral-0 cursor-default`}>
                                             {identity.data.fullName
                                                 ? identity.data.fullName[0].toLocaleUpperCase()
                                                 : ""}
@@ -198,14 +196,14 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                 : translate("app.ui.roles.admin")}
                                         </div>
                                         {identity.data.email && (
-                                            <div className="text-note-2 cursor-default text-neutral-40">
+                                            <div className="text-note-2 cursor-default text-neutral-60 dark:text-neutral-50">
                                                 {identity.data.email}
                                             </div>
                                         )}
                                     </div>
                                 </div>
                                 <div className="flex flex-col content-start items-center pl-4 pr-2 mb-1">
-                                    <span className="text-note-2 self-start text-neutral-60 dark:text-neutral-40 mt-[0.5rem] mb-1">
+                                    <span className="text-note-2 self-start text-neutral-60 mt-[0.5rem] mb-1">
                                         {translate("app.ui.header.accurateBalance")}
                                     </span>
                                     <div
@@ -241,15 +239,15 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         onCheckedChange={toggleTheme}
                                         className="dark:border-green-40 data-[state=checked]:bg-green-60 data-[state=unchecked]:bg-muted"
                                     />
-                                    <span className="ml-3 cursor-default text-neutral-50">
+                                    <span className="ml-3 cursor-default text-neutral-60 dark:text-neutral-50">
                                         {theme === "dark" ? translate("app.theme.light") : translate("app.theme.dark")}
                                     </span>
                                 </div>
-                                <DropdownMenuItem
-                                    className="pl-4 pr-4 h-[50px] hover:text-white focus:text-white hover:bg-green-50 cursor-pointer text-title-2 focus:bg-green-50 rounded-none text-green-60 dark:text-white"
+                                <Button
+                                    className="h-[50px] rounded-none flex justify-start mt-2"
                                     onClick={props.handleLogout}>
                                     <span className="">{translate("ra.auth.logout")}</span>
-                                </DropdownMenuItem>
+                                </Button>
                             </DropdownMenuContent>
                         </DropdownMenu>
                         {/* <Sheet

@@ -56,30 +56,28 @@ export const UserListFilter = () => {
     return (
         <div className="flex flex-col gap-4 mb-6">
             <div className="flex justify-between items-end flex-wrap gap-4">
-                <div className="flex items-end gap-4">
-                    <label className="flex flex-col gap-2 lg:min-w-52">
-                        <span className="font-normal text-base text-neutral-60 dark:text-neutral-30">
-                            {translate("resources.users.filter.filterByUsername")}
-                        </span>
+                <div className="flex items-end gap-4 flex-wrap">
+                    <div className="flex flex-col gap-2 lg:min-w-52">
                         <Input
                             className="flex-1 text-sm placeholder:text-neutral-70"
+                            label={translate("resources.users.filter.filterByUsername")}
+                            labelSize="title-2"
                             placeholder={translate("resources.users.filter.filterByUsernamePlaceholder")}
                             value={username}
                             onChange={onUsernameChanged}
                         />
-                    </label>
+                    </div>
 
-                    <label className="flex flex-col gap-2 lg:min-w-52">
-                        <span className="font-normal text-base text-neutral-60 dark:text-white">
-                            {translate("resources.users.filter.filterByUserId")}
-                        </span>
+                    <div className="flex flex-col gap-2 lg:min-w-52">
                         <Input
+                            label={translate("resources.users.filter.filterByUsername")}
+                            labelSize="title-2"
                             className="flex-1 text-sm placeholder:text-neutral-70"
                             placeholder={translate("resources.users.fields.id")}
                             value={userInputId}
                             onChange={onUserInputIdChanged}
                         />
-                    </label>
+                    </div>
 
                     <Button
                         className="ml-0 sm:ml-auto flex items-center gap-1 w-auto h-auto px"
@@ -93,7 +91,6 @@ export const UserListFilter = () => {
                 </div>
 
                 <Button
-                variant={"text_btn"}
                     onClick={() => setShowAddUserDialog(true)}
                     className="flex items-center justify-center gap-1 font-normal">
                     <CirclePlus width={16} height={16} />

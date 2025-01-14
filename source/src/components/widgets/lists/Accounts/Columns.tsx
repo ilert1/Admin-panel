@@ -136,7 +136,7 @@ export const useGetAccountsColumns = () => {
                     <Button
                         variant="secondary"
                         onClick={() => openSheet(row.original.id, row.original.meta?.caption)}
-                        className="flex items-center h-7 w-7 p-0 bg-transparent">
+                        className="flex items-center h-7 w-7 p-0 bg-transparent w-full">
                         <EyeIcon className="text-green-50 size-7" />
                     </Button>
                 );

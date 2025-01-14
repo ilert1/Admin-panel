@@ -83,6 +83,7 @@ export const LoginForm = (props: LoginFormProps) => {
                         onChange={handleChange(setUsername)}
                         className="block w-full text-title-1"
                         label={translate("app.login.usernameOrEmail")}
+                        labelSize="login-page"
                         shadow
                     />
 
@@ -93,6 +94,7 @@ export const LoginForm = (props: LoginFormProps) => {
                         onChange={handleChange(setPassword)}
                         className="block w-full text-title-1"
                         label={translate("app.login.password")}
+                        labelSize="login-page"
                         shadow
                     />
 
@@ -103,6 +105,7 @@ export const LoginForm = (props: LoginFormProps) => {
                         onChange={handleChange(setTotpCode)}
                         className="block w-full text-title-1"
                         label={translate("app.login.totp")}
+                        labelSize="login-page"
                         shadow
                     />
                 </div>

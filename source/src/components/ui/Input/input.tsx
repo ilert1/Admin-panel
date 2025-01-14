@@ -11,7 +11,7 @@ export enum InputTypes {
     GRAY = "gray"
 }
 
-export type LabelSize = "note-1" | "title-2";
+export type LabelSize = "note-1" | "title-2" | "login-page";
 
 interface InputProps extends BasicInputProps {
     variant?: InputTypes;
@@ -47,7 +47,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         const [showPassword, setShowPassword] = React.useState(false);
         const [isFocused, setIsFocused] = React.useState(false);
-        const [isActive, setIsActive] = React.useState(false);
 
         const inputRef = React.useRef<HTMLInputElement>(null);
         const iconsBoxRef = React.useRef<HTMLSpanElement>(null);
@@ -123,9 +122,17 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         }, [props]);
 
         return (
-            <div className="flex flex-col w-full gap-[4px]" ref={containerRef}>
+            <div className="flex flex-col w-full gap-[4px] rounded-md" ref={containerRef}>
                 {label && (
-                    <label className={`block text-${labelSize} text-neutral-80 dark:text-neutral-30 md:text-nowrap`}>
+                    <label
+                        className={cn(
+                            `block md:text-nowrap`,
+                            labelSize === "login-page"
+                                ? "text-neutral-80 dark:text-neutral-30 text-note-1"
+                                : labelSize === "note-1"
+                                ? "text-neutral-60 dark:text-neutral-30 text-note-1"
+                                : "text-neutral-60 dark:text-neutral-0 text-title-2"
+                        )}>
                         {label}
                     </label>
                 )}
