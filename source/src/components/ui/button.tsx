@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const outlineStyles = cn(
-    "bg-neutral-0 hover:bg-green-0 active:bg-neutral-0 disabled:bg-neutral-20 border border-green-50 hover:border-green-40 active:border-green-60 disabled:border-neutral-80 text-green-50 active:text-green-60 disabled:text-neutral-80",
+    "bg-transparent hover:bg-green-0 active:bg-neutral-0 disabled:bg-neutral-20 border border-green-50 hover:border-green-40 active:border-green-60 disabled:border-neutral-80 text-green-50 active:text-green-60 disabled:text-neutral-80",
     "dark:bg-neutral-100 hover:dark:bg-green-0 active:dark:bg-neutral-100"
 );
 
@@ -25,8 +25,7 @@ const buttonVariants = cva(
                 outline_sec: outlineStyles + " text-neutral-50 border-neutral-50 hover:text-green-50",
                 text_btn: "text-green-50 " + textBtnStyles,
                 text_btn_sec: "text-neutral-50 " + textBtnStyles,
-                deleteGray:
-                    "border border-green-50 hover:border-green-50 hover:bg-green-50 dark:hover:bg-muted hover:text-white active:bg-neutral-0 active:text-green-40 active:border-green-40 focus:bg-neutral-0 focus:text-green-40 focus:border-green-40 disabled:bg-neutral-20 disabled:border-neutral-80 disabled:text-neutral-80 dark:border-neutral-50 text-green-50 dark:text-neutral-50 bg-transparent dark:bg-muted dark:hover:border-green-50 dark:hover:text-neutral-50"
+                outline_gray: outlineStyles + " dark:text-neutral-50 dark:border-neutral-50 dark:hover:text-green-50"
             },
             size: {
                 default: "h-9 px-4 py-2",

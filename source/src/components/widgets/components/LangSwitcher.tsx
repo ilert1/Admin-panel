@@ -27,8 +27,8 @@ export const LangSwitcher = () => {
                     className={cn(
                         "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 border-2",
                         langOpen
-                            ? "dark:text-neutral-50 border-neutral-20 bg-green-0 dark:bg-muted"
-                            : "dark:hover:text-neutral-100 border-neutral-50 hover:border-green-20 bg-white dark:bg-muted dark:hover:bg-green-50"
+                            ? "dark:border-neutral-20 dark:text-neutral-50 border-green-20 bg-green-0 dark:bg-muted"
+                            : "border-neutral-50 hover:border-green-20 bg-white dark:bg-muted dark:hover:bg-green-50"
                     )}>
                     <span className="text-display-3 transition-colors duration-150">{locale.toUpperCase()}</span>
                 </Avatar>

@@ -310,7 +310,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                             </Button>
                             <Button
                                 onClick={() => onOpenChange(false)}
-                                variant="deleteGray"
+                                variant="outline_gray"
                                 type="button"
                                 className="border border-neutral-50 rounded-4 hover:border-neutral-100">
                                 {translate("app.ui.actions.cancel")}
@@ -373,7 +373,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                             </Button>
                             <Button
                                 onClick={() => onOpenChange(false)}
-                                variant="deleteGray"
+                                variant="outline_gray"
                                 type="button"
                                 className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full sm:w-auto">
                                 {translate("app.ui.actions.cancel")}

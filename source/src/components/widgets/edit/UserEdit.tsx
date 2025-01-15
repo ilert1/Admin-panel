@@ -189,7 +189,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                     <Button
                         type="button"
                         onClick={() => onOpenChange(false)}
-                        variant="deleteGray"
+                        variant="outline_gray"
                         className="border border-neutral-50 rounded-4 hover:border-neutral-100">
                         {translate("app.widgets.forms.userCreate.cancelBtn")}
                     </Button>

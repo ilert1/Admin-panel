@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -42,16 +42,6 @@
                 background-color: var(--autofill-bg-color);
                 caret-color: var(--autofill-caret-color);
             }
-
-            /* input:-webkit-autofill,
-            input:-webkit-autofill:hover,
-            input:-webkit-autofill:focus,
-            input:-webkit-autofill:active {
-                -webkit-box-shadow: 0 0 0 30px black inset !important;
-                -webkit-text-fill-color: hsla(0, 0%, 100%, 1);
-                -webkit-background-clip: text;
-                caret-color: white;
-            } */
 
             .not-clicked {
                 overflow: hidden;
@@ -158,12 +148,18 @@
             href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
             rel="stylesheet"
         />
-        <script type="module">
+        <script type="text/javascript">
             const theme = localStorage.getItem("juggler-ui-theme");
             if (theme === "light") {
-                const el = document.querySelector(".loader-container").classList.add("loader-container__light");
+                const el = document
+                    .querySelector(".loader-container")
+                    .classList.remove("loader-container__dark")
+                    .add("loader-container__light");
             } else {
-                const el = document.querySelector(".loader-container").classList.add("loader-container__dark");
+                const el = document
+                    .querySelector(".loader-container")
+                    .classList.remove("loader-container__light")
+                    .add("loader-container__dark");
             }
         </script>
     </head>

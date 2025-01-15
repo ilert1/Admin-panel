@@ -4,7 +4,7 @@ import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/button";
 import { Loading } from "@/components/ui/loading";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
@@ -19,6 +19,7 @@ import {
 import { useFetchDataForDirections, useGetTerminals } from "@/hooks";
 import { toast } from "sonner";
 import { useState } from "react";
+import { Label } from "@/components/ui/label";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
@@ -94,29 +95,34 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                         <FormField
                             control={form.control}
                             name="name"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.direction.fields.name")}</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input {...field} variant={InputTypes.GRAY} />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            label={translate("resources.direction.fields.name")}
+                                            variant={InputTypes.GRAY}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="active"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.direction.fields.active")}</FormLabel>
+                                    <Label>{translate("resources.direction.fields.active")}</Label>
                                     <Select
                                         value={field.value ? "true" : "false"}
                                         onValueChange={value => field.onChange(value === "true")}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY}>
+                                            <SelectTrigger
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
                                                 <SelectValue
                                                     placeholder={translate("resources.direction.fields.active")}
                                                 />
@@ -133,22 +139,24 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="src_currency"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.direction.sourceCurrency")}</FormLabel>
+                                    <Label>{translate("resources.direction.sourceCurrency")}</Label>
                                     <Select
                                         value={field.value}
                                         onValueChange={field.onChange}
                                         disabled={currenciesDisabled}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY}>
+                                            <SelectTrigger
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
                                                 <SelectValue
                                                     placeholder={
                                                         currenciesDisabled
@@ -173,22 +181,24 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="dst_currency"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.direction.destinationCurrency")}</FormLabel>
+                                    <Label>{translate("resources.direction.destinationCurrency")}</Label>
                                     <Select
                                         value={field.value}
                                         onValueChange={field.onChange}
                                         disabled={currenciesDisabled}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY}>
+                                            <SelectTrigger
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
                                                 <SelectValue
                                                     placeholder={
                                                         currenciesDisabled
@@ -213,22 +223,24 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="merchant"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.direction.merchant")}</FormLabel>
+                                    <Label>{translate("resources.direction.merchant")}</Label>
                                     <Select
                                         value={field.value}
                                         onValueChange={field.onChange}
                                         disabled={merchantsDisabled}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY}>
+                                            <SelectTrigger
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
                                                 <SelectValue
                                                     placeholder={
                                                         merchantsDisabled
@@ -260,9 +272,9 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                         <FormField
                             control={form.control}
                             name="provider"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.direction.provider")}</FormLabel>
+                                    <Label>{translate("resources.direction.provider")}</Label>
                                     <Select
                                         value={field.value}
                                         onValueChange={e => {
@@ -271,7 +283,10 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         }}
                                         disabled={providersDisabled}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY}>
+                                            <SelectTrigger
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
                                                 <SelectValue
                                                     placeholder={
                                                         providersDisabled
@@ -304,15 +319,18 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                         <FormField
                             control={form.control}
                             name="terminal"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.direction.fields.terminal")}</FormLabel>
+                                    <Label>{translate("resources.direction.fields.terminal")}</Label>
                                     <Select
                                         value={field.value}
                                         onValueChange={field.onChange}
                                         disabled={terminalsDisabled}>
                                         <FormControl>
-                                            <SelectTrigger variant={SelectType.GRAY}>
+                                            <SelectTrigger
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
                                                 <SelectValue
                                                     placeholder={
                                                         terminalsDisabled
@@ -344,41 +362,46 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                         <FormField
                             control={form.control}
                             name="weight"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.direction.weight")}</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input {...field} value={field.value ?? 0} variant={InputTypes.GRAY} />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            value={field.value ?? "0"}
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.direction.weight")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="description"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full = p-2">
-                                    <FormLabel>{translate("resources.direction.description")}</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input {...field} value={field.value ?? ""} variant={InputTypes.GRAY} />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.direction.description")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
-                        {/* <div className="flex gap-[16px] p-2 ml-auto w-1/3"> */}
                         <div className="w-full mt-4 md:mt-0 md:w-2/5 p-2 ml-auto flex flex-col gap-3 sm:gap-0 sm:flex-row space-x-0 sm:space-x-2">
                             <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button
                                 type="button"
-                                variant="deleteGray"
+                                variant="outline_gray"
                                 className="flex-1"
                                 onClick={() => {
                                     onOpenChange(false);

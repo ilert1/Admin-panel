@@ -158,7 +158,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                             </Button>
                             <Button
                                 type="button"
-                                variant="deleteGray"
+                                variant="outline_gray"
                                 className="flex-1 mt-4 sm:mt-0 w-full sm:w-1/2"
                                 onClick={onClose}>
                                 {translate("app.ui.actions.cancel")}

@@ -4,13 +4,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { TextField } from "@/components/ui/text-field";
 import { Button } from "@/components/ui/button";
-import { FeeCard } from "../../components/FeeCard";
-import { AddFeeCard } from "../../components/AddFeeCard";
 import { FeesResource } from "@/data";
-import { CircleChevronRight } from "lucide-react";
 import { DeleteDirectionDialog } from "./DeleteDirectionDialog";
 import { EditDirectionDialog } from "./EditDirectionDialog";
 import { EditAuthData } from "./EditAuthData";
+import { Fees } from "../../components/Fees";
 
 export interface DirectionsShowProps {
     id: string;
@@ -128,59 +126,25 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                         {translate("app.ui.actions.edit")}
                     </Button>
 
-                    <Button className="dark:bg-muted" variant={"deleteGray"} onClick={handleChangeAuthDataClicked}>
+                    <Button className="dark:bg-muted" variant={"outline_gray"} onClick={handleChangeAuthDataClicked}>
                         {translate("app.ui.actions.changeSecretKey")}
                     </Button>
 
-                    <Button className="" onClick={handleDeleteClicked} variant={"deleteGray"}>
+                    <Button className="" onClick={handleDeleteClicked} variant={"outline_gray"}>
                         {translate("app.ui.actions.delete")}
                     </Button>
                 </div>
 
-                <div className="flex flex-col bg-neutral-0 px-[32px] rounded-[8px] w-full mx-[10px] mt-[10px]">
-                    <TextField
-                        text={translate("resources.direction.fees.fees")}
-                        className="text-display-3 mt-[16px] mb-[16px]"
-                    />
-
-                    <div className="max-h-[45vh] overflow-auto pr-[10px]">
-                        {fees && Object.keys(fees).length !== 0
-                            ? Object.keys(fees).map(key => {
-                                  const fee = fees[key];
-                                  return (
-                                      <FeeCard
-                                          key={fee.id}
-                                          account={fee.id}
-                                          currency={fee.currency}
-                                          feeAmount={fee.value.quantity / fee.value.accuracy}
-                                          feeType={data.feeTypes[fee.type]?.type_descr || ""}
-                                          id={id}
-                                          resource={FeesResource.DIRECTION}
-                                          description={fee.description}
-                                      />
-                                  );
-                              })
-                            : ""}
-
-                        {addNewFeeClicked && (
-                            <AddFeeCard
-                                id={id}
-                                onOpenChange={setAddNewFeeClicked}
-                                resource={FeesResource.DIRECTION}
-                                variants={feesVariants}
-                            />
-                        )}
-
-                        <div ref={messagesEndRef} />
-                    </div>
-                </div>
-
-                <div className="flex justify-end">
-                    <Button onClick={() => setAddNewFeeClicked(true)} className="my-6 w-full sm:w-1/4 flex gap-[4px]">
-                        <CircleChevronRight className="w-[16px] h-[16px]" />
-                        {translate("resources.direction.fees.addFee")}
-                    </Button>
-                </div>
+                <Fees
+                    id={id}
+                    fees={fees}
+                    feeTypes={data.feeTypes}
+                    feesResource={FeesResource.DIRECTION}
+                    feesVariants={feesVariants}
+                    addNewOpen={addNewFeeClicked}
+                    setAddNewOpen={setAddNewFeeClicked}
+                    className="max-h-[45dvh]"
+                />
             </div>
 
             <DeleteDirectionDialog

@@ -54,7 +54,7 @@ export const FeeCard = (props: FeeCardProps) => {
     return (
         <>
             <div className="mt-[2px] mb-[16px]">
-                <div className="bg-neutral-0 border border-neutral-70 rounded-[8px] px-[8px] pt-[16px] pb-[8px]">
+                <div className="bg-neutral-0 dark:bg-neutral-100 border border-neutral-40 dark:border-neutral-70 rounded-[8px] px-[8px] pt-[16px] pb-[8px]">
                     <div className="w-full grid grid-cols-2 gap-y-[8px] gap-2">
                         <div className="flex flex-col gap-[4px] col-span-2 sm:col-span-1">
                             <Label className="text-title-1 text-neutral-60 dark:text-neutral-40" htmlFor="">
@@ -88,7 +88,7 @@ export const FeeCard = (props: FeeCardProps) => {
                         </div>
                     </div>
                     <div className="flex justify-end mt-6">
-                        <Button variant={"deleteGray"} onClick={handleDeleteClicked}>
+                        <Button variant={"outline_gray"} onClick={handleDeleteClicked}>
                             {translate("app.ui.actions.delete")}
                         </Button>
                     </div>
@@ -117,7 +117,7 @@ export const FeeCard = (props: FeeCardProps) => {
                                     onClick={() => {
                                         setDeleteDialogOpen(false);
                                     }}
-                                    variant="deleteGray">
+                                    variant="outline_gray">
                                     {translate("app.ui.actions.cancel")}
                                 </Button>
                             </div>

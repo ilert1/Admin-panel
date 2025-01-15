@@ -304,7 +304,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                         </Button>
                         <Button
                             onClick={() => onOpenChange(false)}
-                            variant="deleteGray"
+                            variant="outline_gray"
                             className="border border-neutral-50 rounded-4 hover:border-neutral-100">
                             {translate("app.ui.actions.cancel")}
                         </Button>
@@ -341,7 +341,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                         </Button>
                         <Button
                             onClick={() => onOpenChange(false)}
-                            variant="deleteGray"
+                            variant="outline_gray"
                             type="button"
                             className="w-full sm:w-auto">
                             {translate("app.ui.actions.cancel")}

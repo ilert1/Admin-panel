@@ -30,8 +30,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             value: propValue,
             onChange,
             disabled,
-            children,
-            variant,
+            variant = InputTypes.DEFAULT,
             error = false,
             errorMessage = "",
             label,
@@ -89,7 +88,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         };
 
         const showClearButton = React.useMemo(
-            () => inputValue && isFocused && !disabled,
+            () => inputValue?.toString() && isFocused && !disabled,
             [disabled, inputValue, isFocused]
         );
 
@@ -97,7 +96,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             const container = iconsBoxRef.current;
 
             if (container && container.lastElementChild) {
-                (container.lastElementChild as HTMLElement).classList.add("!pr-[13.3px]", "rounded-r-4");
+                const lastChild = container.lastElementChild as HTMLElement;
+                if (lastChild) {
+                    lastChild.classList.add("!pr-[13.3px]", "rounded-r-4");
+                }
             }
         }, [showClearButton, error, type]);
 
@@ -120,19 +122,20 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 document.removeEventListener("mousedown", handleDocumentClick);
             };
         }, [props]);
+        // cn(
+        // `block md:text-nowrap`,
 
         return (
             <div className="flex flex-col w-full gap-[4px] rounded-4" ref={containerRef}>
                 {label && (
                     <label
-                        className={cn(
-                            `block md:text-nowrap`,
+                        className={`block md:text-nowrap ${
                             labelSize === "login-page"
-                                ? "text-neutral-80 dark:text-neutral-30 text-note-1"
+                                ? " text-neutral-80 dark:text-neutral-30 text-note-1"
                                 : labelSize === "note-1"
-                                ? "text-neutral-60 dark:text-neutral-30 text-note-1"
-                                : "text-neutral-60 dark:text-neutral-0 text-title-2"
-                        )}>
+                                ? " dark:text-neutral-30 text-neutral-60 text-note-1"
+                                : " text-neutral-60 dark:text-neutral-0 text-title-2"
+                        }`}>
                         {label}
                     </label>
                 )}
@@ -165,10 +168,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         {...props}
                     />
                     <span className="flex" ref={iconsBoxRef}>
-                        {showClearButton && <ClearButton handleClear={handleClear} />}
-                        {error && <ErrorBadge errorMessage={errorMessage} />}
+                        {showClearButton && <ClearButton handleClear={handleClear} inputVariant={variant} />}
+                        {error && <ErrorBadge errorMessage={errorMessage} variant={variant} />}
                         {type === "password" && (
                             <EyeButton
+                                inputVariant={variant}
                                 disabled={disabled ?? false}
                                 inputValue={inputValue}
                                 showPassword={showPassword}
@@ -177,10 +181,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         )}
                     </span>
                 </div>
-                <span className="!text-note-1 inline sm:hidden">{errorMessage}</span>
-                {children && (
-                    <div className="absolute right-3 top-0 bottom-0 flex items-center justify-center">{children}</div>
-                )}
+                {error && <span className="!text-note-1 inline sm:hidden">{errorMessage}</span>}
             </div>
         );
     }

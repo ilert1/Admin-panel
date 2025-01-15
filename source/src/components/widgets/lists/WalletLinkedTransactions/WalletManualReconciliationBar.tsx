@@ -104,7 +104,7 @@ export const WalletManualReconciliationBar = () => {
 
                             <Button
                                 onClick={onOpenChange}
-                                variant="deleteGray"
+                                variant="outline_gray"
                                 type="button"
                                 className="w-full sm:w-auto">
                                 {translate("app.ui.actions.cancel")}

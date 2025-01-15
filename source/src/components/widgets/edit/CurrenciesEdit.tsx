@@ -1,8 +1,16 @@
 import { useTranslate, useDataProvider, useRefresh, useEditController, EditContextProvider } from "react-admin";
 import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/Input/input";
+import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
@@ -105,14 +113,10 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                 <FormItem className="space-y-1">
                                     <FormControl>
                                         <Input
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                             label={translate("resources.currency.fields.symbol")}
+                                            variant={InputTypes.GRAY}
                                             {...field}
                                             value={field.value ?? ""}
                                         />
@@ -133,11 +137,9 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                         value={field.value ? "true" : "false"}>
                                         <FormControl>
                                             <SelectTrigger
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}>
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                variant={SelectType.GRAY}>
                                                 <div className="mr-auto">
                                                     <SelectValue
                                                         placeholder={translate("resources.currency.fields.type")}
@@ -147,10 +149,10 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                <SelectItem value="false">
+                                                <SelectItem value="false" variant={SelectType.GRAY}>
                                                     {translate("resources.currency.fields.fiat")}
                                                 </SelectItem>
-                                                <SelectItem value="true">
+                                                <SelectItem value="true" variant={SelectType.GRAY}>
                                                     {translate("resources.currency.fields.crypto")}
                                                 </SelectItem>
                                             </SelectGroup>
@@ -172,11 +174,9 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                             onValueChange={value => field.onChange(value as PositionEnum)}
                                             value={field.value}>
                                             <SelectTrigger
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}>
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                variant={SelectType.GRAY}>
                                                 <div className="mr-auto">
                                                     <SelectValue
                                                         placeholder={translate("resources.currency.fields.symbPos")}
@@ -185,10 +185,10 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectGroup>
-                                                    <SelectItem value={PositionEnum.BEFORE}>
+                                                    <SelectItem value={PositionEnum.BEFORE} variant={SelectType.GRAY}>
                                                         {translate("resources.currency.fields.before")}
                                                     </SelectItem>
-                                                    <SelectItem value={PositionEnum.AFTER}>
+                                                    <SelectItem value={PositionEnum.AFTER} variant={SelectType.GRAY}>
                                                         {translate("resources.currency.fields.after")}
                                                     </SelectItem>
                                                 </SelectGroup>
@@ -210,7 +210,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                             {translate("app.ui.actions.save")}
                         </Button>
 
-                        <Button type="button" onClick={() => closeDialog()} variant="deleteGray">
+                        <Button type="button" onClick={() => closeDialog()} variant="outline_gray">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>

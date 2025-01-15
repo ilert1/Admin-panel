@@ -8,13 +8,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { toast } from "sonner";
-import { FeeCard } from "../components/FeeCard";
 import fetchDictionaries from "@/helpers/get-dictionaries";
-import { CircleChevronRight } from "lucide-react";
-import { AddFeeCard } from "../components/AddFeeCard";
 import { FeesResource } from "@/data";
 import { usePreventFocus } from "@/hooks";
-import { TextField } from "@/components/ui/text-field";
+import { Fees } from "../components/Fees";
 
 interface MerchantEditProps {
     id?: string;
@@ -170,49 +167,16 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                     </div>
                 </form>
             </Form>
-            <div className="px-2 mt-[10px] w-full">
-                <div className="flex flex-col bg-neutral-0 px-[32px] rounded-[8px] w-full">
-                    <TextField
-                        text={translate("resources.direction.fees.fees")}
-                        className="text-display-3 mt-[16px] mb-[16px]"
-                    />
-                    <div className="max-h-[40vh] overflow-auto pr-[10px]">
-                        {fees && Object.keys(fees).length !== 0
-                            ? Object.keys(fees).map(key => {
-                                  const fee = fees[key];
-                                  return (
-                                      <FeeCard
-                                          key={fee.id}
-                                          account={fee.id}
-                                          currency={fee.currency}
-                                          feeAmount={fee.value.quantity / fee.value.accuracy}
-                                          feeType={data.feeTypes[fee.type]?.type_descr || ""}
-                                          id={id}
-                                          resource={FeesResource.MERCHANT}
-                                          description={fee.description}
-                                      />
-                                  );
-                              })
-                            : ""}
-                        {addNewFeeClicked && (
-                            <AddFeeCard
-                                id={record.id}
-                                onOpenChange={setAddNewFeeClicked}
-                                resource={FeesResource.MERCHANT}
-                            />
-                        )}
-                        <div ref={messagesEndRef} />
-                    </div>
-                    <div className="flex justify-end">
-                        <Button
-                            onClick={() => setAddNewFeeClicked(true)}
-                            className="my-6 w-1/2 sm:w-1/4 flex gap-[4px]">
-                            <CircleChevronRight className="w-[16px] h-[16px]" />
-                            {translate("resources.direction.fees.addFee")}
-                        </Button>
-                    </div>
-                </div>
-            </div>
+            <Fees
+                id={id}
+                fees={fees}
+                feeTypes={data.feeTypes}
+                feesResource={FeesResource.MERCHANT}
+                addNewOpen={addNewFeeClicked}
+                setAddNewOpen={setAddNewFeeClicked}
+                className="max-h-[45dvh]"
+            />
+
             <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col sm:flex-row gap-3 sm:gap-0 space-x-0 sm:space-x-2">
                 <Button
                     onClick={form.handleSubmit(onSubmit)}
@@ -221,7 +185,7 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                     disabled={submitButtonDisabled}>
                     {translate("app.ui.actions.save")}
                 </Button>
-                <Button type="button" variant="deleteGray" className="flex-1" onClick={() => onOpenChange(false)}>
+                <Button type="button" variant="outline_gray" className="flex-1" onClick={() => onOpenChange(false)}>
                     {translate("app.ui.actions.cancel")}
                 </Button>
             </div>

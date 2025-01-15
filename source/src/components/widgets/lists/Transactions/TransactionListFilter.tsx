@@ -68,8 +68,10 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                         />
                     </div>
 
-                    <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start min-w-36">
-                        <Label>{translate("resources.transactions.filter.filterByOrderStatus")}</Label>
+                    <div className="flex flex-1 md:flex-col items-center gap-2 md:gap-1 md:items-start min-w-36">
+                        <Label variant="title-2" className="mb-0">
+                            {translate("resources.transactions.filter.filterByOrderStatus")}
+                        </Label>
 
                         <Select
                             onValueChange={val =>
@@ -111,8 +113,8 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                     />
 
                     {adminOnly && (
-                        <div className="flex flex-1 flex-grow-100 md:basis-[500px] md:flex-col gap-2 items-center md:items-start">
-                            <Label className="md:text-nowrap">
+                        <div className="flex flex-1 flex-grow-100 md:basis-[500px] md:flex-col gap-2 md:gap-1 items-center md:items-start">
+                            <Label className="md:text-nowrap mb-0" variant="title-2">
                                 {translate("resources.transactions.filter.filterByAccount")}
                             </Label>
 

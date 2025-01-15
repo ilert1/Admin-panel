@@ -369,7 +369,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             </Button>
                             <Button
                                 type="button"
-                                variant="deleteGray"
+                                variant="outline_gray"
                                 className="flex-1"
                                 onClick={() => {
                                     onOpenChange(false);

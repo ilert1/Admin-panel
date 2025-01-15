@@ -4,16 +4,14 @@ import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/button";
 import { Loading } from "@/components/ui/loading";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useEffect, useRef, useState } from "react";
-import { AddFeeCard } from "../components/AddFeeCard";
 import { feesDataProvider, FeesResource } from "@/data";
-import { FeeCard } from "../components/FeeCard";
 import fetchDictionaries from "@/helpers/get-dictionaries";
-import { CircleChevronRight } from "lucide-react";
+import { Fees } from "../components/Fees";
 
 export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
@@ -101,7 +99,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
         }
     });
 
-    if (controllerProps.isLoading) return <Loading />;
+    if (controllerProps.isLoading || !data) return <Loading />;
 
     return (
         <CreateContextProvider value={controllerProps}>
@@ -111,115 +109,89 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                         <FormField
                             control={form.control}
                             name="name"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.merchant.fields.name")}</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input {...field} className="" variant={InputTypes.GRAY} />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            className=""
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.merchant.fields.name")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="id"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.merchant.fields.id")}</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input {...field} className="" variant={InputTypes.GRAY} />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            className=""
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.merchant.fields.id")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="description"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.merchant.fields.descr")}</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input
-                                                {...field}
-                                                className=""
-                                                value={field.value ?? ""}
-                                                variant={InputTypes.GRAY}
-                                            />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            label={translate("resources.merchant.fields.descr")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            className=""
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="keycloak_id"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>Keycloak ID</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input
-                                                {...field}
-                                                className=""
-                                                value={field.value ?? ""}
-                                                variant={InputTypes.GRAY}
-                                            />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            label="Keycloak ID"
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            className=""
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                     </div>
                 </form>
             </Form>
-            <div className="px-2 mt-[10px] w-full">
-                <div className="flex flex-col bg-neutral-0 px-[32px] rounded-[8px] w-full">
-                    <h3 className="text-display-3 mt-[16px] mb-[16px]">{translate("resources.direction.fees.fees")}</h3>
-                    <div className="max-h-[40vh] overflow-auto pr-[10px]">
-                        {fees &&
-                            fees.map((el, index) => {
-                                return (
-                                    <FeeCard
-                                        key={index}
-                                        account={""}
-                                        currency={el.currency}
-                                        feeAmount={el.value}
-                                        feeType={data.feeTypes[el.type]?.type_descr || ""}
-                                        id={""}
-                                        resource={FeesResource.MERCHANT}
-                                        description={el.description}
-                                    />
-                                );
-                            })}
-                        {addNewFeeClicked && (
-                            <AddFeeCard
-                                id={""}
-                                onOpenChange={setAddNewFeeClicked}
-                                resource={FeesResource.MERCHANT}
-                                setFees={setFees}
-                            />
-                        )}
-                        <div ref={messagesEndRef} />
-                    </div>
-                    <div className="flex justify-end">
-                        <Button
-                            onClick={() => setAddNewFeeClicked(true)}
-                            className="my-6 w-1/2 sm:w-1/4 flex gap-[4px]">
-                            <CircleChevronRight className="w-[16px] h-[16px]" />
-                            {translate("resources.direction.fees.addFee")}
-                        </Button>
-                    </div>
-                </div>
-            </div>
+            <Fees
+                id={""}
+                fees={fees}
+                feeTypes={data?.feeTypes}
+                feesResource={FeesResource.MERCHANT}
+                addNewOpen={addNewFeeClicked}
+                setAddNewOpen={setAddNewFeeClicked}
+                setFees={setFees}
+            />
             <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col gap-3 sm:gap-0 sm:flex-row space-x-0 sm:space-x-2">
                 <Button
                     onClick={form.handleSubmit(onSubmit)}
@@ -228,7 +200,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                     disabled={submitButtonDisabled}>
                     {translate("app.ui.actions.save")}
                 </Button>
-                <Button type="button" variant="deleteGray" className="flex-1" onClick={() => onOpenChange(false)}>
+                <Button type="button" variant="outline_gray" className="flex-1" onClick={() => onOpenChange(false)}>
                     {translate("app.ui.actions.cancel")}
                 </Button>
             </div>

@@ -363,7 +363,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                 onClick={() => {
                                     onOpenChange(false);
                                 }}
-                                variant="deleteGray">
+                                variant="outline_gray">
                                 {translate("app.widgets.forms.userCreate.cancelBtn")}
                             </Button>
                         </div>

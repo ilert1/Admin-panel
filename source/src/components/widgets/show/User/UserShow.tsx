@@ -66,7 +66,7 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
                     {translate("resources.users.edit")}
                 </Button>
 
-                <Button variant={"deleteGray"} onClick={() => setDialogOpen(true)}>
+                <Button variant={"outline_gray"} onClick={() => setDialogOpen(true)}>
                     {translate("resources.users.delete")}
                 </Button>
             </div>

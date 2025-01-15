@@ -144,11 +144,7 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                                 <FormItem className="p-2">
                                     <FormControl>
                                         <Input
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
+                                            className="text-sm"
                                             label={translate("resources.accounts.editFields.name")}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
@@ -234,7 +230,7 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                         : ""
                                                 }`}
-                                                variant={SelectType.GRAY}>
+                                                variant={SelectType.DEFAULT}>
                                                 <div className="mr-auto">
                                                     <SelectValue
                                                         placeholder={translate("resources.direction.fields.active")}
@@ -265,11 +261,11 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
 
                                         <SelectContent>
                                             <SelectGroup>
-                                                <SelectItem value={WalletTypes.LINKED} variant={SelectType.GRAY}>
+                                                <SelectItem value={WalletTypes.LINKED} variant={SelectType.DEFAULT}>
                                                     {WalletTypes.LINKED}
                                                 </SelectItem>
 
-                                                <SelectItem value={WalletTypes.INTERNAL} variant={SelectType.GRAY}>
+                                                <SelectItem value={WalletTypes.INTERNAL} variant={SelectType.DEFAULT}>
                                                     {WalletTypes.INTERNAL}
                                                 </SelectItem>
                                             </SelectGroup>
@@ -383,7 +379,7 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                         </Button>
                         <Button
                             type="button"
-                            variant="deleteGray"
+                            variant="outline_gray"
                             className="flex-1"
                             onClick={() => {
                                 onOpenChange(false);

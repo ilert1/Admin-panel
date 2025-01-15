@@ -35,7 +35,7 @@ export const ConfirmCreatingDialog = (props: ConfirmCreatingDialogProps) => {
                     <div className="flex flex-col gap-4 sm:gap-0 sm:flex-row justify-around w-full">
                         <Button onClick={handleConfirmClicked}>{translate("app.ui.actions.confirm")}</Button>
                         <Button
-                            variant={"deleteGray"}
+                            variant={"outline_gray"}
                             onClick={() => {
                                 onOpenChange(false);
                                 refresh();
