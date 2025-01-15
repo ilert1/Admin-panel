@@ -140,17 +140,15 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
                 "Content-Type": "application/json"
             }
         })
-            .then(resp => resp.json())
-            .then(json => {
-                if (json.success) {
+            .then(resp => {
+                if (resp.status === 200 && resp.ok) {
                     success(
                         translate(translate("resources.transactions.show.sendWebhookSuccessMsg", { id: blowfishId }))
                     );
                     refresh();
-                } else {
-                    throw new Error(json.error || "Unknown error");
                 }
             })
+            .then(() => {})
             .catch(e => {
                 error(e.message);
             })
