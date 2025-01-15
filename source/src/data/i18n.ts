@@ -169,7 +169,9 @@ const ru: TranslationMessages = {
                 closeDispute: "Закрыть диспут",
                 disputeOpened: "Диспут открыт",
                 disputeClosed: "Диспут закрыт",
-                commitTransaction: "Зафиксировать операцию?"
+                commitTransaction: "Зафиксировать операцию?",
+                sendWebhook: "Отправить вебхук",
+                sendWebhookSuccessMsg: "Вебхук для ордера %{id} успешно отправлен"
             },
             list: {
                 filter: {
@@ -938,7 +940,9 @@ const en: TranslationMessages = {
                 closeDispute: "Close dispute",
                 disputeOpened: "Disput opened",
                 disputeClosed: "Disput closed",
-                commitTransaction: "Commit the transaction?"
+                commitTransaction: "Commit the transaction?",
+                sendWebhook: "Send a webhook",
+                sendWebhookSuccessMsg: "The webhook for the order %{id} has been successfully sent"
             },
             list: {
                 filter: {

@@ -41,7 +41,9 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         states,
         showCommit,
         commitCaption,
-        commitTransaction
+        commitTransaction,
+        sendWebhookHandler,
+        sendWebhookLoading
     } = useTransactionActions(data, context.record);
 
     const { feesColumns, briefHistory } = useGetTransactionShowColumns();
@@ -159,6 +161,16 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                     </DialogContent>
                                 </Dialog>
                             </>
+                        )}
+
+                        {permissions === "admin" && (
+                            <Button disabled={sendWebhookLoading} className="min-w-36" onClick={sendWebhookHandler}>
+                                {sendWebhookLoading ? (
+                                    <LoadingBlock className="w-[20px]" />
+                                ) : (
+                                    translate("resources.transactions.show.sendWebhook")
+                                )}
+                            </Button>
                         )}
                     </div>
                 </div>

@@ -1,7 +1,9 @@
 import { useTranslate, usePermissions, useRefresh } from "react-admin";
 import { API_URL } from "@/data/base";
-import { useMemo, useCallback } from "react";
+import { useMemo, useCallback, useState } from "react";
 import { toast } from "sonner";
+
+const MONEYGATE_URL = import.meta.env.VITE_MONEYGATE_URL;
 
 export const useTransactionActions = (data: Dictionaries.DataObject, record: Transaction.Transaction | undefined) => {
     const translate = useTranslate();
@@ -127,6 +129,36 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
     }, [record]); // eslint-disable-line react-hooks/exhaustive-deps
     const commitCaption = translate("resources.transactions.show.commit");
 
+    const [sendWebhookLoading, setSendWebhookLoading] = useState(false);
+    const sendWebhookHandler = useCallback(() => {
+        const blowfishId = record?.id;
+        setSendWebhookLoading(true);
+
+        fetch(`${MONEYGATE_URL}/send-callback&id=${blowfishId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(resp => resp.json())
+            .then(json => {
+                if (json.success) {
+                    success(
+                        translate(translate("resources.transactions.show.sendWebhookSuccessMsg", { id: blowfishId }))
+                    );
+                    refresh();
+                } else {
+                    throw new Error(json.error || "Unknown error");
+                }
+            })
+            .catch(e => {
+                error(e.message);
+            })
+            .finally(() => {
+                setSendWebhookLoading(false);
+            });
+    }, [record]); // eslint-disable-line react-hooks/exhaustive-deps
+
     return {
         switchDispute,
         showDispute,
@@ -136,6 +168,8 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
         states,
         showCommit,
         commitCaption,
-        commitTransaction
+        commitTransaction,
+        sendWebhookHandler,
+        sendWebhookLoading
     };
 };
