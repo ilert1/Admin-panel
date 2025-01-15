@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 const outlineStyles = cn(
     "bg-transparent hover:bg-green-0 active:bg-neutral-0 disabled:bg-neutral-20 border border-green-50 hover:border-green-40 active:border-green-60 disabled:border-neutral-80 text-green-50 active:text-green-60 disabled:text-neutral-80",
-    "dark:bg-neutral-100 hover:dark:bg-green-0 active:dark:bg-neutral-100"
+    "hover:dark:bg-green-0 active:dark:bg-neutral-100"
 );
 
 const textBtnStyles =

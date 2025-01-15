@@ -18,7 +18,7 @@ export enum SelectType {
     GRAY = "gray"
 }
 
-interface SelectTriggerProps extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>, ErrorProps {
+interface SelectTriggerProps extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> {
     variant?: string;
     isError?: boolean;
     errorMessage?: string | React.ReactNode;
@@ -33,8 +33,8 @@ const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrimitive.T
                     className={cn(
                         variant === SelectType.GRAY ? "!bg-white dark:!bg-muted" : "",
                         `border !mt-[0px] flex h-[38px] w-full items-center justify-between text-start rounded-4 px-3 py-2 text-sm ring-offset-background disabled:cursor-not-allowed [&>span]:line-clamp-1 focus:outline-none`,
-                        "[&:is([data-state='open'])]:border-green-50 [&:is([data-state='open'])]:text-neutral-0 [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180",
-                        "border-neutral-40 dark:border-neutral-60 hover:!border-green-20 bg-neutral-0 dark:bg-neutral-100 active:border-green-50 text-neutral-40",
+                        "[&:is([data-state='open'])]:border-green-50 [&:is([data-state='open'])]:text-neutral-80 [&:is([data-state='open'])]:dark:text-neutral-0 [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180",
+                        "border-neutral-40 dark:border-neutral-60 hover:!border-green-20 bg-neutral-0 dark:bg-neutral-100 active:border-green-50 dark:text-neutral-40 text-neutral-80",
                         "",
                         isError ? "!border-red-40 dark:!border-red-40" : "",
                         className

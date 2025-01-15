@@ -21,7 +21,7 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
             showOutsideDays
             hideWeekdays
             className={cn(
-                "p-4 pb-2 rounded-4 bg-neutral-0 dark:border-green-50 border-green-60 border shadow select-none",
+                "p-4 pb-2 rounded-4 bg-neutral-0 dark:bg-neutral-100 dark:border-green-50 border-green-60 border shadow select-none",
                 className
             )}
             classNames={{

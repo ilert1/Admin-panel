@@ -5,6 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { DateRange } from "react-day-picker";
 import { useState } from "react";
 import { useLocaleState } from "react-admin";
+import { cn } from "@/lib/utils";
 
 export function DateRangePicker({
     title,
@@ -29,9 +30,13 @@ export function DateRangePicker({
                         {title && <span className="text-neutral-60 dark:text-neutral-30">{title}</span>}
                         <Button
                             variant={"outline"}
-                            className={
-                                "flex flex-1 justify-between items-center gap-3 duration-200 px-3 py-2 border-green-40 min-w-56 text-neutral-80"
-                            }>
+                            className={cn(
+                                "flex flex-1 justify-between items-center gap-3 duration-200 px-3 py-2 min-w-56",
+                                "border-neutral-40 focus:border-green-60 active:border-green-60 text-neutral-80 bg-neutral-0",
+                                "dark:border-green-50 dark:focus:border-green-50 dark:active:border-green-50 dark:text-neutral-0 dark:bg-neutral-100",
+                                "hover:bg-neutral-0 hover:border-green-40",
+                                "dark:hover:bg-neutral-100 dark:hover:border-green-40"
+                            )}>
                             {dateRange?.from ? (
                                 dateRange.to && dateRange.from !== dateRange.to ? (
                                     <>
