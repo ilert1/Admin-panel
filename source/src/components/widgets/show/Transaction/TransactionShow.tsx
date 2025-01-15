@@ -166,7 +166,9 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                         {permissions === "admin" && (
                             <Button disabled={sendWebhookLoading} className="min-w-36" onClick={sendWebhookHandler}>
                                 {sendWebhookLoading ? (
-                                    <LoadingBlock className="w-[20px]" />
+                                    <div className="w-[20px]">
+                                        <LoadingBlock />
+                                    </div>
                                 ) : (
                                     translate("resources.transactions.show.sendWebhook")
                                 )}
