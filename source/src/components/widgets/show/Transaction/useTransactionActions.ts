@@ -134,7 +134,7 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
         const blowfishId = record?.id;
         setSendWebhookLoading(true);
 
-        fetch(`${MONEYGATE_URL}/send-callback&id=${blowfishId}`, {
+        fetch(`${MONEYGATE_URL}/send-callback?id=${blowfishId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
