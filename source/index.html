@@ -123,19 +123,11 @@
             href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
             rel="stylesheet"
         />
-        <script type="module">
-            const theme = localStorage.getItem("juggler-ui-theme");
-            if (theme === "light") {
-                const el = document.querySelector(".loader-container").classList.add("loader-container__light");
-            } else {
-                const el = document.querySelector(".loader-container").classList.add("loader-container__dark");
-            }
-        </script>
     </head>
     <body>
         <noscript> You need to enable JavaScript to run this app. </noscript>
         <div id="root">
-            <div class="loader-container">
+            <div class="loader-container loader-container__dark">
                 <div class="loader">
                     <svg viewBox="0 0 100 100">
                         <defs>
@@ -159,6 +151,13 @@
             </div>
         </div>
     </body>
-
+    <script type="text/javascript">
+        const theme = localStorage.getItem("juggler-ui-theme");
+        if (theme === "light") {
+            const el = document.querySelector(".loader-container").classList.add("loader-container__light");
+        } else {
+            const el = document.querySelector(".loader-container").classList.add("loader-container__dark");
+        }
+    </script>
     <script type="module" src="/src/index.tsx"></script>
 </html>
