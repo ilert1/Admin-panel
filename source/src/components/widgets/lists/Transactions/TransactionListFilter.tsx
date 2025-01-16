@@ -146,11 +146,7 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button
-                                disabled={
-                                    !startDate ||
-                                    (adminOnly && !account) ||
-                                    (orderStatusFilter && !orderStatusFilter.final)
-                                }
+                                disabled={!startDate || (adminOnly && !account)}
                                 className="md:ml-auto"
                                 variant="default"
                                 size="sm">
