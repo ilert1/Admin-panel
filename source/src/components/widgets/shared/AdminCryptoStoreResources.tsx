@@ -143,7 +143,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                         className={
                             showCaptions
                                 ? "hidden"
-                                : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 after:rotate-45"
+                                : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-100 after:rotate-45"
                         }
                         sideOffset={12}
                         side="right">
@@ -198,7 +198,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                     className={
                                         showCaptions
                                             ? "hidden"
-                                            : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 after:rotate-45"
+                                            : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 dark:after:bg-neutral-100 after:rotate-45"
                                     }
                                     sideOffset={12}
                                     side="right">
