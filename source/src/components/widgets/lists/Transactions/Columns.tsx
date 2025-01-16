@@ -70,7 +70,7 @@ export const useGetTransactionColumns = () => {
                               <div>
                                   <TextField text={row.original.participant_name} wrap />
                                   <TextField
-                                      className="text-neutral-60 dark:text-neutral-70"
+                                      className="text-neutral-70"
                                       text={row.original.participant_id}
                                       wrap
                                       copyValue

@@ -40,7 +40,14 @@ export const useGetMerchantColumns = () => {
                 return (
                     <div>
                         <TextField text={row.original.name} />
-                        <TextField copyValue text={row.original.id} lineClamp linesCount={1} minWidth="50px" />
+                        <TextField
+                            copyValue
+                            text={row.original.id}
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                            className="text-neutral-70"
+                        />
                     </div>
                 );
             }

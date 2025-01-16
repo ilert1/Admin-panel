@@ -48,7 +48,7 @@ export const useGetAccountsColumns = () => {
                                 }}
                             />
 
-                            <span className="text-nowrap overflow-hidden text-ellipsis max-w-[160px] min-w-[100px]">
+                            <span className="text-nowrap overflow-hidden text-ellipsis max-w-[160px] min-w-[100px] text-neutral-70">
                                 {(row.getValue("owner") as Array<string>)[1]}
                             </span>
                         </div>
