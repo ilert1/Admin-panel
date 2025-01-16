@@ -122,8 +122,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 document.removeEventListener("mousedown", handleDocumentClick);
             };
         }, [props]);
-        // cn(
-        // `block md:text-nowrap`,
 
         return (
             <div className="flex flex-col w-full gap-[4px] rounded-4" ref={containerRef}>
@@ -141,7 +139,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 )}
                 <div
                     className={cn(
-                        "relative flex items-center w-full border hover:border-green-40 transition-colors duration-200 rounded-4",
+                        "relative flex items-center w-full border hover:border-green-40 hover:dark:border-green-40 transition-colors duration-200 rounded-4",
                         "border-neutral-40",
                         "dark:border-neutral-60",
                         isFocused ? "!border-green-50" : "",
