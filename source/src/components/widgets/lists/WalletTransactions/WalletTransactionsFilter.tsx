@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { Input } from "@/components/ui/Input/input";
+import { Label } from "@/components/ui/label";
 import { Loading } from "@/components/ui/loading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import fetchDictionaries from "@/helpers/get-dictionaries";
@@ -111,10 +112,10 @@ export const WalletTransactionsFilter = () => {
                     />
                 </div>
 
-                <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start min-w-36">
-                    <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
+                <div className="flex flex-1 md:flex-col gap-1 items-center md:items-start min-w-36">
+                    <Label className="mb-0" variant="title-2">
                         {translate("resources.wallet.transactions.filterBar.paymentStatus")}
-                    </span>
+                    </Label>
 
                     <Select
                         onValueChange={val => (val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged(""))}
