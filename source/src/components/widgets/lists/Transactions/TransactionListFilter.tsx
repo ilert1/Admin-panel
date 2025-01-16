@@ -171,7 +171,10 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
 
             <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-3 flex-wrap">
-                    <button className={chooseClassTabActive("")} onClick={clearFilters} disabled={typeTabActive === ""}>
+                    <button
+                        className={chooseClassTabActive("")}
+                        onClick={() => onTabChanged({ type_descr: "", type: 0 })}
+                        disabled={typeTabActive === ""}>
                         {translate("resources.transactions.types.all")}
                     </button>
 
