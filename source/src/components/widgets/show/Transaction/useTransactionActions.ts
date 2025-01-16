@@ -131,10 +131,9 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
 
     const [sendWebhookLoading, setSendWebhookLoading] = useState(false);
     const sendWebhookHandler = useCallback(() => {
-        const blowfishId = record?.id;
         setSendWebhookLoading(true);
 
-        fetch(`${MONEYGATE_URL}/send-callback?id=${blowfishId}`, {
+        fetch(`${MONEYGATE_URL}/send-callback?id=${record?.id}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -144,13 +143,16 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
             .then(json => {
                 if (json.success) {
                     success(
-                        translate(translate("resources.transactions.show.sendWebhookSuccessMsg", { id: blowfishId }))
+                        translate(
+                            translate("resources.transactions.show.sendWebhookSuccessMsg", { id: json.blowfish_id })
+                        )
                     );
                     refresh();
                 } else {
                     throw new Error(json.error || "Unknown error");
                 }
             })
+            .then(() => {})
             .catch(e => {
                 error(e.message);
             })
