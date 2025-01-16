@@ -33,7 +33,7 @@ export const CurrenciesList = () => {
                         onClick={() => setShowAddCurrencyDialog(true)}
                         className="flex items-center justify-center gap-1 font-normal">
                         <CirclePlus width={16} height={16} />
-                        <span>{translate("resources.currency.create")}</span>
+                        {translate("resources.currency.create")}
                     </Button>
                 </div>
 

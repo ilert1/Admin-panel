@@ -59,7 +59,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
                 <TextField label={translate("resources.wallet.manage.fields.walletType")} text={context.record.type} />
 
                 <div>
-                    <small className="text-sm text-muted-foreground">
+                    <small className="text-sm text-neutral-60 dark:text-neutral-40">
                         {translate("resources.wallet.manage.fields.balance")}
                     </small>
 

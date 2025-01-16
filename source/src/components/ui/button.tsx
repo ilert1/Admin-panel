@@ -13,7 +13,7 @@ const textBtnStyles =
     "transition-none bg-transparent hover:text-green-40 dark:hover:text-green-40 active:text-green-60 disabled:!text-neutral-80";
 
 const buttonVariants = cva(
-    "inline-flex items-center justify-center whitespace-nowrap rounded-4 text-sm font-normal ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 duration-200 select-none",
+    "inline-flex items-center justify-center whitespace-nowrap rounded-4 text-sm font-normal ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none duration-200 select-none",
     {
         variants: {
             variant: {

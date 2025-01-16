@@ -31,7 +31,6 @@ export const EditCurrencyDialog = ({ open, id, onOpenChange }: EditCurrencieDial
                 </DialogHeader>
 
                 <CurrencyEdit id={id} closeDialog={() => onOpenChange(false)} />
-
                 <DialogFooter />
             </DialogContent>
         </Dialog>

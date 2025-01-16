@@ -265,7 +265,6 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -312,7 +311,6 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -355,7 +353,6 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />

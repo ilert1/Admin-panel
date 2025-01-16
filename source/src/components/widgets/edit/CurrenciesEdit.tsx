@@ -13,11 +13,12 @@ import {
 } from "@/components/ui/select";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
+import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { usePreventFocus } from "@/hooks";
 import { Loading } from "@/components/ui/loading";
+import { Label } from "@/components/ui/label";
 
 enum PositionEnum {
     BEFORE = "before",
@@ -95,13 +96,17 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                         <FormField
                             control={form.control}
                             name="code"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>{translate("resources.currency.fields.currencyName")}</FormLabel>
                                     <FormControl>
-                                        <Input {...field} disabled />
+                                        <Input
+                                            {...field}
+                                            disabled
+                                            label={translate("resources.currency.fields.currencyName")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -131,7 +136,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                             name="is_coin"
                             render={({ field, fieldState }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>{translate("resources.currency.fields.type")}</FormLabel>
+                                    <Label>{translate("resources.currency.fields.type")}</Label>
                                     <Select
                                         onValueChange={value => field.onChange(value === "true")}
                                         value={field.value ? "true" : "false"}>
@@ -140,11 +145,9 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                                 isError={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 variant={SelectType.GRAY}>
-                                                <div className="mr-auto">
-                                                    <SelectValue
-                                                        placeholder={translate("resources.currency.fields.type")}
-                                                    />
-                                                </div>
+                                                <SelectValue
+                                                    placeholder={translate("resources.currency.fields.type")}
+                                                />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
@@ -158,7 +161,6 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -168,7 +170,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                             name="position"
                             render={({ field, fieldState }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>{translate("resources.currency.fields.symbPos")}</FormLabel>
+                                    <Label>{translate("resources.currency.fields.symbPos")}</Label>
                                     <FormControl>
                                         <Select
                                             onValueChange={value => field.onChange(value as PositionEnum)}
@@ -177,11 +179,9 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                                 isError={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 variant={SelectType.GRAY}>
-                                                <div className="mr-auto">
-                                                    <SelectValue
-                                                        placeholder={translate("resources.currency.fields.symbPos")}
-                                                    />
-                                                </div>
+                                                <SelectValue
+                                                    placeholder={translate("resources.currency.fields.symbPos")}
+                                                />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectGroup>
@@ -195,7 +195,6 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />

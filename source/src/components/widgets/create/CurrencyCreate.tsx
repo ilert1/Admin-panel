@@ -62,7 +62,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
         resolver: zodResolver(formSchema),
         defaultValues: {
             code: "",
-            position: undefined,
+            position: PositionEnum.BEFORE,
             symbol: "",
             is_coin: false
         }
@@ -149,7 +149,6 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             control={form.control}
                             name="position"
@@ -164,11 +163,9 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                                                 variant={SelectType.GRAY}
                                                 isError={fieldState.invalid}
                                                 errorMessage={<FormMessage />}>
-                                                <div className="mr-auto">
-                                                    <SelectValue
-                                                        placeholder={translate("resources.currency.fields.before")}
-                                                    />
-                                                </div>
+                                                <SelectValue
+                                                    placeholder={translate("resources.currency.fields.before")}
+                                                />
                                             </SelectTrigger>
                                             <SelectContent className="!dark:bg-muted">
                                                 <SelectGroup>
@@ -188,11 +185,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                     </div>
 
                     <div className="sm:self-end flex flex-col sm:flex-row items-center gap-4">
-                        <Button
-                            type="submit"
-                            variant="default"
-                            disabled={submitButtonDisabled}
-                            className="w-full sm:w flex-1">
+                        <Button type="submit" disabled={submitButtonDisabled} className="w-full sm:w flex-1">
                             {translate("app.ui.actions.save")}
                         </Button>
 

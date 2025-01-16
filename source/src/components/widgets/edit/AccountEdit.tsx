@@ -16,12 +16,11 @@ import {
 import { z } from "zod";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
+import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { TronWeb } from "tronweb";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { TriangleAlert } from "lucide-react";
 import { usePreventFocus } from "@/hooks";
 import { WalletTypes } from "@/helpers/wallet-types";
+import { Label } from "@/components/ui/label";
 
 const BF_MANAGER_URL = import.meta.env.VITE_BF_MANAGER_URL;
 
@@ -161,42 +160,18 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                             name="wallet_create"
                             render={({ field, fieldState }) => (
                                 <FormItem className="p-2">
-                                    <FormLabel>{translate("resources.accounts.editFields.wallet_create")}</FormLabel>
+                                    <Label>{translate("resources.accounts.editFields.wallet_create")}</Label>
                                     <Select
                                         value={field.value ? "true" : "false"}
                                         onValueChange={value => field.onChange(value === "true")}>
                                         <FormControl>
                                             <SelectTrigger
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
                                                 variant={SelectType.GRAY}>
-                                                <div className="mr-auto">
-                                                    <SelectValue
-                                                        placeholder={translate("resources.accounts.fields.active")}
-                                                    />
-                                                </div>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger className="ml-3 order-3" asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
+                                                <SelectValue
+                                                    placeholder={translate("resources.accounts.fields.active")}
+                                                />
                                             </SelectTrigger>
                                         </FormControl>
 
@@ -211,7 +186,6 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -221,57 +195,32 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                             name="wallet_type"
                             render={({ field, fieldState }) => (
                                 <FormItem className="p-2">
-                                    <FormLabel>{translate("resources.accounts.editFields.wallet_type")}</FormLabel>
+                                    <Label>{translate("resources.accounts.editFields.wallet_type")}</Label>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
                                             <SelectTrigger
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}
-                                                variant={SelectType.DEFAULT}>
-                                                <div className="mr-auto">
-                                                    <SelectValue
-                                                        placeholder={translate("resources.direction.fields.active")}
-                                                        defaultValue={WalletTypes.INTERNAL}
-                                                    />
-                                                </div>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger className="ml-3 order-3" asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                variant={SelectType.GRAY}>
+                                                <SelectValue
+                                                    placeholder={translate("resources.direction.fields.active")}
+                                                    defaultValue={WalletTypes.INTERNAL}
+                                                />
                                             </SelectTrigger>
                                         </FormControl>
 
                                         <SelectContent>
                                             <SelectGroup>
-                                                <SelectItem value={WalletTypes.LINKED} variant={SelectType.DEFAULT}>
+                                                <SelectItem value={WalletTypes.LINKED} variant={SelectType.GRAY}>
                                                     {WalletTypes.LINKED}
                                                 </SelectItem>
 
-                                                <SelectItem value={WalletTypes.INTERNAL} variant={SelectType.DEFAULT}>
+                                                <SelectItem value={WalletTypes.INTERNAL} variant={SelectType.GRAY}>
                                                     {WalletTypes.INTERNAL}
                                                 </SelectItem>
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -283,20 +232,13 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                             render={({ field, fieldState }) => (
                                 <FormItem className="p-2">
                                     <FormControl>
-                                        <div>
-                                            <Input
-                                                className={`dark:bg-muted text-sm text-neutral-100 ${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}
-                                                label={translate("resources.accounts.editFields.tron_wallet")}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                                variant={InputTypes.GRAY}
-                                                {...field}
-                                            />
-                                        </div>
+                                        <Input
+                                            label={translate("resources.accounts.editFields.tron_wallet")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            variant={InputTypes.GRAY}
+                                            {...field}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -309,11 +251,6 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                                 <FormItem className="p-2">
                                     <FormControl>
                                         <Input
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
                                             label={translate("resources.accounts.editFields.tron_address")}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
@@ -332,11 +269,6 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                                 <FormItem className="w-full p-2">
                                     <FormControl>
                                         <Input
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
                                             label={translate("resources.accounts.editFields.provider_account")}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
@@ -356,11 +288,6 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                                 <FormItem className="p-2">
                                     <FormControl>
                                         <Input
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
                                             {...field}
                                             label={translate("resources.accounts.editFields.reward_account")}
                                             error={fieldState.invalid}

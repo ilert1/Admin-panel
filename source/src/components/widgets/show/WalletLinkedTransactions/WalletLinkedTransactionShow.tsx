@@ -19,7 +19,11 @@ export const WalletLinkedTransactionShow = ({ id }: { id: string }) => {
     return (
         <div className="flex-1" tabIndex={-1}>
             <div className="flex flex-col gap-6 px-[42px]">
-                <TextField text={context.record?.source_address} copyValue />
+                <TextField
+                    text={context.record?.source_address}
+                    copyValue
+                    className="text-neutral-70 dark:text-neutral-30"
+                />
 
                 <div className="flex flex-col sm:grid sm:grid-cols-2 gap-y-4">
                     <TextField

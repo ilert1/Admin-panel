@@ -56,7 +56,10 @@ export const DeleteUserDialog = ({ open, id, onOpenChange, onQuickShowOpenChange
                 <DialogFooter>
                     <div className="flex justify-around gap-[35px] w-full">
                         <Button onClick={() => handleDelete()}>{translate("app.ui.actions.delete")}</Button>
-                        <Button variant="outline" onClick={() => onOpenChange(false)} className="!ml-0 px-3">
+                        <Button
+                            variant="outline"
+                            onClick={() => onOpenChange(false)}
+                            className="!ml-0 px-3 bg-neutral-0 dark:bg-neutral-100">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>

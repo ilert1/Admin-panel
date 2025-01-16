@@ -7,7 +7,7 @@ import {
     useRefresh
 } from "react-admin";
 import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/Input/input";
+import { Input, InputTypes } from "@/components/ui/Input/input";
 import { FC, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Loading } from "@/components/ui/loading";
@@ -125,13 +125,9 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
                                 <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormControl>
                                         <Input
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
                                             label={translate("resources.terminals.fields.verbose_name")}
                                             error={fieldState.invalid}
+                                            variant={InputTypes.GRAY}
                                             errorMessage={<FormMessage />}
                                             autoCorrect="off"
                                             autoCapitalize="none"
@@ -149,11 +145,7 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
                                 <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormControl>
                                         <Input
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
+                                            variant={InputTypes.GRAY}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                             label={translate("resources.terminals.fields.description")}
@@ -202,7 +194,7 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
                             </Button>
                             <Button
                                 type="button"
-                                variant="outline"
+                                variant="outline_gray"
                                 className="flex-1 mt-4 sm:mt-0 w-full sm:w-1/2"
                                 onClick={() => onClose()}>
                                 {translate("app.ui.actions.cancel")}

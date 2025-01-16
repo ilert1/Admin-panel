@@ -107,28 +107,34 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                         <FormField
                             control={form.control}
                             name="name"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.merchant.fields.name")}</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input {...field} variant={InputTypes.GRAY} />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.merchant.fields.name")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="id"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.merchant.fields.id")}</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input {...field} disabled variant={InputTypes.GRAY} />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            disabled
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.merchant.fields.id")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -137,30 +143,36 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                         <FormField
                             control={form.control}
                             name="description"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.merchant.fields.descr")}</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input {...field} value={field.value ?? ""} variant={InputTypes.GRAY} />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.merchant.fields.descr")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="keycloak_id"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>Keycloak ID</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input {...field} value={field.value ?? ""} variant={InputTypes.GRAY} />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                            label="Keycloak ID"
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />

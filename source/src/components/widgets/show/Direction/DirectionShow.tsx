@@ -66,7 +66,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
     return (
         <div className="px-[42px] ">
             <div className="flex flex-col sm:flex-row justify-between">
-                <TextField text={context.record.id} copyValue />
+                <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
 
                 <div className="flex self-start mt-2 sm:mt-0 sm:self-center items-center justify-center text-white">
                     {context.record.active ? (
@@ -126,7 +126,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                         {translate("app.ui.actions.edit")}
                     </Button>
 
-                    <Button className="dark:bg-muted" variant={"outline_gray"} onClick={handleChangeAuthDataClicked}>
+                    <Button className="dark:bg-muted" variant={"outline"} onClick={handleChangeAuthDataClicked}>
                         {translate("app.ui.actions.changeSecretKey")}
                     </Button>
 

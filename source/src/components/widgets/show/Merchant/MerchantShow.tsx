@@ -68,8 +68,8 @@ export const MerchantShow = ({ id, type }: MerchantShowProps) => {
     const fees = context.record.fees;
     return (
         <div className="p-[42px] pt-0">
-            <span className="text-title-1">{context.record.name}</span>
-            <TextField text={context.record.id} copyValue />
+            <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
+            <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
             {type === "fees" ? (
                 <>
                     <div className="flex flex-col gap-[24px] pt-[24px] pl-[24px] pb-[24px]">

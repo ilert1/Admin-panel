@@ -72,8 +72,10 @@ export const KeysModal = (props: KeysModalProps) => {
                             <LoadingBlock />
                         ) : (
                             <>
-                                <div className="flex flex-col gap-[4px]">
-                                    <Label className="text-note-1 text-neutral-30" htmlFor="private">
+                                <div className="flex flex-col">
+                                    <Label
+                                        className="text-note-1 !text-neutral-60 dark:!text-neutral-30"
+                                        htmlFor="private">
                                         {translate("resources.provider.privateKey")}
                                     </Label>
                                     <div className="flex items-center justify-center gap-2">
@@ -91,8 +93,10 @@ export const KeysModal = (props: KeysModalProps) => {
                                         </Button>
                                     </div>
                                 </div>
-                                <div className="flex flex-col gap-[4px]">
-                                    <Label className="text-note-1 text-neutral-30" htmlFor="public">
+                                <div className="flex flex-col">
+                                    <Label
+                                        className="text-note-1 !text-neutral-60 dark:!text-neutral-30"
+                                        htmlFor="public">
                                         {translate("resources.provider.fields.pk")}
                                     </Label>
                                     <div className="flex items-center justify-center gap-2">
@@ -118,10 +122,10 @@ export const KeysModal = (props: KeysModalProps) => {
                     <DialogFooter className="flex !justify-between">
                         <div className="flex flex-col gap-2 sm:flex-row sm:gap-0 justify-between w-full">
                             <div className="flex flex-col">
-                                <span className="text-red-40 dark:text-red-20 text-title-1">
+                                <span className="text-red-40 text-title-1">
                                     {translate("resources.provider.warning")}
                                 </span>
-                                <span className="text-red-40 dark:text-red-20 text-title-1">
+                                <span className="text-red-40 text-title-1">
                                     {translate("resources.provider.sendToDevOps")}
                                 </span>
                             </div>

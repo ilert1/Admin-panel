@@ -88,38 +88,35 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                         <FormField
                             control={form.control}
                             name="name"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>
-                                        <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.provider.fields._name")}
-                                        </span>
-                                    </FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input {...field} disabled variant={InputTypes.GRAY} />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            disabled
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.provider.fields._name")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="fields_json_schema"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>
-                                        <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.provider.fields.json_schema")}
-                                        </span>
-                                    </FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input {...field} variant={InputTypes.GRAY} />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.provider.fields.json_schema")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />

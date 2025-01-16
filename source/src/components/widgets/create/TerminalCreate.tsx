@@ -1,10 +1,10 @@
 import { useCreateController, useRefresh, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
 import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/Input/input";
+import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useState } from "react";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoadingBlock } from "@/components/ui/loading";
@@ -72,17 +72,13 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
                                 <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormControl>
                                         <Input
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
                                             label={translate("resources.terminals.fields.verbose_name")}
                                             autoCorrect="off"
                                             autoCapitalize="none"
                                             spellCheck="false"
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
+                                            variant={InputTypes.GRAY}
                                             {...field}
                                         />
                                     </FormControl>
@@ -94,20 +90,15 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
                             name="description"
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel></FormLabel>
                                     <FormControl>
                                         <Input
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
                                             label={translate("resources.terminals.fields.description")}
                                             autoCorrect="off"
                                             autoCapitalize="none"
                                             spellCheck="false"
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
+                                            variant={InputTypes.GRAY}
                                             {...field}
                                         />
                                     </FormControl>
@@ -124,8 +115,8 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
                             </Button>
                             <Button
                                 type="button"
-                                variant="outline"
-                                className="flex-1 mt-4 sm:mt-0 border-neutral-50 text-neutral-50 bg-muted w-full sm:w-1/2"
+                                variant="outline_gray"
+                                className="flex-1 mt-4 sm:mt-0 w-full sm:w-1/2"
                                 onClick={() => {
                                     form.reset();
                                     onClose();

@@ -298,7 +298,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                         />
                     </div>
 
-                    <div className="self-end flex items-center gap-4">
+                    <div className="self-end flex items-center gap-4 ">
                         <Button type="submit" variant="default">
                             {translate("app.ui.actions.save")}
                         </Button>
@@ -317,7 +317,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             control={formMerchant.control}
                             name="description"
                             render={({ field }) => (
-                                <FormItem className="w-full p-2">
+                                <FormItem className="w-full">
                                     <FormLabel>{translate("resources.wallet.manage.fields.descr")}</FormLabel>
                                     <FormControl>
                                         <div>
@@ -343,7 +343,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             onClick={() => onOpenChange(false)}
                             variant="outline_gray"
                             type="button"
-                            className="w-full sm:w-auto">
+                            className="w-full sm:w-auto ">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>
