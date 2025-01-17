@@ -196,13 +196,13 @@ export const CryptoTransferForm = (props: {
         return (
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="">
-                    <div className="flex flex-col lg:w-[325px] max-w-[476px] px-6 py-4 bg-neutral-0 rounded-2xl gap-4">
+                    <div className="flex flex-col lg:w-[325px] max-w-[476px] px-6 py-4 bg-neutral-0 dark:bg-neutral-100 rounded-2xl gap-4">
                         <div className="flex-1">
                             <FormField
                                 disabled={props.loading}
                                 control={form.control}
                                 name="address"
-                                render={({ field }) => (
+                                render={({ field, fieldState }) => (
                                     <FormItem>
                                         <FormLabel className="text-note-1 text-neutral-80 dark:text-neutral-30">
                                             {translate("app.widgets.forms.cryptoTransfer.address")}
@@ -215,7 +215,10 @@ export const CryptoTransferForm = (props: {
                                                 onValueChange={field.onChange}
                                                 disabled={props.loading}>
                                                 <FormControl>
-                                                    <SelectTrigger variant={SelectType.DEFAULT}>
+                                                    <SelectTrigger
+                                                        variant={SelectType.DEFAULT}
+                                                        isError={fieldState.invalid}
+                                                        errorMessage={<FormMessage />}>
                                                         <span className="truncate">{field.value}</span>
                                                     </SelectTrigger>
                                                 </FormControl>
@@ -286,7 +289,6 @@ export const CryptoTransferForm = (props: {
                                                 </SelectContent>
                                             </Select>
                                         </FormControl>
-                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
@@ -301,11 +303,6 @@ export const CryptoTransferForm = (props: {
                                         <FormControl>
                                             <Input
                                                 autoComplete="off"
-                                                className={`${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 label={translate("app.widgets.forms.cryptoTransfer.amount")}
@@ -321,7 +318,6 @@ export const CryptoTransferForm = (props: {
                                                 }}
                                             />
                                         </FormControl>
-                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
@@ -384,7 +380,7 @@ export const CryptoTransferForm = (props: {
         );
     else if (props.transferState === "success" || props.transferState === "error")
         return (
-            <div className="flex flex-col max-w-[476px] h-[308px] px-6 py-4 bg-neutral-0 rounded-2xl gap-6 justify-center items-center">
+            <div className="flex flex-col max-w-[476px] h-[308px] px-6 py-4 bg-neutral-0 dark:bg-neutral-100 rounded-2xl gap-6 justify-center items-center">
                 <div className="flex flex-col gap-2 items-center">
                     <div className="w-[114px]">
                         {props.transferState === "success" && <Icon name="BlowFishCheck" />}

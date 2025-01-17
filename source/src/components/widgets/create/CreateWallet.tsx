@@ -21,19 +21,16 @@ import { useDataProvider, useInfiniteGetList, usePermissions, useRefresh, useTra
 import { toast } from "sonner";
 import { Form, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { TronWeb } from "tronweb";
+
 import { WalletTypes } from "@/helpers/wallet-types";
 import { Textarea } from "@/components/ui/textarea";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
+import { isTRC20Address } from "@/helpers/isTRC20Address";
 
 interface CreateWalletProps {
     onOpenChange: (state: boolean) => void;
     callbackData: (data: Wallets.Wallet) => void;
 }
-
-const isTRC20Address = (address: string): boolean => {
-    return TronWeb.isAddress(address);
-};
 
 export const CreateWallet = (props: CreateWalletProps) => {
     const { onOpenChange, callbackData } = props;
@@ -370,7 +367,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                         <FormControl>
                                             <div>
                                                 <Label />
-                                                <textarea
+                                                <Textarea
                                                     {...field}
                                                     value={field.value ?? ""}
                                                     placeholder={translate("resources.wallet.manage.fields.descr")}

@@ -10,6 +10,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
+import { Textarea } from "@/components/ui/textarea";
 import { useCreateTestKeys } from "@/hooks/useCreateTestKeys";
 import { Copy } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
@@ -79,9 +80,9 @@ export const KeysModal = (props: KeysModalProps) => {
                                         {translate("resources.provider.privateKey")}
                                     </Label>
                                     <div className="flex items-center justify-center gap-2">
-                                        <textarea
+                                        <Textarea
                                             value={privateKey}
-                                            className="w-full h-24 p-2 border border-neutral-400 rounded resize-none overflow-auto dark:bg-muted text-neutral-50 dark:text-neutral-70"
+                                            className="w-full h-24 p-2 rounded resize-none overflow-auto dark:bg-muted !text-neutral-50 dark:!text-neutral-70"
                                             readOnly
                                             id="private"
                                         />
@@ -100,9 +101,9 @@ export const KeysModal = (props: KeysModalProps) => {
                                         {translate("resources.provider.fields.pk")}
                                     </Label>
                                     <div className="flex items-center justify-center gap-2">
-                                        <textarea
+                                        <Textarea
                                             value={publicKey}
-                                            className="w-full h-24 p-2 border border-neutral-400 rounded resize-none overflow-auto dark:bg-muted text-neutral-50 dark:text-neutral-70"
+                                            className="w-full h-24 p-2 rounded resize-none overflow-auto dark:bg-muted !text-neutral-50 dark:!text-neutral-70"
                                             readOnly
                                             id="public"
                                         />

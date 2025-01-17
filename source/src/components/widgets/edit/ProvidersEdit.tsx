@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { toast } from "sonner";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
+import { Label } from "@/components/ui/label";
 
 export interface ProviderEditParams {
     id?: string;
@@ -125,11 +126,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                             name="methods"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
-                                    <FormLabel>
-                                        <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.provider.fields.code")}
-                                        </span>
-                                    </FormLabel>
+                                    <Label className="!mb-0">{translate("resources.provider.fields.code")}</Label>
                                     <FormControl>
                                         <MonacoEditor
                                             height="144px"

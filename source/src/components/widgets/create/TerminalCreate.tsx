@@ -9,6 +9,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoadingBlock } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 export interface ProviderCreateProps {
     provider: string;
@@ -69,7 +71,7 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
                             control={form.control}
                             name="verbose_name"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="w-full w-full p-2">
                                     <FormControl>
                                         <Input
                                             label={translate("resources.terminals.fields.verbose_name")}
@@ -88,18 +90,15 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
                         <FormField
                             control={form.control}
                             name="description"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                            render={({ field }) => (
+                                <FormItem className="w-full sm:w-full p-2">
+                                    <Label className="">{translate("resources.terminals.fields.description")}</Label>
                                     <FormControl>
-                                        <Input
-                                            label={translate("resources.terminals.fields.description")}
-                                            autoCorrect="off"
-                                            autoCapitalize="none"
-                                            spellCheck="false"
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            variant={InputTypes.GRAY}
+                                        <Textarea
                                             {...field}
+                                            value={field.value ?? ""}
+                                            placeholder={translate("resources.wallet.manage.fields.descr")}
+                                            className="w-full h-24 p-2 rounded resize-none overflow-auto dark:bg-muted text-title-1 outline-none !mt-0"
                                         />
                                     </FormControl>
                                 </FormItem>

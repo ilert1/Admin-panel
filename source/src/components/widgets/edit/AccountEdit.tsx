@@ -17,10 +17,11 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { TronWeb } from "tronweb";
+
 import { usePreventFocus } from "@/hooks";
 import { WalletTypes } from "@/helpers/wallet-types";
 import { Label } from "@/components/ui/label";
+import { isTRC20Address } from "@/helpers/isTRC20Address";
 
 const BF_MANAGER_URL = import.meta.env.VITE_BF_MANAGER_URL;
 
@@ -36,10 +37,6 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
 
     const translate = useTranslate();
     const refresh = useRefresh();
-
-    const isTRC20Address = (address: string): boolean => {
-        return TronWeb.isAddress(address);
-    };
 
     const formSchema = z.object({
         account_id: z.string(),

@@ -75,17 +75,18 @@ export const useGetTerminalColumns = () => {
             accessorKey: "auth",
             header: translate("resources.terminals.fields.auth"),
             cell: ({ row }) => {
+                const buttonDisabeled = Object.keys(row.original.auth).length === 0;
                 return (
                     <div className="flex items-center justify-center">
                         <Button
-                            disabled={Object.keys(row.original.auth).length === 0}
+                            disabled={buttonDisabeled}
                             onClick={() => {
                                 setAuthData(JSON.stringify(row.original.auth));
                                 setShowAuthKeyOpen(true);
                             }}
                             variant="text_btn"
                             className="h-7 w-7 p-0 bg-transparent">
-                            <EyeIcon className="text-green-50 size-7" />
+                            <EyeIcon className="size-7" />
                         </Button>
                     </div>
                 );
