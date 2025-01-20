@@ -1,6 +1,6 @@
 import { useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { ControllerRenderProps, useForm } from "react-hook-form";
-import { Input } from "@/components/ui/Input/input";
+import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, DragEvent, useEffect, useState } from "react";
 import { z } from "zod";
@@ -129,6 +129,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
                                         label={translate("app.widgets.forms.userCreate.name")}
+                                        variant={InputTypes.GRAY}
                                         {...field}
                                     />
                                 </FormControl>

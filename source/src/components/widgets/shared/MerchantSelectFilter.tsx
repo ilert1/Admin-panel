@@ -96,7 +96,7 @@ export const MerchantSelectFilter = ({
                         <CommandGroup>
                             <CommandItem
                                 value={"null"}
-                                className="bg-white dark:bg-neutral-0 cursor-pointer hover:!text-white dark:hover:bg-green-50"
+                                className="bg-white dark:bg-neutral-100 cursor-pointer"
                                 onSelect={() => {
                                     onMerchantChanged("");
                                     setOpen(false);
@@ -115,7 +115,7 @@ export const MerchantSelectFilter = ({
                                     key={account.id}
                                     value={account.id}
                                     onSelect={onSelectMerchant}
-                                    className="bg-white dark:bg-neutral-0 cursor-pointer hover:!text-white dark:hover:bg-green-50">
+                                    className="bg-white dark:bg-neutral-100 cursor-pointer">
                                     {merchantName(account)}
                                     <Check
                                         className={cn(

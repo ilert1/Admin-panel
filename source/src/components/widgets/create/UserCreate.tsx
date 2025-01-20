@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 import { CreateContextProvider, useCreateController, useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/Input/input";
+import { Input, InputTypes } from "@/components/ui/Input/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -145,6 +145,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 disabled={currenciesLoading}
+                                                variant={InputTypes.GRAY}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -172,6 +173,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                                 autoCorrect="off"
                                                 autoCapitalize="none"
                                                 spellCheck="false"
+                                                variant={InputTypes.GRAY}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -199,6 +201,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                                 autoCorrect="off"
                                                 autoComplete={isFirefox ? "new-password" : "off"}
                                                 autoCapitalize="none"
+                                                variant={InputTypes.GRAY}
                                                 {...field}
                                                 ref={input => {
                                                     if (input) {
@@ -233,6 +236,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                                 autoCorrect="off"
                                                 spellCheck="false"
                                                 autoCapitalize="none"
+                                                variant={InputTypes.GRAY}
                                                 ref={input => {
                                                     if (input) {
                                                         input.removeAttribute("readonly");
