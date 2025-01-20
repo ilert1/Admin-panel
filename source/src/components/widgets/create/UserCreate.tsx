@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 import { CreateContextProvider, useCreateController, useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -130,7 +130,6 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                 control={form.control}
                                 render={({ field, fieldState }) => (
                                     <FormItem className="space-y-1">
-                                        <FormLabel>{translate("app.widgets.forms.userCreate.name")}</FormLabel>
                                         <FormControl>
                                             <Input
                                                 className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
@@ -138,32 +137,16 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                         : ""
                                                 }`}
+                                                label={translate("app.widgets.forms.userCreate.name")}
                                                 autoComplete={isFirefox ? "new-password" : "off"}
                                                 autoCorrect="off"
                                                 autoCapitalize="none"
                                                 spellCheck="false"
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
                                                 disabled={currenciesLoading}
-                                                {...field}>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
-                                            </Input>
+                                                {...field}
+                                            />
                                         </FormControl>
                                     </FormItem>
                                 )}
@@ -174,7 +157,6 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                 control={form.control}
                                 render={({ field, fieldState }) => (
                                     <FormItem className="space-y-1">
-                                        <FormLabel>{translate("app.widgets.forms.userCreate.login")}</FormLabel>
                                         <FormControl>
                                             <Input
                                                 className={`dark:bg-muted text-sm text-neutral-100  disabled:dark:bg-muted ${
@@ -182,32 +164,16 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                         : ""
                                                 }`}
+                                                label={translate("app.widgets.forms.userCreate.login")}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
                                                 disabled={currenciesLoading}
                                                 autoComplete={isFirefox ? "new-password" : "off"}
                                                 autoCorrect="off"
                                                 autoCapitalize="none"
                                                 spellCheck="false"
-                                                {...field}>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
-                                            </Input>
+                                                {...field}
+                                            />
                                         </FormControl>
                                     </FormItem>
                                 )}
@@ -218,7 +184,6 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                 control={form.control}
                                 render={({ field, fieldState }) => (
                                     <FormItem className="space-y-1">
-                                        <FormLabel>{translate("app.widgets.forms.userCreate.email")}</FormLabel>
                                         <FormControl>
                                             <Input
                                                 className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
@@ -226,37 +191,21 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                         : ""
                                                 }`}
+                                                label={translate("app.widgets.forms.userCreate.email")}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
                                                 disabled={currenciesLoading}
-                                                {...field}
                                                 spellCheck="false"
                                                 autoCorrect="off"
                                                 autoComplete={isFirefox ? "new-password" : "off"}
                                                 autoCapitalize="none"
+                                                {...field}
                                                 ref={input => {
                                                     if (input) {
                                                         input.removeAttribute("readonly");
                                                     }
-                                                }}>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
-                                            </Input>
+                                                }}
+                                            />
                                         </FormControl>
                                     </FormItem>
                                 )}
@@ -267,7 +216,6 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                 control={form.control}
                                 render={({ field, fieldState }) => (
                                     <FormItem className="space-y-1">
-                                        <FormLabel>{translate("app.widgets.forms.userCreate.password")}</FormLabel>
                                         <FormControl>
                                             <Input
                                                 type="text"
@@ -276,6 +224,9 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                         : ""
                                                 }`}
+                                                label={translate("app.widgets.forms.userCreate.password")}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
                                                 disabled={currenciesLoading}
                                                 {...field}
                                                 autoComplete="new-password"
@@ -286,27 +237,8 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                                     if (input) {
                                                         input.removeAttribute("readonly");
                                                     }
-                                                }}>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
-                                            </Input>
+                                                }}
+                                            />
                                         </FormControl>
                                     </FormItem>
                                 )}
@@ -431,7 +363,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                 onClick={() => {
                                     onOpenChange(false);
                                 }}
-                                variant="deleteGray">
+                                variant="outline_gray">
                                 {translate("app.widgets.forms.userCreate.cancelBtn")}
                             </Button>
                         </div>

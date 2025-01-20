@@ -35,16 +35,16 @@ export const DirectionListFilter = () => {
 
     return (
         <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
-            <div className="flex flex-1 flex-grow-100 min-w-[500px] md:flex-col gap-2 items-center md:items-start">
+            <div className="flex flex-1 flex-grow-100 min-w-[500px] md:flex-col gap-1 items-center md:items-start">
                 <span className="md:text-nowrap">{translate("resources.transactions.filter.filterByAccount")}</span>
 
                 <MerchantSelectFilter merchant={merchantId} onMerchantChanged={onAccountChanged} resource="merchant" />
             </div>
 
             <Button
-                className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7 text-neutral-70 dark:text-neutral-50 active:text-green-50 hover:text-green-60"
+                className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7"
                 onClick={clearFilters}
-                variant="clearBtn"
+                variant="text_btn_sec"
                 size="default"
                 disabled={!merchantId}>
                 <span>{translate("resources.transactions.filter.clearFilters")}</span>

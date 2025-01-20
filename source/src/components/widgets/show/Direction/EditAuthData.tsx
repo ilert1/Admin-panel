@@ -92,7 +92,7 @@ export const EditAuthData = (props: EditAuthDataProps) => {
                             <Button onClick={() => handleSaveClicked()} disabled={hasErrors || !isValid}>
                                 {translate("app.ui.actions.save")}
                             </Button>
-                            <Button onClick={() => onOpenChange(false)} variant={"deleteGray"}>
+                            <Button onClick={() => onOpenChange(false)} variant={"outline_gray"}>
                                 {translate("app.ui.actions.cancel")}
                             </Button>
                         </div>

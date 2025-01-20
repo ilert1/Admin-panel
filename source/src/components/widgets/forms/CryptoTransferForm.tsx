@@ -1,13 +1,12 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useDataProvider, useInfiniteGetList, useTranslate } from "react-admin";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { TriangleAlert, WalletMinimal } from "lucide-react";
+import { WalletMinimal } from "lucide-react";
 import { Icon } from "../shared/Icon";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectType } from "@/components/ui/select";
 import { CreateWalletDialog } from "../lists/Wallets";
@@ -197,13 +196,13 @@ export const CryptoTransferForm = (props: {
         return (
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="">
-                    <div className="flex flex-col lg:w-[325px] max-w-[476px] px-6 py-4 bg-neutral-0 rounded-2xl gap-4">
+                    <div className="flex flex-col lg:w-[325px] max-w-[476px] px-6 py-4 bg-neutral-0 dark:bg-neutral-100 rounded-2xl gap-4">
                         <div className="flex-1">
                             <FormField
                                 disabled={props.loading}
                                 control={form.control}
                                 name="address"
-                                render={({ field }) => (
+                                render={({ field, fieldState }) => (
                                     <FormItem>
                                         <FormLabel className="text-note-1 text-neutral-80 dark:text-neutral-30">
                                             {translate("app.widgets.forms.cryptoTransfer.address")}
@@ -216,7 +215,10 @@ export const CryptoTransferForm = (props: {
                                                 onValueChange={field.onChange}
                                                 disabled={props.loading}>
                                                 <FormControl>
-                                                    <SelectTrigger variant={SelectType.DEFAULT}>
+                                                    <SelectTrigger
+                                                        variant={SelectType.DEFAULT}
+                                                        isError={fieldState.invalid}
+                                                        errorMessage={<FormMessage />}>
                                                         <span className="truncate">{field.value}</span>
                                                     </SelectTrigger>
                                                 </FormControl>
@@ -287,7 +289,6 @@ export const CryptoTransferForm = (props: {
                                                 </SelectContent>
                                             </Select>
                                         </FormControl>
-                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
@@ -299,17 +300,12 @@ export const CryptoTransferForm = (props: {
                                 name="amount"
                                 render={({ field, fieldState }) => (
                                     <FormItem>
-                                        <FormLabel className="text-note-1 text-neutral-80 dark:text-neutral-30">
-                                            {translate("app.widgets.forms.cryptoTransfer.amount")}
-                                        </FormLabel>
                                         <FormControl>
                                             <Input
                                                 autoComplete="off"
-                                                className={`${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate("app.widgets.forms.cryptoTransfer.amount")}
                                                 {...field}
                                                 onChange={e => {
                                                     field.onChange(e.target.value);
@@ -319,29 +315,9 @@ export const CryptoTransferForm = (props: {
                                                         setChecked(false);
                                                     }
                                                     form.trigger("amount");
-                                                }}>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
-                                            </Input>
+                                                }}
+                                            />
                                         </FormControl>
-                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
@@ -404,7 +380,7 @@ export const CryptoTransferForm = (props: {
         );
     else if (props.transferState === "success" || props.transferState === "error")
         return (
-            <div className="flex flex-col max-w-[476px] h-[308px] px-6 py-4 bg-neutral-0 rounded-2xl gap-6 justify-center items-center">
+            <div className="flex flex-col max-w-[476px] h-[308px] px-6 py-4 bg-neutral-0 dark:bg-neutral-100 rounded-2xl gap-6 justify-center items-center">
                 <div className="flex flex-col gap-2 items-center">
                     <div className="w-[114px]">
                         {props.transferState === "success" && <Icon name="BlowFishCheck" />}

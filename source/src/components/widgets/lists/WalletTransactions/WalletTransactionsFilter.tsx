@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input/input";
+import { Label } from "@/components/ui/label";
 import { Loading } from "@/components/ui/loading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import fetchDictionaries from "@/helpers/get-dictionaries";
@@ -102,23 +103,19 @@ export const WalletTransactionsFilter = () => {
         <div className="mb-6">
             <div className="w-full mb-6 flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
                 <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
-                    <label>
-                        <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
-                            {translate("resources.wallet.transactions.filterBar.searchById")}
-                        </span>
-                    </label>
                     <Input
+                        label={translate("resources.wallet.transactions.filterBar.searchById")}
+                        labelSize="title-2"
                         placeholder="ID"
                         value={transactionId}
                         onChange={onTransactionIdChanged}
-                        className="h-[38px]"
                     />
                 </div>
 
-                <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start min-w-36">
-                    <span className="md:text-nowrap text-neutral-60 dark:text-neutral-30">
+                <div className="flex flex-1 md:flex-col gap-1 items-center md:items-start min-w-36">
+                    <Label className="mb-0" variant="title-2">
                         {translate("resources.wallet.transactions.filterBar.paymentStatus")}
-                    </span>
+                    </Label>
 
                     <Select
                         onValueChange={val => (val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged(""))}
@@ -165,7 +162,7 @@ export const WalletTransactionsFilter = () => {
                 <Button
                     className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7 text-neutral-70 dark:text-neutral-50 active:text-green-50 hover:text-green-60"
                     onClick={clearFilters}
-                    variant="clearBtn"
+                    variant="text_btn"
                     size="default"
                     disabled={!transactionId && !stateFilter && !dateCreate && !dateUpdate && !typeTabActive}>
                     <span>{translate("resources.transactions.filter.clearFilters")}</span>

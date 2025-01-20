@@ -2,6 +2,7 @@ import { UIEvent, useMemo, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useInfiniteGetList, useTranslate } from "react-admin";
 import { LoadingBlock } from "@/components/ui/loading";
+import { Label } from "@/components/ui/label";
 
 export const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvider: (provider: string) => void }) => {
     const {
@@ -35,9 +36,9 @@ export const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvi
     return (
         <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
             <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start min-w-52">
-                <span className="md:text-nowrap text-neutral-70 dark:text-neutral-30">
+                <Label className="mb-0" variant="title-2">
                     {translate("resources.terminals.selectHeader")}
-                </span>
+                </Label>
 
                 <Select onValueChange={onProviderChanged} value={providerName}>
                     <SelectTrigger className="text-ellipsis">

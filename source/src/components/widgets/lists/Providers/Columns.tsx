@@ -106,7 +106,7 @@ export const useGetProvidersColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => handleClickGenerate(row.original.id)} variant={"clearBtn"}>
+                        <Button onClick={() => handleClickGenerate(row.original.id)} variant={"text_btn"}>
                             <img src="/reload-round.svg" />
                         </Button>
                     </div>
@@ -121,7 +121,7 @@ export const useGetProvidersColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => handleEditClicked(row.original.id)} variant={"clearBtn"}>
+                        <Button onClick={() => handleEditClicked(row.original.id)} variant={"text_btn"}>
                             <Pencil className="text-green-50" />
                         </Button>
                     </div>
@@ -136,7 +136,7 @@ export const useGetProvidersColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => handleDeleteClicked(row.original.name)} variant={"clearBtn"}>
+                        <Button onClick={() => handleDeleteClicked(row.original.name)} variant={"text_btn"}>
                             <Trash2 className="text-green-50" />
                         </Button>
                     </div>

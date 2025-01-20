@@ -24,7 +24,6 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     if (context.isLoading || !context.record || listContext.isLoading || !listContext.data) {
         return <LoadingBlock />;
     }
-
     return (
         <div className="mx-6">
             {(context.record.meta?.TRC20 || context.record.meta?.tron_wallet) && (

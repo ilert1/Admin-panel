@@ -7,6 +7,7 @@ import {
 import { Avatar } from "@/components/ui/avatar";
 import { useI18nProvider, useLocaleState } from "react-admin";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 export const LangSwitcher = () => {
     const [locale, setLocale] = useLocaleState();
@@ -23,23 +24,23 @@ export const LangSwitcher = () => {
         <DropdownMenu onOpenChange={setLangOpen}>
             <DropdownMenuTrigger asChild className="select-none">
                 <Avatar
-                    className={
+                    className={cn(
+                        "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 border-2",
                         langOpen
-                            ? "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 dark:text-neutral-100 border-2 border-green-50 bg-green-0 dark:bg-green-50 transition-colors duration-150"
-                            : "cursor-pointer w-[60px] h-[60px] flex items-center justify-center text-neutral-50 dark:hover:text-neutral-100 border-2 border-neutral-50 hover:border-green-50 bg-white dark:bg-muted dark:hover:bg-green-50  transition-colors duration-150"
-                    }>
-                    {/* <LanguagesIcon className="h-[30px] w-[30px]" /> */}
-                    <span className="text-display-3">{locale.toUpperCase()}</span>
+                            ? "dark:border-neutral-20 dark:text-neutral-50 border-green-20 bg-green-0 dark:bg-muted"
+                            : "border-neutral-50 hover:border-green-20 bg-white dark:bg-muted dark:hover:bg-green-50"
+                    )}>
+                    <span className="text-display-3 transition-colors duration-150">{locale.toUpperCase()}</span>
                 </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent
                 align="end"
-                className="p-0 bg-muted border border-green-40 dark:border-neutral-100 z-[60]">
+                className="p-0 bg-muted border border-green-20 dark:border-neutral-20 z-[60] ">
                 {getLocales?.().map(locale => (
                     <DropdownMenuItem
                         key={locale.locale}
                         onClick={() => changeLocale(locale.locale)}
-                        className="text-title-2 py-[14px] focus:bg-green-50 focus:cursor-pointer pl-4 pr-4 hover:text-white focus:text-white">
+                        className="text-title-2 py-[14px] focus:bg-green-50 focus:cursor-pointer pl-4 pr-4 hover:!text-neutral-0">
                         {locale.name}
                     </DropdownMenuItem>
                 ))}

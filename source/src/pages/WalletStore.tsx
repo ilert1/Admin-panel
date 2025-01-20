@@ -115,7 +115,7 @@ export const WalletStore = () => {
                 />
             </div>
             <section className="flex items-center justify-center">
-                <div className="rounded-16 bg-neutral-0 p-[30px] flex flex-col gap-6 max-w-[500px] min-w-[200px] w-full">
+                <div className="rounded-16 bg-neutral-0 dark:bg-neutral-100 p-[30px] flex flex-col gap-6 max-w-[500px] min-w-[200px] w-full">
                     {storageStateLoading ? (
                         <LoadingBlock />
                     ) : (
@@ -123,7 +123,7 @@ export const WalletStore = () => {
                             {!storageState?.initiated && (
                                 <>
                                     {stepForUnsealed !== "error" ? (
-                                        <h2 className="text-xl text-neutral-100 text-center">
+                                        <h2 className="text-xl text-neutral-100 dark:text-neutral-0 text-center">
                                             {translate("resources.wallet.storage.initiatedTitle")}
                                         </h2>
                                     ) : (
@@ -131,7 +131,7 @@ export const WalletStore = () => {
                                             <h2 className="text-xl text-red-40">
                                                 {translate("resources.wallet.storage.initiatedError")}
                                             </h2>
-                                            <h3 className="text-sm text-neutral-100">
+                                            <h3 className="text-sm text-neutral-100 dark:text-neutral-0">
                                                 {translate("resources.wallet.storage.unsealed.errorSubtitle")}
                                             </h3>
                                         </div>
@@ -152,7 +152,7 @@ export const WalletStore = () => {
                             {storageState?.state === "sealed" && storageState?.initiated && (
                                 <>
                                     {stepForUnsealed !== "error" ? (
-                                        <h2 className="text-xl text-neutral-100 text-center">
+                                        <h2 className="text-xl text-neutral-100 dark:text-neutral-0 text-center">
                                             {translate("resources.wallet.storage.titleClosed")}
                                         </h2>
                                     ) : (
@@ -160,7 +160,7 @@ export const WalletStore = () => {
                                             <h2 className="text-xl text-red-40">
                                                 {translate("resources.wallet.storage.unsealed.errorTitle")}
                                             </h2>
-                                            <h3 className="text-sm text-neutral-100">
+                                            <h3 className="text-sm text-neutral-100 dark:text-neutral-0">
                                                 {translate("resources.wallet.storage.unsealed.errorSubtitle")}
                                             </h3>
                                         </div>
@@ -202,7 +202,7 @@ export const WalletStore = () => {
                                                         <FormControl>
                                                             <Textarea
                                                                 autoFocus
-                                                                className={`text-sm text-neutral-100 disabled:dark:bg-muted resize-none min-h-24 ${
+                                                                className={`text-sm text-neutral-100 dark:text-neutral-0 disabled:dark:bg-muted resize-none min-h-24 ${
                                                                     fieldState.invalid
                                                                         ? "border-red-40 hover:border-red-50 focus-visible:border-red-50 active:border-red-50"
                                                                         : ""
@@ -255,7 +255,7 @@ export const WalletStore = () => {
                                 storageState?.initiated &&
                                 stepForUnsealed !== 1 && (
                                     <>
-                                        <h2 className="text-xl text-neutral-100 text-center">
+                                        <h2 className="text-xl text-neutral-100 dark:text-neutral-0 text-center">
                                             {storageState?.state === "waiting"
                                                 ? translate("resources.wallet.storage.titleClosed")
                                                 : translate("resources.wallet.storage.titleOpened")}

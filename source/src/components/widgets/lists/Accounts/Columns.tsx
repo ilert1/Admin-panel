@@ -48,7 +48,7 @@ export const useGetAccountsColumns = () => {
                                 }}
                             />
 
-                            <span className="text-nowrap overflow-hidden text-ellipsis max-w-[160px] min-w-[100px]">
+                            <span className="text-nowrap overflow-hidden text-ellipsis max-w-[160px] min-w-[100px] text-neutral-70">
                                 {(row.getValue("owner") as Array<string>)[1]}
                             </span>
                         </div>
@@ -118,7 +118,7 @@ export const useGetAccountsColumns = () => {
                                           setShowAccountId(row.original.id);
                                           setShowEditDialog(true);
                                       }}
-                                      variant="textBtn"
+                                      variant="text_btn"
                                       className="h-8 w-8 p-0 bg-transparent">
                                       <Pen className="h-6 w-6" />
                                   </Button>
@@ -136,7 +136,7 @@ export const useGetAccountsColumns = () => {
                     <Button
                         variant="secondary"
                         onClick={() => openSheet(row.original.id, row.original.meta?.caption)}
-                        className="flex items-center h-7 w-7 p-0 bg-transparent">
+                        className="flex items-center h-7 w-7 p-0 bg-transparent w-full">
                         <EyeIcon className="text-green-50 size-7" />
                     </Button>
                 );

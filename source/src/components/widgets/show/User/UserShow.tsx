@@ -33,7 +33,7 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
     return (
         <div className="relative">
             <div className="px-[42px] pb-[25px] flex flex-col sm:flex-row justify-between">
-                <TextField text={id} copyValue />
+                <TextField text={id} copyValue className="text-neutral-70 dark:text-neutral-30" />
 
                 <div className="flex items-center justify-center">
                     <span
@@ -66,7 +66,7 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
                     {translate("resources.users.edit")}
                 </Button>
 
-                <Button variant={"deleteGray"} onClick={() => setDialogOpen(true)}>
+                <Button variant={"outline_gray"} onClick={() => setDialogOpen(true)}>
                     {translate("resources.users.delete")}
                 </Button>
             </div>

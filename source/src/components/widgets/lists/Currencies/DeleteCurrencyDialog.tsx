@@ -51,11 +51,10 @@ export const DeleteCurrencyDialog = ({ open, id, onOpenChange }: DeleteCurrencyD
                     <Button onClick={handleDelete} variant="default">
                         {translate("app.ui.actions.delete")}
                     </Button>
-
                     <Button
                         onClick={() => onOpenChange(false)}
-                        variant="secondary"
-                        className="border border-green-50 rounded-4 hover:border-green-40">
+                        variant="outline"
+                        className="bg-neutral-0 dark:bg-neutral-100">
                         {translate("app.ui.actions.cancel")}
                     </Button>
                 </div>

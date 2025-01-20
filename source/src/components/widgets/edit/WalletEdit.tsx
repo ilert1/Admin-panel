@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from "@/components/ui/button";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input, InputTypes } from "@/components/ui/input";
+import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Label } from "@/components/ui/label";
 import { LoadingBlock } from "@/components/ui/loading";
 import {
@@ -298,13 +298,13 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                         />
                     </div>
 
-                    <div className="self-end flex items-center gap-4">
+                    <div className="self-end flex items-center gap-4 ">
                         <Button type="submit" variant="default">
                             {translate("app.ui.actions.save")}
                         </Button>
                         <Button
                             onClick={() => onOpenChange(false)}
-                            variant="deleteGray"
+                            variant="outline_gray"
                             className="border border-neutral-50 rounded-4 hover:border-neutral-100">
                             {translate("app.ui.actions.cancel")}
                         </Button>
@@ -317,12 +317,12 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             control={formMerchant.control}
                             name="description"
                             render={({ field }) => (
-                                <FormItem className="w-full p-2">
+                                <FormItem className="w-full">
                                     <FormLabel>{translate("resources.wallet.manage.fields.descr")}</FormLabel>
                                     <FormControl>
                                         <div>
                                             <Label />
-                                            <textarea
+                                            <Textarea
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
@@ -341,9 +341,9 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                         </Button>
                         <Button
                             onClick={() => onOpenChange(false)}
-                            variant="deleteGray"
+                            variant="outline_gray"
                             type="button"
-                            className="w-full sm:w-auto">
+                            className="w-full sm:w-auto ">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>

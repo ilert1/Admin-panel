@@ -75,7 +75,7 @@ export const useGetCurrencyColumns = () => {
                                 setCurrencyId(row.original.id);
                                 setShowEditDialog(true);
                             }}
-                            variant="textBtn"
+                            variant="text_btn"
                             className="h-8 w-8 p-0 bg-transparent">
                             <Pen className="h-6 w-6" />
                         </Button>
@@ -94,7 +94,7 @@ export const useGetCurrencyColumns = () => {
                                 setCurrencyId(row.original.id);
                                 setShowDeleteDialog(true);
                             }}
-                            variant="textBtn"
+                            variant="text_btn"
                             className="h-8 w-8 p-0 bg-transparent">
                             <Trash2 className="h-6 w-6" />
                         </Button>

@@ -75,17 +75,18 @@ export const useGetTerminalColumns = () => {
             accessorKey: "auth",
             header: translate("resources.terminals.fields.auth"),
             cell: ({ row }) => {
+                const buttonDisabeled = Object.keys(row.original.auth).length === 0;
                 return (
                     <div className="flex items-center justify-center">
                         <Button
-                            disabled={Object.keys(row.original.auth).length === 0}
+                            disabled={buttonDisabeled}
                             onClick={() => {
                                 setAuthData(JSON.stringify(row.original.auth));
                                 setShowAuthKeyOpen(true);
                             }}
-                            variant="clearBtn"
+                            variant="text_btn"
                             className="h-7 w-7 p-0 bg-transparent">
-                            <EyeIcon className="text-green-50 size-7" />
+                            <EyeIcon className="size-7" />
                         </Button>
                     </div>
                 );
@@ -99,7 +100,7 @@ export const useGetTerminalColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => handleEditClicked(row.original.terminal_id)} variant={"clearBtn"}>
+                        <Button onClick={() => handleEditClicked(row.original.terminal_id)} variant={"text_btn"}>
                             <Pencil className="text-green-50" />
                         </Button>
                     </div>
@@ -114,7 +115,7 @@ export const useGetTerminalColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => handleDeleteClicked(row.original.terminal_id)} variant={"clearBtn"}>
+                        <Button onClick={() => handleDeleteClicked(row.original.terminal_id)} variant={"text_btn"}>
                             <Trash2 className="text-green-50" />
                         </Button>
                     </div>

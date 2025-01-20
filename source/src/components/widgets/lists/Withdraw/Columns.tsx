@@ -90,7 +90,7 @@ export const useGetWithdrawColumns = () => {
                               <div>
                                   <TextField text={merch?.name ?? ""} wrap />
                                   <TextField
-                                      className="text-neutral-60 dark:text-neutral-70"
+                                      className="text-neutral-70"
                                       text={row.original.source.id}
                                       wrap
                                       copyValue

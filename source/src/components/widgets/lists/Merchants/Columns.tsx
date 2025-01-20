@@ -40,7 +40,14 @@ export const useGetMerchantColumns = () => {
                 return (
                     <div>
                         <TextField text={row.original.name} />
-                        <TextField copyValue text={row.original.id} lineClamp linesCount={1} minWidth="50px" />
+                        <TextField
+                            copyValue
+                            text={row.original.id}
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                            className="text-neutral-70"
+                        />
                     </div>
                 );
             }
@@ -74,7 +81,7 @@ export const useGetMerchantColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => handleShowClicked(row.original.id, "directions")} variant={"clearBtn"}>
+                        <Button onClick={() => handleShowClicked(row.original.id, "directions")} variant={"text_btn"}>
                             <EyeIcon className="text-green-50 size-7" />
                         </Button>
                     </div>
@@ -89,7 +96,7 @@ export const useGetMerchantColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => handleShowClicked(row.original.id, "fees")} variant={"clearBtn"}>
+                        <Button onClick={() => handleShowClicked(row.original.id, "fees")} variant={"text_btn"}>
                             {Object.entries(row.original.fees).length !== 0 ? (
                                 <EyeIcon className="text-green-50 size-7" />
                             ) : (
@@ -108,7 +115,7 @@ export const useGetMerchantColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => handleEditClicked(row.original.id)} variant={"clearBtn"}>
+                        <Button onClick={() => handleEditClicked(row.original.id)} variant={"text_btn"}>
                             <Pencil className="text-green-50" />
                         </Button>
                     </div>
@@ -123,7 +130,7 @@ export const useGetMerchantColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => handleDeleteClicked(row.original.id)} variant={"clearBtn"}>
+                        <Button onClick={() => handleDeleteClicked(row.original.id)} variant={"text_btn"}>
                             <Trash2 className="text-green-50" />
                         </Button>
                     </div>

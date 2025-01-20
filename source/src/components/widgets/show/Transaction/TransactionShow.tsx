@@ -178,32 +178,25 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 </div>
             )}
             <div className="flex gap-6">
-                <div className="flex flex-col">
-                    <span className="opacity-60 text-title-1">{translate("resources.transactions.fields.type")}</span>
+                <TextField
+                    label={translate("resources.transactions.fields.type")}
+                    text={translate(
+                        `resources.transactions.types.${data?.transactionTypes[
+                            context.record.type
+                        ]?.type_descr.toLowerCase()}`
+                    )}
+                />
 
-                    <TextField
-                        text={translate(
-                            `resources.transactions.types.${data?.transactionTypes[
-                                context.record.type
-                            ]?.type_descr.toLowerCase()}`
-                        )}
-                    />
-                </div>
-                <div className="flex flex-col">
-                    <span className="opacity-60 text-title-1">
-                        {translate("resources.transactions.fields.state.state_description")}
-                    </span>
-
-                    <TextField
-                        text={translate(
-                            `resources.transactions.states.${context.record.state.state_description.toLowerCase()}`
-                        )}
-                    />
-                </div>
+                <TextField
+                    label={translate("resources.transactions.fields.state.state_description")}
+                    text={translate(
+                        `resources.transactions.states.${context.record.state.state_description.toLowerCase()}`
+                    )}
+                />
 
                 {permissions === "admin" && (
                     <div className="flex flex-col">
-                        <span className="opacity-60 text-title-1">
+                        <span className="text-neutral-60 dark:text-neutral-40">
                             {translate("resources.transactions.fields.destination.header")}
                         </span>
 

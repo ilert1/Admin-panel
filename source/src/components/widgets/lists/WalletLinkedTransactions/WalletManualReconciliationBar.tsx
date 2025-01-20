@@ -1,13 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/Input/input";
 import { LoadingBalance } from "@/components/ui/loading";
 import { useState } from "react";
 import { fetchUtils, useRefresh, useTranslate } from "react-admin";
 import { toast } from "sonner";
 
 const WALLET_URL = import.meta.env.VITE_WALLET_URL;
+
+function isValidTxIDFormat(txID: string) {
+    const txIDRegex = /^[a-f0-9]{64}$/i;
+    return txIDRegex.test(txID);
+}
 
 export const WalletManualReconciliationBar = () => {
     const translate = useTranslate();
@@ -16,6 +20,7 @@ export const WalletManualReconciliationBar = () => {
     const [manualClicked, setManualClicked] = useState(false);
     const [inputVal, setInputVal] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
 
     const handleCheckCLicked = async () => {
         if (isLoading) return;
@@ -59,6 +64,17 @@ export const WalletManualReconciliationBar = () => {
         setManualClicked(!manualClicked);
     };
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setInputVal(value);
+
+        if (!isValidTxIDFormat(value)) {
+            setIsError(true);
+        } else {
+            setIsError(false);
+        }
+    };
+
     return (
         <div className="flex justify-end items-end mb-6">
             <Button
@@ -79,20 +95,21 @@ export const WalletManualReconciliationBar = () => {
 
                     <DialogDescription />
                     <div className="mb-4 flex flex-col gap-4">
-                        <div>
-                            <Label htmlFor="inputManual">
-                                {translate("resources.wallet.linkedTransactions.fields.transactionId")}
-                            </Label>
-
-                            <Input id="inputManual" value={inputVal} onChange={e => setInputVal(e.target.value)} />
-                        </div>
+                        <Input
+                            id="inputManual"
+                            value={inputVal}
+                            error={isError}
+                            errorMessage={"Wrong format of TRC20 transaction id"}
+                            onChange={handleChange}
+                            label={translate("resources.wallet.linkedTransactions.fields.transactionId")}
+                        />
 
                         <div className="flex flex-col sm:self-end sm:flex-row items-center gap-4">
                             <Button
                                 onClick={handleCheckCLicked}
                                 variant="default"
                                 className="w-full sm:w-auto"
-                                disabled={!inputVal.length || isLoading}>
+                                disabled={!inputVal.length || isLoading || isError}>
                                 {isLoading ? (
                                     <div className="flex flex-col items-center justify-center">
                                         <LoadingBalance className="w-[15px] h-[15px] overflow-hidden" />
@@ -104,7 +121,7 @@ export const WalletManualReconciliationBar = () => {
 
                             <Button
                                 onClick={onOpenChange}
-                                variant="deleteGray"
+                                variant="outline_gray"
                                 type="button"
                                 className="w-full sm:w-auto">
                                 {translate("app.ui.actions.cancel")}

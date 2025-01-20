@@ -1,10 +1,18 @@
 import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Loading } from "@/components/ui/loading";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -35,7 +43,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
             closeDialog();
         } catch (error) {
             toast.error("Error", {
-                description: translate("resources.currency.errors.alreadyInUse"),
+                description: translate("resources.currency.error.alreadyInUse"),
                 dismissible: true,
                 duration: 3000
             });
@@ -44,7 +52,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
     };
 
     const formSchema = z.object({
-        code: z.string().min(1, translate("resources.currency.errors.code")),
+        code: z.string().min(1, translate("resources.currency.error.code")),
         position: z.enum([PositionEnum.AFTER, PositionEnum.BEFORE]),
         symbol: z.string().trim().nullable(),
         is_coin: z.boolean().default(false)
@@ -54,7 +62,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
         resolver: zodResolver(formSchema),
         defaultValues: {
             code: "",
-            position: undefined,
+            position: PositionEnum.BEFORE,
             symbol: "",
             is_coin: false
         }
@@ -72,33 +80,15 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                             name="code"
                             render={({ field, fieldState }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>{translate("resources.currency.fields.currencyName")}</FormLabel>
                                     <FormControl>
                                         <Input
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
-                                            {...field}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Input>
+                                            className="text-sm"
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.currency.fields.currencyName")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            {...field}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -109,34 +99,15 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                             name="symbol"
                             render={({ field, fieldState }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>{translate("resources.currency.fields.symbol")}</FormLabel>
                                     <FormControl>
                                         <Input
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
-                                            {...field}
-                                            value={field.value ?? ""}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Input>
+                                            className="text-sm"
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.currency.fields.symbol")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            value={field.value ?? ""}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -153,44 +124,23 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                                         value={field.value ? "true" : "false"}>
                                         <FormControl>
                                             <SelectTrigger
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}>
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
                                                 <div className="mr-auto">
                                                     <SelectValue
                                                         placeholder={translate("resources.currency.fields.type")}
                                                     />
                                                 </div>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger className="ml-3 order-3" asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
                                             </SelectTrigger>
                                         </FormControl>
 
                                         <SelectContent className="!dark:bg-muted">
                                             <SelectGroup>
-                                                <SelectItem value="false">
+                                                <SelectItem value="false" variant={SelectType.GRAY}>
                                                     {translate("resources.currency.fields.fiat")}
                                                 </SelectItem>
-                                                <SelectItem value="true">
+                                                <SelectItem value="true" variant={SelectType.GRAY}>
                                                     {translate("resources.currency.fields.crypto")}
                                                 </SelectItem>
                                             </SelectGroup>
@@ -199,7 +149,6 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             control={form.control}
                             name="position"
@@ -211,43 +160,19 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                                             onValueChange={value => field.onChange(value as PositionEnum)}
                                             value={field.value}>
                                             <SelectTrigger
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted  ${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}>
-                                                <div className="mr-auto">
-                                                    <SelectValue
-                                                        placeholder={translate("resources.currency.fields.before")}
-                                                    />
-                                                </div>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger className="ml-3 order-3" asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
+                                                <SelectValue
+                                                    placeholder={translate("resources.currency.fields.before")}
+                                                />
                                             </SelectTrigger>
-
                                             <SelectContent className="!dark:bg-muted">
                                                 <SelectGroup>
-                                                    <SelectItem value={PositionEnum.BEFORE}>
+                                                    <SelectItem value={PositionEnum.BEFORE} variant={SelectType.GRAY}>
                                                         {translate("resources.currency.fields.before")}
                                                     </SelectItem>
-                                                    <SelectItem value={PositionEnum.AFTER}>
+                                                    <SelectItem value={PositionEnum.AFTER} variant={SelectType.GRAY}>
                                                         {translate("resources.currency.fields.after")}
                                                     </SelectItem>
                                                 </SelectGroup>
@@ -260,11 +185,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                     </div>
 
                     <div className="sm:self-end flex flex-col sm:flex-row items-center gap-4">
-                        <Button
-                            type="submit"
-                            variant="default"
-                            disabled={submitButtonDisabled}
-                            className="w-full sm:w flex-1">
+                        <Button type="submit" disabled={submitButtonDisabled} className="w-full sm:w flex-1">
                             {translate("app.ui.actions.save")}
                         </Button>
 
@@ -272,7 +193,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                             onClick={() => {
                                 closeDialog();
                             }}
-                            variant="deleteGray">
+                            variant="outline_gray">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>

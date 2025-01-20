@@ -10,6 +10,7 @@ import {
     GetOneResult,
     UpdateParams
 } from "react-admin";
+
 import { BaseDataProvider, BF_MANAGER_URL } from "./base";
 
 export class UsersDataProvider extends BaseDataProvider {

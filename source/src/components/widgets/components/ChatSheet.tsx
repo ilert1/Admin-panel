@@ -1,6 +1,6 @@
 import { Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Input } from "../../ui/input";
+import { Input } from "../../ui/Input/input";
 import { Button } from "../../ui/button";
 import { Message, MessageProps } from "./Message";
 import { getMockMessages } from "@/data/mockMessages";

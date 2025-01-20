@@ -1,6 +1,6 @@
 import { useCreateController, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
 import { useForm } from "react-hook-form";
-import { Input, InputTypes } from "@/components/ui/input";
+import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -26,7 +26,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const formSchema = z.object({
-        name: z.string().min(1, translate("resources.merchant.errors.name")).trim(),
+        name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
         public_key: z.string().nullable(),
         fields_json_schema: z.string().optional().default(""),
         methods: z.string()
@@ -77,38 +77,34 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                         <FormField
                             control={form.control}
                             name="name"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>
-                                        <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.provider.fields._name")}
-                                        </span>
-                                    </FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input {...field} variant={InputTypes.GRAY} className="" />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            variant={InputTypes.GRAY}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            label={translate("resources.provider.fields._name")}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="fields_json_schema"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>
-                                        <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.provider.fields.json_schema")}
-                                        </span>
-                                    </FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input {...field} variant={InputTypes.GRAY} className="" />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            variant={InputTypes.GRAY}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            label={translate("resources.provider.fields.json_schema")}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -146,8 +142,8 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                             </Button>
                             <Button
                                 type="button"
-                                variant="deleteGray"
-                                className="flex-1 mt-4 sm:mt-0  w-full sm:w-1/2"
+                                variant="outline_gray"
+                                className="flex-1 mt-4 sm:mt-0 w-full sm:w-1/2"
                                 onClick={onClose}>
                                 {translate("app.ui.actions.cancel")}
                             </Button>

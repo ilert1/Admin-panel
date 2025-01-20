@@ -47,6 +47,7 @@ export const DeleteWalletDialog = (props: DeleteWalletDialogProps) => {
                     <div className="flex justify-around w-full">
                         <Button onClick={deleteElem}>{translate("app.ui.actions.delete")}</Button>
                         <Button
+                            className="bg-neutral-0 dark:bg-neutral-100"
                             variant={"outline"}
                             onClick={() => {
                                 onOpenChange(false);

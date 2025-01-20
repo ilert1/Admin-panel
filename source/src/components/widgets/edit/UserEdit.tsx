@@ -1,6 +1,6 @@
 import { useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { ControllerRenderProps, useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, DragEvent, useEffect, useState } from "react";
 import { z } from "zod";
@@ -119,7 +119,6 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <FormItem className="space-y-1 w-full">
-                                <FormLabel>{translate("app.widgets.forms.userCreate.name")}</FormLabel>
                                 <FormControl>
                                     <Input
                                         className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
@@ -127,21 +126,11 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                                                 ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
                                                 : ""
                                         }`}
-                                        {...field}>
-                                        {fieldState.invalid && (
-                                            <TooltipProvider>
-                                                <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <TriangleAlert className="text-red-40" width={14} height={14} />
-                                                    </TooltipTrigger>
-
-                                                    <TooltipContent className="border-none bottom-0" side="left">
-                                                        <FormMessage />
-                                                    </TooltipContent>
-                                                </Tooltip>
-                                            </TooltipProvider>
-                                        )}
-                                    </Input>
+                                        error={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                        label={translate("app.widgets.forms.userCreate.name")}
+                                        {...field}
+                                    />
                                 </FormControl>
                             </FormItem>
                         )}
@@ -200,7 +189,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                     <Button
                         type="button"
                         onClick={() => onOpenChange(false)}
-                        variant="deleteGray"
+                        variant="outline_gray"
                         className="border border-neutral-50 rounded-4 hover:border-neutral-100">
                         {translate("app.widgets.forms.userCreate.cancelBtn")}
                     </Button>

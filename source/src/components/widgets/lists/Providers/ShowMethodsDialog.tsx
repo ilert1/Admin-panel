@@ -65,7 +65,7 @@ export const ShowMethodsDialog = (props: ShowMethodDialogProps) => {
                 <DialogFooter>
                     <div className="flex justify-end w-full pr-1">
                         <Button
-                            variant="deleteGray"
+                            variant="outline_gray"
                             onClick={() => {
                                 onOpenChange(false);
                             }}>

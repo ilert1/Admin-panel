@@ -56,6 +56,7 @@ export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
                         <Button onClick={handleDelete}>{translate("app.ui.actions.delete")}</Button>
                         <Button
                             variant={"outline"}
+                            className="bg-neutral-0 dark:bg-neutral-100"
                             onClick={() => {
                                 onOpenChange(false);
                                 refresh();

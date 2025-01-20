@@ -1,7 +1,7 @@
-import polyglotI18nProvider from "ra-i18n-polyglot";
-import raRU from "ra-language-russian";
-import raEn from "ra-language-english";
 import { TranslationMessages } from "ra-core";
+import polyglotI18nProvider from "ra-i18n-polyglot";
+import raEn from "ra-language-english";
+import raRU from "ra-language-russian";
 
 const ru: TranslationMessages = {
     ...raRU,

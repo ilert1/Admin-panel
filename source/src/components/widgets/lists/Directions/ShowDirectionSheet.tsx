@@ -1,8 +1,8 @@
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
-import { XIcon } from "lucide-react";
 import { DirectionsShow } from "../../show";
 import { useTranslate } from "react-admin";
 import React from "react";
+import { CloseSheetXButton } from "../../components/CloseSheetXButton";
 
 export interface ShowDirectionSheetProps {
     id?: string;
@@ -27,11 +27,7 @@ export const ShowDirectionSheet: React.FC<ShowDirectionSheetProps> = props => {
                                 <SheetTitle className="!text-display-1">
                                     {translate("resources.direction.direction")}
                                 </SheetTitle>
-                                <button
-                                    onClick={() => onOpenChange(false)}
-                                    className="text-gray-500 hover:text-gray-700 transition-colors border-0 outline-0">
-                                    <XIcon className="h-[28px] w-[28px]" />
-                                </button>
+                                <CloseSheetXButton onOpenChange={onOpenChange} />
                             </div>
                         </div>
                     </div>

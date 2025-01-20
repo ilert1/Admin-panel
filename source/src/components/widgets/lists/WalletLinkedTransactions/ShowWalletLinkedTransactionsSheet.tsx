@@ -1,7 +1,7 @@
 import { useTranslate } from "react-admin";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
-import { XIcon } from "lucide-react";
 import { WalletLinkedTransactionShow } from "../../show/WalletLinkedTransactions";
+import { CloseSheetXButton } from "../../components/CloseSheetXButton";
 
 interface WalletLinkedTransactionShowProps {
     id: string;
@@ -24,11 +24,7 @@ export const ShowWalletLinkedTransactionsSheet = ({ id, open, onOpenChange }: Wa
                             <SheetTitle className="!text-display-1">
                                 {translate("resources.wallet.linkedTransactions.show")}
                             </SheetTitle>
-                            <button
-                                onClick={() => onOpenChange(false)}
-                                className="text-gray-500 hover:text-gray-700 transition-colors border-0 outline-0">
-                                <XIcon className="h-[28px] w-[28px]" />
-                            </button>
+                            <CloseSheetXButton onOpenChange={onOpenChange} />
                         </div>
                     </div>
                 </div>

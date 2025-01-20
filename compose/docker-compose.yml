@@ -21,8 +21,8 @@ services:
     restart: unless-stopped
     env_file: ./../.env
     labels:
-    - metrics_tenant=blowfish
-    - compose_project_name=${COMPOSE_PROJECT_NAME}
+      - metrics_tenant=blowfish
+      - compose_project_name=${COMPOSE_PROJECT_NAME}
 
 networks:
   default:
