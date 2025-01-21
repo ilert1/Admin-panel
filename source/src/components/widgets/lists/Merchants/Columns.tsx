@@ -92,9 +92,9 @@ export const useGetMerchantColumns = () => {
                     <div className="flex items-center justify-center">
                         <Button onClick={() => handleShowClicked(row.original.id, "fees")} variant={"text_btn"}>
                             {Object.entries(row.original.fees).length !== 0 ? (
-                                <EyeIcon className="text-green-50 size-7 hover:text-green-40" />
+                                <EyeIcon className="text-green-50 hover:text-green-40" />
                             ) : (
-                                <CirclePlus className="text-green-50 hover:text-green-40 hover:text-green-40" />
+                                <CirclePlus className="text-green-50 hover:text-green-40 " />
                             )}
                         </Button>
                     </div>
