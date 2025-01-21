@@ -118,7 +118,7 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
                         enabled: false
                     },
                     overviewRulerLanes: 0,
-                    lineNumbers: "on",
+                    lineNumbers: ln => '<span style="padding-left:5px">' + ln + "</span>",
                     scrollBeyondLastColumn: 0,
                     suggestOnTriggerCharacters: false,
                     quickSuggestions: false,
