@@ -1,4 +1,4 @@
-import { Button, EditButton, TrashButton } from "@/components/ui/Button";
+import { Button, EditButton, TrashButton, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { CirclePlus, EyeIcon } from "lucide-react";
@@ -79,13 +79,7 @@ export const useGetMerchantColumns = () => {
                 return <div className="text-center">{translate("resources.merchant.fields.directions")}</div>;
             },
             cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Button onClick={() => handleShowClicked(row.original.id, "directions")} variant={"text_btn"}>
-                            <EyeIcon className="text-green-50 size-7" />
-                        </Button>
-                    </div>
-                );
+                return <ShowButton onClick={() => handleShowClicked(row.original.id, "directions")} />;
             }
         },
         {
@@ -100,7 +94,7 @@ export const useGetMerchantColumns = () => {
                             {Object.entries(row.original.fees).length !== 0 ? (
                                 <EyeIcon className="text-green-50 size-7 hover:text-green-40" />
                             ) : (
-                                <CirclePlus className="text-green-50 hover:text-green-40" />
+                                <CirclePlus className="text-green-50 hover:text-green-40 hover:text-green-40" />
                             )}
                         </Button>
                     </div>

@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Button, EditButton, TrashButton } from "@/components/ui/Button";
+import { Button, EditButton, ShowButton, TrashButton } from "@/components/ui/Button";
 
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
+import ReloadRoundSvg from "@/lib/icons/reload_round.svg?react";
 
 export const useGetProvidersColumns = () => {
     const translate = useTranslate();
@@ -86,16 +87,7 @@ export const useGetProvidersColumns = () => {
                 return <div className="text-center">{translate("resources.provider.fields.methods")}</div>;
             },
             cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Button
-                            onClick={() => handleShowMethodsClicked(row.original.id)}
-                            variant="secondary"
-                            className="h-7 w-7 p-0 bg-transparent">
-                            <EyeIcon className="text-green-50 size-7" />
-                        </Button>
-                    </div>
-                );
+                return <ShowButton onClick={() => handleShowMethodsClicked(row.original.id)} />;
             }
         },
         {
@@ -107,7 +99,7 @@ export const useGetProvidersColumns = () => {
                 return (
                     <div className="flex items-center justify-center">
                         <Button onClick={() => handleClickGenerate(row.original.id)} variant={"text_btn"}>
-                            <img src="/reload-round.svg" />
+                            <ReloadRoundSvg className="stroke-green-50 hover:stroke-green-40" />
                         </Button>
                     </div>
                 );
