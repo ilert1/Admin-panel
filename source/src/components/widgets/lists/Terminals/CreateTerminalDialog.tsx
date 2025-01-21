@@ -1,11 +1,4 @@
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useTranslate } from "react-admin";
 import { TerminalCreate } from "../../create/TerminalCreate";
 
@@ -26,10 +19,8 @@ export const CreateTerminalDialog = ({ open, onOpenChange = () => {}, provider }
                     <DialogTitle className="mb-4 text-center">
                         {translate("resources.terminals.creatingTerminal")}
                     </DialogTitle>
-                    <DialogDescription></DialogDescription>
                     <TerminalCreate provider={provider} onClose={() => onOpenChange(false)} />
                 </DialogHeader>
-                <DialogFooter></DialogFooter>
             </DialogContent>
         </Dialog>
     );

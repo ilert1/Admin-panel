@@ -65,7 +65,7 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
     return (
         <CreateContextProvider value={controllerProps}>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                     <div className="flex flex-wrap">
                         <FormField
                             control={form.control}

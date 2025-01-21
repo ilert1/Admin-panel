@@ -96,7 +96,7 @@ export const MerchantSelectFilter = ({
                         <CommandGroup>
                             <CommandItem
                                 value={"null"}
-                                className="bg-white dark:bg-neutral-100 cursor-pointer "
+                                className="bg-white dark:bg-neutral-100 cursor-pointer"
                                 onSelect={() => {
                                     onMerchantChanged("");
                                     setOpen(false);
