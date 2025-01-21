@@ -187,7 +187,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             name="account_id"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.merchantName")}</FormLabel>
+                                    <Label>{translate("resources.wallet.manage.fields.merchantName")}</Label>
                                     <FormControl>
                                         <MerchantSelectFilter
                                             className="bg-white dark:bg-muted"
@@ -205,16 +205,14 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             name="currency"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.currency")}</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input
-                                                {...field}
-                                                className="bg-muted "
-                                                variant={InputTypes.GRAY}
-                                                disabled
-                                            />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            className="bg-muted "
+                                            variant={InputTypes.GRAY}
+                                            disabled
+                                            title={translate("resources.wallet.manage.fields.currency")}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -224,16 +222,14 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             name="blockchain"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.blockchain")}</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input
-                                                disabled
-                                                {...field}
-                                                className="bg-muted "
-                                                variant={InputTypes.GRAY}
-                                            />
-                                        </div>
+                                        <Input
+                                            disabled
+                                            {...field}
+                                            className="bg-muted "
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.wallet.manage.fields.blockchain")}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -244,16 +240,14 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             name="network"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.contactType")}</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input
-                                                disabled
-                                                {...field}
-                                                className="bg-muted "
-                                                variant={InputTypes.GRAY}
-                                            />
-                                        </div>
+                                        <Input
+                                            disabled
+                                            {...field}
+                                            className="bg-muted "
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.wallet.manage.fields.contactType")}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -263,15 +257,13 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             name="minimal_ballance_limit"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.minRemaini")}</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input
-                                                {...field}
-                                                className="bg-white dark:bg-muted "
-                                                variant={InputTypes.GRAY}
-                                            />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            className="bg-white dark:bg-muted "
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.wallet.manage.fields.minRemaini")}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -281,17 +273,14 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             name="description"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.descr")}</FormLabel>
+                                    <Label>{translate("resources.wallet.manage.fields.descr")}</Label>
                                     <FormControl>
-                                        <div>
-                                            <Label />
-                                            <Textarea
-                                                {...field}
-                                                value={field.value ?? ""}
-                                                placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 p-2 rounded resize-none overflow-auto bg-white dark:bg-muted text-title-1 "
-                                            />
-                                        </div>
+                                        <Textarea
+                                            {...field}
+                                            value={field.value ?? ""}
+                                            placeholder={translate("resources.wallet.manage.fields.descr")}
+                                            className="w-full h-24 resize-none overflow-auto"
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}

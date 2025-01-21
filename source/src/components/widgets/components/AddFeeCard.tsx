@@ -26,7 +26,7 @@ export interface AddFeeCardProps {
 }
 
 export const AddFeeCard = (props: AddFeeCardProps) => {
-    const { id, resource, onOpenChange, setFees, variants } = props;
+    const { id, resource, onOpenChange, setFees, variants = undefined } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
     const feeDataProvider = feesDataProvider({ id, resource });
@@ -88,6 +88,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
             </div>
         );
     const currenciesDisabled = !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0);
+
     return (
         <>
             <Form {...form}>
@@ -194,7 +195,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     </FormControl>
                                                     <SelectContent>
                                                         <SelectGroup>
-                                                            {!currenciesDisabled && !variants
+                                                            {!currenciesDisabled && !variants?.length
                                                                 ? currencies.data.map(currency => (
                                                                       <SelectItem
                                                                           key={currency.code}

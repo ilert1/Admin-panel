@@ -65,7 +65,7 @@ export const MerchantSelectFilter = ({
                     aria-expanded={open}
                     disabled={merchantData === undefined || !merchantData.length}
                     className={
-                        "hover:!border-green-40 w-full font-normal justify-between flex h-9 flex-1 items-center text-start border border-neutral-40 dark:border-neutral-60 rounded-4 hover:border-green-20 bg-neutral-0 dark:bg-neutral-100 px-3 py-2 text-sm ring-offset-background [&:is([data-state='open'])]:border-green-50 active:border-green-50 disabled:cursor-not-allowed [&>span]:line-clamp-1 focus:outline-none [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180 !mt-0 " +
+                        "hover:!border-green-40 w-full font-normal justify-between flex h-9 flex-1 items-center text-start border border-neutral-40 dark:border-neutral-60 rounded-4 bg-neutral-0 dark:bg-neutral-100 px-3 py-2 text-sm ring-offset-background [&:is([data-state='open'])]:border-green-50 active:border-green-50 disabled:cursor-not-allowed [&>span]:line-clamp-1 focus:outline-none [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180 !mt-0 " +
                         className
                     }>
                     {merchant ? (
@@ -96,7 +96,7 @@ export const MerchantSelectFilter = ({
                         <CommandGroup>
                             <CommandItem
                                 value={"null"}
-                                className="bg-white dark:bg-neutral-100 cursor-pointer"
+                                className="bg-white dark:bg-neutral-100 cursor-pointer "
                                 onSelect={() => {
                                     onMerchantChanged("");
                                     setOpen(false);

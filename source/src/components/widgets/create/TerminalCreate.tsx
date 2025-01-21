@@ -71,7 +71,7 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
                             control={form.control}
                             name="verbose_name"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full w-full p-2">
+                                <FormItem className="w-full p-2">
                                     <FormControl>
                                         <Input
                                             label={translate("resources.terminals.fields.verbose_name")}

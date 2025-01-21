@@ -17,6 +17,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { toast } from "sonner";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
+import { Label } from "@/components/ui/label";
 
 interface ProviderEditParams {
     provider: string;
@@ -163,11 +164,7 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
                             name="auth"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
-                                    <FormLabel>
-                                        <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.terminals.fields.auth")}
-                                        </span>
-                                    </FormLabel>
+                                    <Label>{translate("resources.terminals.fields.auth")}</Label>
                                     <FormControl>
                                         <MonacoEditor
                                             height="144px"

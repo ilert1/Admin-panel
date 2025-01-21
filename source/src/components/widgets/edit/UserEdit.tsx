@@ -12,6 +12,7 @@ import { TriangleAlert } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { usePreventFocus } from "@/hooks";
 import { Loading } from "@/components/ui/loading";
+import { Label } from "@/components/ui/label";
 
 interface UserEditProps {
     id: string;
@@ -121,11 +122,6 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                             <FormItem className="space-y-1 w-full">
                                 <FormControl>
                                     <Input
-                                        className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                            fieldState.invalid
-                                                ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                : ""
-                                        }`}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
                                         label={translate("app.widgets.forms.userCreate.name")}
@@ -145,14 +141,10 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                             control={form.control}
                             render={({ field, fieldState }) => (
                                 <FormItem className="flex flex-col h-full">
-                                    <FormLabel>{translate("app.widgets.forms.userCreate.publicKey")}</FormLabel>
+                                    <Label>{translate("app.widgets.forms.userCreate.publicKey")}</Label>
                                     <FormControl>
                                         <Textarea
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted h-full resize-none min-h-20 ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
+                                            className={`h-full resize-none min-h-20`}
                                             value={field.value}
                                             onChange={e => handleTextChange(e, field)}
                                             placeholder={translate(

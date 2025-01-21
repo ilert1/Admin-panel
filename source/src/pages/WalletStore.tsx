@@ -202,11 +202,7 @@ export const WalletStore = () => {
                                                         <FormControl>
                                                             <Textarea
                                                                 autoFocus
-                                                                className={`text-sm text-neutral-100 dark:text-neutral-0 disabled:dark:bg-muted resize-none min-h-24 ${
-                                                                    fieldState.invalid
-                                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50 active:border-red-50"
-                                                                        : ""
-                                                                }`}
+                                                                className={`text-sm resize-none min-h-24`}
                                                                 value={keyText}
                                                                 onChange={e => handleTextChange(e, field)}
                                                                 placeholder={translate("resources.wallet.storage.key")}>

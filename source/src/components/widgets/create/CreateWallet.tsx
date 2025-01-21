@@ -302,7 +302,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 name="description"
                                 render={({ field }) => (
                                     <FormItem className="w-full p-2">
-                                        <FormLabel>{translate("resources.wallet.manage.fields.descr")}</FormLabel>
+                                        <Label>{translate("resources.wallet.manage.fields.descr")}</Label>
                                         <FormControl>
                                             <Textarea
                                                 {...field}
@@ -340,19 +340,15 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 name="address"
                                 render={({ field }) => (
                                     <FormItem className="w-full p-2">
-                                        <FormLabel>
-                                            {translate("resources.wallet.manage.fields.walletAddress")}
-                                        </FormLabel>
                                         <FormControl>
-                                            <div>
-                                                <Input
-                                                    {...field}
-                                                    className=""
-                                                    variant={InputTypes.GRAY}
-                                                    value={field.value ?? ""}
-                                                    disabled={!isMerchant}
-                                                />
-                                            </div>
+                                            <Input
+                                                label={translate("resources.wallet.manage.fields.walletAddress")}
+                                                {...field}
+                                                className=""
+                                                variant={InputTypes.GRAY}
+                                                value={field.value ?? ""}
+                                                disabled={!isMerchant}
+                                            />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -363,17 +359,14 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 name="description"
                                 render={({ field }) => (
                                     <FormItem className="w-full p-2">
-                                        <FormLabel>{translate("resources.wallet.manage.fields.descr")}</FormLabel>
+                                        <Label>{translate("resources.wallet.manage.fields.descr")}</Label>
                                         <FormControl>
-                                            <div>
-                                                <Label />
-                                                <Textarea
-                                                    {...field}
-                                                    value={field.value ?? ""}
-                                                    placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                    className="w-full h-24 p-2 border rounded resize-none overflow-auto text-neutral-80 dark:text-white text-title-1 outline-none dark:bg-muted border-neutral-40"
-                                                />
-                                            </div>
+                                            <Textarea
+                                                {...field}
+                                                value={field.value ?? ""}
+                                                placeholder={translate("resources.wallet.manage.fields.descr")}
+                                                className="w-full h-24 p-2 border rounded resize-none overflow-auto text-neutral-80 dark:text-white text-title-1 outline-none dark:bg-muted border-neutral-40"
+                                            />
                                         </FormControl>
                                     </FormItem>
                                 )}
