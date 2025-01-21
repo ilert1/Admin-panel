@@ -6,7 +6,7 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { useTranslate } from "react-admin";
 
 const realm = import.meta.env.VITE_KEYCLOAK_REALM;

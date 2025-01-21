@@ -1,7 +1,7 @@
 import { ListContextProvider, useListController, useTranslate } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import { Loading } from "@/components/ui/loading";
 

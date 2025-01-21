@@ -1,7 +1,7 @@
 import { ListContextProvider, useDataProvider, useListController, usePermissions, useTranslate } from "react-admin";
 import { useGetWalletsColumns } from "./Columns";
 import { Loading } from "@/components/ui/loading";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { PlusCircle } from "lucide-react";
 import { CreateWalletDialog } from "./CreateWalletDialog";
 import { useEffect, useState } from "react";

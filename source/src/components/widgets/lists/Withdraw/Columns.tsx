@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { useFetchMerchants, useGetTransactionState } from "@/hooks";
 import { ColumnDef, Row } from "@tanstack/react-table";

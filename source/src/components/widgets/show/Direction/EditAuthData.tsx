@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { fetchUtils, useRefresh, useTranslate } from "react-admin";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import { toast } from "sonner";
 

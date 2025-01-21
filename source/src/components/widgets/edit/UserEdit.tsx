@@ -1,7 +1,7 @@
 import { useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { ChangeEvent, DragEvent, useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";

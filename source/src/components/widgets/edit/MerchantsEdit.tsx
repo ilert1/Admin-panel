@@ -1,7 +1,7 @@
 import { useEditController, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { useEffect, useRef, useState } from "react";
 import { Loading } from "@/components/ui/loading";
 import { z } from "zod";

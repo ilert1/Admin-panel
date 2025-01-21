@@ -3,7 +3,7 @@ import { Loading } from "@/components/ui/loading";
 import { useCallback, useEffect, useRef, useState } from "react";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { TextField } from "@/components/ui/text-field";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { FeesResource } from "@/data";
 import { DeleteDirectionDialog } from "./DeleteDirectionDialog";
 import { EditDirectionDialog } from "./EditDirectionDialog";

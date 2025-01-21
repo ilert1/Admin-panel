@@ -6,7 +6,7 @@ import { usePermissions, useResourceDefinitions, useTranslate } from "react-admi
 import { createElement, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useGetResLabel } from "@/hooks/useGetResLabel";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 
 const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
 

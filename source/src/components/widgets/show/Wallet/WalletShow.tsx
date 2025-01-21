@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { useMemo, useState } from "react";
 import { useDataProvider, useGetList, usePermissions, useShowController, useTranslate } from "react-admin";

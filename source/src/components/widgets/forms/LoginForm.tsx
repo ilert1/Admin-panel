@@ -1,5 +1,5 @@
 import { useTheme } from "@/components/providers";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input/input";
 import { useState } from "react";
 import { useLogin, useTranslate } from "react-admin";

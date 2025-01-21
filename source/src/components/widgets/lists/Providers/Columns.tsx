@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Button } from "@/components/ui/button";
+import { Button, EditButton, TrashButton } from "@/components/ui/Button";
 
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
-import { EyeIcon, Pencil, Trash2 } from "lucide-react";
+import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
@@ -119,13 +119,7 @@ export const useGetProvidersColumns = () => {
                 return <div className="text-center">{translate("app.ui.actions.edit")}</div>;
             },
             cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Button onClick={() => handleEditClicked(row.original.id)} variant={"text_btn"}>
-                            <Pencil className="text-green-50" />
-                        </Button>
-                    </div>
-                );
+                return <EditButton onClick={() => handleEditClicked(row.original.id)} />;
             }
         },
         {
@@ -134,13 +128,7 @@ export const useGetProvidersColumns = () => {
                 return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
             },
             cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Button onClick={() => handleDeleteClicked(row.original.name)} variant={"text_btn"}>
-                            <Trash2 className="text-green-50" />
-                        </Button>
-                    </div>
-                );
+                return <TrashButton onClick={() => handleDeleteClicked(row.original.name)} />;
             }
         }
     ];

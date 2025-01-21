@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { debounce } from "lodash";
 import { XIcon } from "lucide-react";
 import { useState } from "react";

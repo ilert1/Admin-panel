@@ -1,11 +1,6 @@
 import { useTheme } from "@/components/providers";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { API_URL } from "@/data/base";
 import Blowfish from "@/lib/icons/Blowfish";
 import { useEffect, useMemo, useState } from "react";
@@ -17,7 +12,7 @@ import { EllipsisVerticalIcon } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { LangSwitcher } from "../components/LangSwitcher";
 import { CurrencyIcon } from "./CurrencyIcon";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 // import { debounce } from "lodash";
 

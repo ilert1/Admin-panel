@@ -1,7 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
-import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
 
@@ -114,17 +113,12 @@ export const useGetWalletLinkedTransactionColumns = () => {
             },
             cell: ({ row }) => {
                 return (
-                    <div className="flex items-center justify-center">
-                        <Button
-                            onClick={() => {
-                                setChosenId(row.original?.transaction_id);
-                                setQuickShowOpen(true);
-                            }}
-                            variant="secondary"
-                            className="h-7 w-7 p-0 bg-transparent flex items-center">
-                            <EyeIcon className="text-green-50 size-7" />
-                        </Button>
-                    </div>
+                    <ShowButton
+                        onClick={() => {
+                            setChosenId(row.original?.transaction_id);
+                            setQuickShowOpen(true);
+                        }}
+                    />
                 );
             }
         }

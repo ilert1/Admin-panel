@@ -3,7 +3,7 @@ import { Dispatch, memo, SetStateAction, useEffect, useRef } from "react";
 import { FeeCard } from "./FeeCard";
 import { AddFeeCard } from "./AddFeeCard";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { CircleChevronRight } from "lucide-react";
 import { useTranslate } from "react-admin";
 

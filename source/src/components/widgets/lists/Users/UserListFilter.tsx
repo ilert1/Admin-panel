@@ -1,6 +1,6 @@
 import { useListContext, useTranslate } from "react-admin";
 import { CirclePlus, XIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { ChangeEvent, useState } from "react";
 import { Input } from "@/components/ui/Input/input";
 import { debounce } from "lodash";

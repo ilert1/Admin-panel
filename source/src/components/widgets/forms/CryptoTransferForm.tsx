@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/Input/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { useDataProvider, useInfiniteGetList, useTranslate } from "react-admin";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { WalletMinimal } from "lucide-react";

@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
+import { EditButton, ShowButton } from "@/components/ui/Button";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { ColumnDef, Row } from "@tanstack/react-table";
-import { Copy, EyeIcon, Pen } from "lucide-react";
+import { Copy } from "lucide-react";
 import { useState } from "react";
 import { RecordContextProvider, usePermissions, useTranslate } from "react-admin";
 import { NumericFormat } from "react-number-format";
@@ -112,17 +112,12 @@ export const useGetAccountsColumns = () => {
                       ),
                       cell: ({ row }: { row: Row<Account> }) => {
                           return (
-                              <div className="flex justify-center">
-                                  <Button
-                                      onClick={() => {
-                                          setShowAccountId(row.original.id);
-                                          setShowEditDialog(true);
-                                      }}
-                                      variant="text_btn"
-                                      className="h-8 w-8 p-0 bg-transparent">
-                                      <Pen className="h-6 w-6" />
-                                  </Button>
-                              </div>
+                              <EditButton
+                                  onClick={() => {
+                                      setShowAccountId(row.original.id);
+                                      setShowEditDialog(true);
+                                  }}
+                              />
                           );
                       }
                   }
@@ -132,14 +127,7 @@ export const useGetAccountsColumns = () => {
             id: "history",
             header: translate("resources.accounts.fields.history"),
             cell: ({ row }) => {
-                return (
-                    <Button
-                        variant="secondary"
-                        onClick={() => openSheet(row.original.id, row.original.meta?.caption)}
-                        className="flex items-center h-7 w-7 p-0 bg-transparent w-full">
-                        <EyeIcon className="text-green-50 size-7" />
-                    </Button>
-                );
+                return <ShowButton onClick={() => openSheet(row.original.id, row.original.meta?.caption)} />;
             }
         }
     ];

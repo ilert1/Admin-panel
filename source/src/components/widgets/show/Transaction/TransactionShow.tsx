@@ -6,7 +6,7 @@ import { LoadingBlock } from "@/components/ui/loading";
 import { TableTypes } from "../../shared/SimpleTable";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import {
     Dialog,
     DialogContent,

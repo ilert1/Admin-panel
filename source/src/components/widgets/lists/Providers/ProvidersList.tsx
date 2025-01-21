@@ -1,6 +1,6 @@
 import { ListContextProvider, useListController, useTranslate, useRefresh } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/loading";
 import { KeysModal } from "../../components/KeysModal";
 import { DeleteProviderDialog } from "./DeleteProviderDialog";

@@ -2,7 +2,7 @@ import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useCallback, useState } from "react";
 import { useShowController, useTranslate } from "react-admin";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { EditUserDialog } from "./EditUserDialog";
 import { DeleteUserDialog } from "./DeleteUserDialog";
 

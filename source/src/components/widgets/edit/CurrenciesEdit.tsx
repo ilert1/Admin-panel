@@ -1,7 +1,7 @@
 import { useTranslate, useDataProvider, useRefresh, useEditController, EditContextProvider } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import {
     Select,
     SelectContent,

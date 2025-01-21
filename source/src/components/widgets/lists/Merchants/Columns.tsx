@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
+import { Button, EditButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
-import { CirclePlus, EyeIcon, Pencil, Trash2 } from "lucide-react";
+import { CirclePlus, EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
@@ -98,9 +98,9 @@ export const useGetMerchantColumns = () => {
                     <div className="flex items-center justify-center">
                         <Button onClick={() => handleShowClicked(row.original.id, "fees")} variant={"text_btn"}>
                             {Object.entries(row.original.fees).length !== 0 ? (
-                                <EyeIcon className="text-green-50 size-7" />
+                                <EyeIcon className="text-green-50 size-7 hover:text-green-40" />
                             ) : (
-                                <CirclePlus className="text-green-50" />
+                                <CirclePlus className="text-green-50 hover:text-green-40" />
                             )}
                         </Button>
                     </div>
@@ -113,13 +113,7 @@ export const useGetMerchantColumns = () => {
                 return <div className="text-center">{translate("app.ui.actions.edit")}</div>;
             },
             cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Button onClick={() => handleEditClicked(row.original.id)} variant={"text_btn"}>
-                            <Pencil className="text-green-50" />
-                        </Button>
-                    </div>
-                );
+                return <EditButton onClick={() => handleEditClicked(row.original.id)} />;
             }
         },
         {
@@ -128,13 +122,7 @@ export const useGetMerchantColumns = () => {
                 return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
             },
             cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Button onClick={() => handleDeleteClicked(row.original.id)} variant={"text_btn"}>
-                            <Trash2 className="text-green-50" />
-                        </Button>
-                    </div>
-                );
+                return <TrashButton onClick={() => handleDeleteClicked(row.original.id)} />;
             }
         }
     ];
