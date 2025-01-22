@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { ChangeEvent, DragEvent, useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
+import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
@@ -144,7 +144,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                                     <Label>{translate("app.widgets.forms.userCreate.publicKey")}</Label>
                                     <FormControl>
                                         <Textarea
-                                            className={`h-full resize-none min-h-20`}
+                                            className={`h-full resize-none min-h-20 dark:bg-muted`}
                                             value={field.value}
                                             onChange={e => handleTextChange(e, field)}
                                             placeholder={translate(

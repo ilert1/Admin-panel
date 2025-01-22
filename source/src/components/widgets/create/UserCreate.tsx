@@ -7,7 +7,7 @@ import { ControllerRenderProps, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { ChangeEvent, DragEvent, useMemo, useState } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectType, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
@@ -246,6 +246,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                                 }}
                                                 value={valueCurDialog}>
                                                 <SelectTrigger
+                                                    variant={SelectType.GRAY}
                                                     isError={fieldState.invalid}
                                                     errorMessage={<FormMessage />}>
                                                     <SelectValue
@@ -257,7 +258,10 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                                 <SelectContent className="!dark:bg-muted">
                                                     {sortedCurrencies &&
                                                         sortedCurrencies.map(cur => (
-                                                            <SelectItem key={cur["alpha-3"]} value={cur["alpha-3"]}>
+                                                            <SelectItem
+                                                                key={cur["alpha-3"]}
+                                                                value={cur["alpha-3"]}
+                                                                variant={SelectType.GRAY}>
                                                                 {cur["alpha-3"]}
                                                             </SelectItem>
                                                         ))}
@@ -285,7 +289,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                                     placeholder={translate(
                                                         "app.widgets.forms.userCreate.publicKeyPlaceholder"
                                                     )}
-                                                    className={`h-full resize-none min-h-20`}
+                                                    className={`h-full resize-none min-h-20 dark:bg-muted`}
                                                     disabled={currenciesLoading}>
                                                     {fieldState.invalid && (
                                                         <TooltipProvider>
