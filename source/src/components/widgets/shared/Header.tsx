@@ -179,7 +179,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                 sideOffset={34}
                                 align="end"
                                 alignOffset={-18}
-                                className={`p-0 w-72 bg-muted border border-green-20 dark:border-neutral-20 z-[1000] flex flex-col gap-2 !rounded-4 bg-green-0 dark:bg-muted `}>
+                                className={`p-0 w-72 border border-green-20 dark:border-neutral-20 z-[1000] flex flex-col gap-2 !rounded-4 bg-green-0 dark:bg-muted `}>
                                 <div className="flex content-start items-center pl-4 pr-4 mt-[0.8rem]">
                                     <Avatar className="w-5 h-5">
                                         <AvatarFallback
