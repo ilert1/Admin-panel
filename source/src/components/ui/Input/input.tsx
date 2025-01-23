@@ -154,6 +154,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         onFocus={handleFocus}
                         onBlur={handleBlur}
                         disabled={disabled}
+                        spellCheck="false"
                         className={cn(
                             "flex h-9 w-full px-3 py-2 rounded-4 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus:outline-none z-1",
                             "!text-neutral-80 bg-neutral-0",
