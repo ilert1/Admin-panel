@@ -610,9 +610,11 @@ const ru: TranslationMessages = {
         ui: {
             header: {
                 totalBalance: "Общий баланс по счетам",
+                aggregatorProfit: "Прибыль агрегатора",
                 totalLoading: "Загрузка...",
                 totalError: "Не удалось получить общий баланс по счетам",
-                accurateBalance: "Точный баланс аккаунта"
+                accurateBalance: "Точный баланс аккаунта",
+                accurateAggregatorProfit: "Точная прибыль агрегатора"
             },
             roles: {
                 admin: "Администратор",
@@ -1380,9 +1382,11 @@ const en: TranslationMessages = {
         ui: {
             header: {
                 totalBalance: "Total account balance",
+                aggregatorProfit: "Aggregator profit",
                 totalLoading: "Loading...",
                 totalError: "Error while getting total account balance",
-                accurateBalance: "Accurate account balance"
+                accurateBalance: "Accurate account balance",
+                accurateAggregatorProfit: "Accurate aggregator profit"
             },
             roles: {
                 admin: "Administrator",

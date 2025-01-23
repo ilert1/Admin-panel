@@ -24,7 +24,7 @@ export const Header = (props: { handleLogout: () => void }) => {
     // const debounced = debounce(setChatOpen, 120);
     const translate = useTranslate();
     const { permissions } = usePermissions();
-    const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
+    const isMerchant = useMemo(() => permissions === "merchant", [permissions]);
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const toggleTheme = () => {
@@ -109,7 +109,9 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         {identity.data.fullName ? identity.data.fullName : ""}
                                     </span>
                                     <span className="text-note-2 text-neutral-70 dark:text-neutral-60">
-                                        {translate("app.ui.header.totalBalance")}
+                                        {!isMerchant
+                                            ? translate("app.ui.header.aggregatorProfit")
+                                            : translate("app.ui.header.totalBalance")}
                                     </span>
                                     {totalLoading && !totalAmount ? (
                                         <span>{translate("app.ui.header.totalLoading")}</span>
@@ -191,7 +193,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     </Avatar>
                                     <div className="ml-3 text-neutral-100">
                                         <div className="text-title-1 cursor-default text-neutral-90 dark:text-white">
-                                            {merchantOnly
+                                            {isMerchant
                                                 ? translate("app.ui.roles.merchant")
                                                 : translate("app.ui.roles.admin")}
                                         </div>
@@ -204,7 +206,9 @@ export const Header = (props: { handleLogout: () => void }) => {
                                 </div>
                                 <div className="flex flex-col content-start items-center pl-4 pr-2 mb-1">
                                     <span className="text-note-2 self-start text-neutral-60 mt-[0.5rem] mb-1">
-                                        {translate("app.ui.header.accurateBalance")}
+                                        {!isMerchant
+                                            ? translate("app.ui.header.accurateAggregatorProfit")
+                                            : translate("app.ui.header.accurateBalance")}
                                     </span>
                                     <div
                                         className={`flex flex-col gap-[2px] items-start max-h-[250px] w-full pr-2 overflow-x-hidden overflow-y-auto `}>
