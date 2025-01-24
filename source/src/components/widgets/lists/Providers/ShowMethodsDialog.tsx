@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import {
     Dialog,
     DialogContent,
@@ -8,6 +8,7 @@ import {
     DialogFooter
 } from "@/components/ui/dialog";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
+import { usePreventFocus } from "@/hooks";
 import { useEffect, useState } from "react";
 import { useDataProvider, useTranslate } from "react-admin";
 
@@ -46,21 +47,25 @@ export const ShowMethodsDialog = (props: ShowMethodDialogProps) => {
     const { id, open, onOpenChange } = props;
     const translate = useTranslate();
 
+    usePreventFocus({ dependencies: [open] });
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-[478px] h-[295px] max-h-full overflow-auto bg-muted">
+            <DialogContent className="max-w-[478px] max-h-[330px] overflow-auto bg-muted">
                 <DialogHeader>
                     <DialogTitle className="text-center"></DialogTitle>
                     <DialogDescription></DialogDescription>
                     <div className="w-full flex flex-col items-center justify-end ">
-                        <span className="self-start text-note-1">{translate("resources.provider.fields.methods")}</span>
+                        <span className="self-start text-note-1 text-neutral-80 dark:text-neutral-30 mb-2">
+                            {translate("resources.provider.fields.methods")}
+                        </span>
                         <EditorDialog id={id} />
                     </div>
                 </DialogHeader>
                 <DialogFooter>
                     <div className="flex justify-end w-full pr-1">
                         <Button
-                            variant={"outline"}
+                            variant="outline_gray"
                             onClick={() => {
                                 onOpenChange(false);
                             }}>

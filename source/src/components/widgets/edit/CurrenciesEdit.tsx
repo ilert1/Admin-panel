@@ -1,17 +1,24 @@
 import { useTranslate, useDataProvider, useRefresh, useEditController, EditContextProvider } from "react-admin";
 import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input, InputTypes } from "@/components/ui/Input/input";
+import { Button } from "@/components/ui/Button";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
+import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { toast } from "sonner";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { TriangleAlert } from "lucide-react";
 import { useEffect, useState } from "react";
 import { usePreventFocus } from "@/hooks";
 import { Loading } from "@/components/ui/loading";
+import { Label } from "@/components/ui/label";
 
 enum PositionEnum {
     BEFORE = "before",
@@ -89,13 +96,17 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                         <FormField
                             control={form.control}
                             name="code"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>{translate("resources.currency.fields.currencyName")}</FormLabel>
                                     <FormControl>
-                                        <Input {...field} disabled />
+                                        <Input
+                                            {...field}
+                                            disabled
+                                            label={translate("resources.currency.fields.currencyName")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -105,34 +116,15 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                             name="symbol"
                             render={({ field, fieldState }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>{translate("resources.currency.fields.symbol")}</FormLabel>
                                     <FormControl>
                                         <Input
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            label={translate("resources.currency.fields.symbol")}
+                                            variant={InputTypes.GRAY}
                                             {...field}
-                                            value={field.value ?? ""}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Input>
+                                            value={field.value ?? ""}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -144,36 +136,31 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                             name="is_coin"
                             render={({ field, fieldState }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>{translate("resources.currency.fields.type")}</FormLabel>
+                                    <Label>{translate("resources.currency.fields.type")}</Label>
                                     <Select
                                         onValueChange={value => field.onChange(value === "true")}
                                         value={field.value ? "true" : "false"}>
                                         <FormControl>
                                             <SelectTrigger
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}>
-                                                <div className="mr-auto">
-                                                    <SelectValue
-                                                        placeholder={translate("resources.currency.fields.type")}
-                                                    />
-                                                </div>
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                variant={SelectType.GRAY}>
+                                                <SelectValue
+                                                    placeholder={translate("resources.currency.fields.type")}
+                                                />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                <SelectItem value="false">
+                                                <SelectItem value="false" variant={SelectType.GRAY}>
                                                     {translate("resources.currency.fields.fiat")}
                                                 </SelectItem>
-                                                <SelectItem value="true">
+                                                <SelectItem value="true" variant={SelectType.GRAY}>
                                                     {translate("resources.currency.fields.crypto")}
                                                 </SelectItem>
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -183,36 +170,31 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                             name="position"
                             render={({ field, fieldState }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>{translate("resources.currency.fields.symbPos")}</FormLabel>
+                                    <Label>{translate("resources.currency.fields.symbPos")}</Label>
                                     <FormControl>
                                         <Select
                                             onValueChange={value => field.onChange(value as PositionEnum)}
                                             value={field.value}>
                                             <SelectTrigger
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}>
-                                                <div className="mr-auto">
-                                                    <SelectValue
-                                                        placeholder={translate("resources.currency.fields.symbPos")}
-                                                    />
-                                                </div>
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                variant={SelectType.GRAY}>
+                                                <SelectValue
+                                                    placeholder={translate("resources.currency.fields.symbPos")}
+                                                />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectGroup>
-                                                    <SelectItem value={PositionEnum.BEFORE}>
+                                                    <SelectItem value={PositionEnum.BEFORE} variant={SelectType.GRAY}>
                                                         {translate("resources.currency.fields.before")}
                                                     </SelectItem>
-                                                    <SelectItem value={PositionEnum.AFTER}>
+                                                    <SelectItem value={PositionEnum.AFTER} variant={SelectType.GRAY}>
                                                         {translate("resources.currency.fields.after")}
                                                     </SelectItem>
                                                 </SelectGroup>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -227,11 +209,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                             {translate("app.ui.actions.save")}
                         </Button>
 
-                        <Button
-                            type="button"
-                            onClick={() => closeDialog()}
-                            variant="clearBtn"
-                            className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full">
+                        <Button type="button" onClick={() => closeDialog()} variant="outline_gray">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>

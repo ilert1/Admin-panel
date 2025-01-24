@@ -52,16 +52,13 @@ export const TextField = ({
     };
 
     return (
-        <div>
-            {label && <small className="text-sm text-muted-foreground">{label}</small>}
+        <div className="text-neutral-90 dark:text-neutral-0">
+            {label && <small className="text-sm text-neutral-60 dark:text-neutral-40">{label}</small>}
             {(type === "text" || type === "link") && (
                 <p className={cn("leading-5 flex flex-row gap-2", className)}>
                     {copyValue && text?.length > 0 && (
                         <span>
-                            <Copy
-                                className="h-4 w-4 cursor-pointer text-neutral-60 dark:text-neutral-40"
-                                onClick={copy}
-                            />
+                            <Copy className="h-4 w-4 cursor-pointer" onClick={copy} />
                         </span>
                     )}
                     <span

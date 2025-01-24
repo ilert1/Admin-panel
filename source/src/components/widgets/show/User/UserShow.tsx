@@ -1,8 +1,8 @@
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useCallback, useState } from "react";
 import { useShowController, useTranslate } from "react-admin";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { EditUserDialog } from "./EditUserDialog";
 import { DeleteUserDialog } from "./DeleteUserDialog";
 
@@ -26,17 +26,18 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
     }, []);
 
     if (context.isLoading || context.isFetching || !context.record) {
-        return <LoadingAlertDialog />;
+        return <LoadingBlock />;
     }
     const index = context.record.state - 1;
 
     return (
         <div className="relative">
             <div className="px-[42px] pb-[25px] flex flex-col sm:flex-row justify-between">
-                <TextField text={id} copyValue />
+                <TextField text={id} copyValue className="text-neutral-70 dark:text-neutral-30" />
 
                 <div className="flex items-center justify-center">
-                    <span className={`px-3 py-0.5 rounded-20 font-normal text-base text-center ${styles[index]}`}>
+                    <span
+                        className={`px-3 py-0.5 rounded-20 font-normal text-white text-base text-center ${styles[index]}`}>
                         {translate(`resources.accounts.fields.states.${translations[index]}`)}
                     </span>
                 </div>
@@ -60,15 +61,12 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
                 <TextField label={translate("resources.users.fields.currency")} text={context.record.shop_currency} />
             </div>
 
-            <div className="flex justify-end gap-4 px-[42px] mb-4">
+            <div className="flex justify-end gap-4 px-[42px] mb-4 text-white font-normal">
                 <Button disabled={index !== 0} onClick={handleEditClicked} className="text-title-1">
                     {translate("resources.users.edit")}
                 </Button>
 
-                <Button
-                    variant={"outline"}
-                    className="border-[1px] border-neutral-50 text-neutral-50 bg-transparent"
-                    onClick={() => setDialogOpen(true)}>
+                <Button variant={"outline_gray"} onClick={() => setDialogOpen(true)}>
                     {translate("resources.users.delete")}
                 </Button>
             </div>

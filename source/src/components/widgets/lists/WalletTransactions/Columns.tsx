@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button } from "@/components/ui/button";
+import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { ColumnDef } from "@tanstack/react-table";
-import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useLocaleState, usePermissions, useTranslate } from "react-admin";
 
@@ -27,7 +26,7 @@ export const useGetWalletTransactionsColumns = () => {
         setChosenId(id);
         setConfirmOpen(true);
     };
-    const columns: ColumnDef<Cryptotransactions>[] = [
+    const columns: ColumnDef<Wallets.Cryptotransactions>[] = [
         {
             id: "created_at",
             accessorKey: "created_at",
@@ -176,16 +175,7 @@ export const useGetWalletTransactionsColumns = () => {
                 return <div className="text-center">{translate("resources.wallet.manage.fields.more")}</div>;
             },
             cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Button
-                            onClick={() => handleOpenShowClicked(row.original.id)}
-                            variant="secondary"
-                            className="h-7 w-7 p-0 bg-transparent flex items-center">
-                            <EyeIcon className="text-green-50 size-7" />
-                        </Button>
-                    </div>
-                );
+                return <ShowButton onClick={() => handleOpenShowClicked(row.original.id)} />;
             }
         }
     ];

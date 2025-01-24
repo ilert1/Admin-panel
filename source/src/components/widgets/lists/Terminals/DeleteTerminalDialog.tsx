@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import {
     Dialog,
     DialogContent,
@@ -63,6 +63,7 @@ export const DeleteTerminalDialog = ({
                     <div className="flex flex-col gap-4 sm:gap-0 sm:flex-row justify-around w-full">
                         <Button onClick={handleDelete}>{translate("app.ui.actions.delete")}</Button>
                         <Button
+                            className="bg-neutral-0 dark:bg-neutral-100"
                             variant={"outline"}
                             onClick={() => {
                                 onOpenChange(false);

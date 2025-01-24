@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/// <reference types="vite-plugin-svgr/client" />
+
 interface Window {
     addSupportMessage?: (text: string) => void;
 }
@@ -33,6 +34,14 @@ type Account = {
     state: number;
     type: number;
 };
+
+interface AccountBalance {
+    currency: string;
+    value: {
+        quantity: number;
+        accuracy: number;
+    };
+}
 
 declare namespace PayOut {
     type PaymentType = "sbp" | "card2card" | "account_number" | "account_number_iban" | "sberpay";
@@ -289,7 +298,7 @@ interface IGetKeys {
     keypair: { private_key: string; public_key: string };
     provider: Omit<Provider, "id">;
 }
-namespace Directions {
+declare namespace Directions {
     interface FeeValue {
         accuracy: number;
         quantity: number;
@@ -409,98 +418,82 @@ declare namespace Dictionaries {
         prior_gr: number;
     }
 }
-enum WalletTypes {
-    INTERNAL = "internal",
-    LINKED = "linked",
-    EXTERNAL = "external"
-}
 
-interface Wallet {
-    id: string;
-    description: string | null;
-    type: WalletTypes;
-    blockchain: string;
-    network: string;
-    address: string | null;
-    currency: string;
-    account_id: string;
-    minimal_ballance_limit: number;
-}
+declare namespace Wallets {
+    interface Wallet {
+        id: string;
+        description: string | null;
+        type: WalletTypes;
+        blockchain: string;
+        network: string;
+        address: string | null;
+        currency: string;
+        account_id: string;
+        minimal_ballance_limit: number;
+    }
 
-interface WalletCreate {
-    description: string | null;
-    type: WalletTypes;
-    blockchain: string;
-    network: string;
-    address?: string | null;
-    currency: string;
-    account_id?: string;
-    minimal_ballance_limit: number;
-    accountNumber?: string;
-    merchantId?: string;
-}
+    interface WalletCreate {
+        description: string | null;
+        type: WalletTypes;
+        blockchain: string;
+        network: string;
+        address?: string | null;
+        currency: string;
+        account_id?: string;
+        minimal_ballance_limit: number;
+        accountNumber?: string;
+        merchantId?: string;
+    }
 
-interface WalletCreateMerchant {
-    address: string;
-    description: string | null;
-}
+    interface WalletStorage {
+        initiated: boolean;
+        recieved_shares: number;
+        sealed: boolean;
+        split_max: number;
+        split_min: number;
+        state: "sealed" | "unsealed" | "waiting";
+    }
 
-interface WalletStorage {
-    initiated: boolean;
-    recieved_shares: number;
-    sealed: boolean;
-    split_max: number;
-    split_min: number;
-    state: "sealed" | "unsealed" | "waiting";
-}
+    interface WalletBalance {
+        trx_amount: number;
+        usdt_amount: number;
+        wallet?: {
+            address: string;
+        };
+    }
 
-interface WalletBalance {
-    trx_amount: number;
-    usdt_amount: number;
-    wallet?: {
-        address: string;
-    };
-}
+    interface Cryptotransactions {
+        blowfish_id: string;
+        id: string;
+        src_wallet: string;
+        dst_wallet: string;
+        amount_quantity: number;
+        amount_accuracy: number;
+        currency: string;
+        state: number | string;
+        type: number | string;
+        merchant_id: string;
+        tx_id: string;
+        tx_link: string;
+        total_fee: number;
+        bandwidth_fee: number;
+        created_at: string;
+        updated_at: string;
+        deleted_at: string;
+        pre_calculated_fee: number;
+        total_fee: number;
+    }
 
-interface Cryptotransactions {
-    blowfish_id: string;
-    id: string;
-    src_wallet: string;
-    dst_wallet: string;
-    amount_quantity: number;
-    amount_accuracy: number;
-    currency: string;
-    state: number | string;
-    type: number | string;
-    merchant_id: string;
-    tx_id: string;
-    tx_link: string;
-    total_fee: number;
-    bandwidth_fee: number;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string;
-    pre_calculated_fee: number;
-    total_fee: number;
-}
-
-interface WalletLinkedTransactions {
-    id: string;
-    scanned_at: string;
-    block_timestamp: string;
-    type: string;
-    transaction_id: string;
-    source_address: string;
-    destnation_address: string;
-    amount: string;
-    currency: string;
-    token_address: string;
-}
-
-interface Balance {
-    currency: string;
-    value: {
-        quantity: number;
-        accuracy: number;
-    };
+    interface WalletLinkedTransactions {
+        id: string;
+        scanned_at: string;
+        block_timestamp: string;
+        type: string;
+        transaction_id: string;
+        source_address: string;
+        destnation_address: string;
+        amount: string;
+        currency: string;
+        token_address: string;
+    }
 }

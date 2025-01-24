@@ -1,8 +1,8 @@
 import { useEditController, EditContextProvider, useTranslate, useDataProvider } from "react-admin";
 import { useForm } from "react-hook-form";
-import { Input, InputTypes } from "@/components/ui/input";
-import { FC, useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Input, InputTypes } from "@/components/ui/Input/input";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,13 +10,14 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { toast } from "sonner";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
+import { Label } from "@/components/ui/label";
 
 export interface ProviderEditParams {
     id?: string;
     onClose?: () => void;
 }
 
-export const ProvidersEdit: FC<ProviderEditParams> = ({ id, onClose = () => {} }) => {
+export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) => {
     const dataProvider = useDataProvider();
     const controllerProps = useEditController({ resource: "provider", id, mutationMode: "pessimistic" });
 
@@ -88,38 +89,35 @@ export const ProvidersEdit: FC<ProviderEditParams> = ({ id, onClose = () => {} }
                         <FormField
                             control={form.control}
                             name="name"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>
-                                        <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.provider.fields._name")}
-                                        </span>
-                                    </FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input {...field} disabled variant={InputTypes.GRAY} />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            disabled
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.provider.fields._name")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="fields_json_schema"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>
-                                        <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.provider.fields.json_schema")}
-                                        </span>
-                                    </FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input {...field} variant={InputTypes.GRAY} />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.provider.fields.json_schema")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -128,11 +126,7 @@ export const ProvidersEdit: FC<ProviderEditParams> = ({ id, onClose = () => {} }
                             name="methods"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
-                                    <FormLabel>
-                                        <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.provider.fields.code")}
-                                        </span>
-                                    </FormLabel>
+                                    <Label className="!mb-0">{translate("resources.provider.fields.code")}</Label>
                                     <FormControl>
                                         <MonacoEditor
                                             height="144px"
@@ -158,8 +152,8 @@ export const ProvidersEdit: FC<ProviderEditParams> = ({ id, onClose = () => {} }
                             </Button>
                             <Button
                                 type="button"
-                                variant="outline"
-                                className="flex-1 mt-4 sm:mt-0 border-neutral-50 text-neutral-50 bg-muted w-full sm:w-1/2"
+                                variant="outline_gray"
+                                className="flex-1 mt-4 sm:mt-0 w-full sm:w-1/2"
                                 onClick={onClose}>
                                 {translate("app.ui.actions.cancel")}
                             </Button>

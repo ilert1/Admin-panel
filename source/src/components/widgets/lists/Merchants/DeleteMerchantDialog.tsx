@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import {
     Dialog,
     DialogContent,
@@ -56,6 +56,7 @@ export const DeleteMerchantDialog = ({ id, open, onOpenChange }: DeleteMerchantD
 
                         <Button
                             variant={"outline"}
+                            className="bg-neutral-0 dark:bg-neutral-100"
                             onClick={() => {
                                 onOpenChange(false);
                             }}>

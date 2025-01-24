@@ -1,6 +1,7 @@
-import { BaseDataProvider } from "./base";
 import { GetListParams, GetListResult, GetOneParams, GetOneResult } from "react-admin";
 import { fetchUtils } from "react-admin";
+
+import { BaseDataProvider } from "./base";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

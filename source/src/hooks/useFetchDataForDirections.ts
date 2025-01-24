@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { CurrenciesDataProvider, MerchantsDataProvider, ProvidersDataProvider } from "@/data";
 import { usePermissions } from "react-admin";
+
+import { CurrenciesDataProvider, MerchantsDataProvider, ProvidersDataProvider } from "@/data";
 
 export const useFetchDataForDirections = () => {
     const [currencies, setCurrencies] = useState<{ data: Currencies.Currency[]; total: number }>({

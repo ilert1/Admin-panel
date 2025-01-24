@@ -1,4 +1,3 @@
-import { BaseDataProvider } from "./base";
 import {
     CreateParams,
     CreateResult,
@@ -11,6 +10,8 @@ import {
     UpdateParams
 } from "react-admin";
 import { fetchUtils } from "react-admin";
+
+import { BaseDataProvider } from "./base";
 
 const API_URL = import.meta.env.VITE_WALLET_URL;
 
@@ -39,7 +40,7 @@ export class WalletsDataProvider extends BaseDataProvider {
         if (resource === "reconciliation") {
             return {
                 data:
-                    json?.data?.map((data: WalletLinkedTransactions) => ({
+                    json?.data?.map((data: Wallets.WalletLinkedTransactions) => ({
                         ...data,
                         id: data.transaction_id
                     })) || [],
@@ -79,7 +80,7 @@ export class WalletsDataProvider extends BaseDataProvider {
         };
     }
 
-    async getWalletBalance(resource: string, id: string): Promise<WalletBalance> {
+    async getWalletBalance(resource: string, id: string): Promise<Wallets.WalletBalance> {
         const { json } = await fetchUtils
             .fetchJson(`${API_URL}/${resource}/${id}/balance`, {
                 method: "GET",

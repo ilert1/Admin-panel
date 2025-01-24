@@ -1,6 +1,6 @@
 import { ListContextProvider, useListController, useShowController, useTranslate } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useGetAccountShowColumns } from "./Columns";
 
@@ -22,9 +22,8 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     });
 
     if (context.isLoading || !context.record || listContext.isLoading || !listContext.data) {
-        return <LoadingAlertDialog />;
+        return <LoadingBlock />;
     }
-
     return (
         <div className="mx-6">
             {(context.record.meta?.TRC20 || context.record.meta?.tron_wallet) && (
@@ -33,6 +32,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                         <TextField
                             label={translate("resources.accounts.fields.trc20")}
                             text={context.record.meta?.TRC20}
+                            className="text-neutral-90 dark:text-neutral-30"
                             copyValue
                         />
                     )}
@@ -42,6 +42,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                             label={translate("resources.accounts.fields.tron_wallet")}
                             text={context.record.meta?.tron_wallet}
                             copyValue
+                            className="text-neutral-90 dark:text-neutral-30"
                         />
                     )}
                 </div>

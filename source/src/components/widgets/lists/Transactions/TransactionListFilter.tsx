@@ -6,11 +6,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input/input";
 import useTransactionFilter from "@/hooks/useTransactionFilter";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { XIcon } from "lucide-react";
 import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
+import { Label } from "@/components/ui/label";
 
 interface TranactionListFilterProps {
     typeTabActive: string;
@@ -46,39 +47,38 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
         <div className="mb-6">
             <div className="w-full mb-6">
                 <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
-                    <label className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
-                        <span className="md:text-nowrap">{translate("resources.transactions.filter.filterById")}</span>
+                    <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
                         <Input
-                            className="flex-1 text-sm placeholder:text-neutral-70"
+                            className="flex-1"
+                            label={translate("resources.transactions.filter.filterById")}
+                            labelSize="title-2"
                             placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
                             value={operationId}
                             onChange={onOperationIdChanged}
                         />
-                    </label>
-
-                    <label className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
-                        <span className="md:text-nowrap">
-                            {translate("resources.transactions.filter.filterCustomerPaymentId")}
-                        </span>
+                    </div>
+                    <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
                         <Input
-                            className="flex-1 text-sm placeholder:text-neutral-70"
+                            className="flex-1"
                             placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
                             value={customerPaymentId}
                             onChange={onCustomerPaymentIdChanged}
+                            label={translate("resources.transactions.filter.filterCustomerPaymentId")}
+                            labelSize="title-2"
                         />
-                    </label>
+                    </div>
 
-                    <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start min-w-36">
-                        <span className="md:text-nowrap">
+                    <div className="flex flex-1 md:flex-col items-center gap-2 md:gap-1 md:items-start min-w-36">
+                        <Label variant="title-2" className="mb-0">
                             {translate("resources.transactions.filter.filterByOrderStatus")}
-                        </span>
+                        </Label>
 
                         <Select
                             onValueChange={val =>
                                 val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged("")
                             }
                             value={orderStatusFilter}>
-                            <SelectTrigger className="text-ellipsis">
+                            <SelectTrigger className="text-ellipsis h-[38px]">
                                 <SelectValue
                                     placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
                                 />
@@ -113,10 +113,10 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                     />
 
                     {adminOnly && (
-                        <div className="flex flex-1 flex-grow-100 md:basis-[500px] md:flex-col gap-2 items-center md:items-start">
-                            <span className="md:text-nowrap">
+                        <div className="flex flex-1 flex-grow-100 md:basis-[500px] md:flex-col gap-2 md:gap-1 items-center md:items-start">
+                            <Label className="md:text-nowrap mb-0" variant="title-2">
                                 {translate("resources.transactions.filter.filterByAccount")}
-                            </span>
+                            </Label>
 
                             <MerchantSelectFilter
                                 merchant={account}
@@ -129,7 +129,7 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                     <Button
                         className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7"
                         onClick={clearFilters}
-                        variant="clearBtn"
+                        variant="text_btn_sec"
                         size="default"
                         disabled={
                             !operationId &&
@@ -146,11 +146,7 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button
-                                disabled={
-                                    !startDate ||
-                                    (adminOnly && !account) ||
-                                    (orderStatusFilter && !orderStatusFilter.final)
-                                }
+                                disabled={!startDate || (adminOnly && !account)}
                                 className="md:ml-auto"
                                 variant="default"
                                 size="sm">
@@ -175,7 +171,10 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
 
             <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-3 flex-wrap">
-                    <button className={chooseClassTabActive("")} onClick={clearFilters} disabled={typeTabActive === ""}>
+                    <button
+                        className={chooseClassTabActive("")}
+                        onClick={() => onTabChanged({ type_descr: "", type: 0 })}
+                        disabled={typeTabActive === ""}>
                         {translate("resources.transactions.types.all")}
                     </button>
 

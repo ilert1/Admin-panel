@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { useMemo, useState } from "react";
 import { useDataProvider, useGetList, usePermissions, useShowController, useTranslate } from "react-admin";
@@ -15,7 +15,10 @@ interface WalletShowProps {
 
 export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const { permissions } = usePermissions();
-    const context = useShowController<Wallet>({ resource: permissions === "admin" ? "wallet" : "merchant/wallet", id });
+    const context = useShowController<Wallets.Wallet>({
+        resource: permissions === "admin" ? "wallet" : "merchant/wallet",
+        id
+    });
     const translate = useTranslate();
     const dataProvider = useDataProvider<WalletsDataProvider>();
 
@@ -32,7 +35,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
 
-    const { data: walletBalance, isFetching: walletBalanceFetching } = useQuery<WalletBalance>(
+    const { data: walletBalance, isFetching: walletBalanceFetching } = useQuery<Wallets.WalletBalance>(
         ["walletBalance"],
         () => dataProvider.getWalletBalance(permissions === "admin" ? "wallet" : "merchant/wallet", id),
         {
@@ -56,7 +59,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
                 <TextField label={translate("resources.wallet.manage.fields.walletType")} text={context.record.type} />
 
                 <div>
-                    <small className="text-sm text-muted-foreground">
+                    <small className="text-sm text-neutral-60 dark:text-neutral-40">
                         {translate("resources.wallet.manage.fields.balance")}
                     </small>
 
@@ -120,15 +123,12 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
             </div>
 
             <div className="flex flex-col sm:flex-row justify-end gap-4 px-[21px] sm:px-[42px] mb-4">
-                <Button onClick={() => handleEditClicked()} className="text-title-1">
-                    {translate("app.ui.actions.edit")}
+                <Button variant={"outline_gray"} onClick={() => handleDeleteClicked()}>
+                    {translate("resources.users.delete")}
                 </Button>
 
-                <Button
-                    variant={"outline"}
-                    className="border-[1px] border-neutral-50 text-neutral-50 bg-transparent"
-                    onClick={() => handleDeleteClicked()}>
-                    {translate("app.ui.actions.delete")}
+                <Button onClick={handleEditClicked} className="text-title-1 text-white">
+                    {translate("resources.users.edit")}
                 </Button>
             </div>
             <DeleteWalletDialog

@@ -1,8 +1,8 @@
 import { useListContext, useTranslate } from "react-admin";
 import { CirclePlus, XIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { ChangeEvent, useState } from "react";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input/input";
 import { debounce } from "lodash";
 import { CreateUserDialog } from "./CreateUserDialog";
 
@@ -56,38 +56,36 @@ export const UserListFilter = () => {
     return (
         <div className="flex flex-col gap-4 mb-6">
             <div className="flex justify-between items-end flex-wrap gap-4">
-                <div className="flex items-end gap-4">
-                    <label className="flex flex-col gap-2 lg:min-w-52">
-                        <span className="font-normal text-base">
-                            {translate("resources.users.filter.filterByUsername")}
-                        </span>
+                <div className="flex items-end gap-4 flex-wrap">
+                    <div className="flex flex-col gap-2 lg:min-w-52">
                         <Input
                             className="flex-1 text-sm placeholder:text-neutral-70"
+                            label={translate("resources.users.filter.filterByUsername")}
+                            labelSize="title-2"
                             placeholder={translate("resources.users.filter.filterByUsernamePlaceholder")}
                             value={username}
                             onChange={onUsernameChanged}
                         />
-                    </label>
+                    </div>
 
-                    <label className="flex flex-col gap-2 lg:min-w-52">
-                        <span className="font-normal text-base">
-                            {translate("resources.users.filter.filterByUserId")}
-                        </span>
+                    <div className="flex flex-col gap-2 lg:min-w-52">
                         <Input
+                            label={translate("resources.users.filter.filterByUsername")}
+                            labelSize="title-2"
                             className="flex-1 text-sm placeholder:text-neutral-70"
                             placeholder={translate("resources.users.fields.id")}
                             value={userInputId}
                             onChange={onUserInputIdChanged}
                         />
-                    </label>
+                    </div>
 
                     <Button
                         className="ml-0 sm:ml-auto flex items-center gap-1 w-auto h-auto px"
                         onClick={clearFilters}
-                        variant="clearBtn"
+                        variant="text_btn_sec"
                         size="default"
                         disabled={!userInputId && !username && !checkedActivity}>
-                        <span>{translate("resources.transactions.filter.clearFilters")}</span>
+                        <span className="">{translate("resources.transactions.filter.clearFilters")}</span>
                         <XIcon className="size-4" />
                     </Button>
                 </div>
@@ -98,7 +96,6 @@ export const UserListFilter = () => {
                     <CirclePlus width={16} height={16} />
                     <span>{translate("resources.users.createButton")}</span>
                 </Button>
-
                 <CreateUserDialog open={showAddUserDialog} onOpenChange={setShowAddUserDialog} />
             </div>
 
@@ -108,7 +105,7 @@ export const UserListFilter = () => {
                 <div className="relative w-4 h-4 rounded-full border transition-all bg-white dark:bg-black border-neutral-60 flex justify-center items-center">
                     {checkedActivity && <div id="checked" className="w-2.5 h-2.5 rounded-full bg-green-50"></div>}
                 </div>
-                <span className="font-normal text-sm text-netural-60 dark:text-neutral-40 transition-all">
+                <span className="font-normal text-sm text-neutral-70 dark:text-neutral-40 transition-all">
                     {translate("resources.users.filter.filterByActivity")}
                 </span>
             </label>

@@ -12,7 +12,7 @@ export const WalletTransactionsShow = ({ id }: WalletTransactionsShowProps) => {
     const dictionaries = fetchDictionaries();
     const [locale] = useLocaleState();
 
-    const context = useShowController<Cryptotransactions>({
+    const context = useShowController<Wallets.Cryptotransactions>({
         resource: permissions === "admin" ? "transaction" : "merchant/transaction",
         id,
         queryOptions: {

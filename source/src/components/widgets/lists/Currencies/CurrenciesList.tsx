@@ -1,7 +1,7 @@
 import { ListContextProvider, useListController, useTranslate } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { CirclePlus } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/loading";
 import { useGetCurrencyColumns } from "./Columns";
 import { CreateCurrencyDialog } from "./CreateCurrencyDialog";
@@ -33,7 +33,7 @@ export const CurrenciesList = () => {
                         onClick={() => setShowAddCurrencyDialog(true)}
                         className="flex items-center justify-center gap-1 font-normal">
                         <CirclePlus width={16} height={16} />
-                        <span>{translate("resources.currency.create")}</span>
+                        {translate("resources.currency.create")}
                     </Button>
                 </div>
 

@@ -1,12 +1,11 @@
-import { Button } from "@/components/ui/button";
+import { ShowButton } from "@/components/ui/Button";
 import { LoadingBalance } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
-import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
-export const useGetWalletsColumns = (data: Wallet[], balances: Map<string, WalletBalance>) => {
+export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<string, Wallets.WalletBalance>) => {
     const translate = useTranslate();
     const [chosenId, setChosenId] = useState("");
     const [quickShowOpen, setQuickShowOpen] = useState(false);
@@ -16,7 +15,7 @@ export const useGetWalletsColumns = (data: Wallet[], balances: Map<string, Walle
         setQuickShowOpen(true);
     };
 
-    const columns: ColumnDef<Wallet>[] = [
+    const columns: ColumnDef<Wallets.Wallet>[] = [
         {
             id: "type",
             accessorKey: "type",
@@ -98,17 +97,12 @@ export const useGetWalletsColumns = (data: Wallet[], balances: Map<string, Walle
             },
             cell: ({ row }) => {
                 return (
-                    <div className="flex items-center justify-center">
-                        <Button
-                            onClick={() => {
-                                setChosenId(row.original.id);
-                                openSheet(row.original.id);
-                            }}
-                            variant="secondary"
-                            className="h-7 w-7 p-0 bg-transparent flex items-center">
-                            <EyeIcon className="text-green-50 size-7" />
-                        </Button>
-                    </div>
+                    <ShowButton
+                        onClick={() => {
+                            setChosenId(row.original.id);
+                            openSheet(row.original.id);
+                        }}
+                    />
                 );
             }
         }

@@ -1,7 +1,7 @@
 import { ListContextProvider, useDataProvider, useListController, usePermissions, useTranslate } from "react-admin";
 import { useGetWalletsColumns } from "./Columns";
 import { Loading } from "@/components/ui/loading";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { PlusCircle } from "lucide-react";
 import { CreateWalletDialog } from "./CreateWalletDialog";
 import { useEffect, useState } from "react";
@@ -12,12 +12,12 @@ import { useQuery } from "react-query";
 
 export const WalletsList = () => {
     const { permissions } = usePermissions();
-    const listContext = useListController<Wallet>(
+    const listContext = useListController<Wallets.Wallet>(
         permissions === "admin" ? { resource: "wallet" } : { resource: "merchant/wallet" }
     );
     const translate = useTranslate();
     // console.log(listContext?.perPage);
-    const [balances, setBalances] = useState<Map<string, WalletBalance>>();
+    const [balances, setBalances] = useState<Map<string, Wallets.WalletBalance>>();
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const dataProvider = useDataProvider<VaultDataProvider & WalletsDataProvider>();
@@ -32,7 +32,7 @@ export const WalletsList = () => {
     const fetchBalances = async () => {
         if (!listContext.data) return;
 
-        const tempBalancesMap: Map<string, WalletBalance> = new Map();
+        const tempBalancesMap: Map<string, Wallets.WalletBalance> = new Map();
 
         const balancePromises = listContext.data.map(async wallet => {
             return dataProvider

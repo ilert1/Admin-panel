@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { fetchUtils, useRefresh, useTranslate } from "react-admin";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -92,7 +92,7 @@ export const EditAuthData = (props: EditAuthDataProps) => {
                             <Button onClick={() => handleSaveClicked()} disabled={hasErrors || !isValid}>
                                 {translate("app.ui.actions.save")}
                             </Button>
-                            <Button onClick={() => onOpenChange(false)} variant={"deleteGray"}>
+                            <Button onClick={() => onOpenChange(false)} variant={"outline_gray"}>
                                 {translate("app.ui.actions.cancel")}
                             </Button>
                         </div>

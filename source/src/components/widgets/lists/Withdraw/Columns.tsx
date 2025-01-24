@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { useFetchMerchants, useGetTransactionState } from "@/hooks";
 import { ColumnDef, Row } from "@tanstack/react-table";
@@ -90,7 +90,7 @@ export const useGetWithdrawColumns = () => {
                               <div>
                                   <TextField text={merch?.name ?? ""} wrap />
                                   <TextField
-                                      className="text-neutral-60 dark:text-neutral-70"
+                                      className="text-neutral-70"
                                       text={row.original.source.id}
                                       wrap
                                       copyValue

@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Button } from "@/components/ui/button";
+import { Button, EditButton, ShowButton, TrashButton } from "@/components/ui/Button";
 
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
-import { EyeIcon, Pencil, Trash2 } from "lucide-react";
+import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
+import ReloadRoundSvg from "@/lib/icons/reload_round.svg?react";
 
 export const useGetProvidersColumns = () => {
     const translate = useTranslate();
@@ -16,6 +17,7 @@ export const useGetProvidersColumns = () => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [showMethodsOpen, setSowMethodsOpen] = useState(false);
+    const [confirmKeysCreatingOpen, setConfirmKeysCreatingOpen] = useState(false);
 
     const handleDeleteClicked = async (id: string) => {
         setChosenId(id);
@@ -29,7 +31,7 @@ export const useGetProvidersColumns = () => {
 
     const handleClickGenerate = async (id: string) => {
         setChosenId(id);
-        setDialogOpen(true);
+        setConfirmKeysCreatingOpen(true);
     };
 
     const handleShowMethodsClicked = (id: string) => {
@@ -85,16 +87,7 @@ export const useGetProvidersColumns = () => {
                 return <div className="text-center">{translate("resources.provider.fields.methods")}</div>;
             },
             cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Button
-                            onClick={() => handleShowMethodsClicked(row.original.id)}
-                            variant="secondary"
-                            className="h-7 w-7 p-0 bg-transparent">
-                            <EyeIcon className="text-green-50 size-7" />
-                        </Button>
-                    </div>
-                );
+                return <ShowButton onClick={() => handleShowMethodsClicked(row.original.id)} />;
             }
         },
         {
@@ -105,8 +98,8 @@ export const useGetProvidersColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => handleClickGenerate(row.original.id)} variant={"clearBtn"}>
-                            <img src="/reload-round.svg" />
+                        <Button onClick={() => handleClickGenerate(row.original.id)} variant={"text_btn"}>
+                            <ReloadRoundSvg className="stroke-green-50 hover:stroke-green-40" />
                         </Button>
                     </div>
                 );
@@ -118,13 +111,7 @@ export const useGetProvidersColumns = () => {
                 return <div className="text-center">{translate("app.ui.actions.edit")}</div>;
             },
             cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Button onClick={() => handleEditClicked(row.original.id)} variant={"clearBtn"}>
-                            <Pencil className="text-green-50" />
-                        </Button>
-                    </div>
-                );
+                return <EditButton onClick={() => handleEditClicked(row.original.id)} />;
             }
         },
         {
@@ -133,13 +120,7 @@ export const useGetProvidersColumns = () => {
                 return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
             },
             cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Button onClick={() => handleDeleteClicked(row.original.name)} variant={"clearBtn"}>
-                            <Trash2 className="text-green-50" />
-                        </Button>
-                    </div>
-                );
+                return <TrashButton onClick={() => handleDeleteClicked(row.original.name)} />;
             }
         }
     ];
@@ -150,9 +131,11 @@ export const useGetProvidersColumns = () => {
         columns,
         editDialogOpen,
         showMethodsOpen,
+        confirmKeysCreatingOpen,
         setSowMethodsOpen,
         setEditDialogOpen,
         setDeleteDialogOpen,
-        setDialogOpen
+        setDialogOpen,
+        setConfirmKeysCreatingOpen
     };
 };

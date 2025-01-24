@@ -1,17 +1,16 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { useDataProvider, useInfiniteGetList, useTranslate } from "react-admin";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { TriangleAlert, WalletMinimal } from "lucide-react";
+import { WalletMinimal } from "lucide-react";
 import { Icon } from "../shared/Icon";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectType } from "@/components/ui/select";
 import { CreateWalletDialog } from "../lists/Wallets";
-import { LoadingBalance } from "@/components/ui/loading";
+import { LoadingBlock, LoadingBalance } from "@/components/ui/loading";
 import { toast } from "sonner";
 import { useQuery } from "react-query";
 
@@ -37,6 +36,7 @@ export const CryptoTransferForm = (props: {
     const {
         data: walletsData,
         isFetched: walletsDataFetched,
+        isFetching: walletsDataLoading,
         fetchNextPage: walletsNextPage
     } = useInfiniteGetList("merchant/wallet", {
         pagination: { perPage: 25, page: 1 },
@@ -196,15 +196,15 @@ export const CryptoTransferForm = (props: {
         return (
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="">
-                    <div className="flex flex-col lg:w-[325px] max-w-[476px] px-6 py-4 bg-neutral-0 rounded-2xl gap-4">
+                    <div className="flex flex-col lg:w-[325px] max-w-[476px] px-6 py-4 bg-neutral-0 dark:bg-neutral-100 rounded-2xl gap-4">
                         <div className="flex-1">
                             <FormField
                                 disabled={props.loading}
                                 control={form.control}
                                 name="address"
-                                render={({ field }) => (
+                                render={({ field, fieldState }) => (
                                     <FormItem>
-                                        <FormLabel className="text-note-1">
+                                        <FormLabel className="text-note-1 text-neutral-80 dark:text-neutral-30">
                                             {translate("app.widgets.forms.cryptoTransfer.address")}
                                         </FormLabel>
                                         <FormControl>
@@ -215,66 +215,80 @@ export const CryptoTransferForm = (props: {
                                                 onValueChange={field.onChange}
                                                 disabled={props.loading}>
                                                 <FormControl>
-                                                    <SelectTrigger variant={SelectType.DEFAULT}>
+                                                    <SelectTrigger
+                                                        variant={SelectType.DEFAULT}
+                                                        isError={fieldState.invalid}
+                                                        errorMessage={<FormMessage />}>
                                                         <span className="truncate">{field.value}</span>
                                                     </SelectTrigger>
                                                 </FormControl>
                                                 <SelectContent
                                                     onScrollCapture={walletScrollHandler}
                                                     onScroll={walletScrollHandler}>
-                                                    {lastUsedWallet && (
-                                                        <SelectItem value={lastUsedWallet} variant={SelectType.DEFAULT}>
-                                                            <p className="truncate max-w-[235px]">{lastUsedWallet}</p>
-                                                            <p
-                                                                className="truncate max-w-[235px] text-note-2 text-neutral-50"
-                                                                style={{ bottom: "-.5" }}>
-                                                                {translate(
-                                                                    "app.widgets.forms.cryptoTransfer.lastUsedWallet"
-                                                                )}
-                                                            </p>
-                                                        </SelectItem>
+                                                    {walletsDataLoading ? (
+                                                        <div className="flex items-center justify-center p-4">
+                                                            <LoadingBlock />
+                                                        </div>
+                                                    ) : (
+                                                        <>
+                                                            {lastUsedWallet && (
+                                                                <SelectItem
+                                                                    value={lastUsedWallet}
+                                                                    variant={SelectType.DEFAULT}>
+                                                                    <p className="truncate max-w-[235px]">
+                                                                        {lastUsedWallet}
+                                                                    </p>
+                                                                    <p
+                                                                        className="truncate max-w-[235px] text-note-2 text-neutral-50"
+                                                                        style={{ bottom: "-.5" }}>
+                                                                        {translate(
+                                                                            "app.widgets.forms.cryptoTransfer.lastUsedWallet"
+                                                                        )}
+                                                                    </p>
+                                                                </SelectItem>
+                                                            )}
+                                                            {walletsData?.pages.map(page => {
+                                                                return page.data.map(wallet => {
+                                                                    if (wallet.address !== lastUsedWallet) {
+                                                                        return (
+                                                                            <div
+                                                                                key={wallet.id}
+                                                                                className="relative flex flex-col gap-2">
+                                                                                <SelectItem
+                                                                                    value={wallet.address}
+                                                                                    variant={SelectType.DEFAULT}>
+                                                                                    <p className="truncate max-w-[235px]">
+                                                                                        {wallet.address}
+                                                                                    </p>
+                                                                                    <p
+                                                                                        className="truncate max-w-[235px] text-note-2 text-neutral-50"
+                                                                                        style={{ bottom: "-.5" }}>
+                                                                                        {wallet.description}
+                                                                                    </p>
+                                                                                </SelectItem>
+                                                                            </div>
+                                                                        );
+                                                                    }
+                                                                });
+                                                            })}
+                                                            <div className="sticky bottom-0 bg-neutral-20 dark:bg-black p-2 z-10 flex items-center w-full h-[48px]">
+                                                                <Button
+                                                                    variant={"default"}
+                                                                    className="h-full py-[6px] px-[16px] w-full flex gap-[6px] justify-center items-center"
+                                                                    onClick={() => setCreateOpen(true)}>
+                                                                    <WalletMinimal className="w-4 h-4" />
+                                                                    <p className="text-title-1">
+                                                                        {translate(
+                                                                            "app.widgets.forms.cryptoTransfer.createNewWallet"
+                                                                        )}
+                                                                    </p>
+                                                                </Button>
+                                                            </div>
+                                                        </>
                                                     )}
-                                                    {walletsData?.pages.map(page => {
-                                                        return page.data.map(wallet => {
-                                                            if (wallet.address !== lastUsedWallet) {
-                                                                return (
-                                                                    <div
-                                                                        key={wallet.id}
-                                                                        className="relative flex flex-col gap-2">
-                                                                        <SelectItem
-                                                                            value={wallet.address}
-                                                                            variant={SelectType.DEFAULT}>
-                                                                            <p className="truncate max-w-[235px]">
-                                                                                {wallet.address}
-                                                                            </p>
-                                                                            <p
-                                                                                className="truncate max-w-[235px] text-note-2 text-neutral-50"
-                                                                                style={{ bottom: "-.5" }}>
-                                                                                {wallet.description}
-                                                                            </p>
-                                                                        </SelectItem>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        });
-                                                    })}
-                                                    <div className="sticky bottom-0 bg-black p-2 z-10 flex items-center w-full h-[48px]">
-                                                        <Button
-                                                            variant={"default"}
-                                                            className="h-full py-[6px] px-[16px] w-full flex gap-[6px] justify-center items-center"
-                                                            onClick={() => setCreateOpen(true)}>
-                                                            <WalletMinimal className="w-4 h-4" />
-                                                            <p className="text-title-1">
-                                                                {translate(
-                                                                    "app.widgets.forms.cryptoTransfer.createNewWallet"
-                                                                )}
-                                                            </p>
-                                                        </Button>
-                                                    </div>
                                                 </SelectContent>
                                             </Select>
                                         </FormControl>
-                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
@@ -286,17 +300,12 @@ export const CryptoTransferForm = (props: {
                                 name="amount"
                                 render={({ field, fieldState }) => (
                                     <FormItem>
-                                        <FormLabel className="text-note-1">
-                                            {translate("app.widgets.forms.cryptoTransfer.amount")}
-                                        </FormLabel>
                                         <FormControl>
                                             <Input
                                                 autoComplete="off"
-                                                className={`${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate("app.widgets.forms.cryptoTransfer.amount")}
                                                 {...field}
                                                 onChange={e => {
                                                     field.onChange(e.target.value);
@@ -306,29 +315,9 @@ export const CryptoTransferForm = (props: {
                                                         setChecked(false);
                                                     }
                                                     form.trigger("amount");
-                                                }}>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
-                                            </Input>
+                                                }}
+                                            />
                                         </FormControl>
-                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
@@ -353,13 +342,13 @@ export const CryptoTransferForm = (props: {
                                 <span className="text-neutral-60 dark:text-neutral-40">
                                     {translate("app.widgets.forms.cryptoTransfer.commission")}
                                 </span>
-                                <span>2 USD₮</span>
+                                <span className="text-neutral-80 dark:text-neutral-30">2 USD₮</span>
                             </div>
                             <div className="flex flex-col items-start">
                                 <span className="text-neutral-60 dark:text-neutral-40">
                                     {translate("app.widgets.forms.cryptoTransfer.totalAmount")}
                                 </span>
-                                <span>{sendAmount + " USD₮"}</span>
+                                <span className="text-neutral-80 dark:text-neutral-30">{sendAmount + " USD₮"}</span>
                             </div>
                         </div>
                         <Button
@@ -391,7 +380,7 @@ export const CryptoTransferForm = (props: {
         );
     else if (props.transferState === "success" || props.transferState === "error")
         return (
-            <div className="flex flex-col max-w-[476px] h-[308px] px-6 py-4 bg-neutral-0 rounded-2xl gap-6 justify-center items-center">
+            <div className="flex flex-col max-w-[476px] h-[308px] px-6 py-4 bg-neutral-0 dark:bg-neutral-100 rounded-2xl gap-6 justify-center items-center">
                 <div className="flex flex-col gap-2 items-center">
                     <div className="w-[114px]">
                         {props.transferState === "success" && <Icon name="BlowFishCheck" />}

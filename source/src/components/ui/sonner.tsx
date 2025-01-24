@@ -15,10 +15,10 @@ const Toaster = ({ ...props }: ToasterProps) => {
             theme={theme as ToasterProps["theme"]}
             toastOptions={{
                 classNames: {
-                    toast: "flex items-start border p-4 pt-3 bg-neutral-0 gap-2 w-full",
+                    toast: "flex items-start border p-4 pt-3 bg-neutral-0 dark:bg-neutral-100 gap-2 w-full",
                     content: "flex flex-col",
                     title: "text-xl leading-0",
-                    description: "text-sm dark:text-neutral-100 text-neutral-90",
+                    description: "text-sm dark:text-neutral-0 text-neutral-90",
                     icon: "mt-0.5 flex items-start",
                     error: "text-red-40 border-red-40",
                     success: "text-green-50 border-green-50 dark:text-green-40 dark:border-green-40",

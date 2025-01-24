@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker, DropdownProps, type DayPickerProps, defaultLocale } from "react-day-picker";
 import "react-day-picker/style.css";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/Button/button";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslate } from "react-admin";
 function Calendar({ className, classNames, ...props }: DayPickerProps) {
@@ -21,27 +21,28 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
             showOutsideDays
             hideWeekdays
             className={cn(
-                "p-4 pb-2 rounded-4 bg-neutral-0 dark:border-green-50 border-green-60 border shadow select-none",
+                "p-4 pb-2 rounded-4 bg-neutral-0 dark:bg-neutral-100 dark:border-green-50 border-green-60 border shadow select-none",
                 className
             )}
             classNames={{
                 months: "flex flex-col sm:flex-row space-y-4 sm:space-y-0",
                 month_caption: "flex justify-center items-center [&_svg]:hidden dark:text-green-40 text-green-50",
-                months_dropdown: "bg-neutral-0 text-neutral-100 border-green-50 border",
+                months_dropdown:
+                    "bg-neutral-0 dark:bg-neutral-100 text-neutral-100 dark:text-neutral-0 border-green-50 border",
                 dropdowns: "static flex items-center gap-1",
                 caption_label: "flex justify-center text-green-40 items-center",
                 nav: "flex",
                 button_previous: cn(
-                    buttonVariants({ variant: "textBtn" }),
+                    buttonVariants({ variant: "text_btn" }),
                     "h-5 w-5 bg-transparent p-0 opacity-50 hover:opacity-100 font-bold absolute left-4 top-[22px] z-10"
                 ),
                 button_next: cn(
-                    buttonVariants({ variant: "textBtn" }),
+                    buttonVariants({ variant: "text_btn" }),
                     "h-5 w-5 bg-transparent p-0 opacity-50 hover:opacity-100 font-bold absolute right-4 top-[22px] z-10"
                 ),
                 selected:
-                    "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-                day: "p-0 text-sm font-normal dark:text-neutral-90 text-neutral-80 [&.day-range-end]:text-neutral-0 [&.day-range-start]:text-neutral-0 dark:[&.day-range-end]:text-neutral-100 dark:[&.day-range-start]:text-neutral-100",
+                    "bg-primary dark:bg-black text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+                day: "p-0 text-sm font-normal dark:text-neutral-10 text-neutral-80 [&.day-range-end]:text-neutral-0 [&.day-range-start]:text-neutral-0 dark:[&.day-range-end]:text-neutral-0 dark:[&.day-range-start]:text-neutral-0 ",
                 hidden: "invisible",
                 outside: "text-muted-foreground opacity-40",
                 disabled: "text-muted-foreground opacity-40",
@@ -83,9 +84,11 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
                                     !option.disabled ? handleChange(String(option.value)) : e.preventDefault()
                                 }
                                 className={
-                                    "text-sm font-medium dark:text-neutral-90 text-neutral-80 rounded-4 px-1 py-1.5 pointer" +
-                                    (option.value === value ? " bg-green-50 dark:text-neutral-90 text-neutral-0" : "") +
-                                    (option.disabled ? " text-muted-foreground opacity-40 select-none" : "")
+                                    "text-sm font-medium dark:text-neutral-0 text-neutral-80 rounded-4 px-1 py-1.5 pointer" +
+                                    (option.value === value ? " bg-green-50 dark:bg-green-50 !text-neutral-0" : "") +
+                                    (option.disabled
+                                        ? " text-muted-foreground opacity-40 select-none dark:text-neutral-0"
+                                        : "")
                                 }
                                 key={`${option.value}-${id}`}>
                                 {option.label}
@@ -108,7 +111,7 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
                             </button>
 
                             {showDropdown && (
-                                <div className="absolute overflow-auto top-0 bottom-0 left-0 right-0 grid grid-cols-3 grid-rows-4 bg-neutral-0 z-30 gap-x-1 gap-y-2 p-2 rounded-4">
+                                <div className="absolute overflow-auto top-0 bottom-0 left-0 right-0 grid grid-cols-3 grid-rows-4 bg-neutral-0 dark:bg-neutral-100 z-30 gap-x-1 gap-y-2 p-2 rounded-4">
                                     {renderItems}
                                 </div>
                             )}

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import {
     Dialog,
     DialogContent,
@@ -44,7 +44,7 @@ export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-[251px] max-h-[200px] sm:max-h-[140px] bg-muted overflow-auto">
+            <DialogContent className="max-w-[270px] max-h-[200px] sm:max-h-[140px] bg-muted overflow-auto">
                 <DialogHeader>
                     <DialogTitle className="text-center">
                         {translate("resources.provider.deleteProviderQuestion")}
@@ -56,6 +56,7 @@ export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
                         <Button onClick={handleDelete}>{translate("app.ui.actions.delete")}</Button>
                         <Button
                             variant={"outline"}
+                            className="bg-neutral-0 dark:bg-neutral-100"
                             onClick={() => {
                                 onOpenChange(false);
                                 refresh();

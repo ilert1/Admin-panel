@@ -1,7 +1,7 @@
-import polyglotI18nProvider from "ra-i18n-polyglot";
-import raRU from "ra-language-russian";
-import raEn from "ra-language-english";
 import { TranslationMessages } from "ra-core";
+import polyglotI18nProvider from "ra-i18n-polyglot";
+import raEn from "ra-language-english";
+import raRU from "ra-language-russian";
 
 const ru: TranslationMessages = {
     ...raRU,
@@ -169,7 +169,9 @@ const ru: TranslationMessages = {
                 closeDispute: "Закрыть диспут",
                 disputeOpened: "Диспут открыт",
                 disputeClosed: "Диспут закрыт",
-                commitTransaction: "Зафиксировать операцию?"
+                commitTransaction: "Зафиксировать операцию?",
+                sendWebhook: "Отправить вебхук",
+                sendWebhookSuccessMsg: "Вебхук для ордера %{id} успешно отправлен"
             },
             list: {
                 filter: {
@@ -354,6 +356,7 @@ const ru: TranslationMessages = {
                 name: "Имя должно содержать хотя бы один символ",
                 alreadyInUse: "Данное имя уже используется․ Выберите другой."
             },
+            recreateConfirm: "Вы уверены, что хотите создать/пересоздать ключи?",
             showTitle: "Детальная информация о провайдере",
             createNew: "Создать нового провайдера",
             createTestKeys: "Создать тестовые ключи",
@@ -518,7 +521,6 @@ const ru: TranslationMessages = {
                     minBalance: "Минимальное значение 0",
                     intOnly: "Значение должно быть целым числом, без дробной части"
                 },
-
                 creatingWallet: "Добавление кошелька",
                 editingWallet: "Редактирование кошелька",
                 deleteWallet: "Удалить кошелек?",
@@ -608,9 +610,11 @@ const ru: TranslationMessages = {
         ui: {
             header: {
                 totalBalance: "Общий баланс по счетам",
+                aggregatorProfit: "Прибыль агрегатора",
                 totalLoading: "Загрузка...",
                 totalError: "Не удалось получить общий баланс по счетам",
-                accurateBalance: "Точный баланс аккаунта"
+                accurateBalance: "Точный баланс аккаунта",
+                accurateAggregatorProfit: "Точная прибыль агрегатора"
             },
             roles: {
                 admin: "Администратор",
@@ -661,29 +665,10 @@ const ru: TranslationMessages = {
         },
         theme: {
             light: "Светлая тема",
-            dark: "Темная тема"
+            dark: "Тёмная тема"
         },
         widgets: {
             forms: {
-                payin: {
-                    source: "Счет источник",
-                    selectSource: "Выберите счет источник",
-                    destination: "Счет получатель",
-                    selectDestination: "Выберите счет получатель",
-                    sourceCurrency: "Валюта источника",
-                    selectSourceCurrency: "Выберите валюту источника",
-                    destinationCurrency: "Валюта получателя",
-                    selectDestinationCurrency: "Выберите валюту получаетля",
-                    sourceMessage: "Пожалуйста, выберите счет источник",
-                    destinationMessage: "Пожалуйста, выберите счет получатель",
-                    sourceCurrencyMessage: "Пожалуйста, выберите вылюту источника",
-                    destinationCurrencyMessage: "Пожалуйста, выберите вылюту получателя",
-                    sourceValueMessage: "Некорректное значение",
-                    destValueMessage: "Некорректное значение",
-                    sourceValue: "Сумма пополнения",
-                    destValue: "Сумма зачисления",
-                    createOrder: "Создать ордер"
-                },
                 payout: {
                     title: "Банковский перевод",
                     payMethod: "Метод оплаты",
@@ -701,7 +686,8 @@ const ru: TranslationMessages = {
                     create: "Создать",
                     successTitle: "Заявка успешно создана",
                     successDescription: "Вы можете отследить её статус в разделе",
-                    errorTitle: "Ошибка создания заявки"
+                    errorTitle: "Ошибка создания заявки",
+                    createOrder: "Создать ордер"
                 },
                 cryptoTransfer: {
                     address: "Адрес получателя TRC20",
@@ -763,13 +749,12 @@ const ru: TranslationMessages = {
                 "Ваш аккаунт требует настройки, выполните пожалуйста требуемые действия на следующей странице, затем повторите попытку входа",
             accountConfigConfirm: "Настроить",
             totp: "Код двухфакторной аутентификации",
-            configure2fa: "Настроить двухфакторную аутентификацию"
+            configure2fa: "Настроить двухфакторную аутентификацию",
+            lightTheme: "Светлая",
+            darkTheme: "Тёмная"
         }
     },
     pages: {
-        payin: {
-            header: "Пополнение"
-        },
         cryptoTransfer: {
             header: "Перевод криптовалюты"
         }
@@ -957,7 +942,9 @@ const en: TranslationMessages = {
                 closeDispute: "Close dispute",
                 disputeOpened: "Disput opened",
                 disputeClosed: "Disput closed",
-                commitTransaction: "Commit the transaction?"
+                commitTransaction: "Commit the transaction?",
+                sendWebhook: "Send a webhook",
+                sendWebhookSuccessMsg: "The webhook for the order %{id} has been successfully sent"
             },
             list: {
                 filter: {
@@ -1142,6 +1129,7 @@ const en: TranslationMessages = {
                 name: "Name must contain at least 1 symbol",
                 alreadyInUse: "This name is already in use. Choose another one."
             },
+            recreateConfirm: "Are you sure want to create/recreate keys?",
             showTitle: "Detailed information about provider",
             createNew: "Create new provider",
             createTestKeys: "Create test keys",
@@ -1394,9 +1382,11 @@ const en: TranslationMessages = {
         ui: {
             header: {
                 totalBalance: "Total account balance",
+                aggregatorProfit: "Aggregator profit",
                 totalLoading: "Loading...",
                 totalError: "Error while getting total account balance",
-                accurateBalance: "Accurate account balance"
+                accurateBalance: "Accurate account balance",
+                accurateAggregatorProfit: "Accurate aggregator profit"
             },
             roles: {
                 admin: "Administrator",
@@ -1451,25 +1441,6 @@ const en: TranslationMessages = {
         },
         widgets: {
             forms: {
-                payin: {
-                    source: "Source account",
-                    selectSource: "Select source account",
-                    destination: "Destination account",
-                    selectDestination: "Select destination account",
-                    sourceCurrency: "Source currency",
-                    selectSourceCurrency: "Select source currency",
-                    destinationCurrency: "Destination currency",
-                    selectDestinationCurrency: "Select destination currency",
-                    sourceMessage: "Please, select source account",
-                    destinationMessage: "Please, select destination account",
-                    sourceCurrencyMessage: "Please, select source currency",
-                    destinationCurrencyMessage: "Please, select destination currency",
-                    sourceValueMessage: "Wrong value",
-                    destValueMessage: "Wrong value",
-                    sourceValue: "Source value",
-                    destValue: "Destination value",
-                    createOrder: "Create order"
-                },
                 payout: {
                     title: "Bank transfer",
                     payMethod: "Pay method",
@@ -1487,7 +1458,8 @@ const en: TranslationMessages = {
                     create: "Created",
                     successTitle: "The request has been successfully created",
                     successDescription: "You can track her status in the section",
-                    errorTitle: "Request creation error"
+                    errorTitle: "Request creation error",
+                    createOrder: "Create order"
                 },
                 cryptoTransfer: {
                     address: "TRC20 recipient address",
@@ -1550,13 +1522,12 @@ const en: TranslationMessages = {
                 "Your account needs to be configured, please follow the required steps on the next page, then try logging in again",
             accountConfigConfirm: "Configure",
             totp: "Two-factor authentication code",
-            configure2fa: "Configure Two-factor auth"
+            configure2fa: "Configure Two-factor auth",
+            lightTheme: "Light",
+            darkTheme: "Dark"
         }
     },
     pages: {
-        payin: {
-            header: "Pay In"
-        },
         cryptoTransfer: {
             header: "Crypto Wallet Transfer"
         }

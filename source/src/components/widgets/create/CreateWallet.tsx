@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input, InputTypes } from "@/components/ui/input";
+import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Label } from "@/components/ui/label";
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import {
     Select,
     SelectContent,
@@ -21,21 +21,16 @@ import { useDataProvider, useInfiniteGetList, usePermissions, useRefresh, useTra
 import { toast } from "sonner";
 import { Form, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { TronWeb } from "tronweb";
+
+import { WalletTypes } from "@/helpers/wallet-types";
+import { Textarea } from "@/components/ui/textarea";
+import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
+import { isTRC20Address } from "@/helpers/isTRC20Address";
 
 interface CreateWalletProps {
     onOpenChange: (state: boolean) => void;
-    callbackData: (data: Wallet) => void;
+    callbackData: (data: Wallets.Wallet) => void;
 }
-
-enum WalletTypes {
-    INTERNAL = "internal",
-    LINKED = "linked",
-    EXTERNAL = "external"
-}
-const isTRC20Address = (address: string): boolean => {
-    return TronWeb.isAddress(address);
-};
 
 export const CreateWallet = (props: CreateWalletProps) => {
     const { onOpenChange, callbackData } = props;
@@ -45,35 +40,19 @@ export const CreateWallet = (props: CreateWalletProps) => {
 
     const { permissions, isLoading } = usePermissions();
     const { isLoading: loadingMerchantList, merchants } = useFetchDataForDirections();
-    const {
-        data: accountsData,
-        hasNextPage,
-        fetchNextPage: accountsNextPage
-    } = useInfiniteGetList("accounts", {
-        pagination: { perPage: 25, page: 1 },
-        filter: { sort: "name", asc: "ASC" }
-    });
-
-    const accountScrollHandler = async (e: React.UIEvent<HTMLElement>) => {
-        const target = e.target as HTMLElement;
-
-        if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
-            accountsNextPage();
-        }
-    };
 
     const isMerchant = permissions === "merchant";
 
     const [buttonDisabled, setButtonDisabled] = useState(false);
 
-    const onSubmit: SubmitHandler<WalletCreate> = async data => {
+    const onSubmit: SubmitHandler<Wallets.WalletCreate> = async data => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
         delete data.merchantId;
         data.account_id = data.accountNumber;
         delete data.accountNumber;
         try {
-            const json = await dataProvider.create<Wallet>("wallet", { data: data });
+            const json = await dataProvider.create<Wallets.Wallet>("wallet", { data: data });
             refresh();
 
             callbackData(json.data);
@@ -163,10 +142,8 @@ export const CreateWallet = (props: CreateWalletProps) => {
     usePreventFocus({ dependencies: [] });
     const merchantsDisabled =
         !(merchants && Array.isArray(merchants.data) && merchants?.data?.length > 0) || !isMerchant;
-    const accountsDisabled =
-        !(accountsData && Array.isArray(accountsData.pages) && accountsData?.pages.length > 0) || !accountsData;
 
-    if (isLoading || loadingMerchantList) return <LoadingAlertDialog />;
+    if (isLoading || loadingMerchantList) return <LoadingBlock />;
     return (
         <>
             {!isMerchant ? (
@@ -176,18 +153,19 @@ export const CreateWallet = (props: CreateWalletProps) => {
                             <FormField
                                 control={form.control}
                                 name="type"
-                                render={({ field }) => {
+                                render={({ field, fieldState }) => {
                                     return (
                                         <FormItem className="w-1/2 p-2">
-                                            <FormLabel>
-                                                {translate("resources.wallet.manage.fields.walletType")}
-                                            </FormLabel>
+                                            <Label>{translate("resources.wallet.manage.fields.walletType")}</Label>
                                             <Select
                                                 value={field.value}
                                                 onValueChange={field.onChange}
                                                 disabled={isMerchant}>
                                                 <FormControl>
-                                                    <SelectTrigger variant={SelectType.GRAY}>
+                                                    <SelectTrigger
+                                                        variant={SelectType.GRAY}
+                                                        isError={fieldState.invalid}
+                                                        errorMessage={<FormMessage />}>
                                                         <SelectValue
                                                             placeholder={translate("resources.direction.fields.active")}
                                                             defaultValue={WalletTypes.INTERNAL}
@@ -230,38 +208,16 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 name="accountNumber"
                                 render={({ field }) => (
                                     <FormItem className="w-1/2 p-2">
-                                        <FormLabel>
+                                        <Label className="">
                                             {translate("resources.wallet.manage.fields.merchantName")}
-                                        </FormLabel>
+                                        </Label>
                                         <FormControl>
-                                            <Select
-                                                value={field.value}
-                                                onValueChange={field.onChange}
-                                                disabled={accountsDisabled}>
-                                                <FormControl>
-                                                    <SelectTrigger variant={SelectType.GRAY}>
-                                                        <SelectValue />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent
-                                                    onScrollCapture={accountScrollHandler}
-                                                    onScroll={accountScrollHandler}>
-                                                    {accountsData?.pages.map(page => {
-                                                        return page.data.map(account => (
-                                                            <SelectItem
-                                                                key={account.id}
-                                                                value={account.id}
-                                                                variant={SelectType.GRAY}>
-                                                                <p className="truncate max-w-36">
-                                                                    {account.meta?.caption
-                                                                        ? account.meta.caption
-                                                                        : account.owner_id}
-                                                                </p>
-                                                            </SelectItem>
-                                                        ));
-                                                    })}
-                                                </SelectContent>
-                                            </Select>
+                                            <MerchantSelectFilter
+                                                className="bg-white dark:bg-muted"
+                                                merchant={field.value}
+                                                onMerchantChanged={field.onChange}
+                                                resource="accounts"
+                                            />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -271,18 +227,17 @@ export const CreateWallet = (props: CreateWalletProps) => {
                             <FormField
                                 control={form.control}
                                 name="currency"
-                                render={({ field }) => (
+                                render={({ field, fieldState }) => (
                                     <FormItem className="w-1/2 p-2">
-                                        <FormLabel>{translate("resources.wallet.manage.fields.currency")}</FormLabel>
                                         <FormControl>
-                                            <div>
-                                                <Input
-                                                    {...field}
-                                                    className="bg-muted"
-                                                    variant={InputTypes.GRAY}
-                                                    disabled
-                                                />
-                                            </div>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                label={translate("resources.wallet.manage.fields.currency")}
+                                                disabled
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                            />
                                         </FormControl>
                                     </FormItem>
                                 )}
@@ -290,18 +245,17 @@ export const CreateWallet = (props: CreateWalletProps) => {
                             <FormField
                                 control={form.control}
                                 name="blockchain"
-                                render={({ field }) => (
+                                render={({ field, fieldState }) => (
                                     <FormItem className="w-1/2 p-2">
-                                        <FormLabel>{translate("resources.wallet.manage.fields.blockchain")}</FormLabel>
                                         <FormControl>
-                                            <div>
-                                                <Input
-                                                    disabled
-                                                    {...field}
-                                                    className="bg-muted"
-                                                    variant={InputTypes.GRAY}
-                                                />
-                                            </div>
+                                            <Input
+                                                disabled
+                                                {...field}
+                                                label={translate("resources.wallet.manage.fields.blockchain")}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                            />
                                         </FormControl>
                                     </FormItem>
                                 )}
@@ -310,18 +264,17 @@ export const CreateWallet = (props: CreateWalletProps) => {
                             <FormField
                                 control={form.control}
                                 name="network"
-                                render={({ field }) => (
+                                render={({ field, fieldState }) => (
                                     <FormItem className="w-1/2 p-2">
-                                        <FormLabel>{translate("resources.wallet.manage.fields.contactType")}</FormLabel>
                                         <FormControl>
-                                            <div>
-                                                <Input
-                                                    disabled
-                                                    {...field}
-                                                    className="bg-muted"
-                                                    variant={InputTypes.GRAY}
-                                                />
-                                            </div>
+                                            <Input
+                                                disabled
+                                                {...field}
+                                                label={translate("resources.wallet.manage.fields.contactType")}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                            />
                                         </FormControl>
                                     </FormItem>
                                 )}
@@ -329,15 +282,18 @@ export const CreateWallet = (props: CreateWalletProps) => {
                             <FormField
                                 control={form.control}
                                 name="minimal_ballance_limit"
-                                render={({ field }) => (
+                                render={({ field, fieldState }) => (
                                     <FormItem className="w-1/2 p-2">
-                                        <FormLabel>{translate("resources.wallet.manage.fields.minRemaini")}</FormLabel>
                                         <FormControl>
-                                            <div>
-                                                <Input {...field} className="bg-muted" variant={InputTypes.GRAY} />
-                                            </div>
+                                            <Input
+                                                {...field}
+                                                className=""
+                                                label={translate("resources.wallet.manage.fields.minRemaini")}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                            />
                                         </FormControl>
-                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
@@ -346,14 +302,15 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 name="description"
                                 render={({ field }) => (
                                     <FormItem className="w-full p-2">
-                                        <FormLabel>{translate("resources.wallet.manage.fields.descr")}</FormLabel>
+                                        <Label>{translate("resources.wallet.manage.fields.descr")}</Label>
                                         <FormControl>
-                                            <textarea
+                                            <Textarea
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1 outline-none"
+                                                className="w-full h-24 p-2 rounded resize-none overflow-auto dark:bg-muted text-title-1 outline-none"
                                             />
+                                            {/* border border-neutral-60 */}
                                         </FormControl>
                                     </FormItem>
                                 )}
@@ -366,7 +323,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                             </Button>
                             <Button
                                 onClick={() => onOpenChange(false)}
-                                variant="clearBtn"
+                                variant="outline_gray"
                                 type="button"
                                 className="border border-neutral-50 rounded-4 hover:border-neutral-100">
                                 {translate("app.ui.actions.cancel")}
@@ -383,19 +340,15 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 name="address"
                                 render={({ field }) => (
                                     <FormItem className="w-full p-2">
-                                        <FormLabel>
-                                            {translate("resources.wallet.manage.fields.walletAddress")}
-                                        </FormLabel>
                                         <FormControl>
-                                            <div>
-                                                <Input
-                                                    {...field}
-                                                    className="bg-muted"
-                                                    variant={InputTypes.GRAY}
-                                                    value={field.value ?? ""}
-                                                    disabled={!isMerchant}
-                                                />
-                                            </div>
+                                            <Input
+                                                label={translate("resources.wallet.manage.fields.walletAddress")}
+                                                {...field}
+                                                className=""
+                                                variant={InputTypes.GRAY}
+                                                value={field.value ?? ""}
+                                                disabled={!isMerchant}
+                                            />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -406,17 +359,14 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 name="description"
                                 render={({ field }) => (
                                     <FormItem className="w-full p-2">
-                                        <FormLabel>{translate("resources.wallet.manage.fields.descr")}</FormLabel>
+                                        <Label>{translate("resources.wallet.manage.fields.descr")}</Label>
                                         <FormControl>
-                                            <div>
-                                                <Label />
-                                                <textarea
-                                                    {...field}
-                                                    value={field.value ?? ""}
-                                                    placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                    className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1 outline-none"
-                                                />
-                                            </div>
+                                            <Textarea
+                                                {...field}
+                                                value={field.value ?? ""}
+                                                placeholder={translate("resources.wallet.manage.fields.descr")}
+                                                className="w-full h-24 p-2 border rounded resize-none overflow-auto text-neutral-80 dark:text-white text-title-1 outline-none dark:bg-muted border-neutral-40"
+                                            />
                                         </FormControl>
                                     </FormItem>
                                 )}
@@ -429,7 +379,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                             </Button>
                             <Button
                                 onClick={() => onOpenChange(false)}
-                                variant="clearBtn"
+                                variant="outline_gray"
                                 type="button"
                                 className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full sm:w-auto">
                                 {translate("app.ui.actions.cancel")}

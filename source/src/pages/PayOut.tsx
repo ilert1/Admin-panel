@@ -31,7 +31,11 @@ export const PayOutPage = () => {
     const currency = useMemo(() => accounts?.[0]?.amounts?.[0]?.shop_currency, [accounts]);
     const { data: currencies } = useFetchCurrencies();
 
-    const { isLoading: initialLoading, data: payMethods } = useQuery<PayOut.Response, unknown, PayOut.PayMethod[] | []>(
+    const {
+        isLoading: initialLoading,
+        isFetching,
+        data: payMethods
+    } = useQuery<PayOut.Response, unknown, PayOut.PayMethod[] | []>(
         ["paymethods", currency],
         async () => {
             if (currency) {
@@ -49,7 +53,10 @@ export const PayOutPage = () => {
     );
 
     const [localLoading, setLocalLoading] = useState(false);
-    const isLoading = useMemo(() => initialLoading || localLoading, [initialLoading, localLoading]);
+    const isLoading = useMemo(
+        () => initialLoading || localLoading || isFetching,
+        [initialLoading, localLoading, isFetching]
+    );
 
     const createPayOut = async (data: { payMethod: PayOut.PayMethod; [key: string]: string | PayOut.PayMethod }) => {
         try {
@@ -102,8 +109,8 @@ export const PayOutPage = () => {
 
                 return false;
             }
-        } catch (error: any) {
-            error(error.message);
+        } catch (err) {
+            if (err instanceof Error) error(err.message);
 
             return false;
         } finally {
@@ -113,8 +120,10 @@ export const PayOutPage = () => {
 
     return (
         <div className="flex items-center justify-center md:absolute md:top-0 md:bottom-20 md:left-0 md:right-0">
-            <div className="p-[30px] rounded-16 bg-neutral-0 max-w-[700px] w-full md:mx-4">
-                <h1 className="mb-6 text-xl text-center">{translate("app.widgets.forms.payout.title")}</h1>
+            <div className="p-[30px] rounded-16 bg-neutral-0 dark:bg-neutral-100 max-w-[700px] w-full md:mx-4">
+                <h1 className="mb-6 text-xl text-center text-neutral-80 dark:text-neutral-30">
+                    {translate("app.widgets.forms.payout.title")}
+                </h1>
 
                 <PayOutForm
                     currencies={currencies?.data}

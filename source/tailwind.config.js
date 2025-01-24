@@ -115,7 +115,9 @@ module.exports = {
                     info_bold: "hsl(var(--green-50))",
                     warning: "hsl(var(--yellow-40))",
                     error: "hsl(var(--red-40))"
-                }
+                },
+                primary: "hsl(var(--text-primary))",
+                controlElements: "hsl(var(--text-control-elements))"
             },
             borderRadius: {
                 4: "4px",
@@ -136,16 +138,20 @@ module.exports = {
                     to: { height: "0" }
                 }
             },
+
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out"
             },
+
             boxShadow: {
-                1: "box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04)",
-                2: "box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.08)",
-                3: "box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.08)",
-                4: "box-shadow: 0px 6px 16px 0px rgba(0, 0, 0, 0.08)"
+                dialog: "0 0 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3)",
+                1: "0px 2px 4px rgba(0, 0, 0, 0.25)",
+                2: "0px 2px 8px 0px rgba(0, 0, 0, 0.08)",
+                3: "0px 6px 12px 0px rgba(0, 0, 0, 0.08)",
+                4: "0px 6px 16px 0px rgba(0, 0, 0, 0.08)"
             },
+
             fontSize: {
                 "display-1": ["32px", { lineHeight: "40px", fontWeight: 400 }],
                 "display-2": ["28px", { lineHeight: "36px", fontWeight: 400 }],

@@ -1,17 +1,18 @@
 import { toast } from "sonner";
 import { CreateContextProvider, useCreateController, useDataProvider, useRefresh, useTranslate } from "react-admin";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input, InputTypes } from "@/components/ui/Input/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { ChangeEvent, DragEvent, useMemo, useState } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectType, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { TriangleAlert } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { useFetchCurrencies } from "@/hooks/useFetchCurrencies";
+import { Label } from "@/components/ui/label";
 
 interface UserCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -130,40 +131,19 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                 control={form.control}
                                 render={({ field, fieldState }) => (
                                     <FormItem className="space-y-1">
-                                        <FormLabel>{translate("app.widgets.forms.userCreate.name")}</FormLabel>
                                         <FormControl>
                                             <Input
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}
+                                                label={translate("app.widgets.forms.userCreate.name")}
                                                 autoComplete={isFirefox ? "new-password" : "off"}
                                                 autoCorrect="off"
                                                 autoCapitalize="none"
                                                 spellCheck="false"
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
                                                 disabled={currenciesLoading}
-                                                {...field}>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
-                                            </Input>
+                                                variant={InputTypes.GRAY}
+                                                {...field}
+                                            />
                                         </FormControl>
                                     </FormItem>
                                 )}
@@ -174,40 +154,19 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                 control={form.control}
                                 render={({ field, fieldState }) => (
                                     <FormItem className="space-y-1">
-                                        <FormLabel>{translate("app.widgets.forms.userCreate.login")}</FormLabel>
                                         <FormControl>
                                             <Input
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}
+                                                label={translate("app.widgets.forms.userCreate.login")}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
                                                 disabled={currenciesLoading}
                                                 autoComplete={isFirefox ? "new-password" : "off"}
                                                 autoCorrect="off"
                                                 autoCapitalize="none"
                                                 spellCheck="false"
-                                                {...field}>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
-                                            </Input>
+                                                variant={InputTypes.GRAY}
+                                                {...field}
+                                            />
                                         </FormControl>
                                     </FormItem>
                                 )}
@@ -218,45 +177,24 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                 control={form.control}
                                 render={({ field, fieldState }) => (
                                     <FormItem className="space-y-1">
-                                        <FormLabel>{translate("app.widgets.forms.userCreate.email")}</FormLabel>
                                         <FormControl>
                                             <Input
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}
+                                                label={translate("app.widgets.forms.userCreate.email")}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
                                                 disabled={currenciesLoading}
-                                                {...field}
                                                 spellCheck="false"
                                                 autoCorrect="off"
                                                 autoComplete={isFirefox ? "new-password" : "off"}
                                                 autoCapitalize="none"
+                                                variant={InputTypes.GRAY}
+                                                {...field}
                                                 ref={input => {
                                                     if (input) {
                                                         input.removeAttribute("readonly");
                                                     }
-                                                }}>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
-                                            </Input>
+                                                }}
+                                            />
                                         </FormControl>
                                     </FormItem>
                                 )}
@@ -267,46 +205,25 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                 control={form.control}
                                 render={({ field, fieldState }) => (
                                     <FormItem className="space-y-1">
-                                        <FormLabel>{translate("app.widgets.forms.userCreate.password")}</FormLabel>
                                         <FormControl>
                                             <Input
                                                 type="text"
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}
+                                                label={translate("app.widgets.forms.userCreate.password")}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
                                                 disabled={currenciesLoading}
                                                 {...field}
                                                 autoComplete="new-password"
                                                 autoCorrect="off"
                                                 spellCheck="false"
                                                 autoCapitalize="none"
+                                                variant={InputTypes.GRAY}
                                                 ref={input => {
                                                     if (input) {
                                                         input.removeAttribute("readonly");
                                                     }
-                                                }}>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
-                                            </Input>
+                                                }}
+                                            />
                                         </FormControl>
                                     </FormItem>
                                 )}
@@ -317,57 +234,40 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                 control={form.control}
                                 render={({ field, fieldState }) => (
                                     <FormItem className="space-y-2">
-                                        <FormLabel>{translate("app.widgets.forms.userCreate.shopCurrency")}</FormLabel>
-
-                                        <Select
-                                            onValueChange={currentValue => {
-                                                form.setValue("shop_currency", currentValue);
-                                                field.onChange(currentValue);
-                                                setValueCurDialog(currentValue === valueCurDialog ? "" : currentValue);
-                                            }}
-                                            value={valueCurDialog}>
-                                            <SelectTrigger
-                                                className={`dark:bg-muted text-sm text-neutral-100 dark:border-neutral-60 disabled:dark:bg-muted ${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}>
-                                                <div className="mr-auto">
+                                        <Label>{translate("app.widgets.forms.userCreate.shopCurrency")}</Label>
+                                        <FormControl>
+                                            <Select
+                                                onValueChange={currentValue => {
+                                                    form.setValue("shop_currency", currentValue);
+                                                    field.onChange(currentValue);
+                                                    setValueCurDialog(
+                                                        currentValue === valueCurDialog ? "" : currentValue
+                                                    );
+                                                }}
+                                                value={valueCurDialog}>
+                                                <SelectTrigger
+                                                    variant={SelectType.GRAY}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}>
                                                     <SelectValue
                                                         placeholder={translate(
                                                             "app.widgets.forms.userCreate.shopCurrencyPlaceholder"
                                                         )}
                                                     />
-                                                </div>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger className="ml-3 order-3" asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
-                                            </SelectTrigger>
-                                            <SelectContent className="!dark:bg-muted">
-                                                {sortedCurrencies &&
-                                                    sortedCurrencies.map(cur => (
-                                                        <SelectItem key={cur["alpha-3"]} value={cur["alpha-3"]}>
-                                                            {cur["alpha-3"]}
-                                                        </SelectItem>
-                                                    ))}
-                                            </SelectContent>
-                                        </Select>
+                                                </SelectTrigger>
+                                                <SelectContent className="!dark:bg-muted">
+                                                    {sortedCurrencies &&
+                                                        sortedCurrencies.map(cur => (
+                                                            <SelectItem
+                                                                key={cur["alpha-3"]}
+                                                                value={cur["alpha-3"]}
+                                                                variant={SelectType.GRAY}>
+                                                                {cur["alpha-3"]}
+                                                            </SelectItem>
+                                                        ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </FormControl>
                                     </FormItem>
                                 )}
                             />
@@ -381,19 +281,15 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                     control={form.control}
                                     render={({ field, fieldState }) => (
                                         <FormItem className="flex flex-col h-full">
-                                            <FormLabel>{translate("app.widgets.forms.userCreate.publicKey")}</FormLabel>
+                                            <Label>{translate("app.widgets.forms.userCreate.publicKey")}</Label>
                                             <FormControl>
                                                 <Textarea
-                                                    className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted h-full resize-none min-h-20 ${
-                                                        fieldState.invalid
-                                                            ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                            : ""
-                                                    }`}
                                                     value={fileContent}
                                                     onChange={e => handleTextChange(e, field)}
                                                     placeholder={translate(
                                                         "app.widgets.forms.userCreate.publicKeyPlaceholder"
                                                     )}
+                                                    className={`h-full resize-none min-h-20 dark:bg-muted`}
                                                     disabled={currenciesLoading}>
                                                     {fieldState.invalid && (
                                                         <TooltipProvider>
@@ -431,8 +327,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                 onClick={() => {
                                     onOpenChange(false);
                                 }}
-                                variant="clearBtn"
-                                className="border border-neutral-50 rounded-4 hover:border-neutral-100">
+                                variant="outline_gray">
                                 {translate("app.widgets.forms.userCreate.cancelBtn")}
                             </Button>
                         </div>

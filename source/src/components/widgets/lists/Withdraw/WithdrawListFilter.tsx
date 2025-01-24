@@ -5,9 +5,9 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { XIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input/input";
 import useWithdrawFilter from "@/hooks/useWithdrawFilter";
 
 export const WithdrawListFilter = () => {
@@ -30,15 +30,16 @@ export const WithdrawListFilter = () => {
         <>
             <div className="">
                 <div className="w-full mb-6 flex flex-col justify-start sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
-                    <label className="flex flex-1 md:flex-col gap-2 items-center md:items-start md:max-w-96">
-                        <span className="md:text-nowrap">{translate("resources.withdraw.filter.filterById")}</span>
+                    <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start md:max-w-96">
                         <Input
                             className="flex-1 text-sm placeholder:text-neutral-70"
                             placeholder={translate("resources.withdraw.filter.filterByIdPlaceholder")}
                             value={operationId}
+                            label={translate("resources.withdraw.filter.filterById")}
+                            labelSize="title-2"
                             onChange={onOperationIdChanged}
                         />
-                    </label>
+                    </div>
 
                     <DateRangePicker
                         title={translate("resources.withdraw.filter.filterByDate")}
@@ -50,7 +51,7 @@ export const WithdrawListFilter = () => {
                     <Button
                         className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7"
                         onClick={clearFilters}
-                        variant="clearBtn"
+                        variant="text_btn_sec"
                         size="default"
                         disabled={!operationId && !startDate && !typeTabActive}>
                         <span>{translate("resources.withdraw.filter.clearFilters")}</span>
@@ -80,7 +81,7 @@ export const WithdrawListFilter = () => {
 
                 <div>
                     <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
-                        <div className="flex items-center gap-3 flex-wrap">
+                        <div className="flex items-center gap-3 flex-wrap text-neutral-60 dark:text-neutral-30">
                             <button
                                 className={chooseClassTabActive("")}
                                 onClick={clearTypeFilters}

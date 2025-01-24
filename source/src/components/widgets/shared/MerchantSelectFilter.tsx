@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
@@ -10,11 +10,17 @@ interface MerchantSelectFilterProps {
     merchant: string;
     onMerchantChanged: (merchant: string) => void;
     resource: "accounts" | "merchant";
+    className?: string;
 }
 
 type ResourceData<T> = T extends "accounts" ? Account : Merchant;
 
-export const MerchantSelectFilter = ({ merchant, onMerchantChanged, resource }: MerchantSelectFilterProps) => {
+export const MerchantSelectFilter = ({
+    merchant,
+    onMerchantChanged,
+    resource,
+    className = ""
+}: MerchantSelectFilterProps) => {
     const translate = useTranslate();
 
     const { data: merchantData } = useGetList<ResourceData<typeof resource>>(
@@ -51,38 +57,19 @@ export const MerchantSelectFilter = ({ merchant, onMerchantChanged, resource }: 
     };
 
     return (
-        // <Select
-        //     onValueChange={val => (val !== "null" ? onMerchantChanged(val) : onMerchantChanged(""))}
-        //     value={merchant}>
-        //     <SelectTrigger className="text-ellipsis">
-        //         <SelectValue placeholder={translate("resources.transactions.filter.filterAllPlaceholder")} />
-        //     </SelectTrigger>
-
-        //     <SelectContent align="start">
-        //         <SelectItem value="null">{translate("resources.transactions.filter.showAll")}</SelectItem>
-
-        //         {merchantData?.map(merchant => (
-        //             <SelectItem key={merchant.id} value={merchant.id}>
-        //                 <p className="truncate max-w-36">{merchantName(merchant)}</p>
-        //             </SelectItem>
-        //         ))}
-
-        //         {merchantsLoadingProcess && (
-        //             <SelectItem value="null" disabled className="flex max-h-8">
-        //                 <LoadingAlertDialog className="-scale-[.25]" />
-        //             </SelectItem>
-        //         )}
-        //     </SelectContent>
-        // </Select>
-        <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
+        <Popover modal open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild className="mt-0">
                 <Button
-                    variant="clearBtn"
+                    variant="text_btn"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-full font-normal justify-between flex h-9 flex-1 items-center text-start border border-neutral-40 dark:border-neutral-60 rounded-4 hover:border-green-20 bg-neutral-0 px-3 py-2 text-sm ring-offset-background [&:is([data-state='open'])]:border-green-50 active:border-green-50 disabled:cursor-not-allowed [&>span]:line-clamp-1 focus:outline-none [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180">
+                    disabled={merchantData === undefined || !merchantData.length}
+                    className={
+                        "hover:!border-green-40 w-full font-normal justify-between flex h-9 flex-1 items-center text-start border border-neutral-40 dark:border-neutral-60 rounded-4 bg-neutral-0 dark:bg-neutral-100 px-3 py-2 text-sm ring-offset-background [&:is([data-state='open'])]:border-green-50 active:border-green-50 disabled:cursor-not-allowed [&>span]:line-clamp-1 focus:outline-none [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180 !mt-0 " +
+                        className
+                    }>
                     {merchant ? (
-                        <span className="text-neutral-80 hover:!text-neutral-80 focus:!text-neutral-80 active:!text-neutral-80">
+                        <span className="text-neutral-80 dark:text-neutral-0 hover:!text-neutral-80 focus:!text-neutral-80 active:!text-neutral-80">
                             {merchantName(merchantData?.find(account => account.id === merchant))}
                         </span>
                     ) : (
@@ -97,14 +84,19 @@ export const MerchantSelectFilter = ({ merchant, onMerchantChanged, resource }: 
                 </Button>
             </PopoverTrigger>
 
-            <PopoverContent className="md:w-[--radix-popover-trigger-width] md:max-h-[--radix-popover-content-available-height] p-0 z-[60] min-w-[8rem] overflow-hidden rounded-4 border border-green-50 bg-white dark:bg-neutral-0 shadow-1 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2">
-                <Command filter={merchantFilter}>
-                    <CommandInput className="" placeholder={translate("app.ui.actions.search")} />
+            <PopoverContent
+                className={
+                    "md:w-[--radix-popover-trigger-width] md:max-h-[--radix-popover-content-available-height] p-0 z-[70] min-w-[8rem] overflow-hidden rounded-4 border border-green-50 bg-white dark:bg-neutral-100 shadow-1 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 " +
+                    className
+                }>
+                <Command className="" filter={merchantFilter}>
+                    <CommandInput placeholder={translate("app.ui.actions.search")} />
 
                     <CommandList className="">
                         <CommandGroup>
                             <CommandItem
                                 value={"null"}
+                                className="bg-white dark:bg-neutral-100 cursor-pointer"
                                 onSelect={() => {
                                     onMerchantChanged("");
                                     setOpen(false);
@@ -119,7 +111,11 @@ export const MerchantSelectFilter = ({ merchant, onMerchantChanged, resource }: 
                             </CommandItem>
 
                             {merchantData?.map(account => (
-                                <CommandItem key={account.id} value={account.id} onSelect={onSelectMerchant}>
+                                <CommandItem
+                                    key={account.id}
+                                    value={account.id}
+                                    onSelect={onSelectMerchant}
+                                    className="bg-white dark:bg-neutral-100 cursor-pointer">
                                     {merchantName(account)}
                                     <Check
                                         className={cn(

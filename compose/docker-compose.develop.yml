@@ -2,6 +2,6 @@ services:
   juggler-frontend:
     labels:
       - traefik.enable=true
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${JUGGLER_FRONTEND_UI_URL}`) 
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${JUGGLER_FRONTEND_UI_URL}`)
       - traefik.http.routers.${COMPOSE_PROJECT_NAME}.entrypoints=https
       - traefik.http.services.${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=80

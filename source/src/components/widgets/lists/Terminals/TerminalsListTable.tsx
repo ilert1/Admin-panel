@@ -1,4 +1,4 @@
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { ListContextProvider, useListController } from "react-admin";
 import { DataTable } from "../../shared";
 import { ColumnDef } from "@tanstack/react-table";
@@ -14,7 +14,7 @@ export const TerminalListTable = ({ provider, columns }: TerminalListTableProps)
     });
 
     if (terminalsContext.isFetching) {
-        return <LoadingAlertDialog />;
+        return <LoadingBlock />;
     } else {
         return (
             <ListContextProvider value={terminalsContext}>

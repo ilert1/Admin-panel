@@ -4,6 +4,7 @@ import { BF_MANAGER_URL, API_URL } from "@/data/base";
 import { CryptoTransferForm } from "@/components/widgets/forms";
 import { parseJWT } from "@/helpers/jwt";
 import { useQuery } from "react-query";
+import { TextField } from "@/components/ui/text-field";
 
 interface CryptoTransferProps {
     cryptoTransferState: "process" | "success" | "error";
@@ -46,23 +47,7 @@ export const CryptoTransfer = ({ repeatData, cryptoTransferState, setCryptoTrans
     const [localLoading, setLocalLoading] = useState(false);
     const isLoading = useMemo(() => balanceLoading || localLoading, [balanceLoading, localLoading]);
 
-    // Может понадобится потом, пока оставлю
-    // const errorMessagesMap: Record<string, string> = {
-    //     low_amount: translate("resources.withdraw.errors.lowAmountError"),
-    //     default: translate("resources.withdraw.errors.serverError")
-    // };
-
-    const getMessage = (json: any) => {
-        if (json.success) {
-            return translate("app.widgets.forms.cryptoTransfer.transferSuccess");
-        }
-        if (json.error) {
-            return json.error;
-        }
-        return translate("resources.withdraw.errors.serverError");
-    };
-
-    const createTransfer = (data: any) => {
+    const createTransfer = (data: { address: string; amount: number; accuracy: number }) => {
         setLocalLoading(true);
         fetch(`${BF_MANAGER_URL}/v1/withdraw/create`, {
             method: "POST",
@@ -84,10 +69,10 @@ export const CryptoTransfer = ({ repeatData, cryptoTransferState, setCryptoTrans
             .then(response => response.json())
             .then(json => {
                 if (json.success) {
-                    setMessage(getMessage(json));
+                    setMessage(translate("app.widgets.forms.cryptoTransfer.transferSuccess"));
                     setCryptoTransferState("success");
                 } else {
-                    setMessage(getMessage(json));
+                    setMessage(json.error ?? translate("resources.withdraw.errors.serverError"));
                     setCryptoTransferState("error");
                 }
             })
@@ -102,7 +87,7 @@ export const CryptoTransfer = ({ repeatData, cryptoTransferState, setCryptoTrans
 
     return (
         <div className="flex flex-col gap-4">
-            <h4 className="text-display-4 text-neutral-100">{translate("resources.withdraw.cryptoTransferTitle")}</h4>
+            <TextField className="!text-display-4" text={translate("resources.withdraw.cryptoTransferTitle")} />
             <CryptoTransferForm
                 loading={isLoading}
                 create={createTransfer}

@@ -1,9 +1,9 @@
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { XIcon } from "lucide-react";
 import { AccountShow } from "../../show";
 import { useTranslate } from "react-admin";
 import React from "react";
 import { TextField } from "@/components/ui/text-field";
+import { CloseSheetXButton } from "../../components/CloseSheetXButton";
 
 export interface ShowSheetProps {
     accountId: string;
@@ -25,23 +25,17 @@ export const ShowAccountSheet: React.FC<ShowSheetProps> = ({
             <SheetContent
                 className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col border-0"
                 tabIndex={-1}
-                style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
                 close={false}>
                 <SheetHeader className="p-[42px] pb-0 flex-shrink-0">
                     <div className="flex flex-col gap-2">
                         <div className="flex justify-between items-center ">
                             <SheetTitle className="!text-display-1">{translate("app.ui.accountHistory")}</SheetTitle>
-
-                            <button
-                                onClick={() => onOpenChange(false)}
-                                className="text-gray-500 hover:text-gray-700 transition-colors border-0 outline-0">
-                                <XIcon className="h-[28px] w-[28px]" />
-                            </button>
+                            <CloseSheetXButton onOpenChange={onOpenChange} />
                         </div>
-                        <div className="text-display-2 mb-2">
+                        <div className="text-display-2 mb-2 text-neutral-90 dark:text-neutral-30">
                             <span>{accountCaption}</span>
                         </div>
-                        <TextField text={accountId} copyValue />
+                        <TextField text={accountId} copyValue className="text-neutral-90 dark:text-neutral-30" />
                     </div>
                 </SheetHeader>
 

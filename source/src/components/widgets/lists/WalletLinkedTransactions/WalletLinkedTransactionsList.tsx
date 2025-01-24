@@ -7,7 +7,7 @@ import { ShowWalletLinkedTransactionsSheet } from "./ShowWalletLinkedTransaction
 
 export const WalletLinkedTransactionsList = () => {
     const { permissions } = usePermissions();
-    const listContext = useListController<WalletLinkedTransactions>(
+    const listContext = useListController<Wallets.WalletLinkedTransactions>(
         permissions === "admin" ? { resource: "reconciliation" } : { resource: "merchant/reconciliation" }
     );
 

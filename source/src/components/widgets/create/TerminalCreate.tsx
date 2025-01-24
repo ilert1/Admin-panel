@@ -1,16 +1,16 @@
 import { useCreateController, useRefresh, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
 import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Input, InputTypes } from "@/components/ui/Input/input";
+import { Button } from "@/components/ui/Button";
 import { toast } from "sonner";
 import { useState } from "react";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { TriangleAlert } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 export interface ProviderCreateProps {
     provider: string;
@@ -60,48 +60,29 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
         }
     };
 
-    if (controllerProps.isLoading || theme.length === 0) return <LoadingAlertDialog />;
+    if (controllerProps.isLoading || theme.length === 0) return <LoadingBlock />;
 
     return (
         <CreateContextProvider value={controllerProps}>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                     <div className="flex flex-wrap">
                         <FormField
                             control={form.control}
                             name="verbose_name"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.terminals.fields.verbose_name")}</FormLabel>
+                                <FormItem className="w-full p-2">
                                     <FormControl>
                                         <Input
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
+                                            label={translate("resources.terminals.fields.verbose_name")}
                                             autoCorrect="off"
                                             autoCapitalize="none"
                                             spellCheck="false"
-                                            {...field}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Input>
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            variant={InputTypes.GRAY}
+                                            {...field}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -109,38 +90,16 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
                         <FormField
                             control={form.control}
                             name="description"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
-                                    <FormLabel>{translate("resources.terminals.fields.description")}</FormLabel>
+                            render={({ field }) => (
+                                <FormItem className="w-full sm:w-full p-2">
+                                    <Label className="">{translate("resources.terminals.fields.description")}</Label>
                                     <FormControl>
-                                        <Input
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
-                                            autoCorrect="off"
-                                            autoCapitalize="none"
-                                            spellCheck="false"
-                                            {...field}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Input>
+                                        <Textarea
+                                            {...field}
+                                            value={field.value ?? ""}
+                                            placeholder={translate("resources.wallet.manage.fields.descr")}
+                                            className="w-full h-24 p-2 rounded resize-none overflow-auto dark:bg-muted text-title-1 outline-none !mt-0"
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -155,8 +114,8 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
                             </Button>
                             <Button
                                 type="button"
-                                variant="outline"
-                                className="flex-1 mt-4 sm:mt-0 border-neutral-50 text-neutral-50 bg-muted w-full sm:w-1/2"
+                                variant="outline_gray"
+                                className="flex-1 mt-4 sm:mt-0 w-full sm:w-1/2"
                                 onClick={() => {
                                     form.reset();
                                     onClose();

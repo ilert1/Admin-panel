@@ -1,7 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { EditButton, ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
-import { EyeIcon, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
@@ -75,19 +74,15 @@ export const useGetTerminalColumns = () => {
             accessorKey: "auth",
             header: translate("resources.terminals.fields.auth"),
             cell: ({ row }) => {
+                const buttonDisabeled = Object.keys(row.original.auth).length === 0;
                 return (
-                    <div className="flex items-center justify-center">
-                        <Button
-                            disabled={Object.keys(row.original.auth).length === 0}
-                            onClick={() => {
-                                setAuthData(JSON.stringify(row.original.auth));
-                                setShowAuthKeyOpen(true);
-                            }}
-                            variant="clearBtn"
-                            className="h-7 w-7 p-0 bg-transparent">
-                            <EyeIcon className="text-green-50 size-7" />
-                        </Button>
-                    </div>
+                    <ShowButton
+                        disabled={buttonDisabeled}
+                        onClick={() => {
+                            setAuthData(JSON.stringify(row.original.auth));
+                            setShowAuthKeyOpen(true);
+                        }}
+                    />
                 );
             }
         },
@@ -97,13 +92,7 @@ export const useGetTerminalColumns = () => {
                 return <div className="text-center">{translate("app.ui.actions.edit")}</div>;
             },
             cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Button onClick={() => handleEditClicked(row.original.terminal_id)} variant={"clearBtn"}>
-                            <Pencil className="text-green-50" />
-                        </Button>
-                    </div>
-                );
+                return <EditButton onClick={() => handleEditClicked(row.original.terminal_id)} />;
             }
         },
         {
@@ -112,13 +101,7 @@ export const useGetTerminalColumns = () => {
                 return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
             },
             cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Button onClick={() => handleDeleteClicked(row.original.terminal_id)} variant={"clearBtn"}>
-                            <Trash2 className="text-green-50" />
-                        </Button>
-                    </div>
-                );
+                return <TrashButton onClick={() => handleDeleteClicked(row.original.terminal_id)} />;
             }
         }
     ];

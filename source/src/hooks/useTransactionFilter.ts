@@ -1,12 +1,13 @@
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
-import { useListContext, usePermissions, useTranslate } from "react-admin";
-import { toast } from "sonner";
-import { API_URL } from "@/data/base";
 import { format } from "date-fns";
 import { debounce } from "lodash";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { useListContext, usePermissions, useTranslate } from "react-admin";
 import { DateRange } from "react-day-picker";
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useLocation } from "react-router-dom";
+import { toast } from "sonner";
+
+import { API_URL } from "@/data/base";
+import fetchDictionaries from "@/helpers/get-dictionaries";
 
 const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: string) => void) => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
@@ -44,7 +45,7 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         (type: string) => {
             return typeTabActive === type
                 ? "text-green-50 dark:text-green-40 border-b-2 dark:border-green-40 border-green-50 pb-1 duration-200"
-                : "pb-1 border-b-2 border-transparent duration-200 hover:text-green-40";
+                : "pb-1 border-b-2 border-transparent duration-200 hover:text-green-40 text-neutral-70 dark:text-white";
         },
         [typeTabActive]
     );

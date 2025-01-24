@@ -21,7 +21,7 @@ export const BF_MANAGER_URL = import.meta.env.VITE_BF_MANAGER_URL;
 
 export class BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
-        const data: any = {
+        const data: { [key: string]: string } = {
             limit: params.pagination.perPage.toString(),
             offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
         };
@@ -102,7 +102,7 @@ export class BaseDataProvider {
         throw new Error("Method not implemented");
     }
 
-    async getDictionaries(): Promise<any> {
+    async getDictionaries(): Promise<Dictionaries.DataObject> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/dictionaries`, {
             method: "GET",
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }

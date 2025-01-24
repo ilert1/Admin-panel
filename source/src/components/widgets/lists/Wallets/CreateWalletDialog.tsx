@@ -12,7 +12,7 @@ import { CreateWallet } from "../../create";
 interface CreateWalletDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
-    callbackData?: (data: Wallet) => void;
+    callbackData?: (data: Wallets.Wallet) => void;
 }
 export const CreateWalletDialog = (props: CreateWalletDialogProps) => {
     const { open, onOpenChange, callbackData = () => {} } = props;

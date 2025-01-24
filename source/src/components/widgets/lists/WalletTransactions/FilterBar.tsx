@@ -1,5 +1,5 @@
 import { DateRangePicker } from "@/components/ui/date-range-picker";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input/input";
 import { Label } from "@/components/ui/label";
 import { Loading } from "@/components/ui/loading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -13,8 +13,8 @@ export const FilterBar = () => {
     const data = fetchDictionaries();
     const translate = useTranslate();
 
-    const [allOperationsClicked, setAllOperationsClicked] = useState(true);
-    const [deletedOperationsClicked, setDeletedOperationsClicked] = useState(false);
+    // const [allOperationsClicked, setAllOperationsClicked] = useState(true);
+    // const [deletedOperationsClicked, setDeletedOperationsClicked] = useState(false);
 
     const [filterId, setFilterId] = useState("");
 

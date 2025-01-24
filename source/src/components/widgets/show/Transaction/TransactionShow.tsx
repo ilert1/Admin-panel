@@ -2,11 +2,11 @@ import { useShowController, useTranslate, useGetManyReference, usePermissions } 
 import { SimpleTable } from "@/components/widgets/shared";
 import { TextField } from "@/components/ui/text-field";
 import { useCallback, useMemo, useState } from "react";
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { TableTypes } from "../../shared/SimpleTable";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import {
     Dialog,
     DialogContent,
@@ -41,7 +41,9 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         states,
         showCommit,
         commitCaption,
-        commitTransaction
+        commitTransaction,
+        sendWebhookHandler,
+        sendWebhookLoading
     } = useTransactionActions(data, context.record);
 
     const { feesColumns, briefHistory } = useGetTransactionShowColumns();
@@ -78,7 +80,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     );
 
     if (context.isLoading || context.isFetching || !context.record || isLoading) {
-        return <LoadingAlertDialog />;
+        return <LoadingBlock />;
     }
 
     return (
@@ -87,7 +89,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 <div className={`flex justify-between flex-wrap gap-4`}>
                     {showState && (
                         <div className="flex gap-2 items-center">
-                            <span>{translate("resources.transactions.fields.state.state_description")}</span>
+                            <TextField text={translate("resources.transactions.fields.state.state_description")} />
                             <Select value={newState} onValueChange={setNewState}>
                                 <SelectTrigger className="w-[180px] border-">
                                     <SelectValue
@@ -123,7 +125,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                             <>
                                 <Button
                                     disabled={!context.record?.state.final}
-                                    variant={"secondary"}
+                                    variant={"default"}
                                     onClick={() => setDialogOpen(true)}>
                                     {commitCaption}
                                 </Button>
@@ -160,36 +162,41 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                 </Dialog>
                             </>
                         )}
+
+                        {permissions === "admin" && (
+                            <Button disabled={sendWebhookLoading} className="min-w-36" onClick={sendWebhookHandler}>
+                                {sendWebhookLoading ? (
+                                    <div className="w-[20px]">
+                                        <LoadingBlock />
+                                    </div>
+                                ) : (
+                                    translate("resources.transactions.show.sendWebhook")
+                                )}
+                            </Button>
+                        )}
                     </div>
                 </div>
             )}
             <div className="flex gap-6">
-                <div className="flex flex-col">
-                    <span className="opacity-60 text-title-1">{translate("resources.transactions.fields.type")}</span>
+                <TextField
+                    label={translate("resources.transactions.fields.type")}
+                    text={translate(
+                        `resources.transactions.types.${data?.transactionTypes[
+                            context.record.type
+                        ]?.type_descr.toLowerCase()}`
+                    )}
+                />
 
-                    <span>
-                        {translate(
-                            `resources.transactions.types.${data?.transactionTypes[
-                                context.record.type
-                            ]?.type_descr.toLowerCase()}`
-                        )}
-                    </span>
-                </div>
-                <div className="flex flex-col">
-                    <span className="opacity-60 text-title-1">
-                        {translate("resources.transactions.fields.state.state_description")}
-                    </span>
-
-                    <span>
-                        {translate(
-                            `resources.transactions.states.${context.record.state.state_description.toLowerCase()}`
-                        )}
-                    </span>
-                </div>
+                <TextField
+                    label={translate("resources.transactions.fields.state.state_description")}
+                    text={translate(
+                        `resources.transactions.states.${context.record.state.state_description.toLowerCase()}`
+                    )}
+                />
 
                 {permissions === "admin" && (
                     <div className="flex flex-col">
-                        <span className="opacity-60 text-title-1">
+                        <span className="text-neutral-60 dark:text-neutral-40">
                             {translate("resources.transactions.fields.destination.header")}
                         </span>
 

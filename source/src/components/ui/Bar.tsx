@@ -13,7 +13,7 @@ import {
 } from "chart.js";
 import "chartjs-adapter-date-fns";
 import { addDays, format } from "date-fns";
-import { LoadingAlertDialog } from "./loading";
+import { LoadingBlock } from "./loading";
 import { useLocaleState, useTranslate } from "react-admin";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -229,7 +229,7 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
 
     return isLoading ? (
         <div className={`bg-black flex items-center h-[637px] ${open ? "clicked" : "not-clicked"}`}>
-            <LoadingAlertDialog />
+            <LoadingBlock />
         </div>
     ) : (
         <div

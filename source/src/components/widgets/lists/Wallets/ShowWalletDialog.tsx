@@ -18,12 +18,11 @@ export const ShowWalletDialog = (props: ShowWalletDialogProps) => {
             <SheetContent
                 className="sm:max-w-[1015px] max-h-[calc(100dvh-84px)] h-full sm:h-[560px] w-full p-0 m-0 top-[84px] flex flex-col border-0 overflow-y-auto"
                 tabIndex={-1}
-                style={{ backgroundColor: "rgba(19, 35, 44, 1)" }}
                 close={false}>
                 <div className="p-[42px] pb-[0px] flex-shrink-0">
                     <div>
                         <div className="flex justify-between items-center">
-                            <SheetTitle className="text-display-1">
+                            <SheetTitle className="!text-display-1">
                                 {translate("resources.wallet.manage.wallet")}
                             </SheetTitle>
                             <button

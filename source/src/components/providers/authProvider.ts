@@ -1,5 +1,6 @@
-import { AuthProvider, fetchUtils } from "react-admin";
 import { jwtDecode, JwtPayload } from "jwt-decode";
+import { AuthProvider, fetchUtils } from "react-admin";
+
 import { isTokenStillFresh } from "@/helpers/jwt";
 
 interface KeycloakJwtPayload extends JwtPayload {
@@ -36,7 +37,7 @@ export const authProvider: AuthProvider = {
                 localStorage.setItem("access-token", access_token);
                 localStorage.setItem("refresh-token", refresh_token);
 
-                const decodedToken: any = jwtDecode(access_token);
+                const decodedToken: JWT.Payload = jwtDecode(access_token);
                 localStorage.setItem("user", JSON.stringify(decodedToken));
                 return Promise.resolve();
             } catch (error) {
@@ -49,15 +50,10 @@ export const authProvider: AuthProvider = {
                 client_id: clientId,
                 grant_type: "password",
                 username,
-                password,
-                totp: totpCode
+                password
             };
 
-            //console.log(bodyObject);
-
-            const { totp, ...shortBody } = bodyObject;
-
-            const body = new URLSearchParams(totpCode ? bodyObject : shortBody);
+            const body = new URLSearchParams(totpCode ? { ...bodyObject, totp: totpCode } : bodyObject);
 
             const response = await fetchUtils.fetchJson(keycloakLoginUrl, {
                 method: "POST",
@@ -70,7 +66,7 @@ export const authProvider: AuthProvider = {
             localStorage.setItem("access-token", access_token);
             localStorage.setItem("refresh-token", refresh_token);
 
-            const decodedToken: any = jwtDecode(access_token);
+            const decodedToken: JWT.Payload = jwtDecode(access_token);
             localStorage.setItem("user", JSON.stringify(decodedToken));
             return Promise.resolve();
         } catch (error) {

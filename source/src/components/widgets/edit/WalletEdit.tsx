@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input, InputTypes } from "@/components/ui/input";
+import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Label } from "@/components/ui/label";
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import {
     Select,
     SelectContent,
@@ -13,6 +13,8 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
+import { WalletTypes } from "@/helpers/wallet-types";
+import { Textarea } from "@/components/ui/textarea";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";
@@ -27,16 +29,11 @@ import {
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 
 interface EditWalletProps {
     id: string;
     onOpenChange: (state: boolean) => void;
-}
-
-enum WalletTypes {
-    INTERNAL = "internal",
-    LINKED = "linked",
-    EXTERNAL = "external"
 }
 
 export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
@@ -53,25 +50,8 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
         id,
         mutationMode: "pessimistic"
     });
-    const {
-        data: accountsData,
-        hasNextPage,
-        isFetching,
-        fetchNextPage: accountsNextPage
-    } = useInfiniteGetList("accounts", {
-        pagination: { perPage: 25, page: 1 },
-        filter: { sort: "name", asc: "ASC" }
-    });
 
-    const accountScrollHandler = async (e: React.FormEvent) => {
-        const target = e.target as HTMLElement;
-
-        if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1) {
-            accountsNextPage();
-        }
-    };
-
-    const onSubmit: SubmitHandler<WalletCreate> = async data => {
+    const onSubmit: SubmitHandler<Wallets.WalletCreate> = async data => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
         try {
@@ -146,11 +126,6 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
     });
 
     useEffect(() => {
-        accountsData?.pages.forEach(page => {
-            if (page.data.indexOf(record.account_id) < 0) {
-                accountsNextPage();
-            }
-        });
         if (record) {
             form.reset({
                 currency: record?.currency || "",
@@ -165,16 +140,14 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                 description: record?.description || ""
             });
         }
-    }, [form, record, accountsData, formMerchant, accountsNextPage]);
+    }, [form, record, formMerchant]);
 
     usePreventFocus({ dependencies: [record] });
-    const accountsDisabled =
-        !(accountsData && Array.isArray(accountsData.pages) && accountsData?.pages.length > 0) || !accountsData;
 
-    if (isLoading || isFetchingPermissions) return <LoadingAlertDialog />;
+    if (isLoading || isFetchingPermissions) return <LoadingBlock />;
     return (
         <FormProvider {...form}>
-            {!isMerchant ? (
+            {!isMerchant && record?.type !== WalletTypes.EXTERNAL ? (
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full">
                     <div className="flex flex-wrap">
                         <FormField
@@ -186,7 +159,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                         <FormLabel>{translate("resources.wallet.manage.fields.walletType")}</FormLabel>
                                         <Select value={field.value} onValueChange={field.onChange}>
                                             <FormControl>
-                                                <SelectTrigger variant={SelectType.GRAY}>
+                                                <SelectTrigger variant={SelectType.GRAY} className="">
                                                     <SelectValue
                                                         placeholder={translate("resources.direction.fields.active")}
                                                         defaultValue={WalletTypes.INTERNAL}
@@ -194,29 +167,15 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                {!isMerchant ? (
-                                                    <SelectGroup>
-                                                        <SelectItem
-                                                            value={WalletTypes.LINKED}
-                                                            variant={SelectType.GRAY}>
-                                                            {WalletTypes.LINKED}
-                                                        </SelectItem>
+                                                <SelectGroup className="p-0">
+                                                    <SelectItem value={WalletTypes.LINKED} variant={SelectType.GRAY}>
+                                                        {WalletTypes.LINKED}
+                                                    </SelectItem>
 
-                                                        <SelectItem
-                                                            value={WalletTypes.INTERNAL}
-                                                            variant={SelectType.GRAY}>
-                                                            {WalletTypes.INTERNAL}
-                                                        </SelectItem>
-                                                    </SelectGroup>
-                                                ) : (
-                                                    <SelectGroup>
-                                                        <SelectItem
-                                                            value={WalletTypes.EXTERNAL}
-                                                            variant={SelectType.GRAY}>
-                                                            {WalletTypes.EXTERNAL}
-                                                        </SelectItem>
-                                                    </SelectGroup>
-                                                )}
+                                                    <SelectItem value={WalletTypes.INTERNAL} variant={SelectType.GRAY}>
+                                                        {WalletTypes.INTERNAL}
+                                                    </SelectItem>
+                                                </SelectGroup>
                                             </SelectContent>
                                         </Select>
                                     </FormItem>
@@ -228,36 +187,14 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             name="account_id"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.merchantName")}</FormLabel>
+                                    <Label>{translate("resources.wallet.manage.fields.merchantName")}</Label>
                                     <FormControl>
-                                        <Select
-                                            value={field.value}
-                                            onValueChange={field.onChange}
-                                            disabled={accountsDisabled}>
-                                            <FormControl>
-                                                <SelectTrigger variant={SelectType.GRAY}>
-                                                    <SelectValue />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent
-                                                onScrollCapture={accountScrollHandler}
-                                                onScroll={accountScrollHandler}>
-                                                {accountsData?.pages.map(page => {
-                                                    return page.data.map(account => (
-                                                        <SelectItem
-                                                            key={account.id}
-                                                            value={account.id}
-                                                            variant={SelectType.GRAY}>
-                                                            <p className="truncate max-w-36">
-                                                                {account.meta?.caption
-                                                                    ? account.meta.caption
-                                                                    : account.owner_id}
-                                                            </p>
-                                                        </SelectItem>
-                                                    ));
-                                                })}
-                                            </SelectContent>
-                                        </Select>
+                                        <MerchantSelectFilter
+                                            className="bg-white dark:bg-muted"
+                                            merchant={field.value}
+                                            onMerchantChanged={field.onChange}
+                                            resource="accounts"
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -268,11 +205,14 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             name="currency"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.currency")}</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input {...field} className="bg-muted" variant={InputTypes.GRAY} disabled />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            className="bg-muted "
+                                            variant={InputTypes.GRAY}
+                                            disabled
+                                            title={translate("resources.wallet.manage.fields.currency")}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -282,11 +222,14 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             name="blockchain"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.blockchain")}</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input disabled {...field} className="bg-muted" variant={InputTypes.GRAY} />
-                                        </div>
+                                        <Input
+                                            disabled
+                                            {...field}
+                                            className="bg-muted "
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.wallet.manage.fields.blockchain")}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -297,11 +240,14 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             name="network"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.contactType")}</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input disabled {...field} className="bg-muted" variant={InputTypes.GRAY} />
-                                        </div>
+                                        <Input
+                                            disabled
+                                            {...field}
+                                            className="bg-muted "
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.wallet.manage.fields.contactType")}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -311,11 +257,13 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             name="minimal_ballance_limit"
                             render={({ field }) => (
                                 <FormItem className="w-1/2 p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.minRemaini")}</FormLabel>
                                     <FormControl>
-                                        <div>
-                                            <Input {...field} className="bg-muted" variant={InputTypes.GRAY} />
-                                        </div>
+                                        <Input
+                                            {...field}
+                                            className="bg-white dark:bg-muted "
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.wallet.manage.fields.minRemaini")}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -325,30 +273,27 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             name="description"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.descr")}</FormLabel>
+                                    <Label>{translate("resources.wallet.manage.fields.descr")}</Label>
                                     <FormControl>
-                                        <div>
-                                            <Label />
-                                            <textarea
-                                                {...field}
-                                                value={field.value ?? ""}
-                                                placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1"
-                                            />
-                                        </div>
+                                        <Textarea
+                                            {...field}
+                                            value={field.value ?? ""}
+                                            placeholder={translate("resources.wallet.manage.fields.descr")}
+                                            className="w-full h-24 resize-none overflow-auto"
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
                     </div>
 
-                    <div className="self-end flex items-center gap-4">
+                    <div className="self-end flex items-center gap-4 ">
                         <Button type="submit" variant="default">
                             {translate("app.ui.actions.save")}
                         </Button>
                         <Button
                             onClick={() => onOpenChange(false)}
-                            variant="clearBtn"
+                            variant="outline_gray"
                             className="border border-neutral-50 rounded-4 hover:border-neutral-100">
                             {translate("app.ui.actions.cancel")}
                         </Button>
@@ -361,16 +306,16 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             control={formMerchant.control}
                             name="description"
                             render={({ field }) => (
-                                <FormItem className="w-full p-2">
+                                <FormItem className="w-full">
                                     <FormLabel>{translate("resources.wallet.manage.fields.descr")}</FormLabel>
                                     <FormControl>
                                         <div>
                                             <Label />
-                                            <textarea
+                                            <Textarea
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto bg-muted shadow-1 text-title-1 outline-none"
+                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto text-title-1 text-neutral-80 dark:text-white outline-none dark:bg-muted"
                                             />
                                         </div>
                                     </FormControl>
@@ -385,9 +330,9 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                         </Button>
                         <Button
                             onClick={() => onOpenChange(false)}
-                            variant="clearBtn"
+                            variant="outline_gray"
                             type="button"
-                            className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full sm:w-auto">
+                            className="w-full sm:w-auto ">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>

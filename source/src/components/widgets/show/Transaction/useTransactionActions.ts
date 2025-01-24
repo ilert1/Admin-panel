@@ -1,7 +1,9 @@
 import { useTranslate, usePermissions, useRefresh } from "react-admin";
-import { API_URL, BF_MANAGER_URL } from "@/data/base";
-import { useMemo, useCallback } from "react";
+import { API_URL } from "@/data/base";
+import { useMemo, useCallback, useState } from "react";
 import { toast } from "sonner";
+
+const MONEYGATE_URL = import.meta.env.VITE_MONEYGATE_URL;
 
 export const useTransactionActions = (data: Dictionaries.DataObject, record: Transaction.Transaction | undefined) => {
     const translate = useTranslate();
@@ -63,7 +65,6 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
     }, [record]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const showState = useMemo(() => adminOnly, [adminOnly]);
-    const stateCaption = translate("resources.transactions.show.statusButton");
     const switchState = useCallback(
         (state: number) => {
             fetch(`${API_URL}/trn/man_set_state`, {
@@ -128,60 +129,37 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
     }, [record]); // eslint-disable-line react-hooks/exhaustive-deps
     const commitCaption = translate("resources.transactions.show.commit");
 
-    const showStorno = useMemo(() => adminOnly && record?.dispute, [adminOnly, record]);
-    const stornoCaption = translate("resources.transactions.show.storno");
-    const makeStorno = useCallback(
-        (props: { sourceValue: string; destValue: string; source: string; currency: string; destination: string }) => {
-            const sourceAccuracy = Math.pow(10, props.sourceValue.split(".")[1]?.length) || 100;
-            const destAccuracy = Math.pow(10, props.destValue.split(".")[1]?.length) || 100;
-            fetch(`${BF_MANAGER_URL}/v1/manager/storno`, {
-                method: "POST",
-                body: JSON.stringify({
-                    source: {
-                        id: props.source,
-                        amount: {
-                            currency: props.currency,
-                            value: {
-                                quantity: +props.sourceValue * sourceAccuracy,
-                                accuracy: sourceAccuracy
-                            }
-                        }
-                    },
-                    destination: {
-                        id: props.destination,
-                        amount: {
-                            currency: "USDT",
-                            value: {
-                                quantity: +props.destValue * destAccuracy,
-                                accuracy: destAccuracy
-                            }
-                        }
-                    },
-                    meta: {
-                        parentId: record?.id
-                    }
-                }),
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
+    const [sendWebhookLoading, setSendWebhookLoading] = useState(false);
+    const sendWebhookHandler = useCallback(() => {
+        setSendWebhookLoading(true);
+
+        fetch(`${MONEYGATE_URL}/send-callback?id=${record?.id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(resp => resp.json())
+            .then(json => {
+                if (json.success) {
+                    success(
+                        translate(
+                            translate("resources.transactions.show.sendWebhookSuccessMsg", { id: json.blowfish_id })
+                        )
+                    );
+                    refresh();
+                } else {
+                    throw new Error(json.error || "Unknown error");
                 }
             })
-                .then(resp => resp.json())
-                .then(json => {
-                    if (json.success) {
-                        success(translate("resources.transactions.show.success"));
-                    } else {
-                        throw new Error(json.error || "Unknown error");
-                    }
-                })
-                .catch(e => {
-                    error(e.message);
-                })
-                .finally(() => {
-                    refresh();
-                });
-        },
-        [record] // eslint-disable-line react-hooks/exhaustive-deps
-    );
+            .then(() => {})
+            .catch(e => {
+                error(e.message);
+            })
+            .finally(() => {
+                setSendWebhookLoading(false);
+            });
+    }, [record]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return {
         switchDispute,
@@ -189,13 +167,11 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
         disputeCaption,
         showState,
         switchState,
-        stateCaption,
         states,
         showCommit,
         commitCaption,
         commitTransaction,
-        showStorno,
-        stornoCaption,
-        makeStorno
+        sendWebhookHandler,
+        sendWebhookLoading
     };
 };

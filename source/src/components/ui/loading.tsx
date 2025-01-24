@@ -1,10 +1,17 @@
+import { useTheme } from "../providers";
+
 export const InitLoading = () => {
+    const { theme } = useTheme();
+    const isDark = theme === "dark";
+    const bgImage = isDark ? 'url("/LoginBackground.svg")' : 'url("/LoginBackgroundLight.svg")';
+    const bgColor = isDark ? "rgba(19, 35, 44, 1)" : "#f2f2f2";
+
     return (
         <div
             className="fixed inset-0 flex items-center justify-center"
             style={{
-                backgroundImage: 'url("/LoginBackground.png")',
-                backgroundColor: "rgba(19, 35, 44, 1)",
+                backgroundImage: bgImage,
+                backgroundColor: bgColor,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat"
             }}>
@@ -21,7 +28,7 @@ export const Loading = ({ className = "" }: { className?: string }) => {
     );
 };
 
-export const LoadingAlertDialog = ({ className = "" }: { className?: string }) => {
+export const LoadingBlock = ({ className = "" }: { className?: string }) => {
     return (
         <div className={`flex justify-center items-center h-full w-full ${className}`}>
             <RingSpinner />
@@ -42,7 +49,7 @@ export const RingSpinner = () => {
             <defs>
                 <linearGradient id="spinner-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="28.01%" stopColor="#57CD8C" />
-                    <stop offset="69.22%" stopColor="#237648" />
+                    <stop offset="69.22%" stopColor="#57CD8C00" />
                 </linearGradient>
             </defs>
             <circle

@@ -14,7 +14,7 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { toast } from "sonner";
 import { useState } from "react";
 
@@ -75,7 +75,7 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
                             {translate("app.ui.actions.confirm")}
                         </Button>
                         <Button
-                            variant={"outline"}
+                            variant={"outline_gray"}
                             onClick={() => {
                                 onOpenChange(false);
                             }}>

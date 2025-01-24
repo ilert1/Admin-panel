@@ -1,15 +1,15 @@
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input, InputTypes } from "@/components/ui/Input/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z, ZodTypeAny } from "zod";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { useLocaleState, useTranslate } from "react-admin";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectType, SelectValue } from "@/components/ui/select";
 import { useMemo, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { TriangleAlert } from "lucide-react";
+import { LoadingBlock } from "@/components/ui/loading";
+import { Label } from "@/components/ui/label";
 
 interface IProps {
     currencies: Dictionaries.Currency[] | undefined;
@@ -89,7 +89,7 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                             name="payMethod"
                             render={({ field, fieldState }) => (
                                 <FormItem>
-                                    <FormLabel>{translate("app.widgets.forms.payout.payMethod")}</FormLabel>
+                                    <Label>{translate("app.widgets.forms.payout.payMethod")}</Label>
                                     <Select
                                         disabled={loading}
                                         onValueChange={e => {
@@ -100,46 +100,32 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                                         value={field.value}>
                                         <FormControl>
                                             <SelectTrigger
-                                                className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted/50 ${
-                                                    fieldState.invalid
-                                                        ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                        : ""
-                                                }`}>
-                                                <div className="mr-auto">
-                                                    <SelectValue
-                                                        placeholder={translate(
-                                                            "app.widgets.forms.payout.selectPayMethod"
-                                                        )}
-                                                    />
-                                                </div>
-                                                {fieldState.invalid && (
-                                                    <TooltipProvider>
-                                                        <Tooltip>
-                                                            <TooltipTrigger className="ml-3 order-3" asChild>
-                                                                <TriangleAlert
-                                                                    className="text-red-40"
-                                                                    width={14}
-                                                                    height={14}
-                                                                />
-                                                            </TooltipTrigger>
-
-                                                            <TooltipContent
-                                                                className="border-none bottom-0"
-                                                                side="left">
-                                                                <FormMessage />
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    </TooltipProvider>
-                                                )}
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
+                                                <SelectValue
+                                                    placeholder={translate("app.widgets.forms.payout.selectPayMethod")}
+                                                />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            {payMethodsWithId &&
-                                                payMethodsWithId?.map(method => (
-                                                    <SelectItem key={method.id} value={method.id}>
-                                                        {`${method.bankName} (${method.paymentTypeName}, ${method.fiatCurrency})`}
-                                                    </SelectItem>
-                                                ))}
+                                            {loading ? (
+                                                <div className="flex items-center justify-center p-4">
+                                                    <LoadingBlock />
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    {payMethodsWithId &&
+                                                        payMethodsWithId?.map(method => (
+                                                            <SelectItem
+                                                                key={method.id}
+                                                                value={method.id}
+                                                                variant={SelectType.GRAY}>
+                                                                {`${method.bankName} (${method.paymentTypeName}, ${method.fiatCurrency})`}
+                                                            </SelectItem>
+                                                        ))}
+                                                </>
+                                            )}
                                         </SelectContent>
                                     </Select>
                                 </FormItem>
@@ -154,36 +140,17 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                             name="value"
                             render={({ field, fieldState }) => (
                                 <FormItem>
-                                    <FormLabel>
-                                        {translate("app.widgets.forms.payout.value", { currency: currency || "" })}
-                                    </FormLabel>
                                     <FormControl>
                                         <Input
+                                            variant={InputTypes.GRAY}
                                             disabled={loading}
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted/50 ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
-                                            {...field}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Input>
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            label={translate("app.widgets.forms.payout.value", {
+                                                currency: currency || ""
+                                            })}
+                                            {...field}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -198,34 +165,15 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                             name={item}
                             render={({ field, fieldState }) => (
                                 <FormItem>
-                                    <FormLabel>{translate(`app.widgets.forms.payout.${item}`)}</FormLabel>
                                     <FormControl>
                                         <Input
                                             disabled={loading}
-                                            className={`dark:bg-muted text-sm text-neutral-100 disabled:dark:bg-muted/50 ${
-                                                fieldState.invalid
-                                                    ? "border-red-40 hover:border-red-50 focus-visible:border-red-50"
-                                                    : ""
-                                            }`}
-                                            {...field}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Input>
+                                            variant={InputTypes.GRAY}
+                                            label={translate(`app.widgets.forms.payout.${item}`)}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            {...field}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -235,14 +183,11 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
 
                 <div className="flex items-center justify-end gap-4">
                     <Button disabled={loading} type="submit">
-                        {translate("app.widgets.forms.payin.createOrder")}
+                        {translate("app.widgets.forms.payout.createOrder")}
                     </Button>
 
                     <NavLink to={"/"}>
-                        <Button
-                            disabled={loading}
-                            variant="clearBtn"
-                            className="border border-neutral-50 rounded-4 hover:border-neutral-100">
+                        <Button disabled={loading} variant="outline_sec">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </NavLink>

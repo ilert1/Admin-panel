@@ -1,4 +1,4 @@
-import { LoadingAlertDialog } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useLocaleState, usePermissions, useShowController, useTranslate } from "react-admin";
 
@@ -7,19 +7,23 @@ export const WalletLinkedTransactionShow = ({ id }: { id: string }) => {
     const [locale] = useLocaleState();
     const translate = useTranslate();
 
-    const context = useShowController<WalletLinkedTransactions>({
+    const context = useShowController<Wallets.WalletLinkedTransactions>({
         resource: permissions === "admin" ? "reconciliation" : "merchant/reconciliation",
         id
     });
 
     if (context.isLoading || !context.record || !id) {
-        return <LoadingAlertDialog />;
+        return <LoadingBlock />;
     }
 
     return (
         <div className="flex-1" tabIndex={-1}>
             <div className="flex flex-col gap-6 px-[42px]">
-                <TextField text={context.record?.source_address} copyValue />
+                <TextField
+                    text={context.record?.source_address}
+                    copyValue
+                    className="text-neutral-70 dark:text-neutral-30"
+                />
 
                 <div className="flex flex-col sm:grid sm:grid-cols-2 gap-y-4">
                     <TextField

@@ -1,7 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
-import { Pen, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
@@ -69,17 +68,12 @@ export const useGetCurrencyColumns = () => {
             header: () => <div className="flex justify-center">{translate("resources.currency.fields.edit")}</div>,
             cell: ({ row }) => {
                 return (
-                    <div className="flex justify-center">
-                        <Button
-                            onClick={() => {
-                                setCurrencyId(row.original.id);
-                                setShowEditDialog(true);
-                            }}
-                            variant="textBtn"
-                            className="h-8 w-8 p-0">
-                            <Pen className="h-6 w-6" />
-                        </Button>
-                    </div>
+                    <ShowButton
+                        onClick={() => {
+                            setCurrencyId(row.original.id);
+                            setShowEditDialog(true);
+                        }}
+                    />
                 );
             }
         },
@@ -88,17 +82,12 @@ export const useGetCurrencyColumns = () => {
             header: () => <div className="flex justify-center">{translate("resources.currency.fields.delete")}</div>,
             cell: ({ row }) => {
                 return (
-                    <div className="flex justify-center">
-                        <Button
-                            onClick={() => {
-                                setCurrencyId(row.original.id);
-                                setShowDeleteDialog(true);
-                            }}
-                            variant="textBtn"
-                            className="h-8 w-8 p-0">
-                            <Trash2 className="h-6 w-6" />
-                        </Button>
-                    </div>
+                    <TrashButton
+                        onClick={() => {
+                            setCurrencyId(row.original.id);
+                            setShowDeleteDialog(true);
+                        }}
+                    />
                 );
             }
         }
