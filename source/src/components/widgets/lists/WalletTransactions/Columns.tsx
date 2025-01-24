@@ -138,7 +138,7 @@ export const useGetWalletTransactionsColumns = () => {
                 return (
                     <TextField
                         type={row.original.tx_link ? "link" : "text"}
-                        link={`https://shasta.tronscan.org/#/${row.original.tx_link}`}
+                        link={row.original.tx_link}
                         text={row.original.tx_id}
                         wrap
                         copyValue
