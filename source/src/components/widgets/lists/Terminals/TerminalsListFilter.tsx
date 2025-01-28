@@ -1,7 +1,7 @@
 import { UIEvent, useMemo, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useInfiniteGetList, useTranslate } from "react-admin";
-import { LoadingBlock } from "@/components/ui/loading";
+import { LoadingBalance, LoadingBlock } from "@/components/ui/loading";
 import { Label } from "@/components/ui/label";
 
 export const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvider: (provider: string) => void }) => {
@@ -9,6 +9,7 @@ export const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvi
         data: providersData,
         isFetchingNextPage,
         hasNextPage,
+        isFetching,
         fetchNextPage: providersNextPage
     } = useInfiniteGetList("provider", {
         pagination: { perPage: 25, page: 1 },
@@ -54,9 +55,11 @@ export const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvi
                             ));
                         })}
 
-                        {providersLoadingProcess && (
-                            <SelectItem value="null" disabled className="flex max-h-8">
-                                <LoadingBlock className="-scale-[.25]" />
+                        {(providersLoadingProcess || (!providersLoadingProcess && isFetching && !providersData)) && (
+                            <SelectItem value="null" disabled className="h-8">
+                                <div className="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center">
+                                    <LoadingBalance className=" w-[20px] h-[20px] overflow-hidden" />
+                                </div>
                             </SelectItem>
                         )}
                     </SelectContent>
