@@ -1,7 +1,6 @@
-import { ListContextProvider, useListController, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { useState } from "react";
-import { Loading } from "@/components/ui/loading";
 import { Button } from "@/components/ui/Button";
 import { PlusCircle } from "lucide-react";
 import { CreateTerminalDialog } from "./CreateTerminalDialog";
@@ -14,8 +13,6 @@ import { useGetTerminalColumns } from "./Columns";
 import { ShowAuthDataDialog } from "./ShowAuthDataDialog";
 
 export const TerminalsList = () => {
-    const providerContext = useListController<Provider>({ resource: "provider" });
-
     const translate = useTranslate();
 
     const [provider, setProvider] = useState("");
@@ -33,60 +30,50 @@ export const TerminalsList = () => {
         setDeleteDialogOpen
     } = useGetTerminalColumns();
 
-    if (providerContext.isLoading || !providerContext.data) {
-        return <Loading />;
-    } else {
-        return (
-            <>
-                <div className="flex flex-col md:flex-row gap-2 md:items-end justify-between mb-4">
-                    <ListContextProvider value={providerContext}>
-                        <TerminalsListFilter selectProvider={setProvider} />
-                    </ListContextProvider>
+    return (
+        <>
+            <div className="flex flex-col md:flex-row gap-2 md:items-end justify-between mb-4">
+                <TerminalsListFilter selectProvider={setProvider} />
 
-                    <Button
-                        disabled={!provider}
-                        onClick={() => setCreateDialogOpen(true)}
-                        variant="default"
-                        className="flex gap-[4px] items-center">
-                        <PlusCircle className="h-[16px] w-[16px]" />
+                <Button
+                    disabled={!provider}
+                    onClick={() => setCreateDialogOpen(true)}
+                    variant="default"
+                    className="flex gap-[4px] items-center">
+                    <PlusCircle className="h-[16px] w-[16px]" />
 
-                        <span className="text-title-1">{translate("resources.terminals.create")}</span>
-                    </Button>
-                </div>
+                    <span className="text-title-1">{translate("resources.terminals.create")}</span>
+                </Button>
+            </div>
 
-                {provider ? (
-                    <>
-                        <TerminalListTable provider={provider} columns={columns} />
+            {provider ? (
+                <>
+                    <TerminalListTable provider={provider} columns={columns} />
 
-                        <CreateTerminalDialog
-                            provider={provider}
-                            open={createDialogOpen}
-                            onOpenChange={setCreateDialogOpen}
-                        />
+                    <CreateTerminalDialog
+                        provider={provider}
+                        open={createDialogOpen}
+                        onOpenChange={setCreateDialogOpen}
+                    />
 
-                        <EditTerminalDialog
-                            provider={provider}
-                            id={chosenId}
-                            open={editDialogOpen}
-                            onOpenChange={setEditDialogOpen}
-                        />
+                    <EditTerminalDialog
+                        provider={provider}
+                        id={chosenId}
+                        open={editDialogOpen}
+                        onOpenChange={setEditDialogOpen}
+                    />
 
-                        <DeleteTerminalDialog
-                            provider={provider}
-                            open={deleteDialogOpen}
-                            onOpenChange={setDeleteDialogOpen}
-                            deleteId={chosenId}
-                        />
-                        <ShowAuthDataDialog
-                            open={showAuthKeyOpen}
-                            onOpenChange={setShowAuthKeyOpen}
-                            authData={authData}
-                        />
-                    </>
-                ) : (
-                    <DataTable columns={columns} />
-                )}
-            </>
-        );
-    }
+                    <DeleteTerminalDialog
+                        provider={provider}
+                        open={deleteDialogOpen}
+                        onOpenChange={setDeleteDialogOpen}
+                        deleteId={chosenId}
+                    />
+                    <ShowAuthDataDialog open={showAuthKeyOpen} onOpenChange={setShowAuthKeyOpen} authData={authData} />
+                </>
+            ) : (
+                <DataTable columns={columns} />
+            )}
+        </>
+    );
 };
