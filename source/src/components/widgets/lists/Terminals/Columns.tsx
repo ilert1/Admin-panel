@@ -27,11 +27,6 @@ export const useGetTerminalColumns = () => {
 
     const columns: ColumnDef<Directions.Terminal>[] = [
         {
-            id: "index",
-            header: "№",
-            cell: ({ row }) => row.index + 1
-        },
-        {
             id: "id",
             accessorKey: "id",
             header: translate("resources.terminals.fields.id"),

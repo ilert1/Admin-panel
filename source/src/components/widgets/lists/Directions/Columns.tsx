@@ -19,11 +19,6 @@ export const useGetDirectionsColumns = () => {
 
     const columns: ColumnDef<Directions.Direction>[] = [
         {
-            id: "index",
-            header: "№",
-            cell: ({ row }) => row.index + 1
-        },
-        {
             id: "name",
             accessorKey: "name",
             header: translate("resources.direction.fields.name")
