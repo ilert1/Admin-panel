@@ -188,7 +188,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                             ))}
                     </span>
                 </div>
-                {error && <span className="!text-note-1 inline sm:hidden text-red-40">{errorMessage}</span>}
+                {error && <span className="!text-note-1 inline text-red-40">{errorMessage}</span>}
             </div>
         );
     }
