@@ -18,6 +18,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
     const [isPasswordUppercaseError, setIsPasswordUppercaseError] = useState<boolean | undefined>(undefined);
     const [isPasswordLowercaseError, setIsPasswordLowercaseError] = useState<boolean | undefined>(undefined);
     const [isPasswordDigitError, setIsPasswordDigitError] = useState<boolean | undefined>(undefined);
+    const [isPasswordEnglishOnlyError, setIsPasswordEnglishOnlyError] = useState<boolean | undefined>(undefined);
 
     const onSubmit: SubmitHandler<Users.PasswordChange> = async data => {};
 
@@ -27,22 +28,26 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
             newPassword: z
                 .string()
                 .min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
+                .refine(password => /^[a-zA-Z0-9!@#$%^&*()_+\-=<>?/{}[\]\\|.,:;"'~`]+$/.test(password), {
+                    path: ["onlyEnglishLetters"]
+                })
                 .refine(password => password.length > 9, {
                     message: translate("pages.settings.passChange.errors.lenght"),
-                    path: ["newPassword", "passwordLenghtError"]
+                    path: ["passwordLenghtError"]
                 })
                 .refine(password => /[A-Z]/.test(password), {
                     message: translate("pages.settings.passChange.errors.oneUppercase"),
-                    path: ["newPassword", "passwordUppercaseError"]
+                    path: ["passwordUppercaseError"]
                 })
                 .refine(password => /[a-z]/.test(password), {
                     message: translate("pages.settings.passChange.errors.oneLowercase"),
-                    path: ["newPassword", "passwordLowercaseError"]
+                    path: ["passwordLowercaseError"]
                 })
                 .refine(password => /\d/.test(password), {
                     message: translate("pages.settings.passChange.errors.oneDigit"),
-                    path: ["newPassword", "passwordDigitError"]
+                    path: ["passwordDigitError"]
                 }),
+
             newPasswordRepeat: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
         })
         .refine(data => data.newPassword === data.newPasswordRepeat, {
@@ -77,6 +82,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
     useEffect(() => {
         const errorStates = {
             passwordDigitError: setIsPasswordDigitError,
+            onlyEnglishLetters: setIsPasswordEnglishOnlyError,
             passwordLowercaseError: setIsPasswordLowercaseError,
             passwordUppercaseError: setIsPasswordUppercaseError,
             passwordLenghtError: setIsPasswordLenghtError
@@ -85,9 +91,12 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
         if (Object.keys(errors).length > 0 || isPasswordLengthError === undefined) {
             if (Object.hasOwn(errors, "newPassword")) {
                 Object.entries(errorStates).forEach(([errorKey, setState]) => {
+                    if (errorKey === "onlyEnglishLetters") {
+                        setIsPasswordEnglishOnlyError(true);
+                    }
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
-                    setState(Object.hasOwn(errors?.newPassword?.newPassword, errorKey));
+                    setState(Object.hasOwn(errors?.newPassword, errorKey));
                 });
             } else {
                 if (val.length) {
@@ -130,13 +139,19 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
                     <FormField
                         control={form.control}
                         name="newPassword"
-                        render={({ field }) => (
+                        render={({ field, fieldState }) => (
                             <FormItem className="space-y-1">
                                 <FormControl>
                                     <Input
                                         className="text-sm"
                                         variant={InputTypes.GRAY}
                                         label={translate("pages.settings.passChange.newPassword")}
+                                        error={fieldState.invalid}
+                                        errorMessage={
+                                            isPasswordEnglishOnlyError
+                                                ? translate("pages.settings.passChange.errors.onlyEnglishLetters")
+                                                : translate("pages.settings.passChange.errors.wrongFormat")
+                                        }
                                         type="password_masked"
                                         {...field}
                                     />

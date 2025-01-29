@@ -789,7 +789,8 @@ const ru: TranslationMessages = {
                     oneLowercase: "Пароль должен содержать хотя бы одну строчную букву",
                     oneDigit: "Пароль должен содержать хотя бы одну цифру",
                     dontMatch: "Пароли не совпадают",
-                    wrongFormat: "Неверный формат пароля"
+                    wrongFormat: "Неверный формат пароля",
+                    onlyEnglishLetters: "Разрешены только латинские буквы, числа и специальные символы"
                 }
             }
         }
@@ -1597,7 +1598,8 @@ const en: TranslationMessages = {
                     oneLowercase: "Password must contain at least one lowercase letter",
                     oneDigit: "Password must contain at least one digit",
                     dontMatch: "Passwords don't match",
-                    wrongFormat: "Invalid password format"
+                    wrongFormat: "Invalid password format",
+                    onlyEnglishLetters: "Only Latin letters, numbers, and special characters are allowed."
                 }
             }
         }
