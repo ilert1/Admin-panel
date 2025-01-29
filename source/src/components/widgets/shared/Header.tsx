@@ -252,7 +252,10 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     <HeaderButton
                                         text={translate("app.ui.header.settings")}
                                         Icon={Settings}
-                                        onClick={() => navigate("settings")}
+                                        onClick={() => {
+                                            setProfileOpen(false);
+                                            navigate("settings");
+                                        }}
                                     />
                                     <HeaderButton
                                         text={translate("ra.auth.logout")}
