@@ -19,13 +19,15 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
     const [isPasswordLowercaseError, setIsPasswordLowercaseError] = useState<boolean | undefined>(undefined);
     const [isPasswordDigitError, setIsPasswordDigitError] = useState<boolean | undefined>(undefined);
 
+    const onSubmit: SubmitHandler<Users.PasswordChange> = async data => {};
+
     const formSchema = z
         .object({
             currentPassword: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")),
             newPassword: z
                 .string()
                 .min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
-                .refine(password => password.length > 10, {
+                .refine(password => password.length > 9, {
                     message: translate("pages.settings.passChange.errors.lenght"),
                     path: ["newPassword", "passwordLenghtError"]
                 })
@@ -58,8 +60,19 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
         mode: "onChange"
     });
 
-    const onSubmit: SubmitHandler<Users.PasswordChange> = async data => {};
     const { errors } = form.formState;
+    const val = form.watch("newPassword");
+
+    const { currentPassword, newPassword, newPasswordRepeat } = form.getValues();
+    const hasErrors = Object.keys(errors).length > 0;
+    const isFormIncomplete = !currentPassword || !newPassword || !newPasswordRepeat;
+
+    const isAnyPasswordError = [
+        isPasswordLengthError,
+        isPasswordDigitError,
+        isPasswordUppercaseError,
+        isPasswordLowercaseError
+    ].some(error => error !== false);
 
     useEffect(() => {
         const errorStates = {
@@ -68,8 +81,8 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
             passwordUppercaseError: setIsPasswordUppercaseError,
             passwordLenghtError: setIsPasswordLenghtError
         };
-        if (Object.keys(errors).length > 0) {
-            console.log(errors.newPassword);
+
+        if (Object.keys(errors).length > 0 || isPasswordLengthError === undefined) {
             if (Object.hasOwn(errors, "newPassword")) {
                 Object.entries(errorStates).forEach(([errorKey, setState]) => {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -77,14 +90,19 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
                     setState(Object.hasOwn(errors?.newPassword?.newPassword, errorKey));
                 });
             } else {
-                console.log("falsing");
-
-                Object.entries(errorStates).forEach(([_, setState]) => {
-                    setState(false);
-                });
+                if (val.length) {
+                    Object.entries(errorStates).forEach(([_, setState]) => {
+                        setState(false);
+                    });
+                }
             }
+        } else {
+            Object.entries(errorStates).forEach(([_, setState]) => {
+                setState(false);
+            });
         }
-    }, [errors]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [errors.newPassword, val]);
 
     return (
         <Form {...form}>
@@ -102,18 +120,8 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
                                         label={translate("pages.settings.passChange.currentPassowrd")}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
-                                        type="password"
-                                        autoComplete="new-password"
-                                        readOnly
+                                        type="password_masked"
                                         {...field}
-                                        autoCorrect="off"
-                                        spellCheck="false"
-                                        autoCapitalize="none"
-                                        ref={input => {
-                                            if (input) {
-                                                input.removeAttribute("readonly");
-                                            }
-                                        }}
                                     />
                                 </FormControl>
                             </FormItem>
@@ -122,16 +130,14 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
                     <FormField
                         control={form.control}
                         name="newPassword"
-                        render={({ field, fieldState }) => (
+                        render={({ field }) => (
                             <FormItem className="space-y-1">
                                 <FormControl>
                                     <Input
                                         className="text-sm"
                                         variant={InputTypes.GRAY}
                                         label={translate("pages.settings.passChange.newPassword")}
-                                        error={fieldState.invalid}
-                                        errorMessage={translate("pages.settings.passChange.errors.wrongFormat")}
-                                        type="password"
+                                        type="password_masked"
                                         {...field}
                                     />
                                 </FormControl>
@@ -150,7 +156,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
                                         label={translate("pages.settings.passChange.repeatNewPassword")}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
-                                        type="password"
+                                        type="password_masked"
                                         {...field}
                                     />
                                 </FormControl>
@@ -177,7 +183,11 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
                     </div>
                 </div>
                 <div className="flex flex-col sm:self-end sm:flex-row items-center gap-4">
-                    <Button type="submit" variant="default" className="w-full sm:w-auto">
+                    <Button
+                        type="submit"
+                        variant="default"
+                        className="w-full sm:w-auto"
+                        disabled={hasErrors || isAnyPasswordError || isFormIncomplete}>
                         {translate("app.ui.actions.save")}
                     </Button>
                     <Button
