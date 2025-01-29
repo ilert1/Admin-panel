@@ -3,6 +3,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Rule } from "@/components/ui/rule";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
 import { useTranslate } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -13,19 +14,37 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
     const translate = useTranslate();
     const { onOpenChange } = props;
 
+    const [isPasswordLengthError, setIsPasswordLenghtError] = useState<boolean | undefined>(undefined);
+    const [isPasswordUppercaseError, setIsPasswordUppercaseError] = useState<boolean | undefined>(undefined);
+    const [isPasswordLowercaseError, setIsPasswordLowercaseError] = useState<boolean | undefined>(undefined);
+    const [isPasswordDigitError, setIsPasswordDigitError] = useState<boolean | undefined>(undefined);
+
     const formSchema = z
         .object({
-            currentPassword: z.string().min(1),
+            currentPassword: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")),
             newPassword: z
                 .string()
-                .min(10, translate("pages.settings.passChange.errors.lenght"))
-                .refine(password => /[A-Z]/.test(password), translate("pages.settings.passChange.errors.oneUppercase"))
-                .refine(password => /[a-z]/.test(password), translate("pages.settings.passChange.errors.oneLowercase"))
-                .refine(password => /\d/.test(password), translate("pages.settings.passChange.errors.oneDigit")),
-            newPasswordRepeat: z.string()
+                .min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
+                .refine(password => password.length > 10, {
+                    message: translate("pages.settings.passChange.errors.lenght"),
+                    path: ["newPassword", "passwordLenghtError"]
+                })
+                .refine(password => /[A-Z]/.test(password), {
+                    message: translate("pages.settings.passChange.errors.oneUppercase"),
+                    path: ["newPassword", "passwordUppercaseError"]
+                })
+                .refine(password => /[a-z]/.test(password), {
+                    message: translate("pages.settings.passChange.errors.oneLowercase"),
+                    path: ["newPassword", "passwordLowercaseError"]
+                })
+                .refine(password => /\d/.test(password), {
+                    message: translate("pages.settings.passChange.errors.oneDigit"),
+                    path: ["newPassword", "passwordDigitError"]
+                }),
+            newPasswordRepeat: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
         })
         .refine(data => data.newPassword === data.newPasswordRepeat, {
-            message: "",
+            message: translate("pages.settings.passChange.errors.dontMatch"),
             path: ["newPasswordRepeat"]
         });
 
@@ -35,17 +54,41 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
             currentPassword: "",
             newPassword: "",
             newPasswordRepeat: ""
-        }
+        },
+        mode: "onChange"
     });
 
-    const onSubmit: SubmitHandler<Users.PasswordChange> = async data => {
-        const result = formSchema.safeParse(data);
-        console.log(result);
-    };
+    const onSubmit: SubmitHandler<Users.PasswordChange> = async data => {};
+    const { errors } = form.formState;
+
+    useEffect(() => {
+        const errorStates = {
+            passwordDigitError: setIsPasswordDigitError,
+            passwordLowercaseError: setIsPasswordLowercaseError,
+            passwordUppercaseError: setIsPasswordUppercaseError,
+            passwordLenghtError: setIsPasswordLenghtError
+        };
+        if (Object.keys(errors).length > 0) {
+            console.log(errors.newPassword);
+            if (Object.hasOwn(errors, "newPassword")) {
+                Object.entries(errorStates).forEach(([errorKey, setState]) => {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    setState(Object.hasOwn(errors?.newPassword?.newPassword, errorKey));
+                });
+            } else {
+                console.log("falsing");
+
+                Object.entries(errorStates).forEach(([_, setState]) => {
+                    setState(false);
+                });
+            }
+        }
+    }, [errors]);
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full" autoComplete="off">
                 <div className="flex flex-col w-full gap-[20px]">
                     <FormField
                         control={form.control}
@@ -60,7 +103,17 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
                                         type="password"
+                                        autoComplete="new-password"
+                                        readOnly
                                         {...field}
+                                        autoCorrect="off"
+                                        spellCheck="false"
+                                        autoCapitalize="none"
+                                        ref={input => {
+                                            if (input) {
+                                                input.removeAttribute("readonly");
+                                            }
+                                        }}
                                     />
                                 </FormControl>
                             </FormItem>
@@ -77,7 +130,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
                                         variant={InputTypes.GRAY}
                                         label={translate("pages.settings.passChange.newPassword")}
                                         error={fieldState.invalid}
-                                        errorMessage={<FormMessage />}
+                                        errorMessage={translate("pages.settings.passChange.errors.wrongFormat")}
                                         type="password"
                                         {...field}
                                     />
@@ -104,11 +157,23 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
                             </FormItem>
                         )}
                     />
-                    <div className="grid grid-cols-2 gap-y-[4px] gap-x-[15px] justify-between">
-                        <Rule text={translate("pages.settings.passChange.rules.notLessThanTenSymbols")} />
-                        <Rule text={translate("pages.settings.passChange.rules.notLessThanOneDigit")} />
-                        <Rule text={translate("pages.settings.passChange.rules.notLessThanOneCapital")} />
-                        <Rule text={translate("pages.settings.passChange.rules.notLessThanOneLowercase")} />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-[4px] gap-x-[15px] justify-between">
+                        <Rule
+                            text={translate("pages.settings.passChange.rules.notLessThanTenSymbols")}
+                            isError={isPasswordLengthError}
+                        />
+                        <Rule
+                            text={translate("pages.settings.passChange.rules.notLessThanOneDigit")}
+                            isError={isPasswordDigitError}
+                        />
+                        <Rule
+                            text={translate("pages.settings.passChange.rules.notLessThanOneCapital")}
+                            isError={isPasswordUppercaseError}
+                        />
+                        <Rule
+                            text={translate("pages.settings.passChange.rules.notLessThanOneLowercase")}
+                            isError={isPasswordLowercaseError}
+                        />
                     </div>
                 </div>
                 <div className="flex flex-col sm:self-end sm:flex-row items-center gap-4">

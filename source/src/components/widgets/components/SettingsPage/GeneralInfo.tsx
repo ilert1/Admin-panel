@@ -9,16 +9,16 @@ export const GeneralInfo = () => {
     const [changePasswordDialogOpenClicked, setChangePasswordDialogOpenClicked] = useState(false);
 
     return (
-        <div className="w-[585px] h-[276px] bg-white dark:bg-black rounded-16 p-[30px] flex flex-col gap-[20px]">
+        <div className="max-w-[585px] w-full min-h-[276px] bg-white dark:bg-black rounded-16 p-[30px] flex flex-col gap-[20px]">
             <h4 className="w-full text-center text-display-4">{translate("pages.settings.generalInformation")}</h4>
-            <div className="grid grid-cols-2 gap-y-[20px]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-[20px]">
                 <TextField text="Заглушка" label={translate("pages.settings.name")} copyValue />
                 <TextField text="Заглушка" label="ID" copyValue />
                 <TextField text="Заглушка" label="E-mail" />
             </div>
             <div className="flex justify-end">
                 <Button
-                    className="text-title-1"
+                    className="w-full sm:w-auto text-title-1"
                     variant="alert"
                     onClick={() => setChangePasswordDialogOpenClicked(true)}>
                     {translate("pages.settings.changePassword")}

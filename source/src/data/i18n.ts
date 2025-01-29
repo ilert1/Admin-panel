@@ -783,11 +783,13 @@ const ru: TranslationMessages = {
                 },
 
                 errors: {
-                    cantBeEmpty: "Нужно ввести старый пароль",
+                    cantBeEmpty: "Поле не может быть пустым",
                     lenght: "Пароль должен содержать не менее 10 символов",
                     oneUppercase: "Пароль должен содержать хотя бы одну заглавную букву",
                     oneLowercase: "Пароль должен содержать хотя бы одну строчную букву",
-                    oneDigit: "Пароль должен содержать хотя бы одну цифру"
+                    oneDigit: "Пароль должен содержать хотя бы одну цифру",
+                    dontMatch: "Пароли не совпадают",
+                    wrongFormat: "Неверный формат пароля"
                 }
             }
         }
@@ -1589,11 +1591,13 @@ const en: TranslationMessages = {
                 },
 
                 errors: {
-                    cantBeEmpty: "Current password is required",
+                    cantBeEmpty: "Field can't be empty",
                     lenght: "Password must be at least 10 characters long",
                     oneUppercase: "Password must contain at least one uppercase letter",
                     oneLowercase: "Password must contain at least one lowercase letter",
-                    oneDigit: "Password must contain at least one digit"
+                    oneDigit: "Password must contain at least one digit",
+                    dontMatch: "Passwords don't match",
+                    wrongFormat: "Invalid password format"
                 }
             }
         }

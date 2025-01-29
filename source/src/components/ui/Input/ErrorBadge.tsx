@@ -27,7 +27,7 @@ export const ErrorBadge = (props: ErrorBadgeProps) => {
                         <TriangleAlert className="text-red-40" width={14} height={14} />
                     </TooltipTrigger>
                     <TooltipContent
-                        side="top"
+                        side="left"
                         sideOffset={5}
                         align="center"
                         className="z-50 border-red-40 text-neutral-0">

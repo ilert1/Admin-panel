@@ -1,4 +1,11 @@
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
 import { useTranslate } from "react-admin";
 import { ChangePasswordForm } from "../../forms/ChangePasswordForm";
 
@@ -15,12 +22,13 @@ export const ChangePasswordDialog = (props: ChangePasswordDialogProps) => {
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
                 disableOutsideClick
-                className="bg-muted max-w-full w-[380px] h-full md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
+                className="bg-muted max-w-full w-[380px] h-auto !overflow-y-auto rounded-[16px] mx-2 sm:mx-0">
                 <DialogHeader className="flex flex-col gap-[24px]">
                     <DialogTitle className="text-center !mb-0">
                         {translate("pages.settings.passChange.passChange")}
                     </DialogTitle>
                     <ChangePasswordForm onOpenChange={onOpenChange} />
+                    <DialogDescription />
                 </DialogHeader>
                 <DialogFooter></DialogFooter>
             </DialogContent>
