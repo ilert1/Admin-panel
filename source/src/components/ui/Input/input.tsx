@@ -176,16 +176,15 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     <span className="flex" ref={iconsBoxRef}>
                         {showClearButton && <ClearButton handleClear={handleClear} inputVariant={variant} />}
                         {error && <ErrorBadge errorMessage={errorMessage} variant={variant} />}
-                        {type === "password" ||
-                            (type === "password_masked" && (
-                                <EyeButton
-                                    inputVariant={variant}
-                                    disabled={disabled ?? false}
-                                    inputValue={inputValue}
-                                    showPassword={showPassword}
-                                    setShowPassword={setShowPassword}
-                                />
-                            ))}
+                        {(type === "password" || type === "password_masked") && (
+                            <EyeButton
+                                inputVariant={variant}
+                                disabled={disabled ?? false}
+                                inputValue={inputValue}
+                                showPassword={showPassword}
+                                setShowPassword={setShowPassword}
+                            />
+                        )}
                     </span>
                 </div>
                 {error && <span className="!text-note-1 inline text-red-40">{errorMessage}</span>}

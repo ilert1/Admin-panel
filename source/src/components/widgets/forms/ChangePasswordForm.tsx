@@ -150,7 +150,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
                                         errorMessage={
                                             isPasswordEnglishOnlyError
                                                 ? translate("pages.settings.passChange.errors.onlyEnglishLetters")
-                                                : translate("pages.settings.passChange.errors.wrongFormat")
+                                                : null
                                         }
                                         type="password_masked"
                                         {...field}
