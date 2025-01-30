@@ -614,7 +614,8 @@ const ru: TranslationMessages = {
                 totalLoading: "Загрузка...",
                 totalError: "Не удалось получить общий баланс по счетам",
                 accurateBalance: "Точный баланс аккаунта",
-                accurateAggregatorProfit: "Точная прибыль агрегатора"
+                accurateAggregatorProfit: "Точная прибыль агрегатора",
+                settings: "Настройки"
             },
             roles: {
                 admin: "Администратор",
@@ -757,6 +758,41 @@ const ru: TranslationMessages = {
     pages: {
         cryptoTransfer: {
             header: "Перевод криптовалюты"
+        },
+        settings: {
+            generalInformation: "Общая информация",
+            name: "Имя",
+            changePassword: "Сменить пароль",
+            login: {
+                loginMethod: "Способ входа",
+                withPassword: "Вход по паролю",
+                withPassAndOtp: "Вход по паролю и одноразовому коду",
+                scanQr: "Отсканируйте QR-код для начала генерации одноразовых кодов, которые будут использоваться при входе в аккаунт."
+            },
+            passChange: {
+                passChange: "Смена пароля",
+                currentPassowrd: "Текущий пароль",
+                newPassword: "Новый пароль",
+                repeatNewPassword: "Повторите новый пароль",
+
+                rules: {
+                    notLessThanTenSymbols: "Не менее 10 символов",
+                    notLessThanOneDigit: "Не менее 1 цифры",
+                    notLessThanOneCapital: "Не менее 1 прописной буквы",
+                    notLessThanOneLowercase: "Не менее 1 строчной буквы"
+                },
+
+                errors: {
+                    cantBeEmpty: "Поле не может быть пустым",
+                    lenght: "Пароль должен содержать не менее 10 символов",
+                    oneUppercase: "Пароль должен содержать хотя бы одну заглавную букву",
+                    oneLowercase: "Пароль должен содержать хотя бы одну строчную букву",
+                    oneDigit: "Пароль должен содержать хотя бы одну цифру",
+                    dontMatch: "Пароли не совпадают",
+                    wrongFormat: "Неверный формат пароля",
+                    onlyEnglishLetters: "Разрешены только латинские буквы, числа и специальные символы"
+                }
+            }
         }
     },
     datePicker: {
@@ -1386,7 +1422,8 @@ const en: TranslationMessages = {
                 totalLoading: "Loading...",
                 totalError: "Error while getting total account balance",
                 accurateBalance: "Accurate account balance",
-                accurateAggregatorProfit: "Accurate aggregator profit"
+                accurateAggregatorProfit: "Accurate aggregator profit",
+                settings: "Settings"
             },
             roles: {
                 admin: "Administrator",
@@ -1530,6 +1567,41 @@ const en: TranslationMessages = {
     pages: {
         cryptoTransfer: {
             header: "Crypto Wallet Transfer"
+        },
+        settings: {
+            generalInformation: "General information",
+            name: "Name",
+            changePassword: "Change password",
+            login: {
+                loginMethod: "Login method",
+                withPassword: "Login with passoword",
+                withPassAndOtp: "Login with passoword and OTP",
+                scanQr: "Scan the QR code to start generating OTPs that will be used to log into your account."
+            },
+            passChange: {
+                passChange: "Change Password",
+                currentPassowrd: "Current Password",
+                newPassword: "New Password",
+                repeatNewPassword: "Repeat New Password",
+
+                rules: {
+                    notLessThanTenSymbols: "At least 10 characters",
+                    notLessThanOneDigit: "At least 1 digit",
+                    notLessThanOneCapital: "At least 1 uppercase letter",
+                    notLessThanOneLowercase: "At least 1 lowercase letter"
+                },
+
+                errors: {
+                    cantBeEmpty: "Field can't be empty",
+                    lenght: "Password must be at least 10 characters long",
+                    oneUppercase: "Password must contain at least one uppercase letter",
+                    oneLowercase: "Password must contain at least one lowercase letter",
+                    oneDigit: "Password must contain at least one digit",
+                    dontMatch: "Passwords don't match",
+                    wrongFormat: "Invalid password format",
+                    onlyEnglishLetters: "Only Latin letters, numbers, and special characters are allowed."
+                }
+            }
         }
     },
     datePicker: {

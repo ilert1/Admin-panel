@@ -8,12 +8,13 @@ import { useGetIdentity, usePermissions, useTranslate } from "react-admin";
 import { NumericFormat } from "react-number-format";
 import { useQuery } from "react-query";
 import { toast } from "sonner";
-import { EllipsisVerticalIcon } from "lucide-react";
+import { EllipsisVerticalIcon, LogOut, Settings } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { LangSwitcher } from "../components/LangSwitcher";
 import { CurrencyIcon } from "./CurrencyIcon";
-import { Button } from "@/components/ui/Button";
+import { Button, HeaderButton } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router";
 // import { debounce } from "lodash";
 
 export const Header = (props: { handleLogout: () => void }) => {
@@ -26,6 +27,7 @@ export const Header = (props: { handleLogout: () => void }) => {
     const { permissions } = usePermissions();
     const isMerchant = useMemo(() => permissions === "merchant", [permissions]);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const navigate = useNavigate();
 
     const toggleTheme = () => {
         setTheme(theme === "light" ? "dark" : "light");
@@ -236,7 +238,6 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         )}
                                     </div>
                                 </div>
-
                                 <div className="flex content-start items-center pl-4 pr-4">
                                     <Switch
                                         checked={theme === "light"}
@@ -247,11 +248,21 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         {theme === "dark" ? translate("app.theme.light") : translate("app.theme.dark")}
                                     </span>
                                 </div>
-                                <Button
-                                    className="h-[50px] rounded-none flex justify-start mt-2"
-                                    onClick={props.handleLogout}>
-                                    <span className="">{translate("ra.auth.logout")}</span>
-                                </Button>
+                                <div>
+                                    <HeaderButton
+                                        text={translate("app.ui.header.settings")}
+                                        Icon={Settings}
+                                        onClick={() => {
+                                            setProfileOpen(false);
+                                            navigate("settings");
+                                        }}
+                                    />
+                                    <HeaderButton
+                                        text={translate("ra.auth.logout")}
+                                        Icon={LogOut}
+                                        onClick={props.handleLogout}
+                                    />
+                                </div>
                             </DropdownMenuContent>
                         </DropdownMenu>
                         {/* <Sheet

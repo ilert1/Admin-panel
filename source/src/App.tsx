@@ -50,6 +50,7 @@ import { InitLoading } from "./components/ui/loading";
 import { NotFound } from "./components/widgets/shared/NotFound";
 import WalletsLogo from "./lib/icons/Wallets";
 import { WalletStore } from "./pages/WalletStore";
+import { OptionsPage } from "./pages/SettingsPage";
 
 const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
 
@@ -103,7 +104,6 @@ export const App = () => {
                             <Resource name="accounts" list={AccountList} icon={WalletMinimalIcon} />
                             <Resource name="transactions" list={TransactionList} icon={HistoryIcon} />
                             <Resource name="withdraw" list={WithdrawList} icon={BitcoinIcon} />
-
                             {WALLET_ENABLED && (
                                 <Resource name="wallet" list={WalletsList} icon={WalletsLogo}>
                                     {permissions === "admin" && <Route path="storage" element={<WalletStore />} />}
@@ -139,6 +139,7 @@ export const App = () => {
 
                             <CustomRoutes>
                                 <Route path="/login" element={<LoginPage />} />
+                                <Route path="/settings" element={<OptionsPage />} />
                             </CustomRoutes>
                         </>
                     )}

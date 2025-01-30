@@ -25,7 +25,8 @@ const buttonVariants = cva(
                 outline_sec: outlineStyles + " text-neutral-50 border-neutral-50 hover:text-green-50",
                 text_btn: textBtnStyles + " text-green-50",
                 text_btn_sec: textBtnStyles + " text-neutral-50 disabled:opacity-30 dark:disabled:opacity-100",
-                outline_gray: outlineStyles + " dark:text-neutral-50 dark:border-neutral-50 dark:hover:text-green-50"
+                outline_gray: outlineStyles + " dark:text-neutral-50 dark:border-neutral-50 dark:hover:text-green-50",
+                alert: "bg-red-40 hover:bg-red-50 active:bg-red-60 disabled:bg-neutral-20 text-neutral-0"
             },
             size: {
                 default: "h-9 px-4 py-2",

@@ -29,6 +29,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             type,
             value: propValue,
             onChange,
+            onCopy,
+            onCut,
+            onContextMenu,
             disabled,
             variant = InputTypes.DEFAULT,
             error = false,
@@ -161,15 +164,19 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                             "dark:!text-neutral-0 dark:bg-neutral-100 dark:placeholder:!text-neutral-70",
                             "disabled:bg-neutral-20 disabled:dark:bg-neutral-90 disabled:!text-neutral-80 disabled:dark:!text-neutral-60",
                             variant === InputTypes.GRAY ? "bg-white dark:bg-muted" : "",
+                            type === "password_masked" && !showPassword ? "input-masked" : "",
                             className
                         )}
-                        ref={inputRef}
                         {...props}
+                        onCopy={() => navigator.clipboard.writeText(String(inputValue))}
+                        onCut={() => navigator.clipboard.writeText(String(inputValue))}
+                        onContextMenu={type === "password_masked" ? e => e.preventDefault() : onContextMenu}
+                        ref={inputRef}
                     />
                     <span className="flex" ref={iconsBoxRef}>
                         {showClearButton && <ClearButton handleClear={handleClear} inputVariant={variant} />}
                         {error && <ErrorBadge errorMessage={errorMessage} variant={variant} />}
-                        {type === "password" && (
+                        {(type === "password" || type === "password_masked") && (
                             <EyeButton
                                 inputVariant={variant}
                                 disabled={disabled ?? false}
@@ -180,7 +187,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         )}
                     </span>
                 </div>
-                {error && <span className="!text-note-1 inline sm:hidden">{errorMessage}</span>}
+                {error && <span className="!text-note-1 inline text-red-40">{errorMessage}</span>}
             </div>
         );
     }
