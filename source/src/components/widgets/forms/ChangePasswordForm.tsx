@@ -139,18 +139,17 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
                     <FormField
                         control={form.control}
                         name="newPassword"
-                        render={({ field, fieldState }) => (
+                        render={({ field }) => (
                             <FormItem className="space-y-1">
                                 <FormControl>
                                     <Input
                                         className="text-sm"
                                         variant={InputTypes.GRAY}
                                         label={translate("pages.settings.passChange.newPassword")}
-                                        error={fieldState.invalid}
+                                        error={isPasswordEnglishOnlyError}
                                         errorMessage={
-                                            isPasswordEnglishOnlyError
-                                                ? translate("pages.settings.passChange.errors.onlyEnglishLetters")
-                                                : null
+                                            isPasswordEnglishOnlyError &&
+                                            translate("pages.settings.passChange.errors.onlyEnglishLetters")
                                         }
                                         type="password_masked"
                                         {...field}
