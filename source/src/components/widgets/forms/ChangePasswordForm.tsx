@@ -53,7 +53,6 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
         .refine(
             data => data.newPassword === data.newPasswordRepeat,
             () => {
-                console.log(newPassword, newPasswordRepeat);
                 return {
                     message: translate("pages.settings.passChange.errors.dontMatch"),
                     path: ["newPasswordRepeat"]
