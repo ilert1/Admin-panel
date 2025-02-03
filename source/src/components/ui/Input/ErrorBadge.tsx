@@ -23,10 +23,11 @@ export const ErrorBadge = (props: ErrorBadgeProps) => {
             )}>
             <TooltipProvider>
                 <Tooltip>
-                    <TooltipTrigger>
+                    <TooltipTrigger tabIndex={-1}>
                         <TriangleAlert className="text-red-40" width={14} height={14} />
                     </TooltipTrigger>
                     <TooltipContent
+                        tabIndex={-1}
                         side="left"
                         sideOffset={5}
                         align="center"
