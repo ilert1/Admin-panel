@@ -50,10 +50,16 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
 
             newPasswordRepeat: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
         })
-        .refine(data => data.newPassword === data.newPasswordRepeat, {
-            message: translate("pages.settings.passChange.errors.dontMatch"),
-            path: ["newPasswordRepeat"]
-        });
+        .refine(
+            data => data.newPassword === data.newPasswordRepeat,
+            () => {
+                console.log(newPassword, newPasswordRepeat);
+                return {
+                    message: translate("pages.settings.passChange.errors.dontMatch"),
+                    path: ["newPasswordRepeat"]
+                };
+            }
+        );
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -62,7 +68,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
             newPassword: "",
             newPasswordRepeat: ""
         },
-        mode: "onChange"
+        mode: "all"
     });
 
     const { errors } = form.formState;
@@ -114,6 +120,17 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [errors.newPassword, val]);
+
+    useEffect(() => {
+        const subscription = form.watch(() => {
+            const { newPassword, newPasswordRepeat } = form.getValues();
+            if (newPassword.length > 0 && newPasswordRepeat.length > 0) {
+                form.trigger("newPasswordRepeat");
+            }
+        });
+
+        return () => subscription.unsubscribe();
+    }, [form]);
 
     return (
         <Form {...form}>
