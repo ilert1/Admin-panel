@@ -28,12 +28,12 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
             newPassword: z
                 .string()
                 .min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
-                .refine(password => /^[a-zA-Z0-9!@#$%^&*()_+\-=<>?/{}[\]\\|.,:;"'~`]+$/.test(password), {
-                    path: ["onlyEnglishLetters"]
-                })
                 .refine(password => password.length > 9, {
                     message: translate("pages.settings.passChange.errors.lenght"),
                     path: ["passwordLenghtError"]
+                })
+                .refine(password => /^[a-zA-Z0-9!@#$%^&*()_+\-=<>?/{}[\]\\|.,:;"'~`]+$/.test(password), {
+                    path: ["passwordLetterError"]
                 })
                 .refine(password => /[A-Z]/.test(password), {
                     message: translate("pages.settings.passChange.errors.oneUppercase"),
@@ -50,10 +50,15 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
 
             newPasswordRepeat: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
         })
-        .refine(data => data.newPassword === data.newPasswordRepeat, {
-            message: translate("pages.settings.passChange.errors.dontMatch"),
-            path: ["newPasswordRepeat"]
-        });
+        .refine(
+            data => data.newPassword === data.newPasswordRepeat,
+            () => {
+                return {
+                    message: translate("pages.settings.passChange.errors.dontMatch"),
+                    path: ["newPasswordRepeat"]
+                };
+            }
+        );
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -62,7 +67,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
             newPassword: "",
             newPasswordRepeat: ""
         },
-        mode: "onChange"
+        mode: "all"
     });
 
     const { errors } = form.formState;
@@ -82,7 +87,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
     useEffect(() => {
         const errorStates = {
             passwordDigitError: setIsPasswordDigitError,
-            onlyEnglishLetters: setIsPasswordEnglishOnlyError,
+            passwordLetterError: setIsPasswordEnglishOnlyError,
             passwordLowercaseError: setIsPasswordLowercaseError,
             passwordUppercaseError: setIsPasswordUppercaseError,
             passwordLenghtError: setIsPasswordLenghtError
@@ -91,27 +96,40 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
         if (Object.keys(errors).length > 0 || isPasswordLengthError === undefined) {
             if (Object.hasOwn(errors, "newPassword")) {
                 Object.entries(errorStates).forEach(([errorKey, setState]) => {
-                    if (errorKey === "onlyEnglishLetters") {
-                        setIsPasswordEnglishOnlyError(true);
-                    }
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
                     setState(Object.hasOwn(errors?.newPassword, errorKey));
                 });
+                if (val.length === 0) {
+                    setIsPasswordEnglishOnlyError(false);
+                }
             } else {
                 if (val.length) {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     Object.entries(errorStates).forEach(([_, setState]) => {
                         setState(false);
                     });
                 }
             }
         } else {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             Object.entries(errorStates).forEach(([_, setState]) => {
                 setState(false);
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [errors.newPassword, val]);
+
+    useEffect(() => {
+        const subscription = form.watch(() => {
+            const { newPassword, newPasswordRepeat } = form.getValues();
+            if (newPassword.length > 0 && newPasswordRepeat.length > 0) {
+                form.trigger("newPasswordRepeat");
+            }
+        });
+
+        return () => subscription.unsubscribe();
+    }, [form]);
 
     return (
         <Form {...form}>
@@ -139,18 +157,17 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
                     <FormField
                         control={form.control}
                         name="newPassword"
-                        render={({ field, fieldState }) => (
+                        render={({ field }) => (
                             <FormItem className="space-y-1">
                                 <FormControl>
                                     <Input
                                         className="text-sm"
                                         variant={InputTypes.GRAY}
                                         label={translate("pages.settings.passChange.newPassword")}
-                                        error={fieldState.invalid}
+                                        error={isPasswordEnglishOnlyError}
                                         errorMessage={
-                                            isPasswordEnglishOnlyError
-                                                ? translate("pages.settings.passChange.errors.onlyEnglishLetters")
-                                                : null
+                                            isPasswordEnglishOnlyError &&
+                                            translate("pages.settings.passChange.errors.onlyEnglishLetters")
                                         }
                                         type="password_masked"
                                         {...field}
