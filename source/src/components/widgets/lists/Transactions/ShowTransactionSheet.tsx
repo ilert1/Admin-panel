@@ -17,7 +17,7 @@ export const ShowTransactionSheet: React.FC<ShowTransactionSheetProps> = ({ id, 
     return (
         <Sheet onOpenChange={onOpenChange} open={open}>
             <SheetContent
-                className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col border-0"
+                className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col h-full border-0"
                 tabIndex={-1}
                 close={false}>
                 <SheetHeader className="p-[42px] pb-[24px] flex-shrink-0">
@@ -32,7 +32,7 @@ export const ShowTransactionSheet: React.FC<ShowTransactionSheetProps> = ({ id, 
                     </div>
                 </SheetHeader>
 
-                <div className="flex-1 overflow-auto" tabIndex={-1}>
+                <div className="h-full min-h-0" tabIndex={-1}>
                     <SheetDescription />
                     <TransactionShow id={id} />
                 </div>

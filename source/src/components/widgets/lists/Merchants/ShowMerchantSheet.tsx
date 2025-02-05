@@ -17,7 +17,7 @@ export const ShowMerchantSheet = ({ id, showType, open, onOpenChange }: ShowMerc
         <>
             <Sheet open={open} onOpenChange={onOpenChange}>
                 <SheetContent
-                    className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] overflow-hidden w-full p-0 m-0 top-[84px] flex flex-col border-0"
+                    className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] overflow-hidden w-full p-0 m-0 top-[84px] flex flex-col border-0 h-full"
                     tabIndex={-1}
                     close={false}>
                     <div className="p-[42px] pb-[0px] flex-shrink-0">
@@ -35,7 +35,7 @@ export const ShowMerchantSheet = ({ id, showType, open, onOpenChange }: ShowMerc
                         </div>
                     </div>
 
-                    <div className="flex-1 overflow-auto" tabIndex={-1}>
+                    <div className="h-full min-h-0" tabIndex={-1}>
                         <MerchantShow id={id} type={showType} />
                     </div>
                     <SheetDescription></SheetDescription>

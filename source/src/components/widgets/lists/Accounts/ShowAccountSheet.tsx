@@ -23,7 +23,7 @@ export const ShowAccountSheet: React.FC<ShowSheetProps> = ({
     return (
         <Sheet onOpenChange={onOpenChange} open={open}>
             <SheetContent
-                className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col border-0"
+                className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col h-full border-0"
                 tabIndex={-1}
                 close={false}>
                 <SheetHeader className="p-[42px] pb-0 flex-shrink-0">
@@ -39,7 +39,7 @@ export const ShowAccountSheet: React.FC<ShowSheetProps> = ({
                     </div>
                 </SheetHeader>
 
-                <div className="flex-1 overflow-auto" tabIndex={-1}>
+                <div className="h-full min-h-0" tabIndex={-1}>
                     <SheetDescription />
                     <AccountShow id={accountId} />
                 </div>

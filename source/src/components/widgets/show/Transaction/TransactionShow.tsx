@@ -84,7 +84,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     }
 
     return (
-        <div className="p-[42px] pt-0 flex flex-col gap-6 top-[82px] overflow-auto">
+        <div className="p-[42px] pt-0 h-full flex flex-col gap-6 top-[82px] overflow-auto">
             {permissions === "admin" && (
                 <div className={`flex justify-between flex-wrap gap-4`}>
                     {showState && (
@@ -215,7 +215,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
 
             {(permissions === "admin" ||
                 (permissions === "merchant" && context.record.committed && context.record.state.state_int === 16)) && (
-                <div className="flex flex-col gap-2 min-h-[100px]">
+                <div className="flex flex-col gap-2">
                     <span>{translate("resources.transactions.fields.fees")}</span>
 
                     <SimpleTable
