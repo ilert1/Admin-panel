@@ -80,7 +80,7 @@ export class UsersDataProvider extends BaseDataProvider {
         const { json: jsonData } = json;
 
         if (!jsonData.success) {
-            throw new Error(String(json.status));
+            throw new Error(jsonData.error);
         }
 
         return { status: json.status, success: jsonData.success };

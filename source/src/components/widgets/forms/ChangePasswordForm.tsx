@@ -30,7 +30,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
         try {
             const { currentPassword, newPassword } = formData;
 
-            const { status, success } = await usersDataProvider.updatePassword("users", {
+            await usersDataProvider.updatePassword("users", {
                 id: userId,
                 previousData: undefined,
                 data: {
