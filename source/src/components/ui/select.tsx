@@ -6,7 +6,6 @@ import { Check, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "./scroll-area";
 import { ErrorBadge } from "./Input/ErrorBadge";
-import useIsOutOfView from "@/hooks/useIsOutOfView";
 
 const Select = SelectPrimitive.Root;
 
