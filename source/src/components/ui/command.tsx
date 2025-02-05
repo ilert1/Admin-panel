@@ -56,7 +56,7 @@ const CommandList = React.forwardRef<
     React.ElementRef<typeof CommandPrimitive.List>,
     React.ComponentPropsWithoutRef<typeof CommandPrimitive.List>
 >(({ className, ...props }, ref) => {
-    const isTabletOrMobile = useMediaQuery({ query: "(max-height: 600px)" });
+    const isTabletOrMobile = useMediaQuery({ query: "(max-height: 660px)" });
 
     return (
         <CommandPrimitive.List
