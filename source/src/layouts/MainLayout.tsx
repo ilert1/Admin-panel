@@ -64,7 +64,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
             <div className="flex h-full overflow-hidden">
                 <Sidebar resourceName={resourceName} setTestKeysModalOpen={setTestKeysModalOpen} />
                 <div
-                    className={`bg-neutral-20 dark:bg-muted grow scrollbar-stable transition-[margin-left] relative  ${
+                    className={`bg-neutral-20 dark:bg-muted overflow-y-auto grow scrollbar-stable transition-[margin-left] relative  ${
                         resourceName[1] === "storage" ? " overflow-y-hidden overflow-x-hidden" : ""
                     }`}>
                     <main
