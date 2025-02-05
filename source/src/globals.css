@@ -234,5 +234,9 @@
         ::-webkit-scrollbar-track {
             border: 1px solid hsl(60, 1%, 25%);
         }
+
+        ::-webkit-scrollbar-corner {
+            background-color: hsl(var(--neutral-100));
+        }
     }
 }
