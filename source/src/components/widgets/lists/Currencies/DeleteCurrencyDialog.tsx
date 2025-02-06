@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { useDelete, useRefresh, useTranslate } from "react-admin";
+import { useState } from "react";
 
 interface DeleteCurrencyDialogProps {
     open: boolean;
@@ -13,8 +14,12 @@ export const DeleteCurrencyDialog = ({ open, id, onOpenChange }: DeleteCurrencyD
     const translate = useTranslate();
     const [deleteOne] = useDelete();
     const refresh = useRefresh();
+    const [deleteClicked, setDeleteClicked] = useState(false);
 
     const handleDelete = async () => {
+        if (deleteClicked) return;
+        setDeleteClicked(true);
+
         await deleteOne(
             "currency",
             { id },
@@ -28,6 +33,7 @@ export const DeleteCurrencyDialog = ({ open, id, onOpenChange }: DeleteCurrencyD
 
                     onOpenChange(false);
                     refresh();
+                    setDeleteClicked(false);
                 },
                 onError: () => {
                     toast.error("Error", {

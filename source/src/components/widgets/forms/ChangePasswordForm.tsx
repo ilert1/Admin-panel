@@ -1,11 +1,14 @@
 import { Button } from "@/components/ui/Button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
+import { Loading } from "@/components/ui/loading";
 import { Rule } from "@/components/ui/rule";
+import { UsersDataProvider } from "@/data";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { useTranslate } from "react-admin";
+import { useAuthProvider, useTranslate } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 interface ChangePasswordFormProps {
     onOpenChange: (state: boolean) => void;
@@ -13,14 +16,36 @@ interface ChangePasswordFormProps {
 export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
     const translate = useTranslate();
     const { onOpenChange } = props;
+    const usersDataProvider = new UsersDataProvider();
+    const { getIdentity } = useAuthProvider();
+    const [userId, setUserId] = useState("");
 
     const [isPasswordLengthError, setIsPasswordLenghtError] = useState<boolean | undefined>(undefined);
     const [isPasswordUppercaseError, setIsPasswordUppercaseError] = useState<boolean | undefined>(undefined);
     const [isPasswordLowercaseError, setIsPasswordLowercaseError] = useState<boolean | undefined>(undefined);
     const [isPasswordDigitError, setIsPasswordDigitError] = useState<boolean | undefined>(undefined);
     const [isPasswordEnglishOnlyError, setIsPasswordEnglishOnlyError] = useState<boolean | undefined>(undefined);
+    // usersDataProvider.updatePassword()
+    const onSubmit: SubmitHandler<Users.PasswordChange> = async formData => {
+        try {
+            const { currentPassword, newPassword } = formData;
 
-    const onSubmit: SubmitHandler<Users.PasswordChange> = async data => {};
+            await usersDataProvider.updatePassword("users", {
+                id: userId,
+                previousData: undefined,
+                data: {
+                    current_password: currentPassword,
+                    new_password: newPassword
+                }
+            });
+        } catch (error) {
+            toast("Error", {
+                dismissible: true,
+                duration: 300,
+                description: ""
+            });
+        }
+    };
 
     const formSchema = z
         .object({
@@ -85,6 +110,16 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
     ].some(error => error !== false);
 
     useEffect(() => {
+        async function checkAuth() {
+            if (getIdentity) {
+                const data = await getIdentity();
+                setUserId(String(data.id));
+            }
+        }
+        checkAuth();
+    }, []);
+
+    useEffect(() => {
         const errorStates = {
             passwordDigitError: setIsPasswordDigitError,
             passwordLetterError: setIsPasswordEnglishOnlyError,
@@ -130,6 +165,10 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
 
         return () => subscription.unsubscribe();
     }, [form]);
+
+    if (!userId) {
+        return <Loading />;
+    }
 
     return (
         <Form {...form}>

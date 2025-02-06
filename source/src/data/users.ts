@@ -70,6 +70,22 @@ export class UsersDataProvider extends BaseDataProvider {
         return { data: json.data };
     }
 
+    async updatePassword(resource: string, params: UpdateParams) {
+        const json = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/${resource}/${params.id}/change-password`, {
+            method: "POST",
+            body: JSON.stringify(params.data),
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        });
+
+        const { json: jsonData } = json;
+
+        if (!jsonData.success) {
+            throw new Error(jsonData.error);
+        }
+
+        return { status: json.status, success: jsonData.success };
+    }
+
     async delete(resource: string, params: DeleteParams): Promise<DeleteResult> {
         const { json } = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/${resource}/${params.id}`, {
             method: "DELETE",

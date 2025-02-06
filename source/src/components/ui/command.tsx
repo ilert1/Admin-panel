@@ -5,6 +5,7 @@ import { Search } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useMediaQuery } from "react-responsive";
 
 const Command = React.forwardRef<
     React.ElementRef<typeof CommandPrimitive>,
@@ -54,13 +55,21 @@ CommandInput.displayName = CommandPrimitive.Input.displayName;
 const CommandList = React.forwardRef<
     React.ElementRef<typeof CommandPrimitive.List>,
     React.ComponentPropsWithoutRef<typeof CommandPrimitive.List>
->(({ className, ...props }, ref) => (
-    <CommandPrimitive.List
-        ref={ref}
-        className={cn("max-h-[300px] overflow-y-auto overflow-x-hidden", className)}
-        {...props}
-    />
-));
+>(({ className, ...props }, ref) => {
+    const isTabletOrMobile = useMediaQuery({ query: "(max-height: 660px)" });
+
+    return (
+        <CommandPrimitive.List
+            ref={ref}
+            className={cn(
+                "overflow-y-auto overflow-x-hidden",
+                isTabletOrMobile ? "max-h-[140px]" : "max-h-[300px]",
+                className
+            )}
+            {...props}
+        />
+    );
+});
 
 CommandList.displayName = CommandPrimitive.List.displayName;
 
