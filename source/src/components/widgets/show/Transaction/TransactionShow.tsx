@@ -97,7 +97,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                     />
                                 </SelectTrigger>
 
-                                <SelectContent className="bg-neutral-0">
+                                <SelectContent className="bg-neutral-0 !max-h-56">
                                     {states.map(state => (
                                         <SelectItem key={state.state_int} value={state.state_int.toString()}>
                                             {translate(
