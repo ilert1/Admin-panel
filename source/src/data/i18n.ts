@@ -643,8 +643,16 @@ const ru: TranslationMessages = {
             textField: {
                 copied: "Скопировано"
             },
+            toast: {
+                success: "Успешно",
+                error: "Ошибка"
+            },
             delete: {
                 deletedSuccessfully: "Элемент удален успешно"
+            },
+            edit: {
+                editSuccess: "Элемент успешно изменен",
+                editError: "Что-то пошло не так, повторите попытку позднее"
             },
             chatMessagePlaceholder: "Сообщение...",
             transactionHistory: "История операции",
@@ -1451,8 +1459,16 @@ const en: TranslationMessages = {
             textField: {
                 copied: "Copied"
             },
+            toast: {
+                success: "Success",
+                error: "Error"
+            },
             delete: {
                 deletedSuccessfully: "Deleted successfully"
+            },
+            edit: {
+                editSuccess: "Edited successfully",
+                editError: "Something went wrong, please try again later"
             },
             chatMessagePlaceholder: "Message...",
             transactionHistory: "Transaction history",
