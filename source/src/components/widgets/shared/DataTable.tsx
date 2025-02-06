@@ -141,7 +141,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
             <Table className="bg-neutral-0">
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup, i) => (
-                        <TableRow key={i} className="bg-green-50 hover:bg-green-50">
+                        <TableRow key={i} className="bg-green-50 hover:bg-green-50 relative">
                             {headerGroup.headers.map((header, j) => {
                                 return (
                                     <TableHead
@@ -182,7 +182,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
             </Table>
 
             <div
-                className={`flex w-full items-center justify-between gap-4 overflow-x-auto  overflow-y-hidden p-1 sm:flex-row sm:gap-8 ${
+                className={`flex w-full min-h-[1.5rem] mb-2 items-center justify-between gap-4 overflow-x-auto  overflow-y-hidden p-1 sm:flex-row sm:gap-8 ${
                     pagination && total > perPage ? "" : "!justify-end"
                 }`}>
                 {pagination && total > perPage && renderPagination()}
