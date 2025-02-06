@@ -37,7 +37,7 @@ const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableE
         }, [isScrollableLeft, isScrollableRight]);
 
         return (
-            <div className="relative min-h-[9rem]">
+            <div className="relative min-h-[9rem] mb-2">
                 <div ref={tableRef} className="relative w-full h-full overflow-auto">
                     <table
                         ref={ref}
