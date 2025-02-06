@@ -91,13 +91,13 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                         <div className="flex gap-2 items-center">
                             <TextField text={translate("resources.transactions.fields.state.state_description")} />
                             <Select value={newState} onValueChange={setNewState}>
-                                <SelectTrigger className="w-[180px] border-">
+                                <SelectTrigger className="w-[180px]">
                                     <SelectValue
                                         placeholder={translate("resources.transactions.fields.state.state_description")}
                                     />
                                 </SelectTrigger>
 
-                                <SelectContent className="bg-neutral-0">
+                                <SelectContent className="bg-neutral-0 !max-h-56">
                                     {states.map(state => (
                                         <SelectItem key={state.state_int} value={state.state_int.toString()}>
                                             {translate(
