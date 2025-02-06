@@ -48,14 +48,14 @@ const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableE
                 {/* Right shadow */}
                 <div
                     className={`pointer-events-none absolute top-0 right-0 h-full w-6 sm:w-12 bg-gradient-to-l from-white dark:from-black to-transparent z-20 transition-opacity duration-300 ${
-                        isScrollableRight ? "opacity-100" : "opacity-0"
+                        isScrollableRight ? "opacity-50" : "opacity-0"
                     }`}
                 />
 
                 {/* Left shadow */}
                 <div
                     className={`pointer-events-none absolute top-0 left-0 h-full w-6 sm:w-12 bg-gradient-to-r from-white dark:from-black to-transparent z-20 transition-opacity duration-300 ${
-                        isScrollableLeft ? "opacity-100" : "opacity-0"
+                        isScrollableLeft ? "opacity-50" : "opacity-0"
                     }`}
                 />
             </div>
