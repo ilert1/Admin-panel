@@ -200,7 +200,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                         <SelectTrigger className="h-8 border-none bg-white dark:bg-green-60 p-1 w-auto gap-0.5 text-neutral-90 dark:text-white">
                             <SelectValue placeholder={table.getState().pagination.pageSize} />
                         </SelectTrigger>
-                        <SelectContent side="top">
+                        <SelectContent>
                             {[5, 10, 25, 50, 100].map(pageSize => (
                                 <SelectItem key={pageSize} value={`${pageSize}`}>
                                     {pageSize}
