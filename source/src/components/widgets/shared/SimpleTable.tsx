@@ -28,7 +28,7 @@ export function SimpleTable<TData, TValue>({
         <Table>
             <TableHeader>
                 {table.getHeaderGroups().map((headerGroup, i) => (
-                    <TableRow key={i}>
+                    <TableRow className="relative" key={i}>
                         {headerGroup.headers.map((header, j) => {
                             return (
                                 <TableHead
