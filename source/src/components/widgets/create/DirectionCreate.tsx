@@ -36,10 +36,17 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
         setSubmitButtonDisabled(true);
         try {
             await dataProvider.create("direction", { data });
+
+            toast.success(translate("app.ui.toast.success"), {
+                description: translate("app.ui.create.createSuccess"),
+                dismissible: true,
+                duration: 3000
+            });
+
             refresh();
             onOpenChange(false);
         } catch (error) {
-            toast.error("Error", {
+            toast.error(translate("app.ui.toast.error"), {
                 description: translate("resources.provider.errors.alreadyInUse"),
                 dismissible: true,
                 duration: 3000

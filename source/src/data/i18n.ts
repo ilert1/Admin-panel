@@ -647,6 +647,10 @@ const ru: TranslationMessages = {
                 success: "Успешно",
                 error: "Ошибка"
             },
+            create: {
+                createSuccess: "Элемент успешно создан",
+                createError: "Что-то пошло не так, повторите попытку позднее"
+            },
             delete: {
                 deletedSuccessfully: "Элемент удален успешно"
             },
@@ -1462,6 +1466,10 @@ const en: TranslationMessages = {
             toast: {
                 success: "Success",
                 error: "Error"
+            },
+            create: {
+                createSuccess: "Created successfully",
+                createError: "Something went wrong, please try again later"
             },
             delete: {
                 deletedSuccessfully: "Deleted successfully"
