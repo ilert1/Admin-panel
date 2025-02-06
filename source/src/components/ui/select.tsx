@@ -76,7 +76,7 @@ const SelectContent = React.forwardRef<
         const calculateMaxHeight = () => {
             setIsLoading(true);
             if (selectRef.current) {
-                console.log(selectRef.current?.style.maxHeight);
+                // console.log(selectRef.current?.style.maxHeight);
                 const viewportHeight = window.innerHeight;
                 const selectRect = selectRef.current.getBoundingClientRect();
                 const topSpace = selectRect.top;
@@ -104,7 +104,7 @@ const SelectContent = React.forwardRef<
                     "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
                     "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
                     "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2",
-                    "data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[side=top]:bg-red-40",
+                    "data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
                     position === "popper" && "data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1",
                     className
                 )}
