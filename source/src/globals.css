@@ -231,6 +231,12 @@
     }
 
     .dark {
+        @-moz-document url-prefix() {
+            * {
+                scrollbar-color: hsl(var(--green-50)) hsl(var(--neutral-100));
+            }
+        }
+
         ::-webkit-scrollbar-track {
             border: 1px solid hsl(60, 1%, 25%);
         }
