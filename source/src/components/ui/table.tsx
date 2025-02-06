@@ -47,14 +47,14 @@ const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableE
                 </div>
                 {/* Right shadow */}
                 <div
-                    className={`pointer-events-none absolute top-0 -right-[1px] h-full w-6 sm:w-12 bg-gradient-to-l from-white dark:from-black to-transparent z-50 transition-opacity duration-300 ${
+                    className={`pointer-events-none absolute top-0 -right-[1px] h-full w-6 sm:w-12 bg-gradient-to-l from-white dark:from-black to-transparent z-20 transition-opacity duration-300 ${
                         isScrollableRight ? "opacity-50" : "opacity-0"
                     }`}
                 />
 
                 {/* Left shadow */}
                 <div
-                    className={`pointer-events-none absolute top-0 -left-[1px] h-full w-6 sm:w-12 bg-gradient-to-r from-white dark:from-black to-transparent z-50 transition-opacity duration-300 ${
+                    className={`pointer-events-none absolute top-0 -left-[1px] h-full w-6 sm:w-12 bg-gradient-to-r from-white dark:from-black to-transparent z-20 transition-opacity duration-300 ${
                         isScrollableLeft ? "opacity-50" : "opacity-0"
                     }`}
                 />
@@ -69,7 +69,7 @@ const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLAttribut
         <thead
             ref={ref}
             className={cn(
-                "[&_tr]:border-b sticky top-0 z-50 before:-top-[1px] before:absolute before:bottom-[2px] before:left-0 before:right-0 before:bg-neutral-40 before:dark:bg-muted before:-z-10",
+                "[&_tr]:border-b sticky top-0 z-10 before:-top-[1px] before:absolute before:bottom-[2px] before:left-0 before:right-0 before:bg-neutral-40 before:dark:bg-muted before:-z-10",
                 className
             )}
             {...props}
