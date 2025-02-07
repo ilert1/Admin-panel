@@ -658,6 +658,7 @@ const ru: TranslationMessages = {
                 editSuccess: "Элемент успешно изменен",
                 editError: "Что-то пошло не так, повторите попытку позднее"
             },
+            timePickerShow: "Добавить диапазон времени",
             chatMessagePlaceholder: "Сообщение...",
             transactionHistory: "История операции",
             accountHistory: "История счета"
@@ -1478,6 +1479,7 @@ const en: TranslationMessages = {
                 editSuccess: "Edited successfully",
                 editError: "Something went wrong, please try again later"
             },
+            timePickerShow: "Add a time range",
             chatMessagePlaceholder: "Message...",
             transactionHistory: "Transaction history",
             accountHistory: "Account history"

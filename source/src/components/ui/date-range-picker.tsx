@@ -4,8 +4,11 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { DateRange } from "react-day-picker";
 import { useState } from "react";
-import { useLocaleState } from "react-admin";
+import { useLocaleState, useTranslate } from "react-admin";
 import { cn } from "@/lib/utils";
+import { Checkbox } from "./checkbox";
+import { CheckedState } from "@radix-ui/react-checkbox";
+import { Input, InputTypes } from "./Input/input";
 
 export function DateRangePicker({
     title,
@@ -18,9 +21,12 @@ export function DateRangePicker({
     dateRange: DateRange | undefined;
     onChange: (date: DateRange | undefined) => void;
 }) {
+    const [locale] = useLocaleState();
+    const translate = useTranslate();
+
+    const [timeShow, setTimeShow] = useState<CheckedState>(false);
     const [openPopover, setOpenPopover] = useState(false);
     const initDate = new Date();
-    const [locale] = useLocaleState();
 
     return (
         <Popover open={openPopover} onOpenChange={setOpenPopover}>
@@ -68,7 +74,9 @@ export function DateRangePicker({
                     </div>
                 </div>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="center">
+            <PopoverContent
+                className="w-auto p-0 rounded-4 bg-neutral-0 dark:bg-neutral-100 dark:border-green-50 border-green-60 border shadow select-none"
+                align="center">
                 <Calendar
                     today={initDate}
                     disabled={{ after: initDate }}
@@ -79,6 +87,33 @@ export function DateRangePicker({
                     selected={dateRange}
                     onSelect={onChange}
                 />
+
+                <div className="px-4 pb-2 flex flex-col gap-1 text-sm text-neutral-80 dark:text-neutral-40">
+                    <div className="flex items-center gap-2 py-2">
+                        <Checkbox checked={timeShow} onCheckedChange={setTimeShow} id="showTime" />
+                        <label
+                            htmlFor="showTime"
+                            className="cursor-pointer text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                            {translate("app.ui.timePickerShow")}
+                        </label>
+                    </div>
+
+                    {timeShow && (
+                        <div className="flex items-center gap-2">
+                            <Input
+                                maxLength={5}
+                                className="flex-1 w-12 text-center text-sm placeholder:text-neutral-70 dark:placeholder:text-neutral-80"
+                                placeholder="00:00"
+                            />
+                            <span>-</span>
+                            <Input
+                                maxLength={5}
+                                className="flex-1 w-12 text-center text-sm placeholder:text-neutral-70 dark:placeholder:text-neutral-80"
+                                placeholder="00:00"
+                            />
+                        </div>
+                    )}
+                </div>
             </PopoverContent>
         </Popover>
     );
