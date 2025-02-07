@@ -8,7 +8,7 @@ import { useLocaleState, useTranslate } from "react-admin";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "./checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
-import { Input, InputTypes } from "./Input/input";
+import { TimeInput } from "./time-input";
 
 export function DateRangePicker({
     title,
@@ -100,17 +100,9 @@ export function DateRangePicker({
 
                     {timeShow && (
                         <div className="flex items-center gap-2">
-                            <Input
-                                maxLength={5}
-                                className="flex-1 w-12 text-center text-sm placeholder:text-neutral-70 dark:placeholder:text-neutral-80"
-                                placeholder="00:00"
-                            />
+                            <TimeInput></TimeInput>
                             <span>-</span>
-                            <Input
-                                maxLength={5}
-                                className="flex-1 w-12 text-center text-sm placeholder:text-neutral-70 dark:placeholder:text-neutral-80"
-                                placeholder="00:00"
-                            />
+                            <TimeInput />
                         </div>
                     )}
                 </div>
