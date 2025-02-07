@@ -57,7 +57,7 @@ export const MerchantShow = ({ id, type }: MerchantShowProps) => {
             }
         };
 
-        if (context.record && type === "directions") {
+        if (context.record && (type === "directions" || type === "all")) {
             fetchMerchantDirections();
         }
     }, [context.record, type]);
@@ -65,12 +65,14 @@ export const MerchantShow = ({ id, type }: MerchantShowProps) => {
     if (context.isLoading || !context.record || !data) {
         return <Loading />;
     }
+    // console.log(merchantDirections);
+
     const fees = context.record.fees;
     return (
-        <div className="p-[42px] pt-0 h-full min-h-[300px]">
+        <div className="p-[42px] pt-0 h-full min-h-[300px] overflow-auto">
             <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
             <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
-            {type === "fees" ? (
+            {type === "fees" || type === "all" ? (
                 <>
                     <div className="flex flex-col gap-[24px] pt-[24px] pl-[24px] pb-[24px]">
                         <div className="grid grid-cols-2">
@@ -90,6 +92,12 @@ export const MerchantShow = ({ id, type }: MerchantShowProps) => {
                         setAddNewOpen={setAddNewFeeClicked}
                         className="max-h-[42dvh]"
                     />
+                    <div className="mt-5 w-full flex flex-col gap-[8px]">
+                        <span className="text-display-3 text-neutral-90 dark:text-neutral-30">
+                            {translate("resources.merchant.fields.directions")}
+                        </span>
+                        <SimpleTable columns={columns} tableType={TableTypes.COLORED} data={merchantDirections} />
+                    </div>
                 </>
             ) : (
                 <div className="mt-5 w-full flex flex-col gap-[8px]">

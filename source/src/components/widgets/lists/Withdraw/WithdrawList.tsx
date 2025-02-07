@@ -4,12 +4,22 @@ import { Loading } from "@/components/ui/loading";
 import { CryptoTransfer } from "../../components/CryptoTransfer";
 import { WithdrawListFilter } from "./WithdrawListFilter";
 import { useGetWithdrawColumns } from "./Columns";
+import { ShowMerchantSheet } from "../Merchants/ShowMerchantSheet";
 
 export const WithdrawList = () => {
     const listContext = useListController<Transaction.Transaction>();
 
-    const { columns, repeatData, cryptoTransferState, setCryptoTransferState, isLoading, merchantOnly } =
-        useGetWithdrawColumns();
+    const {
+        columns,
+        repeatData,
+        cryptoTransferState,
+        isLoading,
+        merchantOnly,
+        chosenId,
+        showMerchants,
+        setShowMerchants,
+        setCryptoTransferState
+    } = useGetWithdrawColumns();
 
     if (listContext.isLoading || !listContext.data || isLoading) {
         return <Loading />;
@@ -42,6 +52,12 @@ export const WithdrawList = () => {
                         )}
                     </div>
                 </ListContextProvider>
+                <ShowMerchantSheet
+                    id={chosenId}
+                    open={showMerchants}
+                    onOpenChange={setShowMerchants}
+                    showType={"all"}
+                />
             </>
         );
     }

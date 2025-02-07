@@ -10,6 +10,7 @@ import { useTranslate } from "react-admin";
 interface FeesProps {
     className?: string;
     id: string;
+    addFee?: boolean;
     fees?: Directions.Fees | Directions.FeeCreate[];
     setFees?: Dispatch<SetStateAction<Directions.FeeCreate[]>>;
     feeTypes: Dictionaries.FeeTypes;
@@ -21,6 +22,7 @@ interface FeesProps {
 export const Fees = memo((props: FeesProps) => {
     const {
         className,
+        addFee,
         fees,
         id,
         feeTypes,
@@ -75,12 +77,14 @@ export const Fees = memo((props: FeesProps) => {
                     )}
                     <div ref={messagesEndRef} />
                 </div>
-                <div className="flex justify-end">
-                    <Button onClick={() => setAddNewOpen(true)} className="my-6 w-1/2 sm:w-1/4 flex gap-[4px]">
-                        <CircleChevronRight className="w-[16px] h-[16px]" />
-                        {translate("resources.direction.fees.addFee")}
-                    </Button>
-                </div>
+                {addFee && (
+                    <div className="flex justify-end">
+                        <Button onClick={() => setAddNewOpen(true)} className="my-6 w-1/2 sm:w-1/4 flex gap-[4px]">
+                            <CircleChevronRight className="w-[16px] h-[16px]" />
+                            {translate("resources.direction.fees.addFee")}
+                        </Button>
+                    </div>
+                )}
             </div>
         </div>
     );
