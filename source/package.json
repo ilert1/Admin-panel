@@ -25,6 +25,7 @@
         "@radix-ui/react-toast": "^1.2.1",
         "@radix-ui/react-tooltip": "^1.0.7",
         "@radix-ui/themes": "^3.1.1",
+        "@react-input/mask": "^2.0.4",
         "@tanstack/react-table": "^8.16.0",
         "@types/chart.js": "^2.9.41",
         "chart.js": "^4.4.4",
