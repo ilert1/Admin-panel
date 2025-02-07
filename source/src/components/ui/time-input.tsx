@@ -1,14 +1,13 @@
-import { useState } from "react";
 import { InputMask, Track } from "@react-input/mask";
 import { cn } from "@/lib/utils";
 
 interface IProps {
+    time: string;
+    setTime: React.Dispatch<React.SetStateAction<string>>;
     className?: string;
 }
 
-function TimeInput({ className }: IProps) {
-    const [time, setTime] = useState("");
-
+function TimeInput({ time, setTime, className }: IProps) {
     const handleInput = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => setTime(value);
 
     const track: Track = ({ data, selectionStart }) => {

@@ -26,6 +26,8 @@ export function DateRangePicker({
 
     const [timeShow, setTimeShow] = useState<CheckedState>(false);
     const [openPopover, setOpenPopover] = useState(false);
+    const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
     const initDate = new Date();
 
     return (
@@ -100,9 +102,9 @@ export function DateRangePicker({
 
                     {timeShow && (
                         <div className="flex items-center gap-2">
-                            <TimeInput></TimeInput>
+                            <TimeInput time={startTime} setTime={setStartTime} />
                             <span>-</span>
-                            <TimeInput />
+                            <TimeInput time={endTime} setTime={setEndTime} />
                         </div>
                     )}
                 </div>
