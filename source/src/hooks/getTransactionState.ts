@@ -36,8 +36,8 @@ export const useGetTransactionState = (props: UseGetTransactionStateProps) => {
 
     if (!data) {
         return {
-            text: "loading...",
-            color: "bg-netural-0"
+            text: "",
+            color: "bg-neutral-0 dark:bg-neutral-100"
         };
     }
 
