@@ -28,7 +28,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     const translate = useTranslate();
 
     const { permissions } = usePermissions();
-    const context = useShowController<Transaction.Transaction>({ id });
+    const context = useShowController<Transaction.Transaction>({ resource: "transactions", id });
     const [newState, setNewState] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
 

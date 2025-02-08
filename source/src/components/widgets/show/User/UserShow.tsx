@@ -15,7 +15,7 @@ interface UserShowProps {
 }
 
 export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
-    const context = useShowController<Users.User>({ id });
+    const context = useShowController<Users.User>({ resource: "users", id });
     const translate = useTranslate();
 
     const [dialogOpen, setDialogOpen] = useState(false);

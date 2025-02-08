@@ -72,7 +72,40 @@ export const MerchantShow = ({ id, type }: MerchantShowProps) => {
         <div className="p-[42px] pt-0 h-full min-h-[300px] overflow-auto">
             <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
             <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
-            {type === "fees" || type === "all" ? (
+            {type === "all" ? (
+                <>
+                    <div className="flex flex-col gap-[24px] pt-[24px] pl-[24px] pb-[24px]">
+                        <div className="grid grid-cols-2">
+                            <TextField
+                                label={translate("resources.merchant.fields.descr")}
+                                text={context.record.description}
+                            />
+                            <TextField label={"Keycloak ID"} text={context.record.keycloak_id} />
+                        </div>
+                    </div>
+                    <Fees
+                        id={id}
+                        fees={fees}
+                        feeTypes={data.feeTypes}
+                        feesResource={FeesResource.MERCHANT}
+                        addNewOpen={addNewFeeClicked}
+                        setAddNewOpen={setAddNewFeeClicked}
+                        className="max-h-[20dvh]"
+                        padding={false}
+                    />
+                    <div className="mt-5 w-full flex flex-col gap-[8px]">
+                        <span className="text-display-3 text-neutral-90 dark:text-neutral-30">
+                            {translate("resources.merchant.fields.directions")}
+                        </span>
+                        <SimpleTable
+                            columns={columns}
+                            tableType={TableTypes.COLORED}
+                            data={merchantDirections}
+                            className="max-h-[25dvh]"
+                        />
+                    </div>
+                </>
+            ) : type === "fees" ? (
                 <>
                     <div className="flex flex-col gap-[24px] pt-[24px] pl-[24px] pb-[24px]">
                         <div className="grid grid-cols-2">
@@ -92,12 +125,6 @@ export const MerchantShow = ({ id, type }: MerchantShowProps) => {
                         setAddNewOpen={setAddNewFeeClicked}
                         className="max-h-[42dvh]"
                     />
-                    <div className="mt-5 w-full flex flex-col gap-[8px]">
-                        <span className="text-display-3 text-neutral-90 dark:text-neutral-30">
-                            {translate("resources.merchant.fields.directions")}
-                        </span>
-                        <SimpleTable columns={columns} tableType={TableTypes.COLORED} data={merchantDirections} />
-                    </div>
                 </>
             ) : (
                 <div className="mt-5 w-full flex flex-col gap-[8px]">
