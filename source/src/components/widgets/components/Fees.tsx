@@ -35,12 +35,12 @@ export const Fees = memo((props: FeesProps) => {
         setFees
     } = props;
 
-    const messagesEndRef = useRef<HTMLDivElement>(null);
+    const containerEndRef = useRef<HTMLDivElement>(null);
     const translate = useTranslate();
 
     useEffect(() => {
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        if (containerEndRef.current) {
+            containerEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
     }, [addNewOpen]);
 
@@ -77,7 +77,7 @@ export const Fees = memo((props: FeesProps) => {
                             setFees={setFees ?? undefined}
                         />
                     )}
-                    <div ref={messagesEndRef} />
+                    <div ref={containerEndRef} />
                 </div>
                 {addFee && (
                     <div className="flex justify-end">
