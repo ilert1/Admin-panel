@@ -69,20 +69,20 @@ export const MerchantShow = ({ id, type }: MerchantShowProps) => {
 
     const fees = context.record.fees;
     return (
-        <div className="p-[42px] pt-0 h-full min-h-[300px] overflow-auto">
-            <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
-            <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
+        <div className="p-[42px] pt-0 h-full min-h-[300px] flex flex-col overflow-auto">
+            <div className="sticky top-0 bg-muted z-10 p-[16px]">
+                <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
+                <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
+            </div>
+
+            <div className="sticky top-[60px] bg-muted z-10 p-[16px]">
+                <div className="grid grid-cols-2">
+                    <TextField label={translate("resources.merchant.fields.descr")} text={context.record.description} />
+                    <TextField label="Keycloak ID" text={context.record.keycloak_id} />
+                </div>
+            </div>
             {type === "all" ? (
                 <>
-                    <div className="flex flex-col gap-[24px] pt-[24px] pl-[24px] pb-[24px]">
-                        <div className="grid grid-cols-2">
-                            <TextField
-                                label={translate("resources.merchant.fields.descr")}
-                                text={context.record.description}
-                            />
-                            <TextField label={"Keycloak ID"} text={context.record.keycloak_id} />
-                        </div>
-                    </div>
                     <Fees
                         id={id}
                         fees={fees}
@@ -101,7 +101,7 @@ export const MerchantShow = ({ id, type }: MerchantShowProps) => {
                             columns={columns}
                             tableType={TableTypes.COLORED}
                             data={merchantDirections}
-                            className="max-h-[25dvh]"
+                            className="max-h-[24dvh]"
                         />
                     </div>
                 </>
@@ -123,7 +123,7 @@ export const MerchantShow = ({ id, type }: MerchantShowProps) => {
                         feesResource={FeesResource.MERCHANT}
                         addNewOpen={addNewFeeClicked}
                         setAddNewOpen={setAddNewFeeClicked}
-                        className="max-h-[42dvh]"
+                        className="max-h-[40dvh]"
                     />
                 </>
             ) : (
