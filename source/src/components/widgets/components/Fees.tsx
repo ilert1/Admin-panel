@@ -23,7 +23,7 @@ interface FeesProps {
 export const Fees = memo((props: FeesProps) => {
     const {
         className,
-        addFee,
+        addFee = true,
         fees,
         id,
         feeTypes,
@@ -64,6 +64,7 @@ export const Fees = memo((props: FeesProps) => {
                                       id={id}
                                       resource={feesResource}
                                       description={fee.description}
+                                      addFee={addFee}
                                   />
                               );
                           })

@@ -52,12 +52,7 @@ export const WithdrawList = () => {
                         )}
                     </div>
                 </ListContextProvider>
-                <ShowMerchantSheet
-                    id={chosenId}
-                    open={showMerchants}
-                    onOpenChange={setShowMerchants}
-                    showType={"all"}
-                />
+                <ShowMerchantSheet id={chosenId} open={showMerchants} onOpenChange={setShowMerchants} />
             </>
         );
     }
