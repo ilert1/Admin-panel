@@ -64,7 +64,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
         merchant: z.string().min(1, translate("resources.direction.errors.merchant")),
         provider: z.string().min(1, translate("resources.direction.errors.provider")),
         terminal: z.string().min(1, translate("resources.direction.errors.terminal")),
-        weight: z.coerce.number().int()
+        weight: z.coerce.number().int().min(0).max(1000)
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
