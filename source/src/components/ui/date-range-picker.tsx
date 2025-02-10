@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/Button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { DateRange, TZDate } from "react-day-picker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "./checkbox";
@@ -50,6 +50,10 @@ export function DateRangePicker({
                     onChange({ from: newDate, to: genereateDateTime(dateRange.to, hours, minutes) });
                 } else {
                     onChange({ from: newDate, to: dateRange.to });
+
+                    if (!endTime) {
+                        setEndTime("00:00");
+                    }
                 }
             } else {
                 const newDate = genereateDateTime(dateRange.from, 0, 0);
@@ -79,6 +83,10 @@ export function DateRangePicker({
                     onChange({ from: genereateDateTime(dateRange.from, hours, minutes), to: newDate });
                 } else {
                     onChange({ from: dateRange.from, to: newDate });
+
+                    if (!startTime) {
+                        setStartTime("00:00");
+                    }
                 }
             } else {
                 const newDate = genereateDateTime(dateRange.to, 0, 0);
@@ -114,6 +122,28 @@ export function DateRangePicker({
 
         onChange(newDateRange);
     };
+
+    const showTimeHandler = () => {
+        if (timeShow && dateRange?.from && dateRange?.to) {
+            setStartTime("");
+            setEndTime("");
+
+            onChange({
+                from: genereateDateTime(dateRange.from, 0, 0),
+                to: genereateDateTime(dateRange.to, 0, 0)
+            });
+        }
+
+        setTimeShow(!timeShow);
+    };
+
+    useEffect(() => {
+        if (dateRange?.from === undefined || dateRange?.to === undefined) {
+            setTimeShow(false);
+            setStartTime("");
+            setEndTime("");
+        }
+    }, [dateRange?.from, dateRange?.to]);
 
     return (
         <Popover open={openPopover} onOpenChange={setOpenPopover}>
@@ -180,7 +210,7 @@ export function DateRangePicker({
 
                 <div className="px-4 pb-2 text-sm text-neutral-80 dark:text-neutral-40">
                     <div className="flex items-center gap-2 py-2 mb-1">
-                        <Checkbox checked={timeShow} onCheckedChange={setTimeShow} id="showTime" />
+                        <Checkbox checked={timeShow} onCheckedChange={showTimeHandler} id="showTime" />
                         <label
                             htmlFor="showTime"
                             className="cursor-pointer text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
