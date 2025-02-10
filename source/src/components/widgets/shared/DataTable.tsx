@@ -138,7 +138,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
 
     return (
         <>
-            <Table className="bg-neutral-0">
+            <Table className="">
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup, i) => (
                         <TableRow key={i} className="bg-green-50 hover:bg-green-50 relative">
