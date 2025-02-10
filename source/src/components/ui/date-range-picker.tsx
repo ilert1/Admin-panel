@@ -30,8 +30,6 @@ export function DateRangePicker({
     const [endTime, setEndTime] = useState("");
     const initDate = new Date();
 
-    console.log(dateRange);
-
     return (
         <Popover open={openPopover} onOpenChange={setOpenPopover}>
             <PopoverTrigger asChild>
@@ -118,11 +116,11 @@ export function DateRangePicker({
                             )}
 
                             <div className="flex items-baseline gap-2">
-                                <TimeInput time={startTime} setTime={setStartTime} />
+                                <TimeInput disabled={!dateRange?.from} time={startTime} setTime={setStartTime} />
 
                                 <span className="py-2 block">-</span>
 
-                                <TimeInput time={endTime} setTime={setEndTime} />
+                                <TimeInput disabled={!dateRange?.to} time={endTime} setTime={setEndTime} />
                             </div>
                         </div>
                     )}
