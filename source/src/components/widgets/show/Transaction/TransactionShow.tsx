@@ -215,7 +215,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 columns={briefHistory}
                 data={history ? history : []}
                 tableType={TableTypes.COLORED}
-                className="min-h-[30dvh]"
+                className="min-h-[15dvh]"
             />
 
             {(permissions === "admin" ||
