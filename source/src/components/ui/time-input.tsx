@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 interface IProps {
     time: string;
-    setTime: React.Dispatch<React.SetStateAction<string>>;
+    setTime: (time: string) => void;
     className?: string;
     disabled?: boolean;
 }
