@@ -76,7 +76,7 @@ export function DateRangePicker({
     };
 
     useEffect(() => {
-        if (!timeShow) {
+        if (!timeShow || (!dateRange?.from && !dateRange?.to)) {
             setStartTime("");
             setEndTime("");
 
@@ -87,8 +87,7 @@ export function DateRangePicker({
                 });
             }
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [timeShow]);
+    }, [dateRange?.from, dateRange?.to, onChange, timeShow]);
 
     return (
         <Popover open={openPopover} onOpenChange={setOpenPopover}>
@@ -106,7 +105,9 @@ export function DateRangePicker({
                                 "dark:hover:bg-neutral-100 dark:hover:border-green-40"
                             )}>
                             {dateRange?.from ? (
-                                dateRange.to && dateRange.from.getTime() !== dateRange.to.getTime() ? (
+                                dateRange.to &&
+                                dateRange.from.toLocaleDateString(locale) !==
+                                    dateRange.to.toLocaleDateString(locale) ? (
                                     <>
                                         {`${dateRange.from.toLocaleDateString(
                                             locale
@@ -163,7 +164,8 @@ export function DateRangePicker({
 
                     {timeShow && (
                         <div className="flex flex-col">
-                            {dateRange?.from?.getTime() !== dateRange?.to?.getTime() && (
+                            {dateRange?.from?.toLocaleDateString(locale) !==
+                                dateRange?.to?.toLocaleDateString(locale) && (
                                 <div className="flex gap-4">
                                     <span className="block mb-1 text-xs flex-1">
                                         {dateRange?.from?.toLocaleDateString(locale)}
