@@ -30,6 +30,8 @@ export function DateRangePicker({
     const [endTime, setEndTime] = useState("");
     const initDate = new Date();
 
+    console.log(dateRange);
+
     return (
         <Popover open={openPopover} onOpenChange={setOpenPopover}>
             <PopoverTrigger asChild>
@@ -90,8 +92,8 @@ export function DateRangePicker({
                     onSelect={onChange}
                 />
 
-                <div className="px-4 pb-2 flex flex-col gap-1 text-sm text-neutral-80 dark:text-neutral-40">
-                    <div className="flex items-center gap-2 py-2">
+                <div className="px-4 pb-2 text-sm text-neutral-80 dark:text-neutral-40">
+                    <div className="flex items-center gap-2 py-2 mb-1">
                         <Checkbox checked={timeShow} onCheckedChange={setTimeShow} id="showTime" />
                         <label
                             htmlFor="showTime"
@@ -101,10 +103,27 @@ export function DateRangePicker({
                     </div>
 
                     {timeShow && (
-                        <div className="flex items-center gap-2">
-                            <TimeInput time={startTime} setTime={setStartTime} />
-                            <span>-</span>
-                            <TimeInput time={endTime} setTime={setEndTime} />
+                        <div className="flex flex-col">
+                            {dateRange?.from?.toLocaleDateString(locale) !==
+                                dateRange?.to?.toLocaleDateString(locale) && (
+                                <div className="flex gap-4">
+                                    <span className="block mb-1 text-xs flex-1">
+                                        {dateRange?.from?.toLocaleDateString(locale)}
+                                    </span>
+
+                                    <span className="block mb-1 text-xs flex-1">
+                                        {dateRange?.to?.toLocaleDateString(locale)}
+                                    </span>
+                                </div>
+                            )}
+
+                            <div className="flex items-baseline gap-2">
+                                <TimeInput time={startTime} setTime={setStartTime} />
+
+                                <span className="py-2 block">-</span>
+
+                                <TimeInput time={endTime} setTime={setEndTime} />
+                            </div>
                         </div>
                     )}
                 </div>
