@@ -2,15 +2,13 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { XIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
 import { MerchantShow } from "../../show";
-import { MerchantTypeToShow } from "./Columns";
 
 interface ShowMerchantSheetProps {
     id: string;
-    showType: MerchantTypeToShow;
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
-export const ShowMerchantSheet = ({ id, showType, open, onOpenChange }: ShowMerchantSheetProps) => {
+export const ShowMerchantSheet = ({ id, open, onOpenChange }: ShowMerchantSheetProps) => {
     const translate = useTranslate();
 
     return (
@@ -35,9 +33,9 @@ export const ShowMerchantSheet = ({ id, showType, open, onOpenChange }: ShowMerc
                         </div>
                     </div>
 
-                    <div className="h-full min-h-0" tabIndex={-1}>
-                        <MerchantShow id={id} type={showType} />
-                    </div>
+                    {/* <div className="h-full min-h-0" tabIndex={-1}> */}
+                    <MerchantShow id={id} />
+                    {/* </div> */}
                     <SheetDescription></SheetDescription>
                 </SheetContent>
             </Sheet>

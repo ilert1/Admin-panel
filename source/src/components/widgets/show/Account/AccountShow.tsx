@@ -11,7 +11,7 @@ interface AccountShowProps {
 export const AccountShow = ({ id }: AccountShowProps) => {
     const translate = useTranslate();
 
-    const context = useShowController({ id });
+    const context = useShowController({ resource: "accounts", id });
 
     const { historyColumns } = useGetAccountShowColumns();
 

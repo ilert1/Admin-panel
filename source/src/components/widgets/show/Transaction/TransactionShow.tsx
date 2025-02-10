@@ -28,7 +28,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     const translate = useTranslate();
 
     const { permissions } = usePermissions();
-    const context = useShowController<Transaction.Transaction>({ id });
+    const context = useShowController<Transaction.Transaction>({ resource: "transactions", id });
     const [newState, setNewState] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -211,11 +211,16 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 )}
             </div>
 
-            <SimpleTable columns={briefHistory} data={history ? history : []} tableType={TableTypes.COLORED} />
+            <SimpleTable
+                columns={briefHistory}
+                data={history ? history : []}
+                tableType={TableTypes.COLORED}
+                className="min-h-[15dvh]"
+            />
 
             {(permissions === "admin" ||
                 (permissions === "merchant" && context.record.committed && context.record.state.state_int === 16)) && (
-                <div className="flex flex-col gap-2 h-full min-h-0">
+                <div className="flex flex-col gap-2 h-full min-h-[15dvh]">
                     <span>{translate("resources.transactions.fields.fees")}</span>
 
                     <SimpleTable

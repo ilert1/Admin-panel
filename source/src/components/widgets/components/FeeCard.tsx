@@ -23,9 +23,10 @@ interface FeeCardProps {
     resource: FeesResource;
     id: string;
     description?: string;
+    addFee?: boolean;
 }
 export const FeeCard = (props: FeeCardProps) => {
-    const { account, feeAmount, feeType, currency, id, resource, description = "" } = props;
+    const { account, feeAmount, feeType, currency, id, addFee, resource, description = "" } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
 
@@ -87,11 +88,13 @@ export const FeeCard = (props: FeeCardProps) => {
                             <Textarea readOnly className="!text-body resize-none" value={description} />
                         </div>
                     </div>
-                    <div className="flex justify-end mt-6">
-                        <Button variant={"outline_gray"} onClick={handleDeleteClicked}>
-                            {translate("app.ui.actions.delete")}
-                        </Button>
-                    </div>
+                    {addFee && (
+                        <div className="flex justify-end mt-6">
+                            <Button variant={"outline_gray"} onClick={handleDeleteClicked}>
+                                {translate("app.ui.actions.delete")}
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </div>
 

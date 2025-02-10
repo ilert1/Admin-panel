@@ -58,7 +58,10 @@ export const TextField = ({
                 <p className={cn("leading-5 flex flex-row gap-2", className)}>
                     {copyValue && text?.length > 0 && (
                         <span>
-                            <Copy className="h-4 w-4 cursor-pointer" onClick={copy} />
+                            <Copy
+                                className={cn("h-4 w-4 cursor-pointer", type === "link" && "text-green-50")}
+                                onClick={copy}
+                            />
                         </span>
                     )}
                     <span
@@ -78,7 +81,7 @@ export const TextField = ({
                                 : {})
                         }}>
                         {type === "link" ? (
-                            <a href={link} target="_blank" className="block hover:underline" rel="noreferrer">
+                            <a href={link} target="_blank" className="block underline !text-green-50" rel="noreferrer">
                                 {currentText}
                             </a>
                         ) : (

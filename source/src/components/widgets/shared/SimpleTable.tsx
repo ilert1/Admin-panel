@@ -6,6 +6,7 @@ interface SimpleTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     tableType?: TableTypes;
+    className?: string;
 }
 
 export enum TableTypes {
@@ -16,7 +17,8 @@ export enum TableTypes {
 export function SimpleTable<TData, TValue>({
     columns,
     data,
-    tableType = TableTypes.DEFAULT
+    tableType = TableTypes.DEFAULT,
+    className = ""
 }: SimpleTableProps<TData, TValue>) {
     const translate = useTranslate();
     const table = useReactTable({
@@ -24,8 +26,9 @@ export function SimpleTable<TData, TValue>({
         columns,
         getCoreRowModel: getCoreRowModel()
     });
+
     return (
-        <Table>
+        <Table className={className}>
             <TableHeader>
                 {table.getHeaderGroups().map((headerGroup, i) => (
                     <TableRow className="relative" key={i}>

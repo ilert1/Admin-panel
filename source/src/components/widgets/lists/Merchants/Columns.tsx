@@ -5,7 +5,7 @@ import { CirclePlus, EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
-export type MerchantTypeToShow = "fees" | "directions" | undefined;
+export type MerchantTypeToShow = "fees" | "directions" | "all" | undefined;
 
 export const useGetMerchantColumns = () => {
     const translate = useTranslate();
