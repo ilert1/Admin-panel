@@ -67,7 +67,7 @@ export const MerchantShow = ({ id }: MerchantShowProps) => {
     const fees = context.record.fees;
     return (
         <>
-            <div className="px-[42px]">
+            <div className="px-[42px] flex flex-col gap-4">
                 <div>
                     <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
                     <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
@@ -97,7 +97,7 @@ export const MerchantShow = ({ id }: MerchantShowProps) => {
                             columns={columns}
                             tableType={TableTypes.COLORED}
                             data={merchantDirections}
-                            className="max-h-[22dvh] min-h-[15dvh]"
+                            className="max-h-[20dvh] min-h-[15dvh]"
                         />
                     </div>
                 </div>
