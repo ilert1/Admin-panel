@@ -21,7 +21,7 @@ const useWithdrawFilter = () => {
         filterValues?.start_date ? new TZDate(filterValues?.start_date, "+00:00") : undefined
     );
     const [endDate, setEndDate] = useState<Date | undefined>(
-        filterValues?.end_date ? new TZDate(filterValues?.end_date) : undefined
+        filterValues?.end_date ? new TZDate(filterValues?.end_date, "+00:00") : undefined
     );
 
     const [typeTabActive, setTypeTabActive] = useState(() => {
@@ -65,6 +65,7 @@ const useWithdrawFilter = () => {
     };
 
     const changeDate = (date: DateRange | undefined) => {
+        console.log(123);
         if (date) {
             if (date.from && date.to) {
                 setStartDate(date.from);

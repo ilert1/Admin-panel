@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/Button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { DateRange, TZDate } from "react-day-picker";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "./checkbox";
@@ -24,28 +24,41 @@ export function DateRangePicker({
     const [locale] = useLocaleState();
     const translate = useTranslate();
 
-    const [timeShow, setTimeShow] = useState<CheckedState>(false);
+    const timeFormat = (date: Date) => {
+        const two = (num: number) => (num < 10 ? `0${num}` : num);
+
+        return `${two(date.getHours())}:${two(date.getMinutes())}`;
+    };
+
+    const [timeShow, setTimeShow] = useState<CheckedState>(dateRange?.from && dateRange?.to ? true : false);
     const [openPopover, setOpenPopover] = useState(false);
-    const [startTime, setStartTime] = useState("");
-    const [endTime, setEndTime] = useState("");
+    const [startTime, setStartTime] = useState(dateRange?.from ? timeFormat(dateRange?.from) : "");
+    const [endTime, setEndTime] = useState(dateRange?.to ? timeFormat(dateRange?.to) : "");
     const initDate = new TZDate(new Date(), "+00:00");
 
     const genereateDateTime = (date: Date, hours: number, minutes: number) =>
         new TZDate(date.getFullYear(), date.getMonth(), date.getDate(), hours, minutes, "+00:00");
 
     const updateStartTime = (time: string) => {
-        if (dateRange?.from) {
+        if (dateRange?.from && dateRange.to) {
             if (time.match(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)) {
                 const [hours, minutes] = time.split(":").map(str => parseInt(str, 10));
+                const newDate = genereateDateTime(dateRange.from, hours, minutes);
 
-                onChange({ from: genereateDateTime(dateRange.from, hours, minutes), to: dateRange.to });
+                if (newDate.getTime() > dateRange.to?.getTime()) {
+                    setEndTime(time);
+                    onChange({ from: newDate, to: genereateDateTime(dateRange.to, hours, minutes) });
+                } else {
+                    onChange({ from: newDate, to: dateRange.to });
+                }
             } else {
                 const newDate = genereateDateTime(dateRange.from, 0, 0);
 
-                if (newDate.getTime() !== dateRange.from.getTime()) {
+                if (newDate.getTime() !== dateRange.from.getTime() && !time) {
+                    setEndTime("");
                     onChange({
                         from: newDate,
-                        to: dateRange.to
+                        to: genereateDateTime(dateRange.to, 0, 0)
                     });
                 }
             }
@@ -55,15 +68,26 @@ export function DateRangePicker({
     };
 
     const updateEndTime = (time: string) => {
-        if (dateRange?.to) {
+        if (dateRange?.from && dateRange.to) {
             if (time.match(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)) {
                 const [hours, minutes] = time.split(":").map(str => parseInt(str, 10));
 
-                onChange({ from: dateRange.from, to: genereateDateTime(dateRange.to, hours, minutes) });
+                const newDate = genereateDateTime(dateRange.to, hours, minutes);
+
+                if (newDate.getTime() < dateRange.from?.getTime()) {
+                    setStartTime(time);
+                    onChange({ from: genereateDateTime(dateRange.from, hours, minutes), to: newDate });
+                } else {
+                    onChange({ from: dateRange.from, to: newDate });
+                }
             } else {
                 const newDate = genereateDateTime(dateRange.to, 0, 0);
 
-                if (newDate.getTime() !== dateRange.to.getTime()) {
+                if (
+                    newDate.getTime() !== dateRange.to.getTime() &&
+                    !time &&
+                    dateRange.from.getTime() < newDate.getTime()
+                ) {
                     onChange({
                         from: dateRange.from,
                         to: newDate
@@ -74,20 +98,6 @@ export function DateRangePicker({
             setEndTime(time);
         }
     };
-
-    useEffect(() => {
-        if (!timeShow || (!dateRange?.from && !dateRange?.to)) {
-            setStartTime("");
-            setEndTime("");
-
-            if (dateRange?.from && dateRange?.to) {
-                onChange({
-                    from: genereateDateTime(dateRange.from, 0, 0),
-                    to: genereateDateTime(dateRange.to, 0, 0)
-                });
-            }
-        }
-    }, [dateRange?.from, dateRange?.to, onChange, timeShow]);
 
     return (
         <Popover open={openPopover} onOpenChange={setOpenPopover}>
@@ -178,11 +188,21 @@ export function DateRangePicker({
                             )}
 
                             <div className="flex items-baseline gap-2">
-                                <TimeInput disabled={!dateRange?.from} time={startTime} setTime={updateStartTime} />
+                                <TimeInput
+                                    error={!startTime && !!endTime && !!dateRange?.from && !!dateRange?.to}
+                                    disabled={!dateRange?.from}
+                                    time={startTime}
+                                    setTime={updateStartTime}
+                                />
 
                                 <span className="py-2 block">-</span>
 
-                                <TimeInput disabled={!dateRange?.to} time={endTime} setTime={updateEndTime} />
+                                <TimeInput
+                                    error={!!startTime && !endTime && !!dateRange?.from && !!dateRange?.to}
+                                    disabled={!dateRange?.to}
+                                    time={endTime}
+                                    setTime={updateEndTime}
+                                />
                             </div>
                         </div>
                     )}
