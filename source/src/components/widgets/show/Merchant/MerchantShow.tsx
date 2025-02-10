@@ -67,18 +67,25 @@ export const MerchantShow = ({ id }: MerchantShowProps) => {
     const fees = context.record.fees;
     return (
         <>
-            <div className="px-[42px] flex flex-col gap-4">
-                <div>
-                    <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
-                    <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
+            <div className="pt-0 h-full min-h-[300px] flex flex-col overflow-auto">
+                <div className="flex flex-col gap-4">
+                    <div className="px-[42px]">
+                        <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
+                        <TextField
+                            text={context.record.id}
+                            copyValue
+                            className="text-neutral-70 dark:text-neutral-30"
+                        />
+                    </div>
+                    <div className="grid grid-cols-2 px-[42px]">
+                        <TextField
+                            label={translate("resources.merchant.fields.descr")}
+                            text={context.record.description}
+                        />
+                        <TextField label="Keycloak ID" text={context.record.keycloak_id} />
+                    </div>
                 </div>
-                <div className="grid grid-cols-2">
-                    <TextField label={translate("resources.merchant.fields.descr")} text={context.record.description} />
-                    <TextField label="Keycloak ID" text={context.record.keycloak_id} />
-                </div>
-            </div>
-            <div className="pt-0 h-full min-h-[300px] flex flex-col">
-                <div className="flex-1 mt-4 overflow-auto w-full px-[42px]">
+                <div className="flex-1 mt-4  w-full px-[42px]">
                     <Fees
                         id={id}
                         fees={fees}
