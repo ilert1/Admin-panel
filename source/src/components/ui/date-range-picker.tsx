@@ -99,6 +99,22 @@ export function DateRangePicker({
         }
     };
 
+    const onSelectDate = (date: DateRange | undefined) => {
+        const newDateRange = { from: date?.from, to: date?.to };
+
+        if (startTime && newDateRange.from) {
+            const [hours, minutes] = startTime.split(":").map(str => parseInt(str, 10));
+            newDateRange.from = genereateDateTime(newDateRange.from, hours, minutes);
+        }
+
+        if (endTime && newDateRange.to) {
+            const [hours, minutes] = endTime.split(":").map(str => parseInt(str, 10));
+            newDateRange.to = genereateDateTime(newDateRange.to, hours, minutes);
+        }
+
+        onChange(newDateRange);
+    };
+
     return (
         <Popover open={openPopover} onOpenChange={setOpenPopover}>
             <PopoverTrigger asChild>
@@ -159,7 +175,7 @@ export function DateRangePicker({
                     endMonth={new TZDate(initDate, "+00:00")}
                     mode="range"
                     selected={dateRange}
-                    onSelect={onChange}
+                    onSelect={onSelectDate}
                 />
 
                 <div className="px-4 pb-2 text-sm text-neutral-80 dark:text-neutral-40">
