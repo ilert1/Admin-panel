@@ -33,9 +33,9 @@ export const ShowMerchantSheet = ({ id, open, onOpenChange }: ShowMerchantSheetP
                         </div>
                     </div>
 
-                    <div className="h-full min-h-0" tabIndex={-1}>
-                        <MerchantShow id={id} />
-                    </div>
+                    {/* <div className="h-full min-h-0" tabIndex={-1}> */}
+                    <MerchantShow id={id} />
+                    {/* </div> */}
                     <SheetDescription></SheetDescription>
                 </SheetContent>
             </Sheet>

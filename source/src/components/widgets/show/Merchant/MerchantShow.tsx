@@ -66,42 +66,42 @@ export const MerchantShow = ({ id }: MerchantShowProps) => {
 
     const fees = context.record.fees;
     return (
-        <div className="p-[42px] pt-0 h-full min-h-[300px] flex flex-col overflow-auto">
-            <div className="sticky top-0 bg-muted z-10 p-[16px]">
-                <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
-                <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
-            </div>
-
-            <div className="sticky top-[60px] bg-muted z-10 p-[16px]">
+        <>
+            <div className="px-[42px]">
+                <div>
+                    <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
+                    <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
+                </div>
                 <div className="grid grid-cols-2">
                     <TextField label={translate("resources.merchant.fields.descr")} text={context.record.description} />
                     <TextField label="Keycloak ID" text={context.record.keycloak_id} />
                 </div>
             </div>
-
-            <div className="flex-1  mt-4">
-                <Fees
-                    id={id}
-                    fees={fees}
-                    feeTypes={data.feeTypes}
-                    feesResource={FeesResource.MERCHANT}
-                    addNewOpen={addNewFeeClicked}
-                    setAddNewOpen={setAddNewFeeClicked}
-                    className="max-h-[20dvh]"
-                    padding={false}
-                />
-                <div className="mt-5 w-full flex flex-col gap-[8px]">
-                    <span className="text-display-3 text-neutral-90 dark:text-neutral-30">
-                        {translate("resources.merchant.fields.directions")}
-                    </span>
-                    <SimpleTable
-                        columns={columns}
-                        tableType={TableTypes.COLORED}
-                        data={merchantDirections}
-                        className="max-h-[22dvh]"
+            <div className="pt-0 h-full min-h-[300px] flex flex-col">
+                <div className="flex-1 mt-4 overflow-auto w-full px-[42px]">
+                    <Fees
+                        id={id}
+                        fees={fees}
+                        feeTypes={data.feeTypes}
+                        feesResource={FeesResource.MERCHANT}
+                        addNewOpen={addNewFeeClicked}
+                        setAddNewOpen={setAddNewFeeClicked}
+                        className="max-h-[20dvh]"
+                        padding={false}
                     />
+                    <div className="mt-5 w-full flex flex-col gap-[8px] ">
+                        <span className="text-display-3 text-neutral-90 dark:text-neutral-30">
+                            {translate("resources.merchant.fields.directions")}
+                        </span>
+                        <SimpleTable
+                            columns={columns}
+                            tableType={TableTypes.COLORED}
+                            data={merchantDirections}
+                            className="max-h-[22dvh] min-h-[15dvh]"
+                        />
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
