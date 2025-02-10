@@ -33,9 +33,9 @@ export const ShowTransactionSheet: React.FC<ShowTransactionSheetProps> = ({ id, 
                 </SheetHeader>
 
                 <div className="h-full min-h-0" tabIndex={-1}>
-                    <SheetDescription />
                     <TransactionShow id={id} />
                 </div>
+                <SheetDescription />
             </SheetContent>
         </Sheet>
     );

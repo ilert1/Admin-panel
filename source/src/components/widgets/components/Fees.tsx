@@ -39,8 +39,16 @@ export const Fees = memo((props: FeesProps) => {
     const translate = useTranslate();
 
     useEffect(() => {
-        if (containerEndRef.current) {
-            containerEndRef.current.scrollIntoView({ behavior: "smooth" });
+        if (addNewOpen && containerEndRef.current) {
+            const parent = containerEndRef.current.parentElement;
+            if (parent) {
+                const parentRect = parent.getBoundingClientRect();
+                const childRect = containerEndRef.current.getBoundingClientRect();
+
+                if (childRect.bottom > parentRect.bottom) {
+                    containerEndRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                }
+            }
         }
     }, [addNewOpen]);
 

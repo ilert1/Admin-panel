@@ -211,11 +211,16 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 )}
             </div>
 
-            <SimpleTable columns={briefHistory} data={history ? history : []} tableType={TableTypes.COLORED} />
+            <SimpleTable
+                columns={briefHistory}
+                data={history ? history : []}
+                tableType={TableTypes.COLORED}
+                className="min-h-[30dvh]"
+            />
 
             {(permissions === "admin" ||
                 (permissions === "merchant" && context.record.committed && context.record.state.state_int === 16)) && (
-                <div className="flex flex-col gap-2 h-full min-h-0">
+                <div className="flex flex-col gap-2 h-full min-h-[15dvh]">
                     <span>{translate("resources.transactions.fields.fees")}</span>
 
                     <SimpleTable
