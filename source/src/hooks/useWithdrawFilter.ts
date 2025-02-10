@@ -65,7 +65,6 @@ const useWithdrawFilter = () => {
     };
 
     const changeDate = (date: DateRange | undefined) => {
-        console.log(123);
         if (date) {
             if (date.from && date.to) {
                 setStartDate(date.from);

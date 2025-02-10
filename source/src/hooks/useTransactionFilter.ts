@@ -1,8 +1,7 @@
-import { format } from "date-fns";
 import { debounce } from "lodash";
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useListContext, usePermissions, useTranslate } from "react-admin";
-import { DateRange } from "react-day-picker";
+import { DateRange, TZDate } from "react-day-picker";
 import { useLocation } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -16,10 +15,10 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
     const location = useLocation();
 
     const [startDate, setStartDate] = useState<Date | undefined>(
-        filterValues?.start_date ? new Date(filterValues?.start_date) : undefined
+        filterValues?.start_date ? new TZDate(filterValues?.start_date, "+00:00") : undefined
     );
     const [endDate, setEndDate] = useState<Date | undefined>(
-        filterValues?.end_date ? new Date(filterValues?.end_date) : undefined
+        filterValues?.end_date ? new TZDate(filterValues?.end_date, "+00:00") : undefined
     );
     const [operationId, setOperationId] = useState(filterValues?.id || "");
     const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
@@ -36,7 +35,7 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
 
     const translate = useTranslate();
 
-    const formattedDate = (date: Date) => format(date, "yyyy-MM-dd");
+    const formattedDate = (date: Date) => new Date(date.toUTCString()).toISOString();
 
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
