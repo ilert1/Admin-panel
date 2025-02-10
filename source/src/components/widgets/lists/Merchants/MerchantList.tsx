@@ -21,7 +21,6 @@ export const MerchantList = () => {
         editDialogOpen,
         deleteDialogOpen,
         showSheetOpen,
-        showType,
         setEditDialogOpen,
         setDeleteDialogOpen,
         setShowSheetOpen
@@ -54,12 +53,7 @@ export const MerchantList = () => {
 
                 <EditMerchantDialog id={chosenId} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
 
-                <ShowMerchantSheet
-                    id={chosenId}
-                    open={showSheetOpen}
-                    onOpenChange={setShowSheetOpen}
-                    showType={showType}
-                />
+                <ShowMerchantSheet id={chosenId} open={showSheetOpen} onOpenChange={setShowSheetOpen} />
             </>
         );
     }
