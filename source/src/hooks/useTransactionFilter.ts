@@ -10,7 +10,7 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 
 const useTransactionFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-    const data = fetchDictionaries();
+    const dictionaries = fetchDictionaries();
 
     const [startDate, setStartDate] = useState<Date | undefined>(
         filterValues?.start_date ? new Date(filterValues?.start_date) : undefined
@@ -184,7 +184,7 @@ const useTransactionFilter = () => {
 
     return {
         translate,
-        data,
+        dictionaries,
         adminOnly,
         operationId,
         onOperationIdChanged,

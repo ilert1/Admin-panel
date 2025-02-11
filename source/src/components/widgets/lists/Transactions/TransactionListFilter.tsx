@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label";
 export const TransactionListFilter = () => {
     const {
         translate,
-        data,
+        dictionaries,
         adminOnly,
         operationId,
         onOperationIdChanged,
@@ -38,7 +38,7 @@ export const TransactionListFilter = () => {
     // const debounced = debounce(setChartOpen, 200);
 
     return (
-        <div className="mb-6">
+        <>
             <div className="w-full mb-6">
                 <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
                     <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
@@ -83,13 +83,13 @@ export const TransactionListFilter = () => {
                                     {translate("resources.transactions.filter.showAll")}
                                 </SelectItem>
 
-                                {data &&
-                                    Object.keys(data.states).map(index => (
+                                {dictionaries &&
+                                    Object.keys(dictionaries.states).map(index => (
                                         <SelectItem
-                                            key={data.states[index].state_int}
-                                            value={data.states[index].state_int.toString()}>
+                                            key={dictionaries.states[index].state_int}
+                                            value={dictionaries.states[index].state_int.toString()}>
                                             {translate(
-                                                `resources.transactions.states.${data?.states?.[
+                                                `resources.transactions.states.${dictionaries?.states?.[
                                                     index
                                                 ]?.state_description?.toLowerCase()}`
                                             )}
@@ -172,20 +172,20 @@ export const TransactionListFilter = () => {
                         {translate("resources.transactions.types.all")}
                     </button>
 
-                    {data?.transactionTypes &&
-                        Object.keys(data?.transactionTypes).map(item => {
+                    {dictionaries?.transactionTypes &&
+                        Object.keys(dictionaries?.transactionTypes).map(item => {
                             if (
-                                data?.transactionTypes?.[item].type === 1 ||
-                                data?.transactionTypes?.[item].type === 2
+                                dictionaries?.transactionTypes?.[item].type === 1 ||
+                                dictionaries?.transactionTypes?.[item].type === 2
                             ) {
                                 return (
                                     <button
-                                        key={data?.transactionTypes?.[item].type}
-                                        className={chooseClassTabActive(data?.transactionTypes?.[item].type)}
-                                        disabled={typeTabActive === data?.transactionTypes?.[item].type}
-                                        onClick={() => onTabChanged(data?.transactionTypes?.[item].type)}>
+                                        key={dictionaries?.transactionTypes?.[item].type}
+                                        className={chooseClassTabActive(dictionaries?.transactionTypes?.[item].type)}
+                                        disabled={typeTabActive === dictionaries?.transactionTypes?.[item].type}
+                                        onClick={() => onTabChanged(dictionaries?.transactionTypes?.[item].type)}>
                                         {translate(
-                                            `resources.transactions.types.${data?.transactionTypes?.[
+                                            `resources.transactions.types.${dictionaries?.transactionTypes?.[
                                                 item
                                             ].type_descr.toLowerCase()}`
                                         )}
@@ -206,6 +206,6 @@ export const TransactionListFilter = () => {
                     </Button>
                 </div> */}
             </div>
-        </div>
+        </>
     );
 };
