@@ -108,14 +108,14 @@ export function DateRangePicker({
     };
 
     const onSelectDate = (date: DateRange | undefined) => {
-        const newDateRange = { from: date?.from, to: date?.to };
+        const newDateRange = date ? { from: date.from, to: date.to } : undefined;
 
-        if (startTime && newDateRange.from) {
+        if (startTime && newDateRange?.from) {
             const [hours, minutes] = startTime.split(":").map(str => parseInt(str, 10));
             newDateRange.from = genereateDateTime(newDateRange.from, hours, minutes);
         }
 
-        if (endTime && newDateRange.to) {
+        if (endTime && newDateRange?.to) {
             const [hours, minutes] = endTime.split(":").map(str => parseInt(str, 10));
             newDateRange.to = genereateDateTime(newDateRange.to, hours, minutes);
         }
