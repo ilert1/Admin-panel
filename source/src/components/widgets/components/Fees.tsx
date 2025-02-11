@@ -17,6 +17,7 @@ interface FeesProps {
     feesResource?: FeesResource;
     feesVariants?: string[];
     padding?: boolean;
+    providerName?: string;
 }
 export const Fees = memo((props: FeesProps) => {
     const {
@@ -27,6 +28,7 @@ export const Fees = memo((props: FeesProps) => {
         feesResource = FeesResource.MERCHANT,
         feesVariants = [],
         padding = true,
+        providerName,
         setFees
     } = props;
 
@@ -85,6 +87,7 @@ export const Fees = memo((props: FeesProps) => {
                             resource={feesResource}
                             variants={id ? feesVariants : undefined}
                             setFees={setFees ?? undefined}
+                            providerName={providerName}
                         />
                     )}
                     <div ref={containerEndRef} />
