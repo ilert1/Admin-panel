@@ -17,7 +17,7 @@ const useWithdrawFilter = () => {
         filterValues?.end_date ? new Date(filterValues?.end_date) : undefined
     );
 
-    const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? filterValues.order_type : 0);
+    const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
 
     const [operationId, setOperationId] = useState(filterValues?.id || "");
 
