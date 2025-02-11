@@ -418,7 +418,8 @@ const ru: TranslationMessages = {
                 authError: "Ошибка при добавлении информации об аутентификации",
                 terminal: "Терминал обязательно должен быть выбран",
                 terminalError: "Произошла ошибка при загрузке терминалов",
-                noTerminalsError: "У выбранного провайдера нет терминалов"
+                noTerminalsError: "У выбранного провайдера нет терминалов",
+                weightError: "Должно быть целым числом в диапазоне от 0 до 1000"
             },
             create: "Добавить направление",
             sourceCurrency: "Валюта отправителя",
@@ -1239,7 +1240,8 @@ const en: TranslationMessages = {
                 authError: "An error has occurred while adding authentication information",
                 terminal: "The terminal must be selected",
                 terminalError: "An error occured when fetching terminals",
-                noTerminalsError: "Chosen provider does not have any terminals"
+                noTerminalsError: "Chosen provider does not have any terminals",
+                weightError: "Must be an integer in the range from 0 to 1000"
             },
             create: "Add direction",
             sourceCurrency: "Source currency",
