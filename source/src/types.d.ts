@@ -303,6 +303,7 @@ interface IGetKeys {
     keypair: { private_key: string; public_key: string };
     provider: Omit<Provider, "id">;
 }
+
 declare namespace Directions {
     interface FeeValue {
         accuracy: number;

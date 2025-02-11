@@ -4,7 +4,8 @@ export const API_URL = import.meta.env.VITE_ENIGMA_URL;
 
 export enum FeesResource {
     DIRECTION = "direction",
-    MERCHANT = "merchant"
+    MERCHANT = "merchant",
+    TERMINAL = "terminal"
 }
 interface FeesDataProviderProps {
     id: string;

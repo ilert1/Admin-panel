@@ -2,11 +2,11 @@ import { useEditController, useTranslate, useDataProvider, useRefresh } from "re
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormItem, FormLabel, FormMessage, FormControl, FormField } from "@/components/ui/form";
+import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { toast } from "sonner";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { FeesResource } from "@/data";
@@ -24,14 +24,10 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
 
     const { record, isLoading } = useEditController({ resource: "merchant", id, mutationMode: "pessimistic" });
 
-    const messagesEndRef = useRef<HTMLDivElement>(null);
-
     const translate = useTranslate();
     const refresh = useRefresh();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-
-    const [addNewFeeClicked, setAddNewFeeClicked] = useState(false);
 
     const formSchema = z.object({
         id: z.string().min(1, translate("resources.merchant.errors.id")).trim(),
@@ -64,14 +60,6 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
             });
         }
     }, [form, record]);
-
-    useEffect(() => {
-        if (messagesEndRef.current) {
-            if (addNewFeeClicked) {
-                messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-            }
-        }
-    }, [addNewFeeClicked]);
 
     const onSubmit = async (data: z.infer<typeof formSchema> & { fees?: Pick<Merchant, "fees"> }) => {
         if (submitButtonDisabled) return;
@@ -179,15 +167,7 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                     </div>
                 </form>
             </Form>
-            <Fees
-                id={id}
-                fees={fees}
-                feeTypes={data.feeTypes}
-                feesResource={FeesResource.MERCHANT}
-                addNewOpen={addNewFeeClicked}
-                setAddNewOpen={setAddNewFeeClicked}
-                className="max-h-[45dvh]"
-            />
+            <Fees id={id} fees={fees} feesResource={FeesResource.MERCHANT} className="max-h-[45dvh]" />
 
             <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col sm:flex-row gap-3 sm:gap-0 space-x-0 sm:space-x-2">
                 <Button

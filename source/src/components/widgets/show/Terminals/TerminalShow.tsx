@@ -1,5 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchUtils, useDataProvider } from "react-admin";
+import { Fees } from "../../components/Fees";
+import { FeesResource } from "@/data";
 
 interface TerminalShowProps {
     id: string;
@@ -8,24 +10,23 @@ interface TerminalShowProps {
 export const TerminalShow = (props: TerminalShowProps) => {
     const { id, provider } = props;
     const dataProvider = useDataProvider();
+    const [fees, setFees] = useState<Directions.Fees>();
     // const { data, isFetching } = useShowController({ id });
 
     useEffect(() => {
         async function fetch() {
             const data = await dataProvider.getOne(`provider/${provider}/terminal`, { id });
-
-            // const data = await fetchUtils.fetchJson(
-            //     `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${provider}/terminal/${id}`
-            // );
-
-            console.log(data);
+            setFees(data.data.fees);
         }
         fetch();
-    }, []);
+    }, [dataProvider, id, provider]);
 
+    console.log(fees);
     return (
         <div>
-            <div></div>
+            <div>
+                <Fees fees={fees} feesResource={FeesResource.TERMINAL} id={id} />
+            </div>
         </div>
     );
 };

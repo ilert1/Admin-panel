@@ -22,17 +22,7 @@ export const MerchantShow = ({ id }: MerchantShowProps) => {
     const context = useShowController({ resource: "merchant", id });
     const { columns } = useGetMerchantShowColumns();
 
-    const messagesEndRef = useRef<HTMLDivElement>(null);
-    const [addNewFeeClicked, setAddNewFeeClicked] = useState(false);
     const [merchantDirections, setMerchantDirections] = useState([]);
-
-    useEffect(() => {
-        if (messagesEndRef.current) {
-            if (addNewFeeClicked) {
-                messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-            }
-        }
-    }, [addNewFeeClicked]);
 
     useEffect(() => {
         const fetchMerchantDirections = async () => {
@@ -89,10 +79,7 @@ export const MerchantShow = ({ id }: MerchantShowProps) => {
                     <Fees
                         id={id}
                         fees={fees}
-                        feeTypes={data.feeTypes}
                         feesResource={FeesResource.MERCHANT}
-                        addNewOpen={addNewFeeClicked}
-                        setAddNewOpen={setAddNewFeeClicked}
                         className="max-h-[20dvh]"
                         padding={false}
                     />
