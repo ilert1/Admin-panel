@@ -99,20 +99,22 @@ export const CreateWallet = (props: CreateWalletProps) => {
 
     const formSchema = z.object({
         type: z.enum([WalletTypes.EXTERNAL, WalletTypes.INTERNAL, WalletTypes.LINKED]),
-        accountNumber: z.string().min(1, translate("resources.wallet.manage.errors.selectAccount")),
+        accountNumber: z
+            .string({ message: translate("resources.wallet.manage.errors.selectAccount") })
+            .min(1, translate("resources.wallet.manage.errors.selectAccount")),
         blockchain: z.string(),
         network: z.string(),
         currency: z.string(),
         description: z.string().nullable(),
         minimal_ballance_limit: z.coerce
-            .number()
+            .number({ message: translate("resources.wallet.manage.errors.intOnly") })
             .int(translate("resources.wallet.manage.errors.intOnly"))
             .min(0, translate("resources.wallet.manage.errors.minBalance"))
     });
 
     const merchantFormSchema = z.object({
         address: z
-            .string()
+            .string({ message: translate("resources.wallet.manage.errors.addressRequired") })
             .min(1, { message: translate("resources.wallet.manage.errors.addressRequired") })
             .refine(isTRC20Address, {
                 message: translate("resources.wallet.manage.errors.invalidTRCAddresss")
