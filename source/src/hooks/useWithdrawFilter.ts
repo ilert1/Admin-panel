@@ -1,19 +1,13 @@
 import { debounce } from "lodash";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 import { DateRange, TZDate } from "react-day-picker";
-import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-
 import { API_URL } from "@/data/base";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 
 const useWithdrawFilter = () => {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const data = fetchDictionaries();
-    const type = "order_type";
-    // const [loading, setLoading] = useState(true);
+    const dictionaries = fetchDictionaries();
 
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
 
@@ -24,10 +18,7 @@ const useWithdrawFilter = () => {
         filterValues?.end_date ? new TZDate(filterValues?.end_date, "+00:00") : undefined
     );
 
-    const [typeTabActive, setTypeTabActive] = useState(() => {
-        const params = new URLSearchParams(location.search);
-        return params.get("filter") ? JSON.parse(params.get("filter") as string).order_type : "";
-    });
+    const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
 
     const [operationId, setOperationId] = useState(filterValues?.id || "");
 
@@ -35,29 +26,25 @@ const useWithdrawFilter = () => {
 
     const formattedDate = (date: Date) => new Date(date.toUTCString()).toISOString();
 
-    const onPropertySelected = debounce((value: string | { from: string; to: string }, type: "id" | "date") => {
-        if (value) {
-            if (type === "date" && typeof value !== "string") {
-                setFilters({ ...filterValues, ["start_date"]: value.from, ["end_date"]: value.to }, displayedFilters);
+    const onPropertySelected = debounce(
+        (value: string | { from: string; to: string } | number, type: "id" | "date" | "order_type") => {
+            if (value) {
+                if (type === "date" && typeof value !== "string" && typeof value !== "number") {
+                    setFilters(
+                        { ...filterValues, ["start_date"]: value.from, ["end_date"]: value.to },
+                        displayedFilters
+                    );
+                } else {
+                    setFilters({ ...filterValues, [type]: value }, displayedFilters);
+                }
             } else {
-                setFilters({ ...filterValues, [type]: value }, displayedFilters);
+                Reflect.deleteProperty(filterValues, type);
+                setFilters(filterValues, displayedFilters);
             }
-        } else {
-            Reflect.deleteProperty(filterValues, type);
-            setFilters(filterValues, displayedFilters);
-        }
-        setPage(1);
-    }, 300);
-
-    const onTabSelected = debounce((value: string | { from: string; to: string } | number) => {
-        if (value) {
-            setFilters({ ...filterValues, [type]: value }, displayedFilters);
-        } else {
-            Reflect.deleteProperty(filterValues, type);
-            setFilters(filterValues, displayedFilters);
-        }
-        setPage(1);
-    }, 300);
+            setPage(1);
+        },
+        300
+    );
 
     const onOperationIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
         setOperationId(e.target.value);
@@ -82,7 +69,7 @@ const useWithdrawFilter = () => {
         setStartDate(undefined);
         setEndDate(undefined);
         setOperationId("");
-        setTypeTabActive("");
+        setTypeTabActive(0);
         setFilters({}, displayedFilters);
         setPage(1);
     };
@@ -137,17 +124,8 @@ const useWithdrawFilter = () => {
         }
     };
 
-    const clearTypeFilters = () => {
-        setTypeTabActive("");
-        const newParams = new URLSearchParams(location.search);
-        newParams.delete("filter");
-        navigate({ search: newParams.toString() });
-
-        setFilters({}, displayedFilters);
-    };
-
     const chooseClassTabActive = useCallback(
-        (type: string) => {
+        (type: number) => {
             return typeTabActive === type
                 ? "text-green-50 dark:text-green-40 border-b-2 dark:border-green-40 border-green-50 pb-1 duration-200"
                 : "pb-1 border-b-2 border-transparent duration-200 hover:text-green-40";
@@ -155,31 +133,13 @@ const useWithdrawFilter = () => {
         [typeTabActive]
     );
 
-    const onTabChanged = (value: Dictionaries.TypeDescriptor) => {
-        setTypeTabActive(value.type_descr);
-        onTabSelected(value.type);
-        // setLoading(true);
+    const onTabChanged = (value: number) => {
+        setTypeTabActive(value);
+        onPropertySelected(value, "order_type");
     };
 
-    useEffect(() => {
-        if (data) {
-            const params = new URLSearchParams(location.search);
-            const type = params.get("filter") ? JSON.parse(params.get("filter") as string).order_type : "";
-
-            if (type) {
-                setTypeTabActive(data.transactionTypes[type]?.type_descr || "");
-                setFilters({ ...filterValues, order_type: type }, displayedFilters);
-            } else {
-                setTypeTabActive("");
-                setFilters({}, displayedFilters);
-            }
-
-            // setLoading(false);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data]);
-
     return {
+        dictionaries,
         operationId,
         endDate,
         startDate,
@@ -189,7 +149,6 @@ const useWithdrawFilter = () => {
         changeDate,
         handleDownloadReport,
         clearFilters,
-        clearTypeFilters,
         chooseClassTabActive,
         onTabChanged
     };
