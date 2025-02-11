@@ -21,7 +21,6 @@ export const WithdrawListFilter = () => {
         changeDate,
         handleDownloadReport,
         clearFilters,
-        clearTypeFilters,
         chooseClassTabActive,
         onTabChanged
     } = useWithdrawFilter();
@@ -83,33 +82,23 @@ export const WithdrawListFilter = () => {
                     <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
                         <div className="flex items-center gap-3 flex-wrap text-neutral-60 dark:text-neutral-30">
                             <button
-                                className={chooseClassTabActive("")}
-                                onClick={clearTypeFilters}
-                                disabled={typeTabActive === ""}>
+                                className={chooseClassTabActive(0)}
+                                onClick={() => onTabChanged(0)}
+                                disabled={typeTabActive === 0}>
                                 {translate("resources.transactions.types.all")}
                             </button>
                             <button
                                 key={3}
-                                className={chooseClassTabActive("Transfer")}
-                                disabled={typeTabActive === "Transfer"}
-                                onClick={() =>
-                                    onTabChanged({
-                                        type: 3,
-                                        type_descr: "Transfer"
-                                    })
-                                }>
+                                className={chooseClassTabActive(3)}
+                                disabled={typeTabActive === 3}
+                                onClick={() => onTabChanged(3)}>
                                 {translate(`resources.transactions.types.transfer`)}
                             </button>
                             <button
                                 key={4}
-                                className={chooseClassTabActive("Reward")}
-                                disabled={typeTabActive === "Reward"}
-                                onClick={() =>
-                                    onTabChanged({
-                                        type: 4,
-                                        type_descr: "Reward"
-                                    })
-                                }>
+                                className={chooseClassTabActive(4)}
+                                disabled={typeTabActive === 4}
+                                onClick={() => onTabChanged(4)}>
                                 {translate(`resources.transactions.types.reward`)}
                             </button>
                         </div>
