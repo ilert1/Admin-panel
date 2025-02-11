@@ -54,9 +54,8 @@ export const FeeCard = (props: FeeCardProps) => {
     };
     return (
         <>
-            {/*  */}
             <div className="mt-[2px] mb-[16px]">
-                <div className="bg-muted border border-neutral-40 dark:border-none  rounded-[8px] px-4 pt-[16px] pb-[8px]">
+                <div className="bg-neutral-20 dark:bg-muted rounded-[8px] px-4 pt-[16px] pb-[8px]">
                     <div className="w-full grid grid-cols-2 gap-y-[8px] gap-2">
                         <TextField
                             copyValue

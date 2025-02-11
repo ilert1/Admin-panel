@@ -102,7 +102,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
             <Form {...form}>
                 <form className="space-y-6">
                     <div className="mb-[16px]">
-                        <div className="bg-muted  border border-neutral-40 dark:border-neutral-70 rounded-[8px] px-[8px] pt-[16px] pb-[8px]">
+                        <div className="bg-neutral-20 dark:bg-muted border border-neutral-40 dark:border-neutral-70 rounded-[8px] px-[8px] pt-[16px] pb-[8px]">
                             <div className="w-full grid grid-cols-2 sm:grid-cols-4">
                                 <FormField
                                     control={form.control}
