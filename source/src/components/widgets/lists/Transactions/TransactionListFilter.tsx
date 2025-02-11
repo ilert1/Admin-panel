@@ -13,14 +13,7 @@ import { XIcon } from "lucide-react";
 import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 import { Label } from "@/components/ui/label";
 
-interface TranactionListFilterProps {
-    typeTabActive: string;
-    setTypeTabActive: (type: string) => void;
-    // chartOpen: boolean;
-    // setChartOpen: (state: boolean) => void;
-}
-
-export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: TranactionListFilterProps) => {
+export const TransactionListFilter = () => {
     const {
         translate,
         data,
@@ -39,8 +32,9 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
         onTabChanged,
         chooseClassTabActive,
         handleDownloadReport,
-        clearFilters
-    } = useTransactionFilter(typeTabActive, setTypeTabActive);
+        clearFilters,
+        typeTabActive
+    } = useTransactionFilter();
     // const debounced = debounce(setChartOpen, 200);
 
     return (
@@ -172,9 +166,9 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
             <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-3 flex-wrap">
                     <button
-                        className={chooseClassTabActive("")}
-                        onClick={() => onTabChanged({ type_descr: "", type: 0 })}
-                        disabled={typeTabActive === ""}>
+                        className={chooseClassTabActive(0)}
+                        onClick={() => onTabChanged(0)}
+                        disabled={typeTabActive === 0}>
                         {translate("resources.transactions.types.all")}
                     </button>
 
@@ -187,9 +181,9 @@ export const TransactionListFilter = ({ typeTabActive, setTypeTabActive }: Trana
                                 return (
                                     <button
                                         key={data?.transactionTypes?.[item].type}
-                                        className={chooseClassTabActive(data?.transactionTypes?.[item].type_descr)}
-                                        disabled={typeTabActive === data?.transactionTypes?.[item].type_descr}
-                                        onClick={() => onTabChanged(data?.transactionTypes?.[item])}>
+                                        className={chooseClassTabActive(data?.transactionTypes?.[item].type)}
+                                        disabled={typeTabActive === data?.transactionTypes?.[item].type}
+                                        onClick={() => onTabChanged(data?.transactionTypes?.[item].type)}>
                                         {translate(
                                             `resources.transactions.types.${data?.transactionTypes?.[
                                                 item
