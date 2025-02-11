@@ -6,8 +6,11 @@ import { DateRange } from "react-day-picker";
 import { toast } from "sonner";
 
 import { API_URL } from "@/data/base";
+import fetchDictionaries from "@/helpers/get-dictionaries";
 
 const useWithdrawFilter = () => {
+    const dictionaries = fetchDictionaries();
+
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
 
     const [startDate, setStartDate] = useState<Date | undefined>(
@@ -138,6 +141,7 @@ const useWithdrawFilter = () => {
     };
 
     return {
+        dictionaries,
         operationId,
         endDate,
         startDate,

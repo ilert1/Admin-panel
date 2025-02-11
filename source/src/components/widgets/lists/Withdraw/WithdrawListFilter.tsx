@@ -12,6 +12,7 @@ import useWithdrawFilter from "@/hooks/useWithdrawFilter";
 
 export const WithdrawListFilter = () => {
     const {
+        dictionaries,
         operationId,
         startDate,
         endDate,
@@ -87,20 +88,32 @@ export const WithdrawListFilter = () => {
                                 disabled={typeTabActive === 0}>
                                 {translate("resources.transactions.types.all")}
                             </button>
-                            <button
-                                key={3}
-                                className={chooseClassTabActive(3)}
-                                disabled={typeTabActive === 3}
-                                onClick={() => onTabChanged(3)}>
-                                {translate(`resources.transactions.types.transfer`)}
-                            </button>
-                            <button
-                                key={4}
-                                className={chooseClassTabActive(4)}
-                                disabled={typeTabActive === 4}
-                                onClick={() => onTabChanged(4)}>
-                                {translate(`resources.transactions.types.reward`)}
-                            </button>
+
+                            {dictionaries?.transactionTypes &&
+                                Object.keys(dictionaries?.transactionTypes).map(item => {
+                                    if (
+                                        dictionaries?.transactionTypes?.[item].type === 3 ||
+                                        dictionaries?.transactionTypes?.[item].type === 4
+                                    ) {
+                                        return (
+                                            <button
+                                                key={dictionaries?.transactionTypes?.[item].type}
+                                                className={chooseClassTabActive(
+                                                    dictionaries?.transactionTypes?.[item].type
+                                                )}
+                                                disabled={typeTabActive === dictionaries?.transactionTypes?.[item].type}
+                                                onClick={() =>
+                                                    onTabChanged(dictionaries?.transactionTypes?.[item].type)
+                                                }>
+                                                {translate(
+                                                    `resources.transactions.types.${dictionaries?.transactionTypes?.[
+                                                        item
+                                                    ].type_descr.toLowerCase()}`
+                                                )}
+                                            </button>
+                                        );
+                                    }
+                                })}
                         </div>
                     </div>
                 </div>
