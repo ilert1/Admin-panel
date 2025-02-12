@@ -102,7 +102,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
             <Form {...form}>
                 <form className="space-y-6">
                     <div className="mb-[16px]">
-                        <div className="bg-neutral-20 dark:bg-muted border border-neutral-40 dark:border-neutral-70 rounded-[8px] px-[8px] pt-[16px] pb-[8px]">
+                        <div className="bg-neutral-10 dark:bg-muted border border-neutral-40 dark:border-none rounded-[8px] px-[8px] pt-[16px] pb-[8px]">
                             <div className="w-full grid grid-cols-2 sm:grid-cols-4">
                                 <FormField
                                     control={form.control}
@@ -113,7 +113,9 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                             <FormControl>
                                                 <Select value={field.value} onValueChange={field.onChange}>
                                                     <FormControl>
-                                                        <SelectTrigger variant={SelectType.GRAY}>
+                                                        <SelectTrigger
+                                                            variant={SelectType.GRAY}
+                                                            className="border-neutral-60">
                                                             <SelectValue />
                                                         </SelectTrigger>
                                                     </FormControl>
@@ -147,6 +149,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     label={translate("resources.direction.fees.feeAmount")}
                                                     labelSize="note-1"
                                                     variant={InputTypes.GRAY}
+                                                    borderColor="border-neutral-60"
                                                 />
                                             </FormControl>
                                         </FormItem>
@@ -164,7 +167,9 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     onValueChange={field.onChange}
                                                     disabled={currenciesDisabled}>
                                                     <FormControl>
-                                                        <SelectTrigger variant={SelectType.GRAY}>
+                                                        <SelectTrigger
+                                                            variant={SelectType.GRAY}
+                                                            className="border-neutral-60">
                                                             <SelectValue />
                                                         </SelectTrigger>
                                                     </FormControl>
@@ -195,7 +200,9 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     onValueChange={field.onChange}
                                                     disabled={currenciesDisabled}>
                                                     <FormControl>
-                                                        <SelectTrigger variant={SelectType.GRAY}>
+                                                        <SelectTrigger
+                                                            variant={SelectType.GRAY}
+                                                            className="border-neutral-60">
                                                             <SelectValue
                                                                 placeholder={
                                                                     currenciesDisabled
@@ -242,6 +249,8 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     value={field.value ?? ""}
                                                     label={translate("resources.direction.description")}
                                                     variant={InputTypes.GRAY}
+                                                    className="border-neutral-60"
+                                                    borderColor="border-neutral-60"
                                                 />
                                             </FormControl>
                                         </FormItem>

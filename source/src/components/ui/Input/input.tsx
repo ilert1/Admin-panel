@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { ErrorBadge } from "./ErrorBadge";
 import { EyeButton } from "./EyeButton";
 import { ClearButton } from "./ClearButton";
+import { cva } from "class-variance-authority";
 
 export type BasicInputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
@@ -12,6 +13,7 @@ export enum InputTypes {
 }
 
 export type LabelSize = "note-1" | "title-2" | "login-page";
+export type BorderColor = "border-neutral-40" | "border-neutral-60";
 
 interface InputProps extends BasicInputProps {
     variant?: InputTypes;
@@ -20,6 +22,7 @@ interface InputProps extends BasicInputProps {
     error?: boolean | string;
     errorMessage?: string | React.ReactNode;
     labelSize?: LabelSize;
+    borderColor?: BorderColor;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -39,6 +42,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             label,
             labelSize = "note-1",
             shadow = false,
+            borderColor = "border-neutral-40",
             ...props
         },
         ref
@@ -143,12 +147,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 <div
                     className={cn(
                         "relative flex items-center w-full border hover:border-green-40 hover:dark:border-green-40 transition-colors duration-200 rounded-4",
-                        "border-neutral-40",
+                        borderColor,
                         "dark:border-neutral-60",
                         isFocused ? "!border-green-50" : "",
                         shadow ? "shadow-1" : "",
                         disabled ? "border-neutral-40 hover:border-neutral-40" : "",
-                        error ? "!border-red-40 dark:!border-red-40" : ""
+                        error ? "!border-red-40 dark:!border-red-40" : "",
+                        variant === InputTypes.GRAY ? "gray-autofill" : ""
                     )}>
                     <input
                         type={type === "password" && showPassword ? "text" : type}

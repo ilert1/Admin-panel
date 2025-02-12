@@ -55,23 +55,44 @@ export const FeeCard = (props: FeeCardProps) => {
     return (
         <>
             <div className="mt-[2px] mb-[16px]">
-                <div className="bg-neutral-20 dark:bg-muted rounded-[8px] px-4 pt-[16px] pb-[8px]">
+                <div className="bg-neutral-10 dark:bg-muted rounded-[8px] px-4 pt-[16px] pb-[8px]">
                     <div className="w-full grid grid-cols-2 gap-y-[8px] gap-2">
                         <TextField
                             copyValue
                             text={account}
                             label={translate("resources.direction.fees.accountNumber")}
+                            labelSize="text-xs"
                         />
-                        <TextField text={String(feeAmount)} label={translate("resources.direction.fees.feeAmount")} />
-                        <TextField text={String(feeType)} label={translate("resources.direction.fees.feeType")} />
-                        <TextField text={String(currency)} label={translate("resources.direction.fees.currency")} />
-
-                        <div className="flex flex-col gap-[4px] col-span-2">
-                            <Label className="text-sm dark:!text-neutral-40" variant="note-1" htmlFor="">
-                                {translate("resources.direction.fees.descr")}
-                            </Label>
-                            <Textarea readOnly className="!text-body resize-none dark:bg-muted" value={description} />
-                        </div>
+                        <TextField
+                            text={String(feeAmount)}
+                            label={translate("resources.direction.fees.feeAmount")}
+                            labelSize="text-xs"
+                        />
+                        <TextField
+                            text={String(feeType)}
+                            label={translate("resources.direction.fees.feeType")}
+                            labelSize="text-xs"
+                        />
+                        <TextField
+                            text={String(currency)}
+                            label={translate("resources.direction.fees.currency")}
+                            labelSize="text-xs"
+                        />
+                        {description && (
+                            <div className="flex flex-col gap-[4px] col-span-2">
+                                <Label
+                                    className="text-note-1 !text-neutral-60 dark:!text-neutral-60"
+                                    variant="note-1"
+                                    htmlFor="">
+                                    {translate("resources.direction.fees.descr")}
+                                </Label>
+                                <Textarea
+                                    readOnly
+                                    className="!text-body resize-none dark:bg-muted"
+                                    value={description}
+                                />
+                            </div>
+                        )}
                     </div>
                     {addFee && (
                         <div className="flex justify-end mt-6 pb-2">
