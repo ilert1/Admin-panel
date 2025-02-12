@@ -73,15 +73,15 @@ export const useGetMerchantColumns = () => {
                 );
             }
         },
-        {
-            id: "show_directions_field",
-            header: () => {
-                return <div className="text-center">{translate("resources.merchant.fields.directions")}</div>;
-            },
-            cell: ({ row }) => {
-                return <ShowButton onClick={() => handleShowClicked(row.original.id, "directions")} />;
-            }
-        },
+        // {
+        //     id: "show_directions_field",
+        //     header: () => {
+        //         return <div className="text-center">{translate("resources.merchant.fields.directions")}</div>;
+        //     },
+        //     cell: ({ row }) => {
+        //         return <ShowButton onClick={() => handleShowClicked(row.original.id, "directions")} />;
+        //     }
+        // },
         {
             id: "show_fees_field",
             header: () => {
