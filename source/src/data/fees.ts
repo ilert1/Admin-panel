@@ -25,7 +25,7 @@ const feesDataProvider = (props: FeesDataProviderProps) => {
         const json = await fetchUtils.fetchJson(
             `${API_URL}/${resource === FeesResource.TERMINAL ? providerName + "/" : ""}${resource}/${id}/fee`,
             {
-                method: resource === FeesResource.TERMINAL ? "POST" : "PUT",
+                method: "PUT",
                 user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
                 body: JSON.stringify(body)
             }
