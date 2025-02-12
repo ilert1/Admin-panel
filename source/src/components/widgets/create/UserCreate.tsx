@@ -125,7 +125,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
             <CreateContextProvider value={contrProps}>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" autoComplete="off">
-                        <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-4 md:grid-flow-col gap-y-5 gap-x-4 items-stretch md:items-end">
+                        <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-[repeat(4,auto)]  md:grid-flow-col gap-y-5 gap-x-4 items-stretch md:items-baseline">
                             <FormField
                                 name="name"
                                 control={form.control}
