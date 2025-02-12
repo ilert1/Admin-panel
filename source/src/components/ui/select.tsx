@@ -51,7 +51,7 @@ const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrimitive.T
                                 <ErrorBadge
                                     errorMessage={errorMessage}
                                     variant={SelectType.GRAY}
-                                    className="!flex items-center justify-center"
+                                    className="!flex items-center justify-center h-4 "
                                 />
                             )}
                         </div>
