@@ -221,7 +221,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                                 resource="accounts"
                                             />
                                         </FormControl>
-                                        <FormMessage />
+                                        <FormMessage className="!text-note-1 inline text-red-40" />
                                     </FormItem>
                                 )}
                             />
