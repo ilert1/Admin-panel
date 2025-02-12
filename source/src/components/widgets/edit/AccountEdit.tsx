@@ -40,7 +40,10 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
 
     const formSchema = z.object({
         account_id: z.string(),
-        name: z.string().min(1).trim(),
+        name: z
+            .string()
+            .min(1, { message: translate("resources.accounts.errors.name") })
+            .trim(),
         wallet_create: z.boolean().default(false),
         wallet_type: z.enum([WalletTypes.EXTERNAL, WalletTypes.INTERNAL, WalletTypes.LINKED]),
         tron_wallet: z
@@ -59,8 +62,18 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
             })
             .optional()
             .or(z.literal("")),
-        reward_account: z.string().trim().uuid().optional().or(z.literal("")),
-        provider_account: z.string().trim().uuid().optional().or(z.literal(""))
+        reward_account: z
+            .string()
+            .trim()
+            .uuid(translate("resources.accounts.errors.uuid"))
+            .optional()
+            .or(z.literal("")),
+        provider_account: z
+            .string()
+            .trim()
+            .uuid(translate("resources.accounts.errors.uuid"))
+            .optional()
+            .or(z.literal(""))
     });
 
     const form = useForm<z.infer<typeof formSchema>>({

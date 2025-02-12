@@ -54,6 +54,10 @@ const ru: TranslationMessages = {
                     caption: "Имя"
                 }
             },
+            errors: {
+                name: "Требуется указать имя",
+                uuid: "Неправильный UUID"
+            },
             showHeader: "Информация о счете",
             showDescription: "Подробная информация о счете с ID %{id}"
         },
@@ -876,6 +880,10 @@ const en: TranslationMessages = {
                 meta: {
                     caption: "Name"
                 }
+            },
+            errors: {
+                name: "Name is required",
+                uuid: "Invalid UUID"
             },
             showHeader: "Account info",
             showDescription: "Detailed information about account with ID %{id}"
