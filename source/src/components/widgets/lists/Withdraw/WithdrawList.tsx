@@ -30,12 +30,10 @@ export const WithdrawList = () => {
                     <div
                         className={
                             merchantOnly
-                                ? "grid gap-x-6 lg:grid-cols-1 [grid-template-rows: auto 1fr 1fr;] grid-cols-1 lg:grid-rows-1 lg:grid-flow-col  h-full min-h-0"
+                                ? "grid gap-x-6 grid-rows-[auto_auto_1fr] lg:grid-rows-[auto_1fr_1fr] grid-cols-1 lg:grid-flow-col h-full min-h-0"
                                 : "flex flex-col h-full min-h-0"
                         }>
-                        <div>
-                            <WithdrawListFilter />
-                        </div>
+                        <WithdrawListFilter />
 
                         <div className="h-full flex flex-col min-h-0">
                             <DataTable columns={columns} data={[]} />
