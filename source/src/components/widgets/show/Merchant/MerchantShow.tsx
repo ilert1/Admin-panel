@@ -85,7 +85,7 @@ export const MerchantShow = ({ id }: MerchantShowProps) => {
                         <TextField label="Keycloak ID" text={context.record.keycloak_id} />
                     </div>
                 </div>
-                <div className="flex-1 mt-4  w-full px-[42px]">
+                <div className="flex-1 mt-4 w-full px-[42px]">
                     <Fees
                         id={id}
                         fees={fees}
@@ -93,7 +93,7 @@ export const MerchantShow = ({ id }: MerchantShowProps) => {
                         feesResource={FeesResource.MERCHANT}
                         addNewOpen={addNewFeeClicked}
                         setAddNewOpen={setAddNewFeeClicked}
-                        className="max-h-[20dvh]"
+                        className=""
                         padding={false}
                     />
                     <div className="mt-5 w-full flex flex-col gap-[8px] ">
@@ -104,7 +104,7 @@ export const MerchantShow = ({ id }: MerchantShowProps) => {
                             columns={columns}
                             tableType={TableTypes.COLORED}
                             data={merchantDirections}
-                            className="max-h-[20dvh] min-h-[15dvh]"
+                            className=" min-h-[15dvh] max-h-[30dvh]"
                         />
                     </div>
                 </div>
