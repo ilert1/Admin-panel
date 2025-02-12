@@ -30,7 +30,7 @@ export const WithdrawList = () => {
                     <div
                         className={
                             merchantOnly
-                                ? "grid gap-x-6 grid-rows-[auto_auto_1fr] lg:grid-rows-[auto_1fr_1fr] grid-cols-1 lg:grid-flow-col h-full min-h-0"
+                                ? "grid gap-x-6 grid-rows-[auto_auto_1fr] lg:grid-rows-[auto_1fr] grid-cols-1 lg:grid-flow-col h-full min-h-0"
                                 : "flex flex-col h-full min-h-0"
                         }>
                         <WithdrawListFilter />
