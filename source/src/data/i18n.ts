@@ -411,7 +411,10 @@ const ru: TranslationMessages = {
                 direction: "Направление",
                 deleteFee: "Удалить комиссию?",
                 error: "Ошибка",
-                errorWhenCreating: "Произошла ошибка при создании комиссии"
+                errorWhenCreating: "Произошла ошибка при создании комиссии",
+                directionFieldError: "Направление обязательно должно быть выбрано",
+                currencyFieldError: "Валюта обязательно должна быть выбрана",
+                valueFieldError: "Коммиссия должна быть положительным числом"
             },
             errors: {
                 name: "У направления обязательно должно быть имя",
@@ -1237,7 +1240,10 @@ const en: TranslationMessages = {
                 direction: "Direction",
                 deleteFee: "Delete fee?",
                 error: "Error",
-                errorWhenCreating: "An error occurred while creating the fee"
+                errorWhenCreating: "An error occurred while creating the fee",
+                directionFieldError: "The direction must be selected",
+                currencyFieldError: "The currency must be selected",
+                valueFieldError: "The commission must be a positive number"
             },
             errors: {
                 name: "The direction must have a name",
