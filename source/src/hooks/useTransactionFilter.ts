@@ -1,5 +1,5 @@
 import { debounce } from "lodash";
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { useListContext, usePermissions, useTranslate } from "react-admin";
 import { DateRange, TZDate } from "react-day-picker";
 import { toast } from "sonner";
@@ -18,16 +18,8 @@ const useTransactionFilter = () => {
     );
     const [operationId, setOperationId] = useState(filterValues?.id || "");
     const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
-    const [account, setAccount] = useState("");
+    const [account, setAccount] = useState(filterValues?.accountId || "");
     const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
-
-    useEffect(() => {
-        if (filterValues?.accountId) {
-            onPropertySelected("", "accountId");
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     const [orderStatusFilter, setOrderStatusFilter] = useState(filterValues?.order_state || "");
 
     const translate = useTranslate();

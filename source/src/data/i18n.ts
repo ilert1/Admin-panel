@@ -81,7 +81,7 @@ const ru: TranslationMessages = {
             createButton: "Добавить пользователя",
             filter: {
                 showAll: "Показать все",
-                filterByUserId: "Поиск по ID",
+                filterByUserId: "Поиск по ID пользователя",
                 filterByUsername: "Поиск по имени",
                 filterByUsernamePlaceholder: "Имя",
                 filterByActivity: "Активные пользователи"
@@ -903,7 +903,7 @@ const en: TranslationMessages = {
             },
             filter: {
                 showAll: "Show all",
-                filterByUserId: "Search by ID",
+                filterByUserId: "Search by user ID",
                 filterByUsername: "Search by name",
                 filterByUsernamePlaceholder: "Name",
                 filterByActivity: "Active users"
