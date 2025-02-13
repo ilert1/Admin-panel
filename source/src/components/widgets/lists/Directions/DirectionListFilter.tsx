@@ -4,6 +4,7 @@ import { XIcon } from "lucide-react";
 import { useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
+import { Label } from "@/components/ui/label";
 
 export const DirectionListFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
@@ -36,7 +37,9 @@ export const DirectionListFilter = () => {
     return (
         <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
             <div className="flex flex-1 flex-grow-100 min-w-[500px] md:flex-col gap-1 items-center md:items-start">
-                <span className="md:text-nowrap">{translate("resources.transactions.filter.filterByAccount")}</span>
+                <Label variant="title-2" className="md:text-nowrap mb-0">
+                    {translate("resources.transactions.filter.filterByAccount")}
+                </Label>
 
                 <MerchantSelectFilter merchant={merchantId} onMerchantChanged={onAccountChanged} resource="merchant" />
             </div>

@@ -52,9 +52,11 @@ export const Fees = memo((props: FeesProps) => {
             }
         }
     }, [addNewOpen]);
+
     if (!feeTypes) {
         return null;
     }
+
     return (
         <div className={cn("mt-[10px] w-full", padding ? "px-2" : "px-0")}>
             <div className="flex flex-col bg-neutral-0 dark:bg-neutral-100 px-[32px] rounded-[8px] w-full ">
