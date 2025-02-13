@@ -339,6 +339,8 @@ declare namespace Directions {
         description?: string | null;
         provider: string;
         auth: object;
+        fees: Fees;
+        account_created: boolean;
     }
 
     interface Direction {

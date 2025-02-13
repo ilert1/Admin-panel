@@ -84,14 +84,13 @@ export const useGetTerminalColumns = () => {
             }
         },
         {
-            id: "auth",
-            accessorKey: "auth",
+            id: "fees",
             header: translate("resources.terminals.fields.fees"),
             cell: ({ row }) => {
                 return (
                     <ShowButton
                         onClick={() => {
-                            setChosenId(row.original.id);
+                            setChosenId(row.original.terminal_id);
                             setChosenProvider(row.original.provider);
                             setShowFees(true);
                         }}

@@ -19,11 +19,12 @@ const feesDataProvider = (props: FeesDataProviderProps) => {
     const setId = (newId: string) => {
         id = newId;
     };
-    // https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/187ae93d-85a5-457a-9271-75e2fd22ec8b/fee 404!
 
     const addFee = async (body: Directions.FeeCreate) => {
         const json = await fetchUtils.fetchJson(
-            `${API_URL}/${resource === FeesResource.TERMINAL ? providerName + "/" : ""}${resource}/${id}/fee`,
+            `${API_URL}/${
+                resource === FeesResource.TERMINAL ? "provider/" + providerName + "/" : ""
+            }${resource}/${id}/fee`,
             {
                 method: "PUT",
                 user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
@@ -39,10 +40,16 @@ const feesDataProvider = (props: FeesDataProviderProps) => {
     };
 
     const removeFee = async (fee_id: string) => {
-        const json = await fetchUtils.fetchJson(`${API_URL}/${resource}/${id}/fee/${fee_id}`, {
-            method: "DELETE",
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
+        const json = await fetchUtils.fetchJson(
+            `${API_URL}/${
+                resource === FeesResource.TERMINAL ? "provider/" + providerName + "/" : ""
+            }${resource}/${id}/fee/${fee_id}`,
+            {
+                method: "DELETE",
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            }
+        );
+        console.log(json);
 
         if (!json.json.success) {
             throw new Error("Wrong id or fee id");

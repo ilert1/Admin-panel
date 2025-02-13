@@ -1277,6 +1277,7 @@ const en: TranslationMessages = {
                 auth: "Auth data",
                 fees: "Fees"
             },
+
             errors: {
                 verbose_name: "The terminal must have a name",
                 description: "The terminal must have a description"

@@ -76,6 +76,7 @@ export const Fees = memo((props: FeesProps) => {
                                       resource={feesResource}
                                       description={fee.description}
                                       addFee={addFee}
+                                      providerName={providerName}
                                   />
                               );
                           })

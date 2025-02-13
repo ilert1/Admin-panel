@@ -38,17 +38,25 @@ export const TextField = ({
         });
     }, [currentText]); // eslint-disable-line react-hooks/exhaustive-deps
 
+    // const textStyle = () => {
+    //     if (wrap === true) {
+    //         return "overflow-hidden ellipsis max-w-[500px]";
+    //     } else if (wrap === "break-all") {
+    //         return "overflow-hidden break-all max-w-[500px]";
+    //     }
+
+    //     return "truncate max-w-[500px]";
+    // };
+
+    // Experiemental
     const textStyle = () => {
         if (wrap === true) {
-            return "overflow-hidden ellipsis max-w-[500px]";
+            return "overflow-hidden ellipsis block";
         } else if (wrap === "break-all") {
-            return "overflow-hidden break-all max-w-[500px]";
+            return "overflow-hidden break-all block";
         }
-        // if (wrap) {
-        //     return "break-words whitespace-normal max-w-[500px]";
-        // }
 
-        return "truncate max-w-[500px]";
+        return "truncate block";
     };
 
     return (
