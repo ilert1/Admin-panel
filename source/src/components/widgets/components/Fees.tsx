@@ -79,7 +79,9 @@ export const Fees = memo((props: FeesProps) => {
                                       deleteFn={deleteFee}
                                       account={fee.id ?? ""}
                                       currency={fee.currency}
-                                      feeAmount={fee.value.quantity / fee.value.accuracy}
+                                      feeAmount={
+                                          feeType === "inner" ? fee.value : fee.value.quantity / fee.value.accuracy
+                                      }
                                       feeType={feeTypes[fee.type]?.type_descr || ""}
                                       id={id}
                                       resource={feesResource}
