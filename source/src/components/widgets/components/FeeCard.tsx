@@ -24,9 +24,22 @@ interface FeeCardProps {
     id: string;
     description?: string;
     addFee?: boolean;
+    isInner?: boolean;
+    deleteFn?: (innerId: number) => void;
 }
 export const FeeCard = (props: FeeCardProps) => {
-    const { account, feeAmount, feeType, currency, id, addFee, resource, description = "" } = props;
+    const {
+        account,
+        feeAmount,
+        feeType,
+        currency,
+        id,
+        addFee,
+        resource,
+        description = "",
+        isInner = false,
+        deleteFn
+    } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
 
@@ -39,6 +52,10 @@ export const FeeCard = (props: FeeCardProps) => {
     };
 
     const handleDelete = async () => {
+        if (isInner && deleteFn) {
+            deleteFn(Number(id));
+            return;
+        }
         try {
             await feeDataProvider.removeFee(account);
 

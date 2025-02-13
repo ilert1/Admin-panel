@@ -13,6 +13,8 @@ import { feesDataProvider, FeesResource } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { Fees } from "../components/Fees";
 
+export type FeeType = "inner" | "default";
+
 export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController();
@@ -191,6 +193,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                 addNewOpen={addNewFeeClicked}
                 setAddNewOpen={setAddNewFeeClicked}
                 setFees={setFees}
+                feeType="inner"
             />
             <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col gap-3 sm:gap-0 sm:flex-row space-x-0 sm:space-x-2">
                 <Button

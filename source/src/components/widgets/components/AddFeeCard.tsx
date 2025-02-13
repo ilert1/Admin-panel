@@ -20,21 +20,24 @@ import { useCreateController, useRefresh, useTranslate } from "react-admin";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Label } from "@/components/ui/label";
+import { FeeType } from "../create/MerchantCreate";
 
 enum FeeEnum {
     FEE_FROM_SENDER = "FeeFromSender",
     FEE_FROM_TRANSACTION = "FeeFromTransaction"
 }
+
 export interface AddFeeCardProps {
     id: string;
     resource: FeesResource;
     onOpenChange: (state: boolean) => void;
     setFees?: React.Dispatch<React.SetStateAction<Directions.FeeCreate[]>>;
     variants?: string[];
+    feeType?: FeeType;
 }
 
 export const AddFeeCard = (props: AddFeeCardProps) => {
-    const { id, resource, onOpenChange, setFees, variants = undefined } = props;
+    const { id, resource, onOpenChange, setFees, variants = undefined, feeType = "default" } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
     const feeDataProvider = feesDataProvider({ id, resource });
@@ -45,6 +48,22 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const { currencies, isLoading: loadingData } = useFetchDataForDirections();
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        if (feeType === "inner") {
+            if (setFees) {
+                setFees(prev => [
+                    ...prev,
+                    {
+                        ...data,
+                        type: Number(data.type),
+                        direction: Number(data.direction),
+                        recipient: resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee",
+                        innerId: new Date().getTime()
+                    }
+                ]);
+                onOpenChange(false);
+            }
+            return;
+        }
         const reqData: Directions.FeeCreate = {
             ...data,
             type: Number(data.type),

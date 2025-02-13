@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { CircleChevronRight } from "lucide-react";
 import { useTranslate } from "react-admin";
+import { FeeType } from "../create/MerchantCreate";
 
 interface FeesProps {
     className?: string;
@@ -19,7 +20,9 @@ interface FeesProps {
     addNewOpen?: boolean;
     setAddNewOpen?: (state: boolean) => void;
     padding?: boolean;
+    feeType: FeeType;
 }
+
 export const Fees = memo((props: FeesProps) => {
     const {
         className,
@@ -31,6 +34,7 @@ export const Fees = memo((props: FeesProps) => {
         addNewOpen = false,
         feesVariants = [],
         padding = true,
+        feeType = "default",
         setAddNewOpen = () => {},
         setFees
     } = props;
@@ -52,6 +56,12 @@ export const Fees = memo((props: FeesProps) => {
         }
     }, [addNewOpen]);
 
+    const deleteFee = (innerId: number) => {
+        if (setFees) {
+            setFees(prev => prev.filter(el => el.innerId === innerId));
+        }
+    };
+
     return (
         <div className={cn("mt-[10px] w-full", padding ? "px-2" : "px-0")}>
             <div className="flex flex-col bg-neutral-0 dark:bg-neutral-100 px-[32px] rounded-[8px] w-full ">
@@ -64,7 +74,9 @@ export const Fees = memo((props: FeesProps) => {
                               const fee = fees[key];
                               return (
                                   <FeeCard
-                                      key={fee.id}
+                                      key={fee.innerId ?? fee.id}
+                                      isInner={fee.innerId ?? false}
+                                      deleteFn={deleteFee}
                                       account={fee.id ?? ""}
                                       currency={fee.currency}
                                       feeAmount={fee.value.quantity / fee.value.accuracy}
@@ -84,19 +96,20 @@ export const Fees = memo((props: FeesProps) => {
                             resource={feesResource}
                             variants={id ? feesVariants : undefined}
                             setFees={setFees ?? undefined}
+                            feeType={feeType}
                         />
                     )}
                     <div ref={containerEndRef} />
                 </div>
             </div>
             {addFee && (
-                    <div className="flex justify-end">
-                        <Button onClick={() => setAddNewOpen(true)} className="my-6 w-1/2 sm:w-1/4 flex gap-[4px]">
-                            <CircleChevronRight className="w-[16px] h-[16px]" />
-                            {translate("resources.direction.fees.addFee")}
-                        </Button>
-                    </div>
-                )}
+                <div className="flex justify-end">
+                    <Button onClick={() => setAddNewOpen(true)} className="my-6 w-1/2 sm:w-1/4 flex gap-[4px]">
+                        <CircleChevronRight className="w-[16px] h-[16px]" />
+                        {translate("resources.direction.fees.addFee")}
+                    </Button>
+                </div>
+            )}
         </div>
     );
 });
