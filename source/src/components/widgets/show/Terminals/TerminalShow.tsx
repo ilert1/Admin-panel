@@ -6,13 +6,16 @@ import { TextField } from "@/components/ui/text-field";
 import { useQuery } from "react-query";
 import { LoadingBlock } from "@/components/ui/loading";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/Button";
 
 interface TerminalShowProps {
     id: string;
     provider: string;
+    setDeleteDialogOpen: (state: boolean) => void;
+    setEditDialogOpen: (state: boolean) => void;
 }
 export const TerminalShow = (props: TerminalShowProps) => {
-    const { id, provider } = props;
+    const { id, provider, setEditDialogOpen, setDeleteDialogOpen } = props;
     const dataProvider = useDataProvider();
     const translate = useTranslate();
     const [data, setData] = useState<Directions.Terminal>();
@@ -50,6 +53,16 @@ export const TerminalShow = (props: TerminalShowProps) => {
                     <div className="">
                         <Label className="mb-0">{translate("resources.terminals.fields.auth")}</Label>
                         <TextField text={JSON.stringify(data.auth)} copyValue />
+                    </div>
+                </div>
+                <div className="flex justify-end">
+                    <div className="flex gap-4">
+                        <Button className="" onClick={() => setEditDialogOpen(true)}>
+                            {translate("app.ui.actions.edit")}
+                        </Button>
+                        <Button className="" onClick={() => setDeleteDialogOpen(true)} variant={"outline_gray"}>
+                            {translate("app.ui.actions.delete")}
+                        </Button>
                     </div>
                 </div>
                 {/* TODO */}

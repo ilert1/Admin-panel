@@ -5,13 +5,15 @@ import { TerminalShow } from "../../show/Terminals/TerminalShow";
 
 interface TerminalFeesDialogProps {
     open: boolean;
-    onOpenChange: (state: boolean) => void;
     id: string;
     provider: string;
+    onOpenChange: (state: boolean) => void;
+    setDeleteDialogOpen: (state: boolean) => void;
+    setEditDialogOpen: (state: boolean) => void;
 }
 
-export const TerminalFeesDialog = (props: TerminalFeesDialogProps) => {
-    const { open, onOpenChange, id, provider } = props;
+export const TerminalShowDialog = (props: TerminalFeesDialogProps) => {
+    const { open, onOpenChange, id, provider, setEditDialogOpen, setDeleteDialogOpen } = props;
     const translate = useTranslate();
 
     return (
@@ -30,7 +32,12 @@ export const TerminalFeesDialog = (props: TerminalFeesDialogProps) => {
                 </div>
 
                 <div className="flex-1 overflow-auto" tabIndex={-1}>
-                    <TerminalShow id={id} provider={provider} />
+                    <TerminalShow
+                        id={id}
+                        provider={provider}
+                        setDeleteDialogOpen={setDeleteDialogOpen}
+                        setEditDialogOpen={setEditDialogOpen}
+                    />
                 </div>
                 <SheetDescription />
             </SheetContent>

@@ -85,7 +85,9 @@ export const useGetTerminalColumns = () => {
         },
         {
             id: "fees",
-            header: translate("resources.terminals.fields.fees"),
+            header: () => {
+                return <div className="text-center">{translate("app.ui.actions.show")}</div>;
+            },
             cell: ({ row }) => {
                 return (
                     <ShowButton

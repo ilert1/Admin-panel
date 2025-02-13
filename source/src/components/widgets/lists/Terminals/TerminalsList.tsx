@@ -11,7 +11,7 @@ import { TerminalsListFilter } from "./TerminalsListFilter";
 import { TerminalListTable } from "./TerminalsListTable";
 import { useGetTerminalColumns } from "./Columns";
 import { ShowAuthDataDialog } from "./ShowAuthDataDialog";
-import { TerminalFeesDialog } from "./TerminalFeesDialog";
+import { TerminalShowDialog } from "./TerminalShowDialog";
 
 export const TerminalsList = () => {
     const translate = useTranslate();
@@ -74,11 +74,13 @@ export const TerminalsList = () => {
                         deleteId={chosenId}
                     />
                     <ShowAuthDataDialog open={showAuthKeyOpen} onOpenChange={setShowAuthKeyOpen} authData={authData} />
-                    <TerminalFeesDialog
+                    <TerminalShowDialog
                         open={showFees}
                         onOpenChange={setShowFees}
                         id={chosenId}
                         provider={chosenProvider}
+                        setDeleteDialogOpen={setDeleteDialogOpen}
+                        setEditDialogOpen={setEditDialogOpen}
                     />
                 </>
             ) : (
