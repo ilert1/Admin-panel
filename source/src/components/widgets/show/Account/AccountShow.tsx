@@ -11,7 +11,7 @@ interface AccountShowProps {
 export const AccountShow = ({ id }: AccountShowProps) => {
     const translate = useTranslate();
 
-    const context = useShowController({ id });
+    const context = useShowController({ resource: "accounts", id });
 
     const { historyColumns } = useGetAccountShowColumns();
 
@@ -25,7 +25,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
         return <LoadingBlock />;
     }
     return (
-        <div className="mx-6">
+        <div className="mx-6 h-full min-h-[300px] flex flex-col">
             {(context.record.meta?.TRC20 || context.record.meta?.tron_wallet) && (
                 <div className="grid grid-cols-2 gap-2 mb-4 px-[18px]">
                     {context.record.meta?.TRC20 && (

@@ -16,7 +16,7 @@ export interface DirectionsShowProps {
 }
 
 export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
-    const context = useShowController<Directions.Direction>({ id });
+    const context = useShowController<Directions.Direction>({ resource: "direction", id });
     const data = fetchDictionaries();
     const translate = useTranslate();
 

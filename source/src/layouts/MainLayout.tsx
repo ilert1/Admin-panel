@@ -61,13 +61,16 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     return (
         <div className="flex flex-col h-screen">
             <Header handleLogout={handleLogout} />
-            <div className="flex grow h-full overflow-hidden">
+            <div className="flex h-full overflow-hidden">
                 <Sidebar resourceName={resourceName} setTestKeysModalOpen={setTestKeysModalOpen} />
                 <div
-                    className={`bg-neutral-20 dark:bg-muted grow overflow-y-auto scrollbar-stable transition-[margin-left] relative  ${
+                    className={`bg-neutral-20 dark:bg-muted overflow-y-auto grow scrollbar-stable transition-[margin-left] relative  ${
                         resourceName[1] === "storage" ? " overflow-y-hidden overflow-x-hidden" : ""
                     }`}>
-                    <main className={`p-6 pr-4 container ${resourceName[0] == "error" ? "h-full" : ""}`}>
+                    <main
+                        className={`p-6 pr-4 h-full flex flex-col container ${
+                            resourceName[0] == "error" ? "h-full" : ""
+                        }`}>
                         {resourceName[0] !== "bank-transfer" && resourceName[0] !== "error" && (
                             <h1 className="text-3xl mb-6 text-neutral-90 dark:text-white">{pageTitle}</h1>
                         )}

@@ -261,6 +261,11 @@ declare namespace Users {
         password: string;
         state?: number;
     }
+    interface PasswordChange {
+        currentPassword: string;
+        newPassword: string;
+        newPasswordRepeat: string;
+    }
 }
 
 declare namespace Currencies {
@@ -320,6 +325,7 @@ declare namespace Directions {
         description: string;
         recipient: string;
         direction: string | number;
+        innerId?: number;
     }
 
     interface Fees {

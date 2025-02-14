@@ -5,7 +5,7 @@ import { CirclePlus, EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
-export type MerchantTypeToShow = "fees" | "directions" | undefined;
+export type MerchantTypeToShow = "fees" | "directions" | "all" | undefined;
 
 export const useGetMerchantColumns = () => {
     const translate = useTranslate();
@@ -73,15 +73,15 @@ export const useGetMerchantColumns = () => {
                 );
             }
         },
-        {
-            id: "show_directions_field",
-            header: () => {
-                return <div className="text-center">{translate("resources.merchant.fields.directions")}</div>;
-            },
-            cell: ({ row }) => {
-                return <ShowButton onClick={() => handleShowClicked(row.original.id, "directions")} />;
-            }
-        },
+        // {
+        //     id: "show_directions_field",
+        //     header: () => {
+        //         return <div className="text-center">{translate("resources.merchant.fields.directions")}</div>;
+        //     },
+        //     cell: ({ row }) => {
+        //         return <ShowButton onClick={() => handleShowClicked(row.original.id, "directions")} />;
+        //     }
+        // },
         {
             id: "show_fees_field",
             header: () => {

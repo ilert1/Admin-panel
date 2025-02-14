@@ -43,6 +43,18 @@
                 caret-color: var(--autofill-caret-color);
             }
 
+            .dark .gray-autofill input:-webkit-autofill,
+            .dark .gray-autofill input:-webkit-autofill:hover,
+            .dark .gray-autofill input:-webkit-autofill:focus,
+            .dark .gray-autofill input:-webkit-autofill:active {
+                -webkit-box-shadow: 0 0 0 30px hsl(202 40% 12%) inset !important;
+            }
+
+            .input-masked {
+                -webkit-text-security: disc;
+                font-family: sans-serif;
+            }
+
             .not-clicked {
                 overflow: hidden;
                 max-height: 0;

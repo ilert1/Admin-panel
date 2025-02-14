@@ -4,9 +4,12 @@ import { Link, useTranslate } from "react-admin";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
+export type LabelSize = "text-xs" | "text-sm";
+
 export const TextField = ({
     text,
     label,
+    labelSize = "text-sm",
     link = "/",
     type = "text",
     copyValue = false,
@@ -18,6 +21,7 @@ export const TextField = ({
 }: {
     text: string;
     label?: string | undefined;
+    labelSize?: LabelSize;
     link?: string;
     type?: "text" | "link" | "internal-link";
     copyValue?: boolean;
@@ -53,12 +57,15 @@ export const TextField = ({
 
     return (
         <div className="text-neutral-90 dark:text-neutral-0">
-            {label && <small className="text-sm text-neutral-60 dark:text-neutral-40">{label}</small>}
+            {label && <small className={cn("text-neutral-60", labelSize)}>{label}</small>}
             {(type === "text" || type === "link") && (
                 <p className={cn("leading-5 flex flex-row gap-2", className)}>
                     {copyValue && text?.length > 0 && (
                         <span>
-                            <Copy className="h-4 w-4 cursor-pointer" onClick={copy} />
+                            <Copy
+                                className={cn("h-4 w-4 cursor-pointer", type === "link" && "text-green-50")}
+                                onClick={copy}
+                            />
                         </span>
                     )}
                     <span
@@ -78,7 +85,7 @@ export const TextField = ({
                                 : {})
                         }}>
                         {type === "link" ? (
-                            <a href={link} target="_blank" className="block hover:underline" rel="noreferrer">
+                            <a href={link} target="_blank" className="block underline !text-green-50" rel="noreferrer">
                                 {currentText}
                             </a>
                         ) : (

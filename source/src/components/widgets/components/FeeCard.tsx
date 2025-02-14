@@ -23,9 +23,23 @@ interface FeeCardProps {
     resource: FeesResource;
     id: string;
     description?: string;
+    addFee?: boolean;
+    isInner?: boolean;
+    deleteFn?: (innerId: number) => void;
 }
 export const FeeCard = (props: FeeCardProps) => {
-    const { account, feeAmount, feeType, currency, id, resource, description = "" } = props;
+    const {
+        account,
+        feeAmount,
+        feeType,
+        currency,
+        id,
+        addFee,
+        resource,
+        description = "",
+        isInner = false,
+        deleteFn
+    } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
 
@@ -38,6 +52,10 @@ export const FeeCard = (props: FeeCardProps) => {
     };
 
     const handleDelete = async () => {
+        if (isInner && deleteFn) {
+            deleteFn(Number(id));
+            return;
+        }
         try {
             await feeDataProvider.removeFee(account);
 
@@ -54,44 +72,52 @@ export const FeeCard = (props: FeeCardProps) => {
     return (
         <>
             <div className="mt-[2px] mb-[16px]">
-                <div className="bg-neutral-0 dark:bg-neutral-100 border border-neutral-40 dark:border-neutral-70 rounded-[8px] px-[8px] pt-[16px] pb-[8px]">
+                <div className="bg-neutral-10 dark:bg-muted rounded-[8px] px-4 pt-[16px] pb-[8px]">
                     <div className="w-full grid grid-cols-2 gap-y-[8px] gap-2">
-                        <div className="flex flex-col gap-[4px] col-span-2 sm:col-span-1">
-                            <Label className="text-title-1 text-neutral-60 dark:text-neutral-40" htmlFor="">
-                                {translate("resources.direction.fees.accountNumber")}
-                            </Label>
-                            <TextField copyValue text={account} />
-                        </div>
-                        <div className="flex flex-col gap-[4px] col-span-2 sm:col-span-1">
-                            <Label className="text-title-1 text-neutral-60 dark:text-neutral-40" htmlFor="">
-                                {translate("resources.direction.fees.feeAmount")}
-                            </Label>
-                            <TextField text={String(feeAmount)} />
-                        </div>
-                        <div className="flex flex-col gap-[4px] col-span-2 sm:col-span-1">
-                            <Label className="text-title-1 text-neutral-60 dark:text-neutral-40" htmlFor="">
-                                {translate("resources.direction.fees.feeType")}
-                            </Label>
-                            <TextField text={String(feeType)} />
-                        </div>
-                        <div className="flex flex-col gap-[4px] col-span-2 sm:col-span-1">
-                            <Label className="text-title-1 text-neutral-60 dark:text-neutral-40" htmlFor="">
-                                {translate("resources.direction.fees.currency")}
-                            </Label>
-                            <TextField text={String(currency)} />
-                        </div>
-                        <div className="flex flex-col gap-[4px] col-span-2">
-                            <Label className="text-title-1 text-neutral-60 dark:text-neutral-40" htmlFor="">
-                                {translate("resources.direction.fees.descr")}
-                            </Label>
-                            <Textarea readOnly className="!text-body resize-none" value={description} />
-                        </div>
+                        <TextField
+                            copyValue
+                            text={account}
+                            label={translate("resources.direction.fees.accountNumber")}
+                            labelSize="text-xs"
+                        />
+                        <TextField
+                            text={String(feeAmount)}
+                            label={translate("resources.direction.fees.feeAmount")}
+                            labelSize="text-xs"
+                        />
+                        <TextField
+                            text={String(feeType)}
+                            label={translate("resources.direction.fees.feeType")}
+                            labelSize="text-xs"
+                        />
+                        <TextField
+                            text={String(currency)}
+                            label={translate("resources.direction.fees.currency")}
+                            labelSize="text-xs"
+                        />
+                        {description && (
+                            <div className="flex flex-col gap-[4px] col-span-2">
+                                <Label
+                                    className="text-note-1 !text-neutral-60 dark:!text-neutral-60"
+                                    variant="note-1"
+                                    htmlFor="">
+                                    {translate("resources.direction.fees.descr")}
+                                </Label>
+                                <Textarea
+                                    readOnly
+                                    className="!text-body resize-none dark:bg-muted"
+                                    value={description}
+                                />
+                            </div>
+                        )}
                     </div>
-                    <div className="flex justify-end mt-6">
-                        <Button variant={"outline_gray"} onClick={handleDeleteClicked}>
-                            {translate("app.ui.actions.delete")}
-                        </Button>
-                    </div>
+                    {addFee && (
+                        <div className="flex justify-end mt-6 pb-2">
+                            <Button variant={"outline_gray"} onClick={handleDeleteClicked}>
+                                {translate("app.ui.actions.delete")}
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </div>
 

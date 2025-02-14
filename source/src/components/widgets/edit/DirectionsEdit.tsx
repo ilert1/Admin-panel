@@ -18,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { useFetchDataForDirections, useGetTerminals, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 
 export interface DirectionEditProps {
     id?: string;
@@ -45,7 +46,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         merchant: z.string().min(1, translate("resources.direction.errors.merchant")),
         provider: z.string().min(1, translate("resources.direction.errors.provider")),
         terminal: z.string().min(1, translate("resources.direction.errors.terminal")),
-        weight: z.number()
+        weight: z.coerce.number().int().min(0).max(1000)
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -88,10 +89,23 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                 data,
                 previousData: undefined
             });
+
+            toast.success(translate("app.ui.toast.success"), {
+                description: translate("app.ui.edit.editSuccess"),
+                dismissible: true,
+                duration: 3000
+            });
+
             refresh();
             onOpenChange(false);
         } catch (error) {
             setSubmitButtonDisabled(false);
+
+            toast.error(translate("app.ui.toast.error"), {
+                description: translate("app.ui.edit.editError"),
+                dismissible: true,
+                duration: 3000
+            });
         }
     };
 

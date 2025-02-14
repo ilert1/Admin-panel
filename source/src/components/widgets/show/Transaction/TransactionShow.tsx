@@ -28,7 +28,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     const translate = useTranslate();
 
     const { permissions } = usePermissions();
-    const context = useShowController<Transaction.Transaction>({ id });
+    const context = useShowController<Transaction.Transaction>({ resource: "transactions", id });
     const [newState, setNewState] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -84,20 +84,20 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     }
 
     return (
-        <div className="p-[42px] pt-0 flex flex-col gap-6 top-[82px] overflow-auto">
+        <div className="p-[42px] pt-0 h-full flex flex-col gap-6 top-[82px] overflow-auto">
             {permissions === "admin" && (
                 <div className={`flex justify-between flex-wrap gap-4`}>
                     {showState && (
                         <div className="flex gap-2 items-center">
                             <TextField text={translate("resources.transactions.fields.state.state_description")} />
                             <Select value={newState} onValueChange={setNewState}>
-                                <SelectTrigger className="w-[180px] border-">
+                                <SelectTrigger className="w-[180px]">
                                     <SelectValue
                                         placeholder={translate("resources.transactions.fields.state.state_description")}
                                     />
                                 </SelectTrigger>
 
-                                <SelectContent className="bg-neutral-0">
+                                <SelectContent className="bg-neutral-0 !max-h-56">
                                     {states.map(state => (
                                         <SelectItem key={state.state_int} value={state.state_int.toString()}>
                                             {translate(
@@ -211,11 +211,16 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 )}
             </div>
 
-            <SimpleTable columns={briefHistory} data={history ? history : []} tableType={TableTypes.COLORED} />
+            <SimpleTable
+                columns={briefHistory}
+                data={history ? history : []}
+                tableType={TableTypes.COLORED}
+                className="min-h-[15dvh]"
+            />
 
             {(permissions === "admin" ||
                 (permissions === "merchant" && context.record.committed && context.record.state.state_int === 16)) && (
-                <div className="flex flex-col gap-2 min-h-[100px]">
+                <div className="flex flex-col gap-2 h-full min-h-[15dvh]">
                     <span>{translate("resources.transactions.fields.fees")}</span>
 
                     <SimpleTable

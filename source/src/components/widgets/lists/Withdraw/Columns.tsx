@@ -13,6 +13,8 @@ export const useGetWithdrawColumns = () => {
 
     const [cryptoTransferState, setCryptoTransferState] = useState<"process" | "success" | "error">("process");
     const [repeatData, setRepeatData] = useState<{ address: string; amount: number } | undefined>(undefined);
+    const [chosenId, setChosenId] = useState("");
+    const [showMerchants, setShowMerchants] = useState(false);
 
     let isLoading,
         merchantsList: Merchant[] = [];
@@ -88,7 +90,15 @@ export const useGetWithdrawColumns = () => {
 
                           return (
                               <div>
-                                  <TextField text={merch?.name ?? ""} wrap />
+                                  <Button
+                                      variant={"text_btn"}
+                                      className="p-0 h-auto mb-[4px] underline"
+                                      onClick={() => {
+                                          setChosenId(merch?.id ?? "");
+                                          setShowMerchants(true);
+                                      }}>
+                                      {merch?.name ?? ""}
+                                  </Button>
                                   <TextField
                                       className="text-neutral-70"
                                       text={row.original.source.id}
@@ -107,20 +117,16 @@ export const useGetWithdrawColumns = () => {
         {
             header: translate("resources.withdraw.fields.idInBlockChain"),
             cell: ({ row }) => {
-                const text = Object.hasOwn(row.original.destination, "requisites")
-                    ? row.original.destination.requisites[0].hash
-                    : "";
+                const hasRequsites = Object.hasOwn(row.original.destination, "requisites");
+
+                const text = hasRequsites ? row.original.destination.requisites[0].hash : "";
 
                 return (
                     <TextField
                         text={text}
                         wrap
                         copyValue={text !== "-" ? true : false}
-                        link={
-                            Object.hasOwn(row.original.destination, "requisites")
-                                ? `${row.original.destination.requisites[0].hash_link}`
-                                : "-"
-                        }
+                        link={hasRequsites ? `${row.original.destination.requisites[0].hash_link}` : "-"}
                         type={text ? "link" : "text"}
                         lineClamp
                         linesCount={1}
@@ -193,5 +199,15 @@ export const useGetWithdrawColumns = () => {
         }
     ];
 
-    return { columns, repeatData, cryptoTransferState, setCryptoTransferState, isLoading, merchantOnly };
+    return {
+        columns,
+        repeatData,
+        cryptoTransferState,
+        merchantOnly,
+        chosenId,
+        isLoading,
+        showMerchants,
+        setShowMerchants,
+        setCryptoTransferState
+    };
 };
