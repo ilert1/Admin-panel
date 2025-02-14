@@ -11,7 +11,7 @@ export const DirectionListFilter = () => {
 
     const translate = useTranslate();
 
-    const [merchantId, setMerchantId] = useState("");
+    const [merchantId, setMerchantId] = useState(filterValues?.merchant || "");
 
     const onPropertySelected = debounce((value: string, type: "merchant") => {
         if (value) {

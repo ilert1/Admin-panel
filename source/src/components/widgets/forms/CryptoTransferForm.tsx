@@ -184,9 +184,9 @@ export const CryptoTransferForm = (props: {
                     filter: {}
                 })
                 .then(({ data }) => {
-                    const isFound = checkAddress(data[0].destination.requisites[0].blockchain_address);
+                    const isFound = checkAddress(data[0]?.destination?.requisites[0]?.blockchain_address);
                     if (isFound) {
-                        setLastUsedWallet(data[0].destination.requisites[0].blockchain_address);
+                        setLastUsedWallet(data[0]?.destination?.requisites[0]?.blockchain_address);
                     }
                 }),
         { enabled: props.transferState === "process" && walletsDataFetched }

@@ -4,9 +4,12 @@ import { Link, useTranslate } from "react-admin";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
+export type LabelSize = "text-xs" | "text-sm";
+
 export const TextField = ({
     text,
     label,
+    labelSize = "text-sm",
     link = "/",
     type = "text",
     copyValue = false,
@@ -18,6 +21,7 @@ export const TextField = ({
 }: {
     text: string;
     label?: string | undefined;
+    labelSize?: LabelSize;
     link?: string;
     type?: "text" | "link" | "internal-link";
     copyValue?: boolean;
@@ -61,7 +65,7 @@ export const TextField = ({
 
     return (
         <div className="text-neutral-90 dark:text-neutral-0">
-            {label && <small className="text-sm text-neutral-60 dark:text-neutral-40">{label}</small>}
+            {label && <small className={cn("text-neutral-60", labelSize)}>{label}</small>}
             {(type === "text" || type === "link") && (
                 <p className={cn("leading-5 flex flex-row gap-2", className)}>
                     {copyValue && text?.length > 0 && (

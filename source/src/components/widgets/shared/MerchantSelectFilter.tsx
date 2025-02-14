@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import { Check, ChevronDown } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useGetList, useTranslate } from "react-admin";
-import { useMediaQuery } from "react-responsive";
 
 interface MerchantSelectFilterProps {
     merchant: string;
@@ -30,7 +29,7 @@ export const MerchantSelectFilter = ({
             pagination: { perPage: 10000, page: 1 },
             filter: { sort: "name", asc: "ASC" }
         },
-        { refetchInterval: 60 * 60 }
+        { refetchInterval: 60 * 60 * 60 }
     );
 
     const [open, setOpen] = useState(false);

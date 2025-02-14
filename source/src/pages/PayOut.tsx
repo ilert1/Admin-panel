@@ -6,9 +6,12 @@ import { PayOutForm } from "@/components/widgets/forms";
 import { toast } from "sonner";
 import { NavLink } from "react-router-dom";
 import { useFetchCurrencies } from "@/hooks/useFetchCurrencies";
+import { PayOutTgBanner } from "@/components/widgets/forms/PayOutTgBanner";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
+
+    const [payoutTgUrl, setPayoutTgUrl] = useState("");
 
     const success = (message: ReactNode) => {
         toast.success(translate("app.widgets.forms.payout.successTitle"), {
@@ -94,14 +97,18 @@ export const PayOutPage = () => {
             const json = await response.json();
 
             if (json.success) {
-                success(
-                    <>
-                        {translate("app.widgets.forms.payout.successDescription")}:{" "}
-                        <NavLink to="/transactions" className="dark:text-green-40 text-green-50">
-                            {translate("resources.transactions.name")}
-                        </NavLink>
-                    </>
-                );
+                if (json.data?.meta?.payment_url) {
+                    setPayoutTgUrl(json.data?.meta?.payment_url);
+                } else {
+                    success(
+                        <>
+                            {translate("app.widgets.forms.payout.successDescription")}:{" "}
+                            <NavLink to="/transactions" className="dark:text-green-40 text-green-50">
+                                {translate("resources.transactions.name")}
+                            </NavLink>
+                        </>
+                    );
+                }
 
                 return true;
             } else {
@@ -120,18 +127,22 @@ export const PayOutPage = () => {
 
     return (
         <div className="flex items-center justify-center md:absolute md:top-0 md:bottom-20 md:left-0 md:right-0">
-            <div className="p-[30px] rounded-16 bg-neutral-0 dark:bg-neutral-100 max-w-[700px] w-full md:mx-4">
-                <h1 className="mb-6 text-xl text-center text-neutral-80 dark:text-neutral-30">
-                    {translate("app.widgets.forms.payout.title")}
-                </h1>
+            {payoutTgUrl ? (
+                <PayOutTgBanner url={payoutTgUrl} onClose={() => setPayoutTgUrl("")} />
+            ) : (
+                <div className="p-[30px] rounded-16 bg-neutral-0 dark:bg-neutral-100 max-w-[700px] w-full md:mx-4">
+                    <h1 className="mb-6 text-xl text-center text-neutral-80 dark:text-neutral-30">
+                        {translate("app.widgets.forms.payout.title")}
+                    </h1>
 
-                <PayOutForm
-                    currencies={currencies?.data}
-                    payMethods={payMethods}
-                    loading={isLoading}
-                    create={createPayOut}
-                />
-            </div>
+                    <PayOutForm
+                        currencies={currencies?.data}
+                        payMethods={payMethods}
+                        loading={isLoading}
+                        create={createPayOut}
+                    />
+                </div>
+            )}
         </div>
     );
 };

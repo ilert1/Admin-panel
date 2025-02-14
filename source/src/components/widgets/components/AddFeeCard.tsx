@@ -1,8 +1,16 @@
 import { Button } from "@/components/ui/Button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { Input } from "@/components/ui/Input/input";
+import { Input, InputTypes } from "@/components/ui/Input/input";
 import { LoadingBlock } from "@/components/ui/loading";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
 import { toast } from "sonner";
 import { feesDataProvider, FeesResource } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
@@ -95,7 +103,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
             <Form {...form}>
                 <form className="space-y-6">
                     <div className="mb-[16px]">
-                        <div className="bg-neutral-0 dark:bg-neutral-100 border border-neutral-40 dark:border-neutral-70 rounded-[8px] px-[8px] pt-[16px] pb-[8px]">
+                        <div className="bg-neutral-10 dark:bg-muted border border-neutral-40 dark:border-none rounded-[8px] px-[8px] pt-[16px] pb-[8px]">
                             <div className="w-full grid grid-cols-2 sm:grid-cols-4">
                                 <FormField
                                     control={form.control}
@@ -106,7 +114,9 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                             <FormControl>
                                                 <Select value={field.value} onValueChange={field.onChange}>
                                                     <FormControl>
-                                                        <SelectTrigger>
+                                                        <SelectTrigger
+                                                            variant={SelectType.GRAY}
+                                                            className="border-neutral-60">
                                                             <SelectValue />
                                                         </SelectTrigger>
                                                     </FormControl>
@@ -114,7 +124,10 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                         <SelectGroup>
                                                             {Object.entries(data.transactionTypes).map(el => {
                                                                 return (
-                                                                    <SelectItem key={el[0]} value={el[0]}>
+                                                                    <SelectItem
+                                                                        key={el[0]}
+                                                                        value={el[0]}
+                                                                        variant={SelectType.GRAY}>
                                                                         {el[1].type_descr}
                                                                     </SelectItem>
                                                                 );
@@ -136,6 +149,8 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     {...field}
                                                     label={translate("resources.direction.fees.feeAmount")}
                                                     labelSize="note-1"
+                                                    variant={InputTypes.GRAY}
+                                                    borderColor="border-neutral-60"
                                                 />
                                             </FormControl>
                                         </FormItem>
@@ -153,16 +168,18 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     onValueChange={field.onChange}
                                                     disabled={currenciesDisabled}>
                                                     <FormControl>
-                                                        <SelectTrigger>
+                                                        <SelectTrigger
+                                                            variant={SelectType.GRAY}
+                                                            className="border-neutral-60">
                                                             <SelectValue />
                                                         </SelectTrigger>
                                                     </FormControl>
                                                     <SelectContent>
                                                         <SelectGroup>
-                                                            <SelectItem value={"1"}>
+                                                            <SelectItem value={"1"} variant={SelectType.GRAY}>
                                                                 {FeeEnum.FEE_FROM_SENDER}
                                                             </SelectItem>
-                                                            <SelectItem value={"2"}>
+                                                            <SelectItem value={"2"} variant={SelectType.GRAY}>
                                                                 {FeeEnum.FEE_FROM_TRANSACTION}
                                                             </SelectItem>
                                                         </SelectGroup>
@@ -184,7 +201,9 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     onValueChange={field.onChange}
                                                     disabled={currenciesDisabled}>
                                                     <FormControl>
-                                                        <SelectTrigger>
+                                                        <SelectTrigger
+                                                            variant={SelectType.GRAY}
+                                                            className="border-neutral-60">
                                                             <SelectValue
                                                                 placeholder={
                                                                     currenciesDisabled
@@ -199,13 +218,17 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                             {!currenciesDisabled && !variants?.length
                                                                 ? currencies.data.map(currency => (
                                                                       <SelectItem
+                                                                          variant={SelectType.GRAY}
                                                                           key={currency.code}
                                                                           value={currency.code}>
                                                                           {currency.code}
                                                                       </SelectItem>
                                                                   ))
                                                                 : variants?.map(currency => (
-                                                                      <SelectItem key={currency} value={currency}>
+                                                                      <SelectItem
+                                                                          key={currency}
+                                                                          value={currency}
+                                                                          variant={SelectType.GRAY}>
                                                                           {currency}
                                                                       </SelectItem>
                                                                   ))}
@@ -226,6 +249,9 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     {...field}
                                                     value={field.value ?? ""}
                                                     label={translate("resources.direction.description")}
+                                                    variant={InputTypes.GRAY}
+                                                    className="border-neutral-60"
+                                                    borderColor="border-neutral-60"
                                                 />
                                             </FormControl>
                                         </FormItem>
@@ -236,7 +262,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                     </div>
                 </form>
             </Form>
-            <div className="w-full md:w-2/5 p-2 ml-auto flex space-x-2">
+            <div className="w-full md:w-2/5 p-2 pb-5 ml-auto flex space-x-2">
                 <Button onClick={form.handleSubmit(onSubmit)} variant="default" className="flex-1">
                     {translate("app.ui.actions.save")}
                 </Button>

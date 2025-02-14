@@ -1,19 +1,16 @@
 import { format } from "date-fns";
 import { debounce } from "lodash";
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { useListContext, usePermissions, useTranslate } from "react-admin";
 import { DateRange } from "react-day-picker";
-import { useLocation } from "react-router-dom";
 import { toast } from "sonner";
 
 import { API_URL } from "@/data/base";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 
-const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: string) => void) => {
+const useTransactionFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-    const data = fetchDictionaries();
-
-    const location = useLocation();
+    const dictionaries = fetchDictionaries();
 
     const [startDate, setStartDate] = useState<Date | undefined>(
         filterValues?.start_date ? new Date(filterValues?.start_date) : undefined
@@ -23,15 +20,8 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
     );
     const [operationId, setOperationId] = useState(filterValues?.id || "");
     const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
-    const [account, setAccount] = useState("");
-
-    useEffect(() => {
-        if (filterValues?.accountId) {
-            onPropertySelected("", "accountId");
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
+    const [account, setAccount] = useState(filterValues?.accountId || "");
+    const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
     const [orderStatusFilter, setOrderStatusFilter] = useState(filterValues?.order_state || "");
 
     const translate = useTranslate();
@@ -42,7 +32,7 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
     const chooseClassTabActive = useCallback(
-        (type: string) => {
+        (type: number) => {
             return typeTabActive === type
                 ? "text-green-50 dark:text-green-40 border-b-2 dark:border-green-40 border-green-50 pb-1 duration-200"
                 : "pb-1 border-b-2 border-transparent duration-200 hover:text-green-40 text-neutral-70 dark:text-white";
@@ -107,14 +97,9 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         }
     };
 
-    // const onTabChanged = (value: Dictionaries.TypeDescriptor) => {
-    //     setTypeTabActive(value.type_descr);
-    //     onPropertySelected(value.type, "order_type");
-    // };
-
-    const onTabChanged = (value: Dictionaries.TypeDescriptor) => {
-        setTypeTabActive(value.type_descr);
-        onPropertySelected(value.type, "order_type");
+    const onTabChanged = (value: number) => {
+        setTypeTabActive(value);
+        onPropertySelected(value, "order_type");
     };
 
     const clearFilters = () => {
@@ -124,7 +109,7 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         setAccount("");
         setCustomerPaymentId("");
         setOrderStatusFilter("");
-        setTypeTabActive("");
+        setTypeTabActive(0);
         setFilters({}, displayedFilters);
         setPage(1);
     };
@@ -189,25 +174,9 @@ const useTransactionFilter = (typeTabActive: string, setTypeTabActive: (type: st
         }
     };
 
-    useEffect(() => {
-        if (data) {
-            const params = new URLSearchParams(location.search);
-            const type = params.get("filter") ? JSON.parse(params.get("filter") as string).order_type : "";
-
-            if (type) {
-                setTypeTabActive(data.transactionTypes[type]?.type_descr || "");
-                setFilters({ ...filterValues, order_type: type }, displayedFilters);
-            } else {
-                setTypeTabActive("");
-                setFilters({}, displayedFilters);
-            }
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data]);
-
     return {
         translate,
-        data,
+        dictionaries,
         adminOnly,
         operationId,
         onOperationIdChanged,

@@ -95,7 +95,8 @@ export const Fees = memo((props: FeesProps) => {
                     )}
                     <div ref={containerEndRef} />
                 </div>
-                {addFee && (
+            </div>
+            {addFee && (
                     <div className="flex justify-end">
                         <Button onClick={() => setAddNewOpen(true)} className="my-6 w-1/2 sm:w-1/4 flex gap-[4px]">
                             <CircleChevronRight className="w-[16px] h-[16px]" />
@@ -103,7 +104,6 @@ export const Fees = memo((props: FeesProps) => {
                         </Button>
                     </div>
                 )}
-            </div>
         </div>
     );
 });

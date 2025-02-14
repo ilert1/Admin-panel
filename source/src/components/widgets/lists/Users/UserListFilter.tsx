@@ -70,7 +70,7 @@ export const UserListFilter = () => {
 
                     <div className="flex flex-col gap-2 lg:min-w-52">
                         <Input
-                            label={translate("resources.users.filter.filterByUsername")}
+                            label={translate("resources.users.filter.filterByUserId")}
                             labelSize="title-2"
                             className="flex-1 text-sm placeholder:text-neutral-70"
                             placeholder={translate("resources.users.fields.id")}
