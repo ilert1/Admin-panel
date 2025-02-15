@@ -18,7 +18,7 @@ interface FeesProps {
     feesResource?: FeesResource;
     feesVariants?: string[];
     padding?: boolean;
-    feeType: FeeType;
+    feeType?: FeeType;
     providerName?: string;
 }
 
