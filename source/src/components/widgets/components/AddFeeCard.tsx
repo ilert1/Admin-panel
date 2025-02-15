@@ -34,13 +34,14 @@ export interface AddFeeCardProps {
     setFees?: React.Dispatch<React.SetStateAction<Directions.FeeCreate[]>>;
     variants?: string[];
     feeType?: FeeType;
+    providerName?: string;
 }
 
 export const AddFeeCard = (props: AddFeeCardProps) => {
-    const { id, resource, onOpenChange, setFees, variants = undefined, feeType = "default" } = props;
+    const { id, resource, onOpenChange, setFees, variants = undefined, providerName, feeType = "default" } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
-    const feeDataProvider = feesDataProvider({ id, resource });
+    const feeDataProvider = feesDataProvider({ id, resource, providerName });
     const data = fetchDictionaries();
 
     const { isLoading } = useCreateController({ resource });
