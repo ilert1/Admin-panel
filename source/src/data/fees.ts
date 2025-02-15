@@ -49,7 +49,7 @@ const feesDataProvider = (props: FeesDataProviderProps) => {
                 user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
             }
         );
-        console.log(json);
+        // console.log(json);
 
         if (!json.json.success) {
             throw new Error("Wrong id or fee id");
