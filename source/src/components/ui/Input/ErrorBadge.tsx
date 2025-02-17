@@ -31,7 +31,7 @@ export const ErrorBadge = (props: ErrorBadgeProps) => {
                         side="left"
                         sideOffset={5}
                         align="center"
-                        className="z-50 border-red-40 text-red-40 dark:text-neutral-0">
+                        className="z-50 border-red-40 text-red-40">
                         {errorMessage}
                     </TooltipContent>
                 </Tooltip>
