@@ -94,11 +94,14 @@ export const MerchantCreateNewFlow = ({ onOpenChange }: { onOpenChange: (state: 
     };
 
     const formSchema = z.object({
-        name: z.string().min(1, translate("resources.merchant.errors.name")).trim(),
+        name: z
+            .string({ message: translate("resources.merchant.errors.required") })
+            .min(1, translate("resources.merchant.errors.name"))
+            .trim(),
         public_key: z
-            .string()
-            .startsWith("-----BEGIN PUBLIC KEY-----", translate("app.widgets.forms.userCreate.publicKeyMessage"))
-            .endsWith("-----END PUBLIC KEY-----", translate("app.widgets.forms.userCreate.publicKeyMessage")),
+            .string({ message: translate("resources.merchant.errors.required") })
+            .startsWith("-----BEGIN PUBLIC KEY-----", translate("resources.merchant.errors.publicKey"))
+            .endsWith("-----END PUBLIC KEY-----", translate("resources.merchant.errors.publicKey")),
         description: z.string().trim().nullable(),
         fees: z.record(
             z.object({
