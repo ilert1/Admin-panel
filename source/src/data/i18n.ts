@@ -248,7 +248,8 @@ const ru: TranslationMessages = {
                 emptyrequisites: "Реквизиты отсутвуют",
                 limitfail: "Вне допустимого лимита ордера",
                 waitingforadminapproval: "Ожидание подтверждения",
-                cancelledbypayer: "Отменено плательщиком"
+                cancelledbypayer: "Отменено плательщиком",
+                cascadefail: "Ошибка каскада"
             }
         },
         withdraw: {
@@ -711,7 +712,8 @@ const ru: TranslationMessages = {
                     successTitle: "Заявка успешно создана",
                     successDescription: "Вы можете отследить её статус в разделе",
                     errorTitle: "Ошибка создания заявки",
-                    createOrder: "Создать ордер"
+                    createOrder: "Создать ордер",
+                    required: "Обязательное поле"
                 },
                 payoutBanner: {
                     title: "Банковский перевод",
@@ -1089,7 +1091,8 @@ const en: TranslationMessages = {
                 emptyrequisites: "Empty requisites",
                 limitfail: "Limit fail",
                 waitingforadminapproval: "Waiting for admin approval",
-                cancelledbypayer: "Cancelled by payer"
+                cancelledbypayer: "Cancelled by payer",
+                cascadefail: "Cascade fail"
             }
         },
         withdraw: {
@@ -1552,7 +1555,8 @@ const en: TranslationMessages = {
                     successTitle: "The request has been successfully created",
                     successDescription: "You can track her status in the section",
                     errorTitle: "Request creation error",
-                    createOrder: "Create order"
+                    createOrder: "Create order",
+                    required: "Required field"
                 },
                 payoutBanner: {
                     title: "Bank transfer",

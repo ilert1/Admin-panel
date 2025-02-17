@@ -146,14 +146,15 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 )}
                 <div
                     className={cn(
-                        "relative flex items-center w-full border hover:border-green-40 hover:dark:border-green-40 transition-colors duration-200 rounded-4",
+                        "relative flex items-center w-full border hover:border-green-40 hover:dark:border-green-40 transition-colors duration-200 rounded-4 dark:border-neutral-60",
                         borderColor,
-                        "dark:border-neutral-60",
-                        isFocused ? "!border-green-50" : "",
-                        shadow ? "shadow-1" : "",
-                        disabled ? "border-neutral-40 hover:border-neutral-40" : "",
-                        error ? "!border-red-40 dark:!border-red-40" : "",
-                        variant === InputTypes.GRAY ? "gray-autofill" : ""
+                        isFocused && "border-green-50",
+                        shadow && "shadow-1",
+                        error && "border-red-40 dark:border-red-40",
+                        "text-neutral-80 bg-neutral-0 dark:text-neutral-0 dark:bg-neutral-100 dark:placeholder:text-neutral-70",
+                        variant === InputTypes.GRAY && "gray-autofill bg-white dark:bg-muted",
+                        disabled &&
+                            "bg-neutral-20 dark:bg-neutral-90 !text-neutral-80 dark:!text-neutral-60 pointer-events-none"
                     )}>
                     <input
                         type={type === "password" && showPassword ? "text" : type}
@@ -164,12 +165,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         disabled={disabled}
                         spellCheck="false"
                         className={cn(
-                            "flex h-9 w-full px-3 py-2 rounded-4 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus:outline-none z-1",
-                            "!text-neutral-80 bg-neutral-0",
-                            "dark:!text-neutral-0 dark:bg-neutral-100 dark:placeholder:!text-neutral-70",
-                            "disabled:bg-neutral-20 disabled:dark:bg-neutral-90 disabled:!text-neutral-80 disabled:dark:!text-neutral-60",
-                            variant === InputTypes.GRAY ? "bg-white dark:bg-muted" : "",
-                            type === "password_masked" && !showPassword ? "input-masked" : "",
+                            "flex h-9 w-full px-3 py-2 rounded-4 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus:outline-none z-1 bg-inherit text-inherit",
+                            type === "password_masked" && !showPassword && "input-masked",
                             className
                         )}
                         {...props}
@@ -180,7 +177,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     />
                     <span className="flex" ref={iconsBoxRef}>
                         {showClearButton && <ClearButton handleClear={handleClear} inputVariant={variant} />}
-                        {error && <ErrorBadge errorMessage={errorMessage} variant={variant} />}
+                        {error && <ErrorBadge errorMessage={errorMessage} />}
                         {(type === "password" || type === "password_masked") && (
                             <EyeButton
                                 inputVariant={variant}
