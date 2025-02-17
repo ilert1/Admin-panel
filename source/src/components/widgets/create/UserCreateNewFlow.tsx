@@ -172,7 +172,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                                     <FormItem className="space-y-1">
                                         <FormControl>
                                             <Input
-                                                type="password"
+                                                type="password_masked"
                                                 label={translate("app.widgets.forms.userCreate.password")}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
