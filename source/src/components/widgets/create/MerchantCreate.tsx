@@ -8,10 +8,12 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { feesDataProvider, FeesResource } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { Fees } from "../components/Fees";
+
+export type FeeType = "inner" | "default";
 
 export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
@@ -22,17 +24,8 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
     const translate = useTranslate();
     const refresh = useRefresh();
 
-    const messagesEndRef = useRef<HTMLDivElement>(null);
-
     const [fees, setFees] = useState<Directions.FeeCreate[]>([]);
-    const [addNewFeeClicked, setAddNewFeeClicked] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-
-    useEffect(() => {
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-        }
-    }, [addNewFeeClicked]);
 
     const onSubmit: SubmitHandler<Merchant> = async data => {
         if (submitButtonDisabled) return;
@@ -183,15 +176,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                     </div>
                 </form>
             </Form>
-            <Fees
-                id={""}
-                fees={fees}
-                feeTypes={data?.feeTypes}
-                feesResource={FeesResource.MERCHANT}
-                addNewOpen={addNewFeeClicked}
-                setAddNewOpen={setAddNewFeeClicked}
-                setFees={setFees}
-            />
+            <Fees id={""} fees={fees} feesResource={FeesResource.MERCHANT} setFees={setFees} feeType="inner" />
             <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col gap-3 sm:gap-0 sm:flex-row space-x-0 sm:space-x-2">
                 <Button
                     onClick={form.handleSubmit(onSubmit)}

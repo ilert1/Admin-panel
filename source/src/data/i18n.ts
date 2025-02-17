@@ -85,7 +85,7 @@ const ru: TranslationMessages = {
             createButton: "Добавить пользователя",
             filter: {
                 showAll: "Показать все",
-                filterByUserId: "Поиск по ID",
+                filterByUserId: "Поиск по ID пользователя",
                 filterByUsername: "Поиск по имени",
                 filterByUsernamePlaceholder: "Имя",
                 filterByActivity: "Активные пользователи"
@@ -459,7 +459,8 @@ const ru: TranslationMessages = {
                 id: "ID",
                 description: "Описание",
                 provider: "Провайдер",
-                auth: "Данные аутентификации"
+                auth: "Данные аутентификации",
+                fees: "Комиссии"
             },
             errors: {
                 verbose_name: "У терминала обязательно должно быть имя",
@@ -710,6 +711,13 @@ const ru: TranslationMessages = {
                     errorTitle: "Ошибка создания заявки",
                     createOrder: "Создать ордер"
                 },
+                payoutBanner: {
+                    title: "Банковский перевод",
+                    subtitle: "Ваша заявка на перевод успешно сформирована!",
+                    description:
+                        "Чтобы завершить перевод, пожалуйста, воспользуйтесь ссылкой в телеграм-бот. Там вы сможете получать актуальную информацию о поступлении средств",
+                    closeTitle: "Закрыть ссылку на Телеграм-бот?"
+                },
                 cryptoTransfer: {
                     address: "Адрес получателя TRC20",
                     addressMessage: "Неверный адрес получателя TRC-20",
@@ -914,7 +922,7 @@ const en: TranslationMessages = {
             },
             filter: {
                 showAll: "Show all",
-                filterByUserId: "Search by ID",
+                filterByUserId: "Search by user ID",
                 filterByUsername: "Search by name",
                 filterByUsernamePlaceholder: "Name",
                 filterByActivity: "Active users"
@@ -1289,8 +1297,10 @@ const en: TranslationMessages = {
                 id: "ID",
                 description: "Description",
                 provider: "Provider",
-                auth: "Auth data"
+                auth: "Auth data",
+                fees: "Fees"
             },
+
             errors: {
                 verbose_name: "The terminal must have a name",
                 description: "The terminal must have a description"
@@ -1537,6 +1547,13 @@ const en: TranslationMessages = {
                     successDescription: "You can track her status in the section",
                     errorTitle: "Request creation error",
                     createOrder: "Create order"
+                },
+                payoutBanner: {
+                    title: "Bank transfer",
+                    subtitle: "Your transfer request has been successfully completed!",
+                    description:
+                        "To complete the transfer, please use the link in the telegram bot. There you will be able to receive up-to-date information about the receipt of funds",
+                    closeTitle: "Close the link to the Telegram bot?"
                 },
                 cryptoTransfer: {
                     address: "TRC20 recipient address",
