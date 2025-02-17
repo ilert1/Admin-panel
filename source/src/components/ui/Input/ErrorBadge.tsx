@@ -23,7 +23,7 @@ export const ErrorBadge = (props: ErrorBadgeProps) => {
             )}>
             <TooltipProvider>
                 <Tooltip>
-                    <TooltipTrigger tabIndex={-1}>
+                    <TooltipTrigger tabIndex={-1} asChild>
                         <TriangleAlert className="text-red-40" width={14} height={14} />
                     </TooltipTrigger>
                     <TooltipContent

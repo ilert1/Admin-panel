@@ -305,6 +305,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                             </Button>
 
                             <Button
+                                type="button"
                                 onClick={() => {
                                     onOpenChange(false);
                                 }}
