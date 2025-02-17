@@ -41,7 +41,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
             closeDialog();
         } catch (error) {
             toast.error("Error", {
-                description: translate("resources.currency.error.alreadyInUse"),
+                description: translate("resources.currency.errors.alreadyInUse"),
                 dismissible: true,
                 duration: 3000
             });
@@ -51,8 +51,8 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
 
     const formSchema = z.object({
         code: z
-            .string({ message: translate("resources.currency.error.code") })
-            .min(1, translate("resources.currency.error.code")),
+            .string({ message: translate("resources.currency.errors.code") })
+            .min(1, translate("resources.currency.errors.code")),
         position: z.enum([PositionEnum.AFTER, PositionEnum.BEFORE]),
         symbol: z.string().trim().nullable(),
         is_coin: z.boolean().default(false)

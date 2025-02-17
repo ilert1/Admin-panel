@@ -309,7 +309,7 @@ const ru: TranslationMessages = {
                 edit: "Изменить",
                 delete: "Удалить"
             },
-            error: {
+            errors: {
                 code: "Код валюты обязательно нужно ввести",
                 alreadyInUse: "Данное имя уже тспользуется. Выберите другое."
             },
