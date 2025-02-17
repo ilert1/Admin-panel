@@ -248,7 +248,8 @@ const ru: TranslationMessages = {
                 emptyrequisites: "Реквизиты отсутвуют",
                 limitfail: "Вне допустимого лимита ордера",
                 waitingforadminapproval: "Ожидание подтверждения",
-                cancelledbypayer: "Отменено плательщиком"
+                cancelledbypayer: "Отменено плательщиком",
+                cascadefail: "Ошибка каскада"
             }
         },
         withdraw: {
@@ -1085,7 +1086,8 @@ const en: TranslationMessages = {
                 emptyrequisites: "Empty requisites",
                 limitfail: "Limit fail",
                 waitingforadminapproval: "Waiting for admin approval",
-                cancelledbypayer: "Cancelled by payer"
+                cancelledbypayer: "Cancelled by payer",
+                cascadefail: "Cascade fail"
             }
         },
         withdraw: {
