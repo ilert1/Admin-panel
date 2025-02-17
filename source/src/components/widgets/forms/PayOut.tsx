@@ -32,8 +32,12 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
     const [locale] = useLocaleState();
 
     const formSchema = z.object<{ [key: string]: ZodTypeAny }>({
-        payMethod: z.string().min(1, translate("app.widgets.forms.payout.payMethodMessage")),
-        value: z.string().regex(/^[+-]?([0-9]*[.])?[0-9]+$/, translate("app.widgets.forms.payout.valueMessage"))
+        payMethod: z
+            .string({ message: translate("app.widgets.forms.payout.required") })
+            .min(1, translate("app.widgets.forms.payout.payMethodMessage")),
+        value: z
+            .string({ message: translate("app.widgets.forms.payout.required") })
+            .regex(/^[+-]?([0-9]*[.])?[0-9]+$/, translate("app.widgets.forms.payout.valueMessage"))
     });
 
     const payMethodsWithId = useMemo(() => {
@@ -56,7 +60,9 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
 
         additionalFields?.forEach(field => {
             schema = schema.extend({
-                [field]: z.string().min(1, translate("app.widgets.forms.payout.valueMessage"))
+                [field]: z
+                    .string({ message: translate("app.widgets.forms.payout.required") })
+                    .min(1, translate("app.widgets.forms.payout.valueMessage"))
             });
         });
 
