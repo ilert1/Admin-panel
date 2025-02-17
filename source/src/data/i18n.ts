@@ -763,7 +763,9 @@ const ru: TranslationMessages = {
                     shopBalanceKey: "Ключ доступа к балансу",
                     keyMessage: "Неверный формат ключа",
                     createUser: "Создать пользователя",
-                    cancelBtn: "Отменить"
+                    cancelBtn: "Отменить",
+                    role: "Роль",
+                    merchant: "Выберите мерчанта"
                 }
             }
         },
@@ -1601,7 +1603,9 @@ const en: TranslationMessages = {
                     shopBalanceKey: "Balance key",
                     keyMessage: "Key format is wrong",
                     createUser: "Create user",
-                    cancelBtn: "Cancel"
+                    cancelBtn: "Cancel",
+                    role: "Role",
+                    merchant: "Choose a merchant"
                 }
             }
         },
