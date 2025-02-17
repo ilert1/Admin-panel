@@ -45,8 +45,8 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                 /^(?=.*[0-9])(?=.*[!@#$%^&*()-_])[a-zA-Z0-9!@#$%^&*()-_]{8,20}$/,
                 translate("app.widgets.forms.userCreate.passwordMessage")
             ),
-        role: z.enum(["merchant"]),
-        merchant: z.string().min(1, translate("app.widgets.forms.userCreate.merchant")).trim()
+        role_name: z.enum(["merchant"]),
+        merchant_id: z.string().min(1, translate("app.widgets.forms.userCreate.merchant")).trim()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -56,8 +56,8 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
             login: "",
             email: "",
             password: "",
-            role: "merchant",
-            merchant: ""
+            role_name: "merchant",
+            merchant_id: ""
         }
     });
 
@@ -195,7 +195,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
 
                             <FormField
                                 control={form.control}
-                                name="role"
+                                name="role_name"
                                 render={({ field, fieldState }) => (
                                     <FormItem className="space-y-1">
                                         <FormLabel>{translate("app.widgets.forms.userCreate.role")}</FormLabel>
@@ -225,7 +225,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
 
                             <FormField
                                 control={form.control}
-                                name="merchant"
+                                name="merchant_id"
                                 render={({ field, fieldState }) => (
                                     <FormItem className="space-y-1">
                                         <FormLabel>merchant</FormLabel>
