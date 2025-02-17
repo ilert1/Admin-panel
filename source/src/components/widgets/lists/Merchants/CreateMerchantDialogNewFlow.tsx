@@ -23,7 +23,7 @@ export const CreateMerchantDialogNewFlow = ({ open, onOpenChange }: CreateMercha
                 className="bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
                 <DialogHeader>
                     <DialogTitle className="mb-4 text-center">
-                        {translate("resources.merchant.creatingMerchant")}
+                        {translate("resources.merchant.creatingMerchant")} (experimental)
                     </DialogTitle>
 
                     <DialogDescription />
