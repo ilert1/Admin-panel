@@ -215,7 +215,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                         </Label>
                                         <FormControl>
                                             <MerchantSelectFilter
-                                                className="bg-white dark:bg-muted"
+                                                variant="outline"
                                                 merchant={field.value}
                                                 onMerchantChanged={field.onChange}
                                                 resource="accounts"
