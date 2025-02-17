@@ -7,8 +7,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { toast } from "sonner";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { TriangleAlert } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { usePreventFocus } from "@/hooks";
 import { Loading } from "@/components/ui/loading";
@@ -114,7 +112,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" autoComplete="off">
-                <div className="grid grid-cols-1 grid-rows-4 gap-4">
+                <div className="flex flex-col gap-4">
                     <FormField
                         name="name"
                         control={form.control}
@@ -132,42 +130,22 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                             </FormItem>
                         )}
                     />
-                    <div
-                        className="row-span-3 self-stretch"
-                        onDragOver={e => e.preventDefault()}
-                        onDrop={handleFileDrop}>
+                    <div onDragOver={e => e.preventDefault()} onDrop={handleFileDrop}>
                         <FormField
                             name="public_key"
                             control={form.control}
                             render={({ field, fieldState }) => (
-                                <FormItem className="flex flex-col h-full">
+                                <FormItem className="space-y-0 flex flex-col">
                                     <Label>{translate("app.widgets.forms.userCreate.publicKey")}</Label>
                                     <FormControl>
                                         <Textarea
-                                            className={`h-full resize-none min-h-20 dark:bg-muted`}
+                                            className={`h-full resize-none min-h-40 dark:bg-muted`}
                                             value={field.value}
                                             onChange={e => handleTextChange(e, field)}
-                                            placeholder={translate(
-                                                "app.widgets.forms.userCreate.publicKeyPlaceholder"
-                                            )}>
-                                            {fieldState.invalid && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <TriangleAlert
-                                                                className="text-red-40"
-                                                                width={14}
-                                                                height={14}
-                                                            />
-                                                        </TooltipTrigger>
-
-                                                        <TooltipContent className="border-none bottom-0" side="left">
-                                                            <FormMessage />
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
-                                        </Textarea>
+                                            placeholder={translate("app.widgets.forms.userCreate.publicKeyPlaceholder")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}

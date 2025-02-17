@@ -8,8 +8,6 @@ import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { ChangeEvent, DragEvent, useMemo, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectType, SelectValue } from "@/components/ui/select";
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
-import { TriangleAlert } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { useFetchCurrencies } from "@/hooks/useFetchCurrencies";
 import { Label } from "@/components/ui/label";
@@ -273,14 +271,14 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                             />
 
                             <div
-                                className="row-span-2 self-stretch"
+                                className="row-span-2 h-full w-full"
                                 onDragOver={e => e.preventDefault()}
                                 onDrop={handleFileDrop}>
                                 <FormField
                                     name="public_key"
                                     control={form.control}
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="flex flex-col h-full">
+                                        <FormItem className="space-y-0 h-full flex flex-col">
                                             <Label>{translate("app.widgets.forms.userCreate.publicKey")}</Label>
                                             <FormControl>
                                                 <Textarea
@@ -290,27 +288,10 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                                         "app.widgets.forms.userCreate.publicKeyPlaceholder"
                                                     )}
                                                     className={`h-full resize-none min-h-20 dark:bg-muted`}
-                                                    disabled={currenciesLoading}>
-                                                    {fieldState.invalid && (
-                                                        <TooltipProvider>
-                                                            <Tooltip>
-                                                                <TooltipTrigger asChild>
-                                                                    <TriangleAlert
-                                                                        className="text-red-40"
-                                                                        width={14}
-                                                                        height={14}
-                                                                    />
-                                                                </TooltipTrigger>
-
-                                                                <TooltipContent
-                                                                    className="border-none bottom-0"
-                                                                    side="left">
-                                                                    <FormMessage />
-                                                                </TooltipContent>
-                                                            </Tooltip>
-                                                        </TooltipProvider>
-                                                    )}
-                                                </Textarea>
+                                                    disabled={currenciesLoading}
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                />
                                             </FormControl>
                                         </FormItem>
                                     )}
