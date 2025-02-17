@@ -99,7 +99,7 @@ export const WalletManualReconciliationBar = () => {
                             id="inputManual"
                             value={inputVal}
                             error={isError}
-                            errorMessage={"Wrong format of TRC20 transaction id"}
+                            errorMessage={translate("resources.wallet.manage.errors.invalidTRCAddresss")}
                             onChange={handleChange}
                             label={translate("resources.wallet.linkedTransactions.fields.transactionId")}
                         />
