@@ -98,7 +98,6 @@ export const MerchantSelectFilter = ({
                         {error && (
                             <ErrorBadge
                                 errorMessage={error}
-                                variant={SelectType.GRAY}
                                 className="!flex items-center justify-center h-4 !text-red-40 dark:!text-red-40"
                             />
                         )}
