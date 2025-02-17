@@ -2,7 +2,6 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 import { ErrorBadge } from "./Input/ErrorBadge";
-import { InputTypes } from "./Input/input";
 
 interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
     error?: boolean | string;
@@ -27,13 +26,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
                     ref={ref}
                     {...props}
                 />
-                {error && (
-                    <ErrorBadge
-                        className="absolute right-2 top-3 p-0 h-auto"
-                        errorMessage={errorMessage}
-                        variant={InputTypes.GRAY}
-                    />
-                )}
+                {error && <ErrorBadge className="absolute right-2 top-3 p-0 h-auto" errorMessage={errorMessage} />}
                 {error && errorMessage && <span className="!text-note-1 inline text-red-40">{errorMessage}</span>}
             </div>
         );
