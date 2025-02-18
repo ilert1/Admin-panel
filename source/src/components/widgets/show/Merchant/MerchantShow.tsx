@@ -80,7 +80,7 @@ export const MerchantShow = ({ id }: MerchantShowProps) => {
                         id={id}
                         fees={fees}
                         feesResource={FeesResource.MERCHANT}
-                        className="max-h-[20dvh]"
+                        className="max-h-[40dvh]"
                         padding={false}
                     />
                     <div className="mt-5 w-full flex flex-col gap-[8px] ">
