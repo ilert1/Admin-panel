@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { NavLink } from "react-router-dom";
 import { useFetchCurrencies } from "@/hooks/useFetchCurrencies";
 import { PayOutTgBanner } from "@/components/widgets/forms/PayOutTgBanner";
+import { Loading } from "@/components/ui/loading";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
@@ -38,6 +39,7 @@ export const PayOutPage = () => {
         isLoading: initialLoading,
         isFetching,
         data: payMethods
+        // refetch: refetchPayMethods
     } = useQuery<PayOut.Response, unknown, PayOut.PayMethod[] | []>(
         ["paymethods", currency],
         async () => {
@@ -52,7 +54,8 @@ export const PayOutPage = () => {
         },
         {
             select: data => data?.data || [],
-            refetchInterval: 5 * 60 * 60,
+            refetchInterval: 36000,
+            cacheTime: 36000,
             refetchOnWindowFocus: false
         }
     );
@@ -126,7 +129,9 @@ export const PayOutPage = () => {
             setLocalLoading(false);
         }
     };
-
+    if (isFetching) {
+        return <Loading />;
+    }
     return (
         <div className="flex items-center justify-center md:absolute md:top-0 md:bottom-20 md:left-0 md:right-0">
             {payoutTgUrl ? (
