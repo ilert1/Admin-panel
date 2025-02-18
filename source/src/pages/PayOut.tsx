@@ -53,16 +53,15 @@ export const PayOutPage = () => {
             }
         },
         {
-            select: data => data?.data || [],
+            select: data => data?.data,
             refetchOnWindowFocus: false
         }
     );
 
     const [localLoading, setLocalLoading] = useState(false);
-    const isLoading = useMemo(
-        () => initialLoading || localLoading || isFetching,
-        [initialLoading, localLoading, isFetching]
-    );
+    /* const isLoading = 
+        initialLoading || localLoading || isFetching
+    ; */
 
     const createPayOut = async (data: { payMethod: PayOut.PayMethod; [key: string]: string | PayOut.PayMethod }) => {
         try {
@@ -139,11 +138,10 @@ export const PayOutPage = () => {
                     <h1 className="mb-6 text-xl text-center text-neutral-80 dark:text-neutral-30">
                         {translate("app.widgets.forms.payout.title")}
                     </h1>
-
                     <PayOutForm
                         currencies={currencies?.data}
                         payMethods={payMethods}
-                        loading={isLoading}
+                        loading={initialLoading || localLoading || isFetching}
                         create={createPayOut}
                     />
                 </div>

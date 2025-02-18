@@ -84,7 +84,7 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
         }
     }
 
-    if (loading || !payMethodsWithId) {
+    if (!payMethods || loading) {
         return (
             <div className="h-28">
                 <LoadingBlock />
@@ -129,7 +129,7 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                                                 </div>
                                             ) : (
                                                 <>
-                                                    {payMethodsWithId.length === 0
+                                                    {payMethodsWithId?.length == 0
                                                         ? "No results"
                                                         : payMethodsWithId &&
                                                           payMethodsWithId?.map(method => (
