@@ -38,8 +38,8 @@ export const PayOutPage = () => {
     const {
         isLoading: initialLoading,
         isFetching,
-        data: payMethods
-        // refetch: refetchPayMethods
+        data: payMethods,
+        refetch: refetchPayMethods
     } = useQuery<PayOut.Response, unknown, PayOut.PayMethod[] | []>(
         ["paymethods", currency],
         async () => {
@@ -54,8 +54,6 @@ export const PayOutPage = () => {
         },
         {
             select: data => data?.data || [],
-            refetchInterval: 36000,
-            cacheTime: 36000,
             refetchOnWindowFocus: false
         }
     );
@@ -117,11 +115,13 @@ export const PayOutPage = () => {
 
                 return true;
             } else {
+                refetchPayMethods();
                 error(json.error || "Unknown error");
 
                 return false;
             }
         } catch (err) {
+            refetchPayMethods();
             if (err instanceof Error) error(err.message);
 
             return false;
@@ -129,9 +129,7 @@ export const PayOutPage = () => {
             setLocalLoading(false);
         }
     };
-    if (isFetching) {
-        return <Loading />;
-    }
+
     return (
         <div className="flex items-center justify-center md:absolute md:top-0 md:bottom-20 md:left-0 md:right-0">
             {payoutTgUrl ? (
