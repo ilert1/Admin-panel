@@ -84,7 +84,7 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
         }
     }
 
-    if (loading) {
+    if (loading || !payMethodsWithId) {
         return (
             <div className="h-28">
                 <LoadingBlock />
