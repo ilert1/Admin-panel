@@ -51,7 +51,9 @@ export const PayOutPage = () => {
             }
         },
         {
-            select: data => data?.data || []
+            select: data => data?.data || [],
+            refetchInterval: 5 * 60 * 60,
+            refetchOnWindowFocus: false
         }
     );
 
