@@ -24,7 +24,7 @@ export const TerminalShow = (props: TerminalShowProps) => {
         queryKey: ["terminal-fees", provider, id],
         queryFn: async () => {
             const { data } = await dataProvider.getOne(`provider/${provider}/terminal`, { id });
-            console.log(data);
+            // console.log(data);
 
             setData(data);
         }
