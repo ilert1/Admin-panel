@@ -363,7 +363,9 @@ const ru: TranslationMessages = {
                 name: "Имя должно содержать хотя бы один символ",
                 alreadyInUse: "Данное имя уже используется․ Выберите другой."
             },
-            recreateConfirm: "Вы уверены, что хотите создать/пересоздать ключи?",
+            recreateConfirm: "Пересоздать ключи?",
+            recreateConfirmDescription: "Старые ключи станут недействительными",
+            recreate: "Пересоздать",
             showTitle: "Детальная информация о провайдере",
             createNew: "Создать нового провайдера",
             createTestKeys: "Создать тестовые ключи",
@@ -1206,7 +1208,9 @@ const en: TranslationMessages = {
                 name: "Name must contain at least 1 symbol",
                 alreadyInUse: "This name is already in use. Choose another one."
             },
-            recreateConfirm: "Are you sure want to create/recreate keys?",
+            recreateConfirm: "Recreate keys?",
+            recreateConfirmDescription: "Old keys will become invalid.",
+            recreate: "Recreate",
             showTitle: "Detailed information about provider",
             createNew: "Create new provider",
             createTestKeys: "Create test keys",

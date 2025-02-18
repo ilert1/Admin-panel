@@ -26,14 +26,18 @@ export const ConfirmCreatingDialog = (props: ConfirmCreatingDialogProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-[270px] max-h-[240px] overflow-y-auto sm:max-h-[200px] bg-muted overflow-auto">
-                <DialogHeader>
-                    <DialogTitle className="text-center">{translate("resources.provider.recreateConfirm")}</DialogTitle>
-                    <DialogDescription></DialogDescription>
+            <DialogContent className="max-w-[320px] max-h-[240px] overflow-y-auto sm:max-h-[200px] bg-muted overflow-auto">
+                <DialogHeader className="flex flex-col gap-2">
+                    <DialogTitle className="text-center text-display-4">
+                        {translate("resources.provider.recreateConfirm")}
+                    </DialogTitle>
+                    <DialogDescription className="!text-title-1 !text-center text-green-60 dark:text-neutral-0">
+                        {translate("resources.provider.recreateConfirmDescription")}
+                    </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
                     <div className="flex flex-col gap-4 sm:gap-0 sm:flex-row justify-around w-full">
-                        <Button onClick={handleConfirmClicked}>{translate("app.ui.actions.confirm")}</Button>
+                        <Button onClick={handleConfirmClicked}>{translate("resources.provider.recreate")}</Button>
                         <Button
                             variant={"outline_gray"}
                             onClick={() => {
