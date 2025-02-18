@@ -41,7 +41,7 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
     });
 
     const payMethodsWithId = useMemo(() => {
-        return payMethods?.map((method, id: number) => ({ id: "" + id, ...method }));
+        return payMethods ? payMethods?.map((method, id: number) => ({ id: "" + id, ...method })) : [];
     }, [payMethods]);
 
     const payMethod = useMemo(() => payMethodsWithId?.find(m => m.id === payMethodId), [payMethodId, payMethodsWithId]);
@@ -91,6 +91,7 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
             </div>
         );
     }
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
