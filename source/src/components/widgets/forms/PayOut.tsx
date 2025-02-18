@@ -129,15 +129,17 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                                                 </div>
                                             ) : (
                                                 <>
-                                                    {payMethodsWithId &&
-                                                        payMethodsWithId?.map(method => (
-                                                            <SelectItem
-                                                                key={method.id}
-                                                                value={method.id}
-                                                                variant={SelectType.GRAY}>
-                                                                {`${method.bankName} (${method.paymentTypeName}, ${method.fiatCurrency})`}
-                                                            </SelectItem>
-                                                        ))}
+                                                    {payMethodsWithId.length === 0
+                                                        ? "No results"
+                                                        : payMethodsWithId &&
+                                                          payMethodsWithId?.map(method => (
+                                                              <SelectItem
+                                                                  key={method.id}
+                                                                  value={method.id}
+                                                                  variant={SelectType.GRAY}>
+                                                                  {`${method.bankName} (${method.paymentTypeName}, ${method.fiatCurrency})`}
+                                                              </SelectItem>
+                                                          ))}
                                                 </>
                                             )}
                                         </SelectContent>
