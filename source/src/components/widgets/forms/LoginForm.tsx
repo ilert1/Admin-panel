@@ -1,6 +1,7 @@
 import { useTheme } from "@/components/providers";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input/input";
+import { TextField } from "@/components/ui/text-field";
 import { useState } from "react";
 import { useLogin, useTranslate } from "react-admin";
 
@@ -111,13 +112,12 @@ export const LoginForm = (props: LoginFormProps) => {
                 </div>
 
                 <div className="flex justify-center mt-4 mb-7">
-                    <Button variant={"text_btn"} tabIndex={-1}>
-                        <a
-                            href={configure2faLink}
-                            className="underline underline-offset-4 transition-colors outline-none text-green-50 hover:text-green-40 active:text-green-60 focus-visible:text-neutral-60 dark:text-green-40 dark:hover:text-green-50 dark:active:text-green-20 dark:focus-visible:text-neutral-70">
-                            {translate("app.login.configure2fa")}
-                        </a>
-                    </Button>
+                    <TextField
+                        text={translate("app.login.configure2fa")}
+                        link={configure2faLink}
+                        type="link"
+                        className="underline-offset-4 text-sm"
+                    />
                 </div>
 
                 <Button type="submit" className="w-full">
