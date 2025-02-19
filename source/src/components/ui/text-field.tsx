@@ -93,7 +93,11 @@ export const TextField = ({
                                 : {})
                         }}>
                         {type === "link" ? (
-                            <a href={link} target="_blank" className="block underline !text-green-50" rel="noreferrer">
+                            <a
+                                href={link}
+                                target="_blank"
+                                className="block underline transition-colors outline-none text-green-50 hover:text-green-40 active:text-green-60 focus-visible:text-neutral-60 dark:text-green-40 dark:hover:text-green-50 dark:active:text-green-20 dark:focus-visible:text-neutral-70"
+                                rel="noreferrer">
                                 {currentText}
                             </a>
                         ) : (
@@ -101,11 +105,6 @@ export const TextField = ({
                         )}
                     </span>
                 </p>
-            )}
-            {type === "internal-link" && (
-                <Link to={link} className={cn("!text-card-foreground transition-colors hover:bg-muted/50", className)}>
-                    <span className="font-medium">{text}</span>
-                </Link>
             )}
         </div>
     );
