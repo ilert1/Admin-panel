@@ -714,7 +714,7 @@ const ru: TranslationMessages = {
                     errorTitle: "Ошибка создания заявки",
                     createOrder: "Создать ордер",
                     required: "Обязательное поле",
-                    noResult: "Нет доступный методов"
+                    noResult: "Нет доступных методов"
                 },
                 payoutBanner: {
                     title: "Банковский перевод",
