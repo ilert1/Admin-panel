@@ -41,7 +41,7 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
     });
 
     const payMethodsWithId = useMemo(() => {
-        return payMethods?.map((method, id: number) => ({ id: "" + id, ...method }));
+        return payMethods ? payMethods?.map((method, id: number) => ({ id: "" + id, ...method })) : [];
     }, [payMethods]);
 
     const payMethod = useMemo(() => payMethodsWithId?.find(m => m.id === payMethodId), [payMethodId, payMethodsWithId]);
@@ -84,6 +84,14 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
         }
     }
 
+    if (loading || !payMethods) {
+        return (
+            <div className="h-28">
+                <LoadingBlock />
+            </div>
+        );
+    }
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -121,7 +129,12 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                                                 </div>
                                             ) : (
                                                 <>
-                                                    {payMethodsWithId &&
+                                                    {payMethodsWithId?.length == 0 ? (
+                                                        <p className="px-2 py-2 text-sm">
+                                                            {translate("app.widgets.forms.payout.noResult")}
+                                                        </p>
+                                                    ) : (
+                                                        payMethodsWithId &&
                                                         payMethodsWithId?.map(method => (
                                                             <SelectItem
                                                                 key={method.id}
@@ -129,7 +142,8 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                                                                 variant={SelectType.GRAY}>
                                                                 {`${method.bankName} (${method.paymentTypeName}, ${method.fiatCurrency})`}
                                                             </SelectItem>
-                                                        ))}
+                                                        ))
+                                                    )}
                                                 </>
                                             )}
                                         </SelectContent>
