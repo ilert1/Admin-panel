@@ -59,9 +59,6 @@ export const PayOutPage = () => {
     );
 
     const [localLoading, setLocalLoading] = useState(false);
-    /* const isLoading = 
-        initialLoading || localLoading || isFetching
-    ; */
 
     const createPayOut = async (data: { payMethod: PayOut.PayMethod; [key: string]: string | PayOut.PayMethod }) => {
         try {
@@ -141,6 +138,7 @@ export const PayOutPage = () => {
                     <PayOutForm
                         currencies={currencies?.data}
                         payMethods={payMethods}
+                        // payMethods={[]}
                         loading={initialLoading || localLoading || isFetching}
                         create={createPayOut}
                     />

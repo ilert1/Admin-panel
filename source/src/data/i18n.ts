@@ -713,7 +713,8 @@ const ru: TranslationMessages = {
                     successDescription: "Вы можете отследить её статус в разделе",
                     errorTitle: "Ошибка создания заявки",
                     createOrder: "Создать ордер",
-                    required: "Обязательное поле"
+                    required: "Обязательное поле",
+                    noResult: "Нет доступный методов"
                 },
                 payoutBanner: {
                     title: "Банковский перевод",
@@ -1556,7 +1557,8 @@ const en: TranslationMessages = {
                     successDescription: "You can track her status in the section",
                     errorTitle: "Request creation error",
                     createOrder: "Create order",
-                    required: "Required field"
+                    required: "Required field",
+                    noResult: "No methods available"
                 },
                 payoutBanner: {
                     title: "Bank transfer",
