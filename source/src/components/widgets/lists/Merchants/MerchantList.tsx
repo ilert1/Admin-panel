@@ -10,6 +10,7 @@ import { DeleteMerchantDialog } from "./DeleteMerchantDialog";
 import { EditMerchantDialog } from "./EditMerchantDialog";
 import { ShowMerchantSheet } from "./ShowMerchantSheet";
 import { CreateMerchantDialog } from "./CreateMerchantDialog";
+import { CreateMerchantDialogNewFlow } from "./CreateMerchantDialogNewFlow";
 
 export const MerchantList = () => {
     const listContext = useListController<Merchant>();
@@ -27,6 +28,7 @@ export const MerchantList = () => {
     } = useGetMerchantColumns();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
+    const [createDialogNewFlowOpen, setCreateDialogNewFlowOpen] = useState(false);
 
     const handleCreateClick = () => {
         setCreateDialogOpen(true);
@@ -37,9 +39,13 @@ export const MerchantList = () => {
     } else {
         return (
             <>
-                <div className="flex flex-end justify-end mb-4">
+                <div className="flex flex-end justify-end gap-3 mb-4">
                     <Button onClick={handleCreateClick} variant="default">
                         {translate("resources.merchant.createNew")}
+                    </Button>
+
+                    <Button onClick={() => setCreateDialogNewFlowOpen(true)} variant="default">
+                        {translate("resources.merchant.createNew")} (experimental)
                     </Button>
                 </div>
 
@@ -48,6 +54,7 @@ export const MerchantList = () => {
                 </ListContextProvider>
 
                 <CreateMerchantDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+                <CreateMerchantDialogNewFlow open={createDialogNewFlowOpen} onOpenChange={setCreateDialogNewFlowOpen} />
 
                 <DeleteMerchantDialog id={chosenId} open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} />
 

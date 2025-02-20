@@ -33,7 +33,7 @@ const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrimitive.T
                     className={cn(
                         variant === SelectType.GRAY ? "!bg-white dark:!bg-muted" : "",
                         `border !mt-[0px] flex h-[38px] w-full items-center justify-between text-start rounded-4 px-3 py-2 text-sm ring-offset-background disabled:cursor-not-allowed [&>span]:line-clamp-1 focus:outline-none`,
-                        "[&:is([data-state='open'])]:border-green-50 [&:is([data-state='open'])]:text-neutral-80 [&:is([data-state='open'])]:dark:text-neutral-0 [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180",
+                        "[&:is([data-state='open'])]:border-green-50 [&:is([data-state='open'])]:text-neutral-80 [&:is([data-state='open'])]:dark:text-neutral-0 [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])_#selectToggleIcon]:rotate-180",
                         "border-neutral-40 dark:border-neutral-60 hover:!border-green-20 bg-neutral-0 dark:bg-neutral-100 active:border-green-50 dark:text-neutral-40 text-neutral-80",
                         "",
                         isError ? "!border-red-40 dark:!border-red-40" : "",
@@ -42,7 +42,7 @@ const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrimitive.T
                     {...props}>
                     {children}
                     <SelectPrimitive.Icon asChild>
-                        <>
+                        <div className="flex items-center gap-2">
                             <ChevronDown
                                 id="selectToggleIcon"
                                 className="h-4 w-4 text-green-50 dark:text-green-40 transition-transform"
@@ -50,11 +50,10 @@ const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrimitive.T
                             {isError && (
                                 <ErrorBadge
                                     errorMessage={errorMessage}
-                                    variant={SelectType.GRAY}
-                                    className="!flex items-center justify-center ml-3 border-y border-red-40"
+                                    className="!flex items-center justify-center h-4 "
                                 />
                             )}
-                        </>
+                        </div>
                     </SelectPrimitive.Icon>
                 </SelectPrimitive.Trigger>
                 {isError && <span className="!text-note-1 block sm:!hidden !mt-[4px]">{errorMessage}</span>}

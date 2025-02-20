@@ -1,6 +1,6 @@
 import { useShowController, useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { TextField } from "@/components/ui/text-field";
 import { Button } from "@/components/ui/Button";
@@ -23,11 +23,8 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [changeAuthDataClicked, setChangeAuthDataClicked] = useState(false);
-    const [addNewFeeClicked, setAddNewFeeClicked] = useState(false);
 
     const [fees, setFees] = useState<Directions.Fees>();
-
-    const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const handleDeleteClicked = useCallback(() => {
         setDeleteDialogOpen(prev => !prev);
@@ -46,14 +43,6 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
             setFees(context?.record?.fees);
         }
     }, [context.record]);
-
-    useEffect(() => {
-        if (messagesEndRef.current) {
-            if (addNewFeeClicked) {
-                messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-            }
-        }
-    }, [addNewFeeClicked]);
 
     if (context.isLoading || !context.record || !data) {
         return <Loading />;
@@ -138,11 +127,8 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                 <Fees
                     id={id}
                     fees={fees}
-                    feeTypes={data.feeTypes}
                     feesResource={FeesResource.DIRECTION}
                     feesVariants={feesVariants}
-                    addNewOpen={addNewFeeClicked}
-                    setAddNewOpen={setAddNewFeeClicked}
                     className="max-h-[45dvh]"
                 />
             </div>

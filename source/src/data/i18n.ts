@@ -54,6 +54,10 @@ const ru: TranslationMessages = {
                     caption: "Имя"
                 }
             },
+            errors: {
+                name: "Требуется указать имя",
+                uuid: "Неправильный UUID"
+            },
             showHeader: "Информация о счете",
             showDescription: "Подробная информация о счете с ID %{id}"
         },
@@ -244,7 +248,8 @@ const ru: TranslationMessages = {
                 emptyrequisites: "Реквизиты отсутвуют",
                 limitfail: "Вне допустимого лимита ордера",
                 waitingforadminapproval: "Ожидание подтверждения",
-                cancelledbypayer: "Отменено плательщиком"
+                cancelledbypayer: "Отменено плательщиком",
+                cascadefail: "Ошибка каскада"
             }
         },
         withdraw: {
@@ -305,7 +310,7 @@ const ru: TranslationMessages = {
                 edit: "Изменить",
                 delete: "Удалить"
             },
-            error: {
+            errors: {
                 code: "Код валюты обязательно нужно ввести",
                 alreadyInUse: "Данное имя уже тспользуется. Выберите другое."
             },
@@ -330,7 +335,9 @@ const ru: TranslationMessages = {
                 id: "ID обязательно должен быть заполнен",
                 name: "У мерчанта обязательно должно быть имя",
                 alreadyInUse: "Мерчант с таким именем или Id уже существует",
-                noSpaces: "Пробелы запрещены в данном поле"
+                noSpaces: "Пробелы запрещены в данном поле",
+                publicKey: "Неверный формат публичного ключа",
+                required: "Обязательное поле"
             },
             showTitle: "Детальная инфорация о мерчанте",
             createNew: "Создать нового мерчанта",
@@ -356,7 +363,9 @@ const ru: TranslationMessages = {
                 name: "Имя должно содержать хотя бы один символ",
                 alreadyInUse: "Данное имя уже используется․ Выберите другой."
             },
-            recreateConfirm: "Вы уверены, что хотите создать/пересоздать ключи?",
+            recreateConfirm: "Пересоздать ключи?",
+            recreateConfirmDescription: "Старые ключи станут недействительными",
+            recreate: "Пересоздать",
             showTitle: "Детальная информация о провайдере",
             createNew: "Создать нового провайдера",
             createTestKeys: "Создать тестовые ключи",
@@ -407,7 +416,10 @@ const ru: TranslationMessages = {
                 direction: "Направление",
                 deleteFee: "Удалить комиссию?",
                 error: "Ошибка",
-                errorWhenCreating: "Произошла ошибка при создании комиссии"
+                errorWhenCreating: "Произошла ошибка при создании комиссии",
+                directionFieldError: "Направление обязательно должно быть выбрано",
+                currencyFieldError: "Валюта обязательно должна быть выбрана",
+                valueFieldError: "Коммиссия должна быть положительным числом"
             },
             errors: {
                 name: "У направления обязательно должно быть имя",
@@ -418,7 +430,8 @@ const ru: TranslationMessages = {
                 authError: "Ошибка при добавлении информации об аутентификации",
                 terminal: "Терминал обязательно должен быть выбран",
                 terminalError: "Произошла ошибка при загрузке терминалов",
-                noTerminalsError: "У выбранного провайдера нет терминалов"
+                noTerminalsError: "У выбранного провайдера нет терминалов",
+                weightError: "Должно быть целым числом в диапазоне от 0 до 1000"
             },
             create: "Добавить направление",
             sourceCurrency: "Валюта отправителя",
@@ -451,7 +464,8 @@ const ru: TranslationMessages = {
                 id: "ID",
                 description: "Описание",
                 provider: "Провайдер",
-                auth: "Данные аутентификации"
+                auth: "Данные аутентификации",
+                fees: "Комиссии"
             },
             errors: {
                 verbose_name: "У терминала обязательно должно быть имя",
@@ -700,7 +714,9 @@ const ru: TranslationMessages = {
                     successTitle: "Заявка успешно создана",
                     successDescription: "Вы можете отследить её статус в разделе",
                     errorTitle: "Ошибка создания заявки",
-                    createOrder: "Создать ордер"
+                    createOrder: "Создать ордер",
+                    required: "Обязательное поле",
+                    noResult: "Нет доступных методов"
                 },
                 payoutBanner: {
                     title: "Банковский перевод",
@@ -730,7 +746,8 @@ const ru: TranslationMessages = {
                     repeatDescription: "Данные вывода скопированы в форму, проверьте их и подтвердите новый вывод",
                     noAddress: "Такого адреса нет в вашем аккаунте",
                     error: "Ошибка",
-                    nan: "Не является числом"
+                    nan: "Не является числом",
+                    insufficentBalance: "Для вывода криптовалюты требуются средства на балансе USDT"
                 },
                 userCreate: {
                     title: "Добавление пользователя",
@@ -754,7 +771,9 @@ const ru: TranslationMessages = {
                     shopBalanceKey: "Ключ доступа к балансу",
                     keyMessage: "Неверный формат ключа",
                     createUser: "Создать пользователя",
-                    cancelBtn: "Отменить"
+                    cancelBtn: "Отменить",
+                    role: "Роль",
+                    merchant: "Выберите мерчанта"
                 }
             }
         },
@@ -882,6 +901,10 @@ const en: TranslationMessages = {
                 meta: {
                     caption: "Name"
                 }
+            },
+            errors: {
+                name: "Name is required",
+                uuid: "Invalid UUID"
             },
             showHeader: "Account info",
             showDescription: "Detailed information about account with ID %{id}"
@@ -1072,7 +1095,8 @@ const en: TranslationMessages = {
                 emptyrequisites: "Empty requisites",
                 limitfail: "Limit fail",
                 waitingforadminapproval: "Waiting for admin approval",
-                cancelledbypayer: "Cancelled by payer"
+                cancelledbypayer: "Cancelled by payer",
+                cascadefail: "Cascade fail"
             }
         },
         withdraw: {
@@ -1158,7 +1182,9 @@ const en: TranslationMessages = {
                 id: "ID is required",
                 name: "Name is required",
                 alreadyInUse: "Merchant with this id or name is already exists.",
-                noSpaces: "Spaces are not allowed in this field"
+                noSpaces: "Spaces are not allowed in this field",
+                publicKey: "Wrong public key format",
+                required: "Required field"
             },
             showTitle: "Detailed information about merchant",
             createNew: "Create new merchant",
@@ -1184,7 +1210,9 @@ const en: TranslationMessages = {
                 name: "Name must contain at least 1 symbol",
                 alreadyInUse: "This name is already in use. Choose another one."
             },
-            recreateConfirm: "Are you sure want to create/recreate keys?",
+            recreateConfirm: "Recreate keys?",
+            recreateConfirmDescription: "Old keys will become invalid.",
+            recreate: "Recreate",
             showTitle: "Detailed information about provider",
             createNew: "Create new provider",
             createTestKeys: "Create test keys",
@@ -1235,7 +1263,10 @@ const en: TranslationMessages = {
                 direction: "Direction",
                 deleteFee: "Delete fee?",
                 error: "Error",
-                errorWhenCreating: "An error occurred while creating the fee"
+                errorWhenCreating: "An error occurred while creating the fee",
+                directionFieldError: "The direction must be selected",
+                currencyFieldError: "The currency must be selected",
+                valueFieldError: "The commission must be a positive number"
             },
             errors: {
                 name: "The direction must have a name",
@@ -1246,7 +1277,8 @@ const en: TranslationMessages = {
                 authError: "An error has occurred while adding authentication information",
                 terminal: "The terminal must be selected",
                 terminalError: "An error occured when fetching terminals",
-                noTerminalsError: "Chosen provider does not have any terminals"
+                noTerminalsError: "Chosen provider does not have any terminals",
+                weightError: "Must be an integer in the range from 0 to 1000"
             },
             create: "Add direction",
             sourceCurrency: "Source currency",
@@ -1280,8 +1312,10 @@ const en: TranslationMessages = {
                 id: "ID",
                 description: "Description",
                 provider: "Provider",
-                auth: "Auth data"
+                auth: "Auth data",
+                fees: "Fees"
             },
+
             errors: {
                 verbose_name: "The terminal must have a name",
                 description: "The terminal must have a description"
@@ -1527,7 +1561,9 @@ const en: TranslationMessages = {
                     successTitle: "The request has been successfully created",
                     successDescription: "You can track her status in the section",
                     errorTitle: "Request creation error",
-                    createOrder: "Create order"
+                    createOrder: "Create order",
+                    required: "Required field",
+                    noResult: "No methods available"
                 },
                 payoutBanner: {
                     title: "Bank transfer",
@@ -1558,7 +1594,9 @@ const en: TranslationMessages = {
                     repeatDescription:
                         "The withdrawal data has been copied to the form. Please check it and confirm the new withdrawal.",
                     noAddress: "This address is not in your account",
-                    error: "Error"
+                    error: "Error",
+                    tryAgain: "Try again",
+                    insufficentBalance: "To withdraw cryptocurrency, funds on your USDT balance are required"
                 },
                 userCreate: {
                     title: "Adding a user",
@@ -1582,7 +1620,9 @@ const en: TranslationMessages = {
                     shopBalanceKey: "Balance key",
                     keyMessage: "Key format is wrong",
                     createUser: "Create user",
-                    cancelBtn: "Cancel"
+                    cancelBtn: "Cancel",
+                    role: "Role",
+                    merchant: "Choose a merchant"
                 }
             }
         },

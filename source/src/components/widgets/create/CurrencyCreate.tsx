@@ -16,8 +16,6 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { TriangleAlert } from "lucide-react";
 import { useState } from "react";
 
 enum PositionEnum {
@@ -43,7 +41,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
             closeDialog();
         } catch (error) {
             toast.error("Error", {
-                description: translate("resources.currency.error.alreadyInUse"),
+                description: translate("resources.currency.errors.alreadyInUse"),
                 dismissible: true,
                 duration: 3000
             });
@@ -52,7 +50,9 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
     };
 
     const formSchema = z.object({
-        code: z.string().min(1, translate("resources.currency.error.code")),
+        code: z
+            .string({ message: translate("resources.currency.errors.code") })
+            .min(1, translate("resources.currency.errors.code")),
         position: z.enum([PositionEnum.AFTER, PositionEnum.BEFORE]),
         symbol: z.string().trim().nullable(),
         is_coin: z.boolean().default(false)
@@ -74,7 +74,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
         <CreateContextProvider value={controllerProps}>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
-                    <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:grid-flow-col gap-y-5 gap-x-4 md:items-end">
+                    <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:grid-flow-col gap-y-5 gap-x-4 items-baseline">
                         <FormField
                             control={form.control}
                             name="code"

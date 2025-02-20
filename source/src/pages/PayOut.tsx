@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { NavLink } from "react-router-dom";
 import { useFetchCurrencies } from "@/hooks/useFetchCurrencies";
 import { PayOutTgBanner } from "@/components/widgets/forms/PayOutTgBanner";
+import { Loading } from "@/components/ui/loading";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
@@ -37,7 +38,8 @@ export const PayOutPage = () => {
     const {
         isLoading: initialLoading,
         isFetching,
-        data: payMethods
+        data: payMethods,
+        refetch: refetchPayMethods
     } = useQuery<PayOut.Response, unknown, PayOut.PayMethod[] | []>(
         ["paymethods", currency],
         async () => {
@@ -51,15 +53,12 @@ export const PayOutPage = () => {
             }
         },
         {
-            select: data => data?.data || []
+            select: data => data?.data,
+            refetchOnWindowFocus: false
         }
     );
 
     const [localLoading, setLocalLoading] = useState(false);
-    const isLoading = useMemo(
-        () => initialLoading || localLoading || isFetching,
-        [initialLoading, localLoading, isFetching]
-    );
 
     const createPayOut = async (data: { payMethod: PayOut.PayMethod; [key: string]: string | PayOut.PayMethod }) => {
         try {
@@ -112,11 +111,13 @@ export const PayOutPage = () => {
 
                 return true;
             } else {
+                refetchPayMethods();
                 error(json.error || "Unknown error");
 
                 return false;
             }
         } catch (err) {
+            refetchPayMethods();
             if (err instanceof Error) error(err.message);
 
             return false;
@@ -134,11 +135,11 @@ export const PayOutPage = () => {
                     <h1 className="mb-6 text-xl text-center text-neutral-80 dark:text-neutral-30">
                         {translate("app.widgets.forms.payout.title")}
                     </h1>
-
                     <PayOutForm
                         currencies={currencies?.data}
                         payMethods={payMethods}
-                        loading={isLoading}
+                        // payMethods={[]}
+                        loading={initialLoading || localLoading || isFetching}
                         create={createPayOut}
                     />
                 </div>

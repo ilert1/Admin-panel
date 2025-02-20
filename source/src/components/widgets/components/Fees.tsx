@@ -1,5 +1,5 @@
 import { FeesResource } from "@/data";
-import { Dispatch, memo, SetStateAction, useEffect, useRef } from "react";
+import { Dispatch, memo, SetStateAction, useEffect, useRef, useState } from "react";
 import { FeeCard } from "./FeeCard";
 import { AddFeeCard } from "./AddFeeCard";
 import { cn } from "@/lib/utils";
@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { CircleChevronRight } from "lucide-react";
 import { useTranslate } from "react-admin";
 import { FeeType } from "../create/MerchantCreate";
+import fetchDictionaries from "@/helpers/get-dictionaries";
 
 interface FeesProps {
     className?: string;
@@ -14,13 +15,11 @@ interface FeesProps {
     addFee?: boolean;
     fees?: Directions.Fees | Directions.FeeCreate[];
     setFees?: Dispatch<SetStateAction<Directions.FeeCreate[]>>;
-    feeTypes: Dictionaries.FeeTypes;
     feesResource?: FeesResource;
     feesVariants?: string[];
-    addNewOpen?: boolean;
-    setAddNewOpen?: (state: boolean) => void;
     padding?: boolean;
-    feeType: FeeType;
+    feeType?: FeeType;
+    providerName?: string;
 }
 
 export const Fees = memo((props: FeesProps) => {
@@ -29,18 +28,20 @@ export const Fees = memo((props: FeesProps) => {
         addFee = true,
         fees,
         id,
-        feeTypes,
         feesResource = FeesResource.MERCHANT,
-        addNewOpen = false,
         feesVariants = [],
         padding = true,
         feeType = "default",
-        setAddNewOpen = () => {},
+        providerName,
         setFees
     } = props;
 
+    const data = fetchDictionaries();
+    const feeTypes = data?.feeTypes;
     const containerEndRef = useRef<HTMLDivElement>(null);
     const translate = useTranslate();
+
+    const [addNewOpen, setAddNewOpen] = useState(false);
 
     useEffect(() => {
         if (addNewOpen && containerEndRef.current) {
@@ -61,6 +62,9 @@ export const Fees = memo((props: FeesProps) => {
             setFees(prev => prev.filter(el => el.innerId === innerId));
         }
     };
+    if (!feeTypes) {
+        return null;
+    }
 
     return (
         <div className={cn("mt-[10px] w-full", padding ? "px-2" : "px-0")}>
@@ -87,6 +91,7 @@ export const Fees = memo((props: FeesProps) => {
                                       resource={feesResource}
                                       description={fee.description}
                                       addFee={addFee}
+                                      providerName={providerName}
                                   />
                               );
                           })
@@ -99,6 +104,7 @@ export const Fees = memo((props: FeesProps) => {
                             variants={id ? feesVariants : undefined}
                             setFees={setFees ?? undefined}
                             feeType={feeType}
+                            providerName={providerName}
                         />
                     )}
                     <div ref={containerEndRef} />

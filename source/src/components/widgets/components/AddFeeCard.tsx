@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { LoadingBlock } from "@/components/ui/loading";
 import {
@@ -34,13 +34,14 @@ export interface AddFeeCardProps {
     setFees?: React.Dispatch<React.SetStateAction<Directions.FeeCreate[]>>;
     variants?: string[];
     feeType?: FeeType;
+    providerName?: string;
 }
 
 export const AddFeeCard = (props: AddFeeCardProps) => {
-    const { id, resource, onOpenChange, setFees, variants = undefined, feeType = "default" } = props;
+    const { id, resource, onOpenChange, setFees, variants = undefined, providerName, feeType = "default" } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
-    const feeDataProvider = feesDataProvider({ id, resource });
+    const feeDataProvider = feesDataProvider({ id, resource, providerName });
     const data = fetchDictionaries();
 
     const { isLoading } = useCreateController({ resource });
@@ -90,11 +91,13 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     };
 
     const formSchema = z.object({
-        currency: z.string().min(1),
-        value: z.coerce.number().min(0),
-        type: z.string().min(1),
+        currency: z.string().min(1, { message: translate("resources.direction.fees.currencyFieldError") }),
+        value: z.coerce
+            .number({ message: translate("resources.direction.fees.valueFieldError") })
+            .min(0, { message: translate("resources.direction.fees.valueFieldError") }),
+        type: z.enum(["1", "2"]),
         description: z.string(),
-        direction: z.string().min(1)
+        direction: z.string().min(1, { message: translate("resources.direction.fees.directionFieldError") })
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -102,7 +105,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
         defaultValues: {
             currency: "",
             value: 0,
-            type: FeeEnum.FEE_FROM_SENDER,
+            type: "1",
             description: "",
             direction: ""
         }
@@ -126,7 +129,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                 <FormField
                                     control={form.control}
                                     name="direction"
-                                    render={({ field }) => (
+                                    render={({ field, fieldState }) => (
                                         <FormItem className="p-2 col-span-2">
                                             <Label>{translate("resources.direction.fees.direction")}</Label>
                                             <FormControl>
@@ -134,6 +137,8 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     <FormControl>
                                                         <SelectTrigger
                                                             variant={SelectType.GRAY}
+                                                            isError={fieldState.invalid}
+                                                            errorMessage={<FormMessage />}
                                                             className="border-neutral-60">
                                                             <SelectValue />
                                                         </SelectTrigger>
@@ -160,13 +165,15 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                 <FormField
                                     control={form.control}
                                     name="value"
-                                    render={({ field }) => (
+                                    render={({ field, fieldState }) => (
                                         <FormItem className="p-2 col-span-2">
                                             <FormControl>
                                                 <Input
                                                     {...field}
                                                     label={translate("resources.direction.fees.feeAmount")}
                                                     labelSize="note-1"
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
                                                     variant={InputTypes.GRAY}
                                                     borderColor="border-neutral-60"
                                                 />
@@ -177,7 +184,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                 <FormField
                                     control={form.control}
                                     name="type"
-                                    render={({ field }) => (
+                                    render={({ field, fieldState }) => (
                                         <FormItem className="p-2 col-span-2">
                                             <Label>{translate("resources.direction.fees.feeType")}</Label>
                                             <FormControl>
@@ -188,6 +195,8 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     <FormControl>
                                                         <SelectTrigger
                                                             variant={SelectType.GRAY}
+                                                            isError={fieldState.invalid}
+                                                            errorMessage={<FormMessage />}
                                                             className="border-neutral-60">
                                                             <SelectValue />
                                                         </SelectTrigger>
@@ -210,7 +219,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                 <FormField
                                     control={form.control}
                                     name="currency"
-                                    render={({ field }) => (
+                                    render={({ field, fieldState }) => (
                                         <FormItem className="p-2 col-span-2">
                                             <Label>{translate("resources.direction.fees.currency")}</Label>
                                             <FormControl>
@@ -221,6 +230,8 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     <FormControl>
                                                         <SelectTrigger
                                                             variant={SelectType.GRAY}
+                                                            isError={fieldState.invalid}
+                                                            errorMessage={<FormMessage />}
                                                             className="border-neutral-60">
                                                             <SelectValue
                                                                 placeholder={
@@ -260,7 +271,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                 <FormField
                                     control={form.control}
                                     name="description"
-                                    render={({ field }) => (
+                                    render={({ field, fieldState }) => (
                                         <FormItem className="w-full p-2 col-span-2 sm:col-span-4">
                                             <FormControl>
                                                 <Input
@@ -268,6 +279,8 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     value={field.value ?? ""}
                                                     label={translate("resources.direction.description")}
                                                     variant={InputTypes.GRAY}
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
                                                     className="border-neutral-60"
                                                     borderColor="border-neutral-60"
                                                 />

@@ -46,7 +46,11 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         merchant: z.string().min(1, translate("resources.direction.errors.merchant")),
         provider: z.string().min(1, translate("resources.direction.errors.provider")),
         terminal: z.string().min(1, translate("resources.direction.errors.terminal")),
-        weight: z.coerce.number().int().min(0).max(1000)
+        weight: z.coerce
+            .number({ message: translate("resources.direction.errors.weightError") })
+            .int(translate("resources.direction.errors.weightError"))
+            .min(0, translate("resources.direction.errors.weightError"))
+            .max(1000, translate("resources.direction.errors.weightError"))
     });
 
     const form = useForm<z.infer<typeof formSchema>>({

@@ -24,6 +24,7 @@ interface FeeCardProps {
     id: string;
     description?: string;
     addFee?: boolean;
+    providerName?: string;
     isInner?: boolean;
     deleteFn?: (innerId: number) => void;
 }
@@ -38,12 +39,13 @@ export const FeeCard = (props: FeeCardProps) => {
         resource,
         description = "",
         isInner = false,
-        deleteFn
+        deleteFn,
+        providerName
     } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
 
-    const feeDataProvider = feesDataProvider({ resource, id });
+    const feeDataProvider = feesDataProvider({ resource, id, providerName: providerName });
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -59,6 +61,11 @@ export const FeeCard = (props: FeeCardProps) => {
         try {
             await feeDataProvider.removeFee(account);
 
+            toast.success("Success", {
+                description: "Deleted successfully",
+                dismissible: true,
+                duration: 3000
+            });
             refresh();
             setDeleteDialogOpen(false);
         } catch (error) {
