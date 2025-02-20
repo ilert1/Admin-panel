@@ -13,6 +13,8 @@ import { CreateWalletDialog } from "../lists/Wallets";
 import { LoadingBlock, LoadingBalance } from "@/components/ui/loading";
 import { toast } from "sonner";
 import { useQuery } from "react-query";
+import BlowFishCross from "@/lib/icons/BlowFishCross.svg?react";
+import { TextField } from "@/components/ui/text-field";
 
 export const CryptoTransferForm = (props: {
     loading: boolean;
@@ -191,6 +193,25 @@ export const CryptoTransferForm = (props: {
                 }),
         { enabled: props.transferState === "process" && walletsDataFetched }
     );
+
+    if (props.loading || !props.balance) {
+        return (
+            <div className="flex flex-col lg:w-[325px] max-w-[476px] px-6 bg-neutral-0 dark:bg-neutral-100 rounded-2xl py-[50px] items-center">
+                {props.loading ? (
+                    <LoadingBlock />
+                ) : (
+                    <>
+                        <BlowFishCross />
+                        <TextField
+                            wrap
+                            className="text-center"
+                            text={translate("app.widgets.forms.cryptoTransfer.insufficentBalance")}
+                        />
+                    </>
+                )}
+            </div>
+        );
+    }
 
     if (props.transferState === "process")
         return (

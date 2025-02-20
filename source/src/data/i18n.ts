@@ -746,7 +746,8 @@ const ru: TranslationMessages = {
                     repeatDescription: "Данные вывода скопированы в форму, проверьте их и подтвердите новый вывод",
                     noAddress: "Такого адреса нет в вашем аккаунте",
                     error: "Ошибка",
-                    nan: "Не является числом"
+                    nan: "Не является числом",
+                    insufficentBalance: "Для вывода криптовалюты требуются средства на балансе USDT"
                 },
                 userCreate: {
                     title: "Добавление пользователя",
@@ -1593,7 +1594,9 @@ const en: TranslationMessages = {
                     repeatDescription:
                         "The withdrawal data has been copied to the form. Please check it and confirm the new withdrawal.",
                     noAddress: "This address is not in your account",
-                    error: "Error"
+                    error: "Error",
+                    tryAgain: "Try again",
+                    insufficentBalance: "To withdraw cryptocurrency, funds on your USDT balance are required"
                 },
                 userCreate: {
                     title: "Adding a user",
