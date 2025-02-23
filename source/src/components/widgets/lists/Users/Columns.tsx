@@ -32,8 +32,8 @@ export const useGetUserColumns = () => {
             )
         },
         {
-            id: "id",
-            accessorKey: "id",
+            id: "merchant_id",
+            accessorKey: "merchant_id",
             header: translate("resources.users.fields.id"),
             cell: ({ row }) => <TextField text={row.original.id} copyValue lineClamp linesCount={1} minWidth="50px" />
         },
