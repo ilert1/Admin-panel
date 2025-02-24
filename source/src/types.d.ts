@@ -303,6 +303,7 @@ interface IGetKeys {
     keypair: { private_key: string; public_key: string };
     provider: Omit<Provider, "id">;
 }
+
 declare namespace Directions {
     interface FeeValue {
         accuracy: number;
@@ -325,6 +326,7 @@ declare namespace Directions {
         description: string;
         recipient: string;
         direction: string | number;
+        innerId?: number;
     }
 
     interface Fees {
@@ -338,6 +340,8 @@ declare namespace Directions {
         description?: string | null;
         provider: string;
         auth: object;
+        fees: Fees;
+        account_created: boolean;
     }
 
     interface Direction {

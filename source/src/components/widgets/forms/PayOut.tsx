@@ -32,12 +32,16 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
     const [locale] = useLocaleState();
 
     const formSchema = z.object<{ [key: string]: ZodTypeAny }>({
-        payMethod: z.string().min(1, translate("app.widgets.forms.payout.payMethodMessage")),
-        value: z.string().regex(/^[+-]?([0-9]*[.])?[0-9]+$/, translate("app.widgets.forms.payout.valueMessage"))
+        payMethod: z
+            .string({ message: translate("app.widgets.forms.payout.required") })
+            .min(1, translate("app.widgets.forms.payout.payMethodMessage")),
+        value: z
+            .string({ message: translate("app.widgets.forms.payout.required") })
+            .regex(/^[+-]?([0-9]*[.])?[0-9]+$/, translate("app.widgets.forms.payout.valueMessage"))
     });
 
     const payMethodsWithId = useMemo(() => {
-        return payMethods?.map((method, id: number) => ({ id: "" + id, ...method }));
+        return payMethods ? payMethods?.map((method, id: number) => ({ id: "" + id, ...method })) : [];
     }, [payMethods]);
 
     const payMethod = useMemo(() => payMethodsWithId?.find(m => m.id === payMethodId), [payMethodId, payMethodsWithId]);
@@ -56,7 +60,9 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
 
         additionalFields?.forEach(field => {
             schema = schema.extend({
-                [field]: z.string().min(1, translate("app.widgets.forms.payout.valueMessage"))
+                [field]: z
+                    .string({ message: translate("app.widgets.forms.payout.required") })
+                    .min(1, translate("app.widgets.forms.payout.valueMessage"))
             });
         });
 
@@ -76,6 +82,14 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                 form.reset(Object.fromEntries(Object.keys(values).map(key => [key, ""])));
             }
         }
+    }
+
+    if (loading || !payMethods) {
+        return (
+            <div className="h-28">
+                <LoadingBlock />
+            </div>
+        );
     }
 
     return (
@@ -115,7 +129,12 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                                                 </div>
                                             ) : (
                                                 <>
-                                                    {payMethodsWithId &&
+                                                    {payMethodsWithId?.length == 0 ? (
+                                                        <p className="px-2 py-2 text-sm">
+                                                            {translate("app.widgets.forms.payout.noResult")}
+                                                        </p>
+                                                    ) : (
+                                                        payMethodsWithId &&
                                                         payMethodsWithId?.map(method => (
                                                             <SelectItem
                                                                 key={method.id}
@@ -123,7 +142,8 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                                                                 variant={SelectType.GRAY}>
                                                                 {`${method.bankName} (${method.paymentTypeName}, ${method.fiatCurrency})`}
                                                             </SelectItem>
-                                                        ))}
+                                                        ))
+                                                    )}
                                                 </>
                                             )}
                                         </SelectContent>

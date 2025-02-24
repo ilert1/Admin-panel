@@ -37,9 +37,18 @@ export const CryptoTransfer = ({ repeatData, cryptoTransferState, setCryptoTrans
             }).then(response => response.json()),
         {
             select(data) {
-                const value = data?.data?.amounts?.[0]?.value;
-                if (!value) return 0;
-                return +value.quantity / +value.accuracy;
+                const amounts = data.data.amounts;
+
+                if (!Array.isArray(amounts) || amounts.length === 0) {
+                    return 0;
+                }
+
+                const usdtObject = amounts.find((el: any) => el.currency === "USDT");
+                if (usdtObject) {
+                    return +usdtObject.value.quantity / +usdtObject.value.accuracy;
+                }
+
+                return 0;
             }
         }
     );

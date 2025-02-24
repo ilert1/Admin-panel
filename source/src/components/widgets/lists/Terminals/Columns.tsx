@@ -11,9 +11,11 @@ export const useGetTerminalColumns = () => {
 
     const [showAuthKeyOpen, setShowAuthKeyOpen] = useState(false);
     const [chosenId, setChosenId] = useState("");
+    const [chosenProvider, setChosenProvider] = useState("");
     const [authData, setAuthData] = useState("");
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [showFees, setShowFees] = useState(false);
 
     const handleEditClicked = (id: string) => {
         setChosenId(id);
@@ -82,6 +84,23 @@ export const useGetTerminalColumns = () => {
             }
         },
         {
+            id: "fees",
+            header: () => {
+                return <div className="text-center">{translate("app.ui.actions.show")}</div>;
+            },
+            cell: ({ row }) => {
+                return (
+                    <ShowButton
+                        onClick={() => {
+                            setChosenId(row.original.terminal_id);
+                            setChosenProvider(row.original.provider);
+                            setShowFees(true);
+                        }}
+                    />
+                );
+            }
+        },
+        {
             id: "update_field",
             header: () => {
                 return <div className="text-center">{translate("app.ui.actions.edit")}</div>;
@@ -104,12 +123,15 @@ export const useGetTerminalColumns = () => {
     return {
         columns,
         showAuthKeyOpen,
-        setShowAuthKeyOpen,
+        showFees,
         chosenId,
         authData,
         editDialogOpen,
-        setEditDialogOpen,
         deleteDialogOpen,
-        setDeleteDialogOpen
+        chosenProvider,
+        setEditDialogOpen,
+        setShowAuthKeyOpen,
+        setDeleteDialogOpen,
+        setShowFees
     };
 };

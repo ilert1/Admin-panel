@@ -5,6 +5,7 @@ import { ChangeEvent, useState } from "react";
 import { Input } from "@/components/ui/Input/input";
 import { debounce } from "lodash";
 import { CreateUserDialog } from "./CreateUserDialog";
+import { CreateUserDialogNewFlow } from "./CreateUserDialogNewFlow";
 
 export const UserListFilter = () => {
     const translate = useTranslate();
@@ -15,6 +16,7 @@ export const UserListFilter = () => {
     const [checkedActivity, setCheckedActivity] = useState(filterValues?.active || false);
 
     const [showAddUserDialog, setShowAddUserDialog] = useState(false);
+    const [showAddUserNewFlowDialog, setShowAddUserNewFlowDialog] = useState(false);
 
     const onPropertySelected = debounce((value: string | number, type: "id" | "name" | "state") => {
         if (value) {
@@ -90,13 +92,26 @@ export const UserListFilter = () => {
                     </Button>
                 </div>
 
-                <Button
-                    onClick={() => setShowAddUserDialog(true)}
-                    className="flex items-center justify-center gap-1 font-normal">
-                    <CirclePlus width={16} height={16} />
-                    <span>{translate("resources.users.createButton")}</span>
-                </Button>
-                <CreateUserDialog open={showAddUserDialog} onOpenChange={setShowAddUserDialog} />
+                <div className="flex gap-3">
+                    <Button
+                        onClick={() => setShowAddUserDialog(true)}
+                        className="flex items-center justify-center gap-1 font-normal">
+                        <CirclePlus width={16} height={16} />
+                        <span>{translate("resources.users.createButton")}</span>
+                    </Button>
+                    <CreateUserDialog open={showAddUserDialog} onOpenChange={setShowAddUserDialog} />
+
+                    <Button
+                        onClick={() => setShowAddUserNewFlowDialog(true)}
+                        className="flex items-center justify-center gap-1 font-normal">
+                        <CirclePlus width={16} height={16} />
+                        <span>{translate("resources.users.createButton")} (experimental)</span>
+                    </Button>
+                    <CreateUserDialogNewFlow
+                        open={showAddUserNewFlowDialog}
+                        onOpenChange={setShowAddUserNewFlowDialog}
+                    />
+                </div>
             </div>
 
             <label
