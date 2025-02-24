@@ -1,13 +1,12 @@
 import { ReactNode, useMemo, useState } from "react";
 import { useQuery } from "react-query";
-import { useGetList, useTranslate } from "react-admin";
+import { fetchUtils, useGetList, useTranslate } from "react-admin";
 import { BF_MANAGER_URL } from "@/data/base";
 import { PayOutForm } from "@/components/widgets/forms";
 import { toast } from "sonner";
 import { NavLink } from "react-router-dom";
 import { useFetchCurrencies } from "@/hooks/useFetchCurrencies";
 import { PayOutTgBanner } from "@/components/widgets/forms/PayOutTgBanner";
-import { Loading } from "@/components/ui/loading";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
@@ -65,7 +64,7 @@ export const PayOutPage = () => {
             const { payMethod, ...rest } = data;
             setLocalLoading(true);
 
-            const response = await fetch(`${BF_MANAGER_URL}/v1/payout/create`, {
+            const response = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/v1/payout/create`, {
                 method: "POST",
                 body: JSON.stringify({
                     destination: {
@@ -118,7 +117,14 @@ export const PayOutPage = () => {
             }
         } catch (err) {
             refetchPayMethods();
-            if (err instanceof Error) error(err.message);
+
+            if (err instanceof Error) {
+                if (err.message.indexOf("requestHeaders.has") === 0) {
+                    error("Unathorized");
+                } else {
+                    error(err.message);
+                }
+            }
 
             return false;
         } finally {
