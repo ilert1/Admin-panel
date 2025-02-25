@@ -91,7 +91,7 @@ export const PayOutPage = () => {
 
             const jsonData = json.json;
 
-            if (!jsonData.success) throw new Error(jsonData.error);
+            if (!jsonData.success) throw new HttpError(jsonData.error, json.status);
 
             if (jsonData.data?.meta?.payment_url) {
                 setPayoutTgUrl(jsonData.data?.meta?.payment_url);
@@ -108,13 +108,12 @@ export const PayOutPage = () => {
             return true;
         } catch (err) {
             if (err instanceof HttpError) {
-                if (err.status === 401) error("Unathorized");
+                if (err.status === 401) error("Unauthorized");
                 else {
                     error(err.message);
                     refetchPayMethods();
                 }
             }
-
             return false;
         } finally {
             setLocalLoading(false);
@@ -133,7 +132,6 @@ export const PayOutPage = () => {
                     <PayOutForm
                         currencies={currencies?.data}
                         payMethods={payMethods}
-                        // payMethods={[]}
                         loading={initialLoading || localLoading || isFetching}
                         create={createPayOut}
                     />
