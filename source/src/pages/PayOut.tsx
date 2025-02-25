@@ -108,7 +108,7 @@ export const PayOutPage = () => {
             return true;
         } catch (err) {
             if (err instanceof HttpError) {
-                if (err.status === 401) error("Unathorized");
+                if (err.status === 401) error("Unauthorized");
                 else {
                     error(err.message);
                     refetchPayMethods();
