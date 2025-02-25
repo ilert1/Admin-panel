@@ -94,8 +94,11 @@ export const PayOutPage = () => {
             if (!jsonData.success) throw new Error(jsonData.error);
 
             if (jsonData.data?.meta?.payment_url) {
+                console.log("here");
+
                 setPayoutTgUrl(jsonData.data?.meta?.payment_url);
             } else {
+                console.log("Not here");
                 success(
                     <>
                         {translate("app.widgets.forms.payout.successDescription")}:{" "}
@@ -109,10 +112,9 @@ export const PayOutPage = () => {
         } catch (err) {
             if (err instanceof HttpError) {
                 if (err.status === 401) error("Unauthorized");
-                else {
-                    error(err.message);
-                    refetchPayMethods();
-                }
+            } else if (err instanceof Error) {
+                error(err.message);
+                refetchPayMethods();
             }
 
             return false;
