@@ -1,13 +1,12 @@
 import { ReactNode, useMemo, useState } from "react";
 import { useQuery } from "react-query";
-import { useGetList, useTranslate } from "react-admin";
+import { fetchUtils, HttpError, useGetList, useTranslate } from "react-admin";
 import { BF_MANAGER_URL } from "@/data/base";
 import { PayOutForm } from "@/components/widgets/forms";
 import { toast } from "sonner";
 import { NavLink } from "react-router-dom";
 import { useFetchCurrencies } from "@/hooks/useFetchCurrencies";
 import { PayOutTgBanner } from "@/components/widgets/forms/PayOutTgBanner";
-import { Loading } from "@/components/ui/loading";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
@@ -65,7 +64,7 @@ export const PayOutPage = () => {
             const { payMethod, ...rest } = data;
             setLocalLoading(true);
 
-            const response = await fetch(`${BF_MANAGER_URL}/v1/payout/create`, {
+            const json = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/v1/payout/create`, {
                 method: "POST",
                 body: JSON.stringify({
                     destination: {
@@ -87,38 +86,34 @@ export const PayOutPage = () => {
                         payment_type: payMethod.paymentType
                     }
                 }),
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
             });
 
-            const json = await response.json();
+            const jsonData = json.json;
 
-            if (json.success) {
-                if (json.data?.meta?.payment_url) {
-                    setPayoutTgUrl(json.data?.meta?.payment_url);
-                } else {
-                    success(
-                        <>
-                            {translate("app.widgets.forms.payout.successDescription")}:{" "}
-                            <NavLink to="/transactions" className="dark:text-green-40 text-green-50">
-                                {translate("resources.transactions.name")}
-                            </NavLink>
-                        </>
-                    );
-                }
+            if (!jsonData.success) throw new Error(jsonData.error);
 
-                return true;
+            if (jsonData.data?.meta?.payment_url) {
+                setPayoutTgUrl(jsonData.data?.meta?.payment_url);
             } else {
-                refetchPayMethods();
-                error(json.error || "Unknown error");
-
-                return false;
+                success(
+                    <>
+                        {translate("app.widgets.forms.payout.successDescription")}:{" "}
+                        <NavLink to="/transactions" className="dark:text-green-40 text-green-50">
+                            {translate("resources.transactions.name")}
+                        </NavLink>
+                    </>
+                );
             }
+            return true;
         } catch (err) {
-            refetchPayMethods();
-            if (err instanceof Error) error(err.message);
+            if (err instanceof HttpError) {
+                if (err.status === 401) error("Unathorized");
+                else {
+                    error(err.message);
+                    refetchPayMethods();
+                }
+            }
 
             return false;
         } finally {
