@@ -91,14 +91,11 @@ export const PayOutPage = () => {
 
             const jsonData = json.json;
 
-            if (!jsonData.success) throw new Error(jsonData.error);
+            if (!jsonData.success) throw new HttpError(jsonData.error, json.status);
 
             if (jsonData.data?.meta?.payment_url) {
-                console.log("here");
-
                 setPayoutTgUrl(jsonData.data?.meta?.payment_url);
             } else {
-                console.log("Not here");
                 success(
                     <>
                         {translate("app.widgets.forms.payout.successDescription")}:{" "}
@@ -112,11 +109,11 @@ export const PayOutPage = () => {
         } catch (err) {
             if (err instanceof HttpError) {
                 if (err.status === 401) error("Unauthorized");
-            } else if (err instanceof Error) {
-                error(err.message);
-                refetchPayMethods();
+                else {
+                    error(err.message);
+                    refetchPayMethods();
+                }
             }
-
             return false;
         } finally {
             setLocalLoading(false);
@@ -135,7 +132,6 @@ export const PayOutPage = () => {
                     <PayOutForm
                         currencies={currencies?.data}
                         payMethods={payMethods}
-                        // payMethods={[]}
                         loading={initialLoading || localLoading || isFetching}
                         create={createPayOut}
                     />
