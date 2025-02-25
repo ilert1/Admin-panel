@@ -2,7 +2,7 @@ import { CalendarIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { DateRange, TZDate } from "react-day-picker";
+import { DateRange } from "react-day-picker";
 import { useEffect, useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
 import { cn } from "@/lib/utils";
@@ -34,10 +34,10 @@ export function DateRangePicker({
     const [openPopover, setOpenPopover] = useState(false);
     const [startTime, setStartTime] = useState(dateRange?.from ? timeFormat(dateRange?.from) : "");
     const [endTime, setEndTime] = useState(dateRange?.to ? timeFormat(dateRange?.to) : "");
-    const initDate = new TZDate(new Date(), "+00:00");
+    const initDate = new Date();
 
     const genereateDateTime = (date: Date, hours: number, minutes: number) =>
-        new TZDate(date.getFullYear(), date.getMonth(), date.getDate(), hours, minutes, "+00:00");
+        new Date(date.getFullYear(), date.getMonth(), date.getDate(), hours, minutes);
 
     const updateStartTime = (time: string) => {
         if (dateRange?.from && dateRange.to) {
@@ -201,8 +201,8 @@ export function DateRangePicker({
                     today={initDate}
                     disabled={{ after: initDate }}
                     defaultMonth={initDate}
-                    startMonth={new TZDate(2014, 0, 1, "+00:00")}
-                    endMonth={new TZDate(initDate, "+00:00")}
+                    startMonth={new Date(2014, 0, 1)}
+                    endMonth={initDate}
                     mode="range"
                     selected={dateRange}
                     onSelect={onSelectDate}

@@ -7,9 +7,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { debounce } from "lodash";
 import { XIcon } from "lucide-react";
+import moment from "moment";
 import { ChangeEvent, useCallback, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
-import { DateRange, TZDate } from "react-day-picker";
+import { DateRange } from "react-day-picker";
 
 export const WalletTransactionsFilter = () => {
     const data = fetchDictionaries();
@@ -17,16 +18,16 @@ export const WalletTransactionsFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
 
     const [dateCreate, setDateCreate] = useState<Date | undefined>(
-        filterValues?.created_at ? new TZDate(filterValues?.created_at, "+00:00") : undefined
+        filterValues?.created_at ? new Date(filterValues?.created_at) : undefined
     );
     const [dateUpdate, setDateUpdate] = useState<Date | undefined>(
-        filterValues?.updated_at ? new TZDate(filterValues?.updated_at, "+00:00") : undefined
+        filterValues?.updated_at ? new Date(filterValues?.updated_at) : undefined
     );
     const [transactionId, setTransactionId] = useState(filterValues?.blowfish_id || "");
     const [stateFilter, setStateFilter] = useState(filterValues?.state || "");
     const [typeTabActive, setTypeTabActive] = useState("");
 
-    const formattedDate = (date: Date) => new Date(date.toUTCString()).toISOString();
+    const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
     const chooseClassTabActive = useCallback(
         (type: string) => {

@@ -1,10 +1,11 @@
 import { debounce } from "lodash";
 import { ChangeEvent, useCallback, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
-import { DateRange, TZDate } from "react-day-picker";
+import { DateRange } from "react-day-picker";
 import { toast } from "sonner";
 import { API_URL } from "@/data/base";
 import fetchDictionaries from "@/helpers/get-dictionaries";
+import moment from "moment";
 
 const useWithdrawFilter = () => {
     const dictionaries = fetchDictionaries();
@@ -12,10 +13,10 @@ const useWithdrawFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
 
     const [startDate, setStartDate] = useState<Date | undefined>(
-        filterValues?.start_date ? new TZDate(filterValues?.start_date, "+00:00") : undefined
+        filterValues?.start_date ? new Date(filterValues?.start_date) : undefined
     );
     const [endDate, setEndDate] = useState<Date | undefined>(
-        filterValues?.end_date ? new TZDate(filterValues?.end_date, "+00:00") : undefined
+        filterValues?.end_date ? new Date(filterValues?.end_date) : undefined
     );
 
     const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
@@ -24,7 +25,7 @@ const useWithdrawFilter = () => {
 
     const translate = useTranslate();
 
-    const formattedDate = (date: Date) => new Date(date.toUTCString()).toISOString();
+    const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
     const onPropertySelected = debounce(
         (value: string | { from: string; to: string } | number, type: "id" | "date" | "order_type") => {

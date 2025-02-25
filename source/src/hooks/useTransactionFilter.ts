@@ -1,20 +1,21 @@
 import { debounce } from "lodash";
 import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { useListContext, usePermissions, useTranslate } from "react-admin";
-import { DateRange, TZDate } from "react-day-picker";
+import { DateRange } from "react-day-picker";
 import { toast } from "sonner";
 import { API_URL } from "@/data/base";
 import fetchDictionaries from "@/helpers/get-dictionaries";
+import moment from "moment";
 
 const useTransactionFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const dictionaries = fetchDictionaries();
 
     const [startDate, setStartDate] = useState<Date | undefined>(
-        filterValues?.start_date ? new TZDate(filterValues?.start_date, "+00:00") : undefined
+        filterValues?.start_date ? new Date(filterValues?.start_date) : undefined
     );
     const [endDate, setEndDate] = useState<Date | undefined>(
-        filterValues?.end_date ? new TZDate(filterValues?.end_date, "+00:00") : undefined
+        filterValues?.end_date ? new Date(filterValues?.end_date) : undefined
     );
     const [operationId, setOperationId] = useState(filterValues?.id || "");
     const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
@@ -24,7 +25,7 @@ const useTransactionFilter = () => {
 
     const translate = useTranslate();
 
-    const formattedDate = (date: Date) => new Date(date.toUTCString()).toISOString();
+    const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
@@ -84,6 +85,7 @@ const useTransactionFilter = () => {
     const changeDate = (date: DateRange | undefined) => {
         if (date) {
             if (date.from && date.to) {
+                console.log(date);
                 setStartDate(date.from);
                 setEndDate(date.to);
                 onPropertySelected({ from: formattedDate(date.from), to: formattedDate(date.to) }, "date");
