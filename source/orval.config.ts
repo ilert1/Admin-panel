@@ -19,8 +19,7 @@ export default defineConfig({
             },
             mode: "tags-split",
             target: "src/api/enigma",
-            client: "react-query",
-            httpClient: "fetch",
+            client: "fetch",
             headers: true,
             prettier: true
         }
