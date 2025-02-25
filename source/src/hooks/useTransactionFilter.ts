@@ -136,13 +136,8 @@ const useTransactionFilter = () => {
         }
 
         try {
-            const url =
-                `${API_URL}/transactions/report?format=${type}&` +
-                Object.keys(filterValues)
-                    .map(item => {
-                        return `${item}=${filterValues[item]}`;
-                    })
-                    .join("&");
+            const url = new URL(`${API_URL}/transactions/report?format=${type}`);
+            Object.keys(filterValues).map(item => url.searchParams.set(item, filterValues[item]));
 
             const response = await fetch(url, {
                 method: "GET",

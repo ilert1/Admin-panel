@@ -87,13 +87,8 @@ const useWithdrawFilter = () => {
         }
 
         try {
-            const url =
-                `${API_URL}/withdraw/report?format=${type}&` +
-                Object.keys(filterValues)
-                    .map(item => {
-                        return `${item}=${filterValues[item]}`;
-                    })
-                    .join("&");
+            const url = new URL(`${API_URL}/withdraw/report?format=${type}&`);
+            Object.keys(filterValues).map(item => url.searchParams.set(item, filterValues[item]));
 
             const response = await fetch(url, {
                 method: "GET",
