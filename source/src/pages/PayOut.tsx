@@ -91,31 +91,28 @@ export const PayOutPage = () => {
 
             const jsonData = json.json;
 
-            if (jsonData.success) {
-                if (jsonData.data?.meta?.payment_url) {
-                    setPayoutTgUrl(jsonData.data?.meta?.payment_url);
-                } else {
-                    success(
-                        <>
-                            {translate("app.widgets.forms.payout.successDescription")}:{" "}
-                            <NavLink to="/transactions" className="dark:text-green-40 text-green-50">
-                                {translate("resources.transactions.name")}
-                            </NavLink>
-                        </>
-                    );
-                }
+            if (!jsonData.success) throw new Error(jsonData.error);
 
-                return true;
+            if (jsonData.data?.meta?.payment_url) {
+                setPayoutTgUrl(jsonData.data?.meta?.payment_url);
             } else {
-                refetchPayMethods();
-                throw new Error(jsonData.error);
+                success(
+                    <>
+                        {translate("app.widgets.forms.payout.successDescription")}:{" "}
+                        <NavLink to="/transactions" className="dark:text-green-40 text-green-50">
+                            {translate("resources.transactions.name")}
+                        </NavLink>
+                    </>
+                );
             }
+            return true;
         } catch (err) {
-            refetchPayMethods();
-
             if (err instanceof HttpError) {
                 if (err.status === 401) error("Unathorized");
-                else error(err.message);
+                else {
+                    error(err.message);
+                    refetchPayMethods();
+                }
             }
 
             return false;
