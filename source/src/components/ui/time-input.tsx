@@ -17,7 +17,7 @@ function TimeInput({ time, setTime, className, disabled, error }: IProps) {
         const secondNumberCheck =
             selectionStart === 1 &&
             ((time[0] === "2" && data?.match(/[0-3]/)) || (time[0] !== "2" && data?.match(/[0-9]/)));
-        const thirdNumberCheck = selectionStart === 2 && data?.match(/[0-5]/);
+        const thirdNumberCheck = (selectionStart === 2 || selectionStart === 3) && data?.match(/[0-5]/);
         const fourthNumberCheck = selectionStart === 4 && data?.match(/[0-9]/);
 
         if (firstNumberCheck || secondNumberCheck || thirdNumberCheck || fourthNumberCheck) {
@@ -36,6 +36,7 @@ function TimeInput({ time, setTime, className, disabled, error }: IProps) {
             )}
             disabled={disabled}
             mask={"__:__"}
+            showMask
             placeholder="00:00"
             onChange={handleInput}
             value={time}
