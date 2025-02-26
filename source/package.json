@@ -2,9 +2,10 @@
     "name": "juggler-gui",
     "private": true,
     "scripts": {
-        "dev": "npx orval --config orval.config.ts && vite --port 3000",
-        "build": "npx orval --config orval.config.ts && vite build",
-        "serve": "npx orval --config orval.config.ts && vite preview",
+        "dev": " vite --port 3000",
+        "build": "vite build",
+        "serve": "vite preview",
+        "orval": "npx orval --config orval.config.ts",
         "type-check": "tsc --noEmit",
         "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx ./src",
         "format": "prettier --write ./src"
