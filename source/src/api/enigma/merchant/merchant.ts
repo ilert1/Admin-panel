@@ -5,7 +5,9 @@
  * OpenAPI spec version: default_version
  */
 import type {
-    ErrorResponse,
+    ApiResponseMerchant,
+    ApiResponseNoneType,
+    ApiResponseOffsetPaginationMerchant,
     FeeCreate,
     FeeUpdate,
     HTTPValidationError,
@@ -19,7 +21,7 @@ import type {
  * @summary Get a list of merchants with filtering and pagination
  */
 export type merchantEndpointsListMerchantsEnigmaV1MerchantGetResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseOffsetPaginationMerchant | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -64,7 +66,7 @@ export const merchantEndpointsListMerchantsEnigmaV1MerchantGet = async (
  * @summary Create a new merchant entry
  */
 export type merchantEndpointsCreateMerchantEnigmaV1MerchantPostResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseMerchant | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -99,7 +101,7 @@ export const merchantEndpointsCreateMerchantEnigmaV1MerchantPost = async (
  * @summary Get details of a specific merchant
  */
 export type merchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGetResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseMerchant | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -134,7 +136,7 @@ export const merchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGet = async (
  * @summary Update an existing merchant
  */
 export type merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPutResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseMerchant | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -172,7 +174,7 @@ export const merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPut = asyn
  * @summary Delete a merchant entry
  */
 export type merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDeleteResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseNoneType | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -207,7 +209,7 @@ export const merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDelete = a
  * @summary Add a new fee to a merchant
  */
 export type merchantEndpointsAddFeeEnigmaV1MerchantMerchantIdFeePatchResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseMerchant | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -245,7 +247,7 @@ export const merchantEndpointsAddFeeEnigmaV1MerchantMerchantIdFeePatch = async (
  * @summary Update an existing fee for a merchant
  */
 export type merchantEndpointsUpdateFeeEnigmaV1MerchantMerchantIdFeeFeeIdPatchResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseMerchant | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -290,7 +292,7 @@ export const merchantEndpointsUpdateFeeEnigmaV1MerchantMerchantIdFeeFeeIdPatch =
  * @summary Remove a fee from a merchant
  */
 export type merchantEndpointsDeleteFeeEnigmaV1MerchantMerchantIdFeeFeeIdDeleteResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseMerchant | HTTPValidationError;
     status: number;
     headers: Headers;
 };

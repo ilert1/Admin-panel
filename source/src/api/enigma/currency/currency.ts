@@ -5,10 +5,12 @@
  * OpenAPI spec version: default_version
  */
 import type {
+    ApiResponseCurrency,
+    ApiResponseNoneType,
+    ApiResponseOffsetPaginationCurrency,
     CurrencyCreate,
     CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetParams,
     CurrencyUpdate,
-    ErrorResponse,
     HTTPValidationError
 } from "../blowFishEnigmaAPIService.schemas";
 
@@ -17,7 +19,7 @@ import type {
  * @summary Get a list of currencies with filtering and pagination
  */
 export type currencyEndpointsListCurrenciesEnigmaV1CurrencyGetResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseOffsetPaginationCurrency | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -62,7 +64,7 @@ export const currencyEndpointsListCurrenciesEnigmaV1CurrencyGet = async (
  * @summary Create a new currency entry
  */
 export type currencyEndpointsCreateCurrencyEnigmaV1CurrencyPostResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseCurrency | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -97,7 +99,7 @@ export const currencyEndpointsCreateCurrencyEnigmaV1CurrencyPost = async (
  * @summary Get details of a specific currency
  */
 export type currencyEndpointsGetCurrencyEnigmaV1CurrencyCurrencyCodeGetResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseCurrency | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -132,7 +134,7 @@ export const currencyEndpointsGetCurrencyEnigmaV1CurrencyCurrencyCodeGet = async
  * @summary Update an existing currency
  */
 export type currencyEndpointsUpdateCurrencyEnigmaV1CurrencyCurrencyCodePutResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseCurrency | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -170,7 +172,7 @@ export const currencyEndpointsUpdateCurrencyEnigmaV1CurrencyCurrencyCodePut = as
  * @summary Delete a currency entry
  */
 export type currencyEndpointsDeleteCurrencyEnigmaV1CurrencyCurrencyCodeDeleteResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseNoneType | HTTPValidationError;
     status: number;
     headers: Headers;
 };

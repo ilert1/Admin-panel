@@ -5,7 +5,7 @@
  * OpenAPI spec version: default_version
  */
 import type {
-    ErrorResponse,
+    ApiResponseKeyPair,
     HTTPValidationError,
     KeyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetParams
 } from "../blowFishEnigmaAPIService.schemas";
@@ -15,7 +15,7 @@ import type {
  * @summary Generate RSA key pair
  */
 export type keyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseKeyPair | HTTPValidationError;
     status: number;
     headers: Headers;
 };

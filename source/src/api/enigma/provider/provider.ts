@@ -5,7 +5,10 @@
  * OpenAPI spec version: default_version
  */
 import type {
-    ErrorResponse,
+    ApiResponseNoneType,
+    ApiResponseOffsetPaginationProvider,
+    ApiResponseProvider,
+    ApiResponseProviderAddKeypair,
     HTTPValidationError,
     ProviderCreate,
     ProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchParams,
@@ -18,7 +21,7 @@ import type {
  * @summary Retrieve a paginated list of providers
  */
 export type providerEndpointsListProvidersEnigmaV1ProviderGetResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseOffsetPaginationProvider | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -63,7 +66,7 @@ export const providerEndpointsListProvidersEnigmaV1ProviderGet = async (
  * @summary Create a new provider
  */
 export type providerEndpointsCreateProviderEnigmaV1ProviderPostResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseProvider | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -98,7 +101,7 @@ export const providerEndpointsCreateProviderEnigmaV1ProviderPost = async (
  * @summary Get provider details by name
  */
 export type providerEndpointsGetProviderEnigmaV1ProviderProviderNameGetResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseProvider | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -133,7 +136,7 @@ export const providerEndpointsGetProviderEnigmaV1ProviderProviderNameGet = async
  * @summary Update provider details
  */
 export type providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseProvider | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -171,7 +174,7 @@ export const providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePut = as
  * @summary Delete a provider
  */
 export type providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseNoneType | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -206,7 +209,7 @@ export const providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDelete =
  * @summary Add RSA key pair to provider
  */
 export type providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseProviderAddKeypair | HTTPValidationError;
     status: number;
     headers: Headers;
 };

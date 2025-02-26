@@ -5,11 +5,13 @@
  * OpenAPI spec version: default_version
  */
 import type {
+    ApiResponseDirection,
+    ApiResponseNoneType,
+    ApiResponseOffsetPaginationDirection,
     DirectionCreate,
     DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetParams,
     DirectionEndpointsListDirectionsEnigmaV1DirectionGetParams,
     DirectionUpdate,
-    ErrorResponse,
     FeeCreate,
     FeeUpdate,
     HTTPValidationError
@@ -20,7 +22,7 @@ import type {
  * @summary Get a paginated list of directions
  */
 export type directionEndpointsListDirectionsEnigmaV1DirectionGetResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseOffsetPaginationDirection | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -65,7 +67,7 @@ export const directionEndpointsListDirectionsEnigmaV1DirectionGet = async (
  * @summary Create a new direction
  */
 export type directionEndpointsCreateDirectionEnigmaV1DirectionPostResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseDirection | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -100,7 +102,7 @@ export const directionEndpointsCreateDirectionEnigmaV1DirectionPost = async (
  * @summary Get a paginated list of directions by merchant
  */
 export type directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseOffsetPaginationDirection | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -151,7 +153,7 @@ export const directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMercha
  * @summary Retrieve direction details
  */
 export type directionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGetResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseDirection | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -186,7 +188,7 @@ export const directionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGet = asy
  * @summary Update direction details
  */
 export type directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPutResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseDirection | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -224,7 +226,7 @@ export const directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPut = 
  * @summary Remove a direction
  */
 export type directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDeleteResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseNoneType | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -259,7 +261,7 @@ export const directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDelete
  * @summary Add a new fee to a direction
  */
 export type directionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatchResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseDirection | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -297,7 +299,7 @@ export const directionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatch = asyn
  * @summary Update an existing fee for a direction
  */
 export type directionEndpointsUpdateFeeEnigmaV1DirectionDirectionIdFeeFeeIdPatchResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseDirection | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -342,7 +344,7 @@ export const directionEndpointsUpdateFeeEnigmaV1DirectionDirectionIdFeeFeeIdPatc
  * @summary Remove a fee from a direction
  */
 export type directionEndpointsDeleteFeeEnigmaV1DirectionDirectionIdFeeFeeIdDeleteResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseDirection | HTTPValidationError;
     status: number;
     headers: Headers;
 };

@@ -4,14 +4,14 @@
  * BlowFish - Enigma API Service
  * OpenAPI spec version: default_version
  */
-import type { ErrorResponse } from "../blowFishEnigmaAPIService.schemas";
+import type { ApiResponseListFeeTypeItem } from "../blowFishEnigmaAPIService.schemas";
 
 /**
  * Returns a list of fee types in a name:value format.
  * @summary Retrieve fee types
  */
 export type feesEndpointsGetFeeTypesEnigmaV1FeeTypesGetResponse = {
-    data: ErrorResponse;
+    data: ApiResponseListFeeTypeItem;
     status: number;
     headers: Headers;
 };

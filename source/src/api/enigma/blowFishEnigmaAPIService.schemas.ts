@@ -644,31 +644,6 @@ export interface ErrorBody {
 }
 
 /**
- * The actual response data if the request was successful.
- */
-export type ErrorResponseData = unknown | null;
-
-/**
- * The meta details if the request. DEPRECATED
- * @deprecated
- */
-export type ErrorResponseMeta = unknown | null;
-
-export interface ErrorResponse {
-    /** Indicates whether the request was successful. */
-    success?: boolean;
-    /** The actual response data if the request was successful. */
-    data?: ErrorResponseData;
-    /** The error details if the request was not successful. */
-    error: ErrorBody;
-    /**
-     * The meta details if the request. DEPRECATED
-     * @deprecated
-     */
-    meta?: ErrorResponseMeta;
-}
-
-/**
  * Fee direction if applicable
  */
 export type FeeDirection = TransactionType | null;

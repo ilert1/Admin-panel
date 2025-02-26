@@ -5,7 +5,10 @@
  * OpenAPI spec version: default_version
  */
 import type {
-    ErrorResponse,
+    ApiResponseNoneType,
+    ApiResponseOffsetPaginationTerminal,
+    ApiResponseTerminal,
+    ApiResponseWorkflowResStruct,
     FeeCreate,
     FeeUpdate,
     HTTPValidationError,
@@ -20,7 +23,7 @@ import type {
  * @summary Get a paginated list of terminals
  */
 export type terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseOffsetPaginationTerminal | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -72,7 +75,7 @@ export const terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalG
  * @summary Create a new terminal
  */
 export type terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseTerminal | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -113,7 +116,7 @@ export const terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminal
  * @summary Retrieve terminal details
  */
 export type terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseTerminal | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -155,7 +158,7 @@ export const terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTer
  * @summary Update terminal information
  */
 export type terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseTerminal | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -203,7 +206,7 @@ export const terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminal
  * @summary Remove a terminal
  */
 export type terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseNoneType | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -247,7 +250,7 @@ export const terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminal
  * @summary Add terminal authentication data
  */
 export type terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseTerminal | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -294,7 +297,7 @@ export const terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTermina
  * @summary Set terminal authentication data
  */
 export type terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseTerminal | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -342,7 +345,7 @@ export const terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTermina
  */
 export type terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostResponse =
     {
-        data: ErrorResponse | HTTPValidationError;
+        data: ApiResponseWorkflowResStruct | HTTPValidationError;
         status: number;
         headers: Headers;
     };
@@ -385,7 +388,7 @@ export const terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTe
  * @summary Add fee to terminal
  */
 export type terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseTerminal | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -430,7 +433,7 @@ export const terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminal
  * @summary Update fee
  */
 export type terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseTerminal | HTTPValidationError;
     status: number;
     headers: Headers;
 };
@@ -480,7 +483,7 @@ export const terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTermi
  * @summary Delete fee
  */
 export type terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteResponse = {
-    data: ErrorResponse | HTTPValidationError;
+    data: ApiResponseTerminal | HTTPValidationError;
     status: number;
     headers: Headers;
 };
