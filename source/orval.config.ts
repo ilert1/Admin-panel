@@ -1,5 +1,7 @@
-// $ npx orval --config ./orval.config.ts
 import { defineConfig } from "orval";
+import dotenv from "dotenv";
+
+dotenv.config(); // Загружаем переменные окружения из .env
 
 export default defineConfig({
     openapi: {
@@ -9,13 +11,12 @@ export default defineConfig({
                 mode: "exclude",
                 schemas: ["HealthStatus"],
                 tags: ["Health", "Metrics"]
-            },
-            converterOptions: true
+            }
         },
         output: {
             baseUrl: {
                 getBaseUrlFromSpecification: false,
-                baseUrl: "https://apigate.develop.blowfish.api4ftx.cloud"
+                baseUrl: process.env.VITE_APIGATE_BASE_URL || ""
             },
             mode: "tags-split",
             target: "./src/api/enigma",
