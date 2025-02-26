@@ -20,6 +20,7 @@ import { useFetchDataForDirections, useGetTerminals } from "@/hooks";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
+import { DirectionCreate as IDirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
@@ -31,7 +32,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const { terminals, getTerminals } = useGetTerminals();
-    const onSubmit: SubmitHandler<Directions.DirectionCreate> = async data => {
+    const onSubmit: SubmitHandler<IDirectionCreate> = async data => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
         try {

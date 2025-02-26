@@ -19,6 +19,7 @@ import { Form, FormItem, FormMessage, FormControl, FormField } from "@/component
 import { useFetchDataForDirections, useGetTerminals, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { DirectionUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export interface DirectionEditProps {
     id?: string;
@@ -84,7 +85,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         }
     }, [form, controllerProps.record]);
 
-    const onSubmit: SubmitHandler<Directions.DirectionCreate> = async data => {
+    const onSubmit: SubmitHandler<DirectionUpdate> = async data => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
         try {

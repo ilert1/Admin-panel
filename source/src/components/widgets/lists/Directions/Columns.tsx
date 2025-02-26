@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
@@ -17,7 +17,7 @@ export const useGetDirectionsColumns = () => {
         setQuickShowOpen(true);
     };
 
-    const columns: ColumnDef<Directions.Direction>[] = [
+    const columns: ColumnDef<Direction>[] = [
         {
             id: "name",
             accessorKey: "name",
@@ -36,7 +36,7 @@ export const useGetDirectionsColumns = () => {
             accessorKey: "account_id",
             header: translate("resources.direction.fields.accountNumber"),
             cell: ({ row }) => {
-                return <TextField text={row.original.account_id} wrap copyValue />;
+                return <TextField text={row.original.account_id || ""} wrap copyValue />;
             }
         },
         {

@@ -1,3 +1,4 @@
+import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslate } from "react-admin";
@@ -5,7 +6,7 @@ import { useTranslate } from "react-admin";
 export const useGetMerchantShowColumns = () => {
     const translate = useTranslate();
 
-    const columns: ColumnDef<Directions.Direction>[] = [
+    const columns: ColumnDef<Direction>[] = [
         {
             id: "name",
             accessorKey: "name",
@@ -24,7 +25,7 @@ export const useGetMerchantShowColumns = () => {
             accessorKey: "account_id",
             header: translate("resources.direction.fields.accountNumber"),
             cell: ({ row }) => {
-                return <TextField text={row.original.account_id} wrap copyValue />;
+                return <TextField text={row.original.account_id || ""} wrap copyValue />;
             }
         },
         {
