@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config(); // Загружаем переменные окружения из .env
 
 export default defineConfig({
-    openapi: {
+    enigma: {
         input: {
             target: "./openapi/enigma.json",
             filters: {
