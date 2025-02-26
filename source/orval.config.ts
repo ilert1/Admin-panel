@@ -1,10 +1,10 @@
-// $ npx orval --config ./orval.config.js
+// $ npx orval --config ./orval.config.ts
 import { defineConfig } from "orval";
 
 export default defineConfig({
     openapi: {
         input: {
-            target: "./openapi.json",
+            target: "./openapi/enigma.json",
             filters: {
                 mode: "exclude",
                 schemas: ["HealthStatus"],
@@ -18,7 +18,7 @@ export default defineConfig({
                 baseUrl: "https://apigate.develop.blowfish.api4ftx.cloud"
             },
             mode: "tags-split",
-            target: "src/api/enigma",
+            target: "./src/api/enigma",
             client: "fetch",
             headers: true,
             prettier: true
