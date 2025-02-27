@@ -20,11 +20,6 @@ import {
 } from "@/api/enigma/currency/currency";
 import { Currency, CurrencyCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
-export enum PositionEnum {
-    BEFORE = "before",
-    AFTER = "after"
-}
-
 export type CurrencyWithId = Currency & { id: string };
 
 export class CurrenciesDataProvider extends BaseDataProvider {
