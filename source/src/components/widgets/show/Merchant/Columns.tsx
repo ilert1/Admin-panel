@@ -1,5 +1,6 @@
 import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { TextField } from "@/components/ui/text-field";
+import { CurrencyWithId } from "@/data/currencies";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslate } from "react-admin";
 
@@ -33,7 +34,7 @@ export const useGetMerchantShowColumns = () => {
             accessorKey: "src_currency",
             header: translate("resources.direction.fields.srcCurr"),
             cell: ({ row }) => {
-                const obj: Omit<Currencies.Currency, "id"> = row.getValue("src_currency");
+                const obj: CurrencyWithId = row.getValue("src_currency");
                 return <TextField text={obj.code} />;
             }
         },
@@ -42,7 +43,7 @@ export const useGetMerchantShowColumns = () => {
             accessorKey: "dst_currency",
             header: translate("resources.direction.fields.destCurr"),
             cell: ({ row }) => {
-                const obj: Omit<Currencies.Currency, "id"> = row.getValue("dst_currency");
+                const obj: CurrencyWithId = row.getValue("dst_currency");
                 return <TextField text={obj.code} />;
             }
         },

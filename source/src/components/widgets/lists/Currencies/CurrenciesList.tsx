@@ -7,9 +7,10 @@ import { useGetCurrencyColumns } from "./Columns";
 import { CreateCurrencyDialog } from "./CreateCurrencyDialog";
 import { EditCurrencyDialog } from "./EditCurrencyDialog";
 import { DeleteCurrencyDialog } from "./DeleteCurrencyDialog";
+import { CurrencyWithId } from "@/data/currencies";
 
 export const CurrenciesList = () => {
-    const listContext = useListController<Currencies.Currency>();
+    const listContext = useListController<CurrencyWithId>();
     const translate = useTranslate();
 
     const {

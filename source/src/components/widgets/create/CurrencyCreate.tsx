@@ -17,11 +17,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useState } from "react";
-
-enum PositionEnum {
-    BEFORE = "before",
-    AFTER = "after"
-}
+import { CurrencyCreate as ICurrencyCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { PositionEnum } from "@/data/currencies";
 
 export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => {
     const dataProvider = useDataProvider();
@@ -31,7 +28,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
 
     const translate = useTranslate();
     const refresh = useRefresh();
-    const onSubmit: SubmitHandler<Omit<Currencies.Currency, "id">> = async data => {
+    const onSubmit: SubmitHandler<ICurrencyCreate> = async data => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
         data.code = data.code.toUpperCase();

@@ -20,6 +20,7 @@ import { useFetchDataForDirections, useGetTerminals, usePreventFocus } from "@/h
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { DirectionUpdate, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { CurrencyWithId } from "@/data/currencies";
 
 export interface DirectionEditProps {
     id?: string;
@@ -169,7 +170,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {currencies?.data.map((currency: Currencies.Currency) => {
+                                                {currencies?.data.map((currency: CurrencyWithId) => {
                                                     return (
                                                         <SelectItem
                                                             key={currency.code}
@@ -235,7 +236,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {currencies?.data.map((currency: Currencies.Currency) => {
+                                                {currencies?.data.map((currency: CurrencyWithId) => {
                                                     return (
                                                         <SelectItem
                                                             key={currency.code}

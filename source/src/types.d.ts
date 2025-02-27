@@ -259,21 +259,6 @@ declare namespace Users {
     }
 }
 
-declare namespace Currencies {
-    enum PositionEnum {
-        BEFORE = "before",
-        AFTER = "after"
-    }
-
-    interface Currency {
-        symbol: string | null;
-        position: PositionEnum;
-        is_coin: boolean;
-        code: string;
-        id: string;
-    }
-}
-
 interface Provider {
     fields_json_schema: string;
     public_key: string | null;

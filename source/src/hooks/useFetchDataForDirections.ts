@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { usePermissions } from "react-admin";
 import { CurrenciesDataProvider, MerchantsDataProvider, ProvidersDataProvider } from "@/data";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { CurrencyWithId } from "@/data/currencies";
 
 export const useFetchDataForDirections = () => {
-    const [currencies, setCurrencies] = useState<{ data: Currencies.Currency[]; total: number }>({
+    const [currencies, setCurrencies] = useState<{ data: CurrencyWithId[]; total?: number }>({
         data: [],
         total: 0
     });
@@ -25,7 +26,7 @@ export const useFetchDataForDirections = () => {
                 const merchantsDataProvider = new MerchantsDataProvider();
                 const providersDataProvider = new ProvidersDataProvider();
 
-                const currenciesData = await currenciesDataProvider.getListWithoutPagination("currency");
+                const currenciesData = await currenciesDataProvider.getListWithoutPagination();
                 const merchantsData = await merchantsDataProvider.getListWithoutPagination();
                 const providersData = await providersDataProvider.getListWithoutPagination("provider");
 
