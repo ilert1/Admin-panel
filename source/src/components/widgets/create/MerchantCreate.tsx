@@ -16,7 +16,7 @@ import { FeeCreate, MerchantCreate as IMerchantCreate } from "@/api/enigma/blowF
 
 export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
-    const controllerProps = useCreateController();
+    const controllerProps = useCreateController<IMerchantCreate>();
     const data = fetchDictionaries();
     const feeDataProvider = feesDataProvider({ id: "", resource: FeesResource.MERCHANT });
 

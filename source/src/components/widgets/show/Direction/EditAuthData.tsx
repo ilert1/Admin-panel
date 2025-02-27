@@ -11,6 +11,7 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 interface EditAuthDataProps {
     open: boolean;
@@ -31,7 +32,7 @@ export const EditAuthData = ({ open, id, onOpenChange }: EditAuthDataProps) => {
         const data = JSON.parse(code);
         setCode("{}");
         try {
-            await dataProvider.update("direction", {
+            await dataProvider.update<Direction>("direction", {
                 id,
                 data: { auth_data: data },
                 previousData: undefined

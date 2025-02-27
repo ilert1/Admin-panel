@@ -19,7 +19,7 @@ import { Form, FormItem, FormMessage, FormControl, FormField } from "@/component
 import { useFetchDataForDirections, useGetTerminals, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { DirectionUpdate, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Direction, DirectionUpdate, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { CurrencyWithId } from "@/data/currencies";
 
 export interface DirectionEditProps {
@@ -30,7 +30,7 @@ export interface DirectionEditProps {
 export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const dataProvider = useDataProvider();
     const { currencies, merchants, providers, isLoading: loadingData } = useFetchDataForDirections();
-    const controllerProps = useEditController({ resource: "direction", id, mutationMode: "pessimistic" });
+    const controllerProps = useEditController<Direction>({ resource: "direction", id, mutationMode: "pessimistic" });
 
     const { terminals, getTerminals } = useGetTerminals();
 
@@ -90,7 +90,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
         try {
-            await dataProvider.update("direction", {
+            await dataProvider.update<Direction>("direction", {
                 id,
                 data,
                 previousData: undefined
@@ -116,9 +116,9 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     };
 
     useEffect(() => {
-        getTerminals(controllerProps.record.provider.name);
+        getTerminals(controllerProps.record?.provider.name);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [controllerProps.record.provider.name, controllerProps.record.provider]);
+    }, [controllerProps.record?.provider.name, controllerProps.record?.provider]);
 
     usePreventFocus({ dependencies: [controllerProps.record] });
 

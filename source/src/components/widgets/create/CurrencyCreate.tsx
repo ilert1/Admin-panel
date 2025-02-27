@@ -17,12 +17,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useState } from "react";
-import { CurrencyCreate as ICurrencyCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { PositionEnum } from "@/data/currencies";
+import { CurrencyPosition, CurrencyCreate as ICurrencyCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => {
     const dataProvider = useDataProvider();
-    const controllerProps = useCreateController();
+    const controllerProps = useCreateController<ICurrencyCreate>();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -50,7 +49,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
         code: z
             .string({ message: translate("resources.currency.errors.code") })
             .min(1, translate("resources.currency.errors.code")),
-        position: z.enum([PositionEnum.AFTER, PositionEnum.BEFORE]),
+        position: z.enum([CurrencyPosition.after, CurrencyPosition.before]),
         symbol: z.string().trim().nullable(),
         is_coin: z.boolean().default(false)
     });
@@ -59,7 +58,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
         resolver: zodResolver(formSchema),
         defaultValues: {
             code: "",
-            position: PositionEnum.BEFORE,
+            position: CurrencyPosition.before,
             symbol: "",
             is_coin: false
         }
@@ -154,7 +153,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                                     <FormLabel>{translate("resources.currency.fields.symbPos")}</FormLabel>
                                     <FormControl>
                                         <Select
-                                            onValueChange={value => field.onChange(value as PositionEnum)}
+                                            onValueChange={value => field.onChange(value as CurrencyPosition)}
                                             value={field.value}>
                                             <SelectTrigger
                                                 variant={SelectType.GRAY}
@@ -166,10 +165,14 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                                             </SelectTrigger>
                                             <SelectContent className="!dark:bg-muted">
                                                 <SelectGroup>
-                                                    <SelectItem value={PositionEnum.BEFORE} variant={SelectType.GRAY}>
+                                                    <SelectItem
+                                                        value={CurrencyPosition.before}
+                                                        variant={SelectType.GRAY}>
                                                         {translate("resources.currency.fields.before")}
                                                     </SelectItem>
-                                                    <SelectItem value={PositionEnum.AFTER} variant={SelectType.GRAY}>
+                                                    <SelectItem
+                                                        value={CurrencyPosition.after}
+                                                        variant={SelectType.GRAY}>
                                                         {translate("resources.currency.fields.after")}
                                                     </SelectItem>
                                                 </SelectGroup>

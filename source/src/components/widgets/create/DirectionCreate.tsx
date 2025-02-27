@@ -20,13 +20,13 @@ import { useFetchDataForDirections, useGetTerminals } from "@/hooks";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
-import { DirectionCreate as IDirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Direction, DirectionCreate as IDirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
     const { currencies, merchants, providers, isLoading: loadingData } = useFetchDataForDirections();
 
-    const controllerProps = useCreateController();
+    const controllerProps = useCreateController<IDirectionCreate>();
     const translate = useTranslate();
     const refresh = useRefresh();
 
@@ -36,7 +36,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
         try {
-            await dataProvider.create("direction", { data });
+            await dataProvider.create<Direction>("direction", { data });
 
             toast.success(translate("app.ui.toast.success"), {
                 description: translate("app.ui.create.createSuccess"),

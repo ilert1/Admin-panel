@@ -1,7 +1,7 @@
 import { FeesResource } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
-import { useEffect, useRef, useState } from "react";
-import { fetchUtils, useShowController, useTranslate } from "react-admin";
+import { useEffect, useState } from "react";
+import { useShowController, useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useGetMerchantShowColumns } from "./Columns";
@@ -9,39 +9,49 @@ import { SimpleTable } from "../../shared";
 import { TableTypes } from "../../shared/SimpleTable";
 import { toast } from "sonner";
 import { Fees } from "../../components/Fees";
+import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet } from "@/api/enigma/direction/direction";
 
-interface MerchantShowProps {
-    id: string;
-}
-
-const API_URL = import.meta.env.VITE_ENIGMA_URL;
-
-export const MerchantShow = ({ id }: MerchantShowProps) => {
+export const MerchantShow = ({ id }: { id: string }) => {
     const translate = useTranslate();
     const data = fetchDictionaries();
-    const context = useShowController({ resource: "merchant", id });
+    const context = useShowController<Merchant>({ resource: "merchant", id });
     const { columns } = useGetMerchantShowColumns();
 
-    const [merchantDirections, setMerchantDirections] = useState([]);
+    const [merchantDirections, setMerchantDirections] = useState<Direction[]>([]);
 
     useEffect(() => {
         const fetchMerchantDirections = async () => {
-            try {
-                const { json } = await fetchUtils.fetchJson(`${API_URL}/direction/merchant/${context?.record.id}`, {
-                    user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-                });
+            if (context.record?.id) {
+                try {
+                    const res =
+                        await directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet(
+                            context.record.id,
+                            {
+                                currentPage: 1,
+                                pageSize: 1000
+                            },
+                            {
+                                headers: {
+                                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                                }
+                            }
+                        );
 
-                if (!json.success) {
-                    throw new Error(json.error);
+                    if ("data" in res.data && res.data.success) {
+                        setMerchantDirections(res.data.data.items);
+                    } else if ("data" in res.data && !res.data.success) {
+                        throw new Error(res.data.error?.error_message);
+                    } else if ("detail" in res.data) {
+                        throw new Error(res.data.detail?.[0].msg);
+                    }
+                } catch (error) {
+                    toast.error("Error", {
+                        description: "Something went wrong",
+                        dismissible: true,
+                        duration: 3000
+                    });
                 }
-
-                setMerchantDirections(json.data);
-            } catch (error) {
-                toast.error("Error", {
-                    description: "Something went wrong",
-                    dismissible: true,
-                    duration: 3000
-                });
             }
         };
 
@@ -70,9 +80,9 @@ export const MerchantShow = ({ id }: MerchantShowProps) => {
                     <div className="grid grid-cols-2 px-[42px]">
                         <TextField
                             label={translate("resources.merchant.fields.descr")}
-                            text={context.record.description}
+                            text={context.record.description || ""}
                         />
-                        <TextField label="Keycloak ID" text={context.record.keycloak_id} />
+                        <TextField label="Keycloak ID" text={context.record.keycloak_id || ""} />
                     </div>
                 </div>
                 <div className="flex-1 mt-4 w-full px-[42px]">
