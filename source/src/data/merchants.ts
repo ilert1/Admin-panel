@@ -9,119 +9,162 @@ import {
     GetOneResult,
     UpdateParams
 } from "react-admin";
-import { fetchUtils } from "react-admin";
-
 import { BaseDataProvider } from "./base";
-
-const API_URL = import.meta.env.VITE_ENIGMA_URL;
+import {
+    merchantEndpointsCreateMerchantEnigmaV1MerchantPost,
+    merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDelete,
+    merchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGet,
+    merchantEndpointsListMerchantsEnigmaV1MerchantGet,
+    merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPut
+} from "@/api/enigma/merchant/merchant";
+import { MerchantCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export class MerchantsDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
-        // console.log("Getting list");
+        const res = await merchantEndpointsListMerchantsEnigmaV1MerchantGet(
+            {
+                currentPage: params?.pagination.page,
+                pageSize: params?.pagination.perPage
+            },
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }
+        );
 
-        const paramsStr = new URLSearchParams({
-            limit: params.pagination.perPage.toString(),
-            offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
-        }).toString();
-
-        const url = `${API_URL}/${resource}?${paramsStr}`;
-
-        const { json } = await fetchUtils.fetchJson(url, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
-
-        if (!json.success) {
-            throw new Error(json.error);
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data.items,
+                total: res.data.data.total
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
         }
 
         return {
-            data: json.data || [],
-            total: json?.meta.total || 0
+            data: [],
+            total: 0
         };
     }
 
-    async getListWithoutPagination(resource: string) {
-        const url = `${API_URL}/${resource}`;
-        const { json } = await fetchUtils.fetchJson(url, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
+    async getListWithoutPagination() {
+        const res = await merchantEndpointsListMerchantsEnigmaV1MerchantGet(
+            {
+                currentPage: 1,
+                pageSize: 1000
+            },
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }
+        );
 
-        if (!json.success) {
-            throw new Error(json.error);
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data.items,
+                total: res.data.data.total
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
         }
 
         return {
-            data: json.data || [],
-            total: json?.meta.total || 0
+            data: [],
+            total: 0
         };
     }
 
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
-        // console.log("Getting one");
-        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
-            user: { authenticated: true, token: localStorage.getItem("access-token") as string }
+        const res = await merchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGet(params.id, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
         });
 
-        if (!json.success) {
-            throw new Error(json.error);
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
         }
+
         return {
-            data: {
-                ...json.data
-            }
+            data: {}
         };
     }
 
     async create(resource: string, params: CreateParams): Promise<CreateResult> {
-        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}`, {
-            method: "POST",
-            body: JSON.stringify(params.data),
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        const res = await merchantEndpointsCreateMerchantEnigmaV1MerchantPost(params.data as MerchantCreate, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
         });
 
-        if (!json.success) {
-            throw new Error(json.error);
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
         }
 
         return {
-            data: {
-                ...json.data
-            }
+            data: {}
         };
     }
 
     async update(resource: string, params: UpdateParams) {
-        delete params.data.generatedAt;
-        delete params.data.loadedAt;
-
-        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
-            method: "PUT",
-            body: JSON.stringify(params.data),
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        const res = await merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPut(params.id, params.data, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
         });
 
-        if (!json.success) {
-            throw new Error(json.error);
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
         }
 
         return {
-            data: {
-                id: json.data.name,
-                ...json.data
-            }
+            data: {}
         };
     }
 
     async delete(resource: string, params: DeleteParams): Promise<DeleteResult> {
-        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
-            method: "DELETE",
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        const res = await merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDelete(params.id, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
         });
 
-        if (!json.success) {
-            throw new Error(json.error);
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
         }
 
-        return { data: { id: params.id } };
+        return {
+            data: {}
+        };
     }
 }
