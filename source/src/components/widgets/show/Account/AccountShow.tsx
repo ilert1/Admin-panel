@@ -15,8 +15,8 @@ export const AccountShow = ({ id }: AccountShowProps) => {
 
     const { historyColumns } = useGetAccountShowColumns();
 
-    const listContext = useListController<Transaction.TransactionView>({
-        resource: "transactions/view",
+    const listContext = useListController<AccountHistory>({
+        resource: "operations",
         filter: { accountId: id },
         disableSyncWithLocation: true
     });
@@ -24,9 +24,10 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     if (context.isLoading || !context.record || listContext.isLoading || !listContext.data) {
         return <LoadingBlock />;
     }
+
     return (
         <div className="mx-6 h-full min-h-[300px] flex flex-col">
-            {(context.record.meta?.TRC20 || context.record.meta?.tron_wallet) && (
+            {/* {(context.record.meta?.TRC20 || context.record.meta?.tron_wallet) && (
                 <div className="grid grid-cols-2 gap-2 mb-4 px-[18px]">
                     {context.record.meta?.TRC20 && (
                         <TextField
@@ -46,7 +47,13 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                         />
                     )}
                 </div>
-            )}
+            )} */}
+            <div className="flex justify-between px-[20px] mb-6">
+                <TextField text={id} copyValue className="text-neutral-90 dark:text-neutral-30" />
+                <div className="bg-green-50 px-3 py-0.5 rounded-20">
+                    <span className="text-title-2">{translate("resources.accounts.balance")}: </span>
+                </div>
+            </div>
 
             <ListContextProvider value={{ ...listContext }}>
                 <DataTable columns={historyColumns} />

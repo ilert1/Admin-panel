@@ -51,6 +51,7 @@ import { NotFound } from "./components/widgets/shared/NotFound";
 import WalletsLogo from "./lib/icons/Wallets";
 import { WalletStore } from "./pages/WalletStore";
 import { OptionsPage } from "./pages/SettingsPage";
+import { OperationsDataProvider } from "./data/operations";
 
 const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
 
@@ -78,6 +79,8 @@ const dataProvider = combineDataProviders((resource: string) => {
         return new WalletsDataProvider();
     } else if (resource === "vault") {
         return new VaultDataProvider();
+    } else if (resource === "operations") {
+        return new OperationsDataProvider();
     } else {
         return new BaseDataProvider();
     }

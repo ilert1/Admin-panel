@@ -35,6 +35,17 @@ type Account = {
     type: number;
 };
 
+interface AccountHistory {
+    id: string;
+    account_balance: string;
+    account_id: string;
+    amount_currency: string;
+    amount_value: string;
+    created_at: string;
+    transaction_id: string;
+    updated_at: string;
+}
+
 interface AccountBalance {
     currency: string;
     value: {
