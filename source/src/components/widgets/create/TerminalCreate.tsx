@@ -44,7 +44,7 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
         try {
             setSubmitButtonDisabled(true);
 
-            await dataProvider.create(`provider/${provider}/terminal`, { data });
+            await dataProvider.create(`${provider}/terminal`, { data });
 
             refresh();
             form.reset();

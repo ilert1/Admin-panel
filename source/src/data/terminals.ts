@@ -15,7 +15,8 @@ import { BaseDataProvider } from "./base";
 
 const API_URL = import.meta.env.VITE_ENIGMA_URL;
 
-export class ProvidersDataProvider extends BaseDataProvider {
+export class TerminalsDataProvider extends BaseDataProvider {
+    // resource === "${providerName}/terminal"
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
         const paramsStr = new URLSearchParams({
             limit: params?.pagination.perPage.toString(),
@@ -32,10 +33,10 @@ export class ProvidersDataProvider extends BaseDataProvider {
 
         return {
             data:
-                json.data.map((elem: { name: string }) => {
+                json.data.map((elem: Directions.Terminal) => {
                     return {
-                        id: elem.name,
-                        ...elem
+                        ...elem,
+                        id: elem.terminal_id
                     };
                 }) || [],
             total: json?.meta.total || 0

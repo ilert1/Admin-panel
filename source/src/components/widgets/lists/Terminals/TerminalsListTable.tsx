@@ -10,7 +10,7 @@ interface TerminalListTableProps {
 
 export const TerminalListTable = ({ provider, columns }: TerminalListTableProps) => {
     const terminalsContext = useListController<Directions.Terminal>({
-        resource: `provider/${provider}/terminal`,
+        resource: `${provider}/terminal`,
         disableSyncWithLocation: true
     });
 
