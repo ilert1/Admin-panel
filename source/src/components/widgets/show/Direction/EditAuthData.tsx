@@ -6,7 +6,7 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { fetchUtils, useRefresh, useTranslate } from "react-admin";
+import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
@@ -17,13 +17,11 @@ interface EditAuthDataProps {
     id: string;
     onOpenChange: (state: boolean) => void;
 }
-const API_URL = import.meta.env.VITE_ENIGMA_URL;
 
-export const EditAuthData = (props: EditAuthDataProps) => {
-    const { open, id, onOpenChange } = props;
-
+export const EditAuthData = ({ open, id, onOpenChange }: EditAuthDataProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
+    const dataProvider = useDataProvider();
 
     const [code, setCode] = useState("{}");
     const [hasErrors, setHasErrors] = useState(false);
@@ -33,18 +31,11 @@ export const EditAuthData = (props: EditAuthDataProps) => {
         const data = JSON.parse(code);
         setCode("{}");
         try {
-            const body = JSON.stringify({
-                auth_data: data
+            await dataProvider.update("direction", {
+                id,
+                data: { auth_data: data },
+                previousData: undefined
             });
-            const { json } = await fetchUtils.fetchJson(`${API_URL}/direction/${id}`, {
-                method: "PUT",
-                body,
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-            });
-
-            if (!json.success) {
-                throw new Error(json.error);
-            }
 
             toast.success("Success", {
                 description: translate("resources.direction.addedSuccess"),

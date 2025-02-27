@@ -1,4 +1,16 @@
-import { fetchUtils } from "react-admin";
+import { FeeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    directionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatch,
+    directionEndpointsDeleteFeeEnigmaV1DirectionDirectionIdFeeFeeIdDelete
+} from "@/api/enigma/direction/direction";
+import {
+    merchantEndpointsAddFeeEnigmaV1MerchantMerchantIdFeePatch,
+    merchantEndpointsDeleteFeeEnigmaV1MerchantMerchantIdFeeFeeIdDelete
+} from "@/api/enigma/merchant/merchant";
+import {
+    terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatch,
+    terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDelete
+} from "@/api/enigma/terminal/terminal";
 
 export const API_URL = import.meta.env.VITE_ENIGMA_URL;
 
@@ -20,42 +32,96 @@ const feesDataProvider = (props: FeesDataProviderProps) => {
         id = newId;
     };
 
-    const addFee = async (body: Directions.FeeCreate) => {
-        const json = await fetchUtils.fetchJson(
-            `${API_URL}/${
-                resource === FeesResource.TERMINAL ? "provider/" + providerName + "/" : ""
-            }${resource}/${id}/fee`,
-            {
-                method: "PUT",
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
-                body: JSON.stringify(body)
+    const addFee = async (body: FeeCreate) => {
+        const createFeeInResource = async () => {
+            if (resource === FeesResource.DIRECTION) {
+                return directionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatch(id, body, {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                });
+            } else if (resource === FeesResource.MERCHANT) {
+                return merchantEndpointsAddFeeEnigmaV1MerchantMerchantIdFeePatch(id, body, {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                });
+            } else if (resource === FeesResource.TERMINAL && providerName) {
+                return terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatch(
+                    providerName,
+                    id,
+                    body,
+                    {
+                        headers: {
+                            authorization: `Bearer ${localStorage.getItem("access-token")}`
+                        }
+                    }
+                );
             }
-        );
 
-        if (!json.json.success) {
-            if (String(json.json.error).includes("Currency")) throw new Error("Wrong id");
+            return Promise.resolve({
+                data: {
+                    success: false,
+                    error: {
+                        error_message: "Fail"
+                    }
+                }
+            });
+        };
+
+        const { data } = await createFeeInResource();
+
+        if ("data" in data && !data.success) {
+            throw new Error(data.error?.error_message);
+        } else if ("detail" in data) {
+            throw new Error(data.detail?.[0].msg);
         }
-
-        return json.json.data;
     };
 
     const removeFee = async (fee_id: string) => {
-        const json = await fetchUtils.fetchJson(
-            `${API_URL}/${
-                resource === FeesResource.TERMINAL ? "provider/" + providerName + "/" : ""
-            }${resource}/${id}/fee/${fee_id}`,
-            {
-                method: "DELETE",
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        const deleteFeeInResource = async () => {
+            if (resource === FeesResource.DIRECTION) {
+                return directionEndpointsDeleteFeeEnigmaV1DirectionDirectionIdFeeFeeIdDelete(id, fee_id, {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                });
+            } else if (resource === FeesResource.MERCHANT) {
+                return merchantEndpointsDeleteFeeEnigmaV1MerchantMerchantIdFeeFeeIdDelete(id, fee_id, {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                });
+            } else if (resource === FeesResource.TERMINAL && providerName) {
+                return terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDelete(
+                    providerName,
+                    id,
+                    fee_id,
+                    {
+                        headers: {
+                            authorization: `Bearer ${localStorage.getItem("access-token")}`
+                        }
+                    }
+                );
             }
-        );
-        // console.log(json);
 
-        if (!json.json.success) {
-            throw new Error("Wrong id or fee id");
+            return Promise.resolve({
+                data: {
+                    success: false,
+                    error: {
+                        error_message: "Fail"
+                    }
+                }
+            });
+        };
+
+        const { data } = await deleteFeeInResource();
+
+        if ("data" in data && !data.success) {
+            throw new Error(data.error?.error_message);
+        } else if ("detail" in data) {
+            throw new Error(data.detail?.[0].msg);
         }
-
-        return json.json.data;
     };
 
     return { addFee, removeFee, setId };
