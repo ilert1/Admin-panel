@@ -9,7 +9,7 @@ export const useFetchDataForDirections = () => {
         data: [],
         total: 0
     });
-    const [merchants, setMerchants] = useState<{ data: Merchant[]; total: number }>({ data: [], total: 0 });
+    const [merchants, setMerchants] = useState<{ data: Merchant[]; total?: number }>({ data: [], total: 0 });
     const [providers, setProviders] = useState<{ data: Provider[]; total: number }>({ data: [], total: 0 });
     const [isLoading, setIsLoading] = useState(true);
     const { permissions } = usePermissions();

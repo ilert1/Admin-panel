@@ -4,7 +4,7 @@ import { MerchantsDataProvider } from "@/data";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export const useFetchMerchants = () => {
-    const [merchants, setMerchants] = useState<{ data: Merchant[]; total: number }>({ data: [], total: 0 });
+    const [merchants, setMerchants] = useState<{ data: Merchant[]; total?: number }>({ data: [], total: 0 });
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
 
