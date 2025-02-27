@@ -12,8 +12,6 @@ import {
     terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDelete
 } from "@/api/enigma/terminal/terminal";
 
-export const API_URL = import.meta.env.VITE_ENIGMA_URL;
-
 export enum FeesResource {
     DIRECTION = "direction",
     MERCHANT = "merchant",
