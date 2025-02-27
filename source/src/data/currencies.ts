@@ -167,25 +167,21 @@ export class CurrenciesDataProvider extends BaseDataProvider {
         return Promise.reject();
     }
 
-    async delete(resource: string, params: DeleteParams): Promise<DeleteResult> {
+    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<CurrencyWithId>> {
         const res = await currencyEndpointsDeleteCurrencyEnigmaV1CurrencyCurrencyCodeDelete(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
         });
 
-        if ("data" in res.data && res.data.success) {
-            return {
-                data: res.data.data
-            };
-        } else if ("data" in res.data && !res.data.success) {
+        if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);
         } else if ("detail" in res.data) {
             throw new Error(res.data.detail?.[0].msg);
         }
 
         return {
-            data: {}
+            data: params.id
         };
     }
 }
