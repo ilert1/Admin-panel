@@ -358,6 +358,38 @@ declare namespace Directions {
         auth_data: object;
         fees: Fees | Record<string, never> | null;
         terminal: Terminal;
+        limits?: {
+            payin: {
+                min: {
+                    quantity: number;
+                    accuracy: number;
+                };
+                max: {
+                    quantity: number;
+                    accuracy: number;
+                };
+            };
+            payout: {
+                min: {
+                    quantity: number;
+                    accuracy: number;
+                };
+                max: {
+                    quantity: number;
+                    accuracy: number;
+                };
+            };
+            reward: {
+                min: {
+                    quantity: number;
+                    accuracy: number;
+                };
+                max: {
+                    quantity: number;
+                    accuracy: number;
+                };
+            };
+        };
     }
 
     interface DirectionCreate {
@@ -368,7 +400,38 @@ declare namespace Directions {
         merchant: string;
         provider: string;
         weight: number;
-        // fees: Fees | Record<string, never> | null;
+        limits?: {
+            payin: {
+                min: {
+                    quantity: number;
+                    accuracy: number;
+                };
+                max: {
+                    quantity: number;
+                    accuracy: number;
+                };
+            };
+            payout: {
+                min: {
+                    quantity: number;
+                    accuracy: number;
+                };
+                max: {
+                    quantity: number;
+                    accuracy: number;
+                };
+            };
+            reward: {
+                min: {
+                    quantity: number;
+                    accuracy: number;
+                };
+                max: {
+                    quantity: number;
+                    accuracy: number;
+                };
+            };
+        };
     }
 }
 

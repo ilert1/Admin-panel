@@ -9,6 +9,7 @@ import { DeleteDirectionDialog } from "./DeleteDirectionDialog";
 import { EditDirectionDialog } from "./EditDirectionDialog";
 import { EditAuthData } from "./EditAuthData";
 import { Fees } from "../../components/Fees";
+import { Limits } from "../../components/Limits";
 
 export interface DirectionsShowProps {
     id: string;
@@ -131,6 +132,8 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                     feesVariants={feesVariants}
                     className="max-h-[45dvh]"
                 />
+
+                <Limits id="" />
             </div>
 
             <DeleteDirectionDialog

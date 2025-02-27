@@ -35,7 +35,43 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
         try {
-            await dataProvider.create("direction", { data });
+            const dataWithLimits = {
+                ...data,
+                limits: {
+                    payin: {
+                        min: {
+                            quantity: 0,
+                            accuracy: 1
+                        },
+                        max: {
+                            quantity: 0,
+                            accuracy: 1
+                        }
+                    },
+                    payout: {
+                        min: {
+                            quantity: 0,
+                            accuracy: 1
+                        },
+                        max: {
+                            quantity: 0,
+                            accuracy: 1
+                        }
+                    },
+                    reward: {
+                        min: {
+                            quantity: 0,
+                            accuracy: 1
+                        },
+                        max: {
+                            quantity: 0,
+                            accuracy: 1
+                        }
+                    }
+                }
+            };
+
+            await dataProvider.create("direction", { data: dataWithLimits });
 
             toast.success(translate("app.ui.toast.success"), {
                 description: translate("app.ui.create.createSuccess"),

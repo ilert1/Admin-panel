@@ -638,7 +638,7 @@ const ru: TranslationMessages = {
             actions: {
                 quick_show: "Быстрый просмотр",
                 show: "Просмотр",
-                edit: "Изменить",
+                edit: "Редактировать",
                 delete: "Удалить",
                 save: "Сохранить",
                 addSecretKey: "Добавить аутентификационную инфорамцию",
@@ -775,8 +775,15 @@ const ru: TranslationMessages = {
                     role: "Роль",
                     merchant: "Выберите мерчанта"
                 }
+            },
+            limits: {
+                limits: "Лимиты",
+                deposit: "Депозит",
+                payment: "Выплата",
+                reward: "Вознаграждение"
             }
         },
+
         login: {
             usernameOrEmail: "Логин или e-mail",
             password: "Пароль",
@@ -1624,8 +1631,15 @@ const en: TranslationMessages = {
                     role: "Role",
                     merchant: "Choose a merchant"
                 }
+            },
+            limits: {
+                reward: "Reward",
+                payment: "Payment",
+                deposit: "Deposit",
+                limits: "Limits"
             }
         },
+
         login: {
             usernameOrEmail: "Username or e-mail",
             password: "Password",
