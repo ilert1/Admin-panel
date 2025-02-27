@@ -519,6 +519,8 @@ export interface Direction {
     dst_currency: Currency;
     /** Mapping of fee configurations with fee.id as key */
     fees?: DirectionFees;
+    /** Direction limits (payin, payout, reward) with min and max values */
+    limits: Limits;
 }
 
 /**
@@ -613,6 +615,13 @@ export type DirectionUpdateProvider = string | null;
  */
 export type DirectionUpdateTerminal = string | null;
 
+export type DirectionUpdateAuthDataAnyOf = { [key: string]: unknown };
+
+/**
+ * Authentication data for the direction
+ */
+export type DirectionUpdateAuthData = DirectionUpdateAuthDataAnyOf | null;
+
 export interface DirectionUpdate {
     /** Name of the direction */
     name?: DirectionUpdateName;
@@ -634,6 +643,13 @@ export interface DirectionUpdate {
     provider?: DirectionUpdateProvider;
     /** Terminal ID associated with the direction */
     terminal?: DirectionUpdateTerminal;
+    /** Authentication data for the direction */
+    auth_data?: DirectionUpdateAuthData;
+}
+
+export interface DirectionUpdateLimits {
+    /** Updated limits for direction */
+    limits: LimitsUpdate;
 }
 
 export interface ErrorBody {
@@ -770,6 +786,46 @@ export interface KeyPair {
     private_key: string;
     /** The public key encoded in base58, corresponding to the private key. */
     public_key: string;
+}
+
+export interface LimitValues {
+    /** Minimum limit value */
+    min?: RateValue;
+    /** Maximum limit value */
+    max?: RateValue;
+}
+
+export interface Limits {
+    /** Limits for payin */
+    payin: LimitValues;
+    /** Limits for payout */
+    payout: LimitValues;
+    /** Limits for reward */
+    reward: LimitValues;
+}
+
+/**
+ * Limits for payin
+ */
+export type LimitsUpdatePayin = LimitValues | null;
+
+/**
+ * Limits for payout
+ */
+export type LimitsUpdatePayout = LimitValues | null;
+
+/**
+ * Limits for reward
+ */
+export type LimitsUpdateReward = LimitValues | null;
+
+export interface LimitsUpdate {
+    /** Limits for payin */
+    payin?: LimitsUpdatePayin;
+    /** Limits for payout */
+    payout?: LimitsUpdatePayout;
+    /** Limits for reward */
+    reward?: LimitsUpdateReward;
 }
 
 /**

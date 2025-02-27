@@ -12,6 +12,7 @@ import type {
     DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetParams,
     DirectionEndpointsListDirectionsEnigmaV1DirectionGetParams,
     DirectionUpdate,
+    DirectionUpdateLimits,
     FeeCreate,
     FeeUpdate,
     HTTPValidationError
@@ -379,4 +380,77 @@ export const directionEndpointsDeleteFeeEnigmaV1DirectionDirectionIdFeeFeeIdDele
         status: res.status,
         headers: res.headers
     } as directionEndpointsDeleteFeeEnigmaV1DirectionDirectionIdFeeFeeIdDeleteResponse;
+};
+
+/**
+ * Updates all limits (payin, payout, reward) for the specified direction.
+ * @summary Update limits for a direction
+ */
+export type directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatchResponse = {
+    data: ApiResponseDirection | HTTPValidationError;
+    status: number;
+    headers: Headers;
+};
+
+export const getDirectionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatchUrl = (directionId: string) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/${directionId}/limits`;
+};
+
+export const directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatch = async (
+    directionId: string,
+    directionUpdateLimits: DirectionUpdateLimits,
+    options?: RequestInit
+): Promise<directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatchResponse> => {
+    const res = await fetch(getDirectionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatchUrl(directionId), {
+        ...options,
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", ...options?.headers },
+        body: JSON.stringify(directionUpdateLimits)
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    const data: directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatchResponse["data"] = body
+        ? JSON.parse(body)
+        : {};
+
+    return {
+        data,
+        status: res.status,
+        headers: res.headers
+    } as directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatchResponse;
+};
+
+/**
+ * Resets all limits (payin, payout, reward) by setting quantity to 0 for both min and max.
+ * @summary Delete (reset) limits for a direction
+ */
+export type directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDeleteResponse = {
+    data: ApiResponseDirection | HTTPValidationError;
+    status: number;
+    headers: Headers;
+};
+
+export const getDirectionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDeleteUrl = (directionId: string) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/${directionId}/limits`;
+};
+
+export const directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDelete = async (
+    directionId: string,
+    options?: RequestInit
+): Promise<directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDeleteResponse> => {
+    const res = await fetch(getDirectionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDeleteUrl(directionId), {
+        ...options,
+        method: "DELETE"
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    const data: directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDeleteResponse["data"] = body
+        ? JSON.parse(body)
+        : {};
+
+    return {
+        data,
+        status: res.status,
+        headers: res.headers
+    } as directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDeleteResponse;
 };
