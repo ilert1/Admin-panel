@@ -7,7 +7,8 @@ import {
     GetListResult,
     GetOneParams,
     GetOneResult,
-    UpdateParams
+    UpdateParams,
+    UpdateResult
 } from "react-admin";
 import { BaseDataProvider } from "./base";
 import {
@@ -17,10 +18,10 @@ import {
     directionEndpointsListDirectionsEnigmaV1DirectionGet,
     directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPut
 } from "@/api/enigma/direction/direction";
-import { DirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Direction, DirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export class DirectionsDataProvider extends BaseDataProvider {
-    async getList(resource: string, params: GetListParams): Promise<GetListResult> {
+    async getList(resource: string, params: GetListParams): Promise<GetListResult<Direction>> {
         const res = await directionEndpointsListDirectionsEnigmaV1DirectionGet(
             {
                 currentPage: params?.pagination.page,
@@ -39,12 +40,7 @@ export class DirectionsDataProvider extends BaseDataProvider {
 
         if ("data" in res.data && res.data.success) {
             return {
-                data: res.data.data.items.map((elem: { name: string }) => {
-                    return {
-                        id: elem.name,
-                        ...elem
-                    };
-                }),
+                data: res.data.data.items,
                 total: res.data.data.total
             };
         } else if ("data" in res.data && !res.data.success) {
@@ -59,7 +55,7 @@ export class DirectionsDataProvider extends BaseDataProvider {
         };
     }
 
-    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
+    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<Direction>> {
         const res = await directionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGet(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -76,34 +72,10 @@ export class DirectionsDataProvider extends BaseDataProvider {
             throw new Error(res.data.detail?.[0].msg);
         }
 
-        return {
-            data: {}
-        };
+        return Promise.reject();
     }
 
-    async update(resource: string, params: UpdateParams) {
-        const res = await directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPut(params.id, params.data, {
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
-        });
-
-        if ("data" in res.data && res.data.success) {
-            return {
-                data: res.data.data
-            };
-        } else if ("data" in res.data && !res.data.success) {
-            throw new Error(res.data.error?.error_message);
-        } else if ("detail" in res.data) {
-            throw new Error(res.data.detail?.[0].msg);
-        }
-
-        return {
-            data: {}
-        };
-    }
-
-    async create(resource: string, params: CreateParams<DirectionCreate>): Promise<CreateResult> {
+    async create(resource: string, params: CreateParams<DirectionCreate>): Promise<CreateResult<Direction>> {
         const res = await directionEndpointsCreateDirectionEnigmaV1DirectionPost(params.data as DirectionCreate, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -120,13 +92,11 @@ export class DirectionsDataProvider extends BaseDataProvider {
             throw new Error(res.data.detail?.[0].msg);
         }
 
-        return {
-            data: {}
-        };
+        return Promise.reject();
     }
 
-    async delete(resource: string, params: DeleteParams): Promise<DeleteResult> {
-        const res = await directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDelete(params.id, {
+    async update(resource: string, params: UpdateParams): Promise<UpdateResult<Direction>> {
+        const res = await directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPut(params.id, params.data, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
@@ -142,8 +112,24 @@ export class DirectionsDataProvider extends BaseDataProvider {
             throw new Error(res.data.detail?.[0].msg);
         }
 
+        return Promise.reject();
+    }
+
+    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Direction>> {
+        const res = await directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDelete(params.id, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        });
+
+        if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
         return {
-            data: {}
+            data: params.id
         };
     }
 }
