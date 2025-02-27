@@ -8,30 +8,32 @@ export const useGetTerminals = () => {
     const translate = useTranslate();
     const [terminals, setTerminals] = useState<Directions.Terminal[]>([]);
 
-    const getTerminals = async (name: string) => {
-        try {
-            const url = `${ENIGMA_URL}/provider/${name}/terminal`;
-            const { json } = await fetchUtils.fetchJson(url, {
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-            });
-            if (!json.success) {
-                throw new Error("");
+    const getTerminals = async (name: string | undefined) => {
+        if (name) {
+            try {
+                const url = `${ENIGMA_URL}/provider/${name}/terminal`;
+                const { json } = await fetchUtils.fetchJson(url, {
+                    user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+                });
+                if (!json.success) {
+                    throw new Error("");
+                }
+                if (json.data.length === 0) {
+                    throw new Error("no_terminals");
+                }
+                setTerminals(json.data);
+            } catch (error) {
+                setTerminals([]);
+                let message = "terminalError";
+                if (error instanceof Error && error.message === "no_terminals") {
+                    message = "noTerminalsError";
+                }
+                toast.error("Error", {
+                    description: translate(`resources.direction.errors.${message}`),
+                    dismissible: true,
+                    duration: 3000
+                });
             }
-            if (json.data.length === 0) {
-                throw new Error("no_terminals");
-            }
-            setTerminals(json.data);
-        } catch (error) {
-            setTerminals([]);
-            let message = "terminalError";
-            if (error instanceof Error && error.message === "no_terminals") {
-                message = "noTerminalsError";
-            }
-            toast.error("Error", {
-                description: translate(`resources.direction.errors.${message}`),
-                dismissible: true,
-                duration: 3000
-            });
         }
     };
 
