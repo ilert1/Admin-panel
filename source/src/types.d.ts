@@ -157,8 +157,7 @@ declare namespace Transaction {
             ];
         };
         dispute: boolean;
-        fees: Fee[];
-        // owner_id: string;
+        fees: import("./api/enigma/blowFishEnigmaAPIService.schemas").Fee[];
         meta: Meta;
         payload?: Payload;
         rate_info: RateInfo;
@@ -188,14 +187,6 @@ declare namespace Transaction {
         rate: string;
         rate_source_currency: string;
         rate_destination_currency: string;
-    };
-
-    type Fee = {
-        recipient: string;
-        type: number;
-        currency: string;
-        direction: number;
-        value: Value;
     };
 }
 
@@ -283,14 +274,6 @@ declare namespace Currencies {
     }
 }
 
-interface Merchant {
-    id: string;
-    name: string;
-    description: string | null;
-    keycloak_id: string | null;
-    fees: Fees | Record<string, never> | null;
-}
-
 interface Provider {
     fields_json_schema: string;
     public_key: string | null;
@@ -305,34 +288,6 @@ interface IGetKeys {
 }
 
 declare namespace Directions {
-    interface FeeValue {
-        accuracy: number;
-        quantity: number;
-    }
-
-    interface Fee {
-        id: string;
-        type: number;
-        value: FeeValue;
-        currency: string;
-        recipient: string;
-        description: string;
-    }
-
-    interface FeeCreate {
-        type: number | string;
-        value: number;
-        currency: string;
-        description: string;
-        recipient: string;
-        direction: string | number;
-        innerId?: number;
-    }
-
-    interface Fees {
-        [key: string]: Fee;
-    }
-
     interface Terminal {
         id: string;
         terminal_id: string;
@@ -342,33 +297,6 @@ declare namespace Directions {
         auth: object;
         fees: Fees;
         account_created: boolean;
-    }
-
-    interface Direction {
-        id: string;
-        name: string;
-        merchant: Merchant;
-        account_id: string;
-        active: boolean;
-        description: string | null;
-        weight: number;
-        src_currency: Omit<Currencies.Currency, "id">;
-        dst_currency: Omit<Currencies.Currency, "id">;
-        provider: Omit<Provider, "id">;
-        auth_data: object;
-        fees: Fees | Record<string, never> | null;
-        terminal: Terminal;
-    }
-
-    interface DirectionCreate {
-        name: string;
-        description: string | null;
-        src_currency: string;
-        dst_currency: string;
-        merchant: string;
-        provider: string;
-        weight: number;
-        // fees: Fees | Record<string, never> | null;
     }
 }
 

@@ -1,4 +1,4 @@
-import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";

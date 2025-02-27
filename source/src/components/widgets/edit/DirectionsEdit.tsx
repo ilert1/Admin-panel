@@ -19,7 +19,7 @@ import { Form, FormItem, FormMessage, FormControl, FormField } from "@/component
 import { useFetchDataForDirections, useGetTerminals, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { DirectionUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { DirectionUpdate, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export interface DirectionEditProps {
     id?: string;

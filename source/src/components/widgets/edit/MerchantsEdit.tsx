@@ -12,6 +12,7 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 import { FeesResource } from "@/data";
 import { usePreventFocus } from "@/hooks";
 import { Fees } from "../components/Fees";
+import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 interface MerchantEditProps {
     id?: string;

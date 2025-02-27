@@ -12,8 +12,7 @@ import { useState } from "react";
 import { feesDataProvider, FeesResource } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { Fees } from "../components/Fees";
-
-export type FeeType = "inner" | "default";
+import { FeeCreate, MerchantCreate as IMerchantCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
@@ -24,10 +23,10 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
     const translate = useTranslate();
     const refresh = useRefresh();
 
-    const [fees, setFees] = useState<Directions.FeeCreate[]>([]);
+    const [fees, setFees] = useState<(FeeCreate & { innerId?: number })[]>([]);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
-    const onSubmit: SubmitHandler<Merchant> = async data => {
+    const onSubmit: SubmitHandler<IMerchantCreate> = async data => {
         if (submitButtonDisabled) return;
 
         setSubmitButtonDisabled(true);

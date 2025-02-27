@@ -20,18 +20,20 @@ import { useCreateController, useRefresh, useTranslate } from "react-admin";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Label } from "@/components/ui/label";
-import { FeeType } from "../create/MerchantCreate";
+import { FeeCreate, FeeType as IFeeType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 enum FeeEnum {
     FEE_FROM_SENDER = "FeeFromSender",
     FEE_FROM_TRANSACTION = "FeeFromTransaction"
 }
 
+export type FeeType = "inner" | "default";
+
 export interface AddFeeCardProps {
     id: string;
     resource: FeesResource;
     onOpenChange: (state: boolean) => void;
-    setFees?: React.Dispatch<React.SetStateAction<Directions.FeeCreate[]>>;
+    setFees?: React.Dispatch<React.SetStateAction<(FeeCreate & { innerId?: number })[]>>;
     variants?: string[];
     feeType?: FeeType;
     providerName?: string;
@@ -48,6 +50,16 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
 
     const { currencies, isLoading: loadingData } = useFetchDataForDirections();
 
+    const formSchema = z.object({
+        currency: z.string().min(1, { message: translate("resources.direction.fees.currencyFieldError") }),
+        value: z.coerce
+            .number({ message: translate("resources.direction.fees.valueFieldError") })
+            .min(0, { message: translate("resources.direction.fees.valueFieldError") }),
+        type: z.custom<IFeeType>(),
+        description: z.string(),
+        direction: z.string().min(1, { message: translate("resources.direction.fees.directionFieldError") })
+    });
+
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (feeType === "inner") {
             if (setFees) {
@@ -55,7 +67,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                     ...prev,
                     {
                         ...data,
-                        type: Number(data.type),
+                        type: data.type,
                         direction: Number(data.direction),
                         recipient: resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee",
                         innerId: new Date().getTime()
@@ -65,9 +77,9 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
             }
             return;
         }
-        const reqData: Directions.FeeCreate = {
+        const reqData: FeeCreate = {
             ...data,
-            type: Number(data.type),
+            type: data.type,
             direction: Number(data.direction),
             recipient: resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee"
         };
@@ -90,22 +102,12 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
         }
     };
 
-    const formSchema = z.object({
-        currency: z.string().min(1, { message: translate("resources.direction.fees.currencyFieldError") }),
-        value: z.coerce
-            .number({ message: translate("resources.direction.fees.valueFieldError") })
-            .min(0, { message: translate("resources.direction.fees.valueFieldError") }),
-        type: z.enum(["1", "2"]),
-        description: z.string(),
-        direction: z.string().min(1, { message: translate("resources.direction.fees.directionFieldError") })
-    });
-
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             currency: "",
             value: 0,
-            type: "1",
+            type: 1,
             description: "",
             direction: ""
         }
@@ -189,8 +191,8 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                             <Label>{translate("resources.direction.fees.feeType")}</Label>
                                             <FormControl>
                                                 <Select
-                                                    value={field.value}
-                                                    onValueChange={field.onChange}
+                                                    value={field.value.toString()}
+                                                    onValueChange={value => field.onChange(Number(value))}
                                                     disabled={currenciesDisabled}>
                                                     <FormControl>
                                                         <SelectTrigger
@@ -203,10 +205,14 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     </FormControl>
                                                     <SelectContent>
                                                         <SelectGroup>
-                                                            <SelectItem value={"1"} variant={SelectType.GRAY}>
+                                                            <SelectItem
+                                                                value={IFeeType.NUMBER_1.toString()}
+                                                                variant={SelectType.GRAY}>
                                                                 {FeeEnum.FEE_FROM_SENDER}
                                                             </SelectItem>
-                                                            <SelectItem value={"2"} variant={SelectType.GRAY}>
+                                                            <SelectItem
+                                                                value={IFeeType.NUMBER_2.toString()}
+                                                                variant={SelectType.GRAY}>
                                                                 {FeeEnum.FEE_FROM_TRANSACTION}
                                                             </SelectItem>
                                                         </SelectGroup>

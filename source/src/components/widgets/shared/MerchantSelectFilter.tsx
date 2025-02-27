@@ -1,8 +1,8 @@
+import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button } from "@/components/ui/Button";
 import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { ErrorBadge } from "@/components/ui/Input/ErrorBadge";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { SelectType } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { Check, ChevronDown } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";

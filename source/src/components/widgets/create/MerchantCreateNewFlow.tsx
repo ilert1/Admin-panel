@@ -15,6 +15,7 @@ import { Fees } from "../components/Fees";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { BF_MANAGER_URL } from "@/data/base";
+import { FeeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export type FeeType = "inner" | "default";
 
@@ -26,7 +27,7 @@ export const MerchantCreateNewFlow = ({ onOpenChange }: { onOpenChange: (state: 
     const translate = useTranslate();
     const refresh = useRefresh();
 
-    const [fees, setFees] = useState<Directions.FeeCreate[]>([]);
+    const [fees, setFees] = useState<FeeCreate[]>([]);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [fileContent, setFileContent] = useState("");
 

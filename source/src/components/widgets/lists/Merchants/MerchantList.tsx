@@ -11,6 +11,7 @@ import { EditMerchantDialog } from "./EditMerchantDialog";
 import { ShowMerchantSheet } from "./ShowMerchantSheet";
 import { CreateMerchantDialog } from "./CreateMerchantDialog";
 import { CreateMerchantDialogNewFlow } from "./CreateMerchantDialogNewFlow";
+import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export const MerchantList = () => {
     const listContext = useListController<Merchant>();
