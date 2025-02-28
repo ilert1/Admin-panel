@@ -107,6 +107,18 @@ const ru: TranslationMessages = {
             deleteMessages: {
                 deleteSuccess: "Успешно удален",
                 deleteError: "Ошибка при удалении пользователя"
+            },
+            roles: {
+                admin: "Системный администратор",
+                system_manager_for_providers: "Системный менеджер по интеграции провайдеров",
+                system_manager_for_merchants: "Системный менеджер по интеграции мерчантов",
+                system_sales_manager: "Системный менеджер по продажам",
+                system_hos: "Руководитель отдела продаж в системе",
+                system_operator: "Оператор системы",
+                system_supervisor: "Аудитор системы",
+                system_accountant: "Бухгалтер системы",
+                merchant: "Адмнистратор мерчанта",
+                merchant_operator: "Оператор мерчанта"
             }
         },
         transactions: {
@@ -958,6 +970,18 @@ const en: TranslationMessages = {
             deleteMessages: {
                 deleteSuccess: "Deleted successfully",
                 deleteError: "Failed to delete user"
+            },
+            roles: {
+                admin: "System admin",
+                system_manager_for_providers: "Manager for provider integrations on system",
+                system_manager_for_merchants: "Manager for merchant integrations on system",
+                system_sales_manager: "Sales manager on system",
+                system_hos: "Head of sales on system",
+                system_operator: "System operator",
+                system_supervisor: "System supervisor",
+                system_accountant: "System accountant",
+                merchant: "Merchant admin",
+                merchant_operator: "Merchant operator"
             }
         },
         transactions: {

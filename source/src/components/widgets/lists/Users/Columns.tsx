@@ -66,7 +66,9 @@ export const useGetUserColumns = () => {
             accessorKey: "roles",
             header: translate("resources.users.fields.roles"),
             cell: ({ row }) => {
-                return row.original.roles?.map((role, index) => <TextField key={index} text={role.name} />);
+                return row.original.roles?.map((role, index) => (
+                    <TextField key={index} text={translate(`resources.users.roles.${role.name}`)} />
+                ));
             }
         },
         {
