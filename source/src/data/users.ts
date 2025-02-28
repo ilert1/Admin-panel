@@ -30,9 +30,9 @@ export class UsersDataProvider extends BaseDataProvider {
         });
         return {
             data:
-                json.data.map((elem: { mercahnt_id: string }) => {
+                json.data.map((elem: { keycloack_id: string }) => {
                     return {
-                        id: elem.mercahnt_id,
+                        id: elem.keycloack_id,
                         ...elem
                     };
                 }) || [],
@@ -51,7 +51,7 @@ export class UsersDataProvider extends BaseDataProvider {
 
         return {
             data: {
-                id: json.data.mercahnt_id,
+                id: json.data.keycloack_id,
                 ...json.data
             }
         };
