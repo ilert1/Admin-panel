@@ -160,7 +160,6 @@ const ru: TranslationMessages = {
                         caption: "Название"
                     }
                 },
-                currency: "Валюта",
                 recipient: "Получатель",
                 type: "Тип",
                 value: "Сумма",
@@ -1014,7 +1013,6 @@ const en: TranslationMessages = {
                         caption: "Name"
                     }
                 },
-                currency: "Currency",
                 recipient: "Recipient",
                 value: "Value",
                 type: "Type",

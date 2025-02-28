@@ -17,7 +17,8 @@ export const TextField = ({
     lineClamp = false,
     linesCount = 3,
     minWidth = "150px",
-    className = ""
+    className = "",
+    onClick
 }: {
     text: string;
     label?: string | undefined;
@@ -30,6 +31,7 @@ export const TextField = ({
     linesCount?: number;
     minWidth?: string;
     className?: string;
+    onClick?: React.MouseEventHandler<HTMLSpanElement> | undefined;
 }) => {
     const currentText = useMemo(() => (text?.length > 0 ? text : "-"), [text]);
     const translate = useTranslate();
@@ -55,19 +57,19 @@ export const TextField = ({
     // Experiemental
     const textStyle = () => {
         if (wrap === true) {
-            return "overflow-hidden ellipsis block";
+            return "overflow-hidden ellipsis";
         } else if (wrap === "break-all") {
-            return "overflow-hidden break-all block";
+            return "overflow-hidden break-all";
         }
 
-        return "truncate block";
+        return "truncate";
     };
 
     return (
         <div className="text-neutral-90 dark:text-neutral-0">
             {label && <small className={cn("text-neutral-60", labelSize)}>{label}</small>}
             {(type === "text" || type === "link") && (
-                <p className={cn("leading-5 flex flex-row gap-2", className)}>
+                <p className={cn("leading-5 flex flex-row gap-2 items-center", className)}>
                     {copyValue && text?.length > 0 && (
                         <span>
                             <Copy
@@ -77,7 +79,8 @@ export const TextField = ({
                         </span>
                     )}
                     <span
-                        className={textStyle()}
+                        className={cn(textStyle(), "block cursor-default", onClick && "cursor-pointer")}
+                        onClick={onClick}
                         style={{
                             ...(lineClamp
                                 ? {

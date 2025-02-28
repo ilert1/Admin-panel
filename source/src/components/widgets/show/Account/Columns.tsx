@@ -1,10 +1,14 @@
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
+import { useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
 
 export const useGetAccountShowColumns = () => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
+
+    const [chosenId, setChosenId] = useState("");
+    const [transcationInfoOpen, setTransactionInfoOpen] = useState(false);
 
     const historyColumns: ColumnDef<AccountHistory>[] = [
         {
@@ -37,7 +41,18 @@ export const useGetAccountShowColumns = () => {
             id: "transaction_id",
             accessorKey: "transaction_id",
             header: translate("resources.transactions.fields.id"),
-            cell: ({ row }) => <TextField text={row.original.transaction_id} copyValue wrap />
+            cell: ({ row }) => (
+                <TextField
+                    text={row.original.transaction_id}
+                    copyValue
+                    wrap
+                    className="p-0 h-auto mb-[4px] underline transition-colors outline-none text-green-50 hover:text-green-40 active:text-green-60 focus-visible:text-neutral-60 dark:text-green-40 dark:hover:text-green-50 dark:active:text-green-20 dark:focus-visible:text-neutral-70"
+                    onClick={() => {
+                        setChosenId(row.original.transaction_id);
+                        setTransactionInfoOpen(true);
+                    }}
+                />
+            )
         },
         {
             id: "account_id",
@@ -65,5 +80,5 @@ export const useGetAccountShowColumns = () => {
         }
     ];
 
-    return { historyColumns };
+    return { historyColumns, chosenId, transcationInfoOpen, setTransactionInfoOpen };
 };
