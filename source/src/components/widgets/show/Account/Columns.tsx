@@ -48,6 +48,7 @@ export const useGetAccountShowColumns = () => {
                     wrap
                     className="p-0 h-auto mb-[4px] underline transition-colors outline-none text-green-50 hover:text-green-40 active:text-green-60 focus-visible:text-neutral-60 dark:text-green-40 dark:hover:text-green-50 dark:active:text-green-20 dark:focus-visible:text-neutral-70"
                     onClick={() => {
+                        console.log(row.original);
                         setChosenId(row.original.transaction_id);
                         setTransactionInfoOpen(true);
                     }}

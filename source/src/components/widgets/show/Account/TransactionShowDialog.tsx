@@ -6,15 +6,18 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { useShowController, useTranslate } from "react-admin";
+import { fetchUtils, useShowController, useTranslate } from "react-admin";
 import { CloseSheetXButton } from "../../components/CloseSheetXButton";
 import { TextField } from "@/components/ui/text-field";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/Button";
 import { useTransactionActions } from "@/hooks";
 import fetchDictionaries from "@/helpers/get-dictionaries";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { TransactionShow } from "../Transaction";
+import { useQuery } from "react-query";
+import { API_URL } from "@/data/base";
+import { Loading } from "@/components/ui/loading";
 
 export interface TransactionShowDialogProps {
     open: boolean;
@@ -25,16 +28,47 @@ export const TransactionShowDialog = (props: TransactionShowDialogProps) => {
     const { id, open, onOpenChange } = props;
     const translate = useTranslate();
     const data = fetchDictionaries();
-    const context = useShowController<Transaction.Transaction>({ resource: "transactions", id });
 
-    const { states, showCommit, commitCaption, commitTransaction, switchState } = useTransactionActions(
-        data,
-        context?.record
+    const states = useMemo(
+        () => (data?.states ? Object.keys(data?.states).map(key => data?.states[key]) || [] : []),
+        [data?.states]
     );
 
     const [newState, setNewState] = useState("");
 
     const [dialogOpen, setDialogOpen] = useState(false);
+
+    // const { states, showCommit, commitCaption, commitTransaction, switchState } = useTransactionActions(
+    //     data,
+    //     context?.record
+    // );
+
+    const { data: queryData } = useQuery(
+        ["getTransaction"],
+        async () => {
+            if (!id) return;
+
+            const { json } = await fetchUtils.fetchJson(`${API_URL}/transactions/${id}`, {
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            });
+
+            if (!json.success) {
+                console.log("Err");
+            }
+            return json.data;
+        },
+        {}
+    );
+    console.log(queryData);
+
+    if (!id) return;
+    if (!queryData) {
+        return (
+            <div>
+                <Loading />
+            </div>
+        );
+    }
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -127,7 +161,7 @@ export const TransactionShowDialog = (props: TransactionShowDialogProps) => {
                         )}
                     </div>
                 </div> */}
-                <TransactionShow id={id} />
+                {/* <TransactionShow id={id} /> */}
                 <DialogFooter></DialogFooter>
             </DialogContent>
         </Dialog>
