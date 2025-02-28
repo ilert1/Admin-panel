@@ -141,7 +141,7 @@ export class MerchantsDataProvider extends BaseDataProvider {
         return Promise.reject();
     }
 
-    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Merchant>> {
+    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<Merchant, "id">>> {
         const res = await merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDelete(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -155,7 +155,9 @@ export class MerchantsDataProvider extends BaseDataProvider {
         }
 
         return {
-            data: params.id
+            data: {
+                id: params.id
+            }
         };
     }
 }

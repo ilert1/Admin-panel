@@ -162,7 +162,7 @@ export class CurrenciesDataProvider extends BaseDataProvider {
         return Promise.reject();
     }
 
-    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<CurrencyWithId>> {
+    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<CurrencyWithId, "id">>> {
         const res = await currencyEndpointsDeleteCurrencyEnigmaV1CurrencyCurrencyCodeDelete(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -176,7 +176,9 @@ export class CurrenciesDataProvider extends BaseDataProvider {
         }
 
         return {
-            data: params.id
+            data: {
+                id: params.id
+            }
         };
     }
 }

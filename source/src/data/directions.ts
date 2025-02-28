@@ -115,7 +115,7 @@ export class DirectionsDataProvider extends BaseDataProvider {
         return Promise.reject();
     }
 
-    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Direction>> {
+    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<Direction, "id">>> {
         const res = await directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDelete(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -129,7 +129,9 @@ export class DirectionsDataProvider extends BaseDataProvider {
         }
 
         return {
-            data: params.id
+            data: {
+                id: params.id
+            }
         };
     }
 }
