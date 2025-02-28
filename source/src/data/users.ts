@@ -29,7 +29,13 @@ export class UsersDataProvider extends BaseDataProvider {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
         return {
-            data: json.data || [],
+            data:
+                json.data.map((elem: { keycloack_id: string }) => {
+                    return {
+                        id: elem.keycloack_id,
+                        ...elem
+                    };
+                }) || [],
             total: json?.total || 0
         };
     }
@@ -43,7 +49,12 @@ export class UsersDataProvider extends BaseDataProvider {
             throw new Error(json.error);
         }
 
-        return { data: json.data };
+        return {
+            data: {
+                id: json.data.keycloack_id,
+                ...json.data
+            }
+        };
     }
 
     async create(resource: string, params: CreateParams): Promise<CreateResult> {

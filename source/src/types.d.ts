@@ -237,12 +237,14 @@ declare namespace JWT {
 declare namespace Users {
     interface User {
         id: string;
+        mercahnt_id: string;
         state: number;
         name: string;
         created_at: string;
         deleted_at: string;
         login: string;
         email: string;
+        roles: Role[];
         public_key: string;
         shop_currency: string;
         shop_api_key: string;
@@ -280,6 +282,11 @@ declare namespace Currencies {
         is_coin: boolean;
         code: string;
         id: string;
+    }
+
+    interface Role {
+        name: string;
+        description: string;
     }
 }
 

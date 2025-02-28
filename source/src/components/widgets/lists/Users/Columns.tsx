@@ -20,7 +20,7 @@ export const useGetUserColumns = () => {
     };
 
     const columns: ColumnDef<Users.User>[] = [
-        {
+        /* {
             id: "created_at",
             accessorKey: "created_at",
             header: translate("resources.users.fields.created_at"),
@@ -30,20 +30,58 @@ export const useGetUserColumns = () => {
                     <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
                 </>
             )
-        },
+        }, */
         {
-            id: "id",
-            accessorKey: "id",
-            header: translate("resources.users.fields.id"),
+            id: "keycloack_id",
+            accessorKey: "keycloack_id",
+            header: translate("resources.users.fields.keycloack_id"),
             cell: ({ row }) => <TextField text={row.original.id} copyValue lineClamp linesCount={1} minWidth="50px" />
         },
         {
             id: "name",
             accessorKey: "name",
             header: translate("resources.users.fields.name"),
-            cell: ({ row }) => <TextField text={row.original.name} copyValue wrap />
+            cell: ({ row }) => (
+                <div>
+                    <TextField text={row.original.name} />
+                    <TextField
+                        text={row.original.email}
+                        copyValue
+                        lineClamp
+                        linesCount={1}
+                        minWidth="50px"
+                        className="text-neutral-70"
+                    />
+                </div>
+            )
         },
         {
+            id: "login",
+            accessorKey: "login",
+            header: translate("resources.users.fields.login"),
+            cell: ({ row }) => <TextField text={row.original.login} copyValue wrap />
+        },
+        {
+            id: "roles",
+            accessorKey: "roles",
+            header: translate("resources.users.fields.roles"),
+            cell: ({ row }) => {
+                return row.original.roles?.map(role => <TextField text={role.name} />);
+            }
+        },
+        {
+            id: "merchant",
+            accessorKey: "merchant",
+            header: translate("resources.users.fields.merchant"),
+            cell: ({ row }) => <TextField text={row.original.mercahnt_id} copyValue wrap />
+        },
+        /* {
+            id: "active",
+            accessorKey: "active",
+            header: translate("resources.users.fields.active"),
+            cell: ({ row }) => <TextField text={row.original.state == 1 ? "+" : "-"} />
+        }, */
+        /* {
             accessorKey: "active",
             header: () => {
                 return <div className="text-center">{translate("resources.users.fields.active")}</div>;
@@ -62,10 +100,11 @@ export const useGetUserColumns = () => {
                     </div>
                 );
             }
-        },
+        }, */
         {
             id: "actions",
             cell: ({ row }) => {
+                console.log("User", row.original);
                 return <ShowButton onClick={() => openSheet(row.original.id)} />;
             }
         }
