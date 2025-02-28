@@ -228,12 +228,17 @@ declare namespace JWT {
 declare namespace Users {
     interface User {
         id: string;
+        mercahnt_id: string;
         state: number;
         name: string;
         created_at: string;
         deleted_at: string;
         login: string;
         email: string;
+        roles: {
+            name: string;
+            description: string;
+        }[];
         public_key: string;
         shop_currency: string;
         shop_api_key: string;
@@ -257,6 +262,19 @@ declare namespace Users {
         newPassword: string;
         newPasswordRepeat: string;
     }
+    declare namespace Currencies {
+        enum PositionEnum {
+            BEFORE = "before",
+            AFTER = "after"
+        }
+
+        interface Currency {
+            symbol: string | null;
+            position: PositionEnum;
+            is_coin: boolean;
+            code: string;
+            id: string;
+        }
 }
 
 declare namespace Dictionaries {

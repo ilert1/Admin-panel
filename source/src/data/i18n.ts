@@ -69,9 +69,12 @@ const ru: TranslationMessages = {
             delete: "Удалить",
             fields: {
                 id: "ID пользователя",
+                keycloack_id: "ID пользователя",
                 name: "Имя пользователя",
                 login: "Логин",
                 email: "Электронная почта",
+                merchant: "Мерчант",
+                roles: "Роли",
                 currency: "Валюта",
                 created_at: "Дата и время",
                 active: "Активность",
@@ -918,9 +921,12 @@ const en: TranslationMessages = {
             deleteThisUser: "Delete user?",
             fields: {
                 id: "User ID",
+                keycloack_id: "User ID",
                 name: "Username",
                 login: "Login",
                 email: "Email",
+                merchant: "Merchant",
+                roles: "Roles",
                 currency: "Currency",
                 created_at: "Date and time",
                 active: "Activity",
@@ -931,6 +937,7 @@ const en: TranslationMessages = {
                 shop_sign_key: "Sign key",
                 shop_balance_key: "Balance key"
             },
+            createButton: "Add user",
             filter: {
                 showAll: "Show all",
                 filterByUserId: "Search by user ID",
@@ -938,7 +945,6 @@ const en: TranslationMessages = {
                 filterByUsernamePlaceholder: "Name",
                 filterByActivity: "Active users"
             },
-            createButton: "Add user",
             showHeader: "User info",
             showDescription: "Detailed information about user with ID %{id}",
             editUser: "Edit user",
