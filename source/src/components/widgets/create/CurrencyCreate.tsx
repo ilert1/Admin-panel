@@ -102,6 +102,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                                             label={translate("resources.currency.fields.symbol")}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
+                                            {...field}
                                             value={field.value ?? ""}
                                         />
                                     </FormControl>
