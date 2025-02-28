@@ -262,19 +262,6 @@ declare namespace Users {
         newPassword: string;
         newPasswordRepeat: string;
     }
-    declare namespace Currencies {
-        enum PositionEnum {
-            BEFORE = "before",
-            AFTER = "after"
-        }
-
-        interface Currency {
-            symbol: string | null;
-            position: PositionEnum;
-            is_coin: boolean;
-            code: string;
-            id: string;
-        }
 }
 
 declare namespace Dictionaries {

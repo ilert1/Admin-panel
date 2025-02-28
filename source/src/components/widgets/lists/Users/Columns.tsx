@@ -2,14 +2,14 @@ import { ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
-import { useLocaleState, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 
-const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
-const translations = ["active", "frozen", "blocked", "deleted"];
+// const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
+// const translations = ["active", "frozen", "blocked", "deleted"];
 
 export const useGetUserColumns = () => {
     const translate = useTranslate();
-    const [locale] = useLocaleState();
+    // const [locale] = useLocaleState();
 
     const [userId, setUserId] = useState("");
     const [showOpen, setShowOpen] = useState(false);
@@ -66,7 +66,7 @@ export const useGetUserColumns = () => {
             accessorKey: "roles",
             header: translate("resources.users.fields.roles"),
             cell: ({ row }) => {
-                return row.original.roles?.map(role => <TextField text={role.name} />);
+                return row.original.roles?.map((role, index) => <TextField key={index} text={role.name} />);
             }
         },
         {
