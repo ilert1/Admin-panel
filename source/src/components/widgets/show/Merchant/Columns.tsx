@@ -1,6 +1,7 @@
 import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
+import { ProviderWithId } from "@/data/providers";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslate } from "react-admin";
 
@@ -52,7 +53,7 @@ export const useGetMerchantShowColumns = () => {
             accessorKey: "provider",
             header: translate("resources.direction.provider"),
             cell: ({ row }) => {
-                const obj: Provider = row.getValue("provider");
+                const obj: ProviderWithId = row.getValue("provider");
                 return <TextField text={obj.name} wrap />;
             }
         },

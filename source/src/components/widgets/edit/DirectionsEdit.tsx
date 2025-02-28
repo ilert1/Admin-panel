@@ -19,8 +19,7 @@ import { Form, FormItem, FormMessage, FormControl, FormField } from "@/component
 import { useFetchDataForDirections, useGetTerminals, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { Direction, DirectionUpdate, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { CurrencyWithId } from "@/data/currencies";
+import { Direction, DirectionUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export interface DirectionEditProps {
     id?: string;
@@ -170,7 +169,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {currencies?.data.map((currency: CurrencyWithId) => {
+                                                {currencies?.data.map(currency => {
                                                     return (
                                                         <SelectItem
                                                             key={currency.code}
@@ -203,7 +202,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {merchants?.data.map((merchant: Merchant) => {
+                                                {merchants?.data.map(merchant => {
                                                     return (
                                                         <SelectItem
                                                             key={merchant.name}
@@ -236,7 +235,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {currencies?.data.map((currency: CurrencyWithId) => {
+                                                {currencies?.data.map(currency => {
                                                     return (
                                                         <SelectItem
                                                             key={currency.code}
@@ -276,7 +275,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {providers?.data.map((provider: Provider) => {
+                                                {providers?.data.map(provider => {
                                                     return (
                                                         <SelectItem
                                                             variant={SelectType.GRAY}

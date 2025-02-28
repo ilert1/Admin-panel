@@ -7,131 +7,178 @@ import {
     GetListResult,
     GetOneParams,
     GetOneResult,
-    UpdateParams
+    UpdateParams,
+    UpdateResult
 } from "react-admin";
-import { fetchUtils } from "react-admin";
-
 import { BaseDataProvider } from "./base";
+import {
+    providerEndpointsCreateProviderEnigmaV1ProviderPost,
+    providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDelete,
+    providerEndpointsGetProviderEnigmaV1ProviderProviderNameGet,
+    providerEndpointsListProvidersEnigmaV1ProviderGet,
+    providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePut
+} from "@/api/enigma/provider/provider";
+import { Provider, ProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
-const API_URL = import.meta.env.VITE_ENIGMA_URL;
+export type ProviderWithId = Provider & { id: string };
 
 export class ProvidersDataProvider extends BaseDataProvider {
-    async getList(resource: string, params: GetListParams): Promise<GetListResult> {
-        const paramsStr = new URLSearchParams({
-            limit: params?.pagination.perPage.toString(),
-            offset: ((params?.pagination.page - 1) * +params?.pagination.perPage).toString()
-        }).toString();
-        const url = `${API_URL}/${resource}?${paramsStr}`;
+    async getList(resource: string, params: GetListParams): Promise<GetListResult<ProviderWithId>> {
+        const res = await providerEndpointsListProvidersEnigmaV1ProviderGet(
+            {
+                currentPage: params?.pagination.page,
+                pageSize: params?.pagination.perPage
+            },
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }
+        );
 
-        const { json } = await fetchUtils.fetchJson(url, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
-        if (!json.success) {
-            throw new Error(json.error);
-        }
-
-        return {
-            data:
-                json.data.map((elem: { name: string }) => {
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data.items.map(elem => {
                     return {
                         id: elem.name,
                         ...elem
                     };
-                }) || [],
-            total: json?.meta.total || 0
-        };
-    }
-
-    async getListWithoutPagination(resource: string) {
-        const url = `${API_URL}/${resource}`;
-        const { json } = await fetchUtils.fetchJson(url, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
-
-        if (!json.success) {
-            throw new Error(json.error);
+                }),
+                total: res.data.data.total
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
         }
 
         return {
-            data:
-                json.data.map((elem: { name: string }) => {
+            data: [],
+            total: 0
+        };
+    }
+
+    async getListWithoutPagination(): Promise<GetListResult<ProviderWithId>> {
+        const res = await providerEndpointsListProvidersEnigmaV1ProviderGet(
+            {
+                currentPage: 1,
+                pageSize: 1000
+            },
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }
+        );
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data.items.map(elem => {
                     return {
                         id: elem.name,
                         ...elem
                     };
-                }) || [],
-            total: json?.meta.total || 0
+                }),
+                total: res.data.data.total
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return {
+            data: [],
+            total: 0
         };
     }
 
-    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
-        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<ProviderWithId>> {
+        const res = await providerEndpointsGetProviderEnigmaV1ProviderProviderNameGet(params.id, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
         });
 
-        if (!json.success) {
-            throw new Error(json.error);
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    id: res.data.data.name,
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async create(resource: string, params: CreateParams): Promise<CreateResult<ProviderWithId>> {
+        const res = await providerEndpointsCreateProviderEnigmaV1ProviderPost(params.data as ProviderCreate, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        });
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    id: res.data.data.name,
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async update(resource: string, params: UpdateParams): Promise<UpdateResult<ProviderWithId>> {
+        const res = await providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePut(params.id, params.data, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        });
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    id: res.data.data.name,
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<ProviderWithId, "id">>> {
+        const res = await providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDelete(params.id, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        });
+
+        if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
         }
 
         return {
             data: {
-                id: json.data.name,
-                ...json.data
+                id: params.id
             }
         };
-    }
-
-    async update(resource: string, params: UpdateParams) {
-        delete params.data.generatedAt;
-        delete params.data.loadedAt;
-
-        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
-            method: "PUT",
-            body: JSON.stringify(params.data),
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
-
-        if (!json.success) {
-            throw new Error(json.error);
-        }
-
-        return {
-            data: {
-                id: json.data.name,
-                ...json.data
-            }
-        };
-    }
-
-    async create(resource: string, params: CreateParams): Promise<CreateResult> {
-        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}`, {
-            method: "POST",
-            body: JSON.stringify(params.data),
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
-
-        if (!json.success) {
-            throw new Error(json.error);
-        }
-
-        return {
-            data: {
-                id: json.data.name,
-                ...json.data
-            }
-        };
-    }
-
-    async delete(resource: string, params: DeleteParams): Promise<DeleteResult> {
-        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
-            method: "DELETE",
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
-
-        if (!json.success) {
-            throw new Error(json.error);
-        }
-
-        return { data: { id: params.id } };
     }
 }

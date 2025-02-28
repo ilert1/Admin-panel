@@ -259,19 +259,6 @@ declare namespace Users {
     }
 }
 
-interface Provider {
-    fields_json_schema: string;
-    public_key: string | null;
-    methods: { [key: string]: string };
-    name: string;
-    id: string;
-}
-
-interface IGetKeys {
-    keypair: { private_key: string; public_key: string };
-    provider: Omit<Provider, "id">;
-}
-
 declare namespace Directions {
     interface Terminal {
         id: string;

@@ -10,6 +10,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
+import { ProviderWithId } from "@/data/providers";
+import { ProviderCreate as IProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export interface ProviderCreateProps {
     onClose?: () => void;
@@ -17,7 +19,7 @@ export interface ProviderCreateProps {
 
 export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
     const dataProvider = useDataProvider();
-    const controllerProps = useCreateController();
+    const controllerProps = useCreateController<IProviderCreate>();
     const { theme } = useTheme();
 
     const translate = useTranslate();
@@ -47,7 +49,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
 
         setSubmitButtonDisabled(true);
 
-        const parseData: Omit<Provider, "id"> = {
+        const parseData: IProviderCreate = {
             name: data.name,
             methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {},
             fields_json_schema: data.fields_json_schema || "",
@@ -55,7 +57,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
         };
 
         try {
-            await dataProvider.create("provider", { data: parseData });
+            await dataProvider.create<ProviderWithId>("provider", { data: parseData });
             onClose();
         } catch (error) {
             toast.error(translate("resources.transactions.download.error"), {

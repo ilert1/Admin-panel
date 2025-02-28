@@ -11,9 +11,10 @@ import { CirclePlus } from "lucide-react";
 import { CreateProviderDialog } from "./CreateProviderDialog";
 import { ShowMethodsDialog } from "./ShowMethodsDialog";
 import { ConfirmCreatingDialog } from "./ConfirmCreatingDialog";
+import { ProviderWithId } from "@/data/providers";
 
 export const ProvidersList = () => {
-    const listContext = useListController<Provider>();
+    const listContext = useListController<ProviderWithId>();
     const translate = useTranslate();
     const refresh = useRefresh();
 
