@@ -46,11 +46,13 @@ export const MerchantShow = ({ id }: { id: string }) => {
                         throw new Error(res.data.detail?.[0].msg);
                     }
                 } catch (error) {
-                    toast.error("Error", {
-                        description: "Something went wrong",
-                        dismissible: true,
-                        duration: 3000
-                    });
+                    if (error instanceof Error) {
+                        toast.error("Error", {
+                            description: error.message,
+                            dismissible: true,
+                            duration: 3000
+                        });
+                    }
                 }
             }
         };
