@@ -11,6 +11,7 @@ import { LoadingBlock } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { TerminalWithId } from "@/data/terminals";
 
 export interface ProviderCreateProps {
     provider: string;
@@ -21,7 +22,7 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
     const refresh = useRefresh();
     const translate = useTranslate();
     const dataProvider = useDataProvider();
-    const controllerProps = useCreateController();
+    const controllerProps = useCreateController<TerminalWithId>();
     const { theme } = useTheme();
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -44,7 +45,7 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
         try {
             setSubmitButtonDisabled(true);
 
-            await dataProvider.create(`${provider}/terminal`, { data });
+            await dataProvider.create<TerminalWithId>(`${provider}/terminal`, { data });
 
             refresh();
             form.reset();

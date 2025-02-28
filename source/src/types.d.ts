@@ -259,19 +259,6 @@ declare namespace Users {
     }
 }
 
-declare namespace Directions {
-    interface Terminal {
-        id: string;
-        terminal_id: string;
-        verbose_name: string;
-        description?: string | null;
-        provider: string;
-        auth: object;
-        fees: Fees;
-        account_created: boolean;
-    }
-}
-
 declare namespace Dictionaries {
     interface State {
         state_int: number;
