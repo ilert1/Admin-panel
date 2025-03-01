@@ -35,11 +35,13 @@ export async function updateLimits(directionId: string, limits: UpdateLimitsType
                 }
             }
         );
+        console.log(data);
     } catch (error) {
-        toast.error("Error", {
-            dismissible: true,
-            duration: 3000,
-            description: error.message
-        });
+        if (error instanceof Error)
+            toast.error("Error", {
+                dismissible: true,
+                duration: 3000,
+                description: error.message
+            });
     }
 }
