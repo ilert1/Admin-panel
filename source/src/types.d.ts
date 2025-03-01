@@ -228,24 +228,19 @@ declare namespace JWT {
 declare namespace Users {
     interface User {
         id: string;
-        mercahnt_id: string;
-        state: number;
-        name: string;
         created_at: string;
-        deleted_at: string;
         login: string;
-        email: string;
+        email?: string;
+        first_name?: string;
+        last_name?: string;
+        merchant_id: string;
+        merchant_name?: string;
         roles: {
             name: string;
             description: string;
         }[];
-        public_key: string;
-        shop_currency: string;
-        shop_api_key: string;
-        shop_sign_key: string;
-        shop_balance_key: string;
         password: string;
-        state?: number;
+        activity: boolean;
     }
     interface UserCreate {
         state: number;

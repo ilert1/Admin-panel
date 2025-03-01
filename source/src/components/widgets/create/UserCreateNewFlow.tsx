@@ -33,7 +33,8 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
     const isFirefox = useMemo(() => navigator.userAgent.match(/firefox|fxios/i), []);
 
     const formSchema = z.object({
-        name: z.string().min(3, translate("app.widgets.forms.userCreate.nameMessage")).trim(),
+        first_name: z.string().min(3, translate("app.widgets.forms.userCreate.firstNameMessage")).trim(),
+        last_name: z.string().min(3, translate("app.widgets.forms.userCreate.lastNameMessage")).trim(),
         login: z.string().min(3, translate("app.widgets.forms.userCreate.loginMessage")).trim(),
         email: z
             .string()
@@ -52,7 +53,8 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
+            first_name: "",
+            last_name: "",
             login: "",
             email: "",
             password: "",
@@ -93,15 +95,36 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
             <CreateContextProvider value={contrProps}>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" autoComplete="off">
-                        <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-[repeat(3,auto)]  md:grid-flow-col gap-y-5 gap-x-4 items-stretch md:items-baseline">
+                        <div className="flex flex-col md:grid md:grid-cols-2 md:grid-template-rows-auto gap-y-5 gap-x-4 items-stretch md:items-baseline">
                             <FormField
-                                name="name"
+                                name="first_name"
                                 control={form.control}
                                 render={({ field, fieldState }) => (
                                     <FormItem className="space-y-1">
                                         <FormControl>
                                             <Input
-                                                label={translate("app.widgets.forms.userCreate.name")}
+                                                label={translate("app.widgets.forms.userCreate.firstName")}
+                                                autoComplete={isFirefox ? "new-password" : "off"}
+                                                autoCorrect="off"
+                                                autoCapitalize="none"
+                                                spellCheck="false"
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                variant={InputTypes.GRAY}
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                name="last_name"
+                                control={form.control}
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="space-y-1">
+                                        <FormControl>
+                                            <Input
+                                                label={translate("app.widgets.forms.userCreate.lastName")}
                                                 autoComplete={isFirefox ? "new-password" : "off"}
                                                 autoCorrect="off"
                                                 autoCapitalize="none"
@@ -223,24 +246,26 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                                 )}
                             />
 
-                            <FormField
-                                control={form.control}
-                                name="merchant_id"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="space-y-1">
-                                        <FormLabel>merchant</FormLabel>
-                                        <FormControl>
-                                            <MerchantSelectFilter
-                                                variant="outline"
-                                                error={fieldState.error?.message}
-                                                merchant={field.value}
-                                                onMerchantChanged={field.onChange}
-                                                resource="merchant"
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
+                            <div className="col-span-2">
+                                <FormField
+                                    control={form.control}
+                                    name="merchant_id"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="space-y-1">
+                                            <FormLabel>{translate("app.widgets.forms.userCreate.merchant")}</FormLabel>
+                                            <FormControl>
+                                                <MerchantSelectFilter
+                                                    variant="outline"
+                                                    error={fieldState.error?.message}
+                                                    merchant={field.value}
+                                                    onMerchantChanged={field.onChange}
+                                                    resource="merchant"
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
                         </div>
 
                         <div className="self-end flex items-center gap-4">

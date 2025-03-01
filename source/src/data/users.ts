@@ -30,9 +30,9 @@ export class UsersDataProvider extends BaseDataProvider {
         });
         return {
             data:
-                json.data.map((elem: { keycloack_id: string }) => {
+                json.data.map((elem: { keycloak_id: string }) => {
                     return {
-                        id: elem.keycloack_id,
+                        id: elem.keycloak_id,
                         ...elem
                     };
                 }) || [],
@@ -45,13 +45,15 @@ export class UsersDataProvider extends BaseDataProvider {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
 
+        console.log(json);
+
         if (!json.success) {
             throw new Error(json.error);
         }
 
         return {
             data: {
-                id: json.data.keycloack_id,
+                id: json.data.keycloak_id,
                 ...json.data
             }
         };

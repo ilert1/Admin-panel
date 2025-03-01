@@ -32,28 +32,33 @@ export const useGetUserColumns = () => {
             )
         }, */
         {
-            id: "keycloack_id",
-            accessorKey: "keycloack_id",
-            header: translate("resources.users.fields.keycloack_id"),
+            id: "keycloak_id",
+            accessorKey: "keycloak_id",
+            header: translate("resources.users.fields.keycloak_id"),
             cell: ({ row }) => <TextField text={row.original.id} copyValue lineClamp linesCount={1} minWidth="50px" />
         },
         {
             id: "name",
             accessorKey: "name",
             header: translate("resources.users.fields.name"),
-            cell: ({ row }) => (
-                <div>
-                    <TextField text={row.original.name} />
-                    <TextField
-                        text={row.original.email}
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                        minWidth="50px"
-                        className="text-neutral-70"
-                    />
-                </div>
-            )
+            cell: ({ row }) => {
+                const userName = `${row.original.first_name || ""} ${row.original.last_name || ""}`.trimEnd();
+                return (
+                    <div>
+                        {userName && <TextField text={userName} />}
+                        {row.original.email && (
+                            <TextField
+                                text={row.original.email}
+                                copyValue
+                                lineClamp
+                                linesCount={1}
+                                minWidth="50px"
+                                className="text-neutral-70"
+                            />
+                        )}
+                    </div>
+                );
+            }
         },
         {
             id: "login",
@@ -75,38 +80,45 @@ export const useGetUserColumns = () => {
             id: "merchant",
             accessorKey: "merchant",
             header: translate("resources.users.fields.merchant"),
-            cell: ({ row }) => <TextField text={row.original.mercahnt_id} copyValue wrap />
+            // cell: ({ row }) => <TextField text={row.original.merchant_id} copyValue wrap />
+
+            cell: ({ row }) => (
+                <div>
+                    {row.original.merchant_name && <TextField text={row.original.merchant_name} wrap />}
+                    <TextField
+                        className="text-neutral-70"
+                        text={row.original.merchant_id}
+                        wrap
+                        copyValue
+                        lineClamp
+                        linesCount={1}
+                        minWidth="50px"
+                    />
+                </div>
+            )
         },
-        /* {
+        {
             id: "active",
             accessorKey: "active",
             header: translate("resources.users.fields.active"),
-            cell: ({ row }) => <TextField text={row.original.state == 1 ? "+" : "-"} />
-        }, */
-        /* {
-            accessorKey: "active",
-            header: () => {
-                return <div className="text-center">{translate("resources.users.fields.active")}</div>;
-            },
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
                         <span
                             className={`px-3 py-0.5 rounded-20 font-normal text-white text-base text-center ${
-                                row.original.state > translations.length ? "" : styles[row.original.state - 1]
+                                row.original.activity ? "bg-green-50" : "bg-extra-2"
                             }`}>
-                            {row.original.state > translations.length
-                                ? "-"
-                                : translate(`resources.accounts.fields.states.${translations[row.original.state - 1]}`)}
+                            {translate(
+                                `resources.accounts.fields.states.${row.original.activity ? "active" : "blocked"}`
+                            )}
                         </span>
                     </div>
                 );
             }
-        }, */
+        },
         {
             id: "actions",
             cell: ({ row }) => {
-                console.log("User", row.original);
                 return <ShowButton onClick={() => openSheet(row.original.id)} />;
             }
         }
