@@ -1,1 +1,1 @@
-export { Limits } from "./ui/Limits";
+export { LimitsList as Limits } from "./ui/LimitsList";

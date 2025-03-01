@@ -72,7 +72,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                 }
             };
 
-            await dataProvider.create<Direction>("direction", { data });
+            await dataProvider.create<Direction>("direction", { data: dataWithLimits });
             toast.success(translate("app.ui.toast.success"), {
                 description: translate("app.ui.create.createSuccess"),
                 dismissible: true,
