@@ -157,8 +157,7 @@ declare namespace Transaction {
             ];
         };
         dispute: boolean;
-        fees: Fee[];
-        // owner_id: string;
+        fees: import("./api/enigma/blowFishEnigmaAPIService.schemas").Fee[];
         meta: Meta;
         payload?: Payload;
         rate_info: RateInfo;
@@ -188,14 +187,6 @@ declare namespace Transaction {
         rate: string;
         rate_source_currency: string;
         rate_destination_currency: string;
-    };
-
-    type Fee = {
-        recipient: string;
-        type: number;
-        currency: string;
-        direction: number;
-        value: Value;
     };
 }
 
@@ -237,12 +228,17 @@ declare namespace JWT {
 declare namespace Users {
     interface User {
         id: string;
+        mercahnt_id: string;
         state: number;
         name: string;
         created_at: string;
         deleted_at: string;
         login: string;
         email: string;
+        roles: {
+            name: string;
+            description: string;
+        }[];
         public_key: string;
         shop_currency: string;
         shop_api_key: string;
@@ -265,173 +261,6 @@ declare namespace Users {
         currentPassword: string;
         newPassword: string;
         newPasswordRepeat: string;
-    }
-}
-
-declare namespace Currencies {
-    enum PositionEnum {
-        BEFORE = "before",
-        AFTER = "after"
-    }
-
-    interface Currency {
-        symbol: string | null;
-        position: PositionEnum;
-        is_coin: boolean;
-        code: string;
-        id: string;
-    }
-}
-
-interface Merchant {
-    id: string;
-    name: string;
-    description: string | null;
-    keycloak_id: string | null;
-    fees: Fees | Record<string, never> | null;
-}
-
-interface Provider {
-    fields_json_schema: string;
-    public_key: string | null;
-    methods: { [key: string]: string };
-    name: string;
-    id: string;
-}
-
-interface IGetKeys {
-    keypair: { private_key: string; public_key: string };
-    provider: Omit<Provider, "id">;
-}
-
-declare namespace Directions {
-    interface FeeValue {
-        accuracy: number;
-        quantity: number;
-    }
-
-    interface Fee {
-        id: string;
-        type: number;
-        value: FeeValue;
-        currency: string;
-        recipient: string;
-        description: string;
-    }
-
-    interface FeeCreate {
-        type: number | string;
-        value: number;
-        currency: string;
-        description: string;
-        recipient: string;
-        direction: string | number;
-        innerId?: number;
-    }
-
-    interface Fees {
-        [key: string]: Fee;
-    }
-
-    interface Terminal {
-        id: string;
-        terminal_id: string;
-        verbose_name: string;
-        description?: string | null;
-        provider: string;
-        auth: object;
-        fees: Fees;
-        account_created: boolean;
-    }
-
-    interface Direction {
-        id: string;
-        name: string;
-        merchant: Merchant;
-        account_id: string;
-        active: boolean;
-        description: string | null;
-        weight: number;
-        src_currency: Omit<Currencies.Currency, "id">;
-        dst_currency: Omit<Currencies.Currency, "id">;
-        provider: Omit<Provider, "id">;
-        auth_data: object;
-        fees: Fees | Record<string, never> | null;
-        terminal: Terminal;
-        limits?: {
-            payin: {
-                min: {
-                    quantity: number;
-                    accuracy: number;
-                };
-                max: {
-                    quantity: number;
-                    accuracy: number;
-                };
-            };
-            payout: {
-                min: {
-                    quantity: number;
-                    accuracy: number;
-                };
-                max: {
-                    quantity: number;
-                    accuracy: number;
-                };
-            };
-            reward: {
-                min: {
-                    quantity: number;
-                    accuracy: number;
-                };
-                max: {
-                    quantity: number;
-                    accuracy: number;
-                };
-            };
-        };
-    }
-
-    interface DirectionCreate {
-        name: string;
-        description: string | null;
-        src_currency: string;
-        dst_currency: string;
-        merchant: string;
-        provider: string;
-        weight: number;
-        limits?: {
-            payin: {
-                min: {
-                    quantity: number;
-                    accuracy: number;
-                };
-                max: {
-                    quantity: number;
-                    accuracy: number;
-                };
-            };
-            payout: {
-                min: {
-                    quantity: number;
-                    accuracy: number;
-                };
-                max: {
-                    quantity: number;
-                    accuracy: number;
-                };
-            };
-            reward: {
-                min: {
-                    quantity: number;
-                    accuracy: number;
-                };
-                max: {
-                    quantity: number;
-                    accuracy: number;
-                };
-            };
-        };
     }
 }
 

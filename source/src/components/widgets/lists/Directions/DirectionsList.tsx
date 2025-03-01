@@ -10,9 +10,10 @@ import { PlusCircle } from "lucide-react";
 import { ShowDirectionSheet } from "./ShowDirectionSheet";
 import { CreateDirectionDialog } from "./CreateDirectionDialog";
 import { DirectionListFilter } from "./DirectionListFilter";
+import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export const DirectionsList = () => {
-    const listContext = useListController<Directions.Direction>();
+    const listContext = useListController<Direction>();
 
     const translate = useTranslate();
 

@@ -17,9 +17,8 @@ interface ShowAuthDataProps {
     authData: string;
 }
 
-export const ShowAuthDataDialog = (props: ShowAuthDataProps) => {
+export const ShowAuthDataDialog = ({ open, authData, onOpenChange }: ShowAuthDataProps) => {
     const translate = useTranslate();
-    const { open, authData, onOpenChange } = props;
 
     usePreventFocus({ dependencies: [open] });
 

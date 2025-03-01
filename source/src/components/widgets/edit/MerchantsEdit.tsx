@@ -12,6 +12,7 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 import { FeesResource } from "@/data";
 import { usePreventFocus } from "@/hooks";
 import { Fees } from "../components/Fees";
+import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 interface MerchantEditProps {
     id?: string;
@@ -22,7 +23,11 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
     const data = fetchDictionaries();
     const dataProvider = useDataProvider();
 
-    const { record, isLoading } = useEditController({ resource: "merchant", id, mutationMode: "pessimistic" });
+    const { record, isLoading } = useEditController<Merchant>({
+        resource: "merchant",
+        id,
+        mutationMode: "pessimistic"
+    });
 
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -61,10 +66,11 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
         }
     }, [form, record]);
 
-    const onSubmit = async (data: z.infer<typeof formSchema> & { fees?: Pick<Merchant, "fees"> }) => {
+    const onSubmit = async (data: Merchant) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
-        data.fees = record.fees;
+        data.fees = record?.fees;
+
         try {
             await dataProvider.update("merchant", {
                 id,

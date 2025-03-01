@@ -190,7 +190,6 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                     <Label>{translate("resources.wallet.manage.fields.merchantName")}</Label>
                                     <FormControl>
                                         <MerchantSelectFilter
-                                            className="bg-white dark:bg-muted"
                                             merchant={field.value}
                                             onMerchantChanged={field.onChange}
                                             resource="accounts"

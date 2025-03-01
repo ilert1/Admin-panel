@@ -1,8 +1,9 @@
 import { UIEvent, useMemo, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useInfiniteGetList, useTranslate } from "react-admin";
-import { LoadingBalance, LoadingBlock } from "@/components/ui/loading";
+import { LoadingBalance } from "@/components/ui/loading";
 import { Label } from "@/components/ui/label";
+import { ProviderWithId } from "@/data/providers";
 
 export const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvider: (provider: string) => void }) => {
     const {
@@ -11,7 +12,7 @@ export const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvi
         hasNextPage,
         isFetching,
         fetchNextPage: providersNextPage
-    } = useInfiniteGetList("provider", {
+    } = useInfiniteGetList<ProviderWithId>("provider", {
         pagination: { perPage: 25, page: 1 },
         filter: { sort: "name", asc: "ASC" }
     });

@@ -10,7 +10,8 @@ import {
     ProvidersDataProvider,
     DirectionsDataProvider,
     WalletsDataProvider,
-    VaultDataProvider
+    VaultDataProvider,
+    TerminalsDataProvider
 } from "@/data";
 import {
     AccountList,
@@ -63,8 +64,10 @@ const dataProvider = combineDataProviders((resource: string) => {
         return new CurrenciesDataProvider();
     } else if (resource === "merchant") {
         return new MerchantsDataProvider();
-    } else if (resource?.startsWith("provider")) {
+    } else if (resource === "provider") {
         return new ProvidersDataProvider();
+    } else if (resource?.endsWith("/terminal")) {
+        return new TerminalsDataProvider();
     } else if (resource === "direction") {
         return new DirectionsDataProvider();
     } else if (

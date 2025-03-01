@@ -1,11 +1,4 @@
-import {
-    useEditController,
-    EditContextProvider,
-    useTranslate,
-    useDataProvider,
-    fetchUtils,
-    useRefresh
-} from "react-admin";
+import { useEditController, EditContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { FC, useEffect, useState } from "react";
@@ -13,11 +6,14 @@ import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { toast } from "sonner";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
+import { TerminalWithId } from "@/data/terminals";
+import { terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPut } from "@/api/enigma/terminal/terminal";
+import { TerminalUpdateAuthAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 interface ProviderEditParams {
     provider: string;
@@ -25,15 +21,13 @@ interface ProviderEditParams {
     onClose: () => void;
 }
 
-const API_URL = import.meta.env.VITE_ENIGMA_URL;
-
 export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) => {
     const dataProvider = useDataProvider();
     const translate = useTranslate();
     const refresh = useRefresh();
 
-    const controllerProps = useEditController({
-        resource: `provider/${provider}/terminal`,
+    const controllerProps = useEditController<TerminalWithId>({
+        resource: `${provider}/terminal`,
         id,
         mutationMode: "pessimistic"
     });
@@ -74,7 +68,7 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
         try {
             setSubmitButtonDisabled(true);
 
-            await dataProvider.update(`provider/${provider}/terminal`, {
+            await dataProvider.update<TerminalWithId>(`${provider}/terminal`, {
                 id,
                 data: {
                     verbose_name: data.verbose_name,
@@ -84,16 +78,28 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
             });
 
             if (data.auth) {
-                data.auth = JSON.parse(data.auth);
+                const parseAuthData: TerminalUpdateAuthAuth = JSON.parse(data.auth);
 
-                if (JSON.stringify(controllerProps.record.auth) !== JSON.stringify(data.auth)) {
-                    await fetchUtils.fetchJson(`${API_URL}/provider/${provider}/terminal/${id}`, {
-                        method: "PATCH",
-                        body: JSON.stringify({
-                            auth: data.auth
-                        }),
-                        user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-                    });
+                if (JSON.stringify(controllerProps.record?.auth) !== data.auth) {
+                    const res =
+                        await terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPut(
+                            provider,
+                            id,
+                            {
+                                auth: parseAuthData
+                            },
+                            {
+                                headers: {
+                                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                                }
+                            }
+                        );
+
+                    if ("data" in res.data && !res.data.success) {
+                        throw new Error(res.data.error?.error_message);
+                    } else if ("detail" in res.data) {
+                        throw new Error(res.data.detail?.[0].msg);
+                    }
                 }
             }
 

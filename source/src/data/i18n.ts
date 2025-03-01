@@ -69,9 +69,12 @@ const ru: TranslationMessages = {
             delete: "Удалить",
             fields: {
                 id: "ID пользователя",
+                keycloack_id: "ID пользователя",
                 name: "Имя пользователя",
                 login: "Логин",
                 email: "Электронная почта",
+                merchant: "Мерчант",
+                roles: "Роли",
                 currency: "Валюта",
                 created_at: "Дата и время",
                 active: "Активность",
@@ -104,6 +107,18 @@ const ru: TranslationMessages = {
             deleteMessages: {
                 deleteSuccess: "Успешно удален",
                 deleteError: "Ошибка при удалении пользователя"
+            },
+            roles: {
+                admin: "Системный администратор",
+                system_manager_for_providers: "Системный менеджер по интеграции провайдеров",
+                system_manager_for_merchants: "Системный менеджер по интеграции мерчантов",
+                system_sales_manager: "Системный менеджер по продажам",
+                system_hos: "Руководитель отдела продаж в системе",
+                system_operator: "Оператор системы",
+                system_supervisor: "Аудитор системы",
+                system_accountant: "Бухгалтер системы",
+                merchant: "Адмнистратор мерчанта",
+                merchant_operator: "Оператор мерчанта"
             }
         },
         transactions: {
@@ -672,6 +687,7 @@ const ru: TranslationMessages = {
                 editSuccess: "Элемент успешно изменен",
                 editError: "Что-то пошло не так, повторите попытку позднее"
             },
+            timePickerShow: "Добавить диапазон времени",
             chatMessagePlaceholder: "Сообщение...",
             transactionHistory: "История операции",
             accountHistory: "История счета"
@@ -924,9 +940,12 @@ const en: TranslationMessages = {
             deleteThisUser: "Delete user?",
             fields: {
                 id: "User ID",
+                keycloack_id: "User ID",
                 name: "Username",
                 login: "Login",
                 email: "Email",
+                merchant: "Merchant",
+                roles: "Roles",
                 currency: "Currency",
                 created_at: "Date and time",
                 active: "Activity",
@@ -937,6 +956,7 @@ const en: TranslationMessages = {
                 shop_sign_key: "Sign key",
                 shop_balance_key: "Balance key"
             },
+            createButton: "Add user",
             filter: {
                 showAll: "Show all",
                 filterByUserId: "Search by user ID",
@@ -944,7 +964,6 @@ const en: TranslationMessages = {
                 filterByUsernamePlaceholder: "Name",
                 filterByActivity: "Active users"
             },
-            createButton: "Add user",
             showHeader: "User info",
             showDescription: "Detailed information about user with ID %{id}",
             editUser: "Edit user",
@@ -958,6 +977,18 @@ const en: TranslationMessages = {
             deleteMessages: {
                 deleteSuccess: "Deleted successfully",
                 deleteError: "Failed to delete user"
+            },
+            roles: {
+                admin: "System admin",
+                system_manager_for_providers: "Manager for provider integrations on system",
+                system_manager_for_merchants: "Manager for merchant integrations on system",
+                system_sales_manager: "Sales manager on system",
+                system_hos: "Head of sales on system",
+                system_operator: "System operator",
+                system_supervisor: "System supervisor",
+                system_accountant: "System accountant",
+                merchant: "Merchant admin",
+                merchant_operator: "Merchant operator"
             }
         },
         transactions: {
@@ -1526,6 +1557,7 @@ const en: TranslationMessages = {
                 editSuccess: "Edited successfully",
                 editError: "Something went wrong, please try again later"
             },
+            timePickerShow: "Add a time range",
             chatMessagePlaceholder: "Message...",
             transactionHistory: "Transaction history",
             accountHistory: "Account history"

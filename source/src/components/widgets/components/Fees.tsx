@@ -1,20 +1,20 @@
 import { FeesResource } from "@/data";
-import { Dispatch, memo, SetStateAction, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { FeeCard } from "./FeeCard";
-import { AddFeeCard } from "./AddFeeCard";
+import { AddFeeCard, FeeType } from "./AddFeeCard";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { CircleChevronRight } from "lucide-react";
 import { useTranslate } from "react-admin";
-import { FeeType } from "../create/MerchantCreate";
 import fetchDictionaries from "@/helpers/get-dictionaries";
+import { DirectionFees, FeeCreate, MerchantFees } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 interface FeesProps {
     className?: string;
     id: string;
     addFee?: boolean;
-    fees?: Directions.Fees | Directions.FeeCreate[];
-    setFees?: Dispatch<SetStateAction<Directions.FeeCreate[]>>;
+    fees?: FeeCreate[] | MerchantFees | DirectionFees;
+    setFees?: React.Dispatch<React.SetStateAction<(FeeCreate & { innerId?: number })[]>>;
     feesResource?: FeesResource;
     feesVariants?: string[];
     padding?: boolean;
@@ -73,7 +73,7 @@ export const Fees = memo((props: FeesProps) => {
                 <h3 className="text-display-3 mt-[16px] mb-[16px]">{translate("resources.direction.fees.fees")}</h3>
                 <div className={cn("max-h-[40vh] overflow-auto pr-[10px]", className)}>
                     {fees && Object.keys(fees).length !== 0
-                        ? Object.keys(fees).map((key: any) => {
+                        ? Object.keys(fees).map(key => {
                               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                               // @ts-ignore
                               const fee = fees[key];

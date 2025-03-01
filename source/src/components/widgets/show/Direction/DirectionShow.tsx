@@ -10,6 +10,7 @@ import { EditDirectionDialog } from "./EditDirectionDialog";
 import { EditAuthData } from "./EditAuthData";
 import { Fees } from "../../components/Fees";
 import { Limits } from "../../components/Limits";
+import { Direction, MerchantFees } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export interface DirectionsShowProps {
     id: string;
@@ -17,7 +18,7 @@ export interface DirectionsShowProps {
 }
 
 export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
-    const context = useShowController<Directions.Direction>({ resource: "direction", id });
+    const context = useShowController<Direction>({ resource: "direction", id });
     const data = fetchDictionaries();
     const translate = useTranslate();
 
@@ -25,7 +26,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [changeAuthDataClicked, setChangeAuthDataClicked] = useState(false);
 
-    const [fees, setFees] = useState<Directions.Fees>();
+    const [fees, setFees] = useState<MerchantFees>();
 
     const handleDeleteClicked = useCallback(() => {
         setDeleteDialogOpen(prev => !prev);

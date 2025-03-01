@@ -1,12 +1,11 @@
-import { format } from "date-fns";
 import { debounce } from "lodash";
 import { ChangeEvent, useCallback, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 import { DateRange } from "react-day-picker";
 import { toast } from "sonner";
-
 import { API_URL } from "@/data/base";
 import fetchDictionaries from "@/helpers/get-dictionaries";
+import moment from "moment";
 
 const useWithdrawFilter = () => {
     const dictionaries = fetchDictionaries();
@@ -26,7 +25,7 @@ const useWithdrawFilter = () => {
 
     const translate = useTranslate();
 
-    const formattedDate = (date: Date) => format(date, "yyyy-MM-dd");
+    const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
     const onPropertySelected = debounce(
         (value: string | { from: string; to: string } | number, type: "id" | "date" | "order_type") => {
@@ -88,13 +87,8 @@ const useWithdrawFilter = () => {
         }
 
         try {
-            const url =
-                `${API_URL}/withdraw/report?format=${type}&` +
-                Object.keys(filterValues)
-                    .map(item => {
-                        return `${item}=${filterValues[item]}`;
-                    })
-                    .join("&");
+            const url = new URL(`${API_URL}/withdraw/report?format=${type}&`);
+            Object.keys(filterValues).map(item => url.searchParams.set(item, filterValues[item]));
 
             const response = await fetch(url, {
                 method: "GET",

@@ -20,10 +20,7 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
             captionLayout="dropdown"
             showOutsideDays
             hideWeekdays
-            className={cn(
-                "p-4 pb-2 rounded-4 bg-neutral-0 dark:bg-neutral-100 dark:border-green-50 border-green-60 border shadow select-none",
-                className
-            )}
+            className={cn("p-4 pb-2", className)}
             classNames={{
                 months: "flex flex-col sm:flex-row space-y-4 sm:space-y-0",
                 month_caption: "flex justify-center items-center [&_svg]:hidden dark:text-green-40 text-green-50",
@@ -34,11 +31,11 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
                 nav: "flex",
                 button_previous: cn(
                     buttonVariants({ variant: "text_btn" }),
-                    "h-5 w-5 bg-transparent p-0 opacity-50 hover:opacity-100 font-bold absolute left-4 top-[22px] z-10"
+                    "h-5 w-5 bg-transparent p-0 font-bold absolute left-4 top-[22px] z-10"
                 ),
                 button_next: cn(
                     buttonVariants({ variant: "text_btn" }),
-                    "h-5 w-5 bg-transparent p-0 opacity-50 hover:opacity-100 font-bold absolute right-4 top-[22px] z-10"
+                    "h-5 w-5 bg-transparent p-0 font-bold absolute right-4 top-[22px] z-10"
                 ),
                 selected:
                     "bg-primary dark:bg-black text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
