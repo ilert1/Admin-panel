@@ -54,7 +54,9 @@ export const getDirectionEndpointsListDirectionsEnigmaV1DirectionGetUrl = (
 
     const stringifiedParams = normalizedParams.toString();
 
-    return stringifiedParams.length > 0 ? `/enigma/v1/direction?${stringifiedParams}` : `/enigma/v1/direction`;
+    return stringifiedParams.length > 0
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction`;
 };
 
 export const directionEndpointsListDirectionsEnigmaV1DirectionGet = async (
@@ -100,7 +102,7 @@ export type directionEndpointsCreateDirectionEnigmaV1DirectionPostResponse =
     };
 
 export const getDirectionEndpointsCreateDirectionEnigmaV1DirectionPostUrl = () => {
-    return `/enigma/v1/direction`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction`;
 };
 
 export const directionEndpointsCreateDirectionEnigmaV1DirectionPost = async (
@@ -162,8 +164,8 @@ export const getDirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMer
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `/enigma/v1/direction/merchant/${merchantId}?${stringifiedParams}`
-        : `/enigma/v1/direction/merchant/${merchantId}`;
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/merchant/${merchantId}?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/merchant/${merchantId}`;
 };
 
 export const directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet = async (
@@ -214,7 +216,7 @@ export type directionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGetRespons
     };
 
 export const getDirectionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGetUrl = (directionId: string) => {
-    return `/enigma/v1/direction/${directionId}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/${directionId}`;
 };
 
 export const directionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGet = async (
@@ -262,7 +264,7 @@ export type directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPutResp
     };
 
 export const getDirectionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPutUrl = (directionId: string) => {
-    return `/enigma/v1/direction/${directionId}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/${directionId}`;
 };
 
 export const directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPut = async (
@@ -313,7 +315,7 @@ export type directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDeleteR
     };
 
 export const getDirectionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDeleteUrl = (directionId: string) => {
-    return `/enigma/v1/direction/${directionId}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/${directionId}`;
 };
 
 export const directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDelete = async (
@@ -361,7 +363,7 @@ export type directionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatchResponse
     };
 
 export const getDirectionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatchUrl = (directionId: string) => {
-    return `/enigma/v1/direction/${directionId}/fee`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/${directionId}/fee`;
 };
 
 export const directionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatch = async (
@@ -415,7 +417,7 @@ export const getDirectionEndpointsUpdateFeeEnigmaV1DirectionDirectionIdFeeFeeIdP
     directionId: string,
     feeId: string
 ) => {
-    return `/enigma/v1/direction/${directionId}/fee/${feeId}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/${directionId}/fee/${feeId}`;
 };
 
 export const directionEndpointsUpdateFeeEnigmaV1DirectionDirectionIdFeeFeeIdPatch = async (
@@ -473,7 +475,7 @@ export const getDirectionEndpointsDeleteFeeEnigmaV1DirectionDirectionIdFeeFeeIdD
     directionId: string,
     feeId: string
 ) => {
-    return `/enigma/v1/direction/${directionId}/fee/${feeId}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/${directionId}/fee/${feeId}`;
 };
 
 export const directionEndpointsDeleteFeeEnigmaV1DirectionDirectionIdFeeFeeIdDelete = async (
@@ -525,7 +527,7 @@ export type directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatc
     };
 
 export const getDirectionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatchUrl = (directionId: string) => {
-    return `/enigma/v1/direction/${directionId}/limits`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/${directionId}/limits`;
 };
 
 export const directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatch = async (
@@ -576,7 +578,7 @@ export type directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDele
     };
 
 export const getDirectionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDeleteUrl = (directionId: string) => {
-    return `/enigma/v1/direction/${directionId}/limits`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/${directionId}/limits`;
 };
 
 export const directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDelete = async (

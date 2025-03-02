@@ -7,8 +7,9 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { useTranslate } from "react-admin";
+import { useRefresh, useTranslate } from "react-admin";
 import { deleteLimits } from "../model/api/deleteLimits";
+import { toast } from "sonner";
 
 export interface DeleteLimitsDialogProps {
     open: boolean;
@@ -18,9 +19,19 @@ export interface DeleteLimitsDialogProps {
 export const DeleteLimitsDialog = (props: DeleteLimitsDialogProps) => {
     const { id, open, onOpenChange } = props;
     const translate = useTranslate();
+    const refresh = useRefresh();
 
-    const handleDelete = () => {
-        deleteLimits(id);
+    const handleDelete = async () => {
+        const { success } = await deleteLimits(id);
+
+        if (success)
+            toast.success("Success", {
+                dismissible: true,
+                duration: 3000,
+                description: translate("app.widgets.limits.resetedSuccessfully")
+            });
+        refresh();
+        onOpenChange(false);
     };
 
     return (

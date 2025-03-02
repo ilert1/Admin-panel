@@ -50,7 +50,9 @@ export const getCurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetUrl = (
 
     const stringifiedParams = normalizedParams.toString();
 
-    return stringifiedParams.length > 0 ? `/enigma/v1/currency?${stringifiedParams}` : `/enigma/v1/currency`;
+    return stringifiedParams.length > 0
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/currency?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/currency`;
 };
 
 export const currencyEndpointsListCurrenciesEnigmaV1CurrencyGet = async (
@@ -96,7 +98,7 @@ export type currencyEndpointsCreateCurrencyEnigmaV1CurrencyPostResponse =
     };
 
 export const getCurrencyEndpointsCreateCurrencyEnigmaV1CurrencyPostUrl = () => {
-    return `/enigma/v1/currency`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/currency`;
 };
 
 export const currencyEndpointsCreateCurrencyEnigmaV1CurrencyPost = async (
@@ -144,7 +146,7 @@ export type currencyEndpointsGetCurrencyEnigmaV1CurrencyCurrencyCodeGetResponse 
     };
 
 export const getCurrencyEndpointsGetCurrencyEnigmaV1CurrencyCurrencyCodeGetUrl = (currencyCode: string) => {
-    return `/enigma/v1/currency/${currencyCode}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/currency/${currencyCode}`;
 };
 
 export const currencyEndpointsGetCurrencyEnigmaV1CurrencyCurrencyCodeGet = async (
@@ -192,7 +194,7 @@ export type currencyEndpointsUpdateCurrencyEnigmaV1CurrencyCurrencyCodePutRespon
     };
 
 export const getCurrencyEndpointsUpdateCurrencyEnigmaV1CurrencyCurrencyCodePutUrl = (currencyCode: string) => {
-    return `/enigma/v1/currency/${currencyCode}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/currency/${currencyCode}`;
 };
 
 export const currencyEndpointsUpdateCurrencyEnigmaV1CurrencyCurrencyCodePut = async (
@@ -243,7 +245,7 @@ export type currencyEndpointsDeleteCurrencyEnigmaV1CurrencyCurrencyCodeDeleteRes
     };
 
 export const getCurrencyEndpointsDeleteCurrencyEnigmaV1CurrencyCurrencyCodeDeleteUrl = (currencyCode: string) => {
-    return `/enigma/v1/currency/${currencyCode}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/currency/${currencyCode}`;
 };
 
 export const currencyEndpointsDeleteCurrencyEnigmaV1CurrencyCurrencyCodeDelete = async (

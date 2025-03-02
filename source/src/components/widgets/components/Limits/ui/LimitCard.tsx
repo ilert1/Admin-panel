@@ -1,9 +1,10 @@
-import { Limits, LimitValuesOutput } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Limits } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { useTranslate } from "react-admin";
 import { useState } from "react";
 import { DeleteLimitsDialog } from "./DeleteLimitsDialog";
+import { getMaxValue, getMinValue } from "../model/helpers/minmaxValue";
 
 interface LimitCardProps {
     directionId: string;
@@ -16,19 +17,6 @@ export const LimitCard = (props: LimitCardProps) => {
     const [deleteClicked, setDeleteClicked] = useState(false);
 
     const translate = useTranslate();
-
-    function getMinValue(values: LimitValuesOutput) {
-        if (values.min) {
-            return String(values.min.quantity / values.min.accuracy);
-        }
-        return "";
-    }
-    function getMaxValue(values: LimitValuesOutput) {
-        if (values.max) {
-            return String(values.max.quantity / values.max.accuracy);
-        }
-        return "";
-    }
 
     const handleDelete = () => {
         setDeleteClicked(true);

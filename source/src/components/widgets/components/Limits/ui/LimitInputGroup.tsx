@@ -16,11 +16,11 @@ export const LimitInputGroup = ({ label, minValue, maxValue, onMinChange, onMaxC
             <div className="flex gap-6">
                 <Input
                     variant={InputTypes.GRAY}
-                    tabIndex={0}
                     label="min (int)"
                     value={minValue}
                     onChange={e => onMinChange(e.target.value)}
                     inputMode="numeric"
+                    tabIndex={0}
                     pattern="[0-9]*"
                 />
                 <Input

@@ -52,7 +52,9 @@ export const getProviderEndpointsListProvidersEnigmaV1ProviderGetUrl = (
 
     const stringifiedParams = normalizedParams.toString();
 
-    return stringifiedParams.length > 0 ? `/enigma/v1/provider?${stringifiedParams}` : `/enigma/v1/provider`;
+    return stringifiedParams.length > 0
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider`;
 };
 
 export const providerEndpointsListProvidersEnigmaV1ProviderGet = async (
@@ -98,7 +100,7 @@ export type providerEndpointsCreateProviderEnigmaV1ProviderPostResponse =
     };
 
 export const getProviderEndpointsCreateProviderEnigmaV1ProviderPostUrl = () => {
-    return `/enigma/v1/provider`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider`;
 };
 
 export const providerEndpointsCreateProviderEnigmaV1ProviderPost = async (
@@ -146,7 +148,7 @@ export type providerEndpointsGetProviderEnigmaV1ProviderProviderNameGetResponse 
     };
 
 export const getProviderEndpointsGetProviderEnigmaV1ProviderProviderNameGetUrl = (providerName: string) => {
-    return `/enigma/v1/provider/${providerName}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}`;
 };
 
 export const providerEndpointsGetProviderEnigmaV1ProviderProviderNameGet = async (
@@ -194,7 +196,7 @@ export type providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutRespon
     };
 
 export const getProviderEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutUrl = (providerName: string) => {
-    return `/enigma/v1/provider/${providerName}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}`;
 };
 
 export const providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePut = async (
@@ -245,7 +247,7 @@ export type providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteRes
     };
 
 export const getProviderEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteUrl = (providerName: string) => {
-    return `/enigma/v1/provider/${providerName}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}`;
 };
 
 export const providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDelete = async (
@@ -307,8 +309,8 @@ export const getProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypai
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `/enigma/v1/provider/${providerName}/add_keypair?${stringifiedParams}`
-        : `/enigma/v1/provider/${providerName}/add_keypair`;
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/add_keypair?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/add_keypair`;
 };
 
 export const providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatch = async (

@@ -562,7 +562,7 @@ export interface DirectionCreate {
     /** Provider name associated with the direction */
     provider: string;
     /** Terminal ID associated with the direction */
-    terminal?: DirectionCreateTerminal;
+    terminal: DirectionCreateTerminal;
 }
 
 /**

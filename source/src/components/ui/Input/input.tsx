@@ -84,6 +84,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             onChange?.(e);
         };
 
+        // const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+        //     setIsFocused(true);
+        //     props.onFocus?.(e);
+        // };
         const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
             setIsFocused(true);
             props.onFocus?.(e);
@@ -158,7 +162,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     )}>
                     <input
                         type={type === "password" && showPassword ? "text" : type}
-                        // value={inputValue}
+                        tabIndex={0}
                         value={propValue !== undefined ? propValue : inputValue}
                         onChange={handleInputChange}
                         onFocus={handleFocus}

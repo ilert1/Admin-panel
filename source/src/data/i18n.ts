@@ -799,7 +799,9 @@ const ru: TranslationMessages = {
                 reward: "Вознаграждение",
 
                 deleteLimits: "Обнулить лимиты?",
-                reset: "Обнулить"
+                reset: "Обнулить",
+                resetedSuccessfully: "Лимиты успешно обнулены",
+                updatedSuccessfully: "Лимиты успешно обновлены"
             }
         },
 
@@ -1674,7 +1676,10 @@ const en: TranslationMessages = {
                 limits: "Limits",
 
                 deleteLimits: "Reset limits?",
-                reset: "Reset"
+                reset: "Reset",
+
+                updatedSuccessfully: "Limits updated successfully",
+                resetedSuccessfully: "Limits reseted successfully"
             }
         },
 

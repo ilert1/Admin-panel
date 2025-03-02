@@ -23,7 +23,7 @@ export const LimitsList = (props: LimitsProps) => {
                 <h3 className="text-display-3 mt-[16px] mb-[16px]">{translate("app.widgets.limits.limits")}</h3>
                 <div className={cn("max-h-[40vh] overflow-auto pr-[10px]", className)}>
                     {editClicked ? (
-                        <EditLimitCard directionId={id} setEditClicked={setEditClicked} />
+                        <EditLimitCard directionId={id} setEditClicked={setEditClicked} limitsData={limits} />
                     ) : (
                         <LimitCard limits={limits} setEditClicked={setEditClicked} directionId={id} />
                     )}
