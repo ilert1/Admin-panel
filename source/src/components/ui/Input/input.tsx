@@ -58,12 +58,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         const iconsBoxRef = React.useRef<HTMLSpanElement>(null);
         const containerRef = React.useRef<HTMLDivElement>(null);
 
-        // React.useEffect(() => {
-        //     if (propValue !== undefined) {
-        //         setInputValue(propValue);
-        //     }
-        // }, [propValue]);
-
         React.useImperativeHandle(ref, () => inputRef.current!);
 
         React.useEffect(() => {
@@ -83,12 +77,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             inputRef.current?.focus();
         };
 
-        // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        //     setInputValue(e.target.value);
-        //     if (onChange) {
-        //         onChange(e);
-        //     }
-        // };
         const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             if (propValue === undefined) {
                 setInputValue(e.target.value);

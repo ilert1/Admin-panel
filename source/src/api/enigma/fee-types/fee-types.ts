@@ -24,7 +24,7 @@ export type feesEndpointsGetFeeTypesEnigmaV1FeeTypesGetResponse =
     };
 
 export const getFeesEndpointsGetFeeTypesEnigmaV1FeeTypesGetUrl = () => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/fee/types`;
+    return `/enigma/v1/fee/types`;
 };
 
 export const feesEndpointsGetFeeTypesEnigmaV1FeeTypesGet = async (

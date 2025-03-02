@@ -52,9 +52,7 @@ export const getMerchantEndpointsListMerchantsEnigmaV1MerchantGetUrl = (
 
     const stringifiedParams = normalizedParams.toString();
 
-    return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant`;
+    return stringifiedParams.length > 0 ? `/enigma/v1/merchant?${stringifiedParams}` : `/enigma/v1/merchant`;
 };
 
 export const merchantEndpointsListMerchantsEnigmaV1MerchantGet = async (
@@ -100,7 +98,7 @@ export type merchantEndpointsCreateMerchantEnigmaV1MerchantPostResponse =
     };
 
 export const getMerchantEndpointsCreateMerchantEnigmaV1MerchantPostUrl = () => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant`;
+    return `/enigma/v1/merchant`;
 };
 
 export const merchantEndpointsCreateMerchantEnigmaV1MerchantPost = async (
@@ -148,7 +146,7 @@ export type merchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGetResponse =
     };
 
 export const getMerchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGetUrl = (merchantId: string) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant/${merchantId}`;
+    return `/enigma/v1/merchant/${merchantId}`;
 };
 
 export const merchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGet = async (
@@ -196,7 +194,7 @@ export type merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPutResponse
     };
 
 export const getMerchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPutUrl = (merchantId: string) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant/${merchantId}`;
+    return `/enigma/v1/merchant/${merchantId}`;
 };
 
 export const merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPut = async (
@@ -247,7 +245,7 @@ export type merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDeleteRespo
     };
 
 export const getMerchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDeleteUrl = (merchantId: string) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant/${merchantId}`;
+    return `/enigma/v1/merchant/${merchantId}`;
 };
 
 export const merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDelete = async (
@@ -295,7 +293,7 @@ export type merchantEndpointsAddFeeEnigmaV1MerchantMerchantIdFeePatchResponse =
     };
 
 export const getMerchantEndpointsAddFeeEnigmaV1MerchantMerchantIdFeePatchUrl = (merchantId: string) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant/${merchantId}/fee`;
+    return `/enigma/v1/merchant/${merchantId}/fee`;
 };
 
 export const merchantEndpointsAddFeeEnigmaV1MerchantMerchantIdFeePatch = async (
@@ -349,7 +347,7 @@ export const getMerchantEndpointsUpdateFeeEnigmaV1MerchantMerchantIdFeeFeeIdPatc
     merchantId: string,
     feeId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant/${merchantId}/fee/${feeId}`;
+    return `/enigma/v1/merchant/${merchantId}/fee/${feeId}`;
 };
 
 export const merchantEndpointsUpdateFeeEnigmaV1MerchantMerchantIdFeeFeeIdPatch = async (
@@ -407,7 +405,7 @@ export const getMerchantEndpointsDeleteFeeEnigmaV1MerchantMerchantIdFeeFeeIdDele
     merchantId: string,
     feeId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant/${merchantId}/fee/${feeId}`;
+    return `/enigma/v1/merchant/${merchantId}/fee/${feeId}`;
 };
 
 export const merchantEndpointsDeleteFeeEnigmaV1MerchantMerchantIdFeeFeeIdDelete = async (

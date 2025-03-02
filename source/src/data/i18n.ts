@@ -796,7 +796,10 @@ const ru: TranslationMessages = {
                 limits: "Лимиты",
                 deposit: "Депозит",
                 payment: "Выплата",
-                reward: "Вознаграждение"
+                reward: "Вознаграждение",
+
+                deleteLimits: "Обнулить лимиты?",
+                reset: "Обнулить"
             }
         },
 
@@ -1668,7 +1671,10 @@ const en: TranslationMessages = {
                 reward: "Reward",
                 payment: "Payment",
                 deposit: "Deposit",
-                limits: "Limits"
+                limits: "Limits",
+
+                deleteLimits: "Reset limits?",
+                reset: "Reset"
             }
         },
 

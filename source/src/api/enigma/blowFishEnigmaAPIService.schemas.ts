@@ -788,7 +788,24 @@ export interface KeyPair {
     public_key: string;
 }
 
-export interface LimitValues {
+/**
+ * Minimum limit value
+ */
+export type LimitValuesInputMin = number | number | string | RateValue | null;
+
+/**
+ * Maximum limit value
+ */
+export type LimitValuesInputMax = number | number | string | RateValue | null;
+
+export interface LimitValuesInput {
+    /** Minimum limit value */
+    min?: LimitValuesInputMin;
+    /** Maximum limit value */
+    max?: LimitValuesInputMax;
+}
+
+export interface LimitValuesOutput {
     /** Minimum limit value */
     min?: RateValue;
     /** Maximum limit value */
@@ -797,27 +814,27 @@ export interface LimitValues {
 
 export interface Limits {
     /** Limits for payin */
-    payin: LimitValues;
+    payin: LimitValuesOutput;
     /** Limits for payout */
-    payout: LimitValues;
+    payout: LimitValuesOutput;
     /** Limits for reward */
-    reward: LimitValues;
+    reward: LimitValuesOutput;
 }
 
 /**
  * Limits for payin
  */
-export type LimitsUpdatePayin = LimitValues | null;
+export type LimitsUpdatePayin = LimitValuesInput | null;
 
 /**
  * Limits for payout
  */
-export type LimitsUpdatePayout = LimitValues | null;
+export type LimitsUpdatePayout = LimitValuesInput | null;
 
 /**
  * Limits for reward
  */
-export type LimitsUpdateReward = LimitValues | null;
+export type LimitsUpdateReward = LimitValuesInput | null;
 
 export interface LimitsUpdate {
     /** Limits for payin */

@@ -10,20 +10,20 @@ export async function updateLimits(directionId: string, limits: UpdateLimitsType
             {
                 limits: {
                     payin: {
-                        min: { accuracy: 0, quantity: 100 },
-                        max: { accuracy: 0, quantity: 12 }
+                        min: 1,
+                        max: 10.187632
                         // min: { accuracy: 0, quantity: Number(limits.payInMin) },
                         // max: { accuracy: 0, quantity: Number(limits.payInMax) }
                     },
                     payout: {
-                        min: { accuracy: 0, quantity: 15 },
-                        max: { accuracy: 0, quantity: 15 }
+                        min: 105,
+                        max: 1060.2
                         // min: { accuracy: 0, quantity: Number(limits.payOutMin) },
                         // max: { accuracy: 0, quantity: Number(limits.payOutMax) }
                     },
                     reward: {
-                        min: { accuracy: 0, quantity: 15 },
-                        max: { accuracy: 0, quantity: 15 }
+                        min: 10.89,
+                        max: 12.12
                         // min: { accuracy: 0, quantity: Number(limits.rewardMin) },
                         // max: { accuracy: 0, quantity: Number(limits.rewardMax) }
                     }

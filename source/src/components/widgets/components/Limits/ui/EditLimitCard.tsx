@@ -24,7 +24,7 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
     });
 
     const handleChange = (key: keyof typeof limits, value: string) => {
-        if (/^\d*$/.test(value)) {
+        if (/^\d*\.?\d*$/.test(value)) {
             setLimits(prev => ({ ...prev, [key]: value }));
         }
     };
