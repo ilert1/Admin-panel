@@ -1,4 +1,4 @@
-import { Limits, LimitValues } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Limits, LimitValuesOutput } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { useTranslate } from "react-admin";
@@ -17,13 +17,13 @@ export const LimitCard = (props: LimitCardProps) => {
 
     const translate = useTranslate();
 
-    function getMinValue(values: LimitValues) {
+    function getMinValue(values: LimitValuesOutput) {
         if (values.min) {
             return String(values.min.quantity / values.min.accuracy);
         }
         return "";
     }
-    function getMaxValue(values: LimitValues) {
+    function getMaxValue(values: LimitValuesOutput) {
         if (values.max) {
             return String(values.max.quantity / values.max.accuracy);
         }

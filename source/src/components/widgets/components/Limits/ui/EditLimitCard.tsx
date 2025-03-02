@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import { useTranslate } from "react-admin";
+import { useRefresh, useTranslate } from "react-admin";
 import { useState } from "react";
 import { UpdateLimitsType } from "../model/types/limits";
 import { updateLimits } from "../model/api/updateLimits";
@@ -13,6 +13,7 @@ interface EditLimitCardProps {
 export const EditLimitCard = (props: EditLimitCardProps) => {
     const translate = useTranslate();
     const { directionId, setEditClicked } = props;
+    const refresh = useRefresh();
 
     const [limits, setLimits] = useState<UpdateLimitsType>({
         payInMin: "",
@@ -31,6 +32,7 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
 
     const handleSubmit = () => {
         updateLimits(directionId, limits);
+        refresh();
     };
 
     return (

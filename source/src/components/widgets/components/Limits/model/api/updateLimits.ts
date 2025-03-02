@@ -4,6 +4,7 @@ import { toast } from "sonner";
 
 export async function updateLimits(directionId: string, limits: UpdateLimitsType) {
     limits;
+
     try {
         const { data, status } = await directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatch(
             directionId,
