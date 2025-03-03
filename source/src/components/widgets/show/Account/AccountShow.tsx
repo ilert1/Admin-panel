@@ -16,28 +16,32 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     const context = useShowController({ resource: "accounts", id });
 
     const { historyColumns, chosenId, transcationInfoOpen, setTransactionInfoOpen } = useGetAccountShowColumns();
-    const [balance, setBalance] = useState<string>("");
+    const [balances, setBalances] = useState<string[]>([]);
 
     const listContext = useListController<AccountHistory>({
         resource: "operations",
         filter: { accountId: id },
         disableSyncWithLocation: true
     });
-    console.log(context.record);
 
     useEffect(() => {
         if (!context.isLoading && context.record.amounts[0]) {
-            setBalance(
-                String(
-                    context.record.amounts[0]?.value.quantity == 0
-                        ? "0"
-                        : context.record.amounts[0]?.value.quantity / context.record.amounts[0]?.value.accuracy
-                ).replace(/\B(?=(\d{3})+(?!\d))/g, " ") +
-                    " " +
-                    context.record.amounts[0]?.currency
+            setBalances(
+                context.record.amounts.map(
+                    (el: { value: { quantity: number; accuracy: number }; currency: string }) => {
+                        return (
+                            String(el.value.quantity == 0 ? "0" : el.value.quantity / el.value.accuracy).replace(
+                                /\B(?=(\d{3})+(?!\d))/g,
+                                " "
+                            ) +
+                            " " +
+                            el.currency
+                        );
+                    }
+                )
             );
         } else {
-            setBalance("0");
+            setBalances(["0"]);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -54,12 +58,16 @@ export const AccountShow = ({ id }: AccountShowProps) => {
 
     return (
         <div className="mx-6 h-full min-h-[300px] flex flex-col">
-            <div className="flex justify-between px-[20px] mb-6">
+            <div className="flex justify-between px-[20px] mb-6 gap-4">
                 <TextField text={id} copyValue className="text-neutral-90 dark:text-neutral-30" />
-                <div className="bg-green-50 px-3 py-0.5 rounded-20">
-                    <span className="text-title-2">
-                        {translate("resources.accounts.balance")}: {balance}
-                    </span>
+                <div className="flex gap-2 flex-wrap">
+                    {balances.map(balance => (
+                        <div className="bg-green-50 px-3 py-0.5 rounded-20" key={balance}>
+                            <span className="text-title-2">
+                                {translate("resources.accounts.balance")}: {balance}
+                            </span>
+                        </div>
+                    ))}
                 </div>
             </div>
             <ShowTransactionSheet id={chosenId} open={transcationInfoOpen} onOpenChange={setTransactionInfoOpen} />
