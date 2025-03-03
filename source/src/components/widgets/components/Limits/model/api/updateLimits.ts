@@ -12,16 +12,16 @@ export async function updateLimits(
             {
                 limits: {
                     payin: {
-                        min: Number(limits.payInMin),
-                        max: Number(limits.payInMax)
+                        min: limits.payInMin,
+                        max: limits.payInMax
                     },
                     payout: {
-                        min: Number(limits.payOutMin),
-                        max: Number(limits.payOutMax)
+                        min: limits.payOutMin,
+                        max: limits.payOutMax
                     },
                     reward: {
-                        min: Number(limits.rewardMin),
-                        max: Number(limits.rewardMax)
+                        min: limits.rewardMin,
+                        max: limits.rewardMax
                     }
                 }
             },
