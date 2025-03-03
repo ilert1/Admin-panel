@@ -9,7 +9,7 @@ import { useGetMerchantColumns } from "./Columns";
 import { DeleteMerchantDialog } from "./DeleteMerchantDialog";
 import { EditMerchantDialog } from "./EditMerchantDialog";
 import { ShowMerchantSheet } from "./ShowMerchantSheet";
-import { CreateMerchantDialog } from "./CreateMerchantDialog";
+// import { CreateMerchantDialog } from "./CreateMerchantDialog";
 import { CreateMerchantDialogNewFlow } from "./CreateMerchantDialogNewFlow";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
@@ -28,12 +28,12 @@ export const MerchantList = () => {
         setShowSheetOpen
     } = useGetMerchantColumns();
 
-    const [createDialogOpen, setCreateDialogOpen] = useState(false);
+    // const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const [createDialogNewFlowOpen, setCreateDialogNewFlowOpen] = useState(false);
 
-    const handleCreateClick = () => {
-        setCreateDialogOpen(true);
-    };
+    // const handleCreateClick = () => {
+    //     setCreateDialogOpen(true);
+    // };
 
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
@@ -41,12 +41,12 @@ export const MerchantList = () => {
         return (
             <>
                 <div className="flex flex-end justify-end gap-3 mb-4">
-                    <Button onClick={handleCreateClick} variant="default">
+                    {/* <Button onClick={handleCreateClick} variant="default">
                         {translate("resources.merchant.createNew")}
-                    </Button>
+                    </Button> */}
 
                     <Button onClick={() => setCreateDialogNewFlowOpen(true)} variant="default">
-                        {translate("resources.merchant.createNew")} (experimental)
+                        {translate("resources.merchant.createNew")}
                     </Button>
                 </div>
 
@@ -54,7 +54,7 @@ export const MerchantList = () => {
                     <DataTable columns={columns} />
                 </ListContextProvider>
 
-                <CreateMerchantDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+                {/* <CreateMerchantDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} /> */}
                 <CreateMerchantDialogNewFlow open={createDialogNewFlowOpen} onOpenChange={setCreateDialogNewFlowOpen} />
 
                 <DeleteMerchantDialog id={chosenId} open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} />
