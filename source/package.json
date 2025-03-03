@@ -3,7 +3,7 @@
     "private": true,
     "scripts": {
         "dev": " vite --port 3000",
-        "build": "vite build",
+        "build": "npx orval --config orval.config.ts && vite build",
         "serve": "vite preview",
         "orval": "npx orval --config orval.config.ts",
         "type-check": "tsc --noEmit",
