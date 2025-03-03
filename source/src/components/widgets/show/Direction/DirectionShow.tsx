@@ -9,6 +9,8 @@ import { DeleteDirectionDialog } from "./DeleteDirectionDialog";
 import { EditDirectionDialog } from "./EditDirectionDialog";
 import { EditAuthData } from "./EditAuthData";
 import { Fees } from "../../components/Fees";
+import { Direction, MerchantFees } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { LimitsList } from "../../components/Limits/ui/LimitsList";
 
 export interface DirectionsShowProps {
     id: string;
@@ -16,7 +18,7 @@ export interface DirectionsShowProps {
 }
 
 export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
-    const context = useShowController<Directions.Direction>({ resource: "direction", id });
+    const context = useShowController<Direction>({ resource: "direction", id });
     const data = fetchDictionaries();
     const translate = useTranslate();
 
@@ -24,7 +26,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [changeAuthDataClicked, setChangeAuthDataClicked] = useState(false);
 
-    const [fees, setFees] = useState<Directions.Fees>();
+    const [fees, setFees] = useState<MerchantFees>();
 
     const handleDeleteClicked = useCallback(() => {
         setDeleteDialogOpen(prev => !prev);
@@ -53,7 +55,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
         feesVariants.push(context.record.dst_currency.code);
 
     return (
-        <div className="px-[42px] ">
+        <div className="px-[42px] pb-[42px]">
             <div className="flex flex-col sm:flex-row justify-between">
                 <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
 
@@ -131,6 +133,8 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                     feesVariants={feesVariants}
                     className="max-h-[45dvh]"
                 />
+
+                <LimitsList id={context.record.id} limits={context.record.limits} />
             </div>
 
             <DeleteDirectionDialog

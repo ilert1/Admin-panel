@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { ChangeEvent, useState } from "react";
 import { Input } from "@/components/ui/Input/input";
 import { debounce } from "lodash";
-import { CreateUserDialog } from "./CreateUserDialog";
+// import { CreateUserDialog } from "./CreateUserDialog";
 import { CreateUserDialogNewFlow } from "./CreateUserDialogNewFlow";
 
 export const UserListFilter = () => {
@@ -93,19 +93,19 @@ export const UserListFilter = () => {
                 </div>
 
                 <div className="flex gap-3">
-                    <Button
+                    {/* <Button
                         onClick={() => setShowAddUserDialog(true)}
                         className="flex items-center justify-center gap-1 font-normal">
                         <CirclePlus width={16} height={16} />
                         <span>{translate("resources.users.createButton")}</span>
                     </Button>
-                    <CreateUserDialog open={showAddUserDialog} onOpenChange={setShowAddUserDialog} />
+                    <CreateUserDialog open={showAddUserDialog} onOpenChange={setShowAddUserDialog} /> */}
 
                     <Button
                         onClick={() => setShowAddUserNewFlowDialog(true)}
                         className="flex items-center justify-center gap-1 font-normal">
                         <CirclePlus width={16} height={16} />
-                        <span>{translate("resources.users.createButton")} (experimental)</span>
+                        <span>{translate("resources.users.createButton")}</span>
                     </Button>
                     <CreateUserDialogNewFlow
                         open={showAddUserNewFlowDialog}

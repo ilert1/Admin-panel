@@ -1,4 +1,5 @@
-import { Button, EditButton, TrashButton, ShowButton } from "@/components/ui/Button";
+import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Button, EditButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { CirclePlus, EyeIcon } from "lucide-react";
@@ -91,7 +92,7 @@ export const useGetMerchantColumns = () => {
                 return (
                     <div className="flex items-center justify-center">
                         <Button onClick={() => handleShowClicked(row.original.id, "fees")} variant={"text_btn"}>
-                            {Object.entries(row.original.fees).length !== 0 ? (
+                            {Object.entries(row.original.fees || []).length !== 0 ? (
                                 <EyeIcon className="text-green-50 hover:text-green-40" />
                             ) : (
                                 <CirclePlus className="text-green-50 hover:text-green-40 " />

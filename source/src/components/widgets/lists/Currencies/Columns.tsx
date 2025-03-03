@@ -1,5 +1,6 @@
 import { ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
+import { CurrencyWithId } from "@/data/currencies";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
@@ -13,7 +14,7 @@ export const useGetCurrencyColumns = () => {
     const [showAddCurrencyDialog, setShowAddCurrencyDialog] = useState(false);
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
-    const columns: ColumnDef<Currencies.Currency>[] = [
+    const columns: ColumnDef<CurrencyWithId>[] = [
         {
             id: "id",
             accessorKey: "code",

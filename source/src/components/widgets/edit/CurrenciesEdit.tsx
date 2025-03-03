@@ -19,16 +19,17 @@ import { useEffect, useState } from "react";
 import { usePreventFocus } from "@/hooks";
 import { Loading } from "@/components/ui/loading";
 import { Label } from "@/components/ui/label";
-
-enum PositionEnum {
-    BEFORE = "before",
-    AFTER = "after"
-}
+import { CurrencyWithId } from "@/data/currencies";
+import { CurrencyPosition } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () => void }) => {
     const dataProvider = useDataProvider();
 
-    const controllerProps = useEditController({ resource: "currency", id, mutationMode: "pessimistic" });
+    const controllerProps = useEditController<CurrencyWithId>({
+        resource: "currency",
+        id,
+        mutationMode: "pessimistic"
+    });
 
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -37,7 +38,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
 
     const formSchema = z.object({
         code: z.string().min(1, translate("resources.currency.errors.code")),
-        position: z.enum([PositionEnum.AFTER, PositionEnum.BEFORE]),
+        position: z.enum([CurrencyPosition.after, CurrencyPosition.before]),
         symbol: z.string().trim().nullable(),
         is_coin: z.boolean().default(false)
     });
@@ -46,7 +47,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
         resolver: zodResolver(formSchema),
         defaultValues: {
             code: controllerProps.record?.code || "",
-            position: controllerProps.record?.position || PositionEnum.BEFORE,
+            position: controllerProps.record?.position || CurrencyPosition.before,
             symbol: controllerProps.record?.symbol || "",
             is_coin: controllerProps.record?.is_coin || false
         }
@@ -56,7 +57,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
         if (controllerProps.record) {
             form.reset({
                 code: controllerProps.record?.code || "",
-                position: controllerProps.record?.position || PositionEnum.BEFORE,
+                position: controllerProps.record?.position || CurrencyPosition.before,
                 symbol: controllerProps.record?.symbol || "",
                 is_coin: controllerProps.record?.is_coin || false
             });
@@ -173,7 +174,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                     <Label>{translate("resources.currency.fields.symbPos")}</Label>
                                     <FormControl>
                                         <Select
-                                            onValueChange={value => field.onChange(value as PositionEnum)}
+                                            onValueChange={value => field.onChange(value as CurrencyPosition)}
                                             value={field.value}>
                                             <SelectTrigger
                                                 isError={fieldState.invalid}
@@ -185,10 +186,14 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectGroup>
-                                                    <SelectItem value={PositionEnum.BEFORE} variant={SelectType.GRAY}>
+                                                    <SelectItem
+                                                        value={CurrencyPosition.before}
+                                                        variant={SelectType.GRAY}>
                                                         {translate("resources.currency.fields.before")}
                                                     </SelectItem>
-                                                    <SelectItem value={PositionEnum.AFTER} variant={SelectType.GRAY}>
+                                                    <SelectItem
+                                                        value={CurrencyPosition.after}
+                                                        variant={SelectType.GRAY}>
                                                         {translate("resources.currency.fields.after")}
                                                     </SelectItem>
                                                 </SelectGroup>

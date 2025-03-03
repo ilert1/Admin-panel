@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/Button";
 import { EditUserDialog } from "./EditUserDialog";
 import { DeleteUserDialog } from "./DeleteUserDialog";
 
-const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
-const translations = ["active", "frozen", "blocked", "deleted"];
+// const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
+// const translations = ["active", "frozen", "blocked", "deleted"];
 
 interface UserShowProps {
     id: string;
@@ -28,7 +28,7 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
     if (context.isLoading || context.isFetching || !context.record) {
         return <LoadingBlock />;
     }
-    const index = context.record.state - 1;
+    const userName = `${context.record.first_name || ""} ${context.record.last_name || ""}`.trimEnd();
 
     return (
         <div className="relative">
@@ -37,32 +37,56 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
 
                 <div className="flex items-center justify-center">
                     <span
-                        className={`px-3 py-0.5 rounded-20 font-normal text-white text-base text-center ${styles[index]}`}>
-                        {translate(`resources.accounts.fields.states.${translations[index]}`)}
+                        className={`px-3 py-0.5 rounded-20 font-normal text-white text-base text-center ${
+                            context.record.activity ? "bg-green-50" : "bg-extra-2"
+                        }`}>
+                        {translate(
+                            `resources.accounts.fields.states.${context.record.activity ? "active" : "blocked"}`
+                        )}
                     </span>
                 </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 px-[42px] gap-y-2 sm:gap-y-6 pb-[24px]">
-                <TextField label={translate("resources.users.fields.name")} text={context.record.name} copyValue />
+                <TextField label={translate("resources.users.fields.name")} text={userName} copyValue />
 
-                <div className="max-w-96">
+                <TextField label={translate("resources.users.fields.login")} text={context.record.login} copyValue />
+
+                {context.record.email && (
                     <TextField
-                        label={translate("resources.users.fields.public_key")}
-                        text={context.record.public_key}
+                        label={translate("resources.users.fields.email")}
+                        text={context.record.email}
+                        copyValue
+                    />
+                )}
+
+                <TextField
+                    label={translate("resources.users.fields.roles")}
+                    text={context.record.roles.map(role => translate(`resources.users.roles.${role.name}`)).join(", ")}
+                    // copyValue
+                />
+                <div className="flex flex-col">
+                    <span className="text-neutral-60 dark:text-neutral-40">
+                        {translate("resources.users.fields.merchant")}
+                    </span>
+                    {context.record.merchant_name && (
+                        <TextField
+                            // label={translate("resources.users.fields.merchant")}
+                            text={context.record.merchant_name}
+                            // copyValue
+                        />
+                    )}
+                    <TextField
+                        // label={translate("resources.users.fields.merchant")}
+                        text={context.record.merchant_id}
+                        className="text-neutral-70"
                         copyValue
                     />
                 </div>
-
-                <TextField label={translate("resources.users.fields.login")} text={context.record.login} />
-
-                <TextField label={translate("resources.users.fields.email")} text={context.record.email} />
-
-                <TextField label={translate("resources.users.fields.currency")} text={context.record.shop_currency} />
             </div>
 
             <div className="flex justify-end gap-4 px-[42px] mb-4 text-white font-normal">
-                <Button disabled={index !== 0} onClick={handleEditClicked} className="text-title-1">
+                <Button onClick={handleEditClicked} className="text-title-1">
                     {translate("resources.users.edit")}
                 </Button>
 

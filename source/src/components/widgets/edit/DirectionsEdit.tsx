@@ -19,6 +19,7 @@ import { Form, FormItem, FormMessage, FormControl, FormField } from "@/component
 import { useFetchDataForDirections, useGetTerminals, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { Direction, DirectionUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export interface DirectionEditProps {
     id?: string;
@@ -28,7 +29,7 @@ export interface DirectionEditProps {
 export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const dataProvider = useDataProvider();
     const { currencies, merchants, providers, isLoading: loadingData } = useFetchDataForDirections();
-    const controllerProps = useEditController({ resource: "direction", id, mutationMode: "pessimistic" });
+    const controllerProps = useEditController<Direction>({ resource: "direction", id, mutationMode: "pessimistic" });
 
     const { terminals, getTerminals } = useGetTerminals();
 
@@ -84,11 +85,11 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         }
     }, [form, controllerProps.record]);
 
-    const onSubmit: SubmitHandler<Directions.DirectionCreate> = async data => {
+    const onSubmit: SubmitHandler<DirectionUpdate> = async data => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
         try {
-            await dataProvider.update("direction", {
+            await dataProvider.update<Direction>("direction", {
                 id,
                 data,
                 previousData: undefined
@@ -114,9 +115,9 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     };
 
     useEffect(() => {
-        getTerminals(controllerProps.record.provider.name);
+        getTerminals(controllerProps.record?.provider.name);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [controllerProps.record.provider.name, controllerProps.record.provider]);
+    }, [controllerProps.record?.provider.name, controllerProps.record?.provider]);
 
     usePreventFocus({ dependencies: [controllerProps.record] });
 
@@ -168,7 +169,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {currencies?.data.map((currency: Currencies.Currency) => {
+                                                {currencies?.data.map(currency => {
                                                     return (
                                                         <SelectItem
                                                             key={currency.code}
@@ -201,7 +202,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {merchants?.data.map((merchant: Merchant) => {
+                                                {merchants?.data.map(merchant => {
                                                     return (
                                                         <SelectItem
                                                             key={merchant.name}
@@ -234,7 +235,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {currencies?.data.map((currency: Currencies.Currency) => {
+                                                {currencies?.data.map(currency => {
                                                     return (
                                                         <SelectItem
                                                             key={currency.code}
@@ -274,7 +275,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {providers?.data.map((provider: Provider) => {
+                                                {providers?.data.map(provider => {
                                                     return (
                                                         <SelectItem
                                                             variant={SelectType.GRAY}

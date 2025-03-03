@@ -58,13 +58,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         const iconsBoxRef = React.useRef<HTMLSpanElement>(null);
         const containerRef = React.useRef<HTMLDivElement>(null);
 
+        React.useImperativeHandle(ref, () => inputRef.current!);
+
         React.useEffect(() => {
-            if (propValue !== undefined) {
+            if (propValue !== undefined && propValue !== inputValue) {
                 setInputValue(propValue);
             }
-        }, [propValue]);
-
-        React.useImperativeHandle(ref, () => inputRef.current!);
+        }, [inputValue, propValue]);
 
         const handleClear = (e: React.MouseEvent) => {
             e.preventDefault();
@@ -78,10 +78,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         };
 
         const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-            setInputValue(e.target.value);
-            if (onChange) {
-                onChange(e);
+            if (propValue === undefined) {
+                setInputValue(e.target.value);
             }
+            onChange?.(e);
         };
 
         const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -89,9 +89,21 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             props.onFocus?.(e);
         };
 
+        // const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+        //     if (e.relatedTarget && (e.relatedTarget as HTMLElement).tagName === "INPUT") {
+        //         return;
+        //     }
+        //     setIsFocused(false);
+        //     props.onBlur?.(e);
+        // };
+
         const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-            setIsFocused(false);
-            props.onBlur?.(e);
+            setTimeout(() => {
+                if (document.activeElement !== inputRef.current) {
+                    setIsFocused(false);
+                    props.onBlur?.(e);
+                }
+            }, 0);
         };
 
         const showClearButton = React.useMemo(
@@ -110,12 +122,32 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             }
         }, [showClearButton, error, type]);
 
+        // React.useEffect(() => {
+        //     const handleDocumentClick = (e: MouseEvent) => {
+        //         if (
+        //             containerRef.current &&
+        //             !containerRef.current.contains(e.target as Node) &&
+        //             document.activeElement === inputRef.current
+        //         ) {
+        //             setIsFocused(false);
+        //             inputRef.current?.blur();
+        //             props.onBlur?.(e as any);
+        //         }
+        //     };
+
+        //     document.addEventListener("mousedown", handleDocumentClick);
+
+        //     return () => {
+        //         document.removeEventListener("mousedown", handleDocumentClick);
+        //     };
+        // }, [props]);
+
         React.useEffect(() => {
             const handleDocumentClick = (e: MouseEvent) => {
                 if (
                     containerRef.current &&
                     !containerRef.current.contains(e.target as Node) &&
-                    document.activeElement === inputRef.current
+                    document.activeElement !== inputRef.current
                 ) {
                     setIsFocused(false);
                     inputRef.current?.blur();
@@ -123,10 +155,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 }
             };
 
-            document.addEventListener("mousedown", handleDocumentClick);
-
+            document.addEventListener("click", handleDocumentClick);
             return () => {
-                document.removeEventListener("mousedown", handleDocumentClick);
+                document.removeEventListener("click", handleDocumentClick);
             };
         }, [props]);
 
@@ -158,7 +189,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     )}>
                     <input
                         type={type === "password" && showPassword ? "text" : type}
-                        value={inputValue}
+                        tabIndex={0}
+                        value={propValue !== undefined ? propValue : inputValue}
                         onChange={handleInputChange}
                         onFocus={handleFocus}
                         onBlur={handleBlur}
@@ -170,8 +202,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                             className
                         )}
                         {...props}
-                        onCopy={() => navigator.clipboard.writeText(String(inputValue))}
-                        onCut={() => navigator.clipboard.writeText(String(inputValue))}
+                        onCopy={() =>
+                            navigator.clipboard.writeText(String(propValue !== undefined ? propValue : inputValue))
+                        }
+                        onCut={() =>
+                            navigator.clipboard.writeText(String(propValue !== undefined ? propValue : inputValue))
+                        }
                         onContextMenu={type === "password_masked" ? e => e.preventDefault() : onContextMenu}
                         ref={inputRef}
                     />

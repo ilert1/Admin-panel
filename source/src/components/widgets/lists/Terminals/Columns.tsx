@@ -1,5 +1,6 @@
 import { EditButton, ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
+import { TerminalWithId } from "@/data/terminals";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
@@ -27,7 +28,7 @@ export const useGetTerminalColumns = () => {
         setDeleteDialogOpen(true);
     };
 
-    const columns: ColumnDef<Directions.Terminal>[] = [
+    const columns: ColumnDef<TerminalWithId>[] = [
         {
             id: "id",
             accessorKey: "id",
@@ -71,7 +72,7 @@ export const useGetTerminalColumns = () => {
             accessorKey: "auth",
             header: translate("resources.terminals.fields.auth"),
             cell: ({ row }) => {
-                const buttonDisabeled = Object.keys(row.original.auth).length === 0;
+                const buttonDisabeled = Object.keys(row.original.auth || {}).length === 0;
                 return (
                     <ShowButton
                         disabled={buttonDisabeled}

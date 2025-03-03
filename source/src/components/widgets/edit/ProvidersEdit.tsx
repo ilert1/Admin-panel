@@ -6,11 +6,12 @@ import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { toast } from "sonner";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
+import { ProviderWithId } from "@/data/providers";
 
 export interface ProviderEditParams {
     id?: string;
@@ -19,7 +20,11 @@ export interface ProviderEditParams {
 
 export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) => {
     const dataProvider = useDataProvider();
-    const controllerProps = useEditController({ resource: "provider", id, mutationMode: "pessimistic" });
+    const controllerProps = useEditController<ProviderWithId>({
+        resource: "provider",
+        id,
+        mutationMode: "pessimistic"
+    });
 
     const translate = useTranslate();
 
@@ -60,7 +65,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         setSubmitButtonDisabled(true);
         data.methods = JSON.parse(data.methods);
         try {
-            await dataProvider.update("provider", {
+            await dataProvider.update<ProviderWithId>("provider", {
                 id,
                 data,
                 previousData: undefined

@@ -5,9 +5,9 @@ import { Label } from "@/components/ui/label";
 import { Loading } from "@/components/ui/loading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import fetchDictionaries from "@/helpers/get-dictionaries";
-import { format } from "date-fns";
 import { debounce } from "lodash";
 import { XIcon } from "lucide-react";
+import moment from "moment";
 import { ChangeEvent, useCallback, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 import { DateRange } from "react-day-picker";
@@ -27,7 +27,7 @@ export const WalletTransactionsFilter = () => {
     const [stateFilter, setStateFilter] = useState(filterValues?.state || "");
     const [typeTabActive, setTypeTabActive] = useState("");
 
-    const formattedDate = (date: Date) => format(date, "yyyy-MM-dd");
+    const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
     const chooseClassTabActive = useCallback(
         (type: string) => {
