@@ -1,5 +1,12 @@
 import { toast } from "sonner";
-import { CreateContextProvider, useCreateController, useDataProvider, useRefresh, useTranslate } from "react-admin";
+import {
+    CreateContextProvider,
+    fetchUtils,
+    useCreateController,
+    useDataProvider,
+    useRefresh,
+    useTranslate
+} from "react-admin";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,10 +24,23 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
+import { useQuery } from "react-query";
 
 interface UserCreateProps {
     onOpenChange: (state: boolean) => void;
 }
+
+interface KecloakRoles {
+    clientRole: boolean;
+    composite: boolean;
+    containerId: string;
+    description: string;
+    id: string;
+    name: string;
+}
+
+const KEYCLOAK_URL = import.meta.env.VITE_KEYCLOAK_URL;
+const KEYCLOAK_REALM = import.meta.env.VITE_KEYCLOAK_REALM;
 
 export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
     const translate = useTranslate();
@@ -31,6 +51,14 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const isFirefox = useMemo(() => navigator.userAgent.match(/firefox|fxios/i), []);
+
+    const { data: userRoles } = useQuery(["userRoles"], async () => {
+        const res = await fetchUtils.fetchJson(`${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles`, {
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        });
+
+        return res.json as KecloakRoles[];
+    });
 
     const formSchema = z.object({
         first_name: z.string().min(3, translate("app.widgets.forms.userCreate.firstNameMessage")).trim(),
@@ -223,10 +251,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                                     <FormItem className="space-y-1">
                                         <FormLabel>{translate("app.widgets.forms.userCreate.role")}</FormLabel>
                                         <FormControl>
-                                            <Select
-                                                onValueChange={value => field.onChange(value)}
-                                                value={field.value}
-                                                disabled>
+                                            <Select onValueChange={value => field.onChange(value)} value={field.value}>
                                                 <SelectTrigger
                                                     variant={SelectType.GRAY}
                                                     isError={fieldState.invalid}
@@ -235,9 +260,18 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                                                 </SelectTrigger>
                                                 <SelectContent className="!dark:bg-muted">
                                                     <SelectGroup>
-                                                        <SelectItem value={"merchant"} variant={SelectType.GRAY}>
-                                                            merchant
-                                                        </SelectItem>
+                                                        {userRoles?.map(role => (
+                                                            <SelectItem
+                                                                key={role.id}
+                                                                value={role.name}
+                                                                variant={SelectType.GRAY}>
+                                                                {translate(
+                                                                    `resources.users.roles.${role.name}`
+                                                                ).includes(".")
+                                                                    ? role.name
+                                                                    : translate(`resources.users.roles.${role.name}`)}
+                                                            </SelectItem>
+                                                        ))}
                                                     </SelectGroup>
                                                 </SelectContent>
                                             </Select>
