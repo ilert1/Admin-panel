@@ -12,6 +12,7 @@ import { ShowMerchantSheet } from "./ShowMerchantSheet";
 // import { CreateMerchantDialog } from "./CreateMerchantDialog";
 import { CreateMerchantDialogNewFlow } from "./CreateMerchantDialogNewFlow";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { PlusCircle } from "lucide-react";
 
 export const MerchantList = () => {
     const listContext = useListController<Merchant>();
@@ -45,7 +46,8 @@ export const MerchantList = () => {
                         {translate("resources.merchant.createNew")}
                     </Button> */}
 
-                    <Button onClick={() => setCreateDialogNewFlowOpen(true)} variant="default">
+                    <Button onClick={() => setCreateDialogNewFlowOpen(true)} variant="default" className="flex gap-1">
+                        <PlusCircle className="w-[16px] h-[16px]" />
                         {translate("resources.merchant.createNew")}
                     </Button>
                 </div>
