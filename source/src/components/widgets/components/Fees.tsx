@@ -4,7 +4,7 @@ import { FeeCard } from "./FeeCard";
 import { AddFeeCard, FeeType } from "./AddFeeCard";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
-import { CircleChevronRight } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import { useTranslate } from "react-admin";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { DirectionFees, FeeCreate, MerchantFees } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
@@ -114,7 +114,7 @@ export const Fees = memo((props: FeesProps) => {
             {addFee && (
                 <div className="flex justify-end">
                     <Button onClick={() => setAddNewOpen(true)} className="w-full my-6 sm:w-2/5 flex gap-[4px]">
-                        <CircleChevronRight className="w-[16px] h-[16px]" />
+                        <PlusCircle className="w-[16px] h-[16px]" />
                         {translate("resources.direction.fees.addFee")}
                     </Button>
                 </div>
