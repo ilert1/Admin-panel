@@ -32,8 +32,8 @@ export function DateRangePicker({
 
     const [timeShow, setTimeShow] = useState<CheckedState>(dateRange?.from && dateRange?.to ? true : false);
     const [openPopover, setOpenPopover] = useState(false);
-    const [startTime, setStartTime] = useState(dateRange?.from ? timeFormat(dateRange?.from) : "");
-    const [endTime, setEndTime] = useState(dateRange?.to ? timeFormat(dateRange?.to) : "");
+    const [startTime, setStartTime] = useState(dateRange?.from ? timeFormat(dateRange?.from) : "00:00");
+    const [endTime, setEndTime] = useState(dateRange?.to ? timeFormat(dateRange?.to) : "00:00");
     const initDate = new Date();
 
     const genereateDateTime = (date: Date, hours: number, minutes: number) =>
@@ -140,14 +140,21 @@ export function DateRangePicker({
                 from: genereateDateTime(dateRange.from, 0, 0),
                 to: genereateDateTime(dateRange.to, 0, 0)
             });
-        } else if (!timeShow && dateRange?.from && dateRange?.to) {
+        } else if (!timeShow) {
             setStartTime("00:00");
             setEndTime("01:00");
 
-            onChange({
-                from: genereateDateTime(dateRange.from, 0, 0),
-                to: genereateDateTime(dateRange.to, 1, 0)
-            });
+            if (dateRange?.from && dateRange?.to) {
+                onChange({
+                    from: genereateDateTime(dateRange.from, 0, 0),
+                    to: genereateDateTime(dateRange.to, 1, 0)
+                });
+            } else {
+                onChange({
+                    from: genereateDateTime(initDate, 0, 0),
+                    to: genereateDateTime(initDate, 1, 0)
+                });
+            }
         }
 
         setTimeShow(!timeShow);
