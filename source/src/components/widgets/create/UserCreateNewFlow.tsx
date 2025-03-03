@@ -74,7 +74,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                 /^(?=.*[0-9])(?=.*[!@#$%^&*()-_])[a-zA-Z0-9!@#$%^&*()-_]{8,20}$/,
                 translate("app.widgets.forms.userCreate.passwordMessage")
             ),
-        role_name: z.enum(["merchant"]),
+        role_name: z.string().min(1).trim(),
         merchant_id: z.string().min(1, translate("app.widgets.forms.userCreate.merchant")).trim()
     });
 
