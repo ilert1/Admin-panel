@@ -41,10 +41,10 @@ export const TerminalShow = (props: TerminalShowProps) => {
                             text={data.verbose_name}
                             label={translate("resources.terminals.fields.verbose_name")}
                         />
-                        <TextField text={data.provider} label={translate("resources.terminals.fields.description")} />
+                        <TextField text={data.provider} label={translate("resources.terminals.fields.provider")} />
                         <TextField
                             text={data.description ?? ""}
-                            label={translate("resources.terminals.fields.provider")}
+                            label={translate("resources.terminals.fields.description")}
                         />
                     </div>
                     <div className="">
