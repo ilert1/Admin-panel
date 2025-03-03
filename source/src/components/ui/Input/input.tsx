@@ -1,9 +1,9 @@
+/* eslint-disable react/prop-types */
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { ErrorBadge } from "./ErrorBadge";
 import { EyeButton } from "./EyeButton";
 import { ClearButton } from "./ClearButton";
-import { cva } from "class-variance-authority";
 
 export type BasicInputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
@@ -23,6 +23,7 @@ interface InputProps extends BasicInputProps {
     errorMessage?: string | React.ReactNode;
     labelSize?: LabelSize;
     borderColor?: BorderColor;
+    disableErrorMessage?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -32,8 +33,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             type,
             value: propValue,
             onChange,
-            onCopy,
-            onCut,
             onContextMenu,
             disabled,
             variant = InputTypes.DEFAULT,
@@ -43,6 +42,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             labelSize = "note-1",
             shadow = false,
             borderColor = "border-neutral-40",
+            disableErrorMessage = false,
             ...props
         },
         ref
@@ -89,14 +89,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             props.onFocus?.(e);
         };
 
-        // const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-        //     if (e.relatedTarget && (e.relatedTarget as HTMLElement).tagName === "INPUT") {
-        //         return;
-        //     }
-        //     setIsFocused(false);
-        //     props.onBlur?.(e);
-        // };
-
         const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
             setTimeout(() => {
                 if (document.activeElement !== inputRef.current) {
@@ -121,26 +113,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 }
             }
         }, [showClearButton, error, type]);
-
-        // React.useEffect(() => {
-        //     const handleDocumentClick = (e: MouseEvent) => {
-        //         if (
-        //             containerRef.current &&
-        //             !containerRef.current.contains(e.target as Node) &&
-        //             document.activeElement === inputRef.current
-        //         ) {
-        //             setIsFocused(false);
-        //             inputRef.current?.blur();
-        //             props.onBlur?.(e as any);
-        //         }
-        //     };
-
-        //     document.addEventListener("mousedown", handleDocumentClick);
-
-        //     return () => {
-        //         document.removeEventListener("mousedown", handleDocumentClick);
-        //     };
-        // }, [props]);
 
         React.useEffect(() => {
             const handleDocumentClick = (e: MouseEvent) => {
@@ -213,7 +185,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     />
                     <span className="flex" ref={iconsBoxRef}>
                         {showClearButton && <ClearButton handleClear={handleClear} inputVariant={variant} />}
-                        {error && <ErrorBadge errorMessage={errorMessage} />}
+                        {error && <ErrorBadge errorMessage={errorMessage} disableErrorMessage={disableErrorMessage} />}
                         {(type === "password" || type === "password_masked") && (
                             <EyeButton
                                 inputVariant={variant}

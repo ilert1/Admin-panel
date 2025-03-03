@@ -4,10 +4,11 @@ import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "../too
 import { ReactNode } from "react";
 interface ErrorBadgeProps {
     errorMessage?: string | ReactNode;
+    disableErrorMessage?: boolean;
     className?: string;
 }
 export const ErrorBadge = (props: ErrorBadgeProps) => {
-    const { errorMessage, className = "" } = props;
+    const { errorMessage, disableErrorMessage = false, className = "" } = props;
 
     return (
         <span className={cn("flex items-center justify-center bg-black h-[36px] pr-[4px] bg-transparent", className)}>
@@ -21,7 +22,7 @@ export const ErrorBadge = (props: ErrorBadgeProps) => {
                         side="left"
                         sideOffset={5}
                         align="center"
-                        className="z-50 border-red-40 text-red-40">
+                        className={cn("z-50 border-red-40 text-red-40", disableErrorMessage && "hidden")}>
                         {errorMessage}
                     </TooltipContent>
                 </Tooltip>

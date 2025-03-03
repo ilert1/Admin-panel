@@ -5,11 +5,24 @@ interface LimitInputGroupProps {
     label: string;
     minValue: string;
     maxValue: string;
+    errorMin?: string;
+    errorMax?: string;
     onMinChange: (value: string) => void;
     onMaxChange: (value: string) => void;
 }
 
-export const LimitInputGroup = ({ label, minValue, maxValue, onMinChange, onMaxChange }: LimitInputGroupProps) => {
+export const LimitInputGroup = ({
+    label,
+    minValue,
+    maxValue,
+    errorMin,
+    errorMax,
+    onMinChange,
+    onMaxChange
+}: LimitInputGroupProps) => {
+    console.log(errorMin);
+    console.log(errorMax);
+
     return (
         <div className="flex flex-col gap-2 flex-1">
             <TextField text={label} />
@@ -21,6 +34,8 @@ export const LimitInputGroup = ({ label, minValue, maxValue, onMinChange, onMaxC
                     onChange={e => onMinChange(e.target.value)}
                     inputMode="numeric"
                     tabIndex={0}
+                    error={errorMin}
+                    disableErrorMessage
                 />
                 <Input
                     variant={InputTypes.GRAY}
@@ -29,6 +44,8 @@ export const LimitInputGroup = ({ label, minValue, maxValue, onMinChange, onMaxC
                     tabIndex={0}
                     onChange={e => onMaxChange(e.target.value)}
                     inputMode="numeric"
+                    error={errorMax}
+                    disableErrorMessage
                 />
             </div>
         </div>
