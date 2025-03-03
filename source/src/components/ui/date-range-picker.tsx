@@ -283,9 +283,11 @@ export function DateRangePicker({
                             {startTime === endTime && (
                                 <div>
                                     <p className="text-xs text-center pt-1 text-red-50">
-                                        Введите корректный интервал времени
+                                        {translate("app.ui.timePickerErrorTitle")}
                                     </p>
-                                    <p className="text-xs text-center text-red-50">(Отображены данные за сутки)</p>
+                                    <p className="text-xs text-center text-red-50">
+                                        ({translate("app.ui.timePickerErrorDescription")})
+                                    </p>
                                 </div>
                             )}
                         </div>
