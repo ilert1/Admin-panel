@@ -30,7 +30,10 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
         rewardMax: getMaxValue(limitsData.reward) ?? ""
     });
 
+    const [errors, setErrors] = useState<Record<string, string>>({});
+
     const validate = () => {
+        setErrors({});
         const errorMessages: Record<string, string> = {
             payInMin: translate("app.widgets.limits.deposit"),
             payInMax: translate("app.widgets.limits.deposit"),
@@ -56,21 +59,26 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
             const minValue = parseFloat(limits[minKey]) || 0;
             const maxValue = parseFloat(limits[maxKey]) || 0;
 
-            if (minValue > maxValue) {
+            if (minValue > maxValue && minValue !== 0 && maxValue !== 0) {
+                setErrors({ [maxKey]: translate("app.widgets.limits.errors.minGreaterThanMax") });
                 toast.error(`${errorMessages[minKey]}`, {
                     description: translate("app.widgets.limits.errors.minGreaterThanMax")
                 });
                 return false;
             }
 
-            if (minValue > 0 && minValue < 1) {
+            if (minValue > 0 && minValue < 1 && minValue !== 0) {
+                setErrors({ [minKey]: translate("app.widgets.limits.errors.minTooSmall") });
+
                 toast.error(errorMessages[minKey], {
                     description: translate("app.widgets.limits.errors.minTooSmall")
                 });
                 return false;
             }
 
-            if (maxValue > 0 && maxValue < 1) {
+            if (maxValue > 0 && maxValue < 1 && maxValue !== 0) {
+                setErrors({ [maxKey]: translate("app.widgets.limits.errors.maxTooSmall") });
+
                 toast.error(errorMessages[maxKey], {
                     description: translate("app.widgets.limits.errors.maxTooSmall")
                 });
@@ -78,6 +86,8 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
             }
 
             if (maxValue > 10000000) {
+                setErrors({ [maxKey]: translate("app.widgets.limits.errors.maxTooLarge") });
+
                 toast.error(errorMessages[maxKey], {
                     description: translate("app.widgets.limits.errors.maxTooLarge")
                 });
@@ -92,7 +102,7 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
         if (!validate()) return;
 
         const { success } = await updateLimits(directionId, limits);
-
+        setErrors({});
         if (success)
             toast.success("Success", {
                 dismissible: true,
@@ -103,14 +113,13 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
         refresh();
         setEditClicked(false);
     };
-
     const handleChange = (key: keyof typeof limits, value: string) => {
         const sanitizedValue = value.replace(/^0+(\d)/, "$1");
 
         if (/^(0|[1-9]\d*)(\.\d*)?$/.test(sanitizedValue) || sanitizedValue === "") {
             setLimits(prev => ({
                 ...prev,
-                [key]: sanitizedValue
+                [key]: sanitizedValue === "" ? "0" : sanitizedValue
             }));
         }
     };
@@ -121,6 +130,8 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
                     label={translate("app.widgets.limits.deposit")}
                     minValue={limits.payInMin}
                     maxValue={limits.payInMax}
+                    errorMin={errors["payInMin"]}
+                    errorMax={errors["payInMax"]}
                     onMinChange={value => handleChange("payInMin", value)}
                     onMaxChange={value => handleChange("payInMax", value)}
                 />
@@ -129,6 +140,8 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
                     label={translate("app.widgets.limits.payment")}
                     minValue={limits.payOutMin}
                     maxValue={limits.payOutMax}
+                    errorMin={errors["payOutMin"]}
+                    errorMax={errors["payOutMax"]}
                     onMinChange={value => handleChange("payOutMin", value)}
                     onMaxChange={value => handleChange("payOutMax", value)}
                 />
@@ -137,6 +150,8 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
                     label={translate("app.widgets.limits.reward")}
                     minValue={limits.rewardMin}
                     maxValue={limits.rewardMax}
+                    errorMin={errors["rewardMin"]}
+                    errorMax={errors["rewardMax"]}
                     onMinChange={value => handleChange("rewardMin", value)}
                     onMaxChange={value => handleChange("rewardMax", value)}
                 />
