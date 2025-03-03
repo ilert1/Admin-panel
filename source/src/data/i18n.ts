@@ -343,7 +343,7 @@ const ru: TranslationMessages = {
                 id: "ID",
                 name: "Имя",
                 descr: "Описание",
-                fees: "Комиссии",
+                view: "Просмотр",
                 directions: "Направления"
             },
             errors: {
@@ -1230,7 +1230,7 @@ const en: TranslationMessages = {
                 id: "ID",
                 name: "Name",
                 descr: "Description",
-                fees: "Fees",
+                view: "Show more",
                 directions: "Directions"
             },
             errors: {

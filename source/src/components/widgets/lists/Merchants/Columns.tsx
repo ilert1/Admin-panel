@@ -2,7 +2,7 @@ import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button, EditButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
-import { CirclePlus, EyeIcon } from "lucide-react";
+import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
@@ -74,29 +74,16 @@ export const useGetMerchantColumns = () => {
                 );
             }
         },
-        // {
-        //     id: "show_directions_field",
-        //     header: () => {
-        //         return <div className="text-center">{translate("resources.merchant.fields.directions")}</div>;
-        //     },
-        //     cell: ({ row }) => {
-        //         return <ShowButton onClick={() => handleShowClicked(row.original.id, "directions")} />;
-        //     }
-        // },
         {
             id: "show_fees_field",
             header: () => {
-                return <div className="text-center">{translate("resources.merchant.fields.fees")}</div>;
+                return <div className="text-center">{translate("resources.merchant.fields.view")}</div>;
             },
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
                         <Button onClick={() => handleShowClicked(row.original.id, "fees")} variant={"text_btn"}>
-                            {Object.entries(row.original.fees || []).length !== 0 ? (
-                                <EyeIcon className="text-green-50 hover:text-green-40" />
-                            ) : (
-                                <CirclePlus className="text-green-50 hover:text-green-40 " />
-                            )}
+                            <EyeIcon className="text-green-50 hover:text-green-40" />
                         </Button>
                     </div>
                 );
