@@ -85,7 +85,7 @@ const useTransactionFilter = () => {
     const changeDate = (date: DateRange | undefined) => {
         if (date) {
             if (date.from && date.to) {
-                console.log(date);
+                // console.log(date);
                 setStartDate(date.from);
                 setEndDate(date.to);
                 onPropertySelected({ from: formattedDate(date.from), to: formattedDate(date.to) }, "date");

@@ -29,22 +29,22 @@ export const LimitCard = (props: LimitCardProps) => {
                     <div className="flex flex-col gap-2 flex-1">
                         <TextField text={translate("app.widgets.limits.deposit")} />
                         <div className="flex gap-6">
-                            <TextField text={getMinValue(limits.payin)} label="min (int)" />
-                            <TextField text={getMaxValue(limits.payin)} label="max (int)" />
+                            <TextField text={getMinValue(limits.payin)} label="min" />
+                            <TextField text={getMaxValue(limits.payin)} label="max" />
                         </div>
                     </div>
                     <div className="flex flex-col gap-2 flex-1">
                         <TextField text={translate("app.widgets.limits.payment")} />
                         <div className="flex gap-6">
-                            <TextField text={getMinValue(limits.payout)} label="min (int)" />
-                            <TextField text={getMaxValue(limits.payout)} label="max (int)" />
+                            <TextField text={getMinValue(limits.payout)} label="min" />
+                            <TextField text={getMaxValue(limits.payout)} label="max" />
                         </div>
                     </div>
                     <div className="flex flex-col gap-2 flex-1">
                         <TextField text={translate("app.widgets.limits.reward")} />
                         <div className="flex gap-6">
-                            <TextField text={getMinValue(limits.reward)} label="min (int)" />
-                            <TextField text={getMaxValue(limits.reward)} label="max (int)" />
+                            <TextField text={getMinValue(limits.reward)} label="min" />
+                            <TextField text={getMaxValue(limits.reward)} label="max" />
                         </div>
                     </div>
                 </div>
