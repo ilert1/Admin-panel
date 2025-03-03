@@ -688,6 +688,8 @@ const ru: TranslationMessages = {
                 editError: "Что-то пошло не так, повторите попытку позднее"
             },
             timePickerShow: "Добавить диапазон времени",
+            timePickerErrorTitle: "Введите корректный интервал времени",
+            timePickerErrorDescription: "Отображены данные за сутки",
             chatMessagePlaceholder: "Сообщение...",
             transactionHistory: "История операции",
             accountHistory: "История счета"
@@ -1573,6 +1575,8 @@ const en: TranslationMessages = {
                 editError: "Something went wrong, please try again later"
             },
             timePickerShow: "Add a time range",
+            timePickerErrorTitle: "Enter the correct time interval",
+            timePickerErrorDescription: "The data for the day is displayed",
             chatMessagePlaceholder: "Message...",
             transactionHistory: "Transaction history",
             accountHistory: "Account history"

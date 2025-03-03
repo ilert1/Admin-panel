@@ -32,8 +32,8 @@ export function DateRangePicker({
 
     const [timeShow, setTimeShow] = useState<CheckedState>(dateRange?.from && dateRange?.to ? true : false);
     const [openPopover, setOpenPopover] = useState(false);
-    const [startTime, setStartTime] = useState(dateRange?.from ? timeFormat(dateRange?.from) : "");
-    const [endTime, setEndTime] = useState(dateRange?.to ? timeFormat(dateRange?.to) : "");
+    const [startTime, setStartTime] = useState(dateRange?.from ? timeFormat(dateRange?.from) : "00:00");
+    const [endTime, setEndTime] = useState(dateRange?.to ? timeFormat(dateRange?.to) : "00:00");
     const initDate = new Date();
 
     const genereateDateTime = (date: Date, hours: number, minutes: number) =>
@@ -133,13 +133,28 @@ export function DateRangePicker({
 
     const showTimeHandler = () => {
         if (timeShow && dateRange?.from && dateRange?.to) {
-            setStartTime("");
-            setEndTime("");
+            setStartTime("00:00");
+            setEndTime("00:00");
 
             onChange({
                 from: genereateDateTime(dateRange.from, 0, 0),
                 to: genereateDateTime(dateRange.to, 0, 0)
             });
+        } else if (!timeShow) {
+            setStartTime("00:00");
+            setEndTime("01:00");
+
+            if (dateRange?.from && dateRange?.to) {
+                onChange({
+                    from: genereateDateTime(dateRange.from, 0, 0),
+                    to: genereateDateTime(dateRange.to, 1, 0)
+                });
+            } else {
+                onChange({
+                    from: genereateDateTime(initDate, 0, 0),
+                    to: genereateDateTime(initDate, 1, 0)
+                });
+            }
         }
 
         setTimeShow(!timeShow);
@@ -243,7 +258,10 @@ export function DateRangePicker({
 
                             <div className="flex items-baseline gap-2">
                                 <TimeInput
-                                    error={!startTime && !!endTime && !!dateRange?.from && !!dateRange?.to}
+                                    error={
+                                        (!startTime && !!endTime && !!dateRange?.from && !!dateRange?.to) ||
+                                        startTime === endTime
+                                    }
                                     disabled={!dateRange?.from}
                                     time={startTime}
                                     setTime={updateStartTime}
@@ -252,12 +270,26 @@ export function DateRangePicker({
                                 <span className="py-2 block">-</span>
 
                                 <TimeInput
-                                    error={!!startTime && !endTime && !!dateRange?.from && !!dateRange?.to}
+                                    error={
+                                        (!!startTime && !endTime && !!dateRange?.from && !!dateRange?.to) ||
+                                        startTime === endTime
+                                    }
                                     disabled={!dateRange?.to}
                                     time={endTime}
                                     setTime={updateEndTime}
                                 />
                             </div>
+
+                            {startTime === endTime && (
+                                <div>
+                                    <p className="text-xs text-center pt-1 text-red-50">
+                                        {translate("app.ui.timePickerErrorTitle")}
+                                    </p>
+                                    <p className="text-xs text-center text-red-50">
+                                        ({translate("app.ui.timePickerErrorDescription")})
+                                    </p>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
