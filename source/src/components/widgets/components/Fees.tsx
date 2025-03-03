@@ -113,7 +113,9 @@ export const Fees = memo((props: FeesProps) => {
             </div>
             {addFee && (
                 <div className="flex justify-end">
-                    <Button onClick={() => setAddNewOpen(true)} className="my-6 w-1/2 sm:w-1/4 flex gap-[4px]">
+                    <Button
+                        onClick={() => setAddNewOpen(true)}
+                        className="w-full my-6 sm:w-2/5 lg:w-1/4 flex gap-[4px]">
                         <CircleChevronRight className="w-[16px] h-[16px]" />
                         {translate("resources.direction.fees.addFee")}
                     </Button>
