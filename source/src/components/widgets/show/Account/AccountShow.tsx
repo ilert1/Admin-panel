@@ -23,6 +23,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
         filter: { accountId: id },
         disableSyncWithLocation: true
     });
+    console.log(context.record);
 
     useEffect(() => {
         if (!context.isLoading && context.record.amounts[0]) {
@@ -31,7 +32,9 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                     context.record.amounts[0]?.value.quantity == 0
                         ? "0"
                         : context.record.amounts[0]?.value.quantity / context.record.amounts[0]?.value.accuracy
-                ).replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                ).replace(/\B(?=(\d{3})+(?!\d))/g, " ") +
+                    " " +
+                    context.record.amounts[0]?.currency
             );
         } else {
             setBalance("0");
