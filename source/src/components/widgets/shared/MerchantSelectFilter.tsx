@@ -15,6 +15,7 @@ interface MerchantSelectFilterProps {
     variant?: "outline";
     isLoading?: (loading: boolean) => void;
     error?: string;
+    disabled?: boolean;
 }
 
 type ResourceData<T> = T extends "accounts" ? Account : Merchant;
@@ -25,7 +26,8 @@ export const MerchantSelectFilter = ({
     resource,
     variant,
     isLoading,
-    error
+    error,
+    disabled = false
 }: MerchantSelectFilterProps) => {
     const translate = useTranslate();
 
@@ -70,7 +72,7 @@ export const MerchantSelectFilter = ({
 
     return (
         <Popover modal open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild className="mt-0">
+            <PopoverTrigger asChild className="mt-0" disabled={disabled}>
                 <Button
                     variant="text_btn"
                     role="combobox"

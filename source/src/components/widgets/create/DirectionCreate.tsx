@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Direction, DirectionCreate as IDirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
@@ -279,39 +280,14 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
                                     <Label>{translate("resources.direction.merchant")}</Label>
-                                    <Select
-                                        value={field.value}
-                                        onValueChange={field.onChange}
-                                        disabled={merchantsDisabled}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue
-                                                    placeholder={
-                                                        merchantsDisabled
-                                                            ? translate("resources.direction.noMerchants")
-                                                            : ""
-                                                    }
-                                                />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {!merchantsDisabled
-                                                    ? merchants.data.map(merchant => (
-                                                          <SelectItem
-                                                              key={merchant.name}
-                                                              value={merchant.id}
-                                                              variant={SelectType.GRAY}>
-                                                              {merchant.name}
-                                                          </SelectItem>
-                                                      ))
-                                                    : ""}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
+                                    <MerchantSelectFilter
+                                        variant="outline"
+                                        error={fieldState.error?.message}
+                                        merchant={field.value}
+                                        onMerchantChanged={field.onChange}
+                                        resource="merchant"
+                                        disabled={merchantsDisabled}
+                                    />
                                 </FormItem>
                             )}
                         />
