@@ -59,7 +59,8 @@ const ru: TranslationMessages = {
                 uuid: "Неправильный UUID"
             },
             showHeader: "Информация о счете",
-            showDescription: "Подробная информация о счете с ID %{id}"
+            showDescription: "Подробная информация о счете с ID %{id}",
+            balance: "Баланс"
         },
         users: {
             name: "Пользователи",
@@ -126,8 +127,14 @@ const ru: TranslationMessages = {
             fields: {
                 id: "ID операции",
                 created_at: "Дата создания",
+                updated_at: "Обновлена",
                 committed: "Зафиксированная",
+                account_id: "ID счёта",
                 dispute: "Диспут",
+                accountBalance: "Баланс счёта",
+                amount_value: "Сумма",
+                currency: "Валюта",
+
                 meta: {
                     external_status: "Внешний статус",
                     parentId: "ID родительской транзакции",
@@ -168,7 +175,6 @@ const ru: TranslationMessages = {
                         caption: "Название"
                     }
                 },
-                currency: "Валюта",
                 recipient: "Получатель",
                 type: "Тип",
                 value: "Сумма",
@@ -953,7 +959,8 @@ const en: TranslationMessages = {
                 uuid: "Invalid UUID"
             },
             showHeader: "Account info",
-            showDescription: "Detailed information about account with ID %{id}"
+            showDescription: "Detailed information about account with ID %{id}",
+            balance: "Balance"
         },
         users: {
             name: "Users",
@@ -1019,8 +1026,14 @@ const en: TranslationMessages = {
             fields: {
                 id: "ID",
                 created_at: "Created at",
+                updated_at: "Updated at",
                 committed: "Committed",
                 dispute: "Dispute",
+                account_id: "Account ID",
+                accountBalance: "Account balance",
+                amount_value: "Amount",
+                currency: "Currency",
+
                 meta: {
                     external_status: "External status",
                     parentId: "Parent transaction ID",
@@ -1061,7 +1074,6 @@ const en: TranslationMessages = {
                         caption: "Name"
                     }
                 },
-                currency: "Currency",
                 recipient: "Recipient",
                 value: "Value",
                 type: "Type",

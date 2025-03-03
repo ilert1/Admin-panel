@@ -23,7 +23,7 @@ export const ShowAccountSheet: React.FC<ShowSheetProps> = ({
     return (
         <Sheet onOpenChange={onOpenChange} open={open}>
             <SheetContent
-                className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col h-full border-0"
+                className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col h-full border-0 gap-[4px]"
                 tabIndex={-1}
                 close={false}>
                 <SheetHeader className="p-[42px] pb-0 flex-shrink-0">
@@ -32,10 +32,9 @@ export const ShowAccountSheet: React.FC<ShowSheetProps> = ({
                             <SheetTitle className="!text-display-1">{translate("app.ui.accountHistory")}</SheetTitle>
                             <CloseSheetXButton onOpenChange={onOpenChange} />
                         </div>
-                        <div className="text-display-2 mb-2 text-neutral-90 dark:text-neutral-30">
+                        <div className="text-display-2 text-neutral-90 dark:text-neutral-30">
                             <span>{accountCaption}</span>
                         </div>
-                        <TextField text={accountId} copyValue className="text-neutral-90 dark:text-neutral-30" />
                     </div>
                 </SheetHeader>
 
