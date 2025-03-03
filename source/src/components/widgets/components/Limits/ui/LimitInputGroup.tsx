@@ -21,7 +21,6 @@ export const LimitInputGroup = ({ label, minValue, maxValue, onMinChange, onMaxC
                     onChange={e => onMinChange(e.target.value)}
                     inputMode="numeric"
                     tabIndex={0}
-                    pattern="[0-9]*"
                 />
                 <Input
                     variant={InputTypes.GRAY}
@@ -30,7 +29,6 @@ export const LimitInputGroup = ({ label, minValue, maxValue, onMinChange, onMaxC
                     tabIndex={0}
                     onChange={e => onMaxChange(e.target.value)}
                     inputMode="numeric"
-                    pattern="[0-9]*"
                 />
             </div>
         </div>
