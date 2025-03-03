@@ -59,7 +59,8 @@ const ru: TranslationMessages = {
                 uuid: "Неправильный UUID"
             },
             showHeader: "Информация о счете",
-            showDescription: "Подробная информация о счете с ID %{id}"
+            showDescription: "Подробная информация о счете с ID %{id}",
+            balance: "Баланс"
         },
         users: {
             name: "Пользователи",
@@ -69,9 +70,12 @@ const ru: TranslationMessages = {
             delete: "Удалить",
             fields: {
                 id: "ID пользователя",
+                keycloak_id: "ID пользователя",
                 name: "Имя пользователя",
                 login: "Логин",
                 email: "Электронная почта",
+                merchant: "Мерчант",
+                roles: "Роли",
                 currency: "Валюта",
                 created_at: "Дата и время",
                 active: "Активность",
@@ -104,6 +108,18 @@ const ru: TranslationMessages = {
             deleteMessages: {
                 deleteSuccess: "Успешно удален",
                 deleteError: "Ошибка при удалении пользователя"
+            },
+            roles: {
+                admin: "Системный администратор",
+                system_manager_for_providers: "Системный менеджер по интеграции провайдеров",
+                system_manager_for_merchants: "Системный менеджер по интеграции мерчантов",
+                system_sales_manager: "Системный менеджер по продажам",
+                system_hos: "Руководитель отдела продаж в системе",
+                system_operator: "Оператор системы",
+                system_supervisor: "Аудитор системы",
+                system_accountant: "Бухгалтер системы",
+                merchant: "Адмнистратор мерчанта",
+                merchant_operator: "Оператор мерчанта"
             }
         },
         transactions: {
@@ -111,8 +127,14 @@ const ru: TranslationMessages = {
             fields: {
                 id: "ID операции",
                 created_at: "Дата создания",
+                updated_at: "Обновлена",
                 committed: "Зафиксированная",
+                account_id: "ID счёта",
                 dispute: "Диспут",
+                accountBalance: "Баланс счёта",
+                amount_value: "Сумма",
+                currency: "Валюта",
+
                 meta: {
                     external_status: "Внешний статус",
                     parentId: "ID родительской транзакции",
@@ -153,7 +175,6 @@ const ru: TranslationMessages = {
                         caption: "Название"
                     }
                 },
-                currency: "Валюта",
                 recipient: "Получатель",
                 type: "Тип",
                 value: "Сумма",
@@ -328,7 +349,7 @@ const ru: TranslationMessages = {
                 id: "ID",
                 name: "Имя",
                 descr: "Описание",
-                fees: "Комиссии",
+                view: "Просмотр",
                 directions: "Направления"
             },
             errors: {
@@ -638,7 +659,7 @@ const ru: TranslationMessages = {
             actions: {
                 quick_show: "Быстрый просмотр",
                 show: "Просмотр",
-                edit: "Изменить",
+                edit: "Редактировать",
                 delete: "Удалить",
                 save: "Сохранить",
                 addSecretKey: "Добавить аутентификационную инфорамцию",
@@ -672,6 +693,9 @@ const ru: TranslationMessages = {
                 editSuccess: "Элемент успешно изменен",
                 editError: "Что-то пошло не так, повторите попытку позднее"
             },
+            timePickerShow: "Добавить диапазон времени",
+            timePickerErrorTitle: "Введите корректный интервал времени",
+            timePickerErrorDescription: "Отображены данные за сутки",
             chatMessagePlaceholder: "Сообщение...",
             transactionHistory: "История операции",
             accountHistory: "История счета"
@@ -751,10 +775,13 @@ const ru: TranslationMessages = {
                 },
                 userCreate: {
                     title: "Добавление пользователя",
-                    name: "Имя",
-                    nameMessage: "Пожалуйста, введите имя мерчанта. Минимум 3 символа",
+                    id: "ID пользователя",
+                    firstName: "Имя",
+                    nameMessage: "Пожалуйста, введите имя пользователя. Минимум 3 символа",
+                    lastName: "Фамилия",
+                    lastNameMessage: "Пожалуйста, введите имя пользователя. Минимум 3 символа",
                     login: "Логин",
-                    loginMessage: "Пожалуйста, введите логин мерчанта",
+                    loginMessage: "Пожалуйста, введите логин пользователя",
                     email: "Адрес эл.почты",
                     emailMessage: "Неправильный формат адреса",
                     password: "Пароль",
@@ -773,10 +800,35 @@ const ru: TranslationMessages = {
                     createUser: "Создать пользователя",
                     cancelBtn: "Отменить",
                     role: "Роль",
-                    merchant: "Выберите мерчанта"
+                    merchant: "Выберите мерчанта",
+                    activity: {
+                        name: "Статус",
+                        active: "Активен",
+                        blocked: "Заблокирован"
+                    }
+                }
+            },
+            limits: {
+                limits: "Лимиты",
+                deposit: "Депозит",
+                payment: "Выплата",
+                reward: "Вознаграждение",
+
+                deleteLimits: "Обнулить лимиты?",
+                reset: "Обнулить",
+
+                resetedSuccessfully: "Лимиты успешно обнулены",
+                updatedSuccessfully: "Лимиты успешно обновлены",
+
+                errors: {
+                    minGreaterThanMax: "Максимальное значение не может быть меньше минимального",
+                    maxTooSmall: "Максимальное значение должно быть равным 0 или больше 1",
+                    minTooSmall: "Минимальное значение должно быть равным 0 или больше 1",
+                    maxTooLarge: "Максимальное значение не может быть больше 10.000.000"
                 }
             }
         },
+
         login: {
             usernameOrEmail: "Логин или e-mail",
             password: "Пароль",
@@ -907,7 +959,8 @@ const en: TranslationMessages = {
                 uuid: "Invalid UUID"
             },
             showHeader: "Account info",
-            showDescription: "Detailed information about account with ID %{id}"
+            showDescription: "Detailed information about account with ID %{id}",
+            balance: "Balance"
         },
         users: {
             name: "Users",
@@ -917,9 +970,12 @@ const en: TranslationMessages = {
             deleteThisUser: "Delete user?",
             fields: {
                 id: "User ID",
+                keycloak_id: "User ID",
                 name: "Username",
                 login: "Login",
                 email: "Email",
+                merchant: "Merchant",
+                roles: "Roles",
                 currency: "Currency",
                 created_at: "Date and time",
                 active: "Activity",
@@ -930,6 +986,7 @@ const en: TranslationMessages = {
                 shop_sign_key: "Sign key",
                 shop_balance_key: "Balance key"
             },
+            createButton: "Add user",
             filter: {
                 showAll: "Show all",
                 filterByUserId: "Search by user ID",
@@ -937,7 +994,6 @@ const en: TranslationMessages = {
                 filterByUsernamePlaceholder: "Name",
                 filterByActivity: "Active users"
             },
-            createButton: "Add user",
             showHeader: "User info",
             showDescription: "Detailed information about user with ID %{id}",
             editUser: "Edit user",
@@ -951,6 +1007,18 @@ const en: TranslationMessages = {
             deleteMessages: {
                 deleteSuccess: "Deleted successfully",
                 deleteError: "Failed to delete user"
+            },
+            roles: {
+                admin: "System admin",
+                system_manager_for_providers: "Manager for provider integrations on system",
+                system_manager_for_merchants: "Manager for merchant integrations on system",
+                system_sales_manager: "Sales manager on system",
+                system_hos: "Head of sales on system",
+                system_operator: "System operator",
+                system_supervisor: "System supervisor",
+                system_accountant: "System accountant",
+                merchant: "Merchant admin",
+                merchant_operator: "Merchant operator"
             }
         },
         transactions: {
@@ -958,8 +1026,14 @@ const en: TranslationMessages = {
             fields: {
                 id: "ID",
                 created_at: "Created at",
+                updated_at: "Updated at",
                 committed: "Committed",
                 dispute: "Dispute",
+                account_id: "Account ID",
+                accountBalance: "Account balance",
+                amount_value: "Amount",
+                currency: "Currency",
+
                 meta: {
                     external_status: "External status",
                     parentId: "Parent transaction ID",
@@ -1000,7 +1074,6 @@ const en: TranslationMessages = {
                         caption: "Name"
                     }
                 },
-                currency: "Currency",
                 recipient: "Recipient",
                 value: "Value",
                 type: "Type",
@@ -1175,7 +1248,7 @@ const en: TranslationMessages = {
                 id: "ID",
                 name: "Name",
                 descr: "Description",
-                fees: "Fees",
+                view: "Show more",
                 directions: "Directions"
             },
             errors: {
@@ -1519,6 +1592,9 @@ const en: TranslationMessages = {
                 editSuccess: "Edited successfully",
                 editError: "Something went wrong, please try again later"
             },
+            timePickerShow: "Add a time range",
+            timePickerErrorTitle: "Enter the correct time interval",
+            timePickerErrorDescription: "The data for the day is displayed",
             chatMessagePlaceholder: "Message...",
             transactionHistory: "Transaction history",
             accountHistory: "Account history"
@@ -1600,10 +1676,13 @@ const en: TranslationMessages = {
                 },
                 userCreate: {
                     title: "Adding a user",
-                    name: "Name",
-                    nameMessage: "Please, enter merchant's name. Minimum 3 symbols",
+                    id: "User ID",
+                    firstName: "First name",
+                    firstNameMessage: "Please, enter user's first name. Minimum 3 symbols",
+                    lastName: "Last name",
+                    lastNameMessage: "Please, enter user's last name. Minimum 3 symbols",
                     login: "Login",
-                    loginMessage: "Please, enter merchant's login",
+                    loginMessage: "Please, enter user's login",
                     email: "Email",
                     emailMessage: "Email is incorrect",
                     password: "Password",
@@ -1622,10 +1701,34 @@ const en: TranslationMessages = {
                     createUser: "Create user",
                     cancelBtn: "Cancel",
                     role: "Role",
-                    merchant: "Choose a merchant"
+                    merchant: "Choose a merchant",
+                    activity: {
+                        name: "Status",
+                        active: "Active",
+                        blocked: "Blocked"
+                    }
+                }
+            },
+            limits: {
+                reward: "Reward",
+                payment: "Withdraw",
+                deposit: "Deposit",
+                limits: "Limits",
+
+                deleteLimits: "Reset limits?",
+                reset: "Reset",
+
+                updatedSuccessfully: "Limits updated successfully",
+                resetedSuccessfully: "Limits reset successfully",
+                errors: {
+                    minGreaterThanMax: "The maximum value cannot be less than the minimum value",
+                    maxTooSmall: "The maximum value must be 0 or greater than 1",
+                    minTooSmall: "The minimum value must be 0 or greater than 1",
+                    maxTooLarge: "The maximum value cannot be greater than 10,000,000"
                 }
             }
         },
+
         login: {
             usernameOrEmail: "Username or e-mail",
             password: "Password",

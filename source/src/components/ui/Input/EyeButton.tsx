@@ -7,7 +7,6 @@ interface EyeButtonProps {
     setShowPassword: (state: boolean) => void;
     disabled: boolean;
     inputValue: string | number | readonly string[] | undefined;
-
     inputVariant: InputTypes;
 }
 
@@ -23,7 +22,8 @@ export const EyeButton = (props: EyeButtonProps) => {
                 "flex items-center justify-center cursor-pointer h-[36px] rounded-r-md pr-[4px] ",
                 "bg-neutral-0",
                 "dark:bg-neutral-100",
-                inputVariant === InputTypes.GRAY ? "dark:bg-muted" : "dark:bg-neutral-100"
+                inputVariant === InputTypes.GRAY ? "dark:bg-muted" : "dark:bg-neutral-100",
+                disabled && "bg-neutral-20 dark:bg-neutral-90"
             )}
             onClick={() => setShowPassword(!showPassword)}>
             {showPassword ? (

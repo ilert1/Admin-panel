@@ -1,12 +1,11 @@
-import { format } from "date-fns";
 import { debounce } from "lodash";
 import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { useListContext, usePermissions, useTranslate } from "react-admin";
 import { DateRange } from "react-day-picker";
 import { toast } from "sonner";
-
 import { API_URL } from "@/data/base";
 import fetchDictionaries from "@/helpers/get-dictionaries";
+import moment from "moment";
 
 const useTransactionFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
@@ -26,7 +25,7 @@ const useTransactionFilter = () => {
 
     const translate = useTranslate();
 
-    const formattedDate = (date: Date) => format(date, "yyyy-MM-dd");
+    const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
@@ -86,6 +85,7 @@ const useTransactionFilter = () => {
     const changeDate = (date: DateRange | undefined) => {
         if (date) {
             if (date.from && date.to) {
+                // console.log(date);
                 setStartDate(date.from);
                 setEndDate(date.to);
                 onPropertySelected({ from: formattedDate(date.from), to: formattedDate(date.to) }, "date");
@@ -136,13 +136,8 @@ const useTransactionFilter = () => {
         }
 
         try {
-            const url =
-                `${API_URL}/transactions/report?format=${type}&` +
-                Object.keys(filterValues)
-                    .map(item => {
-                        return `${item}=${filterValues[item]}`;
-                    })
-                    .join("&");
+            const url = new URL(`${API_URL}/transactions/report?format=${type}`);
+            Object.keys(filterValues).map(item => url.searchParams.set(item, filterValues[item]));
 
             const response = await fetch(url, {
                 method: "GET",

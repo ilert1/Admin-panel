@@ -1,6 +1,8 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
+import { CurrencyWithId } from "@/data/currencies";
+import { ProviderWithId } from "@/data/providers";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
@@ -17,7 +19,7 @@ export const useGetDirectionsColumns = () => {
         setQuickShowOpen(true);
     };
 
-    const columns: ColumnDef<Directions.Direction>[] = [
+    const columns: ColumnDef<Direction>[] = [
         {
             id: "name",
             accessorKey: "name",
@@ -36,7 +38,7 @@ export const useGetDirectionsColumns = () => {
             accessorKey: "account_id",
             header: translate("resources.direction.fields.accountNumber"),
             cell: ({ row }) => {
-                return <TextField text={row.original.account_id} wrap copyValue />;
+                return <TextField text={row.original.account_id || ""} wrap copyValue />;
             }
         },
         {
@@ -44,7 +46,7 @@ export const useGetDirectionsColumns = () => {
             accessorKey: "src_currency",
             header: translate("resources.direction.fields.srcCurr"),
             cell: ({ row }) => {
-                const obj: Omit<Currencies.Currency, "id"> = row.getValue("src_currency");
+                const obj: CurrencyWithId = row.getValue("src_currency");
                 return <TextField text={obj.code} />;
             }
         },
@@ -53,7 +55,7 @@ export const useGetDirectionsColumns = () => {
             accessorKey: "dst_currency",
             header: translate("resources.direction.fields.destCurr"),
             cell: ({ row }) => {
-                const obj: Omit<Currencies.Currency, "id"> = row.getValue("dst_currency");
+                const obj: CurrencyWithId = row.getValue("dst_currency");
                 return <TextField text={obj.code} />;
             }
         },
@@ -71,7 +73,7 @@ export const useGetDirectionsColumns = () => {
             accessorKey: "provider",
             header: translate("resources.direction.provider"),
             cell: ({ row }) => {
-                const obj: Provider = row.getValue("provider");
+                const obj: ProviderWithId = row.getValue("provider");
                 return <TextField text={obj.name} wrap />;
             }
         },

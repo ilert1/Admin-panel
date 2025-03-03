@@ -1,3 +1,4 @@
+import { Fee } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { ColumnDef } from "@tanstack/react-table";
 import { useLocaleState, useTranslate } from "react-admin";
@@ -13,7 +14,7 @@ export const useGetTransactionShowColumns = () => {
         return value.toFixed(Math.log10(accuracy));
     }
 
-    const feesColumns: ColumnDef<Transaction.Fee>[] = [
+    const feesColumns: ColumnDef<Fee>[] = [
         {
             id: "recipient",
             accessorKey: "recipient",

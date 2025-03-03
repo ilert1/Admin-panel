@@ -20,23 +20,59 @@ import { useFetchDataForDirections, useGetTerminals } from "@/hooks";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
+import { Direction, DirectionCreate as IDirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
     const { currencies, merchants, providers, isLoading: loadingData } = useFetchDataForDirections();
 
-    const controllerProps = useCreateController();
+    const controllerProps = useCreateController<IDirectionCreate>();
     const translate = useTranslate();
     const refresh = useRefresh();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const { terminals, getTerminals } = useGetTerminals();
-    const onSubmit: SubmitHandler<Directions.DirectionCreate> = async data => {
+    const onSubmit: SubmitHandler<IDirectionCreate> = async data => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
         try {
-            await dataProvider.create("direction", { data });
+            const dataWithLimits = {
+                ...data,
+                limits: {
+                    payin: {
+                        min: {
+                            quantity: 0,
+                            accuracy: 1
+                        },
+                        max: {
+                            quantity: 0,
+                            accuracy: 1
+                        }
+                    },
+                    payout: {
+                        min: {
+                            quantity: 0,
+                            accuracy: 1
+                        },
+                        max: {
+                            quantity: 0,
+                            accuracy: 1
+                        }
+                    },
+                    reward: {
+                        min: {
+                            quantity: 0,
+                            accuracy: 1
+                        },
+                        max: {
+                            quantity: 0,
+                            accuracy: 1
+                        }
+                    }
+                }
+            };
 
+            await dataProvider.create<Direction>("direction", { data: dataWithLimits });
             toast.success(translate("app.ui.toast.success"), {
                 description: translate("app.ui.create.createSuccess"),
                 dismissible: true,

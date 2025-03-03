@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useDataProvider, useTranslate } from "react-admin";
 import { Fees } from "../../components/Fees";
 import { FeesResource } from "@/data";
@@ -7,6 +6,7 @@ import { useQuery } from "react-query";
 import { LoadingBlock } from "@/components/ui/loading";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/Button";
+import { TerminalWithId } from "@/data/terminals";
 
 interface TerminalShowProps {
     id: string;
@@ -18,15 +18,12 @@ export const TerminalShow = (props: TerminalShowProps) => {
     const { id, provider, setEditDialogOpen, setDeleteDialogOpen } = props;
     const dataProvider = useDataProvider();
     const translate = useTranslate();
-    const [data, setData] = useState<Directions.Terminal>();
 
-    const { isLoading } = useQuery({
+    const { data, isLoading } = useQuery({
         queryKey: ["terminal-fees", provider, id],
         queryFn: async () => {
-            const { data } = await dataProvider.getOne(`provider/${provider}/terminal`, { id });
-            // console.log(data);
-
-            setData(data);
+            const { data } = await dataProvider.getOne<TerminalWithId>(`${provider}/terminal`, { id });
+            return data;
         }
     });
 
@@ -44,10 +41,10 @@ export const TerminalShow = (props: TerminalShowProps) => {
                             text={data.verbose_name}
                             label={translate("resources.terminals.fields.verbose_name")}
                         />
-                        <TextField text={data.provider} label={translate("resources.terminals.fields.description")} />
+                        <TextField text={data.provider} label={translate("resources.terminals.fields.provider")} />
                         <TextField
                             text={data.description ?? ""}
-                            label={translate("resources.terminals.fields.provider")}
+                            label={translate("resources.terminals.fields.description")}
                         />
                     </div>
                     <div className="">

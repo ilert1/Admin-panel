@@ -3,10 +3,10 @@ import { Button, EditButton, ShowButton, TrashButton } from "@/components/ui/But
 
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
-import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 import ReloadRoundSvg from "@/lib/icons/reload_round.svg?react";
+import { ProviderWithId } from "@/data/providers";
 
 export const useGetProvidersColumns = () => {
     const translate = useTranslate();
@@ -39,7 +39,7 @@ export const useGetProvidersColumns = () => {
         setSowMethodsOpen(true);
     };
 
-    const columns: ColumnDef<Provider>[] = [
+    const columns: ColumnDef<ProviderWithId>[] = [
         {
             id: "name",
             accessorKey: "name",

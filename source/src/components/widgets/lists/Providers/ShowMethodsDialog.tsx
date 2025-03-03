@@ -8,6 +8,7 @@ import {
     DialogFooter
 } from "@/components/ui/dialog";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
+import { ProviderWithId } from "@/data/providers";
 import { usePreventFocus } from "@/hooks";
 import { useEffect, useState } from "react";
 import { useDataProvider, useTranslate } from "react-admin";
@@ -25,7 +26,7 @@ const EditorDialog = ({ id }: { id: string }) => {
 
     useEffect(() => {
         async function fetch() {
-            const { data } = await dataProvider.getOne("provider", { id });
+            const { data } = await dataProvider.getOne<ProviderWithId>("provider", { id });
             setCode(JSON.stringify(data.methods, null, 2));
         }
         fetch();

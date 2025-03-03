@@ -10,7 +10,8 @@ import {
     ProvidersDataProvider,
     DirectionsDataProvider,
     WalletsDataProvider,
-    VaultDataProvider
+    VaultDataProvider,
+    TerminalsDataProvider
 } from "@/data";
 import {
     AccountList,
@@ -51,6 +52,7 @@ import { NotFound } from "./components/widgets/shared/NotFound";
 import WalletsLogo from "./lib/icons/Wallets";
 import { WalletStore } from "./pages/WalletStore";
 import { OptionsPage } from "./pages/SettingsPage";
+import { OperationsDataProvider } from "./data/operations";
 
 const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
 
@@ -63,8 +65,10 @@ const dataProvider = combineDataProviders((resource: string) => {
         return new CurrenciesDataProvider();
     } else if (resource === "merchant") {
         return new MerchantsDataProvider();
-    } else if (resource?.startsWith("provider")) {
+    } else if (resource === "provider") {
         return new ProvidersDataProvider();
+    } else if (resource?.endsWith("/terminal")) {
+        return new TerminalsDataProvider();
     } else if (resource === "direction") {
         return new DirectionsDataProvider();
     } else if (
@@ -78,6 +82,8 @@ const dataProvider = combineDataProviders((resource: string) => {
         return new WalletsDataProvider();
     } else if (resource === "vault") {
         return new VaultDataProvider();
+    } else if (resource === "operations") {
+        return new OperationsDataProvider();
     } else {
         return new BaseDataProvider();
     }

@@ -28,7 +28,7 @@ export const DeleteTerminalDialog = ({
 
     const handleDelete = async () => {
         await deleteOne(
-            `provider/${provider}/terminal`,
+            `${provider}/terminal`,
             { id: deleteId },
             {
                 onSuccess: async () => {

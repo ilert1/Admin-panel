@@ -1,8 +1,8 @@
+import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button } from "@/components/ui/Button";
 import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { ErrorBadge } from "@/components/ui/Input/ErrorBadge";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { SelectType } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { Check, ChevronDown } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
@@ -15,6 +15,7 @@ interface MerchantSelectFilterProps {
     variant?: "outline";
     isLoading?: (loading: boolean) => void;
     error?: string;
+    disabled?: boolean;
 }
 
 type ResourceData<T> = T extends "accounts" ? Account : Merchant;
@@ -25,7 +26,8 @@ export const MerchantSelectFilter = ({
     resource,
     variant,
     isLoading,
-    error
+    error,
+    disabled = false
 }: MerchantSelectFilterProps) => {
     const translate = useTranslate();
 
@@ -75,9 +77,9 @@ export const MerchantSelectFilter = ({
                     variant="text_btn"
                     role="combobox"
                     aria-expanded={open}
-                    disabled={merchantData === undefined || !merchantData.length}
+                    disabled={merchantData === undefined || !merchantData.length || disabled}
                     className={cn(
-                        "hover:!border-green-40 w-full font-normal justify-between flex h-9 flex-1 items-center text-start border border-neutral-40 dark:border-neutral-60 rounded-4 bg-neutral-0 dark:bg-neutral-100 px-3 py-2 text-sm ring-offset-background [&:is([data-state='open'])]:border-green-50 active:border-green-50 disabled:cursor-not-allowed [&>span]:line-clamp-1 focus:outline-none [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180 !mt-0 ",
+                        "disabled:bg-neutral-20 disabled:dark:bg-neutral-90 disabled:!text-neutral-80 disabled:dark:!text-neutral-60 disabled:pointer-events-none hover:!border-green-40 w-full font-normal justify-between flex h-9 flex-1 items-center text-start border border-neutral-40 dark:border-neutral-60 rounded-4 bg-neutral-0 dark:bg-neutral-100 px-3 py-2 text-sm ring-offset-background [&:is([data-state='open'])]:border-green-50 active:border-green-50 disabled:cursor-not-allowed [&>span]:line-clamp-1 focus:outline-none [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180 !mt-0 ",
                         variant === "outline" && "bg-white dark:bg-muted",
                         error && "border-red-40 dark:border-red-40"
                     )}>
