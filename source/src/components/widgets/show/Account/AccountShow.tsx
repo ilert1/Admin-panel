@@ -31,7 +31,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                     context.record.amounts[0]?.value.quantity == 0
                         ? "0"
                         : context.record.amounts[0]?.value.quantity / context.record.amounts[0]?.value.accuracy
-                )
+                ).replace(/\B(?=(\d{3})+(?!\d))/g, " ")
             );
         } else {
             setBalance("0");
