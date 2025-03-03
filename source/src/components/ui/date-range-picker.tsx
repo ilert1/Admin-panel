@@ -133,12 +133,20 @@ export function DateRangePicker({
 
     const showTimeHandler = () => {
         if (timeShow && dateRange?.from && dateRange?.to) {
-            setStartTime("");
-            setEndTime("");
+            setStartTime("00:00");
+            setEndTime("00:00");
 
             onChange({
                 from: genereateDateTime(dateRange.from, 0, 0),
                 to: genereateDateTime(dateRange.to, 0, 0)
+            });
+        } else if (!timeShow && dateRange?.from && dateRange?.to) {
+            setStartTime("00:00");
+            setEndTime("01:00");
+
+            onChange({
+                from: genereateDateTime(dateRange.from, 0, 0),
+                to: genereateDateTime(dateRange.to, 1, 0)
             });
         }
 
@@ -243,7 +251,10 @@ export function DateRangePicker({
 
                             <div className="flex items-baseline gap-2">
                                 <TimeInput
-                                    error={!startTime && !!endTime && !!dateRange?.from && !!dateRange?.to}
+                                    error={
+                                        (!startTime && !!endTime && !!dateRange?.from && !!dateRange?.to) ||
+                                        startTime === endTime
+                                    }
                                     disabled={!dateRange?.from}
                                     time={startTime}
                                     setTime={updateStartTime}
@@ -252,12 +263,24 @@ export function DateRangePicker({
                                 <span className="py-2 block">-</span>
 
                                 <TimeInput
-                                    error={!!startTime && !endTime && !!dateRange?.from && !!dateRange?.to}
+                                    error={
+                                        (!!startTime && !endTime && !!dateRange?.from && !!dateRange?.to) ||
+                                        startTime === endTime
+                                    }
                                     disabled={!dateRange?.to}
                                     time={endTime}
                                     setTime={updateEndTime}
                                 />
                             </div>
+
+                            {startTime === endTime && (
+                                <div>
+                                    <p className="text-xs text-center pt-1 text-red-50">
+                                        Введите корректный интервал времени
+                                    </p>
+                                    <p className="text-xs text-center text-red-50">(Отображены данные за сутки)</p>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
