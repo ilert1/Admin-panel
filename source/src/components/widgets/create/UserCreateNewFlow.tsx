@@ -49,6 +49,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
     const contrProps = useCreateController();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+    const [disabledMerchantField, setDisabledMerchantField] = useState(false);
 
     const isFirefox = useMemo(() => navigator.userAgent.match(/firefox|fxios/i), []);
 
@@ -75,7 +76,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                 translate("app.widgets.forms.userCreate.passwordMessage")
             ),
         role_name: z.string().min(1).trim(),
-        merchant_id: z.string().min(1, translate("app.widgets.forms.userCreate.merchant")).trim()
+        merchant_id: z.string().trim().optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -96,8 +97,14 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
 
         setSubmitButtonDisabled(true);
 
+        const tempData = { ...data };
+
+        if (disabledMerchantField) {
+            delete tempData.merchant_id;
+        }
+
         try {
-            await dataProvider.create(`users`, { data });
+            await dataProvider.create(`users`, { data: tempData });
 
             toast.success(translate("resources.users.create.success"), {
                 dismissible: true,
@@ -251,7 +258,17 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                                     <FormItem className="space-y-1">
                                         <FormLabel>{translate("app.widgets.forms.userCreate.role")}</FormLabel>
                                         <FormControl>
-                                            <Select onValueChange={value => field.onChange(value)} value={field.value}>
+                                            <Select
+                                                onValueChange={value => {
+                                                    if (value === "admin") {
+                                                        setDisabledMerchantField(true);
+                                                    } else {
+                                                        setDisabledMerchantField(false);
+                                                    }
+
+                                                    field.onChange(value);
+                                                }}
+                                                value={field.value}>
                                                 <SelectTrigger
                                                     variant={SelectType.GRAY}
                                                     isError={fieldState.invalid}
@@ -290,8 +307,9 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                                             <FormControl>
                                                 <MerchantSelectFilter
                                                     variant="outline"
+                                                    disabled={disabledMerchantField}
                                                     error={fieldState.error?.message}
-                                                    merchant={field.value}
+                                                    merchant={field.value || ""}
                                                     onMerchantChanged={field.onChange}
                                                     resource="merchant"
                                                 />
