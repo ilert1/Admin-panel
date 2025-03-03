@@ -113,18 +113,16 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
         refresh();
         setEditClicked(false);
     };
-
     const handleChange = (key: keyof typeof limits, value: string) => {
         const sanitizedValue = value.replace(/^0+(\d)/, "$1");
 
         if (/^(0|[1-9]\d*)(\.\d*)?$/.test(sanitizedValue) || sanitizedValue === "") {
             setLimits(prev => ({
                 ...prev,
-                [key]: sanitizedValue
+                [key]: sanitizedValue === "" ? "0" : sanitizedValue
             }));
         }
     };
-
     return (
         <div className="flex flex-col gap-4 bg-muted p-4 rounded-8 mb-4">
             <div className="flex flex-col gap-4 md:gap-10 md:flex-row">
