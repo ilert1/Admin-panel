@@ -800,8 +800,16 @@ const ru: TranslationMessages = {
 
                 deleteLimits: "Обнулить лимиты?",
                 reset: "Обнулить",
+
                 resetedSuccessfully: "Лимиты успешно обнулены",
-                updatedSuccessfully: "Лимиты успешно обновлены"
+                updatedSuccessfully: "Лимиты успешно обновлены",
+
+                errors: {
+                    minGreaterThanMax: "Максимальное значение не может быть меньше минимального",
+                    maxTooSmall: "Максимальное значение должно быть равным 0 или больше 1",
+                    minTooSmall: "Минимальное значение должно быть равным 0 или больше 1",
+                    maxTooLarge: "Максимальное значение не может быть больше 10.000.000"
+                }
             }
         },
 
@@ -1679,7 +1687,13 @@ const en: TranslationMessages = {
                 reset: "Reset",
 
                 updatedSuccessfully: "Limits updated successfully",
-                resetedSuccessfully: "Limits reseted successfully"
+                resetedSuccessfully: "Limits reset successfully",
+                errors: {
+                    minGreaterThanMax: "The maximum value cannot be less than the minimum value",
+                    maxTooSmall: "The maximum value must be 0 or greater than 1",
+                    minTooSmall: "The minimum value must be 0 or greater than 1",
+                    maxTooLarge: "The maximum value cannot be greater than 10,000,000"
+                }
             }
         },
 

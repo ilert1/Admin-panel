@@ -25,35 +25,35 @@ export const LimitCard = (props: LimitCardProps) => {
     return (
         <>
             <div className="flex flex-col gap-4 bg-muted p-4 rounded-8 mb-4">
-                <div className="flex">
+                <div className="flex flex-col gap-4 sm:flex-row justify-center items-center">
                     <div className="flex flex-col gap-2 flex-1">
                         <TextField text={translate("app.widgets.limits.deposit")} />
                         <div className="flex gap-6">
-                            <TextField text={getMinValue(limits.payin)} label="min (int)" />
-                            <TextField text={getMaxValue(limits.payin)} label="max (int)" />
+                            <TextField text={getMinValue(limits.payin)} label="min" />
+                            <TextField text={getMaxValue(limits.payin)} label="max" />
                         </div>
                     </div>
                     <div className="flex flex-col gap-2 flex-1">
                         <TextField text={translate("app.widgets.limits.payment")} />
                         <div className="flex gap-6">
-                            <TextField text={getMinValue(limits.payout)} label="min (int)" />
-                            <TextField text={getMaxValue(limits.payout)} label="max (int)" />
+                            <TextField text={getMinValue(limits.payout)} label="min" />
+                            <TextField text={getMaxValue(limits.payout)} label="max" />
                         </div>
                     </div>
                     <div className="flex flex-col gap-2 flex-1">
                         <TextField text={translate("app.widgets.limits.reward")} />
                         <div className="flex gap-6">
-                            <TextField text={getMinValue(limits.reward)} label="min (int)" />
-                            <TextField text={getMaxValue(limits.reward)} label="max (int)" />
+                            <TextField text={getMinValue(limits.reward)} label="min" />
+                            <TextField text={getMaxValue(limits.reward)} label="max" />
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-end gap-[10px]">
+                <div className="flex flex-col sm:flex-row justify-end gap-[10px]">
                     <Button variant="outline" onClick={() => setEditClicked(true)}>
                         {translate("app.ui.actions.edit")}
                     </Button>
                     <Button variant="outline_gray" onClick={handleDelete}>
-                        {translate("app.ui.actions.delete")}
+                        {translate("app.widgets.limits.reset")}
                     </Button>
                 </div>
             </div>
