@@ -84,18 +84,26 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             onChange?.(e);
         };
 
-        // const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-        //     setIsFocused(true);
-        //     props.onFocus?.(e);
-        // };
         const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
             setIsFocused(true);
             props.onFocus?.(e);
         };
 
+        // const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+        //     if (e.relatedTarget && (e.relatedTarget as HTMLElement).tagName === "INPUT") {
+        //         return;
+        //     }
+        //     setIsFocused(false);
+        //     props.onBlur?.(e);
+        // };
+
         const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-            setIsFocused(false);
-            props.onBlur?.(e);
+            setTimeout(() => {
+                if (document.activeElement !== inputRef.current) {
+                    setIsFocused(false);
+                    props.onBlur?.(e);
+                }
+            }, 0);
         };
 
         const showClearButton = React.useMemo(
@@ -114,12 +122,32 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             }
         }, [showClearButton, error, type]);
 
+        // React.useEffect(() => {
+        //     const handleDocumentClick = (e: MouseEvent) => {
+        //         if (
+        //             containerRef.current &&
+        //             !containerRef.current.contains(e.target as Node) &&
+        //             document.activeElement === inputRef.current
+        //         ) {
+        //             setIsFocused(false);
+        //             inputRef.current?.blur();
+        //             props.onBlur?.(e as any);
+        //         }
+        //     };
+
+        //     document.addEventListener("mousedown", handleDocumentClick);
+
+        //     return () => {
+        //         document.removeEventListener("mousedown", handleDocumentClick);
+        //     };
+        // }, [props]);
+
         React.useEffect(() => {
             const handleDocumentClick = (e: MouseEvent) => {
                 if (
                     containerRef.current &&
                     !containerRef.current.contains(e.target as Node) &&
-                    document.activeElement === inputRef.current
+                    document.activeElement !== inputRef.current
                 ) {
                     setIsFocused(false);
                     inputRef.current?.blur();
@@ -127,10 +155,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 }
             };
 
-            document.addEventListener("mousedown", handleDocumentClick);
-
+            document.addEventListener("click", handleDocumentClick);
             return () => {
-                document.removeEventListener("mousedown", handleDocumentClick);
+                document.removeEventListener("click", handleDocumentClick);
             };
         }, [props]);
 
