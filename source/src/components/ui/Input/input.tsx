@@ -58,13 +58,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         const iconsBoxRef = React.useRef<HTMLSpanElement>(null);
         const containerRef = React.useRef<HTMLDivElement>(null);
 
+        React.useImperativeHandle(ref, () => inputRef.current!);
+
         React.useEffect(() => {
-            if (propValue !== undefined) {
+            if (propValue !== undefined && propValue !== inputValue) {
                 setInputValue(propValue);
             }
-        }, [propValue]);
-
-        React.useImperativeHandle(ref, () => inputRef.current!);
+        }, [inputValue, propValue]);
 
         const handleClear = (e: React.MouseEvent) => {
             e.preventDefault();
@@ -78,12 +78,16 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         };
 
         const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-            setInputValue(e.target.value);
-            if (onChange) {
-                onChange(e);
+            if (propValue === undefined) {
+                setInputValue(e.target.value);
             }
+            onChange?.(e);
         };
 
+        // const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+        //     setIsFocused(true);
+        //     props.onFocus?.(e);
+        // };
         const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
             setIsFocused(true);
             props.onFocus?.(e);
@@ -158,7 +162,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     )}>
                     <input
                         type={type === "password" && showPassword ? "text" : type}
-                        value={inputValue}
+                        tabIndex={0}
+                        value={propValue !== undefined ? propValue : inputValue}
                         onChange={handleInputChange}
                         onFocus={handleFocus}
                         onBlur={handleBlur}
@@ -170,8 +175,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                             className
                         )}
                         {...props}
-                        onCopy={() => navigator.clipboard.writeText(String(inputValue))}
-                        onCut={() => navigator.clipboard.writeText(String(inputValue))}
+                        onCopy={() =>
+                            navigator.clipboard.writeText(String(propValue !== undefined ? propValue : inputValue))
+                        }
+                        onCut={() =>
+                            navigator.clipboard.writeText(String(propValue !== undefined ? propValue : inputValue))
+                        }
                         onContextMenu={type === "password_masked" ? e => e.preventDefault() : onContextMenu}
                         ref={inputRef}
                     />

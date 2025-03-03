@@ -653,7 +653,7 @@ const ru: TranslationMessages = {
             actions: {
                 quick_show: "Быстрый просмотр",
                 show: "Просмотр",
-                edit: "Изменить",
+                edit: "Редактировать",
                 delete: "Удалить",
                 save: "Сохранить",
                 addSecretKey: "Добавить аутентификационную инфорамцию",
@@ -793,8 +793,20 @@ const ru: TranslationMessages = {
                     role: "Роль",
                     merchant: "Выберите мерчанта"
                 }
+            },
+            limits: {
+                limits: "Лимиты",
+                deposit: "Депозит",
+                payment: "Выплата",
+                reward: "Вознаграждение",
+
+                deleteLimits: "Обнулить лимиты?",
+                reset: "Обнулить",
+                resetedSuccessfully: "Лимиты успешно обнулены",
+                updatedSuccessfully: "Лимиты успешно обновлены"
             }
         },
+
         login: {
             usernameOrEmail: "Логин или e-mail",
             password: "Пароль",
@@ -1660,8 +1672,21 @@ const en: TranslationMessages = {
                     role: "Role",
                     merchant: "Choose a merchant"
                 }
+            },
+            limits: {
+                reward: "Reward",
+                payment: "Payment",
+                deposit: "Deposit",
+                limits: "Limits",
+
+                deleteLimits: "Reset limits?",
+                reset: "Reset",
+
+                updatedSuccessfully: "Limits updated successfully",
+                resetedSuccessfully: "Limits reseted successfully"
             }
         },
+
         login: {
             usernameOrEmail: "Username or e-mail",
             password: "Password",

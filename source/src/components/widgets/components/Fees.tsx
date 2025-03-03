@@ -62,6 +62,7 @@ export const Fees = memo((props: FeesProps) => {
             setFees(prev => prev.filter(el => el.innerId === innerId));
         }
     };
+
     if (!feeTypes) {
         return null;
     }
