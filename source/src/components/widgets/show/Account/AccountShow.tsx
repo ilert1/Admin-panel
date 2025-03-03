@@ -4,7 +4,7 @@ import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useGetAccountShowColumns } from "./Columns";
 import { useEffect, useState } from "react";
-import { TransactionShowDialog } from "./TransactionShowDialog";
+import { ShowTransactionSheet } from "../../lists/Transactions/ShowTransactionSheet";
 
 interface AccountShowProps {
     id: string;
@@ -25,13 +25,19 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     });
 
     useEffect(() => {
-        const contextData = listContext.data;
-        if (!context.isLoading && contextData && contextData.at(0)) {
-            setBalance(listContext.data[0].amount_value);
+        if (!context.isLoading && context.record.amounts[0]) {
+            setBalance(
+                String(
+                    context.record.amounts[0]?.value.quantity == 0
+                        ? "0"
+                        : context.record.amounts[0]?.value.quantity / context.record.amounts[0]?.value.accuracy
+                )
+            );
         } else {
             setBalance("0");
         }
-    }, [context.isLoading, listContext.data]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         if (chosenId) {
@@ -53,7 +59,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                     </span>
                 </div>
             </div>
-            <TransactionShowDialog id={chosenId} open={transcationInfoOpen} onOpenChange={setTransactionInfoOpen} />
+            <ShowTransactionSheet id={chosenId} open={transcationInfoOpen} onOpenChange={setTransactionInfoOpen} />
 
             <ListContextProvider value={{ ...listContext }}>
                 <DataTable columns={historyColumns} />
