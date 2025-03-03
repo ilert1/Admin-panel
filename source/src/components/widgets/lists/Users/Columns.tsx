@@ -1,5 +1,6 @@
 import { ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
+import { ToggleActiveUser } from "@/components/ui/toggle-active-user";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
@@ -104,14 +105,7 @@ export const useGetUserColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <span
-                            className={`px-3 py-0.5 rounded-20 font-normal text-white text-base text-center ${
-                                row.original.activity ? "bg-green-50" : "bg-extra-2"
-                            }`}>
-                            {translate(
-                                `resources.accounts.fields.states.${row.original.activity ? "active" : "blocked"}`
-                            )}
-                        </span>
+                        <ToggleActiveUser active={row.original.activity} />
                     </div>
                 );
             }
