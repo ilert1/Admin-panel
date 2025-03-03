@@ -769,6 +769,7 @@ const ru: TranslationMessages = {
                 },
                 userCreate: {
                     title: "Добавление пользователя",
+                    id: "ID пользователя",
                     firstName: "Имя",
                     nameMessage: "Пожалуйста, введите имя пользователя. Минимум 3 символа",
                     lastName: "Фамилия",
@@ -793,7 +794,12 @@ const ru: TranslationMessages = {
                     createUser: "Создать пользователя",
                     cancelBtn: "Отменить",
                     role: "Роль",
-                    merchant: "Выберите мерчанта"
+                    merchant: "Выберите мерчанта",
+                    activity: {
+                        name: "Статус",
+                        active: "Активен",
+                        blocked: "Заблокирован"
+                    }
                 }
             },
             limits: {
@@ -1658,6 +1664,7 @@ const en: TranslationMessages = {
                 },
                 userCreate: {
                     title: "Adding a user",
+                    id: "User ID",
                     firstName: "First name",
                     firstNameMessage: "Please, enter user's first name. Minimum 3 symbols",
                     lastName: "Last name",
@@ -1682,7 +1689,12 @@ const en: TranslationMessages = {
                     createUser: "Create user",
                     cancelBtn: "Cancel",
                     role: "Role",
-                    merchant: "Choose a merchant"
+                    merchant: "Choose a merchant",
+                    activity: {
+                        name: "Status",
+                        active: "Active",
+                        blocked: "Blocked"
+                    }
                 }
             },
             limits: {
