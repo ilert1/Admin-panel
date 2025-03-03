@@ -1675,7 +1675,7 @@ const en: TranslationMessages = {
             },
             limits: {
                 reward: "Reward",
-                payment: "Payment",
+                payment: "Withdraw",
                 deposit: "Deposit",
                 limits: "Limits",
 
