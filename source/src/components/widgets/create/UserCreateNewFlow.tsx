@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useQuery } from "react-query";
+import clsx from "clsx";
 
 interface UserCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -84,7 +85,16 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                 translate("app.widgets.forms.userCreate.passwordMessage")
             ),
         role_name: z.string().min(1).trim(),
-        merchant_id: z.string().trim().optional()
+        merchant_id: z
+            .string()
+            .refine(input => {
+                if (disabledMerchantField || input.length > 0) {
+                    return true;
+                }
+
+                return false;
+            })
+            .optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -269,6 +279,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                                             <Select
                                                 onValueChange={value => {
                                                     if (value === "admin") {
+                                                        form.setValue("merchant_id", "");
                                                         setDisabledMerchantField(true);
                                                     } else {
                                                         setDisabledMerchantField(false);
@@ -305,7 +316,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                                 )}
                             />
 
-                            <div className="col-span-2">
+                            <div className={clsx("col-span-2", disabledMerchantField && "hidden")}>
                                 <FormField
                                     control={form.control}
                                     name="merchant_id"
