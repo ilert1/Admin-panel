@@ -125,7 +125,7 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
     };
     return (
         <div className="flex flex-col gap-4 bg-muted p-4 rounded-8 mb-4">
-            <div className="flex flex-col gap-4 md:gap-10 md:flex-row">
+            <div className="flex flex-col gap-4 md:flex-row">
                 <LimitInputGroup
                     label={translate("app.widgets.limits.deposit")}
                     minValue={limits.payInMin}

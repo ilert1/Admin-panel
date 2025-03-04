@@ -26,7 +26,7 @@ export const LimitInputGroup = ({
     return (
         <div className="flex flex-col gap-2 flex-1">
             <TextField text={label} />
-            <div className="flex flex-col gap-3 sm:flex-row sm:gap-6">
+            <div className="flex flex-col gap-3">
                 <Input
                     variant={InputTypes.GRAY}
                     label="min"
