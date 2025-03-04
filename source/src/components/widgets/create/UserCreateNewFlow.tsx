@@ -69,9 +69,14 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
             .regex(/^[a-zA-Z-_.@]{3,255}$/, translate("app.widgets.forms.userCreate.loginMessage"))
             .trim(),
         email: z
-            .string()
-            .regex(/^\S+@\S+\.\S+$/, translate("app.widgets.forms.userCreate.emailMessage"))
-            .trim(),
+            .union([
+                z.string().length(0, translate("app.widgets.forms.userCreate.emailMessage")),
+                z
+                    .string()
+                    .regex(/^\S+@\S+\.\S+$/, translate("app.widgets.forms.userCreate.emailMessage"))
+                    .trim()
+            ])
+            .optional(),
         password: z
             .string()
             .regex(
