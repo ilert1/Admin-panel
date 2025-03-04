@@ -62,9 +62,12 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
     });
 
     const formSchema = z.object({
-        first_name: z.string().min(3, translate("app.widgets.forms.userCreate.firstNameMessage")).trim(),
-        last_name: z.string().min(3, translate("app.widgets.forms.userCreate.lastNameMessage")).trim(),
-        login: z.string().min(3, translate("app.widgets.forms.userCreate.loginMessage")).trim(),
+        first_name: z.string().max(255, translate("app.widgets.forms.userCreate.maxSymbols")).trim(),
+        last_name: z.string().max(255, translate("app.widgets.forms.userCreate.maxSymbols")).trim(),
+        login: z
+            .string()
+            .regex(/^[a-zA-Z-_.@]{3,255}$/, translate("app.widgets.forms.userCreate.loginMessage"))
+            .trim(),
         email: z
             .string()
             .regex(/^\S+@\S+\.\S+$/, translate("app.widgets.forms.userCreate.emailMessage"))
