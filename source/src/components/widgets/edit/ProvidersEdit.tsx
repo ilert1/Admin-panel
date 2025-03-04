@@ -7,11 +7,11 @@ import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { toast } from "sonner";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { ProviderWithId } from "@/data/providers";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
 
 export interface ProviderEditParams {
     id?: string;
@@ -27,6 +27,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
     });
 
     const translate = useTranslate();
+    const errorToast = useErrorToast();
 
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(false);
@@ -72,11 +73,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
             });
             onClose();
         } catch (error) {
-            toast.error("Error", {
-                description: translate("resources.currency.errors.alreadyInUse"),
-                dismissible: true,
-                duration: 3000
-            });
+            errorToast(translate("resources.currency.errors.alreadyInUse"));
 
             setSubmitButtonDisabled(false);
         }

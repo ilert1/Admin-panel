@@ -1,11 +1,11 @@
 import { EditButton, ShowButton } from "@/components/ui/Button";
+import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { Copy } from "lucide-react";
 import { useState } from "react";
 import { RecordContextProvider, usePermissions, useTranslate } from "react-admin";
 import { NumericFormat } from "react-number-format";
-import { toast } from "sonner";
 
 const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
 const translations = ["active", "frozen", "blocked", "deleted"];
@@ -20,6 +20,7 @@ export const useGetAccountsColumns = () => {
     const [showEditDialog, setShowEditDialog] = useState(false);
     const [showAccountId, setShowAccountId] = useState<string>("");
     const [showAccountCaption, setShowAccountCaption] = useState<string>("");
+    const successToast = useSuccessToast();
 
     const openSheet = (id: string, caption: string) => {
         setShowAccountId(id);
@@ -41,10 +42,7 @@ export const useGetAccountsColumns = () => {
                                 className="h-4 w-4 cursor-pointer"
                                 onClick={() => {
                                     navigator.clipboard.writeText((row.getValue("owner") as Array<string>)[1]);
-                                    toast.success(translate("app.ui.textField.copied"), {
-                                        dismissible: true,
-                                        duration: 1000
-                                    });
+                                    successToast("", translate("app.ui.textField.copied"));
                                 }}
                             />
 

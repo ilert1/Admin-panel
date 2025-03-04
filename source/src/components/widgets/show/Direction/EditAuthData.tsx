@@ -10,8 +10,9 @@ import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
-import { toast } from "sonner";
 import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
 
 interface EditAuthDataProps {
     open: boolean;
@@ -27,6 +28,8 @@ export const EditAuthData = ({ open, id, onOpenChange }: EditAuthDataProps) => {
     const [code, setCode] = useState("{}");
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(false);
+    const errorToast = useErrorToast();
+    const successToast = useSuccessToast();
 
     const handleSaveClicked = async () => {
         const data = JSON.parse(code);
@@ -37,20 +40,12 @@ export const EditAuthData = ({ open, id, onOpenChange }: EditAuthDataProps) => {
                 data: { auth_data: data },
                 previousData: undefined
             });
+            successToast(translate("resources.direction.addedSuccess"));
 
-            toast.success("Success", {
-                description: translate("resources.direction.addedSuccess"),
-                dismissible: true,
-                duration: 3000
-            });
             onOpenChange(false);
             refresh();
-        } catch (error) {
-            toast.error("Error", {
-                description: translate("resources.direction.errors.authError"),
-                dismissible: true,
-                duration: 3000
-            });
+        } catch (error: any) {
+            errorToast(error.message ?? translate("resources.direction.errors.authError"));
         }
     };
 

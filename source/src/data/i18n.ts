@@ -99,9 +99,7 @@ const ru: TranslationMessages = {
             editUser: "Редактирование пользователя",
             editSuccessMessage: "Пользователь успешно изменен",
             create: {
-                success: "Готово",
                 successMessage: "Пользователь создан",
-                error: "Ошибка",
                 errorMessage: "Не удалось создать пользователя",
                 deleteError: "Не удалось создать пользователя"
             },
@@ -186,8 +184,6 @@ const ru: TranslationMessages = {
             show: {
                 statusButton: "Ручной перевод в статус",
                 cancel: "Отмена",
-                success: "Успешно",
-                error: "Ошибка",
                 storno: "Сторно",
                 commit: "Зафиксировать",
                 openDispute: "Открыть диспут",
@@ -222,7 +218,6 @@ const ru: TranslationMessages = {
                 downloadReportButtonText: "Скачать отчет",
                 bothError: "Начальная дата и конечная дата обязательно должны быть заполнены",
                 greaterError: "Конечная дата не может быть больше чем начальная дата",
-                error: "Ошибка",
                 dateExceed: "Начальная/конечная дата не может быть больше сегодняшней даты",
                 accountField: "Выберите аккаунт мерчанта"
             },
@@ -438,6 +433,8 @@ const ru: TranslationMessages = {
                 deleteFee: "Удалить комиссию?",
                 error: "Ошибка",
                 errorWhenCreating: "Произошла ошибка при создании комиссии",
+                successDelete: "Коммисия успешно удалена",
+
                 directionFieldError: "Направление обязательно должно быть выбрано",
                 currencyFieldError: "Валюта обязательно должна быть выбрана",
                 valueFieldError: "Коммиссия должна быть положительным числом"
@@ -544,7 +541,6 @@ const ru: TranslationMessages = {
                     more: "Подробнее",
                     balance: "Баланс"
                 },
-                error: "Ошибка",
                 errors: {
                     serverError: "Ошибка на стороне сервера. Попробуйте позже",
                     selectAccount: "Выберите аккаунт",
@@ -590,7 +586,6 @@ const ru: TranslationMessages = {
                     confirmQuestion: "Потвердить операцию?",
                     pre_calculated_fee: "Предварительно рассчитанная комиссия"
                 },
-                error: "Ошибка",
                 errors: {
                     failedToConfirm: "Не удалось потвердить транзакцию"
                 },
@@ -769,7 +764,6 @@ const ru: TranslationMessages = {
                     repeating: "Повтор вывода криптовалюты",
                     repeatDescription: "Данные вывода скопированы в форму, проверьте их и подтвердите новый вывод",
                     noAddress: "Такого адреса нет в вашем аккаунте",
-                    error: "Ошибка",
                     nan: "Не является числом",
                     insufficentBalance: "Для вывода криптовалюты требуются средства на балансе USDT"
                 },
@@ -999,9 +993,7 @@ const en: TranslationMessages = {
             editUser: "Edit user",
             editSuccessMessage: "The user has been successfully edited",
             create: {
-                success: "Success",
                 successMessage: "User is created",
-                error: "Error",
                 errorMessage: "Failed to create user"
             },
             deleteMessages: {
@@ -1085,8 +1077,6 @@ const en: TranslationMessages = {
             show: {
                 statusButton: "Manual change status",
                 cancel: "Cancel",
-                success: "Success",
-                error: "Error",
                 storno: "Storno",
                 commit: "Commit",
                 openDispute: "Open dispute",
@@ -1121,7 +1111,6 @@ const en: TranslationMessages = {
                 downloadReportButtonText: "Download report",
                 bothError: "Both start date and end date must be selected",
                 greaterError: "End date must be greater than start date",
-                error: "Error",
                 dateExceed: "Start/end date cannot be greater than today's date",
                 accountField: "Choose merchant account"
             },
@@ -1337,6 +1326,7 @@ const en: TranslationMessages = {
                 deleteFee: "Delete fee?",
                 error: "Error",
                 errorWhenCreating: "An error occurred while creating the fee",
+                successDelete: "Fee successfully deleted",
                 directionFieldError: "The direction must be selected",
                 currencyFieldError: "The currency must be selected",
                 valueFieldError: "The commission must be a positive number"
@@ -1445,7 +1435,6 @@ const en: TranslationMessages = {
                     minRemaini: "Minimum remaining amount",
                     balance: "Balance"
                 },
-                error: "Error",
                 errors: {
                     selectAccount: "Select account",
                     errorWhenEditing: "An error occured when editing wallet",
@@ -1489,7 +1478,6 @@ const en: TranslationMessages = {
                     confirmQuestion: "Confirm transaction?",
                     pre_calculated_fee: "Precalculated fee"
                 },
-                error: "Error",
                 errors: {
                     failedToConfirm: "Failed to confirm transaction"
                 },
@@ -1670,7 +1658,6 @@ const en: TranslationMessages = {
                     repeatDescription:
                         "The withdrawal data has been copied to the form. Please check it and confirm the new withdrawal.",
                     noAddress: "This address is not in your account",
-                    error: "Error",
                     tryAgain: "Try again",
                     insufficentBalance: "To withdraw cryptocurrency, funds on your USDT balance are required"
                 },

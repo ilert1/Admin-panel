@@ -7,14 +7,14 @@ import { useEffect, useMemo, useState } from "react";
 import { useGetIdentity, usePermissions, useTranslate } from "react-admin";
 import { NumericFormat } from "react-number-format";
 import { useQuery } from "react-query";
-import { toast } from "sonner";
 import { EllipsisVerticalIcon, LogOut, Settings } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { LangSwitcher } from "../components/LangSwitcher";
 import { CurrencyIcon } from "./CurrencyIcon";
-import { Button, HeaderButton } from "@/components/ui/Button";
+import { HeaderButton } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
 // import { debounce } from "lodash";
 
 export const Header = (props: { handleLogout: () => void }) => {
@@ -23,6 +23,9 @@ export const Header = (props: { handleLogout: () => void }) => {
     const [profileOpen, setProfileOpen] = useState(false);
     // const [chatOpen, setChatOpen] = useState(false);
     // const debounced = debounce(setChatOpen, 120);
+
+    const errorToast = useErrorToast();
+
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const isMerchant = useMemo(() => permissions === "merchant", [permissions]);
@@ -37,11 +40,7 @@ export const Header = (props: { handleLogout: () => void }) => {
         let errorShown = false;
         return (message: string) => {
             if (!errorShown) {
-                toast.error(translate("resources.transactions.show.error"), {
-                    dismissible: true,
-                    description: message,
-                    duration: 3000
-                });
+                errorToast(message);
                 errorShown = true;
                 setTimeout(() => (errorShown = false), 5000); // Сбрасываем флаг через 5 секунд
             }

@@ -11,7 +11,6 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { toast } from "sonner";
 import { feesDataProvider, FeesResource } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useFetchDataForDirections } from "@/hooks";
@@ -21,6 +20,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Label } from "@/components/ui/label";
 import { FeeCreate, FeeType as IFeeType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
 
 enum FeeEnum {
     FEE_FROM_SENDER = "FeeFromSender",
@@ -43,6 +43,8 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const { id, resource, onOpenChange, setFees, variants = undefined, providerName, feeType = "default" } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
+    const errorToast = useErrorToast();
+
     const feeDataProvider = feesDataProvider({ id, resource, providerName });
     const data = fetchDictionaries();
 
@@ -93,11 +95,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                 refresh();
                 onOpenChange(false);
             } catch (error) {
-                toast.error(translate("resources.direction.fees.error"), {
-                    description: translate("resources.direction.fees.errorWhenCreating"),
-                    dismissible: true,
-                    duration: 3000
-                });
+                errorToast(translate("resources.direction.fees.errorWhenCreating"));
             }
         }
     };

@@ -1,4 +1,4 @@
-import { useEditController, EditContextProvider, useTranslate, useRefresh, fetchUtils } from "react-admin";
+import { useEditController, EditContextProvider, useTranslate, useRefresh, fetchUtils, HttpError } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
@@ -14,7 +14,6 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { z } from "zod";
-import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
 
@@ -22,6 +21,7 @@ import { usePreventFocus } from "@/hooks";
 import { WalletTypes } from "@/helpers/wallet-types";
 import { Label } from "@/components/ui/label";
 import { isTRC20Address } from "@/helpers/isTRC20Address";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
 
 const BF_MANAGER_URL = import.meta.env.VITE_BF_MANAGER_URL;
 
@@ -37,6 +37,8 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
 
     const translate = useTranslate();
     const refresh = useRefresh();
+
+    const errorToast = useErrorToast();
 
     const formSchema = z.object({
         account_id: z.string(),
@@ -124,11 +126,7 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
             onOpenChange(false);
         } catch (error) {
             setSubmitButtonDisabled(false);
-            toast.error("Error", {
-                description: "Something went wrong",
-                dismissible: true,
-                duration: 3000
-            });
+            if (error instanceof HttpError) errorToast(error.message);
         }
     };
 

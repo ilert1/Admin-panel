@@ -1,7 +1,8 @@
 import { directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDelete } from "@/api/enigma/direction/direction";
-import { toast } from "sonner";
 
-export async function deleteLimits(directionId: string): Promise<{ data?: any; success: boolean }> {
+export async function deleteLimits(
+    directionId: string
+): Promise<{ data?: any; success: boolean; errorMessage?: string }> {
     try {
         const { data } = await directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDelete(directionId, {
             headers: {
@@ -18,12 +19,9 @@ export async function deleteLimits(directionId: string): Promise<{ data?: any; s
 
         throw new Error("Http error");
     } catch (error) {
-        if (error instanceof Error)
-            toast.error("Error", {
-                dismissible: true,
-                duration: 3000,
-                description: error.message
-            });
-        return { success: false };
+        let errorMessage;
+        if (error instanceof Error) errorMessage = error.message;
+
+        return { success: false, errorMessage };
     }
 }

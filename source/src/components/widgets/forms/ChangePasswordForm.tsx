@@ -3,12 +3,12 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Loading } from "@/components/ui/loading";
 import { Rule } from "@/components/ui/rule";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
 import { UsersDataProvider } from "@/data";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useAuthProvider, useTranslate } from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 interface ChangePasswordFormProps {
     onOpenChange: (state: boolean) => void;
@@ -25,7 +25,8 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
     const [isPasswordLowercaseError, setIsPasswordLowercaseError] = useState<boolean | undefined>(undefined);
     const [isPasswordDigitError, setIsPasswordDigitError] = useState<boolean | undefined>(undefined);
     const [isPasswordEnglishOnlyError, setIsPasswordEnglishOnlyError] = useState<boolean | undefined>(undefined);
-    // usersDataProvider.updatePassword()
+    const errorToast = useErrorToast();
+
     const onSubmit: SubmitHandler<Users.PasswordChange> = async formData => {
         try {
             const { currentPassword, newPassword } = formData;
@@ -39,11 +40,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
                 }
             });
         } catch (error) {
-            toast("Error", {
-                dismissible: true,
-                duration: 300,
-                description: ""
-            });
+            if (error instanceof Error) errorToast(error.message);
         }
     };
 

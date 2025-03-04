@@ -1,15 +1,17 @@
 import { format } from "date-fns";
 import { useMemo, useState } from "react";
 import { usePermissions, useTranslate } from "react-admin";
-import { toast } from "sonner";
 
 import { API_URL } from "@/data/base";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
 
 const useReportDownload = () => {
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
     const [isDateRangeValid, setIsDateRangeValid] = useState<boolean>(true);
     const [reqId, setReqId] = useState<string>("");
+
+    const errorToast = useErrorToast();
 
     const translate = useTranslate();
 
@@ -25,30 +27,18 @@ const useReportDownload = () => {
 
     const validateDates = () => {
         if (!startDate || !endDate) {
-            toast.error(translate("resources.transactions.download.error"), {
-                description: translate("resources.transactions.download.bothError"),
-                dismissible: true,
-                duration: 3000
-            });
+            errorToast(translate("resources.transactions.download.bothError"));
             return false;
         }
         if (startDate.getTime() > Date.now() || endDate.getTime() > Date.now()) {
-            toast.error(translate("resources.transactions.download.error"), {
-                description: translate("resources.transactions.download.dateExceed"),
-                dismissible: true,
-                duration: 3000
-            });
+            errorToast(translate("resources.transactions.download.dateExceed"));
             return false;
         }
         const isValidDateRange = startDate?.getTime() <= endDate?.getTime();
         setIsDateRangeValid(isValidDateRange);
 
         if (!isValidDateRange) {
-            toast.error(translate("resources.transactions.download.error"), {
-                description: translate("resources.transactions.download.greaterError"),
-                dismissible: true,
-                duration: 3000
-            });
+            errorToast(translate("resources.transactions.download.greaterError"));
         }
 
         return isValidDateRange;
@@ -56,11 +46,7 @@ const useReportDownload = () => {
 
     const validateMerchantID = () => {
         if (adminOnly && !reqId) {
-            toast.error(translate("resources.transactions.download.error"), {
-                description: translate("resources.transactions.download.accountField"),
-                dismissible: true,
-                duration: 3000
-            });
+            errorToast(translate("resources.transactions.download.accountField"));
             return false;
         }
         return true;

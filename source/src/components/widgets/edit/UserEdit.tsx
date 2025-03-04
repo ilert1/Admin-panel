@@ -6,7 +6,6 @@ import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField, FormLabel } from "@/components/ui/form";
-import { toast } from "sonner";
 import { usePreventFocus } from "@/hooks";
 import { Loading } from "@/components/ui/loading";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
@@ -20,6 +19,8 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { useQuery } from "react-query";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
 
 interface UserEditProps {
     id: string;
@@ -43,6 +44,9 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
     const dataProvider = useDataProvider();
     const translate = useTranslate();
     const refresh = useRefresh();
+
+    const errorToast = useErrorToast();
+    const successToast = useSuccessToast();
 
     const isFirefox = useMemo(() => navigator.userAgent.match(/firefox|fxios/i), []);
 
@@ -74,20 +78,11 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                 previousData: undefined
             });
 
-            toast.success(translate("resources.users.create.success"), {
-                dismissible: true,
-                duration: 3000,
-                description: translate("resources.users.editSuccessMessage")
-            });
-
+            successToast(translate("resources.users.editSuccessMessage"));
             refresh();
             onOpenChange(false);
         } catch (error) {
-            toast.error("Error", {
-                description: translate("resources.currency.errors.alreadyInUse"),
-                dismissible: true,
-                duration: 3000
-            });
+            errorToast(translate("resources.currency.errors.alreadyInUse"));
             setSubmitButtonDisabled(false);
         }
     };

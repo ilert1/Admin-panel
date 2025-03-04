@@ -7,8 +7,9 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { toast } from "sonner";
 import { useDelete, useRefresh, useTranslate } from "react-admin";
+import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
 
 interface DeleteProviderDialogProps {
     open?: boolean;
@@ -20,6 +21,8 @@ export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
     const { open, deleteId, onOpenChange = () => {} } = props;
     const [deleteOne] = useDelete();
     const refresh = useRefresh();
+    const successToast = useSuccessToast();
+    const errorToast = useErrorToast();
 
     const handleDelete = async () => {
         await deleteOne(
@@ -27,14 +30,10 @@ export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
             { id: deleteId },
             {
                 onSuccess: async () => {
-                    toast.success("Success", {
-                        description: translate("app.ui.delete.deletedSuccessfully"),
-                        dismissible: true,
-                        duration: 3000
-                    });
+                    successToast(translate("app.ui.delete.deletedSuccessfully"));
                 },
                 onError: error => {
-                    console.error("Ошибка удаления:", error);
+                    if (error instanceof Error) errorToast(error.message);
                 }
             }
         );

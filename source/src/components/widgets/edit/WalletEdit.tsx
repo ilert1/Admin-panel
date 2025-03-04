@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from "@/components/ui/Button";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
@@ -17,19 +16,12 @@ import { WalletTypes } from "@/helpers/wallet-types";
 import { Textarea } from "@/components/ui/textarea";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useRef, useState } from "react";
-import {
-    useDataProvider,
-    useEditController,
-    useInfiniteGetList,
-    usePermissions,
-    useRefresh,
-    useTranslate
-} from "react-admin";
+import { useEffect, useState } from "react";
+import { useDataProvider, useEditController, usePermissions, useRefresh, useTranslate } from "react-admin";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
 
 interface EditWalletProps {
     id: string;
@@ -41,6 +33,8 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
     const refresh = useRefresh();
     const dataProvider = useDataProvider();
     const { permissions, isLoading: isFetchingPermissions } = usePermissions();
+
+    const errorToast = useErrorToast();
 
     const [buttonDisabled, setButtonDisabled] = useState(false);
 
@@ -63,9 +57,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
-            toast.error("Error", {
-                description: translate("resources.wallet.manage.errors.errorWhenEditing")
-            });
+            errorToast(translate("resources.wallet.manage.errors.errorWhenEditing"));
             setButtonDisabled(false);
         }
     };
@@ -82,9 +74,8 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
-            toast.error("Error", {
-                description: translate("resources.wallet.manage.errors.errorWhenEditing")
-            });
+            errorToast(translate("resources.wallet.manage.errors.errorWhenEditing"));
+
             setButtonDisabled(false);
         }
     };

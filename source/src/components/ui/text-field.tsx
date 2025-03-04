@@ -1,8 +1,8 @@
 import { Copy } from "lucide-react";
 import { useCallback, useMemo } from "react";
-import { Link, useTranslate } from "react-admin";
-import { toast } from "sonner";
+import { useTranslate } from "react-admin";
 import { cn } from "@/lib/utils";
+import { useSuccessToast } from "./toast/useSuccessToast";
 
 export type LabelSize = "text-xs" | "text-sm";
 
@@ -36,12 +36,12 @@ export const TextField = ({
     const currentText = useMemo(() => (text?.length > 0 ? text : "-"), [text]);
     const translate = useTranslate();
 
+    const successToast = useSuccessToast();
+
     const copy = useCallback(() => {
         navigator.clipboard.writeText(currentText);
-        toast.success(translate("app.ui.textField.copied"), {
-            dismissible: true,
-            duration: 1000
-        });
+
+        successToast("", translate("app.ui.textField.copied"));
     }, [currentText]); // eslint-disable-line react-hooks/exhaustive-deps
 
     // const textStyle = () => {

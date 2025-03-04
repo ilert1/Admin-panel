@@ -2,7 +2,6 @@ import { useCreateController, CreateContextProvider, useTranslate, useDataProvid
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { toast } from "sonner";
 import { Loading } from "@/components/ui/loading";
 import {
     Select,
@@ -18,12 +17,15 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useState } from "react";
 import { CurrencyPosition, CurrencyCreate as ICurrencyCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
 
 export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => {
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController<ICurrencyCreate>();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+
+    const errorToast = useErrorToast();
 
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -36,11 +38,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
             refresh();
             closeDialog();
         } catch (error) {
-            toast.error("Error", {
-                description: translate("resources.currency.errors.alreadyInUse"),
-                dismissible: true,
-                duration: 3000
-            });
+            errorToast(translate("resources.currency.errors.alreadyInUse"));
             setSubmitButtonDisabled(false);
         }
     };

@@ -2,10 +2,11 @@ import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/Input/input";
 import { LoadingBalance } from "@/components/ui/loading";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
 import { isTRC20Address } from "@/helpers/isTRC20Address";
 import { useState } from "react";
 import { fetchUtils, useRefresh, useTranslate } from "react-admin";
-import { toast } from "sonner";
 
 const WALLET_URL = import.meta.env.VITE_WALLET_URL;
 
@@ -17,6 +18,8 @@ export const WalletManualReconciliationBar = () => {
     const [inputVal, setInputVal] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
+    const errorToast = useErrorToast();
+    const successToast = useSuccessToast();
 
     const handleCheckCLicked = async () => {
         if (isLoading) return;
@@ -30,26 +33,14 @@ export const WalletManualReconciliationBar = () => {
             });
 
             if (!json.success) {
-                toast.error("Error", {
-                    description: json.error.error_message ?? translate("resources.wallet.linkedTransactions.notFound"),
-                    dismissible: true,
-                    duration: 3000
-                });
+                errorToast(json.error.error_message ?? translate("resources.wallet.linkedTransactions.notFound"));
             } else {
-                toast.error("Success", {
-                    description: translate("resources.wallet.linkedTransactions.successFound"),
-                    dismissible: true,
-                    duration: 3000
-                });
+                successToast(translate("resources.wallet.linkedTransactions.successFound"));
                 refresh();
                 setManualClicked(false);
             }
         } catch (error) {
-            toast.error("Error", {
-                description: translate("resources.wallet.linkedTransactions.notFound"),
-                dismissible: true,
-                duration: 3000
-            });
+            errorToast(translate("resources.wallet.linkedTransactions.notFound"));
         } finally {
             setIsLoading(false);
         }

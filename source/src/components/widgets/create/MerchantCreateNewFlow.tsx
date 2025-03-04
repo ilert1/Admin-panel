@@ -7,7 +7,6 @@ import { Loading } from "@/components/ui/loading";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { toast } from "sonner";
 import { ChangeEvent, DragEvent, useState } from "react";
 import { feesDataProvider, FeesResource } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
@@ -16,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { BF_MANAGER_URL } from "@/data/base";
 import { FeeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
 
 export type FeeType = "inner" | "default";
 
@@ -26,6 +26,7 @@ export const MerchantCreateNewFlow = ({ onOpenChange }: { onOpenChange: (state: 
 
     const translate = useTranslate();
     const refresh = useRefresh();
+    const errorToast = useErrorToast();
 
     const [fees, setFees] = useState<FeeCreate[]>([]);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -84,11 +85,7 @@ export const MerchantCreateNewFlow = ({ onOpenChange }: { onOpenChange: (state: 
             refresh();
             onOpenChange(false);
         } catch (error) {
-            toast.error("Error", {
-                description: translate("resources.merchant.errors.alreadyInUse"),
-                dismissible: true,
-                duration: 3000
-            });
+            errorToast(translate("resources.merchant.errors.alreadyInUse"));
         } finally {
             setSubmitButtonDisabled(false);
         }

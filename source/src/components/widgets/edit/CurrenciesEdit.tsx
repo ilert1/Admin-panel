@@ -14,13 +14,13 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { usePreventFocus } from "@/hooks";
 import { Loading } from "@/components/ui/loading";
 import { Label } from "@/components/ui/label";
 import { CurrencyWithId } from "@/data/currencies";
 import { CurrencyPosition } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
 
 export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () => void }) => {
     const dataProvider = useDataProvider();
@@ -33,6 +33,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
 
     const translate = useTranslate();
     const refresh = useRefresh();
+    const errorToast = useErrorToast();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -76,11 +77,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
             refresh();
             closeDialog();
         } catch (error) {
-            toast.error("Error", {
-                description: translate("resources.currency.errors.alreadyInUse"),
-                dismissible: true,
-                duration: 3000
-            });
+            errorToast(translate("resources.currency.errors.alreadyInUse"));
             setSubmitButtonDisabled(false);
         }
     };

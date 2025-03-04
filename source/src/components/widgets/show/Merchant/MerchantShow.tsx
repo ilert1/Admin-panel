@@ -7,16 +7,18 @@ import { TextField } from "@/components/ui/text-field";
 import { useGetMerchantShowColumns } from "./Columns";
 import { SimpleTable } from "../../shared";
 import { TableTypes } from "../../shared/SimpleTable";
-import { toast } from "sonner";
 import { Fees } from "../../components/Fees";
 import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet } from "@/api/enigma/direction/direction";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
 
 export const MerchantShow = ({ id }: { id: string }) => {
     const translate = useTranslate();
     const data = fetchDictionaries();
     const context = useShowController<Merchant>({ resource: "merchant", id });
     const { columns } = useGetMerchantShowColumns();
+
+    const errorToast = useErrorToast();
 
     const [merchantDirections, setMerchantDirections] = useState<Direction[]>([]);
 
@@ -47,11 +49,7 @@ export const MerchantShow = ({ id }: { id: string }) => {
                     }
                 } catch (error) {
                     if (error instanceof Error) {
-                        toast.error("Error", {
-                            description: error.message,
-                            dismissible: true,
-                            duration: 3000
-                        });
+                        errorToast(error.message);
                     }
                 }
             }
@@ -60,7 +58,7 @@ export const MerchantShow = ({ id }: { id: string }) => {
         if (context.record) {
             fetchMerchantDirections();
         }
-    }, [context.record]);
+    }, [context.record, errorToast]);
 
     if (context.isLoading || !context.record || !data) {
         return <Loading />;

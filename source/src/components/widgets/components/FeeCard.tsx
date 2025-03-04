@@ -12,8 +12,9 @@ import { TextField } from "@/components/ui/text-field";
 import { Textarea } from "@/components/ui/textarea";
 import { feesDataProvider, FeesResource } from "@/data";
 import { useState } from "react";
-import { useRefresh, useTranslate } from "react-admin";
-import { toast } from "sonner";
+import { HttpError, useRefresh, useTranslate } from "react-admin";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
 
 interface FeeCardProps {
     account: string;
@@ -44,6 +45,8 @@ export const FeeCard = (props: FeeCardProps) => {
     } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
+    const errorToast = useErrorToast();
+    const successToast = useSuccessToast();
 
     const feeDataProvider = feesDataProvider({ resource, id, providerName: providerName });
 
@@ -61,19 +64,11 @@ export const FeeCard = (props: FeeCardProps) => {
         try {
             await feeDataProvider.removeFee(account);
 
-            toast.success("Success", {
-                description: "Deleted successfully",
-                dismissible: true,
-                duration: 3000
-            });
+            successToast(translate("resources.direction.fees.successDelete"));
             refresh();
             setDeleteDialogOpen(false);
         } catch (error) {
-            toast.error("Error", {
-                description: "Something went wrong",
-                dismissible: true,
-                duration: 3000
-            });
+            if (error instanceof HttpError) errorToast(error.message);
         }
     };
     return (

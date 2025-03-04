@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { toast } from "sonner";
 import { useDelete, useRefresh, useTranslate } from "react-admin";
 import { useState } from "react";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
 
 interface DeleteCurrencyDialogProps {
     open: boolean;
@@ -16,6 +17,9 @@ export const DeleteCurrencyDialog = ({ open, id, onOpenChange }: DeleteCurrencyD
     const refresh = useRefresh();
     const [deleteClicked, setDeleteClicked] = useState(false);
 
+    const errorToast = useErrorToast();
+    const successToast = useSuccessToast();
+
     const handleDelete = async () => {
         if (deleteClicked) return;
         setDeleteClicked(true);
@@ -25,22 +29,14 @@ export const DeleteCurrencyDialog = ({ open, id, onOpenChange }: DeleteCurrencyD
             { id },
             {
                 onSuccess: () => {
-                    toast.success("Success", {
-                        description: translate("app.ui.delete.deletedSuccessfully"),
-                        dismissible: true,
-                        duration: 3000
-                    });
-
+                    successToast(translate("app.ui.delete.deletedSuccessfully"));
                     onOpenChange(false);
+
                     refresh();
                     setDeleteClicked(false);
                 },
                 onError: () => {
-                    toast.error("Error", {
-                        description: translate("resources.currency.errors.alreadyInUse"),
-                        dismissible: true,
-                        duration: 3000
-                    });
+                    errorToast(translate("resources.currency.errors.alreadyInUse"));
                 }
             }
         );

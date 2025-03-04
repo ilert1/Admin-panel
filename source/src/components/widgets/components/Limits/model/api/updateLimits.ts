@@ -1,11 +1,10 @@
 import { directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatch } from "@/api/enigma/direction/direction";
 import { UpdateLimitsType } from "../types/limits";
-import { toast } from "sonner";
 
 export async function updateLimits(
     directionId: string,
     limits: UpdateLimitsType
-): Promise<{ data?: any; success: boolean }> {
+): Promise<{ data?: any; success: boolean; errorMessage?: string }> {
     try {
         const { data } = await directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatch(
             directionId,
@@ -40,14 +39,9 @@ export async function updateLimits(
         }
         throw new Error("Http error");
     } catch (error) {
-        console.log(error);
+        let errorMessage;
+        if (error instanceof Error) errorMessage = error.message;
 
-        if (error instanceof Error)
-            toast.error("Error", {
-                dismissible: true,
-                duration: 3000,
-                description: error.message
-            });
-        return { success: false };
+        return { success: false, errorMessage };
     }
 }

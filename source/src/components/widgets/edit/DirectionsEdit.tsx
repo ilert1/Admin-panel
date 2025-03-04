@@ -18,8 +18,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { useFetchDataForDirections, useGetTerminals, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
 import { Direction, DirectionUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
 
 export interface DirectionEditProps {
     id?: string;
@@ -30,6 +31,8 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const dataProvider = useDataProvider();
     const { currencies, merchants, providers, isLoading: loadingData } = useFetchDataForDirections();
     const controllerProps = useEditController<Direction>({ resource: "direction", id, mutationMode: "pessimistic" });
+    const errorToast = useErrorToast();
+    const successToast = useSuccessToast();
 
     const { terminals, getTerminals } = useGetTerminals();
 
@@ -95,22 +98,13 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                 previousData: undefined
             });
 
-            toast.success(translate("app.ui.toast.success"), {
-                description: translate("app.ui.edit.editSuccess"),
-                dismissible: true,
-                duration: 3000
-            });
+            successToast(translate("app.ui.edit.editSuccess"));
 
             refresh();
             onOpenChange(false);
         } catch (error) {
             setSubmitButtonDisabled(false);
-
-            toast.error(translate("app.ui.toast.error"), {
-                description: translate("app.ui.edit.editError"),
-                dismissible: true,
-                duration: 3000
-            });
+            errorToast(translate("app.ui.edit.editError"));
         }
     };
 

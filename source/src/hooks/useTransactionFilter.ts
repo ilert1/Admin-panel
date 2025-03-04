@@ -2,10 +2,10 @@ import { debounce } from "lodash";
 import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { useListContext, usePermissions, useTranslate } from "react-admin";
 import { DateRange } from "react-day-picker";
-import { toast } from "sonner";
 import { API_URL } from "@/data/base";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import moment from "moment";
+import { useErrorToast } from "@/components/ui/toast/useErrorToast";
 
 const useTransactionFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
@@ -22,6 +22,8 @@ const useTransactionFilter = () => {
     const [account, setAccount] = useState(filterValues?.accountId || "");
     const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
     const [orderStatusFilter, setOrderStatusFilter] = useState(filterValues?.order_state || "");
+
+    const errorToast = useErrorToast();
 
     const translate = useTranslate();
 
@@ -116,22 +118,12 @@ const useTransactionFilter = () => {
 
     const handleDownloadReport = async (type: "pdf" | "csv") => {
         if (adminOnly && !account) {
-            toast.error(translate("resources.transactions.download.error"), {
-                dismissible: true,
-                description: translate("resources.transactions.download.accountField"),
-                duration: 3000
-            });
-
+            errorToast(translate("resources.transactions.download.accountField"));
             return;
         }
 
         if (!startDate) {
-            toast.error(translate("resources.transactions.download.error"), {
-                dismissible: true,
-                description: translate("resources.transactions.download.bothError"),
-                duration: 3000
-            });
-
+            errorToast(translate("resources.transactions.download.bothError"));
             return;
         }
 

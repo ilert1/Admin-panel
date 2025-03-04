@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/Button";
 import { Copy } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useTranslate } from "react-admin";
-import { toast } from "sonner";
 import {
     Dialog,
     DialogContent,
@@ -11,6 +10,7 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
+import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
 
 interface PayOutTgBannerProps {
     url: string;
@@ -22,12 +22,11 @@ export const PayOutTgBanner = ({ url, onClose }: PayOutTgBannerProps) => {
 
     const [showCancelDialog, setShowCancelDialog] = useState(false);
 
+    const successToast = useSuccessToast();
+
     const copy = useCallback(() => {
         navigator.clipboard.writeText(url);
-        toast.success(translate("app.ui.textField.copied"), {
-            dismissible: true,
-            duration: 1000
-        });
+        successToast("", translate("app.ui.textField.copied"));
     }, [url]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
