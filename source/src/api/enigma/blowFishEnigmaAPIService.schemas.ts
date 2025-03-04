@@ -562,7 +562,7 @@ export interface DirectionCreate {
     /** Provider name associated with the direction */
     provider: string;
     /** Terminal ID associated with the direction */
-    terminal: DirectionCreateTerminal;
+    terminal?: DirectionCreateTerminal;
 }
 
 /**
@@ -788,24 +788,7 @@ export interface KeyPair {
     public_key: string;
 }
 
-/**
- * Minimum limit value
- */
-export type LimitValuesInputMin = number | number | string | RateValue | null;
-
-/**
- * Maximum limit value
- */
-export type LimitValuesInputMax = number | number | string | RateValue | null;
-
-export interface LimitValuesInput {
-    /** Minimum limit value */
-    min?: LimitValuesInputMin;
-    /** Maximum limit value */
-    max?: LimitValuesInputMax;
-}
-
-export interface LimitValuesOutput {
+export interface LimitValues {
     /** Minimum limit value */
     min?: RateValue;
     /** Maximum limit value */
@@ -814,27 +797,27 @@ export interface LimitValuesOutput {
 
 export interface Limits {
     /** Limits for payin */
-    payin: LimitValuesOutput;
+    payin: LimitValues;
     /** Limits for payout */
-    payout: LimitValuesOutput;
+    payout: LimitValues;
     /** Limits for reward */
-    reward: LimitValuesOutput;
+    reward: LimitValues;
 }
 
 /**
  * Limits for payin
  */
-export type LimitsUpdatePayin = LimitValuesInput | null;
+export type LimitsUpdatePayin = LimitValues | null;
 
 /**
  * Limits for payout
  */
-export type LimitsUpdatePayout = LimitValuesInput | null;
+export type LimitsUpdatePayout = LimitValues | null;
 
 /**
  * Limits for reward
  */
-export type LimitsUpdateReward = LimitValuesInput | null;
+export type LimitsUpdateReward = LimitValues | null;
 
 export interface LimitsUpdate {
     /** Limits for payin */

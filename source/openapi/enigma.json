@@ -3017,7 +3017,7 @@
                     }
                 },
                 "type": "object",
-                "required": ["name", "src_currency", "dst_currency", "merchant", "provider", "terminal"],
+                "required": ["name", "src_currency", "dst_currency", "merchant", "provider"],
                 "title": "DirectionCreate"
             },
             "DirectionUpdate": {
@@ -3320,35 +3320,7 @@
                 "required": ["private_key", "public_key"],
                 "title": "KeyPair"
             },
-            "LimitValues-Input": {
-                "properties": {
-                    "min": {
-                        "anyOf": [
-                            { "type": "integer" },
-                            { "type": "number" },
-                            { "type": "string" },
-                            { "$ref": "#/components/schemas/RateValue" },
-                            { "type": "null" }
-                        ],
-                        "title": "Min",
-                        "description": "Minimum limit value"
-                    },
-                    "max": {
-                        "anyOf": [
-                            { "type": "integer" },
-                            { "type": "number" },
-                            { "type": "string" },
-                            { "$ref": "#/components/schemas/RateValue" },
-                            { "type": "null" }
-                        ],
-                        "title": "Max",
-                        "description": "Maximum limit value"
-                    }
-                },
-                "type": "object",
-                "title": "LimitValues"
-            },
-            "LimitValues-Output": {
+            "LimitValues": {
                 "properties": {
                     "min": { "$ref": "#/components/schemas/RateValue", "description": "Minimum limit value" },
                     "max": { "$ref": "#/components/schemas/RateValue", "description": "Maximum limit value" }
@@ -3358,9 +3330,9 @@
             },
             "Limits": {
                 "properties": {
-                    "payin": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for payin" },
-                    "payout": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for payout" },
-                    "reward": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for reward" }
+                    "payin": { "$ref": "#/components/schemas/LimitValues", "description": "Limits for payin" },
+                    "payout": { "$ref": "#/components/schemas/LimitValues", "description": "Limits for payout" },
+                    "reward": { "$ref": "#/components/schemas/LimitValues", "description": "Limits for reward" }
                 },
                 "type": "object",
                 "required": ["payin", "payout", "reward"],
@@ -3369,15 +3341,15 @@
             "LimitsUpdate": {
                 "properties": {
                     "payin": {
-                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
+                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues" }, { "type": "null" }],
                         "description": "Limits for payin"
                     },
                     "payout": {
-                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
+                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues" }, { "type": "null" }],
                         "description": "Limits for payout"
                     },
                     "reward": {
-                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
+                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues" }, { "type": "null" }],
                         "description": "Limits for reward"
                     }
                 },
