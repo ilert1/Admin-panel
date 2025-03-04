@@ -59,7 +59,7 @@ export function DateRangePicker({
                 const newDate = genereateDateTime(dateRange.from, 0, 0);
 
                 if (newDate.getTime() !== dateRange.from.getTime() && time === "__:__") {
-                    setEndTime("");
+                    setEndTime("__:__");
                     onChange({
                         from: newDate,
                         to: genereateDateTime(dateRange.to, 0, 0)
@@ -67,11 +67,7 @@ export function DateRangePicker({
                 }
             }
 
-            if (time === "__:__") {
-                setStartTime("");
-            } else {
-                setStartTime(time);
-            }
+            setStartTime(time);
         }
     };
 
@@ -107,11 +103,7 @@ export function DateRangePicker({
                 }
             }
 
-            if (time === "__:__") {
-                setEndTime("");
-            } else {
-                setEndTime(time);
-            }
+            setEndTime(time);
         }
     };
 
