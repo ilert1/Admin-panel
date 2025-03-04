@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useQuery } from "react-query";
+import clsx from "clsx";
 
 interface UserCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -62,13 +63,21 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
     });
 
     const formSchema = z.object({
-        first_name: z.string().min(3, translate("app.widgets.forms.userCreate.firstNameMessage")).trim(),
-        last_name: z.string().min(3, translate("app.widgets.forms.userCreate.lastNameMessage")).trim(),
-        login: z.string().min(3, translate("app.widgets.forms.userCreate.loginMessage")).trim(),
-        email: z
+        first_name: z.string().max(255, translate("app.widgets.forms.userCreate.maxSymbols")).trim(),
+        last_name: z.string().max(255, translate("app.widgets.forms.userCreate.maxSymbols")).trim(),
+        login: z
             .string()
-            .regex(/^\S+@\S+\.\S+$/, translate("app.widgets.forms.userCreate.emailMessage"))
+            .regex(/^[a-zA-Z-_.@]{3,255}$/, translate("app.widgets.forms.userCreate.loginMessage"))
             .trim(),
+        email: z
+            .union([
+                z.string().length(0, translate("app.widgets.forms.userCreate.emailMessage")),
+                z
+                    .string()
+                    .regex(/^\S+@\S+\.\S+$/, translate("app.widgets.forms.userCreate.emailMessage"))
+                    .trim()
+            ])
+            .optional(),
         password: z
             .string()
             .regex(
@@ -76,7 +85,16 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                 translate("app.widgets.forms.userCreate.passwordMessage")
             ),
         role_name: z.string().min(1).trim(),
-        merchant_id: z.string().trim().optional()
+        merchant_id: z
+            .string()
+            .refine(input => {
+                if (disabledMerchantField || input.length > 0) {
+                    return true;
+                }
+
+                return false;
+            })
+            .optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -261,6 +279,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                                             <Select
                                                 onValueChange={value => {
                                                     if (value === "admin") {
+                                                        form.setValue("merchant_id", "");
                                                         setDisabledMerchantField(true);
                                                     } else {
                                                         setDisabledMerchantField(false);
@@ -297,7 +316,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                                 )}
                             />
 
-                            <div className="col-span-2">
+                            <div className={clsx("col-span-2", disabledMerchantField && "hidden")}>
                                 <FormField
                                     control={form.control}
                                     name="merchant_id"
