@@ -72,7 +72,7 @@ export const MerchantSelectFilter = ({
 
     return (
         <Popover modal open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild className="mt-0">
+            <PopoverTrigger asChild className="mt-0" disabled={disabled}>
                 <Button
                     variant="text_btn"
                     role="combobox"
