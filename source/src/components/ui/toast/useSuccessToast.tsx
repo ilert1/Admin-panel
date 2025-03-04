@@ -6,7 +6,7 @@ export const useSuccessToast = () => {
     const translate = useTranslate();
 
     return (description: string | ReactNode, title?: string) => {
-        toast.error(title ?? translate("app.ui.toast.success"), {
+        toast.success(title ?? translate("app.ui.toast.success"), {
             description,
             dismissible: true,
             duration: 3000
