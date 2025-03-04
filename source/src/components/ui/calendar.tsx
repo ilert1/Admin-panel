@@ -41,8 +41,8 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
                     "bg-primary dark:bg-black text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
                 day: "p-0 text-sm font-normal dark:text-neutral-10 text-neutral-80 [&.day-range-end]:text-neutral-0 [&.day-range-start]:text-neutral-0 dark:[&.day-range-end]:text-neutral-0 dark:[&.day-range-start]:text-neutral-0 ",
                 hidden: "invisible",
-                outside: "text-muted-foreground opacity-40",
-                disabled: "text-muted-foreground opacity-40",
+                outside: "text-muted-foreground opacity-70",
+                disabled: "text-muted-foreground opacity-30",
                 day_button: "w-5 h-5 m-2 text-sm font-normal flex items-center justify-center text-inherit",
                 today: "relative z-10 [&:not([aria-selected])]:before:absolute [&:not([aria-selected])]:before:outline [&:not([aria-selected])]:before:outline-1 dark:[&:not([aria-selected])]:before:outline-green-40 [&:not([aria-selected])]:before:outline-green-50 [&:not([aria-selected])]:before:rounded-4 [&:not([aria-selected])]:before:top-1 [&:not([aria-selected])]:before:bottom-1 [&:not([aria-selected])]:before:left-1 [&:not([aria-selected])]:before:right-1 [&:not([aria-selected])]:before:-z-10",
                 range_middle:
