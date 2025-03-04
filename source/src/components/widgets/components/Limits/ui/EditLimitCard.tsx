@@ -53,8 +53,8 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
         ];
 
         for (const key of keys) {
-            const minKey = key.includes("Min") ? key : key.replace("Max", "Min");
-            const maxKey = key.includes("Max") ? key : key.replace("Min", "Max");
+            const minKey = key.includes("Min") ? key : (key.replace("Max", "Min") as keyof UpdateLimitsType);
+            const maxKey = key.includes("Max") ? key : (key.replace("Min", "Max") as keyof UpdateLimitsType);
 
             const minValue = parseFloat(limits[minKey]) || 0;
             const maxValue = parseFloat(limits[maxKey]) || 0;
