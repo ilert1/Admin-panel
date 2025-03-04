@@ -124,7 +124,7 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
         }
     };
     return (
-        <div className="flex flex-col gap-4 bg-muted p-4 rounded-8 mb-4">
+        <div className="flex flex-col gap-4 bg-muted rounded-8 mb-4 px-6 py-6">
             <div className="flex flex-col gap-4 md:flex-row">
                 <LimitInputGroup
                     label={translate("app.widgets.limits.deposit")}
