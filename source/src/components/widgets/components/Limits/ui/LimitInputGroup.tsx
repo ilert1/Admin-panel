@@ -24,9 +24,9 @@ export const LimitInputGroup = ({
     // console.log(errorMax);
 
     return (
-        <div className="flex flex-col gap-2 flex-1">
-            <TextField text={label} className="text-display-4" />
-            <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4 flex-1">
+            <TextField text={label} className="text-display-5" />
+            <div className="flex flex-col gap-4">
                 <Input
                     variant={InputTypes.GRAY}
                     label="min"

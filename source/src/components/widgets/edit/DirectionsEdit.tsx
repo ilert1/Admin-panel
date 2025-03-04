@@ -20,6 +20,7 @@ import { useFetchDataForDirections, useGetTerminals, usePreventFocus } from "@/h
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Direction, DirectionUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 
 export interface DirectionEditProps {
     id?: string;
@@ -28,7 +29,7 @@ export interface DirectionEditProps {
 
 export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const dataProvider = useDataProvider();
-    const { currencies, merchants, providers, isLoading: loadingData } = useFetchDataForDirections();
+    const { currencies, providers, isLoading: loadingData } = useFetchDataForDirections();
     const controllerProps = useEditController<Direction>({ resource: "direction", id, mutationMode: "pessimistic" });
 
     const { terminals, getTerminals } = useGetTerminals();
@@ -191,30 +192,13 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
                                     <Label>{translate("resources.direction.merchant")}</Label>
-                                    <Select value={field.value} onValueChange={field.onChange}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {merchants?.data.map(merchant => {
-                                                    return (
-                                                        <SelectItem
-                                                            key={merchant.name}
-                                                            value={merchant.id}
-                                                            variant={SelectType.GRAY}>
-                                                            {merchant.name}
-                                                        </SelectItem>
-                                                    );
-                                                })}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
+                                    <MerchantSelectFilter
+                                        variant="outline"
+                                        error={fieldState.error?.message}
+                                        merchant={field.value}
+                                        onMerchantChanged={field.onChange}
+                                        resource="merchant"
+                                    />
                                 </FormItem>
                             )}
                         />
