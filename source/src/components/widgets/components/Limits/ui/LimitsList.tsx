@@ -18,8 +18,8 @@ export const LimitsList = (props: LimitsProps) => {
     const [editClicked, setEditClicked] = useState(false);
 
     return (
-        <div className={cn("mt-[10px] w-full")}>
-            <div className="flex flex-col bg-neutral-0 dark:bg-neutral-100 px-[32px] rounded-[8px] w-full ">
+        <div className={cn("mt-[10px] w-full px-2")}>
+            <div className="flex flex-col bg-neutral-0 dark:bg-neutral-100 px-[32px] rounded-[8px] w-full p">
                 <h3 className="text-display-3 mt-[16px] mb-[16px]">{translate("app.widgets.limits.limits")}</h3>
                 <div className={cn("max-h-[40vh] overflow-auto pr-[10px]", className)}>
                     {editClicked ? (
