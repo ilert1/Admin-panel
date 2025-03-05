@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import { Button, EditButton, ShowButton, TrashButton } from "@/components/ui/Button";
+import { Button, EditButton, TrashButton } from "@/components/ui/Button";
 
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
@@ -16,7 +15,6 @@ export const useGetProvidersColumns = () => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
-    const [showMethodsOpen, setSowMethodsOpen] = useState(false);
     const [confirmKeysCreatingOpen, setConfirmKeysCreatingOpen] = useState(false);
 
     const handleDeleteClicked = async (id: string) => {
@@ -32,11 +30,6 @@ export const useGetProvidersColumns = () => {
     const handleClickGenerate = async (id: string) => {
         setChosenId(id);
         setConfirmKeysCreatingOpen(true);
-    };
-
-    const handleShowMethodsClicked = (id: string) => {
-        setChosenId(id);
-        setSowMethodsOpen(true);
     };
 
     const columns: ColumnDef<ProviderWithId>[] = [
@@ -82,15 +75,6 @@ export const useGetProvidersColumns = () => {
             }
         },
         {
-            id: "show_methods",
-            header: () => {
-                return <div className="text-center">{translate("resources.provider.fields.methods")}</div>;
-            },
-            cell: ({ row }) => {
-                return <ShowButton onClick={() => handleShowMethodsClicked(row.original.id)} />;
-            }
-        },
-        {
             id: "recreate_field",
             header: () => {
                 return <div className="text-center">{translate("resources.provider.fields.regenKey")}</div>;
@@ -130,9 +114,7 @@ export const useGetProvidersColumns = () => {
         deleteDialogOpen,
         columns,
         editDialogOpen,
-        showMethodsOpen,
         confirmKeysCreatingOpen,
-        setSowMethodsOpen,
         setEditDialogOpen,
         setDeleteDialogOpen,
         setDialogOpen,
