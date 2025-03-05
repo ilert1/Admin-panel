@@ -64,11 +64,11 @@ export const WalletManualReconciliationBar = () => {
         const value = e.target.value;
         setInputVal(value);
 
-        if (!isTRC20Address(value)) {
+        /* if (!isTRC20Address(value)) {
             setIsError(true);
         } else {
             setIsError(false);
-        }
+        } */
     };
 
     console.log(inputVal);
