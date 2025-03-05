@@ -59,7 +59,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: controllerProps.record?.name || "",
-            active: controllerProps.record?.active || true,
+            active: controllerProps.record?.active,
             description: controllerProps.record?.description || "",
             src_currency: controllerProps.record?.src_currency.code || "",
             dst_currency: controllerProps.record?.dst_currency.code || "",
@@ -74,7 +74,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         if (controllerProps.record) {
             form.reset({
                 name: controllerProps.record?.name || "",
-                active: controllerProps.record?.active || true,
+                active: controllerProps.record?.active,
                 description: controllerProps.record?.description || "",
                 src_currency: controllerProps.record?.src_currency.code || "",
                 dst_currency: controllerProps.record?.dst_currency.code || "",
