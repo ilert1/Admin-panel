@@ -9,7 +9,6 @@ import { EditProviderDialog } from "./EditProviderDialog";
 import { useState } from "react";
 import { CirclePlus } from "lucide-react";
 import { CreateProviderDialog } from "./CreateProviderDialog";
-import { ShowMethodsDialog } from "./ShowMethodsDialog";
 import { ConfirmCreatingDialog } from "./ConfirmCreatingDialog";
 import { ProviderWithId } from "@/data/providers";
 
@@ -33,8 +32,6 @@ export const ProvidersList = () => {
         deleteDialogOpen,
         columns,
         editDialogOpen,
-        showMethodsOpen,
-        setSowMethodsOpen,
         setEditDialogOpen,
         setDeleteDialogOpen,
         setDialogOpen,
@@ -78,8 +75,6 @@ export const ProvidersList = () => {
                             name={chosenId}
                             refresh={handleRefresh}
                         />
-
-                        <ShowMethodsDialog id={chosenId} open={showMethodsOpen} onOpenChange={setSowMethodsOpen} />
                     </div>
                 </div>
 
