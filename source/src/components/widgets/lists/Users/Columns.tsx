@@ -16,6 +16,7 @@ export const useGetUserColumns = () => {
     const [showOpen, setShowOpen] = useState(false);
 
     const [chosenMerchantId, setChosenMerchantId] = useState("");
+    const [chosenMerchantName, setChosenMerchantName] = useState("");
     const [showMerchants, setShowMerchants] = useState(false);
 
     const openSheet = (id: string) => {
@@ -94,6 +95,7 @@ export const useGetUserColumns = () => {
                                 variant={"merchantLink"}
                                 onClick={() => {
                                     setChosenMerchantId(row.original.merchant_id ?? "");
+                                    setChosenMerchantName(row.original.merchant_name ?? "");
                                     setShowMerchants(true);
                                 }}>
                                 {row.original.merchant_name ?? ""}
@@ -137,6 +139,7 @@ export const useGetUserColumns = () => {
         userId,
         showOpen,
         chosenMerchantId,
+        chosenMerchantName,
         showMerchants,
         setShowMerchants,
         setShowOpen

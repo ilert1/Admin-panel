@@ -9,8 +9,16 @@ import { ShowMerchantSheet } from "../Merchants/ShowMerchantSheet";
 export const UserList = () => {
     const listContext = useListController<Users.User>();
 
-    const { columns, userId, showOpen, chosenMerchantId, showMerchants, setShowMerchants, setShowOpen } =
-        useGetUserColumns();
+    const {
+        columns,
+        userId,
+        showOpen,
+        chosenMerchantId,
+        chosenMerchantName,
+        showMerchants,
+        setShowMerchants,
+        setShowOpen
+    } = useGetUserColumns();
 
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
@@ -22,7 +30,12 @@ export const UserList = () => {
 
                     <DataTable columns={columns} />
                 </ListContextProvider>
-                <ShowMerchantSheet id={chosenMerchantId} open={showMerchants} onOpenChange={setShowMerchants} />
+                <ShowMerchantSheet
+                    id={chosenMerchantId}
+                    merchantName={chosenMerchantName}
+                    open={showMerchants}
+                    onOpenChange={setShowMerchants}
+                />
 
                 <ShowUserSheet id={userId} open={showOpen} onOpenChange={setShowOpen} />
             </>

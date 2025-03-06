@@ -13,6 +13,8 @@ export const useGetTransactionColumns = () => {
 
     // const [chartOpen, setChartOpen] = useState(false)
     const [chosenMerchantId, setChosenMerchantId] = useState("");
+    const [chosenMerchantName, setChosenMerchantName] = useState("");
+
     const [showMerchants, setShowMerchants] = useState(false);
 
     const [showOpen, setShowOpen] = useState(false);
@@ -74,6 +76,7 @@ export const useGetTransactionColumns = () => {
                                       variant={"merchantLink"}
                                       onClick={() => {
                                           setChosenMerchantId(row.original.participant_id ?? "");
+                                          setChosenMerchantName(row.original.participant_name ?? "");
                                           setShowMerchants(true);
                                       }}>
                                       {row.original.participant_name ?? ""}
@@ -139,6 +142,7 @@ export const useGetTransactionColumns = () => {
         columns,
         showOpen,
         chosenMerchantId,
+        chosenMerchantName,
         showMerchants,
         showTransactionId,
         setShowOpen,

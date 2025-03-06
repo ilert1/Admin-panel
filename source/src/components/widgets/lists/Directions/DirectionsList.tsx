@@ -20,8 +20,16 @@ export const DirectionsList = () => {
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
-    const { columns, chosenId, quickShowOpen, chosenMerchantId, showMerchants, setShowMerchants, setQuickShowOpen } =
-        useGetDirectionsColumns();
+    const {
+        columns,
+        chosenId,
+        quickShowOpen,
+        chosenMerchantId,
+        chosenMerchantName,
+        showMerchants,
+        setShowMerchants,
+        setQuickShowOpen
+    } = useGetDirectionsColumns();
 
     const handleCreateClick = () => {
         setCreateDialogOpen(true);
@@ -49,7 +57,12 @@ export const DirectionsList = () => {
                     <DataTable columns={columns} />
                 </ListContextProvider>
 
-                <ShowMerchantSheet id={chosenMerchantId} open={showMerchants} onOpenChange={setShowMerchants} />
+                <ShowMerchantSheet
+                    id={chosenMerchantId}
+                    merchantName={chosenMerchantName}
+                    open={showMerchants}
+                    onOpenChange={setShowMerchants}
+                />
                 <ShowDirectionSheet id={chosenId} open={quickShowOpen} onOpenChange={setQuickShowOpen} />
             </>
         );

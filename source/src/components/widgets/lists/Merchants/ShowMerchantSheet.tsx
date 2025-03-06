@@ -5,10 +5,11 @@ import { MerchantShow } from "../../show";
 
 interface ShowMerchantSheetProps {
     id: string;
+    merchantName?: string;
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
-export const ShowMerchantSheet = ({ id, open, onOpenChange }: ShowMerchantSheetProps) => {
+export const ShowMerchantSheet = ({ id, open, merchantName, onOpenChange }: ShowMerchantSheetProps) => {
     const translate = useTranslate();
 
     return (
@@ -33,7 +34,7 @@ export const ShowMerchantSheet = ({ id, open, onOpenChange }: ShowMerchantSheetP
                         </div>
                     </div>
 
-                    <MerchantShow id={id} onOpenChange={onOpenChange} />
+                    <MerchantShow id={id} onOpenChange={onOpenChange} merchantName={merchantName} />
                     <SheetDescription></SheetDescription>
                 </SheetContent>
             </Sheet>

@@ -13,7 +13,14 @@ import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schem
 import { directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet } from "@/api/enigma/direction/direction";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 
-export const MerchantShow = ({ id, onOpenChange }: { id: string; onOpenChange: (state: boolean) => void }) => {
+interface MerchantShowProps {
+    id: string;
+    merchantName?: string;
+    onOpenChange: (state: boolean) => void;
+}
+
+export const MerchantShow = (props: MerchantShowProps) => {
+    const { id, merchantName, onOpenChange } = props;
     const translate = useTranslate();
     const data = fetchDictionaries();
     const appToast = useAppToast();
@@ -23,7 +30,12 @@ export const MerchantShow = ({ id, onOpenChange }: { id: string; onOpenChange: (
         id,
         queryOptions: {
             onError: () => {
-                appToast("error", translate("resources.merchant.errors.notFound"));
+                appToast(
+                    "error",
+                    `${translate("resources.merchant.errors.merchant")} ${merchantName} ${translate(
+                        "resources.merchant.errors.notFound"
+                    )}`
+                );
                 onOpenChange(false);
             }
         }

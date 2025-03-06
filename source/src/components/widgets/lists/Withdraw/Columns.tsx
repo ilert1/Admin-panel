@@ -15,6 +15,8 @@ export const useGetWithdrawColumns = () => {
     const [cryptoTransferState, setCryptoTransferState] = useState<"process" | "success" | "error">("process");
     const [repeatData, setRepeatData] = useState<{ address: string; amount: number } | undefined>(undefined);
     const [chosenId, setChosenId] = useState("");
+    const [chosenMerchantName, setChosenMerchantName] = useState("");
+
     const [showMerchants, setShowMerchants] = useState(false);
 
     let isLoading,
@@ -95,6 +97,7 @@ export const useGetWithdrawColumns = () => {
                                       variant={"merchantLink"}
                                       onClick={() => {
                                           setChosenId(merch?.id ?? "");
+                                          setChosenMerchantName(merch?.name ?? "");
                                           setShowMerchants(true);
                                       }}>
                                       {merch?.name ?? ""}
@@ -205,6 +208,7 @@ export const useGetWithdrawColumns = () => {
         cryptoTransferState,
         merchantOnly,
         chosenId,
+        chosenMerchantName,
         isLoading,
         showMerchants,
         setShowMerchants,

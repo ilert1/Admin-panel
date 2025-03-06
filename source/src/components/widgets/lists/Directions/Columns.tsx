@@ -13,7 +13,9 @@ export const useGetDirectionsColumns = () => {
     const [chosenId, setChosenId] = useState("");
 
     const [quickShowOpen, setQuickShowOpen] = useState(false);
+
     const [chosenMerchantId, setChosenMerchantId] = useState("");
+    const [chosenMerchantName, setChosenMerchantName] = useState("");
     const [showMerchants, setShowMerchants] = useState(false);
 
     const openSheet = (id: string) => {
@@ -66,22 +68,22 @@ export const useGetDirectionsColumns = () => {
             accessorKey: "merchant",
             header: translate("resources.direction.fields.merchant"),
             cell: ({ row }) => {
-                const obj: Merchant = row.getValue("merchant");
+                const merchant: Merchant = row.getValue("merchant");
 
-                // return <TextField text={obj.name} wrap />;
                 return (
                     <div>
                         <Button
                             variant={"merchantLink"}
                             onClick={() => {
-                                setChosenMerchantId(obj.id ?? "");
+                                setChosenMerchantId(merchant.id ?? "");
+                                setChosenMerchantName(merchant.name);
                                 setShowMerchants(true);
                             }}>
-                            {obj.name ?? ""}
+                            {merchant.name ?? ""}
                         </Button>
                         <TextField
                             className="text-neutral-70"
-                            text={obj.id}
+                            text={merchant.id}
                             wrap
                             copyValue
                             lineClamp
@@ -149,5 +151,14 @@ export const useGetDirectionsColumns = () => {
             }
         }
     ];
-    return { columns, chosenId, quickShowOpen, chosenMerchantId, showMerchants, setShowMerchants, setQuickShowOpen };
+    return {
+        columns,
+        chosenId,
+        quickShowOpen,
+        chosenMerchantId,
+        showMerchants,
+        chosenMerchantName,
+        setShowMerchants,
+        setQuickShowOpen
+    };
 };
