@@ -37,8 +37,6 @@ export const MerchantShow = (props: MerchantShowProps) => {
 
     const { columns } = useGetMerchantShowColumns();
 
-    const appToast = useAppToast();
-
     const [merchantDirections, setMerchantDirections] = useState<Direction[]>([]);
 
     useEffect(() => {

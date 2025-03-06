@@ -965,13 +965,11 @@
                         "required": false,
                         "schema": {
                             "type": "integer",
-                            "maximum": 65537,
-                            "minimum": 3,
-                            "description": "RSA public exponent (must be between 3 and 65537).",
+                            "description": "RSA public exponent must be either 3 (for legacy compatibility) or 65537. Almost everyone should choose 65537!",
                             "default": 65537,
                             "title": "Public Exponent"
                         },
-                        "description": "RSA public exponent (must be between 3 and 65537).",
+                        "description": "RSA public exponent must be either 3 (for legacy compatibility) or 65537. Almost everyone should choose 65537!",
                         "example": 65537
                     }
                 ],
@@ -1426,7 +1424,7 @@
             "post": {
                 "tags": ["Terminal"],
                 "summary": "Initialize provider account",
-                "description": "Initializes the provider account for a terminal by setting its auth token. Returns the updated terminal data.",
+                "description": "Initializes the provider account for a terminal by setting its authentication token. Returns the updated terminal data.",
                 "operationId": "TerminalEndpoints_init_provider_accounts_enigma_v1_provider__provider_name__terminal__terminal_id__init_accounts_post",
                 "parameters": [
                     {
@@ -1460,7 +1458,7 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_WorkflowResStruct_" }
+                                "schema": { "$ref": "#/components/schemas/ApiResponse_list_AccountInfo__" }
                             }
                         }
                     },
@@ -2292,13 +2290,11 @@
                         "required": false,
                         "schema": {
                             "type": "integer",
-                            "maximum": 65537,
-                            "minimum": 3,
-                            "description": "RSA public exponent (must be between 3 and 65537).",
+                            "description": "RSA public exponent must be either 3 (for legacy compatibility) or 65537. Almost everyone should choose 65537!",
                             "default": 65537,
                             "title": "Public Exponent"
                         },
-                        "description": "RSA public exponent (must be between 3 and 65537).",
+                        "description": "RSA public exponent must be either 3 (for legacy compatibility) or 65537. Almost everyone should choose 65537!",
                         "example": 65537
                     }
                 ],
@@ -2715,7 +2711,7 @@
                 "required": ["data"],
                 "title": "ApiResponse[Terminal]"
             },
-            "ApiResponse_WorkflowResStruct_": {
+            "ApiResponse_list_AccountInfo__": {
                 "properties": {
                     "success": {
                         "type": "boolean",
@@ -2724,7 +2720,9 @@
                         "default": true
                     },
                     "data": {
-                        "$ref": "#/components/schemas/WorkflowResStruct",
+                        "items": { "$ref": "#/components/schemas/AccountInfo" },
+                        "type": "array",
+                        "title": "Data",
                         "description": "The actual response data if the request was successful."
                     },
                     "error": {
@@ -2740,7 +2738,7 @@
                 },
                 "type": "object",
                 "required": ["data"],
-                "title": "ApiResponse[WorkflowResStruct]"
+                "title": "ApiResponse[list[AccountInfo]]"
             },
             "ApiResponse_list_FeeTypeItem__": {
                 "properties": {
@@ -3017,7 +3015,7 @@
                     }
                 },
                 "type": "object",
-                "required": ["name", "src_currency", "dst_currency", "merchant", "provider"],
+                "required": ["name", "src_currency", "dst_currency", "merchant", "provider", "terminal"],
                 "title": "DirectionCreate"
             },
             "DirectionUpdate": {
@@ -3320,7 +3318,35 @@
                 "required": ["private_key", "public_key"],
                 "title": "KeyPair"
             },
-            "LimitValues": {
+            "LimitValues-Input": {
+                "properties": {
+                    "min": {
+                        "anyOf": [
+                            { "type": "integer" },
+                            { "type": "number" },
+                            { "type": "string" },
+                            { "$ref": "#/components/schemas/RateValue" },
+                            { "type": "null" }
+                        ],
+                        "title": "Min",
+                        "description": "Minimum limit value"
+                    },
+                    "max": {
+                        "anyOf": [
+                            { "type": "integer" },
+                            { "type": "number" },
+                            { "type": "string" },
+                            { "$ref": "#/components/schemas/RateValue" },
+                            { "type": "null" }
+                        ],
+                        "title": "Max",
+                        "description": "Maximum limit value"
+                    }
+                },
+                "type": "object",
+                "title": "LimitValues"
+            },
+            "LimitValues-Output": {
                 "properties": {
                     "min": { "$ref": "#/components/schemas/RateValue", "description": "Minimum limit value" },
                     "max": { "$ref": "#/components/schemas/RateValue", "description": "Maximum limit value" }
@@ -3330,9 +3356,9 @@
             },
             "Limits": {
                 "properties": {
-                    "payin": { "$ref": "#/components/schemas/LimitValues", "description": "Limits for payin" },
-                    "payout": { "$ref": "#/components/schemas/LimitValues", "description": "Limits for payout" },
-                    "reward": { "$ref": "#/components/schemas/LimitValues", "description": "Limits for reward" }
+                    "payin": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for payin" },
+                    "payout": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for payout" },
+                    "reward": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for reward" }
                 },
                 "type": "object",
                 "required": ["payin", "payout", "reward"],
@@ -3341,15 +3367,15 @@
             "LimitsUpdate": {
                 "properties": {
                     "payin": {
-                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues" }, { "type": "null" }],
+                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
                         "description": "Limits for payin"
                     },
                     "payout": {
-                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues" }, { "type": "null" }],
+                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
                         "description": "Limits for payout"
                     },
                     "reward": {
-                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues" }, { "type": "null" }],
+                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
                         "description": "Limits for reward"
                     }
                 },
@@ -3972,45 +3998,6 @@
                 "type": "string",
                 "enum": ["h2h_sync", "h2h_async", "h2h_sync_out"],
                 "title": "WorkflowCategory"
-            },
-            "WorkflowResStruct": {
-                "properties": {
-                    "success": {
-                        "type": "boolean",
-                        "title": "Success",
-                        "description": "Indicates whether the workflow operation was successful.",
-                        "examples": [true]
-                    },
-                    "metadata": {
-                        "anyOf": [{}, { "type": "null" }],
-                        "title": "Metadata",
-                        "description": "Additional metadata returned from the workflow.",
-                        "examples": [{ "execution_time": "100ms" }]
-                    },
-                    "error": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
-                        "title": "Error",
-                        "description": "Error message if the workflow failed.",
-                        "examples": ["Invalid account credentials"]
-                    },
-                    "message": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
-                        "title": "Message",
-                        "description": "A human-readable message associated with the workflow response.",
-                        "examples": ["Operation completed successfully."]
-                    },
-                    "data": {
-                        "anyOf": [
-                            { "items": { "$ref": "#/components/schemas/AccountInfo" }, "type": "array" },
-                            { "type": "null" }
-                        ],
-                        "title": "Data",
-                        "description": "List of account information objects."
-                    }
-                },
-                "type": "object",
-                "required": ["success"],
-                "title": "WorkflowResStruct"
             }
         }
     }
