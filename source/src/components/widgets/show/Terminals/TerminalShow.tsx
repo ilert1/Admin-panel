@@ -27,9 +27,20 @@ export const TerminalShow = (props: TerminalShowProps) => {
         }
     });
 
-    if (isLoading || !data) {
+    const { data: accountData, isLoading: accountsLoading } = useQuery({
+        queryKey: ["account_data", data?.id],
+        queryFn: async () => {
+            const { data: queryData } = await dataProvider.getOne(`accounts`, { id: data?.id });
+            console.log(queryData);
+            return queryData;
+        },
+        enabled: !isLoading
+    });
+
+    if (isLoading || !data || accountsLoading || !accountData) {
         return <LoadingBlock />;
     }
+    console.log(accountData);
 
     return (
         <div className="px-[45px] flex flex-col gap-4">
@@ -62,18 +73,6 @@ export const TerminalShow = (props: TerminalShowProps) => {
                         </Button>
                     </div>
                 </div>
-                {/* TODO */}
-                {/* <div className="flex flex-col gap-3">
-                    <TextField text="Terminal account" className="text-display-3" />
-                    <div className="flex gap-6">
-                        <TextField text="" label="Type" />
-                        <TextField text="" label="Account balance" />
-                    </div>
-                    <div className="flex justify-between">
-                        <div className="flex gap-2"></div>
-                        <Button></Button>
-                    </div>
-                </div> */}
             </div>
             <Fees
                 fees={data?.fees}
