@@ -1,14 +1,19 @@
-import { EditButton, ShowButton, TrashButton } from "@/components/ui/Button";
+import { terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPost } from "@/api/enigma/terminal/terminal";
+import { Button, EditButton, ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { TerminalWithId } from "@/data/terminals";
 import { ColumnDef } from "@tanstack/react-table";
+import { PlusCircle } from "lucide-react";
 import { useState } from "react";
-import { useTranslate } from "react-admin";
+import { useRefresh, useTranslate } from "react-admin";
 
 export type MerchantTypeToShow = "fees" | "directions" | undefined;
 
 export const useGetTerminalColumns = () => {
     const translate = useTranslate();
+    const refresh = useRefresh();
+    const appToast = useAppToast();
 
     const [showAuthKeyOpen, setShowAuthKeyOpen] = useState(false);
     const [chosenId, setChosenId] = useState("");
@@ -17,6 +22,7 @@ export const useGetTerminalColumns = () => {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [showFees, setShowFees] = useState(false);
+    const [createButtonClicked, setCreateButtonClicked] = useState(false);
 
     const handleEditClicked = (id: string) => {
         setChosenId(id);
@@ -26,6 +32,35 @@ export const useGetTerminalColumns = () => {
     const handleDeleteClicked = async (id: string) => {
         setChosenId(id);
         setDeleteDialogOpen(true);
+    };
+
+    const handleCreateAccountClicked = async (provider: string, terminal_id: string) => {
+        setCreateButtonClicked(true);
+        try {
+            const { data } =
+                await terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPost(
+                    provider,
+                    terminal_id,
+                    {
+                        headers: {
+                            authorization: `Bearer ${localStorage.getItem("access-token")}`
+                        }
+                    }
+                );
+            if (!("data" in data)) {
+                throw new Error("Http error");
+            }
+
+            if (data.success) {
+                appToast("success", translate("resources.terminals.accountCreatedSuccessfully"));
+            } else {
+                throw new Error(data.error?.error_message);
+            }
+            refresh();
+        } catch (error) {
+            if (error instanceof Error) appToast("error", error.message);
+        }
+        setCreateButtonClicked(false);
     };
 
     const columns: ColumnDef<TerminalWithId>[] = [
@@ -85,12 +120,14 @@ export const useGetTerminalColumns = () => {
             }
         },
         {
-            id: "fees",
+            id: "show",
             header: () => {
                 return <div className="text-center">{translate("app.ui.actions.show")}</div>;
             },
             cell: ({ row }) => {
-                return (
+                const isAcount = row.original.account_created;
+
+                return isAcount ? (
                     <ShowButton
                         onClick={() => {
                             setChosenId(row.original.terminal_id);
@@ -98,6 +135,14 @@ export const useGetTerminalColumns = () => {
                             setShowFees(true);
                         }}
                     />
+                ) : (
+                    <Button
+                        className="flex gap-1"
+                        disabled={createButtonClicked}
+                        onClick={() => handleCreateAccountClicked(row.original.provider, row.original.terminal_id)}>
+                        <PlusCircle className="h-4 w-4" />
+                        <TextField text={translate("resources.terminals.fields.createAccount")} />
+                    </Button>
                 );
             }
         },

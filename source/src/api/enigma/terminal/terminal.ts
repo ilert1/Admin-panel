@@ -5,10 +5,10 @@
  * OpenAPI spec version: develop
  */
 import type {
+    ApiResponseListAccountInfo,
     ApiResponseNoneType,
     ApiResponseOffsetPaginationTerminal,
     ApiResponseTerminal,
-    ApiResponseWorkflowResStruct,
     FeeCreate,
     FeeUpdate,
     HTTPValidationError,
@@ -434,12 +434,12 @@ export const terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTermina
 };
 
 /**
- * Initializes the provider account for a terminal by setting its auth token. Returns the updated terminal data.
+ * Initializes the provider account for a terminal by setting its authentication token. Returns the updated terminal data.
  * @summary Initialize provider account
  */
 export type terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostResponse200 =
     {
-        data: ApiResponseWorkflowResStruct;
+        data: ApiResponseListAccountInfo;
         status: 200;
     };
 

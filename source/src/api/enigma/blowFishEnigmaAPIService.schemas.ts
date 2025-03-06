@@ -356,26 +356,26 @@ export interface ApiResponseTerminal {
 /**
  * The error details if the request was not successful.
  */
-export type ApiResponseWorkflowResStructError = ErrorBody | null;
+export type ApiResponseListAccountInfoError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseWorkflowResStructMeta = unknown | null;
+export type ApiResponseListAccountInfoMeta = unknown | null;
 
-export interface ApiResponseWorkflowResStruct {
+export interface ApiResponseListAccountInfo {
     /** Indicates whether the request was successful. */
     success?: boolean;
     /** The actual response data if the request was successful. */
-    data: WorkflowResStruct;
+    data: AccountInfo[];
     /** The error details if the request was not successful. */
-    error?: ApiResponseWorkflowResStructError;
+    error?: ApiResponseListAccountInfoError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseWorkflowResStructMeta;
+    meta?: ApiResponseListAccountInfoMeta;
 }
 
 /**
@@ -562,7 +562,7 @@ export interface DirectionCreate {
     /** Provider name associated with the direction */
     provider: string;
     /** Terminal ID associated with the direction */
-    terminal?: DirectionCreateTerminal;
+    terminal: DirectionCreateTerminal;
 }
 
 /**
@@ -788,7 +788,24 @@ export interface KeyPair {
     public_key: string;
 }
 
-export interface LimitValues {
+/**
+ * Minimum limit value
+ */
+export type LimitValuesInputMin = number | number | string | RateValue | null;
+
+/**
+ * Maximum limit value
+ */
+export type LimitValuesInputMax = number | number | string | RateValue | null;
+
+export interface LimitValuesInput {
+    /** Minimum limit value */
+    min?: LimitValuesInputMin;
+    /** Maximum limit value */
+    max?: LimitValuesInputMax;
+}
+
+export interface LimitValuesOutput {
     /** Minimum limit value */
     min?: RateValue;
     /** Maximum limit value */
@@ -797,27 +814,27 @@ export interface LimitValues {
 
 export interface Limits {
     /** Limits for payin */
-    payin: LimitValues;
+    payin: LimitValuesOutput;
     /** Limits for payout */
-    payout: LimitValues;
+    payout: LimitValuesOutput;
     /** Limits for reward */
-    reward: LimitValues;
+    reward: LimitValuesOutput;
 }
 
 /**
  * Limits for payin
  */
-export type LimitsUpdatePayin = LimitValues | null;
+export type LimitsUpdatePayin = LimitValuesInput | null;
 
 /**
  * Limits for payout
  */
-export type LimitsUpdatePayout = LimitValues | null;
+export type LimitsUpdatePayout = LimitValuesInput | null;
 
 /**
  * Limits for reward
  */
-export type LimitsUpdateReward = LimitValues | null;
+export type LimitsUpdateReward = LimitValuesInput | null;
 
 export interface LimitsUpdate {
     /** Limits for payin */
@@ -1163,39 +1180,6 @@ export const WorkflowCategory = {
     h2h_sync_out: "h2h_sync_out"
 } as const;
 
-/**
- * Additional metadata returned from the workflow.
- */
-export type WorkflowResStructMetadata = unknown | null;
-
-/**
- * Error message if the workflow failed.
- */
-export type WorkflowResStructError = string | null;
-
-/**
- * A human-readable message associated with the workflow response.
- */
-export type WorkflowResStructMessage = string | null;
-
-/**
- * List of account information objects.
- */
-export type WorkflowResStructData = AccountInfo[] | null;
-
-export interface WorkflowResStruct {
-    /** Indicates whether the workflow operation was successful. */
-    success: boolean;
-    /** Additional metadata returned from the workflow. */
-    metadata?: WorkflowResStructMetadata;
-    /** Error message if the workflow failed. */
-    error?: WorkflowResStructError;
-    /** A human-readable message associated with the workflow response. */
-    message?: WorkflowResStructMessage;
-    /** List of account information objects. */
-    data?: WorkflowResStructData;
-}
-
 export type CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetParams = {
     /**
      * List of identifiers for filtering
@@ -1334,7 +1318,7 @@ export type ProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPat
      */
     key_size?: number;
     /**
-     * RSA public exponent (must be between 3 and 65537).
+     * RSA public exponent must be either 3 (for legacy compatibility) or 65537. Almost everyone should choose 65537!
      */
     public_exponent?: number;
 };
@@ -1477,7 +1461,7 @@ export type KeyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetParams = {
      */
     key_size?: number;
     /**
-     * RSA public exponent (must be between 3 and 65537).
+     * RSA public exponent must be either 3 (for legacy compatibility) or 65537. Almost everyone should choose 65537!
      */
     public_exponent?: number;
 };
