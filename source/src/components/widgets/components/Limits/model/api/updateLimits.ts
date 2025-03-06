@@ -40,8 +40,6 @@ export async function updateLimits(
         }
         throw new Error("Http error");
     } catch (error) {
-        console.log(error);
-
         if (error instanceof Error)
             toast.error("Error", {
                 dismissible: true,

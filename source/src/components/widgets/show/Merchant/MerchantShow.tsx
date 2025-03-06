@@ -11,11 +11,24 @@ import { toast } from "sonner";
 import { Fees } from "../../components/Fees";
 import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet } from "@/api/enigma/direction/direction";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
-export const MerchantShow = ({ id }: { id: string }) => {
+export const MerchantShow = ({ id, onOpenChange }: { id: string; onOpenChange: (state: boolean) => void }) => {
     const translate = useTranslate();
     const data = fetchDictionaries();
-    const context = useShowController<Merchant>({ resource: "merchant", id });
+    const appToast = useAppToast();
+
+    const context = useShowController<Merchant>({
+        resource: "merchant",
+        id,
+        queryOptions: {
+            onError: () => {
+                appToast("error", translate("resources.merchant.errors.notFound"));
+                onOpenChange(false);
+            }
+        }
+    });
+
     const { columns } = useGetMerchantShowColumns();
 
     const [merchantDirections, setMerchantDirections] = useState<Direction[]>([]);

@@ -75,8 +75,6 @@ export const WalletManualReconciliationBar = () => {
         }
     };
 
-    console.log(inputVal);
-
     return (
         <div className="flex justify-end items-end mb-6">
             <Button

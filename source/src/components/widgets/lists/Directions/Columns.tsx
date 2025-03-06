@@ -1,5 +1,5 @@
 import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { ShowButton } from "@/components/ui/Button";
+import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
 import { ProviderWithId } from "@/data/providers";
@@ -13,6 +13,8 @@ export const useGetDirectionsColumns = () => {
     const [chosenId, setChosenId] = useState("");
 
     const [quickShowOpen, setQuickShowOpen] = useState(false);
+    const [chosenMerchantId, setChosenMerchantId] = useState("");
+    const [showMerchants, setShowMerchants] = useState(false);
 
     const openSheet = (id: string) => {
         setChosenId(id);
@@ -65,7 +67,29 @@ export const useGetDirectionsColumns = () => {
             header: translate("resources.direction.fields.merchant"),
             cell: ({ row }) => {
                 const obj: Merchant = row.getValue("merchant");
-                return <TextField text={obj.name} wrap />;
+
+                // return <TextField text={obj.name} wrap />;
+                return (
+                    <div>
+                        <Button
+                            variant={"merchantLink"}
+                            onClick={() => {
+                                setChosenMerchantId(obj.id ?? "");
+                                setShowMerchants(true);
+                            }}>
+                            {obj.name ?? ""}
+                        </Button>
+                        <TextField
+                            className="text-neutral-70"
+                            text={obj.id}
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                        />
+                    </div>
+                );
             }
         },
         {
@@ -125,5 +149,5 @@ export const useGetDirectionsColumns = () => {
             }
         }
     ];
-    return { columns, chosenId, quickShowOpen, setQuickShowOpen };
+    return { columns, chosenId, quickShowOpen, chosenMerchantId, showMerchants, setShowMerchants, setQuickShowOpen };
 };

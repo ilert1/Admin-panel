@@ -45,8 +45,6 @@ export class UsersDataProvider extends BaseDataProvider {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
 
-        console.log(json);
-
         if (!json.success) {
             throw new Error(json.error);
         }

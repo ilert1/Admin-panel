@@ -1,4 +1,4 @@
-import { ShowButton } from "@/components/ui/Button";
+import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useState } from "react";
@@ -12,6 +12,9 @@ export const useGetTransactionColumns = () => {
     const { permissions } = usePermissions();
 
     // const [chartOpen, setChartOpen] = useState(false)
+    const [chosenMerchantId, setChosenMerchantId] = useState("");
+    const [showMerchants, setShowMerchants] = useState(false);
+
     const [showOpen, setShowOpen] = useState(false);
     const [showTransactionId, setShowTransactionId] = useState<string>("");
 
@@ -67,7 +70,14 @@ export const useGetTransactionColumns = () => {
                       cell: ({ row }: { row: Row<Transaction.TransactionView> }) => {
                           return (
                               <div>
-                                  <TextField text={row.original.participant_name} wrap />
+                                  <Button
+                                      variant={"merchantLink"}
+                                      onClick={() => {
+                                          setChosenMerchantId(row.original.participant_id ?? "");
+                                          setShowMerchants(true);
+                                      }}>
+                                      {row.original.participant_name ?? ""}
+                                  </Button>
                                   <TextField
                                       className="text-neutral-70"
                                       text={row.original.participant_id}
@@ -128,7 +138,10 @@ export const useGetTransactionColumns = () => {
     return {
         columns,
         showOpen,
+        chosenMerchantId,
+        showMerchants,
+        showTransactionId,
         setShowOpen,
-        showTransactionId
+        setShowMerchants
     };
 };

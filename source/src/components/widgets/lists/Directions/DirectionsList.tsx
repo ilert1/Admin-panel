@@ -11,6 +11,7 @@ import { ShowDirectionSheet } from "./ShowDirectionSheet";
 import { CreateDirectionDialog } from "./CreateDirectionDialog";
 import { DirectionListFilter } from "./DirectionListFilter";
 import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { ShowMerchantSheet } from "../Merchants/ShowMerchantSheet";
 
 export const DirectionsList = () => {
     const listContext = useListController<Direction>();
@@ -19,7 +20,8 @@ export const DirectionsList = () => {
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
-    const { columns, chosenId, quickShowOpen, setQuickShowOpen } = useGetDirectionsColumns();
+    const { columns, chosenId, quickShowOpen, chosenMerchantId, showMerchants, setShowMerchants, setQuickShowOpen } =
+        useGetDirectionsColumns();
 
     const handleCreateClick = () => {
         setCreateDialogOpen(true);
@@ -47,6 +49,7 @@ export const DirectionsList = () => {
                     <DataTable columns={columns} />
                 </ListContextProvider>
 
+                <ShowMerchantSheet id={chosenMerchantId} open={showMerchants} onOpenChange={setShowMerchants} />
                 <ShowDirectionSheet id={chosenId} open={quickShowOpen} onOpenChange={setQuickShowOpen} />
             </>
         );

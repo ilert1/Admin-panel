@@ -33,7 +33,7 @@ export const ShowMerchantSheet = ({ id, open, onOpenChange }: ShowMerchantSheetP
                         </div>
                     </div>
 
-                    <MerchantShow id={id} />
+                    <MerchantShow id={id} onOpenChange={onOpenChange} />
                     <SheetDescription></SheetDescription>
                 </SheetContent>
             </Sheet>
