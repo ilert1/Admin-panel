@@ -2,12 +2,16 @@ import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/Input/input";
 import { LoadingBalance } from "@/components/ui/loading";
-import { isTRC20Address } from "@/helpers/isTRC20Address";
 import { useState } from "react";
 import { fetchUtils, useRefresh, useTranslate } from "react-admin";
 import { toast } from "sonner";
 
 const WALLET_URL = import.meta.env.VITE_WALLET_URL;
+
+function isValidTxIDFormat(txID: string) {
+    const txIDRegex = /^[a-f0-9]{64}$/i;
+    return txIDRegex.test(txID);
+}
 
 export const WalletManualReconciliationBar = () => {
     const translate = useTranslate();
@@ -64,7 +68,7 @@ export const WalletManualReconciliationBar = () => {
         const value = e.target.value;
         setInputVal(value);
 
-        if (!isTRC20Address(value)) {
+        if (!isValidTxIDFormat(value)) {
             setIsError(true);
         } else {
             setIsError(false);
@@ -97,7 +101,7 @@ export const WalletManualReconciliationBar = () => {
                             id="inputManual"
                             value={inputVal}
                             error={isError}
-                            errorMessage={translate("resources.wallet.manage.errors.invalidTRCAddresss")}
+                            errorMessage={translate("resources.wallet.manage.errors.invalidTransactionId")}
                             onChange={handleChange}
                             label={translate("resources.wallet.linkedTransactions.fields.transactionId")}
                         />

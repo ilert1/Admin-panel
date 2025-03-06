@@ -553,6 +553,7 @@ const ru: TranslationMessages = {
                     alreadyExists: "Кошелек с таким адресом уже существует",
                     addressRequired: "Введите адрес кошелька",
                     invalidTRCAddresss: "Неправильный формат TRC20 адреса",
+                    invalidTransactionId: "Неправильный формат ID TRC20 транзакции",
                     minBalance: "Минимальное значение 0",
                     intOnly: "Значение должно быть целым числом, без дробной части"
                 },
@@ -1456,6 +1457,7 @@ const en: TranslationMessages = {
                     alreadyExists: "Wallet with this address is already exists",
                     addressRequired: "Address is required",
                     invalidTRCAddresss: "Invalid TRC20 address",
+                    invalidTransactionId: "Invalid TRC20 transaction ID",
                     minBalance: "Minimum value is 0",
                     intOnly: "Input should be a valid integer without fractional part"
                 },
