@@ -11,7 +11,7 @@ import { useTheme } from "@/components/providers";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { ProviderWithId } from "@/data/providers";
 import { ProviderCreate as IProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export interface ProviderCreateProps {
     onClose?: () => void;
@@ -22,7 +22,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
     const controllerProps = useCreateController<IProviderCreate>();
     const { theme } = useTheme();
 
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const translate = useTranslate();
     const [hasErrors, setHasErrors] = useState(false);
@@ -62,7 +62,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
             await dataProvider.create<ProviderWithId>("provider", { data: parseData });
             onClose();
         } catch (error) {
-            errorToast(translate("resources.provider.errors.alreadyInUse"));
+            appToast("error", translate("resources.provider.errors.alreadyInUse"));
             setSubmitButtonDisabled(false);
         }
     };

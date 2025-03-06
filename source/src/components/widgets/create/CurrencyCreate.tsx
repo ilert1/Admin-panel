@@ -17,7 +17,7 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useState } from "react";
 import { CurrencyPosition, CurrencyCreate as ICurrencyCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => {
     const dataProvider = useDataProvider();
@@ -25,7 +25,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -38,7 +38,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
             refresh();
             closeDialog();
         } catch (error) {
-            errorToast(translate("resources.currency.errors.alreadyInUse"));
+            appToast("error", translate("resources.currency.errors.alreadyInUse"));
             setSubmitButtonDisabled(false);
         }
     };

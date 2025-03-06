@@ -24,7 +24,7 @@ import { WalletTypes } from "@/helpers/wallet-types";
 import { Textarea } from "@/components/ui/textarea";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { isTRC20Address } from "@/helpers/isTRC20Address";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 interface CreateWalletProps {
     onOpenChange: (state: boolean) => void;
     callbackData: (data: Wallets.Wallet) => void;
@@ -36,7 +36,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
     const refresh = useRefresh();
     const dataProvider = useDataProvider();
 
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const { permissions, isLoading } = usePermissions();
     const { isLoading: loadingMerchantList } = useFetchDataForDirections();
@@ -58,7 +58,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
             callbackData(json.data);
             onOpenChange(false);
         } catch (error) {
-            errorToast(translate("resources.wallet.manage.errors.errorWhenCreating"));
+            appToast("error", translate("resources.wallet.manage.errors.errorWhenCreating"));
             setButtonDisabled(false);
         }
     };
@@ -84,7 +84,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                     message = "errorWhenCreating";
                 }
 
-                errorToast(translate(`resources.wallet.manage.errors.${message}`));
+                appToast("error", translate(`resources.wallet.manage.errors.${message}`));
             }
             setButtonDisabled(false);
         }

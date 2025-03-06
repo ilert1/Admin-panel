@@ -14,7 +14,7 @@ import { CurrencyIcon } from "./CurrencyIcon";
 import { HeaderButton } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 // import { debounce } from "lodash";
 
 export const Header = (props: { handleLogout: () => void }) => {
@@ -24,7 +24,7 @@ export const Header = (props: { handleLogout: () => void }) => {
     // const [chatOpen, setChatOpen] = useState(false);
     // const debounced = debounce(setChatOpen, 120);
 
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const translate = useTranslate();
     const { permissions } = usePermissions();
@@ -40,7 +40,7 @@ export const Header = (props: { handleLogout: () => void }) => {
         let errorShown = false;
         return (message: string) => {
             if (!errorShown) {
-                errorToast(message);
+                appToast("error", message);
                 errorShown = true;
                 setTimeout(() => (errorShown = false), 5000); // Сбрасываем флаг через 5 секунд
             }

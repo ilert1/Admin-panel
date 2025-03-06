@@ -13,8 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { feesDataProvider, FeesResource } from "@/data";
 import { useState } from "react";
 import { HttpError, useRefresh, useTranslate } from "react-admin";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
-import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface FeeCardProps {
     account: string;
@@ -45,8 +44,7 @@ export const FeeCard = (props: FeeCardProps) => {
     } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
-    const errorToast = useErrorToast();
-    const successToast = useSuccessToast();
+    const appToast = useAppToast();
 
     const feeDataProvider = feesDataProvider({ resource, id, providerName: providerName });
 
@@ -64,11 +62,11 @@ export const FeeCard = (props: FeeCardProps) => {
         try {
             await feeDataProvider.removeFee(account);
 
-            successToast(translate("resources.direction.fees.successDelete"));
+            appToast("success", translate("resources.direction.fees.successDelete"));
             refresh();
             setDeleteDialogOpen(false);
         } catch (error) {
-            if (error instanceof HttpError) errorToast(error.message);
+            if (error instanceof HttpError) appToast("error", error.message);
         }
     };
     return (

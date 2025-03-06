@@ -1,13 +1,13 @@
 import { Terminal } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGet } from "@/api/enigma/terminal/terminal";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
 export const useGetTerminals = () => {
     const translate = useTranslate();
     const [terminals, setTerminals] = useState<Terminal[]>([]);
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const getTerminals = async (name: string | undefined) => {
         if (name) {
@@ -35,7 +35,7 @@ export const useGetTerminals = () => {
             } catch (error) {
                 setTerminals([]);
                 if (error instanceof Error && error.message === "no_terminals") {
-                    errorToast(translate(`resources.direction.errors.${error.message}`));
+                    appToast("error", translate(`resources.direction.errors.${error.message}`));
                 }
             }
         }

@@ -12,7 +12,7 @@ import { feesDataProvider, FeesResource } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { Fees } from "../components/Fees";
 import { FeeCreate, MerchantCreate as IMerchantCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
@@ -22,7 +22,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
 
     const translate = useTranslate();
     const refresh = useRefresh();
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const [fees, setFees] = useState<(FeeCreate & { innerId?: number })[]>([]);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -50,7 +50,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
             refresh();
             onOpenChange(false);
         } catch (error) {
-            errorToast(translate("resources.merchant.errors.alreadyInUse"));
+            appToast("error", translate("resources.merchant.errors.alreadyInUse"));
         } finally {
             setSubmitButtonDisabled(false);
         }

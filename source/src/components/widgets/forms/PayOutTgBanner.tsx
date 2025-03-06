@@ -10,7 +10,7 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface PayOutTgBannerProps {
     url: string;
@@ -22,11 +22,11 @@ export const PayOutTgBanner = ({ url, onClose }: PayOutTgBannerProps) => {
 
     const [showCancelDialog, setShowCancelDialog] = useState(false);
 
-    const successToast = useSuccessToast();
+    const appToast = useAppToast();
 
     const copy = useCallback(() => {
         navigator.clipboard.writeText(url);
-        successToast("", translate("app.ui.textField.copied"));
+        appToast("success", "", translate("app.ui.textField.copied"));
     }, [url]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (

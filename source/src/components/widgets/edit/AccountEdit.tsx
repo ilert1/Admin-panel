@@ -21,7 +21,7 @@ import { usePreventFocus } from "@/hooks";
 import { WalletTypes } from "@/helpers/wallet-types";
 import { Label } from "@/components/ui/label";
 import { isTRC20Address } from "@/helpers/isTRC20Address";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 const BF_MANAGER_URL = import.meta.env.VITE_BF_MANAGER_URL;
 
@@ -38,7 +38,7 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
 
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const formSchema = z.object({
         account_id: z.string(),
@@ -126,7 +126,7 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
             onOpenChange(false);
         } catch (error) {
             setSubmitButtonDisabled(false);
-            if (error instanceof HttpError) errorToast(error.message);
+            if (error instanceof HttpError) appToast("error", error.message);
         }
     };
 

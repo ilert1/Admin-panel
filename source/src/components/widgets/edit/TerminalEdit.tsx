@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { TerminalWithId } from "@/data/terminals";
 import { terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPut } from "@/api/enigma/terminal/terminal";
 import { TerminalUpdateAuthAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface ProviderEditParams {
     provider: string;
@@ -25,7 +25,7 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
     const dataProvider = useDataProvider();
     const translate = useTranslate();
     const refresh = useRefresh();
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const controllerProps = useEditController<TerminalWithId>({
         resource: `${provider}/terminal`,
@@ -106,7 +106,7 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
 
             refresh();
         } catch (error) {
-            if (error instanceof Error) errorToast(error.message);
+            if (error instanceof Error) appToast("error", error.message);
         } finally {
             form.reset();
             setSubmitButtonDisabled(false);

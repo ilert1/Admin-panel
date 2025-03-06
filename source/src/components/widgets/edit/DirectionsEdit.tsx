@@ -19,9 +19,8 @@ import { Form, FormItem, FormMessage, FormControl, FormField } from "@/component
 import { useFetchDataForDirections, useGetTerminals, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { Direction, DirectionUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export interface DirectionEditProps {
     id?: string;
@@ -32,8 +31,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const dataProvider = useDataProvider();
     const { currencies, providers, isLoading: loadingData } = useFetchDataForDirections();
     const controllerProps = useEditController<Direction>({ resource: "direction", id, mutationMode: "pessimistic" });
-    const errorToast = useErrorToast();
-    const successToast = useSuccessToast();
+    const appToast = useAppToast();
 
     const { terminals, getTerminals } = useGetTerminals();
 
@@ -99,13 +97,13 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                 previousData: undefined
             });
 
-            successToast(translate("app.ui.edit.editSuccess"));
+            appToast("success", translate("app.ui.edit.editSuccess"));
 
             refresh();
             onOpenChange(false);
         } catch (error) {
             setSubmitButtonDisabled(false);
-            errorToast(translate("app.ui.edit.editError"));
+            appToast("error", translate("app.ui.edit.editError"));
         }
     };
 

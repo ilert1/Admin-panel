@@ -11,7 +11,7 @@ import { useTheme } from "@/components/providers";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { TerminalWithId } from "@/data/terminals";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export interface ProviderCreateProps {
     provider: string;
@@ -21,6 +21,7 @@ export interface ProviderCreateProps {
 export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
     const refresh = useRefresh();
     const translate = useTranslate();
+    const appToast = useAppToast();
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController<TerminalWithId>();
     const { theme } = useTheme();
@@ -30,7 +31,6 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
         description: z.union([z.string().trim(), z.literal("")])
     });
-    const errorToast = useErrorToast();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -52,7 +52,7 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
             form.reset();
             onClose();
         } catch (error) {
-            errorToast(translate("resources.provider.errors.alreadyInUse"));
+            appToast("error", translate("resources.provider.errors.alreadyInUse"));
         } finally {
             setSubmitButtonDisabled(false);
         }

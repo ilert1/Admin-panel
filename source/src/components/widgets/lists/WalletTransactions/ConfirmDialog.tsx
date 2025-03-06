@@ -16,8 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
-import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 const API_URL = import.meta.env.VITE_WALLET_URL;
 
@@ -25,8 +24,7 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
 
-    const errorToast = useErrorToast();
-    const successToast = useSuccessToast();
+    const appToast = useAppToast();
 
     const { open, id, onOpenChange } = props;
 
@@ -47,10 +45,10 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
                 throw new Error("");
             }
 
-            successToast(translate("resources.wallet.transactions.successMessage"));
+            appToast("success", translate("resources.wallet.transactions.successMessage"));
             refresh();
         } catch (error) {
-            errorToast(translate("resources.wallet.transactions.errors.failedToConfirm"));
+            appToast("error", translate("resources.wallet.transactions.errors.failedToConfirm"));
         } finally {
             setButtonDisabled(false);
         }

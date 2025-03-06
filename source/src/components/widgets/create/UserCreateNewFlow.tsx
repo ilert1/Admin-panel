@@ -24,9 +24,8 @@ import {
 } from "@/components/ui/select";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useQuery } from "react-query";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
-import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
 import clsx from "clsx";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface UserCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -49,8 +48,8 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
     const refresh = useRefresh();
     const dataProvider = useDataProvider();
     const contrProps = useCreateController();
-    const errorToast = useErrorToast();
-    const successToast = useSuccessToast();
+
+    const appToast = useAppToast();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [disabledMerchantField, setDisabledMerchantField] = useState(false);
@@ -126,12 +125,12 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
 
         try {
             await dataProvider.create(`users`, { data: tempData });
-            successToast(translate("resources.users.create.successMessage"));
+            appToast("success", translate("resources.users.create.successMessage"));
 
             refresh();
             onOpenChange(false);
         } catch (error) {
-            errorToast(translate("resources.users.create.errorMessage"));
+            appToast("error", translate("resources.users.create.errorMessage"));
         } finally {
             setSubmitButtonDisabled(false);
         }

@@ -2,8 +2,7 @@ import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/Input/input";
 import { LoadingBalance } from "@/components/ui/loading";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
-import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useState } from "react";
 import { fetchUtils, useRefresh, useTranslate } from "react-admin";
 
@@ -22,8 +21,8 @@ export const WalletManualReconciliationBar = () => {
     const [inputVal, setInputVal] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
-    const errorToast = useErrorToast();
-    const successToast = useSuccessToast();
+
+    const appToast = useAppToast();
 
     const handleCheckCLicked = async () => {
         if (isLoading) return;
@@ -37,14 +36,17 @@ export const WalletManualReconciliationBar = () => {
             });
 
             if (!json.success) {
-                errorToast(json.error.error_message ?? translate("resources.wallet.linkedTransactions.notFound"));
+                appToast(
+                    "error",
+                    json.error.error_message ?? translate("resources.wallet.linkedTransactions.notFound")
+                );
             } else {
-                successToast(translate("resources.wallet.linkedTransactions.successFound"));
+                appToast("success", translate("resources.wallet.linkedTransactions.successFound"));
                 refresh();
                 setManualClicked(false);
             }
         } catch (error) {
-            errorToast(translate("resources.wallet.linkedTransactions.notFound"));
+            appToast("error", translate("resources.wallet.linkedTransactions.notFound"));
         } finally {
             setIsLoading(false);
         }

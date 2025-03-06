@@ -1,8 +1,7 @@
 import { useTranslate, usePermissions, useRefresh } from "react-admin";
 import { API_URL } from "@/data/base";
 import { useMemo, useCallback, useState } from "react";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
-import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 const MONEYGATE_URL = import.meta.env.VITE_MONEYGATE_URL;
 
@@ -12,8 +11,7 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
     const refresh = useRefresh();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
-    const errorToast = useErrorToast();
-    const successToast = useSuccessToast();
+    const appToast = useAppToast();
 
     const showDispute = useMemo(() => adminOnly, [adminOnly]);
     const disputeCaption = useMemo(
@@ -35,7 +33,8 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
             .then(resp => resp.json())
             .then(json => {
                 if (json.success) {
-                    successToast(
+                    appToast(
+                        "success",
                         record?.dispute
                             ? translate("resources.transactions.show.disputeClosed")
                             : translate("resources.transactions.show.disputeOpened")
@@ -45,7 +44,7 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
                 }
             })
             .catch(e => {
-                errorToast(e.message);
+                appToast("error", e.message);
             })
             .finally(() => {
                 refresh();
@@ -67,7 +66,8 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
                 .then(json => {
                     if (json.success) {
                         const currentState = states.find(item => item.state_int === state);
-                        successToast(
+                        appToast(
+                            "success",
                             `${translate("resources.transactions.fields.state.state_changed")} ${
                                 currentState?.state_description
                             }`
@@ -77,7 +77,7 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
                     }
                 })
                 .catch(e => {
-                    errorToast(e.message);
+                    appToast("error", e.message);
                 })
                 .finally(() => {
                     refresh();
@@ -103,13 +103,13 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
             .then(resp => resp.json())
             .then(json => {
                 if (json.success) {
-                    successToast(translate("resources.transactions.fields.committed"));
+                    appToast("success", translate("resources.transactions.fields.committed"));
                 } else {
                     throw new Error(json.error || "Unknown error");
                 }
             })
             .catch(e => {
-                errorToast(e.message);
+                appToast("error", e.message);
             })
             .finally(() => {
                 refresh();
@@ -130,7 +130,8 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
             .then(resp => resp.json())
             .then(json => {
                 if (json.success) {
-                    successToast(
+                    appToast(
+                        "success",
                         translate(
                             translate("resources.transactions.show.sendWebhookSuccessMsg", { id: json.blowfish_id })
                         )
@@ -142,7 +143,7 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
             })
             .then(() => {})
             .catch(e => {
-                errorToast(e.message);
+                appToast("error", e.message);
             })
             .finally(() => {
                 setSendWebhookLoading(false);

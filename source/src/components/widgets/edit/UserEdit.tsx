@@ -19,8 +19,7 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { useQuery } from "react-query";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
-import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface UserEditProps {
     id: string;
@@ -45,8 +44,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
 
-    const errorToast = useErrorToast();
-    const successToast = useSuccessToast();
+    const appToast = useAppToast();
 
     const isFirefox = useMemo(() => navigator.userAgent.match(/firefox|fxios/i), []);
 
@@ -78,11 +76,11 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                 previousData: undefined
             });
 
-            successToast(translate("resources.users.editSuccessMessage"));
+            appToast("success", translate("resources.users.editSuccessMessage"));
             refresh();
             onOpenChange(false);
         } catch (error) {
-            errorToast(translate("resources.currency.errors.alreadyInUse"));
+            appToast("error", translate("resources.currency.errors.alreadyInUse"));
             setSubmitButtonDisabled(false);
         }
     };

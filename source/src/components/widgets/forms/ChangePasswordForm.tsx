@@ -3,7 +3,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Loading } from "@/components/ui/loading";
 import { Rule } from "@/components/ui/rule";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { UsersDataProvider } from "@/data";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
@@ -25,7 +25,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
     const [isPasswordLowercaseError, setIsPasswordLowercaseError] = useState<boolean | undefined>(undefined);
     const [isPasswordDigitError, setIsPasswordDigitError] = useState<boolean | undefined>(undefined);
     const [isPasswordEnglishOnlyError, setIsPasswordEnglishOnlyError] = useState<boolean | undefined>(undefined);
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const onSubmit: SubmitHandler<Users.PasswordChange> = async formData => {
         try {
@@ -40,7 +40,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
                 }
             });
         } catch (error) {
-            if (error instanceof Error) errorToast(error.message);
+            if (error instanceof Error) appToast("error", error.message);
         }
     };
 

@@ -10,7 +10,7 @@ import { TableTypes } from "../../shared/SimpleTable";
 import { Fees } from "../../components/Fees";
 import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet } from "@/api/enigma/direction/direction";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export const MerchantShow = ({ id }: { id: string }) => {
     const translate = useTranslate();
@@ -18,7 +18,7 @@ export const MerchantShow = ({ id }: { id: string }) => {
     const context = useShowController<Merchant>({ resource: "merchant", id });
     const { columns } = useGetMerchantShowColumns();
 
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const [merchantDirections, setMerchantDirections] = useState<Direction[]>([]);
 
@@ -49,7 +49,7 @@ export const MerchantShow = ({ id }: { id: string }) => {
                     }
                 } catch (error) {
                     if (error instanceof Error) {
-                        errorToast(error.message);
+                        appToast("error", error.message);
                     }
                 }
             }
@@ -58,7 +58,7 @@ export const MerchantShow = ({ id }: { id: string }) => {
         if (context.record) {
             fetchMerchantDirections();
         }
-    }, [context.record, errorToast]);
+    }, [context.record, appToast]);
 
     if (context.isLoading || !context.record || !data) {
         return <Loading />;

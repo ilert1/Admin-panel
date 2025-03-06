@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { useRefresh, useTranslate } from "react-admin";
 import { deleteLimits } from "../model/api/deleteLimits";
-import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export interface DeleteLimitsDialogProps {
     open: boolean;
@@ -21,12 +21,12 @@ export const DeleteLimitsDialog = (props: DeleteLimitsDialogProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
 
-    const successToast = useSuccessToast();
+    const appToast = useAppToast();
 
     const handleDelete = async () => {
         const { success } = await deleteLimits(id);
 
-        if (success) successToast(translate("app.widgets.limits.resetedSuccessfully"));
+        if (success) appToast("success", translate("app.widgets.limits.resetedSuccessfully"));
         refresh();
         onOpenChange(false);
     };

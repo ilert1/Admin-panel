@@ -11,7 +11,7 @@ import { useDataProvider, useTranslate } from "react-admin";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import { z } from "zod";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export const WalletStore = () => {
     const translate = useTranslate();
@@ -21,7 +21,7 @@ export const WalletStore = () => {
     const [stepForUnsealed, setStepForUnsealed] = useState<0 | 1 | "error">(0);
     const [keyText, setKeyText] = useState("");
 
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const formSchema = z.object({
         key_part: z.string().min(3, translate("app.widgets.forms.userCreate.nameMessage")).trim()
@@ -59,7 +59,7 @@ export const WalletStore = () => {
 
             if (!json.success) {
                 setStepForUnsealed("error");
-                errorToast(json.error.error_message, translate("resources.wallet.storage.initiatedError"));
+                appToast("error", json.error.error_message, translate("resources.wallet.storage.initiatedError"));
             }
         } catch (error) {
             setStepForUnsealed("error");

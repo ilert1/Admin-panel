@@ -7,16 +7,14 @@ import { PayOutForm } from "@/components/widgets/forms";
 import { NavLink } from "react-router-dom";
 import { useFetchCurrencies } from "@/hooks/useFetchCurrencies";
 import { PayOutTgBanner } from "@/components/widgets/forms/PayOutTgBanner";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
-import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
 
     const [payoutTgUrl, setPayoutTgUrl] = useState("");
 
-    const errorToast = useErrorToast();
-    const successToast = useSuccessToast();
+    const appToast = useAppToast();
 
     const { data: accounts } = useGetList("accounts");
 
@@ -85,7 +83,8 @@ export const PayOutPage = () => {
             if (jsonData.data?.meta?.payment_url) {
                 setPayoutTgUrl(jsonData.data?.meta?.payment_url);
             } else {
-                successToast(
+                appToast(
+                    "success",
                     <>
                         {translate("app.widgets.forms.payout.successDescription")}:{" "}
                         <NavLink to="/transactions" className="dark:text-green-40 text-green-50">
@@ -97,9 +96,9 @@ export const PayOutPage = () => {
             return true;
         } catch (err) {
             if (err instanceof HttpError) {
-                if (err.status === 401) errorToast("Unauthorized");
+                if (err.status === 401) appToast("error", "Unauthorized");
                 else {
-                    errorToast(err.message);
+                    appToast("error", err.message);
                     refetchPayMethods();
                 }
             }

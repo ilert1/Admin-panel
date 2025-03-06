@@ -1,5 +1,5 @@
 import { EditButton, ShowButton } from "@/components/ui/Button";
-import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { Copy } from "lucide-react";
@@ -20,7 +20,7 @@ export const useGetAccountsColumns = () => {
     const [showEditDialog, setShowEditDialog] = useState(false);
     const [showAccountId, setShowAccountId] = useState<string>("");
     const [showAccountCaption, setShowAccountCaption] = useState<string>("");
-    const successToast = useSuccessToast();
+    const appToast = useAppToast();
 
     const openSheet = (id: string, caption: string) => {
         setShowAccountId(id);
@@ -42,7 +42,7 @@ export const useGetAccountsColumns = () => {
                                 className="h-4 w-4 cursor-pointer"
                                 onClick={() => {
                                     navigator.clipboard.writeText((row.getValue("owner") as Array<string>)[1]);
-                                    successToast("", translate("app.ui.textField.copied"));
+                                    appToast("success", "", translate("app.ui.textField.copied"));
                                 }}
                             />
 

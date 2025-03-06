@@ -20,7 +20,7 @@ import { Loading } from "@/components/ui/loading";
 import { Label } from "@/components/ui/label";
 import { CurrencyWithId } from "@/data/currencies";
 import { CurrencyPosition } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () => void }) => {
     const dataProvider = useDataProvider();
@@ -33,7 +33,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
 
     const translate = useTranslate();
     const refresh = useRefresh();
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -77,7 +77,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
             refresh();
             closeDialog();
         } catch (error) {
-            errorToast(translate("resources.currency.errors.alreadyInUse"));
+            appToast("error", translate("resources.currency.errors.alreadyInUse"));
             setSubmitButtonDisabled(false);
         }
     };

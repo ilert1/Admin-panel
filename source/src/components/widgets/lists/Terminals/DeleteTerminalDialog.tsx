@@ -8,8 +8,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { HttpError, useDelete, useRefresh, useTranslate } from "react-admin";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
-import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface DeleteProviderDialogProps {
     open?: boolean;
@@ -27,8 +26,7 @@ export const DeleteTerminalDialog = ({
     const [deleteOne] = useDelete();
     const refresh = useRefresh();
 
-    const errorToast = useErrorToast();
-    const successToast = useSuccessToast();
+    const appToast = useAppToast();
 
     const handleDelete = async () => {
         await deleteOne(
@@ -37,10 +35,10 @@ export const DeleteTerminalDialog = ({
             {
                 onSuccess: async () => {
                     refresh();
-                    successToast(translate("app.ui.delete.deletedSuccessfully"));
+                    appToast("success", translate("app.ui.delete.deletedSuccessfully"));
                 },
                 onError: err => {
-                    if (err instanceof HttpError) errorToast(err.message);
+                    if (err instanceof HttpError) appToast("error", err.message);
                 }
             }
         );

@@ -5,7 +5,7 @@ import { DateRange } from "react-day-picker";
 import { API_URL } from "@/data/base";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import moment from "moment";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 const useTransactionFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
@@ -23,7 +23,7 @@ const useTransactionFilter = () => {
     const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
     const [orderStatusFilter, setOrderStatusFilter] = useState(filterValues?.order_state || "");
 
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const translate = useTranslate();
 
@@ -118,12 +118,12 @@ const useTransactionFilter = () => {
 
     const handleDownloadReport = async (type: "pdf" | "csv") => {
         if (adminOnly && !account) {
-            errorToast(translate("resources.transactions.download.accountField"));
+            appToast("error", translate("resources.transactions.download.accountField"));
             return;
         }
 
         if (!startDate) {
-            errorToast(translate("resources.transactions.download.bothError"));
+            appToast("error", translate("resources.transactions.download.bothError"));
             return;
         }
 

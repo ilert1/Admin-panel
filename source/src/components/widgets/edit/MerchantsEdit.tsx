@@ -12,7 +12,7 @@ import { FeesResource } from "@/data";
 import { usePreventFocus } from "@/hooks";
 import { Fees } from "../components/Fees";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface MerchantEditProps {
     id?: string;
@@ -22,7 +22,7 @@ interface MerchantEditProps {
 export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
     const data = fetchDictionaries();
     const dataProvider = useDataProvider();
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const { record, isLoading } = useEditController<Merchant>({
         resource: "merchant",
@@ -81,7 +81,7 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
-            errorToast(translate("resources.currency.errors.alreadyInUse"));
+            appToast("error", translate("resources.currency.errors.alreadyInUse"));
             setSubmitButtonDisabled(false);
         }
     };

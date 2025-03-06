@@ -11,7 +11,7 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { ProviderWithId } from "@/data/providers";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export interface ProviderEditParams {
     id?: string;
@@ -27,7 +27,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
     });
 
     const translate = useTranslate();
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(false);
@@ -73,7 +73,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
             });
             onClose();
         } catch (error) {
-            errorToast(translate("resources.currency.errors.alreadyInUse"));
+            appToast("error", translate("resources.currency.errors.alreadyInUse"));
 
             setSubmitButtonDisabled(false);
         }

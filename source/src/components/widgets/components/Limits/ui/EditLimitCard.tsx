@@ -6,8 +6,7 @@ import { updateLimits } from "../model/api/updateLimits";
 import { LimitInputGroup } from "./LimitInputGroup";
 import { Limits } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { getMaxValue, getMinValue } from "../model/helpers/minmaxValue";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
-import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface EditLimitCardProps {
     directionId: string;
@@ -19,8 +18,8 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
     const translate = useTranslate();
     const { directionId, limitsData, setEditClicked } = props;
     const refresh = useRefresh();
-    const errorToast = useErrorToast();
-    const successToast = useSuccessToast();
+
+    const appToast = useAppToast();
 
     const [limits, setLimits] = useState<UpdateLimitsType>({
         payInMin: getMinValue(limitsData.payin) ?? "",
@@ -64,25 +63,25 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
 
             if (minValue > maxValue && minValue !== 0 && maxValue !== 0) {
                 setErrors({ [maxKey]: translate("app.widgets.limits.errors.minGreaterThanMax") });
-                errorToast(translate("app.widgets.limits.errors.minGreaterThanMax"), errorMessages[minKey]);
+                appToast("error", translate("app.widgets.limits.errors.minGreaterThanMax"), errorMessages[minKey]);
                 return false;
             }
 
             if (minValue > 0 && minValue < 1 && minValue !== 0) {
                 setErrors({ [minKey]: translate("app.widgets.limits.errors.minTooSmall") });
-                errorToast(translate("app.widgets.limits.errors.minTooSmall"), `${errorMessages[minKey]}`);
+                appToast("error", translate("app.widgets.limits.errors.minTooSmall"), errorMessages[minKey]);
                 return false;
             }
 
             if (maxValue > 0 && maxValue < 1 && maxValue !== 0) {
                 setErrors({ [maxKey]: translate("app.widgets.limits.errors.maxTooSmall") });
-                errorToast(translate("app.widgets.limits.errors.maxTooSmall"), errorMessages[maxKey]);
+                appToast("error", translate("app.widgets.limits.errors.maxTooSmall"), errorMessages[maxKey]);
                 return false;
             }
 
             if (maxValue > 10000000) {
                 setErrors({ [maxKey]: translate("app.widgets.limits.errors.maxTooLarge") });
-                errorToast(translate("app.widgets.limits.errors.maxTooLarge"), errorMessages[maxKey]);
+                appToast("error", translate("app.widgets.limits.errors.maxTooLarge"), errorMessages[maxKey]);
                 return false;
             }
         }
@@ -96,8 +95,8 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
         const { success, errorMessage } = await updateLimits(directionId, limits);
         setErrors({});
 
-        if (success) successToast(translate("app.widgets.limits.updatedSuccessfully"));
-        else if (errorMessage) errorToast(errorMessage);
+        if (success) appToast("success", translate("app.widgets.limits.updatedSuccessfully"));
+        else if (errorMessage) appToast("error", errorMessage);
 
         refresh();
         setEditClicked(false);

@@ -21,7 +21,7 @@ import { useDataProvider, useEditController, usePermissions, useRefresh, useTran
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface EditWalletProps {
     id: string;
@@ -34,7 +34,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
     const dataProvider = useDataProvider();
     const { permissions, isLoading: isFetchingPermissions } = usePermissions();
 
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const [buttonDisabled, setButtonDisabled] = useState(false);
 
@@ -57,7 +57,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
-            errorToast(translate("resources.wallet.manage.errors.errorWhenEditing"));
+            appToast("error", translate("resources.wallet.manage.errors.errorWhenEditing"));
             setButtonDisabled(false);
         }
     };
@@ -74,7 +74,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
-            errorToast(translate("resources.wallet.manage.errors.errorWhenEditing"));
+            appToast("error", translate("resources.wallet.manage.errors.errorWhenEditing"));
 
             setButtonDisabled(false);
         }

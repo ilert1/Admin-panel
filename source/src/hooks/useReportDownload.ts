@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { usePermissions, useTranslate } from "react-admin";
 
 import { API_URL } from "@/data/base";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 const useReportDownload = () => {
     const [startDate, setStartDate] = useState<Date>();
@@ -11,7 +11,7 @@ const useReportDownload = () => {
     const [isDateRangeValid, setIsDateRangeValid] = useState<boolean>(true);
     const [reqId, setReqId] = useState<string>("");
 
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const translate = useTranslate();
 
@@ -27,18 +27,18 @@ const useReportDownload = () => {
 
     const validateDates = () => {
         if (!startDate || !endDate) {
-            errorToast(translate("resources.transactions.download.bothError"));
+            appToast("error", translate("resources.transactions.download.bothError"));
             return false;
         }
         if (startDate.getTime() > Date.now() || endDate.getTime() > Date.now()) {
-            errorToast(translate("resources.transactions.download.dateExceed"));
+            appToast("error", translate("resources.transactions.download.dateExceed"));
             return false;
         }
         const isValidDateRange = startDate?.getTime() <= endDate?.getTime();
         setIsDateRangeValid(isValidDateRange);
 
         if (!isValidDateRange) {
-            errorToast(translate("resources.transactions.download.greaterError"));
+            appToast("error", translate("resources.transactions.download.greaterError"));
         }
 
         return isValidDateRange;
@@ -46,7 +46,7 @@ const useReportDownload = () => {
 
     const validateMerchantID = () => {
         if (adminOnly && !reqId) {
-            errorToast(translate("resources.transactions.download.accountField"));
+            appToast("error", translate("resources.transactions.download.accountField"));
             return false;
         }
         return true;

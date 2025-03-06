@@ -21,8 +21,7 @@ import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Direction, DirectionCreate as IDirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
-import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
@@ -32,8 +31,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const translate = useTranslate();
     const refresh = useRefresh();
 
-    const errorToast = useErrorToast();
-    const successToast = useSuccessToast();
+    const appToast = useAppToast();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const { terminals, getTerminals } = useGetTerminals();
@@ -79,11 +77,11 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
 
             await dataProvider.create<Direction>("direction", { data: dataWithLimits });
 
-            successToast(translate("app.ui.create.createSuccess"));
+            appToast("success", translate("app.ui.create.createSuccess"));
             refresh();
             onOpenChange(false);
         } catch (error) {
-            errorToast(translate("resources.provider.errors.alreadyInUse"));
+            appToast("error", translate("resources.provider.errors.alreadyInUse"));
             setSubmitButtonDisabled(false);
         }
     };

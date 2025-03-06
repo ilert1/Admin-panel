@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { BF_MANAGER_URL } from "@/data/base";
 import { FeeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export type FeeType = "inner" | "default";
 
@@ -26,7 +26,7 @@ export const MerchantCreateNewFlow = ({ onOpenChange }: { onOpenChange: (state: 
 
     const translate = useTranslate();
     const refresh = useRefresh();
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const [fees, setFees] = useState<FeeCreate[]>([]);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -85,7 +85,7 @@ export const MerchantCreateNewFlow = ({ onOpenChange }: { onOpenChange: (state: 
             refresh();
             onOpenChange(false);
         } catch (error) {
-            errorToast(translate("resources.merchant.errors.alreadyInUse"));
+            appToast("error", translate("resources.merchant.errors.alreadyInUse"));
         } finally {
             setSubmitButtonDisabled(false);
         }

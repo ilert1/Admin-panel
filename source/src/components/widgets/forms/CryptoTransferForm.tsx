@@ -14,8 +14,7 @@ import { LoadingBlock, LoadingBalance } from "@/components/ui/loading";
 import { useQuery } from "react-query";
 import BlowFishCross from "@/lib/icons/BlowFishCross.svg?react";
 import { TextField } from "@/components/ui/text-field";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
-import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export const CryptoTransferForm = (props: {
     loading: boolean;
@@ -36,8 +35,7 @@ export const CryptoTransferForm = (props: {
     const [shouldTrigger, setShouldTrigger] = useState(false);
     const [walletSelectOpen, setWalletSelectOpen] = useState(false);
 
-    const errorToast = useErrorToast();
-    const successToast = useSuccessToast();
+    const appToast = useAppToast();
 
     const {
         data: walletsData,
@@ -156,12 +154,13 @@ export const CryptoTransferForm = (props: {
                     setChecked(false);
                 }
 
-                successToast(
+                appToast(
+                    "success",
                     translate("app.widgets.forms.cryptoTransfer.repeatDescription"),
                     translate("app.widgets.forms.cryptoTransfer.repeating")
                 );
             } else {
-                errorToast(translate("app.widgets.forms.cryptoTransfer.noAddress"));
+                appToast("error", translate("app.widgets.forms.cryptoTransfer.noAddress"));
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

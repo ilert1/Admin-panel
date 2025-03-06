@@ -8,8 +8,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useDelete, useRefresh, useTranslate } from "react-admin";
-import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
-import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 interface DeleteMerchantDialogProps {
     id: string;
     open: boolean;
@@ -20,8 +19,7 @@ export const DeleteMerchantDialog = ({ id, open, onOpenChange }: DeleteMerchantD
     const translate = useTranslate();
     const refresh = useRefresh();
     const [deleteOne] = useDelete();
-    const successToast = useSuccessToast();
-    const errorToast = useErrorToast();
+    const appToast = useAppToast();
 
     const handleDelete = async () => {
         await deleteOne(
@@ -29,10 +27,10 @@ export const DeleteMerchantDialog = ({ id, open, onOpenChange }: DeleteMerchantD
             { id },
             {
                 onSuccess: () => {
-                    successToast(translate("app.ui.delete.deletedSuccessfully"));
+                    appToast("success", translate("app.ui.delete.deletedSuccessfully"));
                 },
                 onError: error => {
-                    if (error instanceof Error) errorToast(error.message);
+                    if (error instanceof Error) appToast("error", error.message);
                 }
             }
         );
