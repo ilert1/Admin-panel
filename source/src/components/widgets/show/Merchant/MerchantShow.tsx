@@ -23,11 +23,14 @@ export const MerchantShow = (props: MerchantShowProps) => {
     const translate = useTranslate();
     const data = fetchDictionaries();
     const appToast = useAppToast();
+    console.log(merchantName);
 
     const context = useShowController<Merchant>({
-        resource: "merchant",
         id,
         queryOptions: {
+            onSuccess: () => {
+                console.log("a");
+            },
             onError: () => {
                 appToast("error", translate("resources.merchant.errors.notFound", { name: merchantName }));
                 onOpenChange(false);
@@ -75,7 +78,8 @@ export const MerchantShow = (props: MerchantShowProps) => {
         if (context.record) {
             fetchMerchantDirections();
         }
-    }, [context.record, appToast]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [context.record]);
 
     if (context.isLoading || !context.record || !data) {
         return <Loading />;
