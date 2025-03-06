@@ -22,6 +22,7 @@ export const useGetTerminalColumns = () => {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [showFees, setShowFees] = useState(false);
+    const [showAccountClicked, setShowAccountClicked] = useState(false);
     const [createButtonClicked, setCreateButtonClicked] = useState(false);
 
     const handleEditClicked = (id: string) => {
@@ -120,31 +121,52 @@ export const useGetTerminalColumns = () => {
             }
         },
         {
-            id: "show",
+            id: "account",
             header: () => {
-                return <div className="text-center">{translate("app.ui.actions.show")}</div>;
+                return <div className="text-center">{translate("resources.terminals.fields.account")}</div>;
             },
             cell: ({ row }) => {
                 const isAcount = row.original.account_created;
 
-                return isAcount ? (
-                    <ShowButton
-                        onClick={() => {
-                            setChosenId(row.original.terminal_id);
-                            setChosenProvider(row.original.provider);
-                            setShowFees(true);
-                        }}
-                    />
-                ) : (
-                    <Button
-                        className="flex gap-1"
-                        disabled={createButtonClicked}
-                        onClick={() => handleCreateAccountClicked(row.original.provider, row.original.terminal_id)}>
-                        <PlusCircle className="h-4 w-4" />
-                        <TextField text={translate("resources.terminals.fields.createAccount")} />
-                    </Button>
+                return (
+                    <div className="flex justify-center">
+                        {isAcount ? (
+                            <ShowButton
+                                onClick={() => {
+                                    setChosenId(row.original.terminal_id);
+                                    setChosenProvider(row.original.provider);
+                                    setShowAccountClicked(true);
+                                }}
+                            />
+                        ) : (
+                            <Button
+                                className="flex gap-1"
+                                disabled={createButtonClicked}
+                                onClick={() =>
+                                    handleCreateAccountClicked(row.original.provider, row.original.terminal_id)
+                                }>
+                                <PlusCircle className="h-4 w-4" />
+                                <TextField text={translate("resources.terminals.fields.createAccount")} />
+                            </Button>
+                        )}
+                    </div>
                 );
             }
+        },
+        {
+            id: "show",
+            header: () => {
+                return <div className="text-center">{translate("app.ui.actions.show")}</div>;
+            },
+            cell: ({ row }) => (
+                <ShowButton
+                    onClick={() => {
+                        setChosenId(row.original.terminal_id);
+                        setChosenProvider(row.original.provider);
+                        setShowFees(true);
+                    }}
+                />
+            )
         },
         {
             id: "update_field",
@@ -175,6 +197,8 @@ export const useGetTerminalColumns = () => {
         editDialogOpen,
         deleteDialogOpen,
         chosenProvider,
+        showAccountClicked,
+        setShowAccountClicked,
         setEditDialogOpen,
         setShowAuthKeyOpen,
         setDeleteDialogOpen,

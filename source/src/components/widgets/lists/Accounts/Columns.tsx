@@ -19,12 +19,10 @@ export const useGetAccountsColumns = () => {
     const [showOpen, setShowOpen] = useState(false);
     const [showEditDialog, setShowEditDialog] = useState(false);
     const [showAccountId, setShowAccountId] = useState<string>("");
-    const [showAccountCaption, setShowAccountCaption] = useState<string>("");
     const appToast = useAppToast();
 
-    const openSheet = (id: string, caption: string) => {
+    const openSheet = (id: string) => {
         setShowAccountId(id);
-        setShowAccountCaption(caption);
         setShowOpen(true);
     };
 
@@ -125,7 +123,7 @@ export const useGetAccountsColumns = () => {
             id: "history",
             header: translate("resources.accounts.fields.history"),
             cell: ({ row }) => {
-                return <ShowButton onClick={() => openSheet(row.original.id, row.original.meta?.caption)} />;
+                return <ShowButton onClick={() => openSheet(row.original.id)} />;
             }
         }
     ];
@@ -136,7 +134,6 @@ export const useGetAccountsColumns = () => {
         setShowOpen,
         showEditDialog,
         setShowEditDialog,
-        showAccountId,
-        showAccountCaption
+        showAccountId
     };
 };

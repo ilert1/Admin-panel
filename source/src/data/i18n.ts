@@ -484,7 +484,8 @@ const ru: TranslationMessages = {
                 provider: "Провайдер",
                 auth: "Данные аутентификации",
                 fees: "Комиссии",
-                createAccount: "Создать счёт"
+                createAccount: "Создать счёт",
+                account: "Счёт"
             },
             errors: {
                 verbose_name: "У терминала обязательно должно быть имя",
@@ -1382,7 +1383,8 @@ const en: TranslationMessages = {
                 provider: "Provider",
                 auth: "Auth data",
                 fees: "Fees",
-                createAccount: "Create account"
+                createAccount: "Create account",
+                account: "Account"
             },
             errors: {
                 verbose_name: "The terminal must have a name",
