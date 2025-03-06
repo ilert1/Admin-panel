@@ -359,8 +359,7 @@ const ru: TranslationMessages = {
                 noSpaces: "Пробелы запрещены в данном поле",
                 publicKey: "Неверный формат публичного ключа",
                 required: "Обязательное поле",
-                merchant: "Мерчант",
-                notFound: "не найден"
+                notFound: "Мерчант %{name} не найден"
             },
             showTitle: "Детальная инфорация о мерчанте",
             createNew: "Создать нового мерчанта",
@@ -1263,8 +1262,7 @@ const en: TranslationMessages = {
                 noSpaces: "Spaces are not allowed in this field",
                 publicKey: "Wrong public key format",
                 required: "Required field",
-                merchant: "Merchant",
-                notFound: "was not found"
+                notFound: "Merchant %{name} was not found"
             },
             showTitle: "Detailed information about merchant",
             createNew: "Create new merchant",

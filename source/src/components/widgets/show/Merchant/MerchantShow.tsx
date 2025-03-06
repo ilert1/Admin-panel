@@ -30,12 +30,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
         id,
         queryOptions: {
             onError: () => {
-                appToast(
-                    "error",
-                    `${translate("resources.merchant.errors.merchant")} ${merchantName} ${translate(
-                        "resources.merchant.errors.notFound"
-                    )}`
-                );
+                appToast("error", translate("resources.merchant.errors.notFound", { name: merchantName }));
                 onOpenChange(false);
             }
         }
