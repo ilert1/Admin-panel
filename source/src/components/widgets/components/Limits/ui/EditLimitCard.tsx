@@ -56,8 +56,8 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
         ];
 
         for (const key of keys) {
-            const minKey = key.includes("Min") ? key : key.replace("Max", "Min");
-            const maxKey = key.includes("Max") ? key : key.replace("Min", "Max");
+            const minKey = key.includes("Min") ? key : (key.replace("Max", "Min") as keyof UpdateLimitsType);
+            const maxKey = key.includes("Max") ? key : (key.replace("Min", "Max") as keyof UpdateLimitsType);
 
             const minValue = parseFloat(limits[minKey]) || 0;
             const maxValue = parseFloat(limits[maxKey]) || 0;
@@ -113,7 +113,7 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
         }
     };
     return (
-        <div className="flex flex-col gap-4 bg-muted rounded-8 mb-4 px-6 py-6">
+        <div className="flex flex-col gap-4 bg-muted rounded-8 mb-4 p-4">
             <div className="flex flex-col gap-4 md:flex-row">
                 <LimitInputGroup
                     label={translate("app.widgets.limits.deposit")}

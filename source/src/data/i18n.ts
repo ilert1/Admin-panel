@@ -549,6 +549,7 @@ const ru: TranslationMessages = {
                     alreadyExists: "Кошелек с таким адресом уже существует",
                     addressRequired: "Введите адрес кошелька",
                     invalidTRCAddresss: "Неправильный формат TRC20 адреса",
+                    invalidTransactionId: "Неправильный формат ID TRC20 транзакции",
                     minBalance: "Минимальное значение 0",
                     intOnly: "Значение должно быть целым числом, без дробной части"
                 },
@@ -772,10 +773,12 @@ const ru: TranslationMessages = {
                     id: "ID пользователя",
                     firstName: "Имя",
                     nameMessage: "Пожалуйста, введите имя пользователя. Минимум 3 символа",
+                    maxSymbols: "Количество символов должно быть меньше 255",
                     lastName: "Фамилия",
                     lastNameMessage: "Пожалуйста, введите имя пользователя. Минимум 3 символа",
                     login: "Логин",
-                    loginMessage: "Пожалуйста, введите логин пользователя",
+                    loginMessage:
+                        "Допускается ввод кириллицы и специальных символов (-,_,@,.). Минимум 3 символа, максимум 255",
                     email: "Адрес эл.почты",
                     emailMessage: "Неправильный формат адреса",
                     password: "Пароль",
@@ -1443,6 +1446,7 @@ const en: TranslationMessages = {
                     alreadyExists: "Wallet with this address is already exists",
                     addressRequired: "Address is required",
                     invalidTRCAddresss: "Invalid TRC20 address",
+                    invalidTransactionId: "Invalid TRC20 transaction ID",
                     minBalance: "Minimum value is 0",
                     intOnly: "Input should be a valid integer without fractional part"
                 },
@@ -1666,10 +1670,12 @@ const en: TranslationMessages = {
                     id: "User ID",
                     firstName: "First name",
                     firstNameMessage: "Please, enter user's first name. Minimum 3 symbols",
+                    maxSymbols: "The number of characters must be less than 255",
                     lastName: "Last name",
                     lastNameMessage: "Please, enter user's last name. Minimum 3 symbols",
                     login: "Login",
-                    loginMessage: "Please, enter user's login",
+                    loginMessage:
+                        "Cyrillic alphabet and special characters are allowed. (-,_,@,.). Minimum 3 characters, maximum 255",
                     email: "Email",
                     emailMessage: "Email is incorrect",
                     password: "Password",

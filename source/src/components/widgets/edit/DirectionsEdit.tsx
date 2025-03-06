@@ -21,6 +21,7 @@ import { Label } from "@/components/ui/label";
 import { Direction, DirectionUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useSuccessToast } from "@/components/ui/toast/useSuccessToast";
 import { useErrorToast } from "@/components/ui/toast/useErrorToast";
+import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 
 export interface DirectionEditProps {
     id?: string;
@@ -29,7 +30,7 @@ export interface DirectionEditProps {
 
 export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const dataProvider = useDataProvider();
-    const { currencies, merchants, providers, isLoading: loadingData } = useFetchDataForDirections();
+    const { currencies, providers, isLoading: loadingData } = useFetchDataForDirections();
     const controllerProps = useEditController<Direction>({ resource: "direction", id, mutationMode: "pessimistic" });
     const errorToast = useErrorToast();
     const successToast = useSuccessToast();
@@ -61,7 +62,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: controllerProps.record?.name || "",
-            active: controllerProps.record?.active || true,
+            active: controllerProps.record?.active,
             description: controllerProps.record?.description || "",
             src_currency: controllerProps.record?.src_currency.code || "",
             dst_currency: controllerProps.record?.dst_currency.code || "",
@@ -76,7 +77,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         if (controllerProps.record) {
             form.reset({
                 name: controllerProps.record?.name || "",
-                active: controllerProps.record?.active || true,
+                active: controllerProps.record?.active,
                 description: controllerProps.record?.description || "",
                 src_currency: controllerProps.record?.src_currency.code || "",
                 dst_currency: controllerProps.record?.dst_currency.code || "",
@@ -185,30 +186,13 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
                                     <Label>{translate("resources.direction.merchant")}</Label>
-                                    <Select value={field.value} onValueChange={field.onChange}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {merchants?.data.map(merchant => {
-                                                    return (
-                                                        <SelectItem
-                                                            key={merchant.name}
-                                                            value={merchant.id}
-                                                            variant={SelectType.GRAY}>
-                                                            {merchant.name}
-                                                        </SelectItem>
-                                                    );
-                                                })}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
+                                    <MerchantSelectFilter
+                                        variant="outline"
+                                        error={fieldState.error?.message}
+                                        merchant={field.value}
+                                        onMerchantChanged={field.onChange}
+                                        resource="merchant"
+                                    />
                                 </FormItem>
                             )}
                         />

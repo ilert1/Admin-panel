@@ -59,7 +59,7 @@ export function DateRangePicker({
                 const newDate = genereateDateTime(dateRange.from, 0, 0);
 
                 if (newDate.getTime() !== dateRange.from.getTime() && time === "__:__") {
-                    setEndTime("");
+                    setEndTime("__:__");
                     onChange({
                         from: newDate,
                         to: genereateDateTime(dateRange.to, 0, 0)
@@ -67,11 +67,7 @@ export function DateRangePicker({
                 }
             }
 
-            if (time === "__:__") {
-                setStartTime("");
-            } else {
-                setStartTime(time);
-            }
+            setStartTime(time);
         }
     };
 
@@ -107,11 +103,7 @@ export function DateRangePicker({
                 }
             }
 
-            if (time === "__:__") {
-                setEndTime("");
-            } else {
-                setEndTime(time);
-            }
+            setEndTime(time);
         }
     };
 
@@ -260,7 +252,8 @@ export function DateRangePicker({
                                 <TimeInput
                                     error={
                                         (!startTime && !!endTime && !!dateRange?.from && !!dateRange?.to) ||
-                                        startTime === endTime
+                                        (startTime === endTime &&
+                                            dateRange?.from?.getDate() === dateRange?.to?.getDate())
                                     }
                                     disabled={!dateRange?.from}
                                     time={startTime}
@@ -272,7 +265,8 @@ export function DateRangePicker({
                                 <TimeInput
                                     error={
                                         (!!startTime && !endTime && !!dateRange?.from && !!dateRange?.to) ||
-                                        startTime === endTime
+                                        (startTime === endTime &&
+                                            dateRange?.from?.getDate() === dateRange?.to?.getDate())
                                     }
                                     disabled={!dateRange?.to}
                                     time={endTime}
@@ -280,7 +274,7 @@ export function DateRangePicker({
                                 />
                             </div>
 
-                            {startTime === endTime && (
+                            {startTime === endTime && dateRange?.from?.getDate() === dateRange?.to?.getDate() && (
                                 <div>
                                     <p className="text-xs text-center pt-1 text-red-50">
                                         {translate("app.ui.timePickerErrorTitle")}
