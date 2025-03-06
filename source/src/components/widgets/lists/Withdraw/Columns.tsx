@@ -15,6 +15,8 @@ export const useGetWithdrawColumns = () => {
     const [cryptoTransferState, setCryptoTransferState] = useState<"process" | "success" | "error">("process");
     const [repeatData, setRepeatData] = useState<{ address: string; amount: number } | undefined>(undefined);
     const [chosenId, setChosenId] = useState("");
+    const [chosenMerchantName, setChosenMerchantName] = useState("");
+
     const [showMerchants, setShowMerchants] = useState(false);
 
     let isLoading,
@@ -92,10 +94,10 @@ export const useGetWithdrawColumns = () => {
                           return (
                               <div>
                                   <Button
-                                      variant={"text_btn"}
-                                      className="p-0 h-auto mb-[4px] underline transition-colors outline-none text-green-50 hover:text-green-40 active:text-green-60 focus-visible:text-neutral-60 dark:text-green-40 dark:hover:text-green-50 dark:active:text-green-20 dark:focus-visible:text-neutral-70"
+                                      variant={"merchantLink"}
                                       onClick={() => {
                                           setChosenId(merch?.id ?? "");
+                                          setChosenMerchantName(merch?.name ?? "");
                                           setShowMerchants(true);
                                       }}>
                                       {merch?.name ?? ""}
@@ -206,6 +208,7 @@ export const useGetWithdrawColumns = () => {
         cryptoTransferState,
         merchantOnly,
         chosenId,
+        chosenMerchantName,
         isLoading,
         showMerchants,
         setShowMerchants,
