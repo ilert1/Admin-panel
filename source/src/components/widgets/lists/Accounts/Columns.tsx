@@ -1,11 +1,11 @@
 import { EditButton, ShowButton } from "@/components/ui/Button";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { Copy } from "lucide-react";
 import { useState } from "react";
 import { RecordContextProvider, usePermissions, useTranslate } from "react-admin";
 import { NumericFormat } from "react-number-format";
-import { toast } from "sonner";
 
 const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
 const translations = ["active", "frozen", "blocked", "deleted"];
@@ -19,11 +19,10 @@ export const useGetAccountsColumns = () => {
     const [showOpen, setShowOpen] = useState(false);
     const [showEditDialog, setShowEditDialog] = useState(false);
     const [showAccountId, setShowAccountId] = useState<string>("");
-    const [showAccountCaption, setShowAccountCaption] = useState<string>("");
+    const appToast = useAppToast();
 
-    const openSheet = (id: string, caption: string) => {
+    const openSheet = (id: string) => {
         setShowAccountId(id);
-        setShowAccountCaption(caption);
         setShowOpen(true);
     };
 
@@ -41,10 +40,7 @@ export const useGetAccountsColumns = () => {
                                 className="h-4 w-4 cursor-pointer"
                                 onClick={() => {
                                     navigator.clipboard.writeText((row.getValue("owner") as Array<string>)[1]);
-                                    toast.success(translate("app.ui.textField.copied"), {
-                                        dismissible: true,
-                                        duration: 1000
-                                    });
+                                    appToast("success", "", translate("app.ui.textField.copied"));
                                 }}
                             />
 
@@ -127,7 +123,7 @@ export const useGetAccountsColumns = () => {
             id: "history",
             header: translate("resources.accounts.fields.history"),
             cell: ({ row }) => {
-                return <ShowButton onClick={() => openSheet(row.original.id, row.original.meta?.caption)} />;
+                return <ShowButton onClick={() => openSheet(row.original.id)} />;
             }
         }
     ];
@@ -138,7 +134,6 @@ export const useGetAccountsColumns = () => {
         setShowOpen,
         showEditDialog,
         setShowEditDialog,
-        showAccountId,
-        showAccountCaption
+        showAccountId
     };
 };

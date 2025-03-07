@@ -7,8 +7,8 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { toast } from "sonner";
 import { useDelete, useRefresh, useTranslate } from "react-admin";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export interface DeleteUserDialogProps {
     open: boolean;
@@ -21,26 +21,20 @@ export const DeleteUserDialog = ({ open, id, onOpenChange, onQuickShowOpenChange
     const translate = useTranslate();
     const [deleteOne] = useDelete();
 
+    const appToast = useAppToast();
+
     const handleDelete = () => {
         const deleteElem = async () => {
             try {
                 await deleteOne("users", {
                     id
                 });
-                toast.success(translate("resources.users.create.success"), {
-                    dismissible: true,
-                    duration: 3000,
-                    description: translate("resources.users.deleteMessages.deleteSuccess")
-                });
+                appToast("success", translate("resources.users.deleteMessages.deleteSuccess"));
                 onOpenChange(false);
                 refresh();
                 onQuickShowOpenChange(false);
             } catch (error) {
-                toast.error(translate("resources.users.create.error"), {
-                    dismissible: true,
-                    duration: 3000,
-                    description: translate("resources.users.deleteMessages.deleteError")
-                });
+                appToast("error", translate("resources.users.deleteMessages.deleteError"));
             }
         };
         deleteElem();

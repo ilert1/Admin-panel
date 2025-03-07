@@ -2,7 +2,6 @@ import { useCreateController, useRefresh, CreateContextProvider, useTranslate, u
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { toast } from "sonner";
 import { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
@@ -12,6 +11,7 @@ import { useTheme } from "@/components/providers";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { TerminalWithId } from "@/data/terminals";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export interface ProviderCreateProps {
     provider: string;
@@ -21,6 +21,7 @@ export interface ProviderCreateProps {
 export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
     const refresh = useRefresh();
     const translate = useTranslate();
+    const appToast = useAppToast();
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController<TerminalWithId>();
     const { theme } = useTheme();
@@ -51,11 +52,7 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
             form.reset();
             onClose();
         } catch (error) {
-            toast.error(translate("resources.transactions.download.error"), {
-                description: translate("resources.provider.errors.alreadyInUse"),
-                dismissible: true,
-                duration: 3000
-            });
+            appToast("error", translate("resources.provider.errors.alreadyInUse"));
         } finally {
             setSubmitButtonDisabled(false);
         }

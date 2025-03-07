@@ -7,8 +7,8 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useDelete, useRefresh, useTranslate } from "react-admin";
-import { toast } from "sonner";
 
 export interface DeleteDirectionDialogProps {
     open: boolean;
@@ -22,6 +22,7 @@ export const DeleteDirectionDialog = (props: DeleteDirectionDialogProps) => {
     const refresh = useRefresh();
     const translate = useTranslate();
     const [deleteOne] = useDelete();
+    const appToast = useAppToast();
 
     const handleDelete = () => {
         const deleteElem = async () => {
@@ -32,11 +33,7 @@ export const DeleteDirectionDialog = (props: DeleteDirectionDialogProps) => {
                 refresh();
                 onQuickShowOpenChange(false);
             } catch (error) {
-                toast.error("Error", {
-                    description: "Something went wrong",
-                    dismissible: true,
-                    duration: 3000
-                });
+                if (error instanceof Error) appToast("error", error.message);
             }
         };
         deleteElem();

@@ -4,11 +4,21 @@ import { Loading } from "@/components/ui/loading";
 import { TransactionListFilter } from "./TransactionListFilter";
 import { useGetTransactionColumns } from "./Columns";
 import { ShowTransactionSheet } from "./ShowTransactionSheet";
+import { ShowMerchantSheet } from "../Merchants/ShowMerchantSheet";
 
 export const TransactionList = () => {
     const listContext = useListController<Transaction.TransactionView>({ resource: "transactions/view" });
 
-    const { columns, showOpen, setShowOpen, showTransactionId } = useGetTransactionColumns();
+    const {
+        columns,
+        showOpen,
+        chosenMerchantId,
+        chosenMerchantName,
+        showMerchants,
+        showTransactionId,
+        setShowMerchants,
+        setShowOpen
+    } = useGetTransactionColumns();
 
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
@@ -33,7 +43,12 @@ export const TransactionList = () => {
 
                     <DataTable columns={columns} />
                 </ListContextProvider>
-
+                <ShowMerchantSheet
+                    id={chosenMerchantId}
+                    open={showMerchants}
+                    onOpenChange={setShowMerchants}
+                    merchantName={chosenMerchantName}
+                />
                 <ShowTransactionSheet id={showTransactionId} open={showOpen} onOpenChange={setShowOpen} />
             </>
         );

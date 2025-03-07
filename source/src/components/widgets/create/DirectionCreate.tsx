@@ -17,11 +17,11 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { useFetchDataForDirections, useGetTerminals } from "@/hooks";
-import { toast } from "sonner";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Direction, DirectionCreate as IDirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
@@ -30,6 +30,8 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const controllerProps = useCreateController<IDirectionCreate>();
     const translate = useTranslate();
     const refresh = useRefresh();
+
+    const appToast = useAppToast();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const { terminals, getTerminals } = useGetTerminals();
@@ -74,20 +76,12 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             };
 
             await dataProvider.create<Direction>("direction", { data: dataWithLimits });
-            toast.success(translate("app.ui.toast.success"), {
-                description: translate("app.ui.create.createSuccess"),
-                dismissible: true,
-                duration: 3000
-            });
 
+            appToast("success", translate("app.ui.create.createSuccess"));
             refresh();
             onOpenChange(false);
         } catch (error) {
-            toast.error(translate("app.ui.toast.error"), {
-                description: translate("resources.provider.errors.alreadyInUse"),
-                dismissible: true,
-                duration: 3000
-            });
+            appToast("error", translate("resources.provider.errors.alreadyInUse"));
             setSubmitButtonDisabled(false);
         }
     };

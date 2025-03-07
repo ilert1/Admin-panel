@@ -7,13 +7,13 @@ import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { toast } from "sonner";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { TerminalWithId } from "@/data/terminals";
 import { terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPut } from "@/api/enigma/terminal/terminal";
 import { TerminalUpdateAuthAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface ProviderEditParams {
     provider: string;
@@ -25,6 +25,7 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
     const dataProvider = useDataProvider();
     const translate = useTranslate();
     const refresh = useRefresh();
+    const appToast = useAppToast();
 
     const controllerProps = useEditController<TerminalWithId>({
         resource: `${provider}/terminal`,
@@ -105,11 +106,7 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
 
             refresh();
         } catch (error) {
-            toast.error("Error", {
-                description: "Something went wrong",
-                dismissible: true,
-                duration: 3000
-            });
+            if (error instanceof Error) appToast("error", error.message);
         } finally {
             form.reset();
             setSubmitButtonDisabled(false);

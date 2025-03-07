@@ -7,15 +7,34 @@ import { TextField } from "@/components/ui/text-field";
 import { useGetMerchantShowColumns } from "./Columns";
 import { SimpleTable } from "../../shared";
 import { TableTypes } from "../../shared/SimpleTable";
-import { toast } from "sonner";
 import { Fees } from "../../components/Fees";
 import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet } from "@/api/enigma/direction/direction";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
-export const MerchantShow = ({ id }: { id: string }) => {
+interface MerchantShowProps {
+    id: string;
+    merchantName?: string;
+    onOpenChange: (state: boolean) => void;
+}
+
+export const MerchantShow = (props: MerchantShowProps) => {
+    const { id, merchantName, onOpenChange } = props;
     const translate = useTranslate();
     const data = fetchDictionaries();
-    const context = useShowController<Merchant>({ resource: "merchant", id });
+    const appToast = useAppToast();
+
+    const context = useShowController<Merchant>({
+        resource: "merchant",
+        id,
+        queryOptions: {
+            onError: () => {
+                appToast("error", translate("resources.merchant.errors.notFound", { name: merchantName }));
+                onOpenChange(false);
+            }
+        }
+    });
+
     const { columns } = useGetMerchantShowColumns();
 
     const [merchantDirections, setMerchantDirections] = useState<Direction[]>([]);
@@ -47,11 +66,7 @@ export const MerchantShow = ({ id }: { id: string }) => {
                     }
                 } catch (error) {
                     if (error instanceof Error) {
-                        toast.error("Error", {
-                            description: error.message,
-                            dismissible: true,
-                            duration: 3000
-                        });
+                        appToast("error", error.message);
                     }
                 }
             }
@@ -60,6 +75,7 @@ export const MerchantShow = ({ id }: { id: string }) => {
         if (context.record) {
             fetchMerchantDirections();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [context.record]);
 
     if (context.isLoading || !context.record || !data) {

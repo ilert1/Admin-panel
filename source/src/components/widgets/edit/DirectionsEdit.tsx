@@ -18,9 +18,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { useFetchDataForDirections, useGetTerminals, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
 import { Direction, DirectionUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export interface DirectionEditProps {
     id?: string;
@@ -31,6 +31,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const dataProvider = useDataProvider();
     const { currencies, providers, isLoading: loadingData } = useFetchDataForDirections();
     const controllerProps = useEditController<Direction>({ resource: "direction", id, mutationMode: "pessimistic" });
+    const appToast = useAppToast();
 
     const { terminals, getTerminals } = useGetTerminals();
 
@@ -59,7 +60,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: controllerProps.record?.name || "",
-            active: controllerProps.record?.active || true,
+            active: controllerProps.record?.active,
             description: controllerProps.record?.description || "",
             src_currency: controllerProps.record?.src_currency.code || "",
             dst_currency: controllerProps.record?.dst_currency.code || "",
@@ -74,7 +75,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         if (controllerProps.record) {
             form.reset({
                 name: controllerProps.record?.name || "",
-                active: controllerProps.record?.active || true,
+                active: controllerProps.record?.active,
                 description: controllerProps.record?.description || "",
                 src_currency: controllerProps.record?.src_currency.code || "",
                 dst_currency: controllerProps.record?.dst_currency.code || "",
@@ -96,22 +97,13 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                 previousData: undefined
             });
 
-            toast.success(translate("app.ui.toast.success"), {
-                description: translate("app.ui.edit.editSuccess"),
-                dismissible: true,
-                duration: 3000
-            });
+            appToast("success", translate("app.ui.edit.editSuccess"));
 
             refresh();
             onOpenChange(false);
         } catch (error) {
             setSubmitButtonDisabled(false);
-
-            toast.error(translate("app.ui.toast.error"), {
-                description: translate("app.ui.edit.editError"),
-                dismissible: true,
-                duration: 3000
-            });
+            appToast("error", translate("app.ui.edit.editError"));
         }
     };
 

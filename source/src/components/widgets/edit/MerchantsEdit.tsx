@@ -7,12 +7,12 @@ import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { toast } from "sonner";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { FeesResource } from "@/data";
 import { usePreventFocus } from "@/hooks";
 import { Fees } from "../components/Fees";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface MerchantEditProps {
     id?: string;
@@ -22,6 +22,7 @@ interface MerchantEditProps {
 export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
     const data = fetchDictionaries();
     const dataProvider = useDataProvider();
+    const appToast = useAppToast();
 
     const { record, isLoading } = useEditController<Merchant>({
         resource: "merchant",
@@ -80,11 +81,7 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
-            toast.error("Error", {
-                description: translate("resources.currency.errors.alreadyInUse"),
-                dismissible: true,
-                duration: 3000
-            });
+            appToast("error", translate("resources.currency.errors.alreadyInUse"));
             setSubmitButtonDisabled(false);
         }
     };

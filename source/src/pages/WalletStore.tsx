@@ -9,9 +9,9 @@ import { CirclePlus, KeyRound, LockKeyhole, LockKeyholeOpen, TriangleAlert } fro
 import { ChangeEvent, useState } from "react";
 import { useDataProvider, useTranslate } from "react-admin";
 import { ControllerRenderProps, useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { useQuery } from "react-query";
 import { z } from "zod";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export const WalletStore = () => {
     const translate = useTranslate();
@@ -20,6 +20,8 @@ export const WalletStore = () => {
     const [loadingProcess, setLoadingProcess] = useState(false);
     const [stepForUnsealed, setStepForUnsealed] = useState<0 | 1 | "error">(0);
     const [keyText, setKeyText] = useState("");
+
+    const appToast = useAppToast();
 
     const formSchema = z.object({
         key_part: z.string().min(3, translate("app.widgets.forms.userCreate.nameMessage")).trim()
@@ -57,11 +59,7 @@ export const WalletStore = () => {
 
             if (!json.success) {
                 setStepForUnsealed("error");
-                toast.error(translate("resources.wallet.storage.initiatedError"), {
-                    description: json.error.error_message,
-                    dismissible: true,
-                    duration: 3000
-                });
+                appToast("error", json.error.error_message, translate("resources.wallet.storage.initiatedError"));
             }
         } catch (error) {
             setStepForUnsealed("error");

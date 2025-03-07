@@ -11,10 +11,10 @@ import { Icon } from "../shared/Icon";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectType } from "@/components/ui/select";
 import { CreateWalletDialog } from "../lists/Wallets";
 import { LoadingBlock, LoadingBalance } from "@/components/ui/loading";
-import { toast } from "sonner";
 import { useQuery } from "react-query";
 import BlowFishCross from "@/lib/icons/BlowFishCross.svg?react";
 import { TextField } from "@/components/ui/text-field";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export const CryptoTransferForm = (props: {
     loading: boolean;
@@ -34,6 +34,8 @@ export const CryptoTransferForm = (props: {
     const [lastUsedWallet, setLastUsedWallet] = useState("");
     const [shouldTrigger, setShouldTrigger] = useState(false);
     const [walletSelectOpen, setWalletSelectOpen] = useState(false);
+
+    const appToast = useAppToast();
 
     const {
         data: walletsData,
@@ -152,17 +154,13 @@ export const CryptoTransferForm = (props: {
                     setChecked(false);
                 }
 
-                toast.success(translate("app.widgets.forms.cryptoTransfer.repeating"), {
-                    description: translate("app.widgets.forms.cryptoTransfer.repeatDescription"),
-                    duration: 3000,
-                    dismissible: true
-                });
+                appToast(
+                    "success",
+                    translate("app.widgets.forms.cryptoTransfer.repeatDescription"),
+                    translate("app.widgets.forms.cryptoTransfer.repeating")
+                );
             } else {
-                toast.error(translate("app.widgets.forms.cryptoTransfer.error"), {
-                    description: translate("app.widgets.forms.cryptoTransfer.noAddress"),
-                    duration: 3000,
-                    dismissible: true
-                });
+                appToast("error", translate("app.widgets.forms.cryptoTransfer.noAddress"));
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

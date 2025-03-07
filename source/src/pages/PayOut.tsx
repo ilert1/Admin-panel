@@ -1,33 +1,20 @@
-import { ReactNode, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import { fetchUtils, HttpError, useGetList, useTranslate } from "react-admin";
 import { BF_MANAGER_URL } from "@/data/base";
 import { PayOutForm } from "@/components/widgets/forms";
-import { toast } from "sonner";
+
 import { NavLink } from "react-router-dom";
 import { useFetchCurrencies } from "@/hooks/useFetchCurrencies";
 import { PayOutTgBanner } from "@/components/widgets/forms/PayOutTgBanner";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
 
     const [payoutTgUrl, setPayoutTgUrl] = useState("");
 
-    const success = (message: ReactNode) => {
-        toast.success(translate("app.widgets.forms.payout.successTitle"), {
-            dismissible: true,
-            description: message,
-            duration: 5000
-        });
-    };
-
-    const error = (message: string) => {
-        toast.error(translate("app.widgets.forms.payout.errorTitle"), {
-            dismissible: true,
-            description: message,
-            duration: 3000
-        });
-    };
+    const appToast = useAppToast();
 
     const { data: accounts } = useGetList("accounts");
 
@@ -96,7 +83,8 @@ export const PayOutPage = () => {
             if (jsonData.data?.meta?.payment_url) {
                 setPayoutTgUrl(jsonData.data?.meta?.payment_url);
             } else {
-                success(
+                appToast(
+                    "success",
                     <>
                         {translate("app.widgets.forms.payout.successDescription")}:{" "}
                         <NavLink to="/transactions" className="dark:text-green-40 text-green-50">
@@ -108,9 +96,9 @@ export const PayOutPage = () => {
             return true;
         } catch (err) {
             if (err instanceof HttpError) {
-                if (err.status === 401) error("Unauthorized");
+                if (err.status === 401) appToast("error", "Unauthorized");
                 else {
-                    error(err.message);
+                    appToast("error", err.message);
                     refetchPayMethods();
                 }
             }

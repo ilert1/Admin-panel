@@ -2,12 +2,16 @@ import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/Input/input";
 import { LoadingBalance } from "@/components/ui/loading";
-import { isTRC20Address } from "@/helpers/isTRC20Address";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useState } from "react";
 import { fetchUtils, useRefresh, useTranslate } from "react-admin";
-import { toast } from "sonner";
 
 const WALLET_URL = import.meta.env.VITE_WALLET_URL;
+
+function isValidTxIDFormat(txID: string) {
+    const txIDRegex = /^[a-f0-9]{64}$/i;
+    return txIDRegex.test(txID);
+}
 
 export const WalletManualReconciliationBar = () => {
     const translate = useTranslate();
@@ -17,6 +21,8 @@ export const WalletManualReconciliationBar = () => {
     const [inputVal, setInputVal] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
+
+    const appToast = useAppToast();
 
     const handleCheckCLicked = async () => {
         if (isLoading) return;
@@ -30,26 +36,17 @@ export const WalletManualReconciliationBar = () => {
             });
 
             if (!json.success) {
-                toast.error("Error", {
-                    description: json.error.error_message ?? translate("resources.wallet.linkedTransactions.notFound"),
-                    dismissible: true,
-                    duration: 3000
-                });
+                appToast(
+                    "error",
+                    json.error.error_message ?? translate("resources.wallet.linkedTransactions.notFound")
+                );
             } else {
-                toast.error("Success", {
-                    description: translate("resources.wallet.linkedTransactions.successFound"),
-                    dismissible: true,
-                    duration: 3000
-                });
+                appToast("success", translate("resources.wallet.linkedTransactions.successFound"));
                 refresh();
                 setManualClicked(false);
             }
         } catch (error) {
-            toast.error("Error", {
-                description: translate("resources.wallet.linkedTransactions.notFound"),
-                dismissible: true,
-                duration: 3000
-            });
+            appToast("error", translate("resources.wallet.linkedTransactions.notFound"));
         } finally {
             setIsLoading(false);
         }
@@ -64,14 +61,12 @@ export const WalletManualReconciliationBar = () => {
         const value = e.target.value;
         setInputVal(value);
 
-        /* if (!isTRC20Address(value)) {
+        if (!isValidTxIDFormat(value)) {
             setIsError(true);
         } else {
             setIsError(false);
-        } */
+        }
     };
-
-    console.log(inputVal);
 
     return (
         <div className="flex justify-end items-end mb-6">
@@ -97,7 +92,7 @@ export const WalletManualReconciliationBar = () => {
                             id="inputManual"
                             value={inputVal}
                             error={isError}
-                            errorMessage={translate("resources.wallet.manage.errors.invalidTRCAddresss")}
+                            errorMessage={translate("resources.wallet.manage.errors.invalidTransactionId")}
                             onChange={handleChange}
                             label={translate("resources.wallet.linkedTransactions.fields.transactionId")}
                         />

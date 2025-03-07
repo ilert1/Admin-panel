@@ -16,6 +16,7 @@ export const WithdrawList = () => {
         isLoading,
         merchantOnly,
         chosenId,
+        chosenMerchantName,
         showMerchants,
         setShowMerchants,
         setCryptoTransferState
@@ -50,7 +51,12 @@ export const WithdrawList = () => {
                         )}
                     </div>
                 </ListContextProvider>
-                <ShowMerchantSheet id={chosenId} open={showMerchants} onOpenChange={setShowMerchants} />
+                <ShowMerchantSheet
+                    id={chosenId}
+                    open={showMerchants}
+                    onOpenChange={setShowMerchants}
+                    merchantName={chosenMerchantName}
+                />
             </>
         );
     }

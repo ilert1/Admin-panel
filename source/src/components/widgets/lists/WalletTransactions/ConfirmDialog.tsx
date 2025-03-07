@@ -15,14 +15,17 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/Button";
-import { toast } from "sonner";
 import { useState } from "react";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 const API_URL = import.meta.env.VITE_WALLET_URL;
 
 export const ConfirmDialog = (props: ConfirmDialogProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
+
+    const appToast = useAppToast();
+
     const { open, id, onOpenChange } = props;
 
     const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -37,21 +40,15 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
                 user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
                 body: undefined
             });
+
             if (!json.success) {
                 throw new Error("");
             }
-            toast.success("Success", {
-                description: translate("resources.wallet.transactions.successMessage"),
-                dismissible: true,
-                duration: 3000
-            });
+
+            appToast("success", translate("resources.wallet.transactions.successMessage"));
             refresh();
         } catch (error) {
-            toast.error(translate("resources.wallet.transactions.error"), {
-                description: translate("resources.wallet.transactions.errors.failedToConfirm"),
-                dismissible: true,
-                duration: 3000
-            });
+            appToast("error", translate("resources.wallet.transactions.errors.failedToConfirm"));
         } finally {
             setButtonDisabled(false);
         }

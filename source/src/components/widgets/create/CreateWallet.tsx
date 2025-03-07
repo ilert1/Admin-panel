@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from "@/components/ui/Button";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Label } from "@/components/ui/label";
 import { LoadingBlock } from "@/components/ui/loading";
@@ -17,16 +16,15 @@ import { useFetchDataForDirections } from "@/hooks";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { useDataProvider, useInfiniteGetList, usePermissions, useRefresh, useTranslate } from "react-admin";
-import { toast } from "sonner";
-import { Form, FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { useDataProvider, usePermissions, useRefresh, useTranslate } from "react-admin";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { WalletTypes } from "@/helpers/wallet-types";
 import { Textarea } from "@/components/ui/textarea";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { isTRC20Address } from "@/helpers/isTRC20Address";
-
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 interface CreateWalletProps {
     onOpenChange: (state: boolean) => void;
     callbackData: (data: Wallets.Wallet) => void;
@@ -38,8 +36,10 @@ export const CreateWallet = (props: CreateWalletProps) => {
     const refresh = useRefresh();
     const dataProvider = useDataProvider();
 
+    const appToast = useAppToast();
+
     const { permissions, isLoading } = usePermissions();
-    const { isLoading: loadingMerchantList, merchants } = useFetchDataForDirections();
+    const { isLoading: loadingMerchantList } = useFetchDataForDirections();
 
     const isMerchant = permissions === "merchant";
 
@@ -58,11 +58,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
             callbackData(json.data);
             onOpenChange(false);
         } catch (error) {
-            toast.error(translate("resources.wallet.manage.error"), {
-                dismissible: true,
-                description: translate("resources.wallet.manage.errors.errorWhenCreating"),
-                duration: 3000
-            });
+            appToast("error", translate("resources.wallet.manage.errors.errorWhenCreating"));
             setButtonDisabled(false);
         }
     };
@@ -87,11 +83,8 @@ export const CreateWallet = (props: CreateWalletProps) => {
                 } else {
                     message = "errorWhenCreating";
                 }
-                toast.error(translate("resources.wallet.manage.error"), {
-                    dismissible: true,
-                    description: translate(`resources.wallet.manage.errors.${message}`),
-                    duration: 3000
-                });
+
+                appToast("error", translate(`resources.wallet.manage.errors.${message}`));
             }
             setButtonDisabled(false);
         }
@@ -141,9 +134,8 @@ export const CreateWallet = (props: CreateWalletProps) => {
             description: ""
         }
     });
+
     usePreventFocus({ dependencies: [] });
-    const merchantsDisabled =
-        !(merchants && Array.isArray(merchants.data) && merchants?.data?.length > 0) || !isMerchant;
 
     if (isLoading || loadingMerchantList) return <LoadingBlock />;
     return (

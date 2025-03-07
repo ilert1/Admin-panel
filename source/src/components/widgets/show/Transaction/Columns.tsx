@@ -23,7 +23,7 @@ export const useGetTransactionShowColumns = () => {
         {
             id: "type",
             accessorKey: "type",
-            header: translate("resources.transactions.fields.type"),
+            header: translate("resources.transactions.fields.feeType"),
             cell: ({ row }) =>
                 translate(
                     `resources.transactions.types.${dataDictionaries?.feeTypes[

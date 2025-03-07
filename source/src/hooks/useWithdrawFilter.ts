@@ -2,10 +2,10 @@ import { debounce } from "lodash";
 import { ChangeEvent, useCallback, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 import { DateRange } from "react-day-picker";
-import { toast } from "sonner";
 import { API_URL } from "@/data/base";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import moment from "moment";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 const useWithdrawFilter = () => {
     const dictionaries = fetchDictionaries();
@@ -18,6 +18,8 @@ const useWithdrawFilter = () => {
     const [endDate, setEndDate] = useState<Date | undefined>(
         filterValues?.end_date ? new Date(filterValues?.end_date) : undefined
     );
+
+    const appToast = useAppToast();
 
     const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
 
@@ -77,11 +79,7 @@ const useWithdrawFilter = () => {
 
     const handleDownloadReport = async (type: "pdf" | "csv") => {
         if (!startDate || !endDate) {
-            toast.error(translate("resources.withdraw.download.error"), {
-                description: translate("resources.withdraw.download.bothError"),
-                dismissible: true,
-                duration: 3000
-            });
+            appToast("error", translate("resources.withdraw.download.bothError"));
 
             return;
         }

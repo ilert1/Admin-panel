@@ -7,12 +7,12 @@ import { Loading } from "@/components/ui/loading";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { toast } from "sonner";
 import { useState } from "react";
 import { feesDataProvider, FeesResource } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { Fees } from "../components/Fees";
 import { FeeCreate, MerchantCreate as IMerchantCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
@@ -22,6 +22,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
 
     const translate = useTranslate();
     const refresh = useRefresh();
+    const appToast = useAppToast();
 
     const [fees, setFees] = useState<(FeeCreate & { innerId?: number })[]>([]);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -49,11 +50,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
             refresh();
             onOpenChange(false);
         } catch (error) {
-            toast.error("Error", {
-                description: translate("resources.merchant.errors.alreadyInUse"),
-                dismissible: true,
-                duration: 3000
-            });
+            appToast("error", translate("resources.merchant.errors.alreadyInUse"));
         } finally {
             setSubmitButtonDisabled(false);
         }

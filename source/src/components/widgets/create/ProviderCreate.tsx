@@ -2,7 +2,6 @@ import { useCreateController, CreateContextProvider, useTranslate, useDataProvid
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { toast } from "sonner";
 import { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
@@ -12,6 +11,7 @@ import { useTheme } from "@/components/providers";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { ProviderWithId } from "@/data/providers";
 import { ProviderCreate as IProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export interface ProviderCreateProps {
     onClose?: () => void;
@@ -21,6 +21,8 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController<IProviderCreate>();
     const { theme } = useTheme();
+
+    const appToast = useAppToast();
 
     const translate = useTranslate();
     const [hasErrors, setHasErrors] = useState(false);
@@ -60,11 +62,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
             await dataProvider.create<ProviderWithId>("provider", { data: parseData });
             onClose();
         } catch (error) {
-            toast.error(translate("resources.transactions.download.error"), {
-                description: translate("resources.provider.errors.alreadyInUse"),
-                dismissible: true,
-                duration: 3000
-            });
+            appToast("error", translate("resources.provider.errors.alreadyInUse"));
             setSubmitButtonDisabled(false);
         }
     };

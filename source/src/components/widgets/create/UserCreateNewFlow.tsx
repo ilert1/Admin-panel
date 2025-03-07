@@ -1,4 +1,3 @@
-import { toast } from "sonner";
 import {
     CreateContextProvider,
     fetchUtils,
@@ -26,6 +25,7 @@ import {
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useQuery } from "react-query";
 import clsx from "clsx";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface UserCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -49,6 +49,8 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
     const dataProvider = useDataProvider();
     const contrProps = useCreateController();
 
+    const appToast = useAppToast();
+
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [disabledMerchantField, setDisabledMerchantField] = useState(false);
 
@@ -63,8 +65,16 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
     });
 
     const formSchema = z.object({
-        first_name: z.string().max(255, translate("app.widgets.forms.userCreate.maxSymbols")).trim(),
-        last_name: z.string().max(255, translate("app.widgets.forms.userCreate.maxSymbols")).trim(),
+        first_name: z
+            .string()
+            .regex(/^[a-zA-Zа-яА-Я:'\-.,_@+]{0,255}$/, translate("app.widgets.forms.userCreate.firstNameMessage"))
+            .trim(),
+        last_name: z
+            .string()
+            .regex(/^[a-zA-Zа-яА-Я:'\-.,_@+]{0,255}$/, translate("app.widgets.forms.userCreate.lastNameMessage"))
+            .trim(),
+        // first_name: z.string().max(255, translate("app.widgets.forms.userCreate.maxSymbols")).trim(),
+        // last_name: z.string().max(255, translate("app.widgets.forms.userCreate.maxSymbols")).trim(),
         login: z
             .string()
             .regex(/^[a-zA-Z-_.@]{3,255}$/, translate("app.widgets.forms.userCreate.loginMessage"))
@@ -74,14 +84,17 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                 z.string().length(0, translate("app.widgets.forms.userCreate.emailMessage")),
                 z
                     .string()
-                    .regex(/^\S+@\S+\.\S+$/, translate("app.widgets.forms.userCreate.emailMessage"))
+                    .regex(
+                        /^[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]{1,255}\.[a-zA-Z]{2,}$/,
+                        translate("app.widgets.forms.userCreate.emailMessage")
+                    )
                     .trim()
             ])
             .optional(),
         password: z
             .string()
             .regex(
-                /^(?=.*[0-9])(?=.*[!@#$%^&*()-_])[a-zA-Z0-9!@#$%^&*()-_]{8,20}$/,
+                /^(?=.*[0-9])(?=.*[!@#$%^&*()-_])[a-zA-Zа-яА-Я0-9!@#$%^&*()-_]{8,20}$/,
                 translate("app.widgets.forms.userCreate.passwordMessage")
             ),
         role_name: z.string().min(1).trim(),
@@ -123,21 +136,12 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
 
         try {
             await dataProvider.create(`users`, { data: tempData });
-
-            toast.success(translate("resources.users.create.success"), {
-                dismissible: true,
-                duration: 3000,
-                description: translate("resources.users.create.successMessage")
-            });
+            appToast("success", translate("resources.users.create.successMessage"));
 
             refresh();
             onOpenChange(false);
         } catch (error) {
-            toast.error(translate("resources.users.create.error"), {
-                dismissible: true,
-                duration: 3000,
-                description: translate("resources.users.create.errorMessage")
-            });
+            appToast("error", translate("resources.users.create.errorMessage"));
         } finally {
             setSubmitButtonDisabled(false);
         }

@@ -1,7 +1,7 @@
 import { useTranslate, usePermissions, useRefresh } from "react-admin";
 import { API_URL } from "@/data/base";
 import { useMemo, useCallback, useState } from "react";
-import { toast } from "sonner";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 const MONEYGATE_URL = import.meta.env.VITE_MONEYGATE_URL;
 
@@ -11,21 +11,7 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
     const refresh = useRefresh();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
-    const success = (message: string) => {
-        toast.success(translate("resources.transactions.show.success"), {
-            dismissible: true,
-            description: message,
-            duration: 3000
-        });
-    };
-
-    const error = (message: string) => {
-        toast.error(translate("resources.transactions.show.error"), {
-            dismissible: true,
-            description: message,
-            duration: 3000
-        });
-    };
+    const appToast = useAppToast();
 
     const showDispute = useMemo(() => adminOnly, [adminOnly]);
     const disputeCaption = useMemo(
@@ -47,7 +33,8 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
             .then(resp => resp.json())
             .then(json => {
                 if (json.success) {
-                    success(
+                    appToast(
+                        "success",
                         record?.dispute
                             ? translate("resources.transactions.show.disputeClosed")
                             : translate("resources.transactions.show.disputeOpened")
@@ -57,7 +44,7 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
                 }
             })
             .catch(e => {
-                error(e.message);
+                appToast("error", e.message);
             })
             .finally(() => {
                 refresh();
@@ -79,7 +66,8 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
                 .then(json => {
                     if (json.success) {
                         const currentState = states.find(item => item.state_int === state);
-                        success(
+                        appToast(
+                            "success",
                             `${translate("resources.transactions.fields.state.state_changed")} ${
                                 currentState?.state_description
                             }`
@@ -89,7 +77,7 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
                     }
                 })
                 .catch(e => {
-                    error(e.message);
+                    appToast("error", e.message);
                 })
                 .finally(() => {
                     refresh();
@@ -115,13 +103,13 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
             .then(resp => resp.json())
             .then(json => {
                 if (json.success) {
-                    success(translate("resources.transactions.fields.committed"));
+                    appToast("success", translate("resources.transactions.fields.committed"));
                 } else {
                     throw new Error(json.error || "Unknown error");
                 }
             })
             .catch(e => {
-                error(e.message);
+                appToast("error", e.message);
             })
             .finally(() => {
                 refresh();
@@ -142,7 +130,8 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
             .then(resp => resp.json())
             .then(json => {
                 if (json.success) {
-                    success(
+                    appToast(
+                        "success",
                         translate(
                             translate("resources.transactions.show.sendWebhookSuccessMsg", { id: json.blowfish_id })
                         )
@@ -154,7 +143,7 @@ export const useTransactionActions = (data: Dictionaries.DataObject, record: Tra
             })
             .then(() => {})
             .catch(e => {
-                error(e.message);
+                appToast("error", e.message);
             })
             .finally(() => {
                 setSendWebhookLoading(false);

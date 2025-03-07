@@ -1,4 +1,4 @@
-import { ShowButton } from "@/components/ui/Button";
+import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ToggleActiveUser } from "@/components/ui/toggle-active-user";
 import { ColumnDef } from "@tanstack/react-table";
@@ -14,6 +14,10 @@ export const useGetUserColumns = () => {
 
     const [userId, setUserId] = useState("");
     const [showOpen, setShowOpen] = useState(false);
+
+    const [chosenMerchantId, setChosenMerchantId] = useState("");
+    const [chosenMerchantName, setChosenMerchantName] = useState("");
+    const [showMerchants, setShowMerchants] = useState(false);
 
     const openSheet = (id: string) => {
         setUserId(id);
@@ -83,20 +87,32 @@ export const useGetUserColumns = () => {
             header: translate("resources.users.fields.merchant"),
             // cell: ({ row }) => <TextField text={row.original.merchant_id} copyValue wrap />
 
-            cell: ({ row }) => (
-                <div>
-                    {row.original.merchant_name && <TextField text={row.original.merchant_name} wrap />}
-                    <TextField
-                        className="text-neutral-70"
-                        text={row.original.merchant_id}
-                        wrap
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                        minWidth="50px"
-                    />
-                </div>
-            )
+            cell: ({ row }) => {
+                return (
+                    <div>
+                        {row.original.merchant_name && (
+                            <Button
+                                variant={"merchantLink"}
+                                onClick={() => {
+                                    setChosenMerchantId(row.original.merchant_id ?? "");
+                                    setChosenMerchantName(row.original.merchant_name ?? "");
+                                    setShowMerchants(true);
+                                }}>
+                                {row.original.merchant_name ?? ""}
+                            </Button>
+                        )}
+                        <TextField
+                            className="text-neutral-70"
+                            text={row.original.merchant_id}
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                        />
+                    </div>
+                );
+            }
         },
         {
             id: "active",
@@ -122,6 +138,10 @@ export const useGetUserColumns = () => {
         columns,
         userId,
         showOpen,
+        chosenMerchantId,
+        chosenMerchantName,
+        showMerchants,
+        setShowMerchants,
         setShowOpen
     };
 };

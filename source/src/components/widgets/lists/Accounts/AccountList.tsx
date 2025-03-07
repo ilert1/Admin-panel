@@ -11,7 +11,7 @@ export const AccountList = () => {
 
     const translate = useTranslate();
 
-    const { columns, showOpen, setShowOpen, showEditDialog, setShowEditDialog, showAccountId, showAccountCaption } =
+    const { columns, showOpen, setShowOpen, showEditDialog, setShowEditDialog, showAccountId } =
         useGetAccountsColumns();
 
     if (listContext.isLoading || !listContext.data) {
@@ -23,12 +23,7 @@ export const AccountList = () => {
                     <DataTable columns={columns} />
                 </ListContextProvider>
 
-                <ShowAccountSheet
-                    accountId={showAccountId}
-                    accountCaption={showAccountCaption}
-                    open={showOpen}
-                    onOpenChange={setShowOpen}
-                />
+                <ShowAccountSheet accountId={showAccountId} open={showOpen} onOpenChange={setShowOpen} />
 
                 <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
                     <DialogContent
