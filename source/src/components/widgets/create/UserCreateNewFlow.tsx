@@ -84,14 +84,17 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                 z.string().length(0, translate("app.widgets.forms.userCreate.emailMessage")),
                 z
                     .string()
-                    .regex(/^\S+@\S+\.\S+$/, translate("app.widgets.forms.userCreate.emailMessage"))
+                    .regex(
+                        /^[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]{1,255}\.[a-zA-Z]{2,}$/,
+                        translate("app.widgets.forms.userCreate.emailMessage")
+                    )
                     .trim()
             ])
             .optional(),
         password: z
             .string()
             .regex(
-                /^(?=.*[0-9])(?=.*[!@#$%^&*()-_])[a-zA-Z0-9!@#$%^&*()-_]{8,20}$/,
+                /^(?=.*[0-9])(?=.*[!@#$%^&*()-_])[a-zA-Zа-яА-Я0-9!@#$%^&*()-_]{8,20}$/,
                 translate("app.widgets.forms.userCreate.passwordMessage")
             ),
         role_name: z.string().min(1).trim(),
