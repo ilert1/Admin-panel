@@ -23,14 +23,11 @@ export const MerchantShow = (props: MerchantShowProps) => {
     const translate = useTranslate();
     const data = fetchDictionaries();
     const appToast = useAppToast();
-    console.log(merchantName);
 
     const context = useShowController<Merchant>({
+        resource: "merchant",
         id,
         queryOptions: {
-            onSuccess: () => {
-                console.log("a");
-            },
             onError: () => {
                 appToast("error", translate("resources.merchant.errors.notFound", { name: merchantName }));
                 onOpenChange(false);
