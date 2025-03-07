@@ -2,22 +2,15 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "
 import { AccountShow } from "../../show";
 import { useTranslate } from "react-admin";
 import React from "react";
-import { TextField } from "@/components/ui/text-field";
 import { CloseSheetXButton } from "../../components/CloseSheetXButton";
 
 export interface ShowSheetProps {
     accountId: string;
-    accountCaption: string;
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
 
-export const ShowAccountSheet: React.FC<ShowSheetProps> = ({
-    accountId,
-    accountCaption,
-    open,
-    onOpenChange = () => {}
-}) => {
+export const ShowAccountSheet: React.FC<ShowSheetProps> = ({ accountId, open, onOpenChange = () => {} }) => {
     const translate = useTranslate();
 
     return (
@@ -31,9 +24,6 @@ export const ShowAccountSheet: React.FC<ShowSheetProps> = ({
                         <div className="flex justify-between items-center ">
                             <SheetTitle className="!text-display-1">{translate("app.ui.accountHistory")}</SheetTitle>
                             <CloseSheetXButton onOpenChange={onOpenChange} />
-                        </div>
-                        <div className="text-display-2 text-neutral-90 dark:text-neutral-30">
-                            <span>{accountCaption}</span>
                         </div>
                     </div>
                 </SheetHeader>

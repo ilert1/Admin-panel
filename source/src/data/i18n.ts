@@ -485,7 +485,9 @@ const ru: TranslationMessages = {
                 description: "Описание",
                 provider: "Провайдер",
                 auth: "Данные аутентификации",
-                fees: "Комиссии"
+                fees: "Комиссии",
+                createAccount: "Создать счёт",
+                account: "Счёт"
             },
             errors: {
                 verbose_name: "У терминала обязательно должно быть имя",
@@ -496,7 +498,8 @@ const ru: TranslationMessages = {
             selectPlaceholder: "Выберите провайдера",
             creatingTerminal: "Создание терминала",
             deleteHeader: "Удалить терминал?",
-            editingTerminal: "Редактирование терминала"
+            editingTerminal: "Редактирование терминала",
+            accountCreatedSuccessfully: "Account created successfully"
         },
         bankTransfer: {
             name: "Банковский перевод"
@@ -1383,9 +1386,10 @@ const en: TranslationMessages = {
                 description: "Description",
                 provider: "Provider",
                 auth: "Auth data",
-                fees: "Fees"
+                fees: "Fees",
+                createAccount: "Create account",
+                account: "Account"
             },
-
             errors: {
                 verbose_name: "The terminal must have a name",
                 description: "The terminal must have a description"
@@ -1395,7 +1399,8 @@ const en: TranslationMessages = {
             selectPlaceholder: "Select provider",
             creatingTerminal: "Creating terminal",
             deleteHeader: "Delete terminal?",
-            editingTerminal: "Editing terminal"
+            editingTerminal: "Editing terminal",
+            accountCreatedSuccessfully: "Счёт успешно создан"
         },
         bankTransfer: {
             name: "Bank transfer"
