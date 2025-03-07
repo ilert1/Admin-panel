@@ -66,7 +66,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                     </div>
                     <TextField text={id} copyValue className="text-neutral-90 dark:text-neutral-30" />
                 </div>
-                <div className="flex gap-2 flex-wrap self-end">
+                <div className="flex gap-2 flex-wrap justify-end content-end">
                     {balances.length > 0 &&
                         balances.map(balance => (
                             <div className="bg-green-50 px-3 py-0.5 rounded-20" key={uniqueId()}>
