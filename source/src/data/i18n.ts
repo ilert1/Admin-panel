@@ -777,10 +777,12 @@ const ru: TranslationMessages = {
                     title: "Добавление пользователя",
                     id: "ID пользователя",
                     firstName: "Имя",
-                    firstNameMessage: "Допускается ввод кириллицы и специальных символов (:'-.,_@+). Максимум 255",
+                    firstNameMessage:
+                        "Допускается ввод кириллицы, латиницы и специальных символов (:'-.,_@+). Максимум 255",
                     maxSymbols: "Количество символов должно быть меньше 255",
                     lastName: "Фамилия",
-                    lastNameMessage: "Допускается ввод кириллицы и специальных символов (:'-.,_@+). Максимум 255",
+                    lastNameMessage:
+                        "Допускается ввод кириллицы, латиницы и специальных символов (:'-.,_@+). Максимум 255",
                     login: "Логин",
                     loginMessage:
                         "Допускается ввод латиницы и специальных символов (:'-.,_@+). Минимум 3 символа, максимум 255",
@@ -1679,11 +1681,11 @@ const en: TranslationMessages = {
                     id: "User ID",
                     firstName: "First name",
                     firstNameMessage:
-                        "Cyrillic alphabet and special characters are allowed. (:'-.,_@+). Minimum 3 characters, maximum 255",
+                        "Cyrillic, latin alphabet and special characters are allowed. (:'-.,_@+). Minimum 3 characters, maximum 255",
                     // maxSymbols: "The number of characters must be less than 255",
                     lastName: "Last name",
                     lastNameMessage:
-                        "Cyrillic alphabet and special characters are allowed. (:'-.,_@+). Minimum 3 characters, maximum 255",
+                        "Cyrillic, latin alphabet and special characters are allowed. (:'-.,_@+). Minimum 3 characters, maximum 255",
                     // lastNameMessage: "Please, enter user's last name. Maximum 3 symbols",
                     login: "Login",
                     loginMessage:
