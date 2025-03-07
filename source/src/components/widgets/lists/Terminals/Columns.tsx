@@ -103,7 +103,7 @@ export const useGetTerminalColumns = () => {
                 return <TextField text={row.original.provider} />;
             }
         },
-        {
+        /* {
             id: "auth",
             accessorKey: "auth",
             header: translate("resources.terminals.fields.auth"),
@@ -119,7 +119,7 @@ export const useGetTerminalColumns = () => {
                     />
                 );
             }
-        },
+        }, */
         {
             id: "account",
             header: () => {
