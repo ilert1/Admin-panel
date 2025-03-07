@@ -45,7 +45,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
             setBalances(["0"]);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [context.isLoading]);
 
     useEffect(() => {
         if (chosenId) {
