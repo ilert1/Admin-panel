@@ -5,6 +5,7 @@ import { TextField } from "@/components/ui/text-field";
 import { useGetAccountShowColumns } from "./Columns";
 import { useEffect, useState } from "react";
 import { ShowTransactionSheet } from "../../lists/Transactions/ShowTransactionSheet";
+import { uniqueId } from "lodash";
 
 interface AccountShowProps {
     id: string;
@@ -66,15 +67,14 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                     <TextField text={id} copyValue className="text-neutral-90 dark:text-neutral-30" />
                 </div>
                 <div className="flex gap-2 flex-wrap self-end">
-                    {balances.map(balance => (
-                        <>
-                            <div className="bg-green-50 px-3 py-0.5 rounded-20" key={balance}>
+                    {balances.length > 0 &&
+                        balances.map(balance => (
+                            <div className="bg-green-50 px-3 py-0.5 rounded-20" key={uniqueId()}>
                                 <span className="text-title-2">
                                     {translate("resources.accounts.balance")}: {balance}
                                 </span>
                             </div>
-                        </>
-                    ))}
+                        ))}
                 </div>
             </div>
             <ShowTransactionSheet id={chosenId} open={transcationInfoOpen} onOpenChange={setTransactionInfoOpen} />
