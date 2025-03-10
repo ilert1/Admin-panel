@@ -236,7 +236,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                   )
                         }
                         tableType={TableTypes.COLORED}
-                        className={clsx("flex-shrink-1 h-auto", context.record.fees.length > 0 && "min-h-[15dvh]")}
+                        className={clsx("flex-shrink-1 h-auto")}
                     />
                 </div>
             )}
