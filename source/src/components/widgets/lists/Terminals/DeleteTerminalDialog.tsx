@@ -11,10 +11,10 @@ import { HttpError, useDelete, useRefresh, useTranslate } from "react-admin";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface DeleteProviderDialogProps {
-    open?: boolean;
-    onOpenChange?: (state: boolean) => void;
     deleteId: string;
     provider: string;
+    open: boolean;
+    onOpenChange: (state: boolean) => void;
 }
 export const DeleteTerminalDialog = ({
     open,

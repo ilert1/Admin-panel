@@ -74,8 +74,6 @@ export const DirectionsList = () => {
                     open={showTerminals}
                     onOpenChange={setShowTerminals}
                     provider={chosenProviderName}
-                    // setEditDialogOpen={}
-                    // setDeleteDialogOpen={}
                 />
             </>
         );

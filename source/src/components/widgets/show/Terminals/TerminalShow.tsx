@@ -7,23 +7,40 @@ import { LoadingBlock } from "@/components/ui/loading";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/Button";
 import { TerminalWithId } from "@/data/terminals";
+import { EditTerminalDialog } from "../../lists/Terminals/EditTerminalDialog";
+import { DeleteTerminalDialog } from "../../lists/Terminals/DeleteTerminalDialog";
+import { useState } from "react";
 
 interface TerminalShowProps {
     id: string;
     provider: string;
-    setDeleteDialogOpen: (state: boolean) => void;
-    setEditDialogOpen: (state: boolean) => void;
+    onOpenChange: (state: boolean) => void;
 }
 export const TerminalShow = (props: TerminalShowProps) => {
-    const { id, provider, setEditDialogOpen, setDeleteDialogOpen } = props;
+    const { id, provider, onOpenChange } = props;
+
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const dataProvider = useDataProvider();
     const translate = useTranslate();
+    console.log(provider);
 
     const { data, isLoading } = useQuery({
         queryKey: ["terminal-fees", provider, id],
         queryFn: async () => {
-            const { data } = await dataProvider.getOne<TerminalWithId>(`${provider}/terminal`, { id });
-            return data;
+            try {
+                console.log(provider, id);
+
+                const { data } = await dataProvider.getOne<TerminalWithId>(`${provider}/terminal`, { id });
+
+                if (!data) {
+                    throw new Error();
+                }
+
+                return data;
+            } catch (error) {
+                onOpenChange(false);
+            }
         }
     });
 
@@ -32,38 +49,39 @@ export const TerminalShow = (props: TerminalShowProps) => {
     }
 
     return (
-        <div className="px-[45px] flex flex-col gap-4">
-            <div className="flex flex-col gap-6">
-                <div className="flex flex-col gap-2">
-                    <TextField text={id} copyValue className="text-display-4" />
-                    <div className="flex gap-6">
-                        <TextField
-                            text={data.verbose_name}
-                            label={translate("resources.terminals.fields.verbose_name")}
-                        />
-                        <TextField text={data.provider} label={translate("resources.terminals.fields.provider")} />
-                        <TextField
-                            text={data.description ?? ""}
-                            label={translate("resources.terminals.fields.description")}
-                        />
+        <>
+            <div className="px-[45px] flex flex-col gap-4">
+                <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-2">
+                        <TextField text={id} copyValue className="text-display-4" />
+                        <div className="flex gap-6">
+                            <TextField
+                                text={data.verbose_name}
+                                label={translate("resources.terminals.fields.verbose_name")}
+                            />
+                            <TextField text={data.provider} label={translate("resources.terminals.fields.provider")} />
+                            <TextField
+                                text={data.description ?? ""}
+                                label={translate("resources.terminals.fields.description")}
+                            />
+                        </div>
+                        <div className="">
+                            <Label className="mb-0">{translate("resources.terminals.fields.auth")}</Label>
+                            <TextField text={JSON.stringify(data.auth)} copyValue />
+                        </div>
                     </div>
-                    <div className="">
-                        <Label className="mb-0">{translate("resources.terminals.fields.auth")}</Label>
-                        <TextField text={JSON.stringify(data.auth)} copyValue />
+                    <div className="flex justify-end">
+                        <div className="flex gap-4">
+                            <Button className="" onClick={() => setEditDialogOpen(true)}>
+                                {translate("app.ui.actions.edit")}
+                            </Button>
+                            <Button className="" onClick={() => setDeleteDialogOpen(true)} variant={"outline_gray"}>
+                                {translate("app.ui.actions.delete")}
+                            </Button>
+                        </div>
                     </div>
-                </div>
-                <div className="flex justify-end">
-                    <div className="flex gap-4">
-                        <Button className="" onClick={() => setEditDialogOpen(true)}>
-                            {translate("app.ui.actions.edit")}
-                        </Button>
-                        <Button className="" onClick={() => setDeleteDialogOpen(true)} variant={"outline_gray"}>
-                            {translate("app.ui.actions.delete")}
-                        </Button>
-                    </div>
-                </div>
-                {/* TODO */}
-                {/* <div className="flex flex-col gap-3">
+                    {/* TODO */}
+                    {/* <div className="flex flex-col gap-3">
                     <TextField text="Terminal account" className="text-display-3" />
                     <div className="flex gap-6">
                         <TextField text="" label="Type" />
@@ -74,14 +92,23 @@ export const TerminalShow = (props: TerminalShowProps) => {
                         <Button></Button>
                     </div>
                 </div> */}
+                </div>
+                <Fees
+                    fees={data?.fees}
+                    feesResource={FeesResource.TERMINAL}
+                    id={id}
+                    providerName={provider}
+                    padding={false}
+                />
             </div>
-            <Fees
-                fees={data?.fees}
-                feesResource={FeesResource.TERMINAL}
-                id={id}
-                providerName={provider}
-                padding={false}
+            <EditTerminalDialog provider={provider} id={id} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
+
+            <DeleteTerminalDialog
+                provider={provider}
+                open={deleteDialogOpen}
+                onOpenChange={setDeleteDialogOpen}
+                deleteId={id}
             />
-        </div>
+        </>
     );
 };

@@ -1,4 +1,4 @@
-import { Direction, Merchant, Provider } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
@@ -74,7 +74,6 @@ export const useGetDirectionsColumns = () => {
             header: translate("resources.direction.fields.merchant"),
             cell: ({ row }) => {
                 const merchant: Merchant = row.getValue("merchant");
-                const provider: Provider = row.getValue("provider");
 
                 return (
                     <div>
@@ -83,7 +82,6 @@ export const useGetDirectionsColumns = () => {
                             onClick={() => {
                                 setChosenMerchantId(merchant.id ?? "");
                                 setChosenMerchantName(merchant.name);
-                                setChosenProviderName(provider.name);
                                 setShowMerchants(true);
                             }}>
                             {merchant.name ?? ""}
@@ -114,11 +112,13 @@ export const useGetDirectionsColumns = () => {
             id: "terminal",
             header: translate("resources.direction.fields.terminal"),
             cell: ({ row }) => {
+                const providerName = row.original.provider.name;
                 return (
                     <Button
                         variant={"resourceLink"}
                         onClick={() => {
-                            setChosenTerminalId(row.original.id);
+                            setChosenProviderName(providerName);
+                            setChosenTerminalId(row.original.terminal?.terminal_id ?? "");
                             setShowTerminals(true);
                         }}>
                         {row.original.terminal?.verbose_name ?? ""}

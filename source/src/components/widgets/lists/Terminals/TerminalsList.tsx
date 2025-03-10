@@ -10,7 +10,6 @@ import { EditTerminalDialog } from "./EditTerminalDialog";
 import { TerminalsListFilter } from "./TerminalsListFilter";
 import { TerminalListTable } from "./TerminalsListTable";
 import { useGetTerminalColumns } from "./Columns";
-// import { ShowAuthDataDialog } from "./ShowAuthDataDialog";
 import { TerminalShowDialog } from "./TerminalShowDialog";
 import { ShowAccountSheet } from "../Accounts/ShowAccountSheet";
 
@@ -22,18 +21,15 @@ export const TerminalsList = () => {
 
     const {
         columns,
-        showAuthKeyOpen,
         showAccountClicked,
         chosenId,
-        authData,
         editDialogOpen,
         chosenProvider,
         deleteDialogOpen,
-        showFees,
-        setShowFees,
+        showTerminal,
+        setShowTerminal,
         setShowAccountClicked,
         setEditDialogOpen,
-        setShowAuthKeyOpen,
         setDeleteDialogOpen
     } = useGetTerminalColumns();
 
@@ -76,14 +72,11 @@ export const TerminalsList = () => {
                         onOpenChange={setDeleteDialogOpen}
                         deleteId={chosenId}
                     />
-                    {/* <ShowAuthDataDialog open={showAuthKeyOpen} onOpenChange={setShowAuthKeyOpen} authData={authData} /> */}
                     <TerminalShowDialog
-                        open={showFees}
-                        onOpenChange={setShowFees}
+                        open={showTerminal}
+                        onOpenChange={setShowTerminal}
                         id={chosenId}
                         provider={chosenProvider}
-                        setDeleteDialogOpen={setDeleteDialogOpen}
-                        setEditDialogOpen={setEditDialogOpen}
                     />
 
                     <ShowAccountSheet

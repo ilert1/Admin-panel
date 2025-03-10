@@ -12,7 +12,6 @@ export const useGetMerchantShowColumns = () => {
 
     const [selectedDirectionId, setSelectedDirectionId] = useState("");
     const [showDirectionOpen, setShowDirectionOpen] = useState(false);
-    const [showDirectionOpen, setShowDirectionOpen] = useState(false);
 
     const columns: ColumnDef<Direction>[] = [
         {
