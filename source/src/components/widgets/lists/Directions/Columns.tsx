@@ -1,4 +1,4 @@
-import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Direction, Merchant, Provider } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
@@ -15,8 +15,13 @@ export const useGetDirectionsColumns = () => {
     const [quickShowOpen, setQuickShowOpen] = useState(false);
 
     const [chosenMerchantId, setChosenMerchantId] = useState("");
+    const [chosenTerminalId, setChosenTerminalId] = useState("");
+
     const [chosenMerchantName, setChosenMerchantName] = useState("");
+    const [chosenProviderName, setChosenProviderName] = useState("");
+
     const [showMerchants, setShowMerchants] = useState(false);
+    const [showTerminals, setShowTerminals] = useState(false);
 
     const openSheet = (id: string) => {
         setChosenId(id);
@@ -69,14 +74,16 @@ export const useGetDirectionsColumns = () => {
             header: translate("resources.direction.fields.merchant"),
             cell: ({ row }) => {
                 const merchant: Merchant = row.getValue("merchant");
+                const provider: Provider = row.getValue("provider");
 
                 return (
                     <div>
                         <Button
-                            variant={"merchantLink"}
+                            variant={"resourceLink"}
                             onClick={() => {
                                 setChosenMerchantId(merchant.id ?? "");
                                 setChosenMerchantName(merchant.name);
+                                setChosenProviderName(provider.name);
                                 setShowMerchants(true);
                             }}>
                             {merchant.name ?? ""}
@@ -107,7 +114,16 @@ export const useGetDirectionsColumns = () => {
             id: "terminal",
             header: translate("resources.direction.fields.terminal"),
             cell: ({ row }) => {
-                return <TextField text={row.original.terminal?.verbose_name ?? ""} wrap />;
+                return (
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            setChosenTerminalId(row.original.id);
+                            setShowTerminals(true);
+                        }}>
+                        {row.original.terminal?.verbose_name ?? ""}
+                    </Button>
+                );
             }
         },
         {
@@ -158,6 +174,10 @@ export const useGetDirectionsColumns = () => {
         chosenMerchantId,
         showMerchants,
         chosenMerchantName,
+        chosenTerminalId,
+        showTerminals,
+        chosenProviderName,
+        setShowTerminals,
         setShowMerchants,
         setQuickShowOpen
     };

@@ -73,7 +73,7 @@ export const useGetTransactionColumns = () => {
                           return (
                               <div>
                                   <Button
-                                      variant={"merchantLink"}
+                                      variant={"resourceLink"}
                                       onClick={() => {
                                           setChosenMerchantId(row.original.participant_id ?? "");
                                           setChosenMerchantName(row.original.participant_name ?? "");

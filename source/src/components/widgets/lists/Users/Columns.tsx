@@ -92,7 +92,7 @@ export const useGetUserColumns = () => {
                     <div>
                         {row.original.merchant_name && (
                             <Button
-                                variant={"merchantLink"}
+                                variant={"resourceLink"}
                                 onClick={() => {
                                     setChosenMerchantId(row.original.merchant_id ?? "");
                                     setChosenMerchantName(row.original.merchant_name ?? "");
