@@ -52,7 +52,7 @@ export const useGetProvidersColumns = () => {
                 } else {
                     const text = String(row.getValue("public_key"));
 
-                    return <TextField text={text} copyValue lineClamp />;
+                    return <TextField text={text} copyValue lineClamp linesCount={1} maxWidth="150px" />;
                 }
             }
         },
