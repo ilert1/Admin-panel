@@ -23,14 +23,11 @@ export const TerminalShow = (props: TerminalShowProps) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const dataProvider = useDataProvider();
     const translate = useTranslate();
-    console.log(provider);
 
     const { data, isLoading } = useQuery({
         queryKey: ["terminal-fees", provider, id],
         queryFn: async () => {
             try {
-                console.log(provider, id);
-
                 const { data } = await dataProvider.getOne<TerminalWithId>(`${provider}/terminal`, { id });
 
                 if (!data) {
