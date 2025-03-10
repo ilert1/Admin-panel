@@ -18,6 +18,7 @@ import {
 import { useTransactionActions } from "./useTransactionActions";
 import { useFetchMerchants } from "@/hooks";
 import { useGetTransactionShowColumns } from "./Columns";
+import clsx from "clsx";
 
 interface TransactionShowProps {
     id: string;
@@ -215,12 +216,12 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 columns={briefHistory}
                 data={history ? history : []}
                 tableType={TableTypes.COLORED}
-                className="flex-shrink-1 min-h-[15dvh] h-full"
+                className={clsx("flex-shrink-1 h-auto", history && history.length > 0 && "min-h-[15dvh] h-full")}
             />
 
             {(permissions === "admin" ||
                 (permissions === "merchant" && context.record.committed && context.record.state.state_int === 16)) && (
-                <>
+                <div className="flex flex-col gap-2">
                     <span>{translate("resources.transactions.fields.fees")}</span>
 
                     <SimpleTable
@@ -235,9 +236,12 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                   )
                         }
                         tableType={TableTypes.COLORED}
-                        className="flex-shrink-1 min-h-[15dvh]"
+                        className={clsx(
+                            "flex-shrink-1 h-auto",
+                            context.record.fees.length > 0 && "min-h-[15dvh] h-full"
+                        )}
                     />
-                </>
+                </div>
             )}
         </div>
     );
