@@ -83,7 +83,6 @@ export const Fees = memo((props: FeesProps) => {
                                       isInner={fee.innerId ?? false}
                                       deleteFn={deleteFee}
                                       account={fee.id ?? ""}
-                                      currency={fee.currency}
                                       feeAmount={
                                           feeType === "inner" ? fee.value : fee.value.quantity / fee.value.accuracy
                                       }
@@ -102,7 +101,6 @@ export const Fees = memo((props: FeesProps) => {
                             id={id}
                             onOpenChange={setAddNewOpen}
                             resource={feesResource}
-                            variants={id ? feesVariants : undefined}
                             setFees={setFees ?? undefined}
                             feeType={feeType}
                             providerName={providerName}

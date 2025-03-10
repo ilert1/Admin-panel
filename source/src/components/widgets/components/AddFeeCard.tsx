@@ -34,13 +34,12 @@ export interface AddFeeCardProps {
     resource: FeesResource;
     onOpenChange: (state: boolean) => void;
     setFees?: React.Dispatch<React.SetStateAction<(FeeCreate & { innerId?: number })[]>>;
-    variants?: string[];
     feeType?: FeeType;
     providerName?: string;
 }
 
 export const AddFeeCard = (props: AddFeeCardProps) => {
-    const { id, resource, onOpenChange, setFees, variants = undefined, providerName, feeType = "default" } = props;
+    const { id, resource, onOpenChange, setFees, providerName, feeType = "default" } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
 
@@ -54,7 +53,6 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const { currencies, isLoading: loadingData } = useFetchDataForDirections();
 
     const formSchema = z.object({
-        currency: z.string().min(1, { message: translate("resources.direction.fees.currencyFieldError") }),
         value: z.coerce
             .number({ message: translate("resources.direction.fees.valueFieldError") })
             .min(0, { message: translate("resources.direction.fees.valueFieldError") }),
@@ -104,7 +102,6 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            currency: "",
             value: 0,
             type: 1,
             description: "",
@@ -131,7 +128,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                     control={form.control}
                                     name="direction"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="p-2 col-span-2">
+                                        <FormItem className="p-2 col-span-4 sm:col-span-2">
                                             <Label>{translate("resources.direction.fees.direction")}</Label>
                                             <FormControl>
                                                 <Select value={field.value} onValueChange={field.onChange}>
@@ -165,28 +162,9 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                 />
                                 <FormField
                                     control={form.control}
-                                    name="value"
-                                    render={({ field, fieldState }) => (
-                                        <FormItem className="p-2 col-span-2">
-                                            <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    label={translate("resources.direction.fees.feeAmount")}
-                                                    labelSize="note-1"
-                                                    error={fieldState.invalid}
-                                                    errorMessage={<FormMessage />}
-                                                    variant={InputTypes.GRAY}
-                                                    borderColor="border-neutral-60"
-                                                />
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
                                     name="type"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="p-2 col-span-2">
+                                        <FormItem className="p-2 col-span-4 sm:col-span-2">
                                             <Label>{translate("resources.direction.fees.feeType")}</Label>
                                             <FormControl>
                                                 <Select
@@ -223,52 +201,19 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                 />
                                 <FormField
                                     control={form.control}
-                                    name="currency"
+                                    name="value"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="p-2 col-span-2">
-                                            <Label>{translate("resources.direction.fees.currency")}</Label>
+                                        <FormItem className="p-2 col-span-4">
                                             <FormControl>
-                                                <Select
-                                                    value={field.value}
-                                                    onValueChange={field.onChange}
-                                                    disabled={currenciesDisabled}>
-                                                    <FormControl>
-                                                        <SelectTrigger
-                                                            variant={SelectType.GRAY}
-                                                            isError={fieldState.invalid}
-                                                            errorMessage={<FormMessage />}
-                                                            className="border-neutral-60">
-                                                            <SelectValue
-                                                                placeholder={
-                                                                    currenciesDisabled
-                                                                        ? translate("resources.direction.noCurrencies")
-                                                                        : ""
-                                                                }
-                                                            />
-                                                        </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent>
-                                                        <SelectGroup>
-                                                            {!currenciesDisabled && !variants?.length
-                                                                ? currencies.data.map(currency => (
-                                                                      <SelectItem
-                                                                          variant={SelectType.GRAY}
-                                                                          key={currency.code}
-                                                                          value={currency.code}>
-                                                                          {currency.code}
-                                                                      </SelectItem>
-                                                                  ))
-                                                                : variants?.map(currency => (
-                                                                      <SelectItem
-                                                                          key={currency}
-                                                                          value={currency}
-                                                                          variant={SelectType.GRAY}>
-                                                                          {currency}
-                                                                      </SelectItem>
-                                                                  ))}
-                                                        </SelectGroup>
-                                                    </SelectContent>
-                                                </Select>
+                                                <Input
+                                                    {...field}
+                                                    label={translate("resources.direction.fees.feeAmount")}
+                                                    labelSize="note-1"
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    variant={InputTypes.GRAY}
+                                                    borderColor="border-neutral-60"
+                                                />
                                             </FormControl>
                                         </FormItem>
                                     )}
@@ -277,7 +222,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                     control={form.control}
                                     name="description"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="w-full p-2 col-span-2 sm:col-span-4">
+                                        <FormItem className="w-full p-2 col-span-4">
                                             <FormControl>
                                                 <Input
                                                     {...field}

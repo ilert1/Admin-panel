@@ -19,7 +19,6 @@ interface FeeCardProps {
     account: string;
     feeAmount: number;
     feeType: string;
-    currency: string;
     resource: FeesResource;
     id: string;
     description?: string;
@@ -33,7 +32,6 @@ export const FeeCard = (props: FeeCardProps) => {
         account,
         feeAmount,
         feeType,
-        currency,
         id,
         addFee,
         resource,
@@ -74,12 +72,14 @@ export const FeeCard = (props: FeeCardProps) => {
             <div className="mt-[2px] mb-[16px]">
                 <div className="bg-neutral-10 dark:bg-muted rounded-[8px] px-4 pt-[16px] pb-[8px]">
                     <div className="w-full grid grid-cols-2 gap-y-[8px] gap-2">
-                        <TextField
-                            copyValue
-                            text={account}
-                            label={translate("resources.direction.fees.accountNumber")}
-                            labelSize="text-xs"
-                        />
+                        <div className="col-span-2">
+                            <TextField
+                                copyValue
+                                text={account}
+                                label={translate("resources.direction.fees.accountNumber")}
+                                labelSize="text-xs"
+                            />
+                        </div>
                         <TextField
                             text={String(feeAmount)}
                             label={translate("resources.direction.fees.feeAmount")}
@@ -88,11 +88,6 @@ export const FeeCard = (props: FeeCardProps) => {
                         <TextField
                             text={String(feeType)}
                             label={translate("resources.direction.fees.feeType")}
-                            labelSize="text-xs"
-                        />
-                        <TextField
-                            text={String(currency)}
-                            label={translate("resources.direction.fees.currency")}
                             labelSize="text-xs"
                         />
                         {description && (
