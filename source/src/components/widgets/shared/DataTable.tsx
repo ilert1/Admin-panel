@@ -137,8 +137,8 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
     }, [setPage, table]);
 
     return (
-        <>
-            <Table className="">
+        <div className="relative flex-shrink-1 mb-2">
+            <Table className="h-auto">
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup, i) => (
                         <TableRow key={i} className="bg-green-50 hover:bg-green-50 relative">
@@ -210,6 +210,6 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                     </Select>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
