@@ -15,8 +15,13 @@ export const useGetDirectionsColumns = () => {
     const [quickShowOpen, setQuickShowOpen] = useState(false);
 
     const [chosenMerchantId, setChosenMerchantId] = useState("");
+    const [chosenTerminalId, setChosenTerminalId] = useState("");
+
     const [chosenMerchantName, setChosenMerchantName] = useState("");
+    const [chosenProviderName, setChosenProviderName] = useState("");
+
     const [showMerchants, setShowMerchants] = useState(false);
+    const [showTerminals, setShowTerminals] = useState(false);
 
     const openSheet = (id: string) => {
         setChosenId(id);
@@ -73,7 +78,7 @@ export const useGetDirectionsColumns = () => {
                 return (
                     <div>
                         <Button
-                            variant={"merchantLink"}
+                            variant={"resourceLink"}
                             onClick={() => {
                                 setChosenMerchantId(merchant.id ?? "");
                                 setChosenMerchantName(merchant.name);
@@ -107,7 +112,18 @@ export const useGetDirectionsColumns = () => {
             id: "terminal",
             header: translate("resources.direction.fields.terminal"),
             cell: ({ row }) => {
-                return <TextField text={row.original.terminal?.verbose_name ?? ""} wrap />;
+                const providerName = row.original.provider.name;
+                return (
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            setChosenProviderName(providerName);
+                            setChosenTerminalId(row.original.terminal?.terminal_id ?? "");
+                            setShowTerminals(true);
+                        }}>
+                        {row.original.terminal?.verbose_name ?? ""}
+                    </Button>
+                );
             }
         },
         {
@@ -158,6 +174,10 @@ export const useGetDirectionsColumns = () => {
         chosenMerchantId,
         showMerchants,
         chosenMerchantName,
+        chosenTerminalId,
+        showTerminals,
+        chosenProviderName,
+        setShowTerminals,
         setShowMerchants,
         setQuickShowOpen
     };

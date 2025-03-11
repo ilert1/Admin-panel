@@ -27,7 +27,7 @@ const buttonVariants = cva(
                 text_btn_sec: textBtnStyles + " text-neutral-50 disabled:opacity-30 dark:disabled:opacity-100",
                 outline_gray: outlineStyles + " dark:text-neutral-50 dark:border-neutral-50 dark:hover:text-green-50",
                 alert: "bg-red-40 hover:bg-red-50 active:bg-red-60 disabled:bg-neutral-20 text-neutral-0",
-                merchantLink:
+                resourceLink:
                     textBtnStyles +
                     " !p-0 !h-auto mb-[4px] underline transition-colors outline-none text-green-50 hover:text-green-40 active:text-green-60 focus-visible:text-neutral-60 dark:text-green-40 dark:hover:text-green-50 dark:active:text-green-20 dark:focus-visible:text-neutral-70"
             },

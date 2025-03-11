@@ -17,6 +17,7 @@ export const TextField = ({
     lineClamp = false,
     linesCount = 3,
     minWidth = "150px",
+    maxWidth = "100%",
     className = "",
     onClick
 }: {
@@ -30,6 +31,7 @@ export const TextField = ({
     lineClamp?: boolean;
     linesCount?: number;
     minWidth?: string;
+    maxWidth?: string;
     className?: string;
     onClick?: React.MouseEventHandler<HTMLSpanElement> | undefined;
 }) => {
@@ -90,7 +92,7 @@ export const TextField = ({
                                       WebkitBoxOrient: "vertical",
                                       wordBreak: "break-word",
                                       textWrap: "wrap",
-                                      maxWidth: "100%",
+                                      maxWidth: maxWidth,
                                       minWidth: minWidth
                                   }
                                 : {})

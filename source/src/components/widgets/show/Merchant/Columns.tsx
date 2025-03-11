@@ -1,18 +1,34 @@
 import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
 import { ProviderWithId } from "@/data/providers";
 import { ColumnDef } from "@tanstack/react-table";
+import { useState } from "react";
 import { useTranslate } from "react-admin";
 
 export const useGetMerchantShowColumns = () => {
     const translate = useTranslate();
 
+    const [selectedDirectionId, setSelectedDirectionId] = useState("");
+    const [showDirectionOpen, setShowDirectionOpen] = useState(false);
+
     const columns: ColumnDef<Direction>[] = [
         {
             id: "name",
-            accessorKey: "name",
-            header: translate("resources.direction.fields.name")
+            header: translate("resources.direction.fields.name"),
+            cell: ({ row }) => {
+                return (
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            setSelectedDirectionId(row.original.id);
+                            setShowDirectionOpen(true);
+                        }}>
+                        {row.original.name ?? ""}
+                    </Button>
+                );
+            }
         },
         {
             id: "id",
@@ -80,5 +96,5 @@ export const useGetMerchantShowColumns = () => {
             }
         }
     ];
-    return { columns };
+    return { selectedDirectionId, showDirectionOpen, columns, setShowDirectionOpen };
 };

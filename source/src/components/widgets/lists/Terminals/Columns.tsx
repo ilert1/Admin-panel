@@ -21,7 +21,7 @@ export const useGetTerminalColumns = () => {
     const [authData, setAuthData] = useState("");
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [showFees, setShowFees] = useState(false);
+    const [showTerminal, setShowTerminal] = useState(false);
     const [showAccountClicked, setShowAccountClicked] = useState(false);
     const [createButtonClicked, setCreateButtonClicked] = useState(false);
 
@@ -163,7 +163,7 @@ export const useGetTerminalColumns = () => {
                     onClick={() => {
                         setChosenId(row.original.terminal_id);
                         setChosenProvider(row.original.provider);
-                        setShowFees(true);
+                        setShowTerminal(true);
                     }}
                 />
             )
@@ -191,7 +191,7 @@ export const useGetTerminalColumns = () => {
     return {
         columns,
         showAuthKeyOpen,
-        showFees,
+        showTerminal,
         chosenId,
         authData,
         editDialogOpen,
@@ -202,6 +202,6 @@ export const useGetTerminalColumns = () => {
         setEditDialogOpen,
         setShowAuthKeyOpen,
         setDeleteDialogOpen,
-        setShowFees
+        setShowTerminal
     };
 };

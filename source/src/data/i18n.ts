@@ -179,6 +179,7 @@ const ru: TranslationMessages = {
                 value: "Сумма",
                 history: "История",
                 fees: "Комиссии",
+                feeValue: "Сумма комиссии",
                 sourceValue: "Сумма отправления",
                 destValue: "Сумма зачисления"
             },
@@ -1082,6 +1083,7 @@ const en: TranslationMessages = {
                 feeType: "Fee type",
                 history: "History",
                 fees: "Fees",
+                feeValue: "Fee value",
                 sourceValue: "Source value",
                 destValue: "Destination value"
             },

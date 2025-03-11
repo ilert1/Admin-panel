@@ -94,7 +94,7 @@ export const useGetWithdrawColumns = () => {
                           return (
                               <div>
                                   <Button
-                                      variant={"merchantLink"}
+                                      variant={"resourceLink"}
                                       onClick={() => {
                                           setChosenId(merch?.id ?? "");
                                           setChosenMerchantName(merch?.name ?? "");
