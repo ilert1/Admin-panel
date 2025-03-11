@@ -12,6 +12,7 @@ import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schem
 import { directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet } from "@/api/enigma/direction/direction";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { ShowDirectionSheet } from "../../lists/Directions/ShowDirectionSheet";
+import clsx from "clsx";
 
 interface MerchantShowProps {
     id: string;
@@ -120,7 +121,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                             columns={columns}
                             tableType={TableTypes.COLORED}
                             data={merchantDirections}
-                            className=" min-h-[15dvh] max-h-[30dvh]"
+                            className={clsx("max-h-[30dvh] min-h-20", merchantDirections.length > 1 && "min-h-44")}
                         />
                     </div>
                 </div>
