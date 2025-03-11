@@ -104,7 +104,11 @@ export const TransactionListFilter = () => {
                 <motion.div
                     layout
                     initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: openFiltersClicked ? 1 : 0, height: openFiltersClicked ? "auto" : 0 }}
+                    animate={{
+                        opacity: openFiltersClicked ? 1 : 0,
+                        height: openFiltersClicked ? "auto" : 0,
+                        pointerEvents: openFiltersClicked ? "auto" : "none"
+                    }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                     className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
                     <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
