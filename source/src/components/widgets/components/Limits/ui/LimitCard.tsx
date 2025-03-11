@@ -24,7 +24,7 @@ export const LimitCard = (props: LimitCardProps) => {
 
     return (
         <>
-            <div className="flex flex-col gap-4 bg-muted p-4 rounded-8 mb-4">
+            <div className="flex flex-col gap-4 bg-neutral-10 dark:bg-muted p-4 rounded-8 mb-4">
                 <div className="flex flex-col gap-4 sm:flex-row justify-center items-center">
                     <div className="flex flex-col gap-2 flex-1">
                         <TextField text={translate("app.widgets.limits.deposit")} />
