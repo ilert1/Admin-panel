@@ -55,7 +55,7 @@ export const useGetAccountsColumns = () => {
         {
             id: "state",
             accessorKey: "state",
-            header: translate("resources.accounts.fields.state"),
+            header: () => <div className="flex justify-center">{translate("resources.accounts.fields.state")}</div>,
             cell: ({ row }) => {
                 const index = row.original.state - 1;
 
@@ -121,7 +121,7 @@ export const useGetAccountsColumns = () => {
             : []),
         {
             id: "history",
-            header: translate("resources.accounts.fields.history"),
+            header: () => <div className="flex justify-center">{translate("resources.accounts.fields.history")}</div>,
             cell: ({ row }) => {
                 return <ShowButton onClick={() => openSheet(row.original.id)} />;
             }
