@@ -139,7 +139,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
 
     return (
         <>
-            <Table className={clsx("min-h-20", data.length > 1 && "min-h-44")}>
+            <Table className={clsx("min-h-20", data?.length > 1 && "min-h-44")}>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup, i) => (
                         <TableRow key={i} className="bg-green-50 hover:bg-green-50 relative">
