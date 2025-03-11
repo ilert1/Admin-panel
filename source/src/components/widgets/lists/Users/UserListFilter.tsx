@@ -64,13 +64,6 @@ export const UserListFilter = () => {
         <div className="flex flex-col gap-4 mb-6">
             <div className="flex flex-col gap-2">
                 <div className="flex gap-6 justify-end">
-                    <FilterButtonGroup
-                        open={openFiltersClicked}
-                        onOpenChange={setOpenFiltersClicked}
-                        clearButtonDisabled={clearDisabled}
-                        filterList={[userInputId, username, checkedActivity]}
-                        onClearFilters={clearFilters}
-                    />
                     <div className="flex gap-3 justify-end">
                         {/* <Button
                             onClick={() => setShowAddUserDialog(true)}
@@ -91,14 +84,23 @@ export const UserListFilter = () => {
                             onOpenChange={setShowAddUserNewFlowDialog}
                         />
                     </div>
+                    <FilterButtonGroup
+                        open={openFiltersClicked}
+                        onOpenChange={setOpenFiltersClicked}
+                        clearButtonDisabled={clearDisabled}
+                        filterList={[userInputId, username, checkedActivity]}
+                        onClearFilters={clearFilters}
+                    />
                 </div>
 
                 <motion.div
                     layout
-                    initial={{ opacity: 0, height: 0 }}
+                    initial={{ opacity: 0, height: 0, maxHeight: 0, display: "none" }}
                     animate={{
                         opacity: openFiltersClicked ? 1 : 0,
-                        height: openFiltersClicked ? "auto" : 0,
+                        height: openFiltersClicked ? "auto" : "",
+                        display: openFiltersClicked ? "" : "none",
+                        maxHeight: openFiltersClicked ? "100%" : 0,
                         pointerEvents: openFiltersClicked ? "auto" : "none"
                     }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}

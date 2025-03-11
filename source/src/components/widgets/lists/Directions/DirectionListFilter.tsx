@@ -57,7 +57,7 @@ export const DirectionListFilter = () => {
                     <FilterButtonGroup
                         open={openFiltersClicked}
                         onOpenChange={setOpenFiltersClicked}
-                        filterList={[clearDisabled]}
+                        filterList={[merchantId]}
                         clearButtonDisabled={clearDisabled}
                         onClearFilters={clearFilters}
                     />
@@ -65,14 +65,16 @@ export const DirectionListFilter = () => {
 
                 <motion.div
                     layout
-                    initial={{ opacity: 0, height: 0 }}
+                    initial={{ opacity: 0, height: 0, maxHeight: 0, display: "none" }}
                     animate={{
                         opacity: openFiltersClicked ? 1 : 0,
-                        height: openFiltersClicked ? "auto" : 0,
+                        height: openFiltersClicked ? "auto" : "",
+                        display: openFiltersClicked ? "" : "none",
+                        maxHeight: openFiltersClicked ? "100%" : 0,
                         pointerEvents: openFiltersClicked ? "auto" : "none"
                     }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="flex flex-1 flex-grow-100 min-w-[500px] max-w-[700px] md:flex-col gap-1 items-center md:items-start">
+                    className="flex flex-1 flex-grow-100 min-w-[150px] max-w-[700px] md:flex-col gap-1 items-center md:items-start">
                     <Label variant="title-2" className="md:text-nowrap mb-0">
                         {translate("resources.transactions.filter.filterByAccount")}
                     </Label>

@@ -114,7 +114,7 @@ export const WalletTransactionsFilter = () => {
                 />
                 <motion.div
                     layout
-                    initial={{ opacity: 0, height: 0 }}
+                    initial={{ opacity: 0, height: 0, maxHeight: 0, display: "none" }}
                     animate={{
                         opacity: openFiltersClicked ? 1 : 0,
                         height: openFiltersClicked ? "auto" : "",
