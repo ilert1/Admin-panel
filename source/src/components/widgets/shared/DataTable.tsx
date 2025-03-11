@@ -189,7 +189,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                 {pagination && total > perPage && renderPagination()}
 
                 <div className="flex items-center space-x-2">
-                    <p className="whitespace-nowrap text-sm font-normal text-neutral-90 dark:text-neutral-0">
+                    <p className="hidden sm:block whitespace-nowrap text-sm font-normal text-neutral-90 dark:text-neutral-0">
                         {translate("resources.transactions.pagination")}
                     </p>
                     <Select
