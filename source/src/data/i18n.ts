@@ -440,7 +440,7 @@ const ru: TranslationMessages = {
 
                 directionFieldError: "Направление обязательно должно быть выбрано",
                 currencyFieldError: "Валюта обязательно должна быть выбрана",
-                valueFieldError: "Коммиссия должна быть положительным числом"
+                valueFieldError: "Коммиссия должна быть положительным числом, например 0.1"
             },
             errors: {
                 name: "У направления обязательно должно быть имя",
@@ -1343,7 +1343,7 @@ const en: TranslationMessages = {
                 successDelete: "Fee successfully deleted",
                 directionFieldError: "The direction must be selected",
                 currencyFieldError: "The currency must be selected",
-                valueFieldError: "The commission must be a positive number"
+                valueFieldError: "The commission must be a positive number. For example: 0.1"
             },
             errors: {
                 name: "The direction must have a name",
