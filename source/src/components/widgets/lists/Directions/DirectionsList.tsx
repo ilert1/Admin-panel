@@ -45,7 +45,7 @@ export const DirectionsList = () => {
     } else {
         return (
             <>
-                <div className="flex flex-col md:flex-row gap-2 md:items-end justify-between mb-4">
+                <div className="flex flex-col lg:flex-row gap-2 lg:items-end justify-between mb-4">
                     <ListContextProvider value={listContext}>
                         <DirectionListFilter />
                     </ListContextProvider>
