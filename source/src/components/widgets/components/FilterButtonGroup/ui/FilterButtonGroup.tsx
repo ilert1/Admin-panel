@@ -24,7 +24,7 @@ export const FilterButtonGroup = (props: FilterButtonProps) => {
     const fc = filtersCount();
 
     return (
-        <div className={cn("flex justify-end gap-6 relative", className)}>
+        <div className={cn("flex flex-col sm:flex-row justify-end gap-6 relative", className)}>
             <Button
                 variant={"outline"}
                 className={cn(
