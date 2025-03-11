@@ -9,12 +9,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/Input/input";
 import useTransactionFilter from "@/hooks/useTransactionFilter";
 import { Button } from "@/components/ui/Button";
-import { ChevronDown, ChevronUp, SlidersHorizontal, XIcon } from "lucide-react";
 import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 
 export const TransactionListFilter = () => {
     const {
@@ -42,65 +41,19 @@ export const TransactionListFilter = () => {
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
 
-    const filtersCount = () => {
-        const activeFiltersCount = [
-            operationId,
-            account,
-            customerPaymentId,
-            startDate,
-            typeTabActive,
-            orderStatusFilter
-        ].filter(Boolean).length;
-
-        return activeFiltersCount;
-    };
-
-    const fc = filtersCount();
+    const clearDiasbled =
+        !operationId && !account && !customerPaymentId && !startDate && !typeTabActive && !orderStatusFilter;
 
     return (
         <>
             <div className="w-full mb-6 flex flex-col gap-2">
-                <div className="flex justify-end gap-6 relative">
-                    <Button
-                        variant={"outline"}
-                        className={cn(
-                            "text-neutral-80 dark:text-neutral-0 border-green-40 dark:border-neutral-0 dark:hover:text-green-50 relative flex gap-1 rounded-4",
-                            fc && "border-green-50 dark:border-green-50"
-                        )}
-                        onClick={() => setOpenFiltersClicked(!openFiltersClicked)}>
-                        <SlidersHorizontal className="" />
-                        <span>Фильтры</span>
-
-                        {openFiltersClicked ? <ChevronUp className="w-6 h-6 " /> : <ChevronDown className="w-6 h-6 " />}
-
-                        {fc ? (
-                            <div
-                                className="absolute w-4 h-4 bg-green-50 rounded-full flex items-center justify-center !text-neutral-0 text-note-2"
-                                style={{
-                                    transform: "translateX(450%) translateY(-100%)"
-                                }}>
-                                {fc}
-                            </div>
-                        ) : null}
-                    </Button>
-
-                    <Button
-                        className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7"
-                        onClick={clearFilters}
-                        variant="text_btn_sec"
-                        size="default"
-                        disabled={
-                            !operationId &&
-                            !account &&
-                            !customerPaymentId &&
-                            !startDate &&
-                            !typeTabActive &&
-                            !orderStatusFilter
-                        }>
-                        <span>{translate("resources.transactions.filter.clearFilters")}</span>
-                        <XIcon className="size-4" />
-                    </Button>
-                </div>
+                <FilterButtonGroup
+                    open={openFiltersClicked}
+                    onOpenChange={setOpenFiltersClicked}
+                    filterList={[operationId, account, customerPaymentId, startDate, typeTabActive, orderStatusFilter]}
+                    clearButtonDisabled={clearDiasbled}
+                    onClearFilters={clearFilters}
+                />
                 <motion.div
                     layout
                     initial={{ opacity: 0, height: 0 }}
