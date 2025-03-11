@@ -216,7 +216,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 columns={briefHistory}
                 data={history ? history : []}
                 tableType={TableTypes.COLORED}
-                className={clsx("flex-shrink-1 h-auto", history && history.length > 1 && "min-h-48")}
+                className={clsx("flex-shrink-1 h-auto min-h-24", history && history.length > 1 && "min-h-48")}
             />
 
             {(permissions === "admin" ||
@@ -236,7 +236,10 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                   )
                         }
                         tableType={TableTypes.COLORED}
-                        className={clsx("flex-shrink-1 h-auto", context.record.fees.length > 1 && "min-h-44")}
+                        className={clsx(
+                            "flex-shrink-1 h-auto auto min-h-20",
+                            context.record.fees.length > 1 && "min-h-44"
+                        )}
                     />
                 </div>
             )}
