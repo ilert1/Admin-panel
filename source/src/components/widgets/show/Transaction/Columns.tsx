@@ -39,7 +39,7 @@ export const useGetTransactionShowColumns = () => {
         {
             id: "value",
             accessorKey: "value",
-            header: translate("resources.transactions.fields.value"),
+            header: translate("resources.transactions.fields.feeValue"),
             cell: ({ row }) =>
                 `${computeValue(row.original.value.quantity, row.original.value.accuracy)} ${row.original.currency}`
         }
