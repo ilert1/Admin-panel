@@ -36,7 +36,7 @@ export const DirectionListFilter = () => {
 
     return (
         <div className="flex flex-col justify-between md:flex-row md:items-center lg:items-end gap-2 md:gap-x-4 md:gap-y-3 flex-wrap">
-            <div className="flex flex-1 flex-grow-100 md:min-w-[500px] lg:flex-col gap-1 items-center lg:items-start">
+            <div className="flex flex-1 flex-grow-100 lg:min-w-[500px] lg:flex-col gap-1 items-center lg:items-start">
                 <Label variant="title-2" className="lg:text-nowrap mb-0">
                     {translate("resources.transactions.filter.filterByAccount")}
                 </Label>
