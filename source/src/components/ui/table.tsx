@@ -37,8 +37,8 @@ const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableE
         }, [isScrollableLeft, isScrollableRight]);
 
         return (
-            <>
-                <div ref={tableRef} className={cn("relative w-full h-full overflow-auto", className)}>
+            <div className={cn("relative flex-shrink-1 mb-2", className)}>
+                <div ref={tableRef} className="relative w-full h-full overflow-auto">
                     <table
                         ref={ref}
                         className={cn("w-full h-full caption-bottom text-sm border-collapse")}
@@ -58,7 +58,7 @@ const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableE
                         isScrollableLeft ? "opacity-50" : "opacity-0"
                     }`}
                 />
-            </>
+            </div>
         );
     }
 );

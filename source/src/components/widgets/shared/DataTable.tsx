@@ -5,6 +5,7 @@ import { CircleArrowLeftIcon, CircleArrowRightIcon } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useListContext, useTranslate } from "react-admin";
 import { useCallback, useEffect } from "react";
+import clsx from "clsx";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -137,8 +138,8 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
     }, [setPage, table]);
 
     return (
-        <div className="relative flex-shrink-1 mb-2">
-            <Table className="h-auto">
+        <>
+            <Table className={clsx("min-h-20", data.length > 1 && "min-h-44")}>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup, i) => (
                         <TableRow key={i} className="bg-green-50 hover:bg-green-50 relative">
@@ -210,6 +211,6 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                     </Select>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
