@@ -9,9 +9,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/Input/input";
 import useTransactionFilter from "@/hooks/useTransactionFilter";
 import { Button } from "@/components/ui/Button";
-import { XIcon } from "lucide-react";
+import { ChevronDown, ChevronUp, SlidersHorizontal, XIcon } from "lucide-react";
 import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 export const TransactionListFilter = () => {
     const {
@@ -37,10 +40,73 @@ export const TransactionListFilter = () => {
     } = useTransactionFilter();
     // const debounced = debounce(setChartOpen, 200);
 
+    const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
+
+    const filtersCount = () => {
+        const activeFiltersCount = [
+            operationId,
+            account,
+            customerPaymentId,
+            startDate,
+            typeTabActive,
+            orderStatusFilter
+        ].filter(Boolean).length;
+
+        return activeFiltersCount;
+    };
+
+    const fc = filtersCount();
+
     return (
         <>
-            <div className="w-full mb-6">
-                <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
+            <div className="w-full mb-6 flex flex-col gap-2">
+                <div className="flex justify-end gap-6 relative">
+                    <Button
+                        variant={"outline"}
+                        className={cn(
+                            "text-neutral-80 dark:text-neutral-0 border-green-40 dark:border-neutral-0 dark:hover:text-green-50 relative flex gap-1 rounded-4",
+                            fc && "border-green-50 dark:border-green-50"
+                        )}
+                        onClick={() => setOpenFiltersClicked(!openFiltersClicked)}>
+                        <SlidersHorizontal className="" />
+                        <span>Фильтры</span>
+
+                        {openFiltersClicked ? <ChevronUp className="w-6 h-6 " /> : <ChevronDown className="w-6 h-6 " />}
+
+                        {fc ? (
+                            <div
+                                className="absolute w-4 h-4 bg-green-50 rounded-full flex items-center justify-center !text-neutral-0 text-note-2"
+                                style={{
+                                    transform: "translateX(450%) translateY(-100%)"
+                                }}>
+                                {fc}
+                            </div>
+                        ) : null}
+                    </Button>
+
+                    <Button
+                        className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7"
+                        onClick={clearFilters}
+                        variant="text_btn_sec"
+                        size="default"
+                        disabled={
+                            !operationId &&
+                            !account &&
+                            !customerPaymentId &&
+                            !startDate &&
+                            !typeTabActive &&
+                            !orderStatusFilter
+                        }>
+                        <span>{translate("resources.transactions.filter.clearFilters")}</span>
+                        <XIcon className="size-4" />
+                    </Button>
+                </div>
+                <motion.div
+                    layout
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: openFiltersClicked ? 1 : 0, height: openFiltersClicked ? "auto" : 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
                     <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
                         <Input
                             className="flex-1"
@@ -120,23 +186,6 @@ export const TransactionListFilter = () => {
                         </div>
                     )}
 
-                    <Button
-                        className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7"
-                        onClick={clearFilters}
-                        variant="text_btn_sec"
-                        size="default"
-                        disabled={
-                            !operationId &&
-                            !account &&
-                            !customerPaymentId &&
-                            !startDate &&
-                            !typeTabActive &&
-                            !orderStatusFilter
-                        }>
-                        <span>{translate("resources.transactions.filter.clearFilters")}</span>
-                        <XIcon className="size-4" />
-                    </Button>
-
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button
@@ -160,7 +209,7 @@ export const TransactionListFilter = () => {
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
-                </div>
+                </motion.div>
             </div>
 
             <div className="flex flex-wrap items-center justify-between gap-3">

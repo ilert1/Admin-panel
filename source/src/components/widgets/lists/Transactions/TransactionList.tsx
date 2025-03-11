@@ -8,7 +8,6 @@ import { ShowMerchantSheet } from "../Merchants/ShowMerchantSheet";
 
 export const TransactionList = () => {
     const listContext = useListController<Transaction.TransactionView>({ resource: "transactions/view" });
-
     const {
         columns,
         showOpen,
