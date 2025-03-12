@@ -56,12 +56,12 @@ export const TransactionListFilter = () => {
                 />
                 <motion.div
                     layout
-                    initial={{ opacity: 0, height: 0, maxHeight: 0, display: "none" }}
+                    initial={{ opacity: 0, height: 0, maxHeight: 0 /* , display: "none" */ }}
                     animate={{
                         opacity: openFiltersClicked ? 1 : 0,
-                        height: openFiltersClicked ? "auto" : "",
-                        display: openFiltersClicked ? "" : "none",
-                        maxHeight: openFiltersClicked ? "100%" : 0,
+                        height: openFiltersClicked ? "auto" : "0",
+                        // display: openFiltersClicked ? "flex" : "none",
+                        maxHeight: openFiltersClicked ? "100%" : "0%",
                         pointerEvents: openFiltersClicked ? "auto" : "none"
                     }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
