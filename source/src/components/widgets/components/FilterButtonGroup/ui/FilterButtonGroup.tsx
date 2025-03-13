@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronUp, SlidersHorizontal, XIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
 import { AnimatePresence, motion } from "framer-motion";
+import { useEffect } from "react";
 
 interface FilterButtonProps {
     open: boolean;
@@ -22,10 +23,19 @@ export const FilterButtonGroup = (props: FilterButtonProps) => {
         return activeFiltersCount;
     };
 
+    useEffect(() => {
+        localStorage.getItem("filterOpened")?.toString() === "true" && onOpenChange(true);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        open ? localStorage.setItem("filterOpened", "true") : localStorage.setItem("filterOpened", "false");
+    }, [open]);
+
     const fc = filtersCount();
 
     return (
-        <div className={cn("flex flex-col sm:flex-row justify-end gap-6 relative", className)}>
+        <div className={cn("flex flex-col sm:flex-row justify-end relative gap-2 sm:gap-0", className)}>
             <Button
                 variant={"outline"}
                 className={cn(
@@ -59,7 +69,7 @@ export const FilterButtonGroup = (props: FilterButtonProps) => {
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden">
                         <Button
-                            className="flex items-center gap-1 px-0"
+                            className="flex items-center gap-1 px-0 ml-0 sm:ml-6"
                             onClick={onClearFilters}
                             variant="text_btn_sec"
                             size="default">
