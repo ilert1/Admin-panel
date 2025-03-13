@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const TransactionListFilter = () => {
     const {
@@ -46,16 +47,27 @@ export const TransactionListFilter = () => {
 
     return (
         <>
-            <div className="w-full mb-6 flex flex-col gap-2">
-                <FilterButtonGroup
-                    open={openFiltersClicked}
-                    onOpenChange={setOpenFiltersClicked}
-                    filterList={[operationId, account, customerPaymentId, startDate, typeTabActive, orderStatusFilter]}
-                    clearButtonDisabled={clearDiasbled}
-                    onClearFilters={clearFilters}
-                />
+            <div className="w-full flex flex-col gap-2">
+                <div className="flex justify-between mb-6">
+                    <ResourceHeaderTitle />
+
+                    <FilterButtonGroup
+                        open={openFiltersClicked}
+                        onOpenChange={setOpenFiltersClicked}
+                        filterList={[
+                            operationId,
+                            account,
+                            customerPaymentId,
+                            startDate,
+                            typeTabActive,
+                            orderStatusFilter
+                        ]}
+                        clearButtonDisabled={clearDiasbled}
+                        onClearFilters={clearFilters}
+                    />
+                </div>
                 <AnimatedContainer open={openFiltersClicked}>
-                    <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
+                    <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap mb-4">
                         <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
                             <Input
                                 className="flex-1"

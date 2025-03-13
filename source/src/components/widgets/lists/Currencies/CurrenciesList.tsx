@@ -8,6 +8,7 @@ import { CreateCurrencyDialog } from "./CreateCurrencyDialog";
 import { EditCurrencyDialog } from "./EditCurrencyDialog";
 import { DeleteCurrencyDialog } from "./DeleteCurrencyDialog";
 import { CurrencyWithId } from "@/data/currencies";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const CurrenciesList = () => {
     const listContext = useListController<CurrencyWithId>();
@@ -29,7 +30,8 @@ export const CurrenciesList = () => {
     } else {
         return (
             <>
-                <div className="flex flex-end justify-end mb-4">
+                <div className="flex flex-end justify-between mb-6">
+                    <ResourceHeaderTitle />
                     <Button
                         onClick={() => setShowAddCurrencyDialog(true)}
                         className="flex items-center justify-center gap-1 font-normal">

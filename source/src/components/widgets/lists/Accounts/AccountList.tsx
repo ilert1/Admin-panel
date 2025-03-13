@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { AccountEdit } from "../../edit/AccountEdit";
 import { useGetAccountsColumns } from "./Columns";
 import { ShowAccountSheet } from "./ShowAccountSheet";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const AccountList = () => {
     const listContext = useListController<Account>();
@@ -19,6 +20,7 @@ export const AccountList = () => {
     } else {
         return (
             <>
+                <ResourceHeaderTitle marginBottom />
                 <ListContextProvider value={{ ...listContext }}>
                     <DataTable columns={columns} />
                 </ListContextProvider>

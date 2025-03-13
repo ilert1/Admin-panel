@@ -12,6 +12,7 @@ import { ControllerRenderProps, useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import { z } from "zod";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { ResourceHeaderTitle } from "@/components/widgets/components/ResourceHeaderTitle";
 
 export const WalletStore = () => {
     const translate = useTranslate();
@@ -105,6 +106,8 @@ export const WalletStore = () => {
 
     return (
         <>
+            <ResourceHeaderTitle marginBottom />
+
             <div className="absolute bottom-[-90px] right-[-48px] p-4">
                 <img
                     src="/BlowFish.svg"

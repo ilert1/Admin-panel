@@ -8,6 +8,7 @@ import { debounce } from "lodash";
 import { CreateUserDialogNewFlow } from "./CreateUserDialogNewFlow";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const UserListFilter = () => {
     const translate = useTranslate();
@@ -61,10 +62,10 @@ export const UserListFilter = () => {
     const clearDisabled = !userInputId && !username && !checkedActivity;
 
     return (
-        <div className="flex flex-col gap-4 mb-6">
-            <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-4">
+            <div className="flex flex-col">
                 <div className="flex flex-col sm:flex-row gap-6 justify-end">
-                    <div className="flex gap-3 justify-end">
+                    <div className="flex flex-wrap gap-3 justify-between w-full mb-6">
                         {/* <Button
                             onClick={() => setShowAddUserDialog(true)}
                             className="flex items-center justify-center gap-1 font-normal">
@@ -72,29 +73,32 @@ export const UserListFilter = () => {
                             <span>{translate("resources.users.createButton")}</span>
                         </Button>
                         <CreateUserDialog open={showAddUserDialog} onOpenChange={setShowAddUserDialog} /> */}
+                        <ResourceHeaderTitle />
 
-                        <Button
-                            onClick={() => setShowAddUserNewFlowDialog(true)}
-                            className="flex items-center justify-center gap-1 font-normal w-full">
-                            <CirclePlus width={16} height={16} />
-                            <span>{translate("resources.users.createButton")}</span>
-                        </Button>
-                        <CreateUserDialogNewFlow
-                            open={showAddUserNewFlowDialog}
-                            onOpenChange={setShowAddUserNewFlowDialog}
-                        />
+                        <div className="flex flex-col sm:flex-row gap-3">
+                            <Button
+                                onClick={() => setShowAddUserNewFlowDialog(true)}
+                                className="flex items-center justify-center gap-1 font-normal w-full">
+                                <CirclePlus width={16} height={16} />
+                                <span>{translate("resources.users.createButton")}</span>
+                            </Button>
+                            <CreateUserDialogNewFlow
+                                open={showAddUserNewFlowDialog}
+                                onOpenChange={setShowAddUserNewFlowDialog}
+                            />
+                            <FilterButtonGroup
+                                open={openFiltersClicked}
+                                onOpenChange={setOpenFiltersClicked}
+                                clearButtonDisabled={clearDisabled}
+                                filterList={[userInputId, username, checkedActivity]}
+                                onClearFilters={clearFilters}
+                            />
+                        </div>
                     </div>
-                    <FilterButtonGroup
-                        open={openFiltersClicked}
-                        onOpenChange={setOpenFiltersClicked}
-                        clearButtonDisabled={clearDisabled}
-                        filterList={[userInputId, username, checkedActivity]}
-                        onClearFilters={clearFilters}
-                    />
                 </div>
 
                 <AnimatedContainer open={openFiltersClicked}>
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2 mb-6">
                         <div className="flex items-end gap-4 flex-wrap">
                             <div className="flex flex-col gap-2 lg:min-w-52">
                                 <Input

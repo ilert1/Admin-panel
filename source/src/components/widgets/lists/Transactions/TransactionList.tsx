@@ -25,7 +25,7 @@ export const TransactionList = () => {
         return (
             <>
                 <ListContextProvider value={listContext}>
-                    <div className="mb-6 mt-5">
+                    <div className="mb-4 mt-5">
                         <TransactionListFilter
                         // setChartOpen={setChartOpen}
                         // chartOpen={chartOpen}

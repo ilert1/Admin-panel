@@ -11,6 +11,7 @@ import { useListContext, useTranslate } from "react-admin";
 import { DateRange } from "react-day-picker";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const WalletTransactionsFilter = () => {
     const data = fetchDictionaries();
@@ -103,15 +104,19 @@ export const WalletTransactionsFilter = () => {
     if (!data) return <Loading />;
 
     return (
-        <div className="mb-6">
+        <div className="">
             <div className="flex flex-col gap-2">
-                <FilterButtonGroup
-                    open={openFiltersClicked}
-                    onOpenChange={setOpenFiltersClicked}
-                    filterList={[transactionId, stateFilter, dateCreate, dateUpdate, typeTabActive]}
-                    clearButtonDisabled={clearDisabled}
-                    onClearFilters={clearFilters}
-                />
+                <div className="flex justify-between mb-6">
+                    <ResourceHeaderTitle />
+
+                    <FilterButtonGroup
+                        open={openFiltersClicked}
+                        onOpenChange={setOpenFiltersClicked}
+                        filterList={[transactionId, stateFilter, dateCreate, dateUpdate, typeTabActive]}
+                        clearButtonDisabled={clearDisabled}
+                        onClearFilters={clearFilters}
+                    />
+                </div>
                 <AnimatedContainer open={openFiltersClicked}>
                     <div className="w-full mb-6 flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
                         <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">

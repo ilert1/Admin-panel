@@ -11,6 +11,7 @@ import { CirclePlus } from "lucide-react";
 import { CreateProviderDialog } from "./CreateProviderDialog";
 import { ConfirmCreatingDialog } from "./ConfirmCreatingDialog";
 import { ProviderWithId } from "@/data/providers";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const ProvidersList = () => {
     const listContext = useListController<ProviderWithId>();
@@ -45,8 +46,10 @@ export const ProvidersList = () => {
         return (
             <>
                 <div>
-                    <div className="flex justify-between mb-4 mt-[24px]">
-                        <div className="flex w-full justify-end">
+                    <div className="flex justify-between mt-[24px]">
+                        <div className="flex w-full justify-between mb-6">
+                            <ResourceHeaderTitle />
+
                             <Button onClick={handleCreateClicked} variant="default" className="flex gap-[4px]">
                                 <CirclePlus className="w-[16px] h-[16px]" />
                                 <span className="text-title-1">{translate("resources.provider.createNew")}</span>

@@ -11,6 +11,7 @@ import useWithdrawFilter from "@/hooks/useWithdrawFilter";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { useState } from "react";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const WithdrawListFilter = () => {
     const {
@@ -34,15 +35,18 @@ export const WithdrawListFilter = () => {
     return (
         <>
             <div className="">
-                <div className="flex flex-col gap-2">
-                    <FilterButtonGroup
-                        open={openFiltersClicked}
-                        onOpenChange={setOpenFiltersClicked}
-                        clearButtonDisabled={clearDisabled}
-                        filterList={[operationId, startDate, typeTabActive]}
-                        onClearFilters={clearFilters}
-                    />
+                <div className="flex flex-col   ">
+                    <div className="mb-6 flex justify-between">
+                        <ResourceHeaderTitle />
 
+                        <FilterButtonGroup
+                            open={openFiltersClicked}
+                            onOpenChange={setOpenFiltersClicked}
+                            clearButtonDisabled={clearDisabled}
+                            filterList={[operationId, startDate, typeTabActive]}
+                            onClearFilters={clearFilters}
+                        />
+                    </div>
                     <AnimatedContainer open={openFiltersClicked}>
                         <div className="w-full mb-6 flex flex-col justify-start sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
                             <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start md:max-w-96">
