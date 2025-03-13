@@ -50,31 +50,6 @@ export const FilterButtonGroup = (props: FilterButtonProps) => {
                 ) : null}
             </Button>
 
-            {/* <Button
-                className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7"
-                onClick={onClearFilters}
-                variant="text_btn_sec"
-                size="default"
-                disabled={clearButtonDisabled}>
-                <span>{translate("resources.transactions.filter.clearFilters")}</span>
-                <XIcon className="size-4" />
-            </Button> */}
-            {/* <motion.div
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: clearButtonDisabled ? 0 : "auto", opacity: clearButtonDisabled ? 0 : 1 }}
-                exit={{ width: 0, opacity: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="overflow-hidden">
-                <Button
-                    className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7"
-                    onClick={onClearFilters}
-                    variant="text_btn_sec"
-                    size="default"
-                    disabled={clearButtonDisabled}>
-                    <span>{translate("resources.transactions.filter.clearFilters")}</span>
-                    <XIcon className="size-4" />
-                </Button>
-            </motion.div> */}
             <AnimatePresence>
                 {!clearButtonDisabled && (
                     <motion.div
