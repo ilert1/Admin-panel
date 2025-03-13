@@ -49,12 +49,12 @@ export const LoginPage = () => {
     const loginBg = LoginBackground(theme === "dark" ? "#237648" : "#62D093");
     return (
         <>
-            <div className="flex flex-shrink-0 justify-end h-[84px] items-center gap-8 bg-header px-4 relative z-100 pointer-events-auto z">
+            <header className="flex flex-shrink-0 justify-end h-[84px] items-center gap-8 bg-header px-4 relative z-100 pointer-events-auto z">
                 <LoginPageThemeSwitcher theme={theme} setTheme={setTheme} translate={translate} />
                 <LangSwitcher />
-            </div>
+            </header>
 
-            <div className="relative flex items-center justify-center bg-loginBG overflow-hidden min-h-[508px] h-[calc(100vh-84px)]">
+            <main className="relative h-[calc(100%-84px)] flex items-center justify-center bg-loginBG overflow-hidden min-h-[508px] md:h-[calc(100vh-84px)]">
                 {loginBg}
                 <LoginForm error={error} setError={setError} setDialogOpen={setConfigDialogOpen} />
 
@@ -66,7 +66,7 @@ export const LoginPage = () => {
                     />
                 </div>
                 <AccountConfigDialog open={configDialogOpen} onOpenChange={setConfigDialogOpen} />
-            </div>
+            </main>
         </>
     );
 };

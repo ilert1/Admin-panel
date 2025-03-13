@@ -59,7 +59,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     const [testKeysModalOpen, setTestKeysModalOpen] = useState(false);
 
     return (
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col h-full md:h-screen">
             <Header handleLogout={handleLogout} />
             <div className="flex h-full overflow-hidden">
                 <Sidebar resourceName={resourceName} setTestKeysModalOpen={setTestKeysModalOpen} />
