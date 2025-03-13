@@ -46,7 +46,7 @@ export const ProvidersList = () => {
         return (
             <>
                 <div>
-                    <div className="flex justify-between mt-[24px]">
+                    <div className="flex justify-between">
                         <div className="flex w-full justify-between mb-6">
                             <ResourceHeaderTitle />
 
