@@ -29,7 +29,8 @@ export const FilterButtonGroup = (props: FilterButtonProps) => {
                 variant={"outline"}
                 className={cn(
                     "text-neutral-80 dark:text-neutral-0 border-green-40 dark:border-neutral-0 dark:hover:text-green-50 relative flex gap-1 rounded-4",
-                    fc && "border-green-50 dark:border-green-50"
+                    fc && "border-green-50 dark:border-green-50",
+                    open && "!border-green-50 !text-green-50"
                 )}
                 onClick={() => onOpenChange(!open)}>
                 <SlidersHorizontal className="" />

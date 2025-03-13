@@ -10,7 +10,7 @@ import { ChangeEvent, useCallback, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 import { DateRange } from "react-day-picker";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
-import { motion } from "framer-motion";
+import { AnimatedContainer } from "../../components/AnimatedContainer";
 
 export const WalletTransactionsFilter = () => {
     const data = fetchDictionaries();
@@ -112,79 +112,70 @@ export const WalletTransactionsFilter = () => {
                     clearButtonDisabled={clearDisabled}
                     onClearFilters={clearFilters}
                 />
-                <motion.div
-                    layout
-                    initial={{ opacity: 0, height: 0, maxHeight: 0, display: "none" }}
-                    animate={{
-                        opacity: openFiltersClicked ? 1 : 0,
-                        height: openFiltersClicked ? "auto" : "",
-                        display: openFiltersClicked ? "" : "none",
-                        maxHeight: openFiltersClicked ? "100%" : 0,
-                        pointerEvents: openFiltersClicked ? "auto" : "none"
-                    }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="w-full mb-6 flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
-                    <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
-                        <Input
-                            label={translate("resources.wallet.transactions.filterBar.searchById")}
-                            labelSize="title-2"
-                            placeholder="ID"
-                            value={transactionId}
-                            onChange={onTransactionIdChanged}
+                <AnimatedContainer open={openFiltersClicked}>
+                    <div className="w-full mb-6 flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
+                        <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
+                            <Input
+                                label={translate("resources.wallet.transactions.filterBar.searchById")}
+                                labelSize="title-2"
+                                placeholder="ID"
+                                value={transactionId}
+                                onChange={onTransactionIdChanged}
+                            />
+                        </div>
+
+                        <div className="flex flex-1 md:flex-col gap-1 items-center md:items-start min-w-36">
+                            <Label className="mb-0" variant="title-2">
+                                {translate("resources.wallet.transactions.filterBar.paymentStatus")}
+                            </Label>
+
+                            <Select
+                                onValueChange={val =>
+                                    val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged("")
+                                }
+                                value={stateFilter}>
+                                <SelectTrigger className="text-ellipsis h-[38px]">
+                                    <SelectValue
+                                        placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
+                                    />
+                                </SelectTrigger>
+
+                                <SelectContent>
+                                    <SelectItem value="null">
+                                        {translate("resources.transactions.filter.showAll")}
+                                    </SelectItem>
+
+                                    {data &&
+                                        Object.keys(data.states).map(index => (
+                                            <SelectItem
+                                                key={data.states[index].state_int}
+                                                value={data.states[index].state_int.toString()}>
+                                                {translate(
+                                                    `resources.transactions.states.${data?.states?.[
+                                                        index
+                                                    ]?.state_description?.toLowerCase()}`
+                                                )}
+                                            </SelectItem>
+                                        ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        <DateRangePicker
+                            title={translate("resources.wallet.transactions.filterBar.created_at")}
+                            placeholder={translate("resources.wallet.transactions.filterBar.datePlaceholder")}
+                            dateRange={{ from: dateCreate, to: dateCreate }}
+                            onChange={changeDateCreate}
+                        />
+
+                        <DateRangePicker
+                            title={translate("resources.wallet.transactions.filterBar.updated_at")}
+                            placeholder={translate("resources.wallet.transactions.filterBar.datePlaceholder")}
+                            dateRange={{ from: dateUpdate, to: dateUpdate }}
+                            onChange={changeDateUpdate}
                         />
                     </div>
-
-                    <div className="flex flex-1 md:flex-col gap-1 items-center md:items-start min-w-36">
-                        <Label className="mb-0" variant="title-2">
-                            {translate("resources.wallet.transactions.filterBar.paymentStatus")}
-                        </Label>
-
-                        <Select
-                            onValueChange={val =>
-                                val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged("")
-                            }
-                            value={stateFilter}>
-                            <SelectTrigger className="text-ellipsis h-[38px]">
-                                <SelectValue
-                                    placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
-                                />
-                            </SelectTrigger>
-
-                            <SelectContent>
-                                <SelectItem value="null">
-                                    {translate("resources.transactions.filter.showAll")}
-                                </SelectItem>
-
-                                {data &&
-                                    Object.keys(data.states).map(index => (
-                                        <SelectItem
-                                            key={data.states[index].state_int}
-                                            value={data.states[index].state_int.toString()}>
-                                            {translate(
-                                                `resources.transactions.states.${data?.states?.[
-                                                    index
-                                                ]?.state_description?.toLowerCase()}`
-                                            )}
-                                        </SelectItem>
-                                    ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-
-                    <DateRangePicker
-                        title={translate("resources.wallet.transactions.filterBar.created_at")}
-                        placeholder={translate("resources.wallet.transactions.filterBar.datePlaceholder")}
-                        dateRange={{ from: dateCreate, to: dateCreate }}
-                        onChange={changeDateCreate}
-                    />
-
-                    <DateRangePicker
-                        title={translate("resources.wallet.transactions.filterBar.updated_at")}
-                        placeholder={translate("resources.wallet.transactions.filterBar.datePlaceholder")}
-                        dateRange={{ from: dateUpdate, to: dateUpdate }}
-                        onChange={changeDateUpdate}
-                    />
-                </motion.div>
+                </AnimatedContainer>
             </div>
 
             {/* <div className="flex flex-wrap items-center justify-between gap-3">

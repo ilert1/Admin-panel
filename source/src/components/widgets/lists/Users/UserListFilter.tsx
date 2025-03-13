@@ -1,5 +1,5 @@
 import { useListContext, useTranslate } from "react-admin";
-import { CirclePlus, XIcon } from "lucide-react";
+import { CirclePlus } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { ChangeEvent, useState } from "react";
 import { Input } from "@/components/ui/Input/input";
@@ -7,7 +7,7 @@ import { debounce } from "lodash";
 // import { CreateUserDialog } from "./CreateUserDialog";
 import { CreateUserDialogNewFlow } from "./CreateUserDialogNewFlow";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
-import { motion } from "framer-motion";
+import { AnimatedContainer } from "../../components/AnimatedContainer";
 
 export const UserListFilter = () => {
     const translate = useTranslate();
@@ -63,7 +63,7 @@ export const UserListFilter = () => {
     return (
         <div className="flex flex-col gap-4 mb-6">
             <div className="flex flex-col gap-2">
-                <div className="flex gap-6 justify-end">
+                <div className="flex flex-col sm:flex-row gap-6 justify-end">
                     <div className="flex gap-3 justify-end">
                         {/* <Button
                             onClick={() => setShowAddUserDialog(true)}
@@ -75,7 +75,7 @@ export const UserListFilter = () => {
 
                         <Button
                             onClick={() => setShowAddUserNewFlowDialog(true)}
-                            className="flex items-center justify-center gap-1 font-normal">
+                            className="flex items-center justify-center gap-1 font-normal w-full">
                             <CirclePlus width={16} height={16} />
                             <span>{translate("resources.users.createButton")}</span>
                         </Button>
@@ -93,18 +93,7 @@ export const UserListFilter = () => {
                     />
                 </div>
 
-                <motion.div
-                    layout
-                    initial={{ opacity: 0, height: 0, maxHeight: 0, display: "none" }}
-                    animate={{
-                        opacity: openFiltersClicked ? 1 : 0,
-                        height: openFiltersClicked ? "auto" : "",
-                        display: openFiltersClicked ? "" : "none",
-                        maxHeight: openFiltersClicked ? "100%" : 0,
-                        pointerEvents: openFiltersClicked ? "auto" : "none"
-                    }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="flex justify-between items-end flex-wrap gap-4">
+                <AnimatedContainer open={openFiltersClicked}>
                     <div className="flex flex-col gap-2">
                         <div className="flex items-end gap-4 flex-wrap">
                             <div className="flex flex-col gap-2 lg:min-w-52">
@@ -142,7 +131,7 @@ export const UserListFilter = () => {
                             </span>
                         </label>
                     </div>
-                </motion.div>
+                </AnimatedContainer>
             </div>
         </div>
     );

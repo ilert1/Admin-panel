@@ -6,8 +6,8 @@ import { useListContext, useTranslate } from "react-admin";
 import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 import { Label } from "@/components/ui/label";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
-import { motion } from "framer-motion";
 import { CreateDirectionDialog } from "./CreateDirectionDialog";
+import { AnimatedContainer } from "../../components/AnimatedContainer";
 
 export const DirectionListFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
@@ -47,9 +47,8 @@ export const DirectionListFilter = () => {
 
     return (
         <>
-            {/* TODO FIX THE HEIGHT BUG */}
             <div className="w-full flex flex-col gap-2">
-                <div className="flex gap-6 justify-end">
+                <div className="flex flex-col sm:flex-row gap-6 justify-end">
                     <Button onClick={handleCreateClick} variant="default" className="flex gap-[4px] items-center">
                         <PlusCircle className="h-[16px] w-[16px]" />
                         <span className="text-title-1">{translate("resources.direction.create")}</span>
@@ -63,28 +62,19 @@ export const DirectionListFilter = () => {
                     />
                 </div>
 
-                <motion.div
-                    layout
-                    initial={{ opacity: 0, height: 0, maxHeight: 0, display: "none" }}
-                    animate={{
-                        opacity: openFiltersClicked ? 1 : 0,
-                        height: openFiltersClicked ? "auto" : "",
-                        display: openFiltersClicked ? "" : "none",
-                        maxHeight: openFiltersClicked ? "100%" : 0,
-                        pointerEvents: openFiltersClicked ? "auto" : "none"
-                    }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="flex flex-1 flex-grow-100 min-w-[150px] max-w-[700px] md:flex-col gap-1 items-center md:items-start">
-                    <Label variant="title-2" className="md:text-nowrap mb-0">
-                        {translate("resources.transactions.filter.filterByAccount")}
-                    </Label>
+                <AnimatedContainer open={openFiltersClicked}>
+                    <div className="flex flex-1 flex-grow-100 min-w-[150px] max-w-[700px] md:flex-col gap-1 items-center md:items-start">
+                        <Label variant="title-2" className="md:text-nowrap mb-0">
+                            {translate("resources.transactions.filter.filterByAccount")}
+                        </Label>
 
-                    <MerchantSelectFilter
-                        merchant={merchantId}
-                        onMerchantChanged={onAccountChanged}
-                        resource="merchant"
-                    />
-                </motion.div>
+                        <MerchantSelectFilter
+                            merchant={merchantId}
+                            onMerchantChanged={onAccountChanged}
+                            resource="merchant"
+                        />
+                    </div>
+                </AnimatedContainer>
             </div>
             <CreateDirectionDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
         </>
