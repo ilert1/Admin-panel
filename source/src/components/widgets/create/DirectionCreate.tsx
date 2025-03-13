@@ -22,6 +22,7 @@ import { Label } from "@/components/ui/label";
 import { Direction, DirectionCreate as IDirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
@@ -32,6 +33,8 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const refresh = useRefresh();
 
     const appToast = useAppToast();
+
+    const { directionTypes } = useGetDirectionTypes();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const { terminals, getTerminals } = useGetTerminals();
@@ -99,7 +102,10 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             .number({ message: translate("resources.direction.errors.weightError") })
             .int(translate("resources.direction.errors.weightError"))
             .min(0, translate("resources.direction.errors.weightError"))
-            .max(1000, translate("resources.direction.errors.weightError"))
+            .max(1000, translate("resources.direction.errors.weightError")),
+        type: z.enum(["universal", "withdraw", "deposit"], {
+            message: translate("resources.direction.errors.typeError")
+        })
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -393,9 +399,40 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                         />
                         <FormField
                             control={form.control}
+                            name="type"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full sm:w-1/2 p-2">
+                                    <Label>{translate("resources.direction.types.type")}</Label>
+                                    <Select {...field}>
+                                        <FormControl>
+                                            <SelectTrigger
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                {directionTypes.map(type => (
+                                                    <SelectItem
+                                                        value={type.value}
+                                                        variant={SelectType.GRAY}
+                                                        key={type.value}>
+                                                        {type.translation}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="description"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full = p-2">
+                                <FormItem className="w-full sm:w-1/2 p-2">
                                     <FormControl>
                                         <Input
                                             {...field}

@@ -109,6 +109,11 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                             text={JSON.stringify(context.record.auth_data)}
                             copyValue={JSON.stringify(context.record.auth_data).length === 0 ? false : true}
                         />
+
+                        {/* <TextField
+                            label={translate("resources.direction.types.type")}
+                            text={context.record.type}
+                        /> */}
                     </div>
                 </div>
 

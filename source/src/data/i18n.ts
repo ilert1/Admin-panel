@@ -406,6 +406,12 @@ const ru: TranslationMessages = {
         direction: {
             direction: "Направление",
             name: "Направления",
+            types: {
+                type: "Тип",
+                universal: "Универсальный",
+                withdraw: "Вывод средств",
+                deposit: "Пополнение"
+            },
             fields: {
                 name: "Название направления",
                 active: "Состояние",
@@ -452,7 +458,8 @@ const ru: TranslationMessages = {
                 terminal: "Терминал обязательно должен быть выбран",
                 terminalError: "Произошла ошибка при загрузке терминалов",
                 noTerminalsError: "У выбранного провайдера нет терминалов",
-                weightError: "Должно быть целым числом в диапазоне от 0 до 1000"
+                weightError: "Должно быть целым числом в диапазоне от 0 до 1000",
+                typeError: "Необходимо выбрать тип"
             },
             create: "Добавить направление",
             sourceCurrency: "Валюта отправителя",
@@ -1310,6 +1317,12 @@ const en: TranslationMessages = {
         direction: {
             name: "Directions",
             direction: "Direction",
+            types: {
+                type: "Type",
+                universal: "Universal",
+                withdraw: "Withdraw",
+                deposit: "Deposit"
+            },
             fields: {
                 name: "Directions name",
                 active: "State",
@@ -1355,7 +1368,8 @@ const en: TranslationMessages = {
                 terminal: "The terminal must be selected",
                 terminalError: "An error occured when fetching terminals",
                 noTerminalsError: "Chosen provider does not have any terminals",
-                weightError: "Must be an integer in the range from 0 to 1000"
+                weightError: "Must be an integer in the range from 0 to 1000",
+                typeError: "Type must be chosen"
             },
             create: "Add direction",
             sourceCurrency: "Source currency",
