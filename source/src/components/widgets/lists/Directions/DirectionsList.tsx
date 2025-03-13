@@ -50,7 +50,10 @@ export const DirectionsList = () => {
                         <DirectionListFilter />
                     </ListContextProvider>
 
-                    <Button onClick={handleCreateClick} variant="default" className="flex gap-[4px] items-center">
+                    <Button
+                        onClick={handleCreateClick}
+                        variant="default"
+                        className="flex gap-[4px] items-center md:w-fit md:self-end">
                         <PlusCircle className="h-[16px] w-[16px]" />
                         <span className="text-title-1">{translate("resources.direction.create")}</span>
                     </Button>
