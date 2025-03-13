@@ -254,8 +254,15 @@
 
         body,
         #root,
-        #root>div {
+        #root > div {
             height: 100%;
         }
+    }
+
+    p,
+    span,
+    /* button, */
+    td {
+        font-size: clamp(10px, 2vw, 14px);
     }
 }
