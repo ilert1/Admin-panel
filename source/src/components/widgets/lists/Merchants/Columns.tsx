@@ -40,14 +40,22 @@ export const useGetMerchantColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div>
-                        <TextField text={row.original.name} />
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                setChosenId(row.original.id ?? "");
+                                setShowSheetOpen(true);
+                            }}>
+                            {row.original.name ?? ""}
+                        </Button>
                         <TextField
-                            copyValue
+                            className="text-neutral-70"
                             text={row.original.id}
+                            wrap
+                            copyValue
                             lineClamp
                             linesCount={1}
                             minWidth="50px"
-                            className="text-neutral-70"
                         />
                     </div>
                 );

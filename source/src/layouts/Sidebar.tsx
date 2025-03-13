@@ -7,6 +7,8 @@ import { createElement, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useGetResLabel } from "@/hooks/useGetResLabel";
 import { Button } from "@/components/ui/Button";
+import { useMediaQuery } from "react-responsive";
+import clsx from "clsx";
 
 const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
 
@@ -25,6 +27,7 @@ export const Sidebar = (props: SidebarProps) => {
     const { permissions } = usePermissions();
 
     const menuOpenState = localStorage.getItem("menuOpenState") === "false" ? false : true;
+    const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
     const [isSheetOpen, setSheetOpen] = useState(menuOpenState);
     const [showCaptions, setShowCaptions] = useState(true);
@@ -45,40 +48,44 @@ export const Sidebar = (props: SidebarProps) => {
     return (
         <aside
             className={
-                isSheetOpen
+                isSheetOpen && !isMobile
                     ? "w-[280px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden justify-start bg-header transition-[width] pt-6"
                     : "w-[72px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden justify-start bg-header transition-[width] pt-6"
             }>
-            {isSheetOpen ? (
-                <div className="flex flex-shrink-0 justify-center items-center h-[63px] gap-6 px-6">
-                    <div className="flex items-center w-[189px] m-0 p-0">
-                        <div className="animate-in fade-in-0 transition-opacity duration-700">
-                            <img
-                                src={theme === "light" ? "/NoNameLogoLight.svg" : "/NoNameLogo.svg"}
-                                alt="Logo"
-                                className="h-[55px] w-[89.51px] pointer-events-none select-none"
-                            />
+            {!isMobile && (
+                <>
+                    {isSheetOpen ? (
+                        <div className="flex flex-shrink-0 justify-center items-center h-[63px] gap-6 px-6">
+                            <div className="flex items-center w-[189px] m-0 p-0">
+                                <div className="animate-in fade-in-0 transition-opacity duration-700">
+                                    <img
+                                        src={theme === "light" ? "/NoNameLogoLight.svg" : "/NoNameLogo.svg"}
+                                        alt="Logo"
+                                        className="h-[55px] w-[89.51px] pointer-events-none select-none"
+                                    />
+                                </div>
+                            </div>
+                            <button className="flex flex-col items-center animate-in fade-in-0 transition-opacity duration-300">
+                                <ChevronLeftCircleIcon
+                                    onClick={() => handleMenuState(!isSheetOpen)}
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-green-60 dark:hover:text-white"
+                                />
+                            </button>
                         </div>
-                    </div>
-                    <button className="flex flex-col items-center animate-in fade-in-0 transition-opacity duration-300">
-                        <ChevronLeftCircleIcon
-                            onClick={() => handleMenuState(!isSheetOpen)}
-                            className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-green-60 dark:hover:text-white"
-                        />
-                    </button>
-                </div>
-            ) : (
-                <div className="w-[70px] flex justify-center">
-                    <button className="h-[63px] ">
-                        <ChevronRightCircleIcon
-                            onClick={() => handleMenuState(!isSheetOpen)}
-                            className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-green-60 dark:hover:text-white border-none outline-none"
-                        />
-                    </button>
-                </div>
+                    ) : (
+                        <div className="w-[70px] flex justify-center">
+                            <button className="h-[63px] ">
+                                <ChevronRightCircleIcon
+                                    onClick={() => handleMenuState(!isSheetOpen)}
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-green-60 dark:hover:text-white border-none outline-none"
+                                />
+                            </button>
+                        </div>
+                    )}
+                </>
             )}
 
-            <nav className="flex flex-col items-baseline text-base gap-4 mt-6">
+            <nav className={clsx("flex flex-col items-baseline text-base gap-4", !isMobile && "mt-6")}>
                 {Object.keys(resources).map(resource => {
                     if (!resource.includes("wallet")) {
                         return (
@@ -93,7 +100,7 @@ export const Sidebar = (props: SidebarProps) => {
                                                     : "pl-6 flex items-center gap-3 hover:bg-neutral-20 dark:hover:bg-black w-full hover:text-controlElements animate-in fade-in-0 py-2"
                                             }>
                                             {createElement(resources[resource].icon, {})}
-                                            {showCaptions && (
+                                            {showCaptions && !isMobile && (
                                                 <span className="animate-in fade-in-0 transition-opacity">
                                                     {getResLabel(resources[resource].name, permissions)}
                                                 </span>
@@ -103,7 +110,7 @@ export const Sidebar = (props: SidebarProps) => {
 
                                     <TooltipContent
                                         className={
-                                            showCaptions
+                                            showCaptions && !isMobile
                                                 ? "hidden"
                                                 : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 dark:after:bg-neutral-100 after:rotate-45"
                                         }
@@ -121,7 +128,7 @@ export const Sidebar = (props: SidebarProps) => {
                         );
                     }
                 })}
-                {WALLET_ENABLED && <AdminCryptoStoreResources showCaptions={showCaptions} />}
+                {WALLET_ENABLED && <AdminCryptoStoreResources showCaptions={showCaptions && !isMobile} />}
             </nav>
 
             {permissions === "admin" && (
@@ -130,12 +137,14 @@ export const Sidebar = (props: SidebarProps) => {
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <Button
-                                    className={showCaptions ? "w-full pl-6 flex gap-[4px] text-title-1" : "p-2.5"}
+                                    className={
+                                        showCaptions && !isMobile ? "w-full pl-6 flex gap-[4px] text-title-1" : "p-2.5"
+                                    }
                                     onClick={() => {
                                         setTestKeysModalOpen(true);
                                     }}>
                                     <KeyRound className="text-white w-[16px] h-[16px]" />
-                                    {showCaptions ? (
+                                    {showCaptions && !isMobile ? (
                                         <span className="animate-in fade-in-0 text-white transition-opacity p-0 m-0">
                                             {translate("resources.provider.createTestKeys")}
                                         </span>
@@ -145,7 +154,7 @@ export const Sidebar = (props: SidebarProps) => {
 
                             <TooltipContent
                                 className={
-                                    showCaptions
+                                    showCaptions && !isMobile
                                         ? "hidden"
                                         : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 after:rotate-45"
                                 }

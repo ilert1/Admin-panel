@@ -189,24 +189,28 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                 {pagination && total > perPage && renderPagination()}
 
                 <div className="flex items-center space-x-2">
-                    <p className="whitespace-nowrap text-sm font-normal text-neutral-90 dark:text-neutral-0">
+                    <p className="hidden sm:block whitespace-nowrap text-sm font-normal text-neutral-90 dark:text-neutral-0">
                         {translate("resources.transactions.pagination")}
                     </p>
                     <Select
-                        value={`${table.getState().pagination.pageSize}`}
+                        value={`${data?.length > 0 ? table.getState().pagination.pageSize : 0}`}
                         onValueChange={value => {
                             table.setPageSize(Number(value));
                             setPerPage(Number(value));
                         }}>
                         <SelectTrigger className="h-8 border-none bg-white dark:bg-green-60 p-1 w-auto gap-0.5 text-neutral-90 dark:text-white">
-                            <SelectValue placeholder={table.getState().pagination.pageSize} />
+                            <SelectValue placeholder={data?.length > 0 ? table.getState().pagination.pageSize : 0} />
                         </SelectTrigger>
                         <SelectContent>
-                            {[5, 10, 25, 50, 100].map(pageSize => (
-                                <SelectItem key={pageSize} value={`${pageSize}`}>
-                                    {pageSize}
-                                </SelectItem>
-                            ))}
+                            {data?.length > 0 ? (
+                                [5, 10, 25, 50, 100].map(pageSize => (
+                                    <SelectItem key={pageSize} value={`${pageSize}`}>
+                                        {pageSize}
+                                    </SelectItem>
+                                ))
+                            ) : (
+                                <SelectItem value="0">0</SelectItem>
+                            )}
                         </SelectContent>
                     </Select>
                 </div>
