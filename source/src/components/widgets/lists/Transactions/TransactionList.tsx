@@ -8,7 +8,6 @@ import { ShowMerchantSheet } from "../Merchants/ShowMerchantSheet";
 
 export const TransactionList = () => {
     const listContext = useListController<Transaction.TransactionView>({ resource: "transactions/view" });
-
     const {
         columns,
         showOpen,
@@ -26,7 +25,7 @@ export const TransactionList = () => {
         return (
             <>
                 <ListContextProvider value={listContext}>
-                    <div className="mb-6 mt-5">
+                    <div className="mb-4 mt-5">
                         <TransactionListFilter
                         // setChartOpen={setChartOpen}
                         // chartOpen={chartOpen}

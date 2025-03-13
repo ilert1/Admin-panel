@@ -9,6 +9,7 @@ import { DataTable } from "../../shared";
 import { ShowWalletDialog } from "./ShowWalletDialog";
 import { VaultDataProvider, WalletsDataProvider } from "@/data";
 import { useQuery } from "react-query";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const WalletsList = () => {
     const { permissions } = usePermissions();
@@ -65,7 +66,9 @@ export const WalletsList = () => {
     } else {
         return (
             <>
-                <div className="flex flex-end justify-end mb-4">
+                <div className="flex gap-2 flex-wrap justify-between mb-6">
+                    <ResourceHeaderTitle />
+
                     <Button
                         onClick={handleCreateClick}
                         variant="default"

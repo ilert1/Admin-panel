@@ -13,6 +13,7 @@ import { ShowMerchantSheet } from "./ShowMerchantSheet";
 import { CreateMerchantDialogNewFlow } from "./CreateMerchantDialogNewFlow";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { PlusCircle } from "lucide-react";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const MerchantList = () => {
     const listContext = useListController<Merchant>();
@@ -41,7 +42,8 @@ export const MerchantList = () => {
     } else {
         return (
             <>
-                <div className="flex flex-end justify-end gap-3 mb-4">
+                <div className="flex flex-end flex-wrap justify-between gap-3 mb-6">
+                    <ResourceHeaderTitle />
                     {/* <Button onClick={handleCreateClick} variant="default">
                         {translate("resources.merchant.createNew")}
                     </Button> */}

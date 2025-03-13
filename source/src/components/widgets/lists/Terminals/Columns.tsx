@@ -146,7 +146,10 @@ export const useGetTerminalColumns = () => {
                                     handleCreateAccountClicked(row.original.provider, row.original.terminal_id)
                                 }>
                                 <PlusCircle className="h-4 w-4" />
-                                <TextField text={translate("resources.terminals.fields.createAccount")} />
+                                <TextField
+                                    className="text-neutral-0"
+                                    text={translate("resources.terminals.fields.createAccount")}
+                                />
                             </Button>
                         )}
                     </div>

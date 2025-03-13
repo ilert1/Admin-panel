@@ -69,7 +69,7 @@ export const WalletManualReconciliationBar = () => {
     };
 
     return (
-        <div className="flex justify-end items-end mb-6">
+        <div className="flex justify-end items-end">
             <Button
                 onClick={() => setManualClicked(!manualClicked)}
                 className="flex items-center justify-center gap-1 font-normal self-end">

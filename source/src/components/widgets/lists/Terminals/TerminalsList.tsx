@@ -12,6 +12,7 @@ import { TerminalListTable } from "./TerminalsListTable";
 import { useGetTerminalColumns } from "./Columns";
 import { TerminalShowDialog } from "./TerminalShowDialog";
 import { ShowAccountSheet } from "../Accounts/ShowAccountSheet";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const TerminalsList = () => {
     const translate = useTranslate();
@@ -35,9 +36,8 @@ export const TerminalsList = () => {
 
     return (
         <>
-            <div className="flex flex-col md:flex-row gap-2 md:items-end justify-between mb-4">
-                <TerminalsListFilter selectProvider={setProvider} />
-
+            <div className="flex justify-between mb-6 gap-2 flex-wrap">
+                <ResourceHeaderTitle />
                 <Button
                     disabled={!provider}
                     onClick={() => setCreateDialogOpen(true)}
@@ -47,6 +47,9 @@ export const TerminalsList = () => {
 
                     <span className="text-title-1">{translate("resources.terminals.create")}</span>
                 </Button>
+            </div>
+            <div className="flex flex-col md:flex-row gap-2 md:items-end justify-between mb-4">
+                <TerminalsListFilter selectProvider={setProvider} />
             </div>
 
             {provider ? (

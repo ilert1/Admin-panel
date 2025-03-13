@@ -224,6 +224,7 @@ const ru: TranslationMessages = {
                 accountField: "Выберите аккаунт мерчанта"
             },
             filter: {
+                filters: "Фильтры",
                 showAll: "Показать все",
                 filterById: "Поиск по ID операции",
                 filterByIdPlaceholder: "ID",
@@ -1128,6 +1129,7 @@ const en: TranslationMessages = {
                 accountField: "Choose merchant account"
             },
             filter: {
+                filters: "Filters",
                 showAll: "Show all",
                 filterById: "Search by operation ID",
                 filterByIdPlaceholder: "ID",

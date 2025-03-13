@@ -4,6 +4,7 @@ import { DataTable } from "../../shared";
 import { WalletManualReconciliationBar } from "./WalletManualReconciliationBar";
 import { useGetWalletLinkedTransactionColumns } from "./Columns";
 import { ShowWalletLinkedTransactionsSheet } from "./ShowWalletLinkedTransactionsSheet";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const WalletLinkedTransactionsList = () => {
     const { permissions } = usePermissions();
@@ -18,7 +19,11 @@ export const WalletLinkedTransactionsList = () => {
     } else {
         return (
             <>
-                <WalletManualReconciliationBar />
+                <div className="flex flex-wrap gap-2 justify-between mb-6">
+                    <ResourceHeaderTitle />
+
+                    <WalletManualReconciliationBar />
+                </div>
 
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />
