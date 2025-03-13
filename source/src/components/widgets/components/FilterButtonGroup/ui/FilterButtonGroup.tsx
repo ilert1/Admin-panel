@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronUp, SlidersHorizontal, XIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface FilterButtonProps {
     open: boolean;
@@ -49,7 +50,7 @@ export const FilterButtonGroup = (props: FilterButtonProps) => {
                 ) : null}
             </Button>
 
-            <Button
+            {/* <Button
                 className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7"
                 onClick={onClearFilters}
                 variant="text_btn_sec"
@@ -57,7 +58,42 @@ export const FilterButtonGroup = (props: FilterButtonProps) => {
                 disabled={clearButtonDisabled}>
                 <span>{translate("resources.transactions.filter.clearFilters")}</span>
                 <XIcon className="size-4" />
-            </Button>
+            </Button> */}
+            {/* <motion.div
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: clearButtonDisabled ? 0 : "auto", opacity: clearButtonDisabled ? 0 : 1 }}
+                exit={{ width: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="overflow-hidden">
+                <Button
+                    className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7"
+                    onClick={onClearFilters}
+                    variant="text_btn_sec"
+                    size="default"
+                    disabled={clearButtonDisabled}>
+                    <span>{translate("resources.transactions.filter.clearFilters")}</span>
+                    <XIcon className="size-4" />
+                </Button>
+            </motion.div> */}
+            <AnimatePresence>
+                {!clearButtonDisabled && (
+                    <motion.div
+                        initial={{ opacity: 0, width: 0 }}
+                        animate={{ opacity: 1, width: "auto" }}
+                        exit={{ opacity: 0, width: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden">
+                        <Button
+                            className="flex items-center gap-1 px-0"
+                            onClick={onClearFilters}
+                            variant="text_btn_sec"
+                            size="default">
+                            <span>{translate("resources.transactions.filter.clearFilters")}</span>
+                            <XIcon className="size-4" />
+                        </Button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

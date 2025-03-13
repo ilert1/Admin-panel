@@ -106,7 +106,7 @@ export const WalletTransactionsFilter = () => {
     return (
         <div className="">
             <div className="flex flex-col">
-                <div className="flex justify-between mb-6">
+                <div className="flex flex-wrap gap-2 justify-between mb-6">
                     <ResourceHeaderTitle />
 
                     <FilterButtonGroup

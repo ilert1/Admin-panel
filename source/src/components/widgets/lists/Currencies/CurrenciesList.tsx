@@ -30,7 +30,7 @@ export const CurrenciesList = () => {
     } else {
         return (
             <>
-                <div className="flex flex-end justify-between mb-6">
+                <div className="flex flex-wrap gap-2 justify-between mb-6">
                     <ResourceHeaderTitle />
                     <Button
                         onClick={() => setShowAddCurrencyDialog(true)}

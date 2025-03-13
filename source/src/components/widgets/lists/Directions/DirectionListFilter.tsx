@@ -49,7 +49,7 @@ export const DirectionListFilter = () => {
     return (
         <>
             <div className="w-full flex flex-col">
-                <div className="flex justify-between mb-6">
+                <div className="flex gap-2 flex-wrap justify-between mb-6">
                     <ResourceHeaderTitle />
 
                     <div className="flex flex-col sm:flex-row gap-6 justify-end">

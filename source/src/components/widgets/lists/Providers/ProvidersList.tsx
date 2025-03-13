@@ -47,7 +47,7 @@ export const ProvidersList = () => {
             <>
                 <div>
                     <div className="flex justify-between">
-                        <div className="flex w-full justify-between mb-6">
+                        <div className="flex gap-2 flex-wrap w-full justify-between mb-6">
                             <ResourceHeaderTitle />
 
                             <Button onClick={handleCreateClicked} variant="default" className="flex gap-[4px]">

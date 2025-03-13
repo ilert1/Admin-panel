@@ -42,7 +42,7 @@ export const MerchantList = () => {
     } else {
         return (
             <>
-                <div className="flex flex-end justify-between gap-3 mb-6">
+                <div className="flex flex-end flex-wrap justify-between gap-3 mb-6">
                     <ResourceHeaderTitle />
                     {/* <Button onClick={handleCreateClick} variant="default">
                         {translate("resources.merchant.createNew")}

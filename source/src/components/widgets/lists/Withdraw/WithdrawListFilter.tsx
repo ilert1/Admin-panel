@@ -35,8 +35,8 @@ export const WithdrawListFilter = () => {
     return (
         <>
             <div className="">
-                <div className="flex flex-col   ">
-                    <div className="mb-6 flex justify-between">
+                <div className="flex flex-col">
+                    <div className="mb-6 flex gap-4 flex-wrap justify-between">
                         <ResourceHeaderTitle />
 
                         <FilterButtonGroup
