@@ -14,6 +14,7 @@ import { feesDataProvider, FeesResource } from "@/data";
 import { useState } from "react";
 import { HttpError, useRefresh, useTranslate } from "react-admin";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { Trash2 } from "lucide-react";
 
 interface FeeCardProps {
     account: string;
@@ -72,7 +73,7 @@ export const FeeCard = (props: FeeCardProps) => {
     return (
         <>
             <div className="mt-[2px] mb-[16px]">
-                <div className="bg-neutral-10 dark:bg-muted rounded-[8px] px-4 pt-[16px] pb-[8px]">
+                <div className="relative bg-neutral-10 dark:bg-muted rounded-8 p-4">
                     <div className="w-full grid grid-cols-2 gap-y-[8px] gap-2">
                         <TextField
                             copyValue
@@ -112,11 +113,12 @@ export const FeeCard = (props: FeeCardProps) => {
                         )}
                     </div>
                     {addFee && (
-                        <div className="flex justify-end mt-6 pb-2">
-                            <Button variant={"outline_gray"} onClick={handleDeleteClicked}>
-                                {translate("app.ui.actions.delete")}
-                            </Button>
-                        </div>
+                        <Button
+                            onClick={handleDeleteClicked}
+                            variant="text_btn"
+                            className="absolute top-4 right-3 h-8 w-8 p-0 bg-transparent">
+                            <Trash2 className="h-7 w-7 text-red-40" />
+                        </Button>
                     )}
                 </div>
             </div>
