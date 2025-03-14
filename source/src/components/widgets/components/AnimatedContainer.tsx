@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface AnimatedContainerProps {
@@ -8,12 +8,19 @@ interface AnimatedContainerProps {
 
 export const AnimatedContainer = (props: AnimatedContainerProps) => {
     const { open, children } = props;
+    const [opened, setOpened] = useState(() => {
+        return localStorage.getItem("filterOpened") === "true";
+    });
+
+    useEffect(() => {
+        setOpened(open);
+    }, [open]);
 
     return (
         <AnimatePresence>
             <motion.div
                 layout
-                initial={{ opacity: 0, height: 0 }}
+                initial={{ opacity: opened ? 1 : 0, height: opened ? "auto" : 0 }}
                 animate={{
                     opacity: open ? 1 : 0,
                     height: open ? "auto" : 0,
