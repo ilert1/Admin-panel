@@ -119,7 +119,7 @@ export const FeeCard = (props: FeeCardProps) => {
                             onClick={handleDeleteClicked}
                             variant="text_btn"
                             className="absolute top-4 right-3 h-8 w-8 p-0 bg-transparent">
-                            <Trash2 className="h-7 w-7 text-red-40" />
+                            <Trash2 className="h-7 w-7 text-red-40 hover:text-red-30 active:text-red-50" />
                         </Button>
                     )}
                 </div>
