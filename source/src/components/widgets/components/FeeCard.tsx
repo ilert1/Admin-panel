@@ -9,7 +9,6 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Label } from "@/components/ui/label";
 import { TextField } from "@/components/ui/text-field";
-import { Textarea } from "@/components/ui/textarea";
 import { feesDataProvider, FeesResource } from "@/data";
 import { useState } from "react";
 import { HttpError, useRefresh, useTranslate } from "react-admin";
@@ -104,18 +103,14 @@ export const FeeCard = (props: FeeCardProps) => {
                             labelSize="text-xs"
                         />
                         {description && (
-                            <div className="flex flex-col gap-[4px] col-span-2">
+                            <div className="flex flex-col gap-[4px] col-span-3">
                                 <Label
-                                    className="text-note-1 !text-neutral-60 dark:!text-neutral-60"
+                                    className="text-note-1 !text-neutral-60 dark:!text-neutral-60 mb-0"
                                     variant="note-1"
                                     htmlFor="">
                                     {translate("resources.direction.fees.descr")}
                                 </Label>
-                                <Textarea
-                                    readOnly
-                                    className="!text-body resize-none dark:bg-muted"
-                                    value={description}
-                                />
+                                <p className="!text-body resize-none dark:bg-muted border-none p-0">{description}</p>
                             </div>
                         )}
                     </div>
