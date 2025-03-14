@@ -30,14 +30,16 @@ export const AccountShow = ({ id }: AccountShowProps) => {
             setBalances(
                 context.record.amounts.map(
                     (el: { value: { quantity: number; accuracy: number }; currency: string }) => {
-                        return (
-                            String(el.value.quantity == 0 ? "0" : el.value.quantity / el.value.accuracy).replace(
-                                /\B(?=(\d{3})+(?!\d))/g,
-                                " "
-                            ) +
-                            " " +
-                            el.currency
-                        );
+                        const number = el.value.quantity == 0 ? "0" : String(el.value.quantity / el.value.accuracy);
+                        const [intPart, decimalPart] = number.split(".");
+                        console.log(context.record);
+
+                        const formattedIntPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                        const formattedNumber = decimalPart
+                            ? `${formattedIntPart}.${decimalPart.slice(0, 3)}`
+                            : formattedIntPart;
+
+                        return formattedNumber + " " + el.currency;
                     }
                 )
             );
