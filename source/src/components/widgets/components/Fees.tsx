@@ -88,6 +88,7 @@ export const Fees = memo((props: FeesProps) => {
                                           feeType === "inner" ? fee.value : fee.value.quantity / fee.value.accuracy
                                       }
                                       feeType={feeTypes[fee.type]?.type_descr || ""}
+                                      feeDirection={data.transactionTypes[fee.direction].type_descr || ""}
                                       id={id}
                                       resource={feesResource}
                                       description={fee.description}

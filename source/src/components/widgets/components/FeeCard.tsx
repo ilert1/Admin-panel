@@ -20,6 +20,7 @@ interface FeeCardProps {
     account: string;
     feeAmount: number;
     feeType: string;
+    feeDirection: string;
     currency: string;
     resource: FeesResource;
     id: string;
@@ -34,6 +35,7 @@ export const FeeCard = (props: FeeCardProps) => {
         account,
         feeAmount,
         feeType,
+        feeDirection,
         currency,
         id,
         addFee,
@@ -74,7 +76,7 @@ export const FeeCard = (props: FeeCardProps) => {
         <>
             <div className="mt-[2px] mb-[16px]">
                 <div className="relative bg-neutral-10 dark:bg-muted rounded-8 p-4">
-                    <div className="w-full grid grid-cols-2 gap-y-[8px] gap-2">
+                    <div className="w-full grid grid-cols-[repeat(3,auto)] gap-y-[8px] gap-2">
                         <TextField
                             copyValue
                             text={account}
@@ -89,6 +91,11 @@ export const FeeCard = (props: FeeCardProps) => {
                         <TextField
                             text={String(feeType)}
                             label={translate("resources.direction.fees.feeType")}
+                            labelSize="text-xs"
+                        />
+                        <TextField
+                            text={String(feeDirection)}
+                            label={translate("resources.direction.fees.direction")}
                             labelSize="text-xs"
                         />
                         <TextField
