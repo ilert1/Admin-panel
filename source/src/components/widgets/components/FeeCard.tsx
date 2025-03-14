@@ -103,7 +103,7 @@ export const FeeCard = (props: FeeCardProps) => {
                             labelSize="text-xs"
                         />
                         {description && (
-                            <div className="flex flex-col gap-[4px] col-span-3">
+                            <div className="flex flex-col col-span-3">
                                 <Label
                                     className="text-note-1 !text-neutral-60 dark:!text-neutral-60 mb-0"
                                     variant="note-1"
