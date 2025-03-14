@@ -1,6 +1,7 @@
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useTranslate } from "react-admin";
+import { cn } from "@/lib/utils";
 
 interface SimpleTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -58,7 +59,12 @@ export function SimpleTable<TData, TValue>({
                             data-state={row.getIsSelected() && "selected"}
                             className={
                                 tableType === TableTypes.COLORED
-                                    ? "bg-neutral-0 dark:bg-neutral-100 text-neutral-100 border border-muted"
+                                    ? cn(
+                                          "text-neutral-100 border border-muted",
+                                          i % 2
+                                              ? "bg-neutral-20 dark:bg-neutral-bb-2"
+                                              : "bg-neutral-0 dark:bg-neutral-100"
+                                      )
                                     : ""
                             }>
                             {row.getVisibleCells().map((cell, j) => (
