@@ -70,7 +70,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                     {balances.length > 0 &&
                         balances.map(balance => (
                             <div className="bg-green-50 px-3 py-0.5 rounded-20" key={uniqueId()}>
-                                <span className="text-title-2">
+                                <span className="text-title-2 text-neutral-0">
                                     {translate("resources.accounts.balance")}: {balance}
                                 </span>
                             </div>
