@@ -34,7 +34,9 @@ export const useGetAccountShowColumns = () => {
                 return (
                     <>
                         <p className="text-nowrap">{new Date(row?.original?.updated_at).toLocaleDateString(locale)}</p>
-                        <p className="text-nowrap">{new Date(row?.original?.updated_at).toLocaleTimeString(locale)}</p>
+                        <p className="text-nowrap text-neutral-70">
+                            {new Date(row?.original?.updated_at).toLocaleTimeString(locale)}
+                        </p>
                     </>
                 );
             }
