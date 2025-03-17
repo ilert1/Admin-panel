@@ -75,7 +75,7 @@ export const FeeCard = (props: FeeCardProps) => {
         <>
             <div className="mt-[2px] mb-[16px]">
                 <div className="relative bg-neutral-10 dark:bg-muted rounded-8 p-4 pr-11">
-                    <div className="w-full grid grid-cols-1 sm:grid-cols-[repeat(2,auto)] md:grid-cols-[repeat(3,auto)] gap-y-[8px] gap-2">
+                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-[8px] gap-2">
                         <TextField
                             copyValue
                             text={account}
