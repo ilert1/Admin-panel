@@ -33,7 +33,8 @@ module.exports = {
                     80: "hsl(var(--neutral-80))",
                     90: "hsl(var(--neutral-90))",
                     100: "hsl(var(--neutral-100))",
-                    bb: "hsl(var(--neutral-BB))"
+                    bb: "hsl(var(--neutral-BB))",
+                    "bb-2": "hsl(var(--neutral-BB-2))"
                 },
 
                 green: {

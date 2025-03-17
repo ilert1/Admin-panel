@@ -22,7 +22,9 @@ export const useGetWalletLinkedTransactionColumns = () => {
                 return (
                     <>
                         <p className="text-nowrap">{new Date(row.original?.scanned_at).toLocaleDateString(locale)}</p>
-                        <p className="text-nowrap">{new Date(row.original?.scanned_at).toLocaleTimeString(locale)}</p>
+                        <p className="text-nowrap text-neutral-70">
+                            {new Date(row.original?.scanned_at).toLocaleTimeString(locale)}
+                        </p>
                     </>
                 );
             }
@@ -37,7 +39,7 @@ export const useGetWalletLinkedTransactionColumns = () => {
                         <p className="text-nowrap">
                             {new Date(row.original?.block_timestamp).toLocaleDateString(locale)}
                         </p>
-                        <p className="text-nowrap">
+                        <p className="text-nowrap text-neutral-70">
                             {new Date(row.original?.block_timestamp).toLocaleTimeString(locale)}
                         </p>
                     </>
