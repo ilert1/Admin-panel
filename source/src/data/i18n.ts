@@ -39,7 +39,7 @@ const ru: TranslationMessages = {
                 type: "Тип счёта",
                 balance: "Баланс счёта",
                 history: "История по счёту",
-                edit: "Редактировать",
+                edit: "Изменить",
                 id: "ID",
                 owner_id: "ID владельца",
                 amounts: "Суммы",
@@ -65,7 +65,7 @@ const ru: TranslationMessages = {
         users: {
             name: "Пользователи",
             user: "Пользователь",
-            edit: "Редактировать",
+            edit: "Изменить",
             deleteThisUser: "Удалить пользователя?",
             delete: "Удалить",
             fields: {
@@ -662,7 +662,7 @@ const ru: TranslationMessages = {
             actions: {
                 quick_show: "Быстрый просмотр",
                 show: "Просмотр",
-                edit: "Редактировать",
+                edit: "Изменить",
                 delete: "Удалить",
                 save: "Сохранить",
                 addSecretKey: "Добавить аутентификационную инфорамцию",
