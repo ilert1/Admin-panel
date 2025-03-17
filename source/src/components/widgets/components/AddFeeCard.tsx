@@ -57,7 +57,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
         currency: z.string().min(1, { message: translate("resources.direction.fees.currencyFieldError") }),
         value: z.coerce
             .number({ message: translate("resources.direction.fees.valueFieldError") })
-            .min(0.01, { message: translate("resources.direction.fees.valueFieldError") }),
+            .refine(value => value > 0, { message: translate("resources.direction.fees.valueFieldError") }),
         type: z.custom<IFeeType>(),
         description: z.string(),
         direction: z.string().min(1, { message: translate("resources.direction.fees.directionFieldError") })
