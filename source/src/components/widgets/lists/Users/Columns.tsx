@@ -1,8 +1,8 @@
+import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ToggleActiveUser } from "@/components/ui/toggle-active-user";
 import { ColumnDef } from "@tanstack/react-table";
-import { useState } from "react";
 import { useTranslate } from "react-admin";
 
 // const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
@@ -10,18 +10,12 @@ import { useTranslate } from "react-admin";
 
 export const useGetUserColumns = () => {
     const translate = useTranslate();
+    const { openSheet } = useSheets();
+
     // const [locale] = useLocaleState();
 
-    const [userId, setUserId] = useState("");
-    const [showOpen, setShowOpen] = useState(false);
-
-    const [chosenMerchantId, setChosenMerchantId] = useState("");
-    const [chosenMerchantName, setChosenMerchantName] = useState("");
-    const [showMerchants, setShowMerchants] = useState(false);
-
-    const openSheet = (id: string) => {
-        setUserId(id);
-        setShowOpen(true);
+    const handleOpenSheet = (id: string) => {
+        openSheet("user", { id });
     };
 
     const columns: ColumnDef<Users.User>[] = [
@@ -50,7 +44,15 @@ export const useGetUserColumns = () => {
                 const userName = `${row.original.first_name || ""} ${row.original.last_name || ""}`.trimEnd();
                 return (
                     <div>
-                        {userName && <TextField text={userName} />}
+                        {userName && (
+                            <Button
+                                variant={"resourceLink"}
+                                onClick={() => {
+                                    handleOpenSheet(row.original.id);
+                                }}>
+                                {userName ?? ""}
+                            </Button>
+                        )}
                         {row.original.email && (
                             <TextField
                                 text={row.original.email}
@@ -94,9 +96,9 @@ export const useGetUserColumns = () => {
                             <Button
                                 variant={"resourceLink"}
                                 onClick={() => {
-                                    setChosenMerchantId(row.original.merchant_id ?? "");
-                                    setChosenMerchantName(row.original.merchant_name ?? "");
-                                    setShowMerchants(true);
+                                    const id = row.original.merchant_id ?? "";
+                                    const merchantName = row.original.merchant_name ?? "";
+                                    openSheet("merchant", { id, merchantName });
                                 }}>
                                 {row.original.merchant_name ?? ""}
                             </Button>
@@ -129,19 +131,12 @@ export const useGetUserColumns = () => {
         {
             id: "actions",
             cell: ({ row }) => {
-                return <ShowButton onClick={() => openSheet(row.original.id)} />;
+                return <ShowButton onClick={() => handleOpenSheet(row.original.id)} />;
             }
         }
     ];
 
     return {
-        columns,
-        userId,
-        showOpen,
-        chosenMerchantId,
-        chosenMerchantName,
-        showMerchants,
-        setShowMerchants,
-        setShowOpen
+        columns
     };
 };

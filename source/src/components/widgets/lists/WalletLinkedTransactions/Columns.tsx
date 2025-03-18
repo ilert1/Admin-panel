@@ -1,17 +1,13 @@
+import { useSheets } from "@/components/providers/SheetProvider";
 import { ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
-import { useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
-
-export type MerchantTypeToShow = "fees" | "directions" | undefined;
 
 export const useGetWalletLinkedTransactionColumns = () => {
     const translate = useTranslate();
-
+    const { openSheet } = useSheets();
     const [locale] = useLocaleState();
-    const [chosenId, setChosenId] = useState("");
-    const [quickShowOpen, setQuickShowOpen] = useState(false);
 
     const columns: ColumnDef<Wallets.WalletLinkedTransactions>[] = [
         {
@@ -58,6 +54,8 @@ export const useGetWalletLinkedTransactionColumns = () => {
                     lineClamp
                     linesCount={1}
                     minWidth="50px"
+                    className="!text-green-40 hover:!text-green-50 !cursor-pointer transition-all duration-300"
+                    onClick={() => openSheet("walletLinked", { id: row.original.transaction_id })}
                 />
             )
         },
@@ -117,8 +115,7 @@ export const useGetWalletLinkedTransactionColumns = () => {
                 return (
                     <ShowButton
                         onClick={() => {
-                            setChosenId(row.original?.transaction_id);
-                            setQuickShowOpen(true);
+                            openSheet("walletLinked", { id: row.original.transaction_id });
                         }}
                     />
                 );
@@ -127,9 +124,6 @@ export const useGetWalletLinkedTransactionColumns = () => {
     ];
 
     return {
-        columns,
-        chosenId,
-        quickShowOpen,
-        setQuickShowOpen
+        columns
     };
 };

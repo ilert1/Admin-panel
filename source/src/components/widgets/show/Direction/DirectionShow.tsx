@@ -11,6 +11,7 @@ import { EditAuthData } from "./EditAuthData";
 import { Fees } from "../../components/Fees";
 import { Direction, MerchantFees } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { LimitsList } from "../../components/Limits/ui/LimitsList";
+import { useSheets } from "@/components/providers/SheetProvider";
 
 export interface DirectionsShowProps {
     id: string;
@@ -21,6 +22,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
     const context = useShowController<Direction>({ resource: "direction", id });
     const data = fetchDictionaries();
     const translate = useTranslate();
+    const { openSheet } = useSheets();
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -89,7 +91,14 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
 
                         <TextField
                             label={translate("resources.direction.fields.terminal")}
+                            className="!text-green-40 hover:!text-green-50 !cursor-pointer transition-all duration-300"
                             text={context.record.terminal?.verbose_name || ""}
+                            onClick={() => {
+                                openSheet("terminal", {
+                                    id: context.record?.terminal?.terminal_id,
+                                    provider: context.record?.terminal?.provider
+                                });
+                            }}
                         />
                     </div>
 

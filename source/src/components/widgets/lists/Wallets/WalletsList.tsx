@@ -6,7 +6,6 @@ import { PlusCircle } from "lucide-react";
 import { CreateWalletDialog } from "./CreateWalletDialog";
 import { useEffect, useState } from "react";
 import { DataTable } from "../../shared";
-import { ShowWalletDialog } from "./ShowWalletDialog";
 import { VaultDataProvider, WalletsDataProvider } from "@/data";
 import { useQuery } from "react-query";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
@@ -56,10 +55,7 @@ export const WalletsList = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [listContext.data]);
 
-    const { columns, chosenId, quickShowOpen, setQuickShowOpen } = useGetWalletsColumns(
-        listContext.data ?? [],
-        balances ?? new Map()
-    );
+    const { columns } = useGetWalletsColumns(listContext.data ?? [], balances ?? new Map());
 
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
@@ -84,7 +80,6 @@ export const WalletsList = () => {
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />
                 </ListContextProvider>
-                <ShowWalletDialog id={chosenId} open={quickShowOpen} onOpenChange={setQuickShowOpen} />
             </>
         );
     }

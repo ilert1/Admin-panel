@@ -11,7 +11,6 @@ import { Fees } from "../../components/Fees";
 import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet } from "@/api/enigma/direction/direction";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { ShowDirectionSheet } from "../../lists/Directions/ShowDirectionSheet";
 import clsx from "clsx";
 
 interface MerchantShowProps {
@@ -37,7 +36,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
         }
     });
 
-    const { selectedDirectionId, showDirectionOpen, columns, setShowDirectionOpen } = useGetMerchantShowColumns();
+    const { columns } = useGetMerchantShowColumns();
 
     const [merchantDirections, setMerchantDirections] = useState<Direction[]>([]);
 
@@ -126,7 +125,6 @@ export const MerchantShow = (props: MerchantShowProps) => {
                     </div>
                 </div>
             </div>
-            <ShowDirectionSheet id={selectedDirectionId} open={showDirectionOpen} onOpenChange={setShowDirectionOpen} />
         </>
     );
 };

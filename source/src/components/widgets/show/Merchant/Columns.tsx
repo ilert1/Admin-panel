@@ -1,17 +1,15 @@
 import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useSheets } from "@/components/providers/SheetProvider";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
 import { ProviderWithId } from "@/data/providers";
 import { ColumnDef } from "@tanstack/react-table";
-import { useState } from "react";
 import { useTranslate } from "react-admin";
 
 export const useGetMerchantShowColumns = () => {
     const translate = useTranslate();
-
-    const [selectedDirectionId, setSelectedDirectionId] = useState("");
-    const [showDirectionOpen, setShowDirectionOpen] = useState(false);
+    const { openSheet } = useSheets();
 
     const columns: ColumnDef<Direction>[] = [
         {
@@ -22,8 +20,7 @@ export const useGetMerchantShowColumns = () => {
                     <Button
                         variant={"resourceLink"}
                         onClick={() => {
-                            setSelectedDirectionId(row.original.id);
-                            setShowDirectionOpen(true);
+                            openSheet("direction", { id: row.original.id });
                         }}>
                         {row.original.name ?? ""}
                     </Button>
@@ -96,5 +93,5 @@ export const useGetMerchantShowColumns = () => {
             }
         }
     ];
-    return { selectedDirectionId, showDirectionOpen, columns, setShowDirectionOpen };
+    return { columns };
 };
