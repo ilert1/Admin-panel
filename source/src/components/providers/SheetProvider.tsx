@@ -6,7 +6,7 @@ type SheetKey = keyof typeof SHEETS_COMPONENTS;
 interface SheetDataMap {
     account: { id: string | undefined };
     direction: { id: string | undefined };
-    merchant: { id: string | undefined; merchantName: string | undefined };
+    merchant: { id: string | undefined; merchantName?: string | undefined };
     user: { id: string | undefined };
     transaction: { id: string | undefined };
     terminal: { id: string | undefined; provider: string | undefined };

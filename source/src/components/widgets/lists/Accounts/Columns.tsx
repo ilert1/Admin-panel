@@ -1,9 +1,9 @@
 import { useSheets } from "@/components/providers/SheetProvider";
-import { EditButton, ShowButton } from "@/components/ui/Button";
+import { Button, EditButton, ShowButton } from "@/components/ui/Button";
+import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { ColumnDef, Row } from "@tanstack/react-table";
-import { Copy } from "lucide-react";
 import { useState } from "react";
 import { RecordContextProvider, usePermissions, useTranslate } from "react-admin";
 import { NumericFormat } from "react-number-format";
@@ -20,7 +20,6 @@ export const useGetAccountsColumns = () => {
 
     const [showEditDialog, setShowEditDialog] = useState(false);
     const [showAccountId, setShowAccountId] = useState<string>("");
-    const appToast = useAppToast();
 
     const handleOpenSheet = (id: string) => {
         openSheet("account", { id });
@@ -29,28 +28,33 @@ export const useGetAccountsColumns = () => {
     const columns: ColumnDef<Account>[] = [
         {
             id: "owner",
-            accessorFn: row => [row.meta?.caption, row.owner_id],
             header: translate("resources.accounts.fields.owner"),
-            cell: ({ row }) => (
-                <RecordContextProvider value={row.original}>
-                    <div className="flex flex-col justify-center gap-1">
-                        <span className="text-title-1">{(row.getValue("owner") as Array<string>)[0]}</span>
-                        <div className="flex flex-start text-neutral-60 dark:text-neutral-70 items-center gap-2">
-                            <Copy
-                                className="h-4 w-4 cursor-pointer"
-                                onClick={() => {
-                                    navigator.clipboard.writeText((row.getValue("owner") as Array<string>)[1]);
-                                    appToast("success", "", translate("app.ui.textField.copied"));
-                                }}
-                            />
+            cell: ({ row }) => {
+                const id = row.original.owner_id;
 
-                            <span className="text-nowrap overflow-hidden text-ellipsis max-w-[160px] min-w-[100px] text-neutral-70">
-                                {(row.getValue("owner") as Array<string>)[1]}
-                            </span>
-                        </div>
+                return (
+                    <div>
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                openSheet("merchant", {
+                                    id: row.original.owner_id
+                                });
+                            }}>
+                            {row.original.meta.caption ?? ""}
+                        </Button>
+                        <TextField
+                            className="text-neutral-70"
+                            text={id}
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                        />
                     </div>
-                </RecordContextProvider>
-            )
+                );
+            }
         },
         {
             id: "state",
