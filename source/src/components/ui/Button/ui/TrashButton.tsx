@@ -5,7 +5,7 @@ export const TrashButton = ({ onClick }: React.ButtonHTMLAttributes<HTMLButtonEl
     return (
         <div className="flex justify-center">
             <Button onClick={onClick} variant="text_btn" className="h-8 w-8 p-0 bg-transparent">
-                <Trash2 className="h-6 w-6" />
+                <Trash2 className="h-6 w-6 text-red-40 hover:text-red-30 active:text-red-50" />
             </Button>
         </div>
     );
