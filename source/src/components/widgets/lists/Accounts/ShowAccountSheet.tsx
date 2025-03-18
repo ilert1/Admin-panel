@@ -5,12 +5,12 @@ import React from "react";
 import { CloseSheetXButton } from "../../components/CloseSheetXButton";
 
 export interface ShowSheetProps {
-    accountId: string;
+    id: string;
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
 
-export const ShowAccountSheet: React.FC<ShowSheetProps> = ({ accountId, open, onOpenChange = () => {} }) => {
+export const ShowAccountSheet: React.FC<ShowSheetProps> = ({ id, open, onOpenChange = () => {} }) => {
     const translate = useTranslate();
 
     return (
@@ -30,7 +30,7 @@ export const ShowAccountSheet: React.FC<ShowSheetProps> = ({ accountId, open, on
 
                 <div className="h-full min-h-0" tabIndex={-1}>
                     <SheetDescription />
-                    <AccountShow id={accountId} />
+                    <AccountShow id={id} />
                 </div>
             </SheetContent>
         </Sheet>

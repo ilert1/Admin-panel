@@ -3,12 +3,12 @@ import { XIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
 import { WalletTransactionsShow } from "../../show";
 
-interface ShowWalletTransactionsDialogProps {
+interface ShowWalletTransactionsSheetProps {
     id: string;
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
-export const ShowWalletTransactionsDialog = ({ id, open, onOpenChange }: ShowWalletTransactionsDialogProps) => {
+export const ShowWalletTransactionsSheet = ({ id, open, onOpenChange }: ShowWalletTransactionsSheetProps) => {
     const translate = useTranslate();
 
     return (

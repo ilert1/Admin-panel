@@ -1,3 +1,4 @@
+import { useSheets } from "@/components/providers/SheetProvider";
 import { EditButton, ShowButton } from "@/components/ui/Button";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import fetchDictionaries from "@/helpers/get-dictionaries";
@@ -15,15 +16,14 @@ export const useGetAccountsColumns = () => {
     const { permissions } = usePermissions();
 
     const data = fetchDictionaries();
+    const { openSheet } = useSheets();
 
-    const [showOpen, setShowOpen] = useState(false);
     const [showEditDialog, setShowEditDialog] = useState(false);
     const [showAccountId, setShowAccountId] = useState<string>("");
     const appToast = useAppToast();
 
-    const openSheet = (id: string) => {
-        setShowAccountId(id);
-        setShowOpen(true);
+    const handleOpenSheet = (id: string) => {
+        openSheet("account", { id });
     };
 
     const columns: ColumnDef<Account>[] = [
@@ -123,15 +123,13 @@ export const useGetAccountsColumns = () => {
             id: "history",
             header: () => <div className="flex justify-center">{translate("resources.accounts.fields.history")}</div>,
             cell: ({ row }) => {
-                return <ShowButton onClick={() => openSheet(row.original.id)} />;
+                return <ShowButton onClick={() => handleOpenSheet(row.original.id)} />;
             }
         }
     ];
 
     return {
         columns,
-        showOpen,
-        setShowOpen,
         showEditDialog,
         setShowEditDialog,
         showAccountId

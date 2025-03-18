@@ -4,7 +4,6 @@ import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useGetAccountShowColumns } from "./Columns";
 import { useEffect, useState } from "react";
-import { ShowTransactionSheet } from "../../lists/Transactions/ShowTransactionSheet";
 import { uniqueId } from "lodash";
 
 interface AccountShowProps {
@@ -16,7 +15,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
 
     const context = useShowController({ resource: "accounts", id });
 
-    const { historyColumns, chosenId, transcationInfoOpen, setTransactionInfoOpen } = useGetAccountShowColumns();
+    const { historyColumns } = useGetAccountShowColumns();
     const [balances, setBalances] = useState<string[]>([]);
 
     const listContext = useListController<AccountHistory>({
@@ -47,12 +46,6 @@ export const AccountShow = ({ id }: AccountShowProps) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [context.isLoading]);
 
-    useEffect(() => {
-        if (chosenId) {
-            setTransactionInfoOpen(true);
-        }
-    }, [chosenId, setTransactionInfoOpen]);
-
     if (context.isLoading || !context.record || listContext.isLoading || !listContext.data) {
         return <LoadingBlock />;
     }
@@ -77,7 +70,6 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                         ))}
                 </div>
             </div>
-            <ShowTransactionSheet id={chosenId} open={transcationInfoOpen} onOpenChange={setTransactionInfoOpen} />
 
             <ListContextProvider value={{ ...listContext }}>
                 <DataTable columns={historyColumns} />

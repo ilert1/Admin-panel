@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import fetchDictionaries from "@/helpers/get-dictionaries";
@@ -10,16 +11,15 @@ export const useGetWalletTransactionsColumns = () => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
     const data = fetchDictionaries();
+    const { openSheet } = useSheets();
 
     const [chosenId, setChosenId] = useState("");
-    const [openShowClicked, setOpenShowClicked] = useState(false);
     const [confirmOpen, setConfirmOpen] = useState(false);
 
     const { permissions } = usePermissions();
 
     const handleOpenShowClicked = (id: string) => {
-        setChosenId(id);
-        setOpenShowClicked(true);
+        openSheet("walletTransactions", { id });
     };
 
     const handleConfirmShowClicked = (id: string) => {
@@ -184,5 +184,5 @@ export const useGetWalletTransactionsColumns = () => {
         }
     ];
 
-    return { columns, chosenId, openShowClicked, confirmOpen, setConfirmOpen, setOpenShowClicked };
+    return { columns, chosenId, confirmOpen, setConfirmOpen };
 };

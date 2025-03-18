@@ -82,11 +82,7 @@ export const TerminalsList = () => {
                         provider={chosenProvider}
                     />
 
-                    <ShowAccountSheet
-                        accountId={chosenId}
-                        open={showAccountClicked}
-                        onOpenChange={setShowAccountClicked}
-                    />
+                    <ShowAccountSheet id={chosenId} open={showAccountClicked} onOpenChange={setShowAccountClicked} />
                 </>
             ) : (
                 <DataTable columns={columns} />

@@ -4,7 +4,6 @@ import { Loading } from "@/components/ui/loading";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AccountEdit } from "../../edit/AccountEdit";
 import { useGetAccountsColumns } from "./Columns";
-import { ShowAccountSheet } from "./ShowAccountSheet";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const AccountList = () => {
@@ -12,8 +11,7 @@ export const AccountList = () => {
 
     const translate = useTranslate();
 
-    const { columns, showOpen, setShowOpen, showEditDialog, setShowEditDialog, showAccountId } =
-        useGetAccountsColumns();
+    const { columns, showEditDialog, setShowEditDialog, showAccountId } = useGetAccountsColumns();
 
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
@@ -24,8 +22,6 @@ export const AccountList = () => {
                 <ListContextProvider value={{ ...listContext }}>
                     <DataTable columns={columns} />
                 </ListContextProvider>
-
-                <ShowAccountSheet accountId={showAccountId} open={showOpen} onOpenChange={setShowOpen} />
 
                 <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
                     <DialogContent
