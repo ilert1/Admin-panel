@@ -1,7 +1,7 @@
+import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef, Row } from "@tanstack/react-table";
-import { useState } from "react";
 import { useLocaleState, usePermissions, useTranslate } from "react-admin";
 
 export type MerchantTypeToShow = "fees" | "directions" | undefined;
@@ -10,19 +10,10 @@ export const useGetTransactionColumns = () => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
     const { permissions } = usePermissions();
+    const { openSheet } = useSheets();
 
-    // const [chartOpen, setChartOpen] = useState(false)
-    const [chosenMerchantId, setChosenMerchantId] = useState("");
-    const [chosenMerchantName, setChosenMerchantName] = useState("");
-
-    const [showMerchants, setShowMerchants] = useState(false);
-
-    const [showOpen, setShowOpen] = useState(false);
-    const [showTransactionId, setShowTransactionId] = useState<string>("");
-
-    const openSheet = (id: string) => {
-        setShowTransactionId(id);
-        setShowOpen(true);
+    const handleOpenSheet = (id: string) => {
+        openSheet("transaction", { id });
     };
 
     const columns: ColumnDef<Transaction.TransactionView>[] = [
@@ -77,9 +68,9 @@ export const useGetTransactionColumns = () => {
                                   <Button
                                       variant={"resourceLink"}
                                       onClick={() => {
-                                          setChosenMerchantId(row.original.participant_id ?? "");
-                                          setChosenMerchantName(row.original.participant_name ?? "");
-                                          setShowMerchants(true);
+                                          const id = row.original.participant_id ?? "";
+                                          const merchantName = row.original.participant_name ?? "";
+                                          openSheet("merchant", { id, merchantName });
                                       }}>
                                       {row.original.participant_name ?? ""}
                                   </Button>
@@ -135,19 +126,12 @@ export const useGetTransactionColumns = () => {
         {
             id: "actions",
             cell: ({ row }) => {
-                return <ShowButton onClick={() => openSheet(row.original.id)} />;
+                return <ShowButton onClick={() => handleOpenSheet(row.original.id)} />;
             }
         }
     ];
 
     return {
-        columns,
-        showOpen,
-        chosenMerchantId,
-        chosenMerchantName,
-        showMerchants,
-        showTransactionId,
-        setShowOpen,
-        setShowMerchants
+        columns
     };
 };

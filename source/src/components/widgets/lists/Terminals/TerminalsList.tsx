@@ -10,8 +10,6 @@ import { EditTerminalDialog } from "./EditTerminalDialog";
 import { TerminalsListFilter } from "./TerminalsListFilter";
 import { TerminalListTable } from "./TerminalsListTable";
 import { useGetTerminalColumns } from "./Columns";
-import { TerminalShowDialog } from "./TerminalShowDialog";
-import { ShowAccountSheet } from "../Accounts/ShowAccountSheet";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const TerminalsList = () => {
@@ -20,19 +18,8 @@ export const TerminalsList = () => {
     const [provider, setProvider] = useState("");
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
-    const {
-        columns,
-        showAccountClicked,
-        chosenId,
-        editDialogOpen,
-        chosenProvider,
-        deleteDialogOpen,
-        showTerminal,
-        setShowTerminal,
-        setShowAccountClicked,
-        setEditDialogOpen,
-        setDeleteDialogOpen
-    } = useGetTerminalColumns();
+    const { columns, chosenId, editDialogOpen, deleteDialogOpen, setEditDialogOpen, setDeleteDialogOpen } =
+        useGetTerminalColumns();
 
     return (
         <>
@@ -75,14 +62,6 @@ export const TerminalsList = () => {
                         onOpenChange={setDeleteDialogOpen}
                         deleteId={chosenId}
                     />
-                    <TerminalShowDialog
-                        open={showTerminal}
-                        onOpenChange={setShowTerminal}
-                        id={chosenId}
-                        provider={chosenProvider}
-                    />
-
-                    <ShowAccountSheet id={chosenId} open={showAccountClicked} onOpenChange={setShowAccountClicked} />
                 </>
             ) : (
                 <DataTable columns={columns} />

@@ -1,31 +1,32 @@
 import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
 import { ProviderWithId } from "@/data/providers";
 import { ColumnDef } from "@tanstack/react-table";
-import { useState } from "react";
 import { useTranslate } from "react-admin";
 
 export const useGetDirectionsColumns = () => {
     const translate = useTranslate();
+    const { openSheet } = useSheets();
 
-    const [chosenId, setChosenId] = useState("");
+    const handleDirectionShowOpen = (id: string) => {
+        openSheet("direction", { id });
+    };
 
-    const [quickShowOpen, setQuickShowOpen] = useState(false);
+    const handleMerchantShowOpen = (merchant: Merchant) => {
+        openSheet("merchant", {
+            id: merchant.id ?? "",
+            provider: merchant.name
+        });
+    };
 
-    const [chosenMerchantId, setChosenMerchantId] = useState("");
-    const [chosenTerminalId, setChosenTerminalId] = useState("");
-
-    const [chosenMerchantName, setChosenMerchantName] = useState("");
-    const [chosenProviderName, setChosenProviderName] = useState("");
-
-    const [showMerchants, setShowMerchants] = useState(false);
-    const [showTerminals, setShowTerminals] = useState(false);
-
-    const openSheet = (id: string) => {
-        setChosenId(id);
-        setQuickShowOpen(true);
+    const handleTerminalShowOpen = (id: string, providerName: string) => {
+        openSheet("terminal", {
+            id,
+            provider: providerName
+        });
     };
 
     const columns: ColumnDef<Direction>[] = [
@@ -80,9 +81,7 @@ export const useGetDirectionsColumns = () => {
                         <Button
                             variant={"resourceLink"}
                             onClick={() => {
-                                setChosenMerchantId(merchant.id ?? "");
-                                setChosenMerchantName(merchant.name);
-                                setShowMerchants(true);
+                                handleMerchantShowOpen(merchant);
                             }}>
                             {merchant.name ?? ""}
                         </Button>
@@ -117,9 +116,8 @@ export const useGetDirectionsColumns = () => {
                     <Button
                         variant={"resourceLink"}
                         onClick={() => {
-                            setChosenProviderName(providerName);
-                            setChosenTerminalId(row.original.terminal?.terminal_id ?? "");
-                            setShowTerminals(true);
+                            const id = row.original.terminal?.terminal_id ?? "";
+                            handleTerminalShowOpen(id, providerName);
                         }}>
                         {row.original.terminal?.verbose_name ?? ""}
                     </Button>
@@ -159,8 +157,7 @@ export const useGetDirectionsColumns = () => {
                 return (
                     <ShowButton
                         onClick={() => {
-                            setChosenId(row.original.id);
-                            openSheet(row.original.id);
+                            handleDirectionShowOpen(row.original.id);
                         }}
                     />
                 );
@@ -168,17 +165,6 @@ export const useGetDirectionsColumns = () => {
         }
     ];
     return {
-        columns,
-        chosenId,
-        quickShowOpen,
-        chosenMerchantId,
-        showMerchants,
-        chosenMerchantName,
-        chosenTerminalId,
-        showTerminals,
-        chosenProviderName,
-        setShowTerminals,
-        setShowMerchants,
-        setQuickShowOpen
+        columns
     };
 };

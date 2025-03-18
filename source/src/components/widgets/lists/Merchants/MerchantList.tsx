@@ -8,7 +8,6 @@ import { Loading } from "@/components/ui/loading";
 import { useGetMerchantColumns } from "./Columns";
 import { DeleteMerchantDialog } from "./DeleteMerchantDialog";
 import { EditMerchantDialog } from "./EditMerchantDialog";
-import { ShowMerchantSheet } from "./ShowMerchantSheet";
 // import { CreateMerchantDialog } from "./CreateMerchantDialog";
 import { CreateMerchantDialogNewFlow } from "./CreateMerchantDialogNewFlow";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
@@ -19,16 +18,8 @@ export const MerchantList = () => {
     const listContext = useListController<Merchant>();
     const translate = useTranslate();
 
-    const {
-        columns,
-        chosenId,
-        editDialogOpen,
-        deleteDialogOpen,
-        showSheetOpen,
-        setEditDialogOpen,
-        setDeleteDialogOpen,
-        setShowSheetOpen
-    } = useGetMerchantColumns();
+    const { columns, chosenId, editDialogOpen, deleteDialogOpen, setEditDialogOpen, setDeleteDialogOpen } =
+        useGetMerchantColumns();
 
     // const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const [createDialogNewFlowOpen, setCreateDialogNewFlowOpen] = useState(false);
@@ -64,8 +55,6 @@ export const MerchantList = () => {
                 <DeleteMerchantDialog id={chosenId} open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} />
 
                 <EditMerchantDialog id={chosenId} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
-
-                <ShowMerchantSheet id={chosenId} open={showSheetOpen} onOpenChange={setShowSheetOpen} />
             </>
         );
     }

@@ -3,7 +3,6 @@ import { Loading } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
 import { WalletManualReconciliationBar } from "./WalletManualReconciliationBar";
 import { useGetWalletLinkedTransactionColumns } from "./Columns";
-import { ShowWalletLinkedTransactionsSheet } from "./ShowWalletLinkedTransactionsSheet";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const WalletLinkedTransactionsList = () => {
@@ -12,7 +11,7 @@ export const WalletLinkedTransactionsList = () => {
         permissions === "admin" ? { resource: "reconciliation" } : { resource: "merchant/reconciliation" }
     );
 
-    const { columns, chosenId, quickShowOpen, setQuickShowOpen } = useGetWalletLinkedTransactionColumns();
+    const { columns } = useGetWalletLinkedTransactionColumns();
 
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
@@ -28,8 +27,6 @@ export const WalletLinkedTransactionsList = () => {
                 <ListContextProvider value={listContext}>
                     <DataTable columns={columns} />
                 </ListContextProvider>
-
-                <ShowWalletLinkedTransactionsSheet id={chosenId} open={quickShowOpen} onOpenChange={setQuickShowOpen} />
             </>
         );
     }

@@ -1,18 +1,16 @@
+import { useSheets } from "@/components/providers/SheetProvider";
 import { ShowButton } from "@/components/ui/Button";
 import { LoadingBalance } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
-import { useState } from "react";
 import { useTranslate } from "react-admin";
 
 export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<string, Wallets.WalletBalance>) => {
     const translate = useTranslate();
-    const [chosenId, setChosenId] = useState("");
-    const [quickShowOpen, setQuickShowOpen] = useState(false);
+    const { openSheet } = useSheets();
 
-    const openSheet = (id: string) => {
-        setChosenId(id);
-        setQuickShowOpen(true);
+    const handleOpenSheet = (id: string) => {
+        openSheet("wallet", { id });
     };
 
     const columns: ColumnDef<Wallets.Wallet>[] = [
@@ -99,13 +97,12 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
                 return (
                     <ShowButton
                         onClick={() => {
-                            setChosenId(row.original.id);
-                            openSheet(row.original.id);
+                            handleOpenSheet(row.original.id);
                         }}
                     />
                 );
             }
         }
     ];
-    return { columns, chosenId, quickShowOpen, setQuickShowOpen };
+    return { columns };
 };

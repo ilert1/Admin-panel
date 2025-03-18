@@ -1,4 +1,5 @@
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, EditButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
@@ -6,30 +7,27 @@ import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
-export type MerchantTypeToShow = "fees" | "directions" | "all" | undefined;
-
 export const useGetMerchantColumns = () => {
     const translate = useTranslate();
 
     const [chosenId, setChosenId] = useState("");
+    const { openSheet } = useSheets();
 
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [showSheetOpen, setShowSheetOpen] = useState(false);
-    const [showType, setShowType] = useState<MerchantTypeToShow>();
 
     const handleEditClicked = (id: string) => {
         setChosenId(id);
         setEditDialogOpen(true);
     };
+
     const handleDeleteClicked = (id: string) => {
         setChosenId(id);
         setDeleteDialogOpen(true);
     };
-    const handleShowClicked = (id: string, type: MerchantTypeToShow) => {
-        setChosenId(id);
-        setShowType(type);
-        setShowSheetOpen(true);
+
+    const handleShowClicked = (id: string) => {
+        openSheet("merchant", { id });
     };
 
     const columns: ColumnDef<Merchant>[] = [
@@ -43,8 +41,7 @@ export const useGetMerchantColumns = () => {
                         <Button
                             variant={"resourceLink"}
                             onClick={() => {
-                                setChosenId(row.original.id ?? "");
-                                setShowSheetOpen(true);
+                                handleShowClicked(row.original.id ?? "");
                             }}>
                             {row.original.name ?? ""}
                         </Button>
@@ -90,7 +87,7 @@ export const useGetMerchantColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => handleShowClicked(row.original.id, "fees")} variant={"text_btn"}>
+                        <Button onClick={() => handleShowClicked(row.original.id)} variant={"text_btn"}>
                             <EyeIcon className="text-green-50 hover:text-green-40" />
                         </Button>
                     </div>
@@ -122,9 +119,6 @@ export const useGetMerchantColumns = () => {
         chosenId,
         editDialogOpen,
         deleteDialogOpen,
-        showSheetOpen,
-        showType,
-        setShowSheetOpen,
         setEditDialogOpen,
         setDeleteDialogOpen
     };

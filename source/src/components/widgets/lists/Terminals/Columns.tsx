@@ -1,4 +1,5 @@
 import { terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPost } from "@/api/enigma/terminal/terminal";
+import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, EditButton, ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
@@ -14,15 +15,13 @@ export const useGetTerminalColumns = () => {
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
+    const { openSheet } = useSheets();
 
     const [showAuthKeyOpen, setShowAuthKeyOpen] = useState(false);
     const [chosenId, setChosenId] = useState("");
-    const [chosenProvider, setChosenProvider] = useState("");
-    const [authData, setAuthData] = useState("");
+    // const [authData, setAuthData] = useState("");
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [showTerminal, setShowTerminal] = useState(false);
-    const [showAccountClicked, setShowAccountClicked] = useState(false);
     const [createButtonClicked, setCreateButtonClicked] = useState(false);
 
     const handleEditClicked = (id: string) => {
@@ -133,9 +132,7 @@ export const useGetTerminalColumns = () => {
                         {isAcount ? (
                             <ShowButton
                                 onClick={() => {
-                                    setChosenId(row.original.terminal_id);
-                                    setChosenProvider(row.original.provider);
-                                    setShowAccountClicked(true);
+                                    openSheet("account", { id: row.original.terminal_id });
                                 }}
                             />
                         ) : (
@@ -164,9 +161,10 @@ export const useGetTerminalColumns = () => {
             cell: ({ row }) => (
                 <ShowButton
                     onClick={() => {
-                        setChosenId(row.original.terminal_id);
-                        setChosenProvider(row.original.provider);
-                        setShowTerminal(true);
+                        openSheet("terminal", {
+                            id: row.original.terminal_id ?? "",
+                            provider: row.original.provider
+                        });
                     }}
                 />
             )
@@ -194,17 +192,12 @@ export const useGetTerminalColumns = () => {
     return {
         columns,
         showAuthKeyOpen,
-        showTerminal,
         chosenId,
-        authData,
+        // authData,
         editDialogOpen,
         deleteDialogOpen,
-        chosenProvider,
-        showAccountClicked,
-        setShowAccountClicked,
         setEditDialogOpen,
         setShowAuthKeyOpen,
-        setDeleteDialogOpen,
-        setShowTerminal
+        setDeleteDialogOpen
     };
 };

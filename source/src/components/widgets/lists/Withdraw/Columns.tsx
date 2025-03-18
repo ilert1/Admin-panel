@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useSheets } from "@/components/providers/SheetProvider";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { useFetchMerchants, useGetTransactionState } from "@/hooks";
@@ -10,14 +11,11 @@ import { useInfiniteGetList, useLocaleState, usePermissions, useTranslate } from
 export const useGetWithdrawColumns = () => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
+    const { openSheet } = useSheets();
     const { permissions } = usePermissions();
 
     const [cryptoTransferState, setCryptoTransferState] = useState<"process" | "success" | "error">("process");
     const [repeatData, setRepeatData] = useState<{ address: string; amount: number } | undefined>(undefined);
-    const [chosenId, setChosenId] = useState("");
-    const [chosenMerchantName, setChosenMerchantName] = useState("");
-
-    const [showMerchants, setShowMerchants] = useState(false);
 
     let isLoading,
         merchantsList: Merchant[] = [];
@@ -98,9 +96,7 @@ export const useGetWithdrawColumns = () => {
                                   <Button
                                       variant={"resourceLink"}
                                       onClick={() => {
-                                          setChosenId(merch?.id ?? "");
-                                          setChosenMerchantName(merch?.name ?? "");
-                                          setShowMerchants(true);
+                                          openSheet("merchant", { id: merch?.id, merchantName: merch?.name });
                                       }}>
                                       {merch?.name ?? ""}
                                   </Button>
@@ -208,12 +204,8 @@ export const useGetWithdrawColumns = () => {
         columns,
         repeatData,
         cryptoTransferState,
-        merchantOnly,
-        chosenId,
-        chosenMerchantName,
         isLoading,
-        showMerchants,
-        setShowMerchants,
+        merchantOnly,
         setCryptoTransferState
     };
 };
