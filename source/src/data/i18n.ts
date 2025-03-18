@@ -13,7 +13,7 @@ const ru: TranslationMessages = {
             merchant: {
                 name: "Мои счета"
             },
-            editDialogTitle: "Редактирование счета",
+            editDialogTitle: "Изменение счета",
             editFields: {
                 name: "Наименование",
                 wallet_create: "Создать кошелек",
@@ -96,7 +96,7 @@ const ru: TranslationMessages = {
             },
             showHeader: "Информация о пользователе",
             showDescription: "Подробная информация о пользователе с ID %{id}",
-            editUser: "Редактирование пользователя",
+            editUser: "Изменение пользователя",
             editSuccessMessage: "Пользователь успешно изменен",
             create: {
                 successMessage: "Пользователь создан",
@@ -335,7 +335,7 @@ const ru: TranslationMessages = {
             },
             create: "Добавить валюту",
             createDialogTitle: "Добавление валюты",
-            editDialogTitle: "Редактирование валюты",
+            editDialogTitle: "Изменение валюты",
             deleteDialogTitle: "Удалить валюту?",
             showTitle: "Детальная информацию о валюте",
             showDescription: "Детальная информацию о валюте"
@@ -362,7 +362,7 @@ const ru: TranslationMessages = {
             showTitle: "Детальная инфорация о мерчанте",
             createNew: "Создать нового мерчанта",
             creatingMerchant: "Создание нового мерчанта",
-            editingMerchant: "Редактирование мерчанта",
+            editingMerchant: "Изменение мерчанта",
             delete: "Удалить мерчанта?"
         },
         provider: {
@@ -401,7 +401,7 @@ const ru: TranslationMessages = {
             deleteProviderQuestion: "Удалить провайдера?",
             keysCreating: "Создание тестовых ключей",
             realKeysCreating: "Создание ключей",
-            editingProvider: "Редактирование провайдера",
+            editingProvider: "Изменение провайдера",
             creatingProvider: "Создание провайдера"
         },
         direction: {
@@ -476,7 +476,7 @@ const ru: TranslationMessages = {
             noCurrencies: "Нет доступных валют",
             noTerminals: "Выберите провайдера перед выбором терминала",
             deleteDirection: "Удалить направление?",
-            editingDirection: "Редактирование направления",
+            editingDirection: "Изменение направления",
             creatingDirection: "Добавление направления"
         },
         terminals: {
@@ -500,7 +500,7 @@ const ru: TranslationMessages = {
             selectPlaceholder: "Выберите провайдера",
             creatingTerminal: "Создание терминала",
             deleteHeader: "Удалить терминал?",
-            editingTerminal: "Редактирование терминала",
+            editingTerminal: "Изменение терминала",
             accountCreatedSuccessfully: "Account created successfully"
         },
         bankTransfer: {
@@ -551,7 +551,7 @@ const ru: TranslationMessages = {
                 errors: {
                     serverError: "Ошибка на стороне сервера. Попробуйте позже",
                     selectAccount: "Выберите аккаунт",
-                    errorWhenEditing: "Произошлка ошибка при редактировании кошелька",
+                    errorWhenEditing: "Произошлка ошибка при изменении кошелька",
                     errorWhenCreating: "Произошлка ошибка при создании кошелька",
                     alreadyExists: "Кошелек с таким адресом уже существует",
                     addressRequired: "Введите адрес кошелька",
@@ -561,7 +561,7 @@ const ru: TranslationMessages = {
                     intOnly: "Значение должно быть целым числом, без дробной части"
                 },
                 creatingWallet: "Добавление кошелька",
-                editingWallet: "Редактирование кошелька",
+                editingWallet: "Изменение кошелька",
                 deleteWallet: "Удалить кошелек?",
                 createWallet: "Создать кошелек"
             },
