@@ -9,7 +9,7 @@ import { ShowWalletDialog } from "../widgets/lists/Wallets/ShowWalletDialog";
 import { ShowWalletTransactionsSheet } from "../widgets/lists/WalletTransactions/ShowWalletTransactionsSheet";
 import { useSheets } from "./SheetProvider";
 
-const SHEETS_COMPONENTS = {
+export const SHEETS_COMPONENTS = {
     account: ShowAccountSheet,
     direction: ShowDirectionSheet,
     merchant: ShowMerchantSheet,

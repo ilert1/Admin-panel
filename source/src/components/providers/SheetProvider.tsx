@@ -1,48 +1,43 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { ReactNode, useState, useContext, createContext } from "react";
+import { SHEETS_COMPONENTS } from "./SheetManager";
 
-type SheetKey =
-    | "account"
-    | "direction"
-    | "merchant"
-    | "user"
-    | "transaction"
-    | "terminal"
-    | "wallet"
-    | "walletLinked"
-    | "walletTransactions";
+type SheetKey = keyof typeof SHEETS_COMPONENTS;
 
-interface SheetData {
-    id?: string;
-    provider?: string;
-    merchantName?: string;
+interface SheetDataMap {
+    account: { id: string };
+    direction: { id: string };
+    merchant: { id: string; merchantName: string };
+    user: { id: string };
+    transaction: { id: string };
+    terminal: { id: string; provider: string };
+    wallet: { id: string };
+    walletLinked: { id: string };
+    walletTransactions: { id: string };
 }
 
-interface SheetState {
-    key: SheetKey;
+type SheetState<K extends SheetKey> = {
+    key: K;
     open: boolean;
-    data?: SheetData;
-}
+    data: SheetDataMap[K];
+};
 
 interface SheetContextProps {
-    sheets: SheetState[];
-    openSheet: (key: SheetKey, data?: SheetData) => void;
+    sheets: SheetState<SheetKey>[];
+    openSheet: <K extends SheetKey>(key: K, data: SheetDataMap[K]) => void;
     closeSheet: (key: SheetKey) => void;
 }
 
 const SheetContext = createContext<SheetContextProps | undefined>(undefined);
 
 export const SheetProvider = ({ children }: { children: ReactNode }) => {
-    const [sheets, setSheets] = useState<SheetState[]>([]);
+    const [sheets, setSheets] = useState<SheetState<SheetKey>[]>([]);
 
-    const openSheet = (key: SheetKey, data?: SheetData) => {
-        setSheets(prev => [
-            ...prev.filter(sheet => sheet.key !== key), // Убираем старую запись, если уже есть
-            { key, open: true, data }
-        ]);
+    const openSheet = <K extends SheetKey>(key: K, data: SheetDataMap[K]) => {
+        setSheets(prev => [...prev.filter(s => s.key !== key), { key, open: true, data }]);
     };
 
     const closeSheet = (key: SheetKey) => {
-        setSheets(prev => prev.map(sheet => (sheet.key === key ? { ...sheet, open: false } : sheet)));
+        setSheets(prev => prev.map(s => (s.key === key ? { ...s, open: false } : s)));
     };
 
     return <SheetContext.Provider value={{ sheets, openSheet, closeSheet }}>{children}</SheetContext.Provider>;

@@ -18,7 +18,7 @@ export const useGetDirectionsColumns = () => {
     const handleMerchantShowOpen = (merchant: Merchant) => {
         openSheet("merchant", {
             id: merchant.id ?? "",
-            provider: merchant.name
+            merchantName: merchant.name
         });
     };
 
