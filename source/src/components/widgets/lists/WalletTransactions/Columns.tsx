@@ -186,9 +186,6 @@ export const useGetWalletTransactionsColumns = () => {
         },
         {
             id: "actions",
-            header: () => {
-                return <div className="text-center">{translate("resources.wallet.manage.fields.more")}</div>;
-            },
             cell: ({ row }) => {
                 return <ShowButton onClick={() => handleOpenShowClicked(row.original.id)} />;
             }

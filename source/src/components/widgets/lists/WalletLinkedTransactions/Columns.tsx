@@ -106,11 +106,6 @@ export const useGetWalletLinkedTransactionColumns = () => {
         },
         {
             id: "actions",
-            header: () => {
-                return (
-                    <div className="text-center">{translate("resources.wallet.linkedTransactions.fields.more")}</div>
-                );
-            },
             cell: ({ row }) => {
                 return (
                     <ShowButton

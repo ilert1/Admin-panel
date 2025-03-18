@@ -38,7 +38,6 @@ const ru: TranslationMessages = {
                 trc20: "Адрес для пополнения баланса мерчанта в агрегаторе",
                 type: "Тип счёта",
                 balance: "Баланс счёта",
-                history: "История по счёту",
                 edit: "Изменить",
                 id: "ID",
                 owner_id: "ID владельца",
@@ -347,7 +346,6 @@ const ru: TranslationMessages = {
                 id: "ID",
                 name: "Имя",
                 descr: "Описание",
-                view: "Просмотр",
                 directions: "Направления"
             },
             errors: {
@@ -545,7 +543,6 @@ const ru: TranslationMessages = {
                     blockchain: "Блокчейн",
                     contactType: "Тип контакта в блокчейне",
                     minRemaini: "Минимальная остаточная сумма",
-                    more: "Подробнее",
                     balance: "Баланс"
                 },
                 errors: {
@@ -621,8 +618,7 @@ const ru: TranslationMessages = {
                     destinationAddress: "Адрес кошелька получателя",
                     type: "Тип операции",
                     amount: "Сумма прихода",
-                    currency: "Валюта",
-                    more: "Подробнее"
+                    currency: "Валюта"
                 }
             }
         }
@@ -942,7 +938,6 @@ const en: TranslationMessages = {
                 },
                 type: "Account type",
                 balance: "Account balance",
-                history: "Account history",
                 tron_wallet: "Tron wallet",
                 trc20: "Merchant balance replenishment address in aggregator",
                 id: "ID",
@@ -1252,7 +1247,6 @@ const en: TranslationMessages = {
                 id: "ID",
                 name: "Name",
                 descr: "Description",
-                view: "Show more",
                 directions: "Directions"
             },
             errors: {
@@ -1446,7 +1440,6 @@ const en: TranslationMessages = {
                     merchantId: "Merchant ID",
                     currency: "Currency",
                     descr: "Description",
-                    more: "More",
                     internalId: "Internal wallet ID",
                     blockchain: "Blockchain",
                     contactType: "Contact type in blockchain",
@@ -1524,8 +1517,7 @@ const en: TranslationMessages = {
                     destinationAddress: "Destination address",
                     type: "Type",
                     amount: "Amount",
-                    currency: "Currency",
-                    more: "More"
+                    currency: "Currency"
                 }
             }
         }

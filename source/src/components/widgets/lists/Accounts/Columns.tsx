@@ -121,7 +121,6 @@ export const useGetAccountsColumns = () => {
             : []),
         {
             id: "history",
-            header: () => <div className="flex justify-center">{translate("resources.accounts.fields.history")}</div>,
             cell: ({ row }) => {
                 return <ShowButton onClick={() => handleOpenSheet(row.original.id)} />;
             }

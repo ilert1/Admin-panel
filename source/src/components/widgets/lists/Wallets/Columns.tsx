@@ -101,9 +101,6 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
         },
         {
             id: "actions",
-            header: () => {
-                return <div className="text-center">{translate("resources.wallet.manage.fields.more")}</div>;
-            },
             cell: ({ row }) => {
                 return (
                     <ShowButton

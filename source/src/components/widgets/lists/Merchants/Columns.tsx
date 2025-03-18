@@ -80,21 +80,6 @@ export const useGetMerchantColumns = () => {
             }
         },
         {
-            id: "show_fees_field",
-            header: () => {
-                return <div className="text-center">{translate("resources.merchant.fields.view")}</div>;
-            },
-            cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Button onClick={() => handleShowClicked(row.original.id)} variant={"text_btn"}>
-                            <EyeIcon className="text-green-50 hover:text-green-40" />
-                        </Button>
-                    </div>
-                );
-            }
-        },
-        {
             id: "update_field",
             header: () => {
                 return <div className="text-center">{translate("app.ui.actions.edit")}</div>;
@@ -110,6 +95,18 @@ export const useGetMerchantColumns = () => {
             },
             cell: ({ row }) => {
                 return <TrashButton onClick={() => handleDeleteClicked(row.original.id)} />;
+            }
+        },
+        {
+            id: "show_fees_field",
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center justify-center">
+                        <Button onClick={() => handleShowClicked(row.original.id)} variant={"text_btn"}>
+                            <EyeIcon className="text-green-50 hover:text-green-40" />
+                        </Button>
+                    </div>
+                );
             }
         }
     ];
