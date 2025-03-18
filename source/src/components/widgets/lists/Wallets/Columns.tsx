@@ -32,6 +32,8 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
                         lineClamp
                         linesCount={1}
                         minWidth="50px"
+                        className="!text-green-40 hover:!text-green-50 !cursor-pointer transition-all duration-300"
+                        onClick={() => openSheet("wallet", { id: row.original.id })}
                     />
                 );
             }
@@ -42,7 +44,16 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
             header: translate("resources.wallet.manage.fields.accountNumber"),
             cell: ({ row }) => {
                 return (
-                    <TextField text={row.original.account_id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />
+                    <TextField
+                        text={row.original.account_id}
+                        wrap
+                        copyValue
+                        lineClamp
+                        linesCount={1}
+                        minWidth="50px"
+                        className="!text-green-40 hover:!text-green-50 !cursor-pointer transition-all duration-300"
+                        onClick={() => openSheet("account", { id: row.original.account_id })}
+                    />
                 );
             }
         },

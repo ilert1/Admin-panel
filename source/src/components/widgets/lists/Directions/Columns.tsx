@@ -32,8 +32,18 @@ export const useGetDirectionsColumns = () => {
     const columns: ColumnDef<Direction>[] = [
         {
             id: "name",
-            accessorKey: "name",
-            header: translate("resources.direction.fields.name")
+            header: translate("resources.direction.fields.name"),
+            cell: ({ row }) => {
+                return (
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            handleDirectionShowOpen(row.original.id);
+                        }}>
+                        {row.original.name ?? ""}
+                    </Button>
+                );
+            }
         },
         {
             id: "id",

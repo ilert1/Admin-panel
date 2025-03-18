@@ -44,7 +44,15 @@ export const useGetUserColumns = () => {
                 const userName = `${row.original.first_name || ""} ${row.original.last_name || ""}`.trimEnd();
                 return (
                     <div>
-                        {userName && <TextField text={userName} />}
+                        {userName && (
+                            <Button
+                                variant={"resourceLink"}
+                                onClick={() => {
+                                    handleOpenSheet(row.original.id);
+                                }}>
+                                {userName ?? ""}
+                            </Button>
+                        )}
                         {row.original.email && (
                             <TextField
                                 text={row.original.email}

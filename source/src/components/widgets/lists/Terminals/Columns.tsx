@@ -34,6 +34,13 @@ export const useGetTerminalColumns = () => {
         setDeleteDialogOpen(true);
     };
 
+    const handleOpenShowClicked = (id: string, provider: string) => {
+        openSheet("terminal", {
+            id,
+            provider
+        });
+    };
+
     const handleCreateAccountClicked = async (provider: string, terminal_id: string) => {
         setCreateButtonClicked(true);
         try {
@@ -84,7 +91,18 @@ export const useGetTerminalColumns = () => {
         {
             id: "verbose_name",
             accessorKey: "verbose_name",
-            header: translate("resources.terminals.fields.verbose_name")
+            header: translate("resources.terminals.fields.verbose_name"),
+            cell: ({ row }) => {
+                return (
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            handleOpenShowClicked(row.original.terminal_id ?? "", row.original.provider);
+                        }}>
+                        {row.original.verbose_name ?? ""}
+                    </Button>
+                );
+            }
         },
         {
             id: "description",
@@ -161,10 +179,7 @@ export const useGetTerminalColumns = () => {
             cell: ({ row }) => (
                 <ShowButton
                     onClick={() => {
-                        openSheet("terminal", {
-                            id: row.original.terminal_id ?? "",
-                            provider: row.original.provider
-                        });
+                        handleOpenShowClicked(row.original.terminal_id ?? "", row.original.provider);
                     }}
                 />
             )

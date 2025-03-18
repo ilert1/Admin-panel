@@ -62,7 +62,18 @@ export const useGetWalletTransactionsColumns = () => {
             accessorKey: "id",
             header: translate("resources.wallet.transactions.fields.id"),
             cell: ({ row }) => {
-                return <TextField text={row.original.id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />;
+                return (
+                    <TextField
+                        text={row.original.id}
+                        wrap
+                        copyValue
+                        lineClamp
+                        linesCount={1}
+                        minWidth="50px"
+                        className="!text-green-40 hover:!text-green-50 !cursor-pointer transition-all duration-300"
+                        onClick={() => openSheet("walletTransactions", { id: row.original.id })}
+                    />
+                );
             }
         },
         {

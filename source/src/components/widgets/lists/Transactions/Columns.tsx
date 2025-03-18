@@ -33,7 +33,16 @@ export const useGetTransactionColumns = () => {
             accessorKey: "id",
             header: translate("resources.transactions.fields.id"),
             cell: ({ row }) => (
-                <TextField text={row.original.id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />
+                <TextField
+                    text={row.original.id}
+                    wrap
+                    copyValue
+                    lineClamp
+                    linesCount={1}
+                    minWidth="50px"
+                    className="!text-green-40 hover:!text-green-50 !cursor-pointer transition-all duration-300"
+                    onClick={() => handleOpenSheet(row.original.id)}
+                />
             ),
             filterFn: "includesString"
         },
