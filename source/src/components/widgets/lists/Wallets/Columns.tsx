@@ -32,7 +32,7 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
                         lineClamp
                         linesCount={1}
                         minWidth="50px"
-                        className="!text-green-40 hover:!text-green-50 !cursor-pointer transition-all duration-300"
+                        className="!text-green-50 dark:!text-green-40 hover:!text-green-40 dark:hover:!text-green-50 !cursor-pointer transition-all duration-300"
                         onClick={() => openSheet("wallet", { id: row.original.id })}
                     />
                 );
@@ -51,7 +51,7 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
                         lineClamp
                         linesCount={1}
                         minWidth="50px"
-                        className="!text-green-40 hover:!text-green-50 !cursor-pointer transition-all duration-300"
+                        className="!text-green-50 dark:!text-green-40 hover:!text-green-40 dark:hover:!text-green-50 !cursor-pointer transition-all duration-300"
                         onClick={() => openSheet("account", { id: row.original.account_id })}
                     />
                 );

@@ -91,7 +91,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
 
                         <TextField
                             label={translate("resources.direction.fields.terminal")}
-                            className="!text-green-40 hover:!text-green-50 !cursor-pointer transition-all duration-300"
+                            className="!text-green-50 dark:!text-green-40 hover:!text-green-40 dark:hover:!text-green-50 !cursor-pointer transition-all duration-300"
                             text={context.record.terminal?.verbose_name || ""}
                             onClick={() => {
                                 openSheet("terminal", {

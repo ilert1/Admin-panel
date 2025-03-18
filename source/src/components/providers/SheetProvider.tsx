@@ -4,15 +4,15 @@ import { SHEETS_COMPONENTS } from "./SheetManager";
 type SheetKey = keyof typeof SHEETS_COMPONENTS;
 
 interface SheetDataMap {
-    account: { id: string };
-    direction: { id: string };
-    merchant: { id: string; merchantName: string };
-    user: { id: string };
-    transaction: { id: string };
-    terminal: { id: string; provider: string };
-    wallet: { id: string };
-    walletLinked: { id: string };
-    walletTransactions: { id: string };
+    account: { id: string | undefined };
+    direction: { id: string | undefined };
+    merchant: { id: string | undefined; merchantName: string | undefined };
+    user: { id: string | undefined };
+    transaction: { id: string | undefined };
+    terminal: { id: string | undefined; provider: string | undefined };
+    wallet: { id: string | undefined };
+    walletLinked: { id: string | undefined };
+    walletTransactions: { id: string | undefined };
 }
 
 type SheetState<K extends SheetKey> = {
