@@ -50,14 +50,15 @@ const useTransactionFilter = () => {
                 if (type === "date" && typeof value !== "string" && typeof value !== "number") {
                     setFilters(
                         { ...filterValues, ["start_date"]: value.from, ["end_date"]: value.to },
-                        displayedFilters
+                        displayedFilters,
+                        true
                     );
                 } else {
-                    setFilters({ ...filterValues, [type]: value }, displayedFilters);
+                    setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
                 }
             } else {
                 Reflect.deleteProperty(filterValues, type);
-                setFilters(filterValues, displayedFilters);
+                setFilters(filterValues, displayedFilters, true);
             }
             setPage(1);
         },
@@ -112,7 +113,7 @@ const useTransactionFilter = () => {
         setCustomerPaymentId("");
         setOrderStatusFilter("");
         setTypeTabActive(0);
-        setFilters({}, displayedFilters);
+        setFilters({}, displayedFilters, true);
         setPage(1);
     };
 

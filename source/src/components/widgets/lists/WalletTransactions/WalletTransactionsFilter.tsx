@@ -42,10 +42,10 @@ export const WalletTransactionsFilter = () => {
     const onPropertySelected = debounce(
         (value: string, type: "blowfish_id" | "state" | "created_at" | "updated_at") => {
             if (value) {
-                setFilters({ ...filterValues, [type]: value }, displayedFilters);
+                setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
             } else {
                 Reflect.deleteProperty(filterValues, type);
-                setFilters(filterValues, displayedFilters);
+                setFilters(filterValues, displayedFilters, true);
             }
             setPage(1);
         },
@@ -94,7 +94,7 @@ export const WalletTransactionsFilter = () => {
         setTransactionId("");
         setStateFilter("");
         setTypeTabActive("");
-        setFilters({}, displayedFilters);
+        setFilters({}, displayedFilters, true);
         setPage(1);
     };
 
@@ -106,7 +106,7 @@ export const WalletTransactionsFilter = () => {
     return (
         <div className="">
             <div className="flex flex-col">
-                <div className="flex flex-wrap gap-2 justify-between mb-6">
+                <div className="mb-6 flex flex-wrap justify-between gap-2">
                     <ResourceHeaderTitle />
 
                     <FilterButtonGroup
@@ -118,8 +118,8 @@ export const WalletTransactionsFilter = () => {
                     />
                 </div>
                 <AnimatedContainer open={openFiltersClicked}>
-                    <div className="w-full mb-6 flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
-                        <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
+                    <div className="mb-6 flex w-full flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-center sm:gap-x-4 sm:gap-y-3 md:items-end">
+                        <div className="flex flex-1 items-center gap-2 md:flex-col md:items-start">
                             <Input
                                 label={translate("resources.wallet.transactions.filterBar.searchById")}
                                 labelSize="title-2"
@@ -129,7 +129,7 @@ export const WalletTransactionsFilter = () => {
                             />
                         </div>
 
-                        <div className="flex flex-1 md:flex-col gap-1 items-center md:items-start min-w-36">
+                        <div className="flex min-w-36 flex-1 items-center gap-1 md:flex-col md:items-start">
                             <Label className="mb-0" variant="title-2">
                                 {translate("resources.wallet.transactions.filterBar.paymentStatus")}
                             </Label>
@@ -139,7 +139,7 @@ export const WalletTransactionsFilter = () => {
                                     val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged("")
                                 }
                                 value={stateFilter}>
-                                <SelectTrigger className="text-ellipsis h-[38px]">
+                                <SelectTrigger className="h-[38px] text-ellipsis">
                                     <SelectValue
                                         placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
                                     />
