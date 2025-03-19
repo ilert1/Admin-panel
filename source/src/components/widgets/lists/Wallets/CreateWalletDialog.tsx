@@ -20,7 +20,9 @@ export const CreateWalletDialog = (props: CreateWalletDialogProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent disableOutsideClick className="w-[716px] max-w-full max-h-full outline-none">
+            <DialogContent
+                disableOutsideClick
+                className="bg-muted max-w-full sm:w-[716px]  sm:max-h-[100dvh] !overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle className="mb-4">{translate("resources.wallet.manage.creatingWallet")}</DialogTitle>
                     <DialogDescription></DialogDescription>

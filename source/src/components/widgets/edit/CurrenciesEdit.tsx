@@ -202,12 +202,8 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                         />
                     </div>
 
-                    <div className="sm:self-end flex flex-col sm:flex-row items-center gap-4">
-                        <Button
-                            type="submit"
-                            variant="default"
-                            className="w-full sm:w flex-1"
-                            disabled={submitButtonDisabled}>
+                    <div className="sm:self-end flex flex-col sm:flex-row sm:items-center gap-4">
+                        <Button type="submit" variant="default" disabled={submitButtonDisabled}>
                             {translate("app.ui.actions.save")}
                         </Button>
 

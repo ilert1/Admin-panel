@@ -343,7 +343,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                             </div>
                         </div>
 
-                        <div className="self-end flex items-center gap-4">
+                        <div className="sm:self-end flex flex-col sm:flex-row sm:items-center gap-4">
                             <Button type="submit" disabled={submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>

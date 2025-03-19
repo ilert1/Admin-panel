@@ -22,7 +22,7 @@ export const EditUserDialog = ({ record, open, id, onOpenChange }: EditUserDialo
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
                 disableOutsideClick
-                className="bg-muted max-w-full w-[716px] md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px] outline-none">
+                className="bg-muted max-w-full sm:w-[716px]  sm:max-h-[100dvh] !overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle className="text-center mb-4">{translate("resources.users.editUser")}</DialogTitle>
                 </DialogHeader>
