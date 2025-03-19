@@ -23,7 +23,7 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 
@@ -56,12 +56,15 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
 
     const isFirefox = useMemo(() => navigator.userAgent.match(/firefox|fxios/i), []);
 
-    const { data: userRoles } = useQuery(["userRoles"], async () => {
-        const res = await fetchUtils.fetchJson(`${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles`, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
+    const { data: userRoles } = useQuery({
+        queryKey: ["userRoles"],
+        queryFn: async () => {
+            const res = await fetchUtils.fetchJson(`${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles`, {
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            });
 
-        return res.json as KecloakRoles[];
+            return res.json as KecloakRoles[];
+        }
     });
 
     const formSchema = z.object({

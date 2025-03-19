@@ -11,7 +11,7 @@ import { Icon } from "../shared/Icon";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectType } from "@/components/ui/select";
 import { CreateWalletDialog } from "../lists/Wallets";
 import { LoadingBlock, LoadingBalance } from "@/components/ui/loading";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import BlowFishCross from "@/lib/icons/BlowFishCross.svg?react";
 import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
@@ -174,9 +174,9 @@ export const CryptoTransferForm = (props: {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [shouldTrigger]);
 
-    useQuery(
-        "withdrawList",
-        () =>
+    useQuery({
+        queryKey: ["withdrawList"],
+        queryFn: () =>
             dataProvider
                 .getList("withdraw", {
                     pagination: { page: 1, perPage: 1 },
@@ -189,8 +189,8 @@ export const CryptoTransferForm = (props: {
                         setLastUsedWallet(data[0]?.destination?.requisites[0]?.blockchain_address);
                     }
                 }),
-        { enabled: props.transferState === "process" && walletsDataFetched }
-    );
+        enabled: props.transferState === "process" && walletsDataFetched
+    });
 
     if (props.loading || !props.balance) {
         return (

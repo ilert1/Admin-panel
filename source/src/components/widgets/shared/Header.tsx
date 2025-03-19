@@ -6,7 +6,7 @@ import Blowfish from "@/lib/icons/Blowfish";
 import { useEffect, useMemo, useState } from "react";
 import { useGetIdentity, usePermissions, useTranslate } from "react-admin";
 import { NumericFormat } from "react-number-format";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { EllipsisVerticalIcon, LogOut, Settings } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { LangSwitcher } from "../components/LangSwitcher";
@@ -47,9 +47,9 @@ export const Header = (props: { handleLogout: () => void }) => {
         };
     })();
 
-    const { isLoading: totalLoading, data: totalAmount } = useQuery(
-        "totalAmount",
-        async () => {
+    const { isLoading: totalLoading, data: totalAmount } = useQuery({
+        queryKey: ["totalAmount"],
+        queryFn: async () => {
             const response = await fetch(`${API_URL}/accounts/balance/count`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -64,12 +64,9 @@ export const Header = (props: { handleLogout: () => void }) => {
             }
             return json.data as AccountBalance[];
         },
-        {
-            retry: 2, // Ограничение повторных попыток
-            onError: () => showError(translate("app.ui.header.totalError")),
-            staleTime: 1000 * 60 * 5 // Кэширование на 5 минут
-        }
-    );
+        retry: 2, // Ограничение повторных попыток
+        staleTime: 1000 * 60 * 5 // Кэширование на 5 минут
+    });
 
     useEffect(() => {
         let interval: NodeJS.Timeout;

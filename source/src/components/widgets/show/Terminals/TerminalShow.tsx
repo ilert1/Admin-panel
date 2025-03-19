@@ -2,7 +2,7 @@ import { useDataProvider, useTranslate } from "react-admin";
 import { Fees } from "../../components/Fees";
 import { FeesResource } from "@/data";
 import { TextField } from "@/components/ui/text-field";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { LoadingBlock } from "@/components/ui/loading";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/Button";

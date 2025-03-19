@@ -1,5 +1,4 @@
 import { CustomRoutes, Resource, combineDataProviders, CoreAdminContext, CoreAdminUI } from "react-admin";
-import { createBrowserHistory as createHistory } from "history";
 import {
     TransactionDataProvider,
     i18nProvider,
@@ -91,16 +90,11 @@ const dataProvider = combineDataProviders((resource: string) => {
     }
 });
 
-const history = createHistory();
 export const App = () => {
     return (
         <ThemeProvider defaultTheme="dark" storageKey="juggler-ui-theme">
             <SheetProvider>
-                <CoreAdminContext
-                    history={history}
-                    i18nProvider={i18nProvider}
-                    dataProvider={dataProvider}
-                    authProvider={authProvider}>
+                <CoreAdminContext i18nProvider={i18nProvider} dataProvider={dataProvider} authProvider={authProvider}>
                     <CoreAdminUI
                         catchAll={NotFound}
                         layout={MainLayout}

@@ -18,7 +18,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface UserEditProps {
@@ -51,12 +51,15 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [disabledMerchantField, setDisabledMerchantField] = useState(false);
 
-    const { data: userRoles } = useQuery(["userRoles"], async () => {
-        const res = await fetchUtils.fetchJson(`${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles`, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
+    const { data: userRoles } = useQuery({
+        queryKey: ["userRoles"],
+        queryFn: async () => {
+            const res = await fetchUtils.fetchJson(`${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles`, {
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            });
 
-        return res.json as KecloakRoles[];
+            return res.json as KecloakRoles[];
+        }
     });
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
