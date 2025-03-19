@@ -4,7 +4,6 @@ import { useInfiniteGetList, useTranslate } from "react-admin";
 import { LoadingBalance } from "@/components/ui/loading";
 import { Label } from "@/components/ui/label";
 import { ProviderWithId } from "@/data/providers";
-import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 
 export const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvider: (provider: string) => void }) => {
     const {
