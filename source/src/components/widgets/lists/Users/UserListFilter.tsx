@@ -63,13 +63,13 @@ export const UserListFilter = () => {
         <div className="flex flex-col gap-4">
             <div className="flex flex-col">
                 <div className="flex flex-col sm:flex-row gap-6 justify-end">
-                    <div className="flex flex-wrap gap-3 justify-between w-full mb-6">
+                    <div className="flex flex-wrap gap-x-56 gap-y-3 sm:gap-3 justify-between w-full mb-4 md:mb-6">
                         <ResourceHeaderTitle />
 
-                        <div className="flex flex-row gap-3">
+                        <div className="flex flex-row flex-1 sm:flex-none gap-3">
                             <Button
                                 onClick={() => setShowAddUserNewFlowDialog(true)}
-                                className="flex items-center justify-center gap-1 font-normal w-full">
+                                className="flex flex-1 sm:flex-none items-center justify-center gap-1 font-normal ">
                                 <CirclePlus width={16} height={16} />
                                 <span>{translate("resources.users.createButton")}</span>
                             </Button>
