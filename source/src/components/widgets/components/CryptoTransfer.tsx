@@ -29,11 +29,12 @@ export const CryptoTransfer = ({ repeatData, cryptoTransferState, setCryptoTrans
 
     const { isLoading: balanceLoading, data: balance } = useQuery({
         queryKey: ["accounts"],
-        queryFn: () =>
+        queryFn: ({ signal }) =>
             fetch(`${API_URL}/accounts/${merchantId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal
             }).then(response => response.json()),
         select(data) {
             const amounts = data.data.amounts;

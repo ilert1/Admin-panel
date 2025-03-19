@@ -37,7 +37,8 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
 
     const { data: walletBalance, isFetching: walletBalanceFetching } = useQuery<Wallets.WalletBalance>({
         queryKey: ["walletBalance"],
-        queryFn: () => dataProvider.getWalletBalance(permissions === "admin" ? "wallet" : "merchant/wallet", id),
+        queryFn: ({ signal }) =>
+            dataProvider.getWalletBalance(permissions === "admin" ? "wallet" : "merchant/wallet", id, signal),
         enabled: !!id
     });
 

@@ -105,10 +105,11 @@ export class BaseDataProvider {
         throw new Error("Method not implemented");
     }
 
-    async getDictionaries(): Promise<Dictionaries.DataObject> {
+    async getDictionaries(signal?: AbortSignal): Promise<Dictionaries.DataObject> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/dictionaries`, {
             method: "GET",
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+            signal
         });
         return json?.data;
     }

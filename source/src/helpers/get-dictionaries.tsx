@@ -7,7 +7,7 @@ export default function fetchDictionaries(): Dictionaries.DataObject {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { data } = useQuery({
         queryKey: ["dictionaries"],
-        queryFn: () => dataProvider.getDictionaries(),
+        queryFn: ({ signal }) => dataProvider.getDictionaries(signal),
         staleTime: 1000 * 60 * 5
     });
 

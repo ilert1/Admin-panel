@@ -23,7 +23,7 @@ export const WalletsList = () => {
     const dataProvider = useDataProvider<VaultDataProvider & WalletsDataProvider>();
     const { data: storageState } = useQuery({
         queryKey: ["walletStorage"],
-        queryFn: () => dataProvider.getVaultState("vault"),
+        queryFn: ({ signal }) => dataProvider.getVaultState("vault", signal),
         enabled: permissions === "admin"
     });
 
@@ -64,13 +64,13 @@ export const WalletsList = () => {
     } else {
         return (
             <>
-                <div className="flex gap-2 flex-wrap justify-between mb-6">
+                <div className="mb-6 flex flex-wrap justify-between gap-2">
                     <ResourceHeaderTitle />
 
                     <Button
                         onClick={handleCreateClick}
                         variant="default"
-                        className="flex gap-[4px] items-center"
+                        className="flex items-center gap-[4px]"
                         disabled={
                             permissions === "admin" && (!storageState?.initiated || storageState?.state === "sealed")
                         }>

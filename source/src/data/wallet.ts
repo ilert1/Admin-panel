@@ -82,11 +82,12 @@ export class WalletsDataProvider extends BaseDataProvider {
         };
     }
 
-    async getWalletBalance(resource: string, id: string): Promise<Wallets.WalletBalance> {
+    async getWalletBalance(resource: string, id: string, signal?: AbortSignal): Promise<Wallets.WalletBalance> {
         const { json } = await fetchUtils
             .fetchJson(`${API_URL}/${resource}/${id}/balance`, {
                 method: "GET",
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+                signal
             })
             .catch(() => {
                 return { json: { success: false } };

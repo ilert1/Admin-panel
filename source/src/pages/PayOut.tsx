@@ -28,12 +28,13 @@ export const PayOutPage = () => {
         refetch: refetchPayMethods
     } = useQuery<PayOut.Response, unknown, PayOut.PayMethod[] | []>({
         queryKey: ["paymethods", currency],
-        queryFn: async () => {
+        queryFn: async ({ signal }) => {
             if (currency) {
                 const response = await fetch(`${BF_MANAGER_URL}/v1/payout/paymethods?currency=${currency}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                    }
+                    },
+                    signal
                 });
                 return await response.json();
             }
