@@ -17,8 +17,6 @@ export const UserListFilter = () => {
     const [userInputId, setUserInputId] = useState(filterValues?.id || "");
     const [username, setUsername] = useState(filterValues?.name || "");
     const [checkedActivity, setCheckedActivity] = useState(filterValues?.active || false);
-
-    const [showAddUserDialog, setShowAddUserDialog] = useState(false);
     const [showAddUserNewFlowDialog, setShowAddUserNewFlowDialog] = useState(false);
 
     const onPropertySelected = debounce((value: string | number, type: "id" | "name" | "state") => {
@@ -66,16 +64,9 @@ export const UserListFilter = () => {
             <div className="flex flex-col">
                 <div className="flex flex-col sm:flex-row gap-6 justify-end">
                     <div className="flex flex-wrap gap-3 justify-between w-full mb-6">
-                        {/* <Button
-                            onClick={() => setShowAddUserDialog(true)}
-                            className="flex items-center justify-center gap-1 font-normal">
-                            <CirclePlus width={16} height={16} />
-                            <span>{translate("resources.users.createButton")}</span>
-                        </Button>
-                        <CreateUserDialog open={showAddUserDialog} onOpenChange={setShowAddUserDialog} /> */}
                         <ResourceHeaderTitle />
 
-                        <div className="flex flex-col sm:flex-row gap-3">
+                        <div className="flex flex-row gap-3">
                             <Button
                                 onClick={() => setShowAddUserNewFlowDialog(true)}
                                 className="flex items-center justify-center gap-1 font-normal w-full">
@@ -98,9 +89,9 @@ export const UserListFilter = () => {
                 </div>
 
                 <AnimatedContainer open={openFiltersClicked}>
-                    <div className="flex flex-col gap-2 mb-6">
-                        <div className="flex items-end gap-4 flex-wrap">
-                            <div className="flex flex-col gap-2 lg:min-w-52">
+                    <div className="flex flex-col gap-2 mb-4 sm:mb-6">
+                        <div className="flex flex-col sm:flex-row sm:items-end gap-2 sm:gap-4 flex-wrap">
+                            <div className="flex flex-1 flex-col gap-2 lg:min-w-52 min-w-36">
                                 <Input
                                     className="flex-1 text-sm placeholder:text-neutral-70"
                                     label={translate("resources.users.filter.filterByUsername")}
@@ -111,7 +102,7 @@ export const UserListFilter = () => {
                                 />
                             </div>
 
-                            <div className="flex flex-col gap-2 lg:min-w-52">
+                            <div className="flex flex-1 flex-col gap-2 lg:min-w-52">
                                 <Input
                                     label={translate("resources.users.filter.filterByUserId")}
                                     labelSize="title-2"
