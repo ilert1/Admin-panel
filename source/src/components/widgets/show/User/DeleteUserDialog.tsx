@@ -42,18 +42,18 @@ export const DeleteUserDialog = ({ open, id, onOpenChange, onQuickShowOpenChange
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="w-[253px] px-[24px] bg-muted">
+            <DialogContent className="max-w-[270px] bg-muted px-[24px]">
                 <DialogHeader>
                     <DialogTitle className="text-center">{translate("resources.users.deleteThisUser")}</DialogTitle>
                     <DialogDescription />
                 </DialogHeader>
                 <DialogFooter>
-                    <div className="flex justify-around gap-[35px] w-full">
+                    <div className="flex w-full justify-around gap-[35px]">
                         <Button onClick={() => handleDelete()}>{translate("app.ui.actions.delete")}</Button>
                         <Button
                             variant="outline"
                             onClick={() => onOpenChange(false)}
-                            className="!ml-0 px-3 bg-neutral-0 dark:bg-neutral-100">
+                            className="!ml-0 bg-neutral-0 px-3 dark:bg-neutral-100">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>
