@@ -70,7 +70,6 @@ export const useGetWalletTransactionsColumns = () => {
                         lineClamp
                         linesCount={1}
                         minWidth="50px"
-                        className="!text-green-50 dark:!text-green-40 hover:!text-green-40 dark:hover:!text-green-50 !cursor-pointer transition-all duration-300"
                         onClick={() => openSheet("walletTransactions", { id: row.original.id })}
                     />
                 );

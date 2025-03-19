@@ -75,13 +75,22 @@ export const TextField = ({
                     {copyValue && text?.length > 0 && (
                         <span>
                             <Copy
-                                className={cn("h-4 w-4 cursor-pointer", type === "link" && "text-green-50")}
+                                className={cn(
+                                    "h-4 w-4 cursor-pointer",
+                                    (type === "link" || onClick) &&
+                                        "text-green-50 dark:text-green-40 hover:text-green-40 dark:hover:text-green-50"
+                                )}
                                 onClick={copy}
                             />
                         </span>
                     )}
                     <span
-                        className={cn(textStyle(), "block cursor-default", onClick && "cursor-pointer")}
+                        className={cn(
+                            textStyle(),
+                            "block cursor-default",
+                            onClick &&
+                                "underline !text-green-50 dark:!text-green-40 hover:!text-green-40 dark:hover:!text-green-50 cursor-pointer transition-all duration-300"
+                        )}
                         onClick={onClick}
                         style={{
                             ...(lineClamp
