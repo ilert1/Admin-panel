@@ -68,7 +68,7 @@ export const TransactionListFilter = () => {
                 </div>
                 <AnimatedContainer open={openFiltersClicked}>
                     <div className="flex flex-col justify-between sm:flex-row sm:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap mb-4">
-                        <div className="flex flex-1 flex-col gap-2 items-start min-w-36">
+                        <div className="flex flex-1 flex-col gap-2 items-start min-w-36 md:min-w-56">
                             <Input
                                 className="flex-1"
                                 label={translate("resources.transactions.filter.filterById")}
@@ -79,7 +79,7 @@ export const TransactionListFilter = () => {
                             />
                         </div>
 
-                        <div className="flex flex-1 flex-col gap-2 items-start min-w-36">
+                        <div className="flex flex-1 flex-col gap-2 items-start min-w-36 md:min-w-56">
                             <Input
                                 className="flex-1"
                                 placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
