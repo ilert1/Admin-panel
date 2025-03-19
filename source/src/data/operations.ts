@@ -8,8 +8,8 @@ const API_URL = import.meta.env.VITE_API_URL;
 export class OperationsDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
         const paramsStr = new URLSearchParams({
-            limit: params?.pagination.perPage.toString(),
-            offset: ((params?.pagination.page - 1) * +params?.pagination.perPage).toString()
+            limit: params.pagination ? params.pagination.perPage.toString() : "10",
+            offset: params.pagination ? ((params.pagination.page - 1) * +params.pagination.perPage).toString() : "0"
         }).toString();
 
         const url = `${API_URL}/${resource}?${paramsStr}&accountId=${params.filter.accountId}`;

@@ -35,13 +35,11 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
 
-    const { data: walletBalance, isFetching: walletBalanceFetching } = useQuery<Wallets.WalletBalance>(
-        ["walletBalance"],
-        () => dataProvider.getWalletBalance(permissions === "admin" ? "wallet" : "merchant/wallet", id),
-        {
-            enabled: !!id
-        }
-    );
+    const { data: walletBalance, isFetching: walletBalanceFetching } = useQuery<Wallets.WalletBalance>({
+        queryKey: ["walletBalance"],
+        queryFn: () => dataProvider.getWalletBalance(permissions === "admin" ? "wallet" : "merchant/wallet", id),
+        enabled: !!id
+    });
 
     const handleDeleteClicked = () => {
         setDeleteDialogOpen(true);
@@ -55,7 +53,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
 
     return (
         <div className="flex flex-col gap-6 px-[42px]">
-            <div className="flex flex-col sm:grid sm:grid-cols-2 gap-y-4">
+            <div className="flex flex-col gap-y-4 sm:grid sm:grid-cols-2">
                 <TextField label={translate("resources.wallet.manage.fields.walletType")} text={context.record.type} />
 
                 <div>
@@ -64,7 +62,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
                     </small>
 
                     {!walletBalanceFetching ? (
-                        <div className="flex flex-col items-left justify-center">
+                        <div className="items-left flex flex-col justify-center">
                             {walletBalance?.usdt_amount != 0 && (
                                 <TextField text={`${walletBalance?.usdt_amount} USDT`} />
                             )}
@@ -74,7 +72,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
                             )}
                         </div>
                     ) : (
-                        <LoadingBalance className="text-base w-[15px] h-[15px] overflow-hidden" />
+                        <LoadingBalance className="h-[15px] w-[15px] overflow-hidden text-base" />
                     )}
                 </div>
 
@@ -122,7 +120,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
                 </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row justify-end gap-4 px-[21px] sm:px-[42px] mb-4">
+            <div className="mb-4 flex flex-col justify-end gap-4 px-[21px] sm:flex-row sm:px-[42px]">
                 <Button variant={"outline_gray"} onClick={() => handleDeleteClicked()}>
                     {translate("resources.users.delete")}
                 </Button>

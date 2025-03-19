@@ -26,8 +26,8 @@ export class ProvidersDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<ProviderWithId>> {
         const res = await providerEndpointsListProvidersEnigmaV1ProviderGet(
             {
-                currentPage: params?.pagination.page,
-                pageSize: params?.pagination.perPage
+                currentPage: params?.pagination?.page,
+                pageSize: params?.pagination?.perPage
             },
             {
                 headers: {

@@ -26,8 +26,8 @@ export class CurrenciesDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<CurrencyWithId>> {
         const res = await currencyEndpointsListCurrenciesEnigmaV1CurrencyGet(
             {
-                currentPage: params?.pagination.page,
-                pageSize: params?.pagination.perPage
+                currentPage: params?.pagination?.page,
+                pageSize: params?.pagination?.perPage
             },
             {
                 headers: {

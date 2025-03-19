@@ -24,8 +24,8 @@ export class MerchantsDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<Merchant>> {
         const res = await merchantEndpointsListMerchantsEnigmaV1MerchantGet(
             {
-                currentPage: params?.pagination.page,
-                pageSize: params?.pagination.perPage
+                currentPage: params?.pagination?.page,
+                pageSize: params?.pagination?.perPage
             },
             {
                 headers: {

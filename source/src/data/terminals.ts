@@ -30,8 +30,8 @@ export class TerminalsDataProvider extends BaseDataProvider {
         const res = await terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGet(
             providerName,
             {
-                currentPage: params?.pagination.page,
-                pageSize: params?.pagination.perPage
+                currentPage: params?.pagination?.page,
+                pageSize: params?.pagination?.perPage
             },
             {
                 headers: {

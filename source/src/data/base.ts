@@ -22,8 +22,8 @@ export const BF_MANAGER_URL = import.meta.env.VITE_BF_MANAGER_URL;
 export class BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
         const data: { [key: string]: string } = {
-            limit: params.pagination.perPage.toString(),
-            offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
+            limit: params.pagination ? params.pagination.perPage.toString() : "10",
+            offset: params.pagination ? ((params.pagination.page - 1) * +params.pagination.perPage).toString() : "0"
         };
 
         Object.keys(params.filter).forEach(filterItem => {

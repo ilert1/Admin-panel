@@ -18,8 +18,8 @@ const API_URL = import.meta.env.VITE_WALLET_URL;
 export class WalletsDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
         const data: { [key: string]: string } = {
-            limit: params.pagination.perPage.toString(),
-            offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
+            limit: params.pagination ? params.pagination.perPage.toString() : "10",
+            offset: params.pagination ? ((params.pagination.page - 1) * +params.pagination.perPage).toString() : "0"
         };
 
         if (resource !== "wallet" && resource !== "merchant/wallet") {
