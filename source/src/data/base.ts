@@ -32,7 +32,8 @@ export class BaseDataProvider {
         const paramsStr = new URLSearchParams(data).toString();
 
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}?${paramsStr}`, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+            signal: params.signal
         });
         return {
             data: json.data || [],
@@ -42,7 +43,8 @@ export class BaseDataProvider {
 
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+            signal: params.signal
         });
         return { data: json.data };
     }
@@ -89,7 +91,8 @@ export class BaseDataProvider {
     async getManyReference(resource: string, params: GetManyReferenceParams): Promise<GetManyReferenceResult> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}/history`, {
             method: "GET",
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+            signal: params.signal
         });
         return { data: json?.data || [], total: json?.data?.length || 0 };
     }

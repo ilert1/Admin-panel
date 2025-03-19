@@ -19,7 +19,8 @@ export class TransactionDataProvider extends BaseDataProvider {
         const paramsStr = new URLSearchParams(data).toString();
         const url = `${API_URL}/${resource}?${paramsStr}`;
         const { json } = await fetchUtils.fetchJson(url, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+            signal: params.signal
         });
         return {
             data: json.data || [],
@@ -29,7 +30,8 @@ export class TransactionDataProvider extends BaseDataProvider {
 
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+            signal: params.signal
         });
 
         if (!json.success) {

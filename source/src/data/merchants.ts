@@ -30,7 +30,8 @@ export class MerchantsDataProvider extends BaseDataProvider {
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal: params.signal
             }
         );
 
@@ -85,7 +86,8 @@ export class MerchantsDataProvider extends BaseDataProvider {
         const res = await merchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGet(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
+            },
+            signal: params.signal
         });
 
         if ("data" in res.data && res.data.success) {

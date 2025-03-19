@@ -34,7 +34,8 @@ export class DirectionsDataProvider extends BaseDataProvider {
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal: params.signal
             }
         );
 
@@ -59,7 +60,8 @@ export class DirectionsDataProvider extends BaseDataProvider {
         const res = await directionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGet(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
+            },
+            signal: params.signal
         });
 
         if ("data" in res.data && res.data.success) {

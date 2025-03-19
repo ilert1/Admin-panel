@@ -89,6 +89,7 @@ const dataProvider = combineDataProviders((resource: string) => {
         return new BaseDataProvider();
     }
 });
+dataProvider.supportAbortSignal = true;
 
 export const App = () => {
     return (

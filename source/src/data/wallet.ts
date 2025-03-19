@@ -30,7 +30,8 @@ export class WalletsDataProvider extends BaseDataProvider {
 
         const paramsStr = new URLSearchParams(data).toString();
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}?${paramsStr}`, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+            signal: params.signal
         });
 
         if (!json.success) {
@@ -57,7 +58,8 @@ export class WalletsDataProvider extends BaseDataProvider {
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
         const url = `${API_URL}/${resource}/${params.id}`;
         const { json } = await fetchUtils.fetchJson(url, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+            signal: params.signal
         });
 
         if (!json.success) {

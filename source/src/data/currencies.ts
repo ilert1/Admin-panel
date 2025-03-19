@@ -32,7 +32,8 @@ export class CurrenciesDataProvider extends BaseDataProvider {
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal: params.signal
             }
         );
 
@@ -97,7 +98,8 @@ export class CurrenciesDataProvider extends BaseDataProvider {
         const res = await currencyEndpointsGetCurrencyEnigmaV1CurrencyCurrencyCodeGet(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
+            },
+            signal: params.signal
         });
 
         if ("data" in res.data && res.data.success) {
