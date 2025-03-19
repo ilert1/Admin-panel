@@ -37,7 +37,8 @@ export const useGetAccountsColumns = () => {
                             variant={"resourceLink"}
                             onClick={() => {
                                 openSheet("merchant", {
-                                    id: row.original.owner_id
+                                    id: row.original.owner_id,
+                                    merchantName: row.original.meta.caption
                                 });
                             }}>
                             {row.original.meta.caption ?? ""}

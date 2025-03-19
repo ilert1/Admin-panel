@@ -26,8 +26,8 @@ export const useGetMerchantColumns = () => {
         setDeleteDialogOpen(true);
     };
 
-    const handleShowClicked = (id: string) => {
-        openSheet("merchant", { id });
+    const handleShowClicked = (id: string, merchantName: string) => {
+        openSheet("merchant", { id, merchantName });
     };
 
     const columns: ColumnDef<Merchant>[] = [
@@ -41,7 +41,7 @@ export const useGetMerchantColumns = () => {
                         <Button
                             variant={"resourceLink"}
                             onClick={() => {
-                                handleShowClicked(row.original.id ?? "");
+                                handleShowClicked(row.original.id ?? "", row.original.name);
                             }}>
                             {row.original.name ?? ""}
                         </Button>
@@ -102,7 +102,9 @@ export const useGetMerchantColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => handleShowClicked(row.original.id)} variant={"text_btn"}>
+                        <Button
+                            onClick={() => handleShowClicked(row.original.id, row.original.name)}
+                            variant={"text_btn"}>
                             <EyeIcon className="text-green-50 hover:text-green-40" />
                         </Button>
                     </div>
