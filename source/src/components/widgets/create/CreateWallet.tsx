@@ -143,13 +143,13 @@ export const CreateWallet = (props: CreateWalletProps) => {
             {!isMerchant ? (
                 <FormProvider {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full">
-                        <div className="flex flex-wrap">
+                        <div className="grid md:grid-cols-2 gap-4">
                             <FormField
                                 control={form.control}
                                 name="type"
                                 render={({ field, fieldState }) => {
                                     return (
-                                        <FormItem className="w-1/2 p-2">
+                                        <FormItem>
                                             <Label>{translate("resources.wallet.manage.fields.walletType")}</Label>
                                             <Select
                                                 value={field.value}
@@ -201,7 +201,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 control={form.control}
                                 name="accountNumber"
                                 render={({ field }) => (
-                                    <FormItem className="w-1/2 p-2">
+                                    <FormItem>
                                         <Label className="">
                                             {translate("resources.wallet.manage.fields.merchantName")}
                                         </Label>
@@ -222,7 +222,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 control={form.control}
                                 name="currency"
                                 render={({ field, fieldState }) => (
-                                    <FormItem className="w-1/2 p-2">
+                                    <FormItem>
                                         <FormControl>
                                             <Input
                                                 {...field}
@@ -240,7 +240,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 control={form.control}
                                 name="blockchain"
                                 render={({ field, fieldState }) => (
-                                    <FormItem className="w-1/2 p-2">
+                                    <FormItem>
                                         <FormControl>
                                             <Input
                                                 disabled
@@ -259,7 +259,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 control={form.control}
                                 name="network"
                                 render={({ field, fieldState }) => (
-                                    <FormItem className="w-1/2 p-2">
+                                    <FormItem>
                                         <FormControl>
                                             <Input
                                                 disabled
@@ -277,7 +277,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 control={form.control}
                                 name="minimal_ballance_limit"
                                 render={({ field, fieldState }) => (
-                                    <FormItem className="w-1/2 p-2">
+                                    <FormItem>
                                         <FormControl>
                                             <Input
                                                 {...field}
@@ -295,14 +295,14 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 control={form.control}
                                 name="description"
                                 render={({ field }) => (
-                                    <FormItem className="w-full p-2">
+                                    <FormItem className="w-full md:col-span-2">
                                         <Label>{translate("resources.wallet.manage.fields.descr")}</Label>
                                         <FormControl>
                                             <Textarea
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 p-2 rounded resize-none overflow-auto dark:bg-muted text-title-1 outline-none"
+                                                className="w-full h-24 rounded resize-none overflow-auto dark:bg-muted text-title-1 outline-none"
                                             />
                                             {/* border border-neutral-60 */}
                                         </FormControl>
@@ -311,7 +311,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                             />
                         </div>
 
-                        <div className="self-end flex items-center gap-4">
+                        <div className="flex flex-col sm:self-end sm:flex-row sm:items-center gap-4">
                             <Button type="submit" variant="default">
                                 {translate("app.ui.actions.save")}
                             </Button>
@@ -333,7 +333,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 control={merchantForm.control}
                                 name="address"
                                 render={({ field }) => (
-                                    <FormItem className="w-full p-2">
+                                    <FormItem className="w-full">
                                         <FormControl>
                                             <Input
                                                 label={translate("resources.wallet.manage.fields.walletAddress")}
@@ -352,14 +352,14 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 control={merchantForm.control}
                                 name="description"
                                 render={({ field }) => (
-                                    <FormItem className="w-full p-2">
+                                    <FormItem className="w-full">
                                         <Label>{translate("resources.wallet.manage.fields.descr")}</Label>
                                         <FormControl>
                                             <Textarea
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 p-2 border rounded resize-none overflow-auto text-neutral-80 dark:text-white text-title-1 outline-none dark:bg-muted border-neutral-40"
+                                                className="w-full h-24 border rounded resize-none overflow-auto text-neutral-80 dark:text-white text-title-1 outline-none dark:bg-muted border-neutral-40"
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -367,7 +367,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                             />
                         </div>
 
-                        <div className="flex flex-col sm:self-end sm:flex-row items-center gap-4">
+                        <div className="flex flex-col sm:self-end sm:flex-row sm:items-center gap-4">
                             <Button type="submit" variant="default" className="w-full sm:w-auto">
                                 {translate("app.ui.actions.save")}
                             </Button>

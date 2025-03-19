@@ -52,12 +52,12 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     if (context.isLoading || !context.record) return;
 
     return (
-        <div className="flex flex-col gap-6 px-[42px]">
-            <div className="flex flex-col gap-y-4 sm:grid sm:grid-cols-2">
+        <div className="flex flex-col gap-4 px-4 md:gap-6 md:px-[42px]">
+            <div className="flex flex-col gap-y-2 sm:grid sm:grid-cols-2 sm:gap-y-4">
                 <TextField label={translate("resources.wallet.manage.fields.walletType")} text={context.record.type} />
 
                 <div>
-                    <small className="text-sm text-neutral-60 dark:text-neutral-40">
+                    <small className="text-sm text-neutral-60">
                         {translate("resources.wallet.manage.fields.balance")}
                     </small>
 
@@ -120,7 +120,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
                 </div>
             </div>
 
-            <div className="mb-4 flex flex-col justify-end gap-4 px-[21px] sm:flex-row sm:px-[42px]">
+            <div className="mb-4 flex flex-col justify-end gap-2 px-0 sm:flex-row sm:px-[42px] md:gap-4">
                 <Button variant={"outline_gray"} onClick={() => handleDeleteClicked()}>
                     {translate("resources.users.delete")}
                 </Button>

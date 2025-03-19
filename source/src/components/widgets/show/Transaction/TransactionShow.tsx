@@ -67,14 +67,14 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
 
             switch (type) {
                 case 1:
-                    return <TextField text={destMerch?.name || ""} wrap />;
+                    return destMerch?.name || "";
                 case 2:
                 case 4:
-                    return <TextField text={sourceMerch?.name || ""} wrap />;
+                    return sourceMerch?.name || "";
                 case 3:
-                    return <TextField text={`${sourceMerch?.name} - ${destMerch?.name}`} wrap />;
+                    return `${sourceMerch?.name} - ${destMerch?.name}`;
                 default:
-                    return <TextField text="" wrap />;
+                    return "";
             }
         },
         [merchantsList]
@@ -85,7 +85,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     }
 
     return (
-        <div className="p-[42px] pt-0 h-full flex flex-col gap-6 top-[82px] overflow-auto">
+        <div className="p-4 md:p-[42px] pt-0 h-full flex flex-col gap-6 top-[82px] overflow-auto">
             {permissions === "admin" && (
                 <div className={`flex justify-between flex-wrap gap-4`}>
                     {showState && (
@@ -115,7 +115,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                         </div>
                     )}
 
-                    <div className="flex gap-6">
+                    <div className="flex gap-3 md:gap-6">
                         {showDispute && (
                             <Button disabled={!context.record?.state.final} onClick={switchDispute}>
                                 {disputeCaption}
@@ -178,7 +178,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     </div>
                 </div>
             )}
-            <div className="flex gap-6">
+            <div className="flex gap-3 md:gap-6 items-baseline">
                 <TextField
                     label={translate("resources.transactions.fields.type")}
                     text={translate(
@@ -196,19 +196,14 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 />
 
                 {permissions === "admin" && (
-                    <div className="flex flex-col">
-                        <span className="text-neutral-60 dark:text-neutral-40">
-                            {translate("resources.transactions.fields.destination.header")}
-                        </span>
-
-                        <span>
-                            {merchantNameGenerate(
-                                context.record?.type,
-                                context.record?.source?.id,
-                                context.record?.destination?.id
-                            )}
-                        </span>
-                    </div>
+                    <TextField
+                        label={translate("resources.transactions.fields.destination.header")}
+                        text={merchantNameGenerate(
+                            context.record?.type,
+                            context.record?.source?.id,
+                            context.record?.destination?.id
+                        )}
+                    />
                 )}
             </div>
 

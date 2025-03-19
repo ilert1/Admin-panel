@@ -87,8 +87,8 @@ export const MerchantShow = (props: MerchantShowProps) => {
     return (
         <>
             <div className="pt-0 h-full min-h-[300px] flex flex-col overflow-auto">
-                <div className="flex flex-col gap-4">
-                    <div className="px-[42px]">
+                <div className="flex flex-col gap-1 md:gap-4">
+                    <div className="px-4 md:px-[42px]">
                         <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
                         <TextField
                             text={context.record.id}
@@ -96,7 +96,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                             className="text-neutral-70 dark:text-neutral-30"
                         />
                     </div>
-                    <div className="grid grid-cols-2 px-[42px]">
+                    <div className="grid grid-cols-2 px-4 md:px-[42px]">
                         <TextField
                             label={translate("resources.merchant.fields.descr")}
                             text={context.record.description || ""}
@@ -104,7 +104,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                         <TextField label="Keycloak ID" text={context.record.keycloak_id || ""} />
                     </div>
                 </div>
-                <div className="flex-1 mt-4 w-full px-[42px]">
+                <div className="flex-1 mt-1 md:mt-4 w-full px-4 md:px-[42px]">
                     <Fees
                         id={id}
                         fees={fees}
@@ -112,7 +112,8 @@ export const MerchantShow = (props: MerchantShowProps) => {
                         className="max-h-[40dvh]"
                         padding={false}
                     />
-                    <div className="mt-5 w-full flex flex-col gap-[8px] ">
+
+                    <div className="mt-1 md:mt-5 w-full flex flex-col gap-[8px] ">
                         <span className="text-display-3 text-neutral-90 dark:text-neutral-30">
                             {translate("resources.merchant.fields.directions")}
                         </span>

@@ -49,11 +49,14 @@ export const DirectionListFilter = () => {
     return (
         <>
             <div className="flex w-full flex-col">
-                <div className="mb-6 flex flex-wrap justify-between gap-2">
+                <div className="mb-4 flex flex-wrap justify-between gap-x-52 gap-y-3 sm:gap-3 md:mb-6">
                     <ResourceHeaderTitle />
 
-                    <div className="flex flex-col justify-end gap-6 sm:flex-row">
-                        <Button onClick={handleCreateClick} variant="default" className="flex items-center gap-[4px]">
+                    <div className="flex flex-1 flex-row justify-end gap-2 sm:flex-none sm:gap-6">
+                        <Button
+                            onClick={handleCreateClick}
+                            variant="default"
+                            className="flex flex-1 items-center gap-[4px] sm:flex-none">
                             <PlusCircle className="h-[16px] w-[16px]" />
                             <span className="text-title-1">{translate("resources.direction.create")}</span>
                         </Button>
@@ -68,7 +71,7 @@ export const DirectionListFilter = () => {
                 </div>
 
                 <AnimatedContainer open={openFiltersClicked}>
-                    <div className="flex-grow-100 mb-6 flex min-w-[150px] max-w-[700px] flex-1 items-center gap-1 md:flex-col md:items-start">
+                    <div className="flex-grow-100 mb-4 flex min-w-[150px] max-w-[700px] flex-1 items-center gap-1 md:mb-6 md:flex-col md:items-start">
                         <Label variant="title-2" className="mb-0 md:text-nowrap">
                             {translate("resources.transactions.filter.filterByAccount")}
                         </Label>

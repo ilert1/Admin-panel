@@ -57,8 +57,8 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
         feesVariants.push(context.record.dst_currency.code);
 
     return (
-        <div className="px-[42px] pb-[42px]">
-            <div className="flex flex-col sm:flex-row justify-between">
+        <div className="px-4 md:px-[42px] md:pb-[42px]">
+            <div className="flex flex-row flex-wrap md:flex-nowrap items-center justify-between">
                 <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
 
                 <div className="flex self-start mt-2 sm:mt-0 sm:self-center items-center justify-center text-white">
@@ -74,9 +74,9 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                 </div>
             </div>
 
-            <div className="flex flex-col gap-[24px] pt-[24px]">
+            <div className="flex flex-col gap-2 md:gap-[24px] pt-2 md:pt-[24px]">
                 <div className="grid grid-cols-2">
-                    <div className="flex flex-col gap-[24px] ml-[32px]">
+                    <div className="flex flex-col gap-2 md:gap-[24px] md:ml-[32px]">
                         <TextField label={translate("resources.direction.fields.name")} text={context.record.name} />
 
                         <TextField
@@ -102,7 +102,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                         />
                     </div>
 
-                    <div className="flex flex-col gap-[24px] ml-[32px]">
+                    <div className="flex flex-col gap-2 md:gap-[24px] ml-2 md:ml-[32px]">
                         <TextField
                             label={translate("resources.direction.merchant")}
                             text={context.record.merchant.name}
@@ -121,7 +121,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                     </div>
                 </div>
 
-                <div className="flex flex-wrap justify-end gap-[16px]">
+                <div className="flex flex-wrap justify-end gap-2 md:gap-4">
                     <Button className="" onClick={handleEditClicked}>
                         {translate("app.ui.actions.edit")}
                     </Button>

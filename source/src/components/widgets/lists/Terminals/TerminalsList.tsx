@@ -25,7 +25,7 @@ export const TerminalsList = () => {
 
     return (
         <>
-            <div className="mb-6 flex flex-wrap justify-between gap-2">
+            <div className="mb-4 flex flex-wrap justify-between gap-2 md:mb-6">
                 <ResourceHeaderTitle />
                 <Button
                     disabled={!provider}

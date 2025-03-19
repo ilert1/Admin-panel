@@ -47,31 +47,37 @@ export const TerminalShow = (props: TerminalShowProps) => {
 
     return (
         <>
-            <div className="px-[45px] flex flex-col gap-4">
-                <div className="flex flex-col gap-6">
+            <div className="px-4 md:px-[45px] flex flex-col gap-2 md:gap-4">
+                <div className="flex flex-col gap-3 md:gap-6">
                     <div className="flex flex-col gap-2">
                         <TextField text={id} copyValue className="text-display-4" />
-                        <div className="flex gap-6">
+
+                        <div className="flex gap-4 md:gap-6">
                             <TextField
                                 text={data.verbose_name}
                                 label={translate("resources.terminals.fields.verbose_name")}
                             />
+
                             <TextField text={data.provider} label={translate("resources.terminals.fields.provider")} />
+
                             <TextField
                                 text={data.description ?? ""}
                                 label={translate("resources.terminals.fields.description")}
                             />
                         </div>
-                        <div className="">
+
+                        <div>
                             <Label className="mb-0">{translate("resources.terminals.fields.auth")}</Label>
                             <TextField text={JSON.stringify(data.auth)} copyValue />
                         </div>
                     </div>
+
                     <div className="flex justify-end">
-                        <div className="flex gap-4">
+                        <div className="flex gap-3 md:gap-4">
                             <Button className="" onClick={() => setEditDialogOpen(true)}>
                                 {translate("app.ui.actions.edit")}
                             </Button>
+
                             <Button className="" onClick={() => setDeleteDialogOpen(true)} variant={"outline_gray"}>
                                 {translate("app.ui.actions.delete")}
                             </Button>

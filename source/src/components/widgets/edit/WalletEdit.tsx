@@ -140,13 +140,13 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
         <FormProvider {...form}>
             {!isMerchant && record?.type !== WalletTypes.EXTERNAL ? (
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full">
-                    <div className="flex flex-wrap">
+                    <div className="grid md:grid-cols-2 gap-4">
                         <FormField
                             control={form.control}
                             name="type"
                             render={({ field }) => {
                                 return (
-                                    <FormItem className="w-1/2 p-2">
+                                    <FormItem>
                                         <FormLabel>{translate("resources.wallet.manage.fields.walletType")}</FormLabel>
                                         <Select value={field.value} onValueChange={field.onChange}>
                                             <FormControl>

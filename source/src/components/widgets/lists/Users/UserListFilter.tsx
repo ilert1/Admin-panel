@@ -17,8 +17,6 @@ export const UserListFilter = () => {
     const [userInputId, setUserInputId] = useState(filterValues?.id || "");
     const [username, setUsername] = useState(filterValues?.name || "");
     const [checkedActivity, setCheckedActivity] = useState(filterValues?.active || false);
-
-    const [showAddUserDialog, setShowAddUserDialog] = useState(false);
     const [showAddUserNewFlowDialog, setShowAddUserNewFlowDialog] = useState(false);
 
     const onPropertySelected = debounce((value: string | number, type: "id" | "name" | "state") => {
@@ -65,20 +63,13 @@ export const UserListFilter = () => {
         <div className="flex flex-col gap-4">
             <div className="flex flex-col">
                 <div className="flex flex-col justify-end gap-6 sm:flex-row">
-                    <div className="mb-6 flex w-full flex-wrap justify-between gap-3">
-                        {/* <Button
-                            onClick={() => setShowAddUserDialog(true)}
-                            className="flex items-center justify-center gap-1 font-normal">
-                            <CirclePlus width={16} height={16} />
-                            <span>{translate("resources.users.createButton")}</span>
-                        </Button>
-                        <CreateUserDialog open={showAddUserDialog} onOpenChange={setShowAddUserDialog} /> */}
+                    <div className="mb-4 flex w-full flex-wrap justify-between gap-x-56 gap-y-3 sm:gap-3 md:mb-6">
                         <ResourceHeaderTitle />
 
-                        <div className="flex flex-col gap-3 sm:flex-row">
+                        <div className="flex flex-1 flex-row gap-3 sm:flex-none">
                             <Button
                                 onClick={() => setShowAddUserNewFlowDialog(true)}
-                                className="flex w-full items-center justify-center gap-1 font-normal">
+                                className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none">
                                 <CirclePlus width={16} height={16} />
                                 <span>{translate("resources.users.createButton")}</span>
                             </Button>
@@ -98,9 +89,9 @@ export const UserListFilter = () => {
                 </div>
 
                 <AnimatedContainer open={openFiltersClicked}>
-                    <div className="mb-6 flex flex-col gap-2">
-                        <div className="flex flex-wrap items-end gap-4">
-                            <div className="flex flex-col gap-2 lg:min-w-52">
+                    <div className="mb-4 flex flex-col gap-2 sm:mb-6">
+                        <div className="flex flex-col flex-wrap gap-2 sm:flex-row sm:items-end sm:gap-4">
+                            <div className="flex min-w-36 flex-1 flex-col gap-2 lg:min-w-52">
                                 <Input
                                     className="flex-1 text-sm placeholder:text-neutral-70"
                                     label={translate("resources.users.filter.filterByUsername")}
@@ -111,7 +102,7 @@ export const UserListFilter = () => {
                                 />
                             </div>
 
-                            <div className="flex flex-col gap-2 lg:min-w-52">
+                            <div className="flex flex-1 flex-col gap-2 lg:min-w-52">
                                 <Input
                                     label={translate("resources.users.filter.filterByUserId")}
                                     labelSize="title-2"

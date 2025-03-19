@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { debounce } from "lodash";
 import moment from "moment";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 import { DateRange } from "react-day-picker";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
@@ -30,14 +30,14 @@ export const WalletTransactionsFilter = () => {
 
     const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
-    const chooseClassTabActive = useCallback(
-        (type: string) => {
-            return typeTabActive === type
-                ? "text-green-50 dark:text-green-40 border-b-2 dark:border-green-40 border-green-50 pb-1 duration-200"
-                : "pb-1 border-b-2 border-transparent duration-200 hover:text-green-40";
-        },
-        [typeTabActive]
-    );
+    // const chooseClassTabActive = useCallback(
+    //     (type: string) => {
+    //         return typeTabActive === type
+    //             ? "text-green-50 dark:text-green-40 border-b-2 dark:border-green-40 border-green-50 pb-1 duration-200"
+    //             : "pb-1 border-b-2 border-transparent duration-200 hover:text-green-40";
+    //     },
+    //     [typeTabActive]
+    // );
 
     const onPropertySelected = debounce(
         (value: string, type: "blowfish_id" | "state" | "created_at" | "updated_at") => {
@@ -52,9 +52,9 @@ export const WalletTransactionsFilter = () => {
         300
     );
 
-    const onTabChanged = (value: "" | "deleted") => {
-        setTypeTabActive(value);
-    };
+    // const onTabChanged = (value: "" | "deleted") => {
+    //     setTypeTabActive(value);
+    // };
 
     const onOrderStatusChanged = (state: string) => {
         setStateFilter(state);
@@ -106,7 +106,7 @@ export const WalletTransactionsFilter = () => {
     return (
         <div className="">
             <div className="flex flex-col">
-                <div className="mb-6 flex flex-wrap justify-between gap-2">
+                <div className="mb-4 flex flex-wrap justify-between gap-2 md:mb-6">
                     <ResourceHeaderTitle />
 
                     <FilterButtonGroup
@@ -118,7 +118,7 @@ export const WalletTransactionsFilter = () => {
                     />
                 </div>
                 <AnimatedContainer open={openFiltersClicked}>
-                    <div className="mb-6 flex w-full flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-center sm:gap-x-4 sm:gap-y-3 md:items-end">
+                    <div className="mb-4 flex w-full flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-center sm:gap-x-4 sm:gap-y-3 md:mb-6 md:items-end">
                         <div className="flex flex-1 items-center gap-2 md:flex-col md:items-start">
                             <Input
                                 label={translate("resources.wallet.transactions.filterBar.searchById")}
@@ -129,7 +129,7 @@ export const WalletTransactionsFilter = () => {
                             />
                         </div>
 
-                        <div className="flex min-w-36 flex-1 items-center gap-1 md:flex-col md:items-start">
+                        <div className="flex min-w-36 flex-1 flex-col gap-1">
                             <Label className="mb-0" variant="title-2">
                                 {translate("resources.wallet.transactions.filterBar.paymentStatus")}
                             </Label>
