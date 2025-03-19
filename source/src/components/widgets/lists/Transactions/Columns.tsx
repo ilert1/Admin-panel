@@ -50,7 +50,16 @@ export const useGetTransactionColumns = () => {
             accessorKey: "meta.customer_data.customer_id",
             header: translate("resources.transactions.fields.meta.customer_id"),
             cell: ({ row }) => {
-                return <TextField text={row.original.customer_id} wrap />;
+                return (
+                    <TextField
+                        text={row.original.customer_id}
+                        wrap
+                        copyValue
+                        lineClamp
+                        linesCount={1}
+                        minWidth="50px"
+                    />
+                );
             }
         },
         {
