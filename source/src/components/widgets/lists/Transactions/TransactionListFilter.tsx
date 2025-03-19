@@ -67,8 +67,8 @@ export const TransactionListFilter = () => {
                     />
                 </div>
                 <AnimatedContainer open={openFiltersClicked}>
-                    <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap mb-4">
-                        <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
+                    <div className="flex flex-col justify-between sm:flex-row sm:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap mb-4">
+                        <div className="flex flex-1 flex-col gap-2 items-start min-w-36">
                             <Input
                                 className="flex-1"
                                 label={translate("resources.transactions.filter.filterById")}
@@ -78,7 +78,8 @@ export const TransactionListFilter = () => {
                                 onChange={onOperationIdChanged}
                             />
                         </div>
-                        <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start">
+
+                        <div className="flex flex-1 flex-col gap-2 items-start min-w-36">
                             <Input
                                 className="flex-1"
                                 placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
@@ -89,7 +90,7 @@ export const TransactionListFilter = () => {
                             />
                         </div>
 
-                        <div className="flex flex-1 md:flex-col items-center gap-2 md:gap-1 md:items-start min-w-36">
+                        <div className="flex flex-1 flex-col gap-1 min-w-36">
                             <Label variant="title-2" className="mb-0">
                                 {translate("resources.transactions.filter.filterByOrderStatus")}
                             </Label>
@@ -134,7 +135,7 @@ export const TransactionListFilter = () => {
                         />
 
                         {adminOnly && (
-                            <div className="flex flex-1 flex-grow-100 md:basis-[500px] md:flex-col gap-2 md:gap-1 items-center md:items-start">
+                            <div className="flex flex-col flex-1 flex-grow-100 md:basis-[500px] gap-1 md:gap-1">
                                 <Label className="md:text-nowrap mb-0" variant="title-2">
                                     {translate("resources.transactions.filter.filterByAccount")}
                                 </Label>
@@ -151,7 +152,7 @@ export const TransactionListFilter = () => {
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     disabled={!startDate || (adminOnly && !account)}
-                                    className="md:ml-auto"
+                                    className="md:ml-auto mt-1 sm:mt-0"
                                     variant="default"
                                     size="sm">
                                     {translate("resources.transactions.download.downloadReportButtonText")}
@@ -175,7 +176,7 @@ export const TransactionListFilter = () => {
             </div>
 
             <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-3 flex-wrap">
+                <div className="flex items-center gap-3 flex-wrap mt-2">
                     <button
                         className={chooseClassTabActive(0)}
                         onClick={() => onTabChanged(0)}
