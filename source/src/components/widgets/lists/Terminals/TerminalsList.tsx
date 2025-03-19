@@ -1,4 +1,4 @@
-import { useTranslate } from "react-admin";
+import { ListContextProvider, useListController, useTranslate } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
@@ -11,6 +11,8 @@ import { TerminalsListFilter } from "./TerminalsListFilter";
 import { TerminalListTable } from "./TerminalsListTable";
 import { useGetTerminalColumns } from "./Columns";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { ProviderWithId } from "@/data/providers";
+import { EmptyTable } from "../../shared/EmptyTable";
 
 export const TerminalsList = () => {
     const translate = useTranslate();
@@ -23,19 +25,19 @@ export const TerminalsList = () => {
 
     return (
         <>
-            <div className="flex justify-between mb-6 gap-2 flex-wrap">
+            <div className="mb-6 flex flex-wrap justify-between gap-2">
                 <ResourceHeaderTitle />
                 <Button
                     disabled={!provider}
                     onClick={() => setCreateDialogOpen(true)}
                     variant="default"
-                    className="flex gap-[4px] items-center">
+                    className="flex items-center gap-[4px]">
                     <PlusCircle className="h-[16px] w-[16px]" />
 
                     <span className="text-title-1">{translate("resources.terminals.create")}</span>
                 </Button>
             </div>
-            <div className="flex flex-col md:flex-row gap-2 md:items-end justify-between mb-4">
+            <div className="mb-4 flex flex-col justify-between gap-2 md:flex-row md:items-end">
                 <TerminalsListFilter selectProvider={setProvider} />
             </div>
 
@@ -64,7 +66,7 @@ export const TerminalsList = () => {
                     />
                 </>
             ) : (
-                <DataTable columns={columns} />
+                <EmptyTable columns={columns} />
             )}
         </>
     );
