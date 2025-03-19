@@ -24,8 +24,8 @@ export const WalletTransactionsShow = ({ id }: WalletTransactionsShowProps) => {
         return <Loading />;
     } else {
         return (
-            <div className="flex flex-col gap-6 px-[42px]">
-                <div className="flex flex-col sm:grid grid-cols-2 gap-y-4">
+            <div className="flex flex-col gap-4 md:gap-6 px-4 md:px-[42px]">
+                <div className="flex flex-col sm:grid grid-cols-2 gap-y-2 sm:gap-y-4">
                     <TextField
                         label={translate("resources.wallet.transactions.fields.created_at")}
                         text={new Date(context.record?.created_at).toLocaleString(locale)}
