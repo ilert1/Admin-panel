@@ -24,7 +24,8 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 enum FeeEnum {
     FEE_FROM_SENDER = "FeeFromSender",
-    FEE_FROM_TRANSACTION = "FeeFromTransaction"
+    FEE_FROM_TRANSACTION = "FeeFromTransaction",
+    FEE_FIX_WITHDRAW = "FeeFixWithdraw"
 }
 
 export type FeeType = "inner" | "default";
@@ -34,12 +35,13 @@ export interface AddFeeCardProps {
     resource: FeesResource;
     onOpenChange: (state: boolean) => void;
     setFees?: React.Dispatch<React.SetStateAction<(FeeCreate & { innerId?: number })[]>>;
+    variants?: string[];
     feeType?: FeeType;
     providerName?: string;
 }
 
 export const AddFeeCard = (props: AddFeeCardProps) => {
-    const { id, resource, onOpenChange, setFees, providerName, feeType = "default" } = props;
+    const { id, resource, onOpenChange, setFees, variants, providerName, feeType = "default" } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
 
@@ -53,6 +55,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const { currencies, isLoading: loadingData } = useFetchDataForDirections();
 
     const formSchema = z.object({
+        currency: z.string().min(1, { message: translate("resources.direction.fees.currencyFieldError") }),
         value: z.coerce
             .number({ message: translate("resources.direction.fees.valueFieldError") })
             .positive({ message: translate("resources.direction.fees.valueFieldError") }),
@@ -105,7 +108,8 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
             value: 0,
             type: 1,
             description: "",
-            direction: ""
+            direction: "",
+            currency: ""
         }
     });
 
@@ -122,13 +126,13 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
             <Form {...form}>
                 <form className="space-y-6">
                     <div className="mb-[16px]">
-                        <div className="bg-neutral-10 dark:bg-muted border border-neutral-40 dark:border-none rounded-[8px] px-[8px] pt-[16px] pb-[8px]">
-                            <div className="w-full grid grid-cols-2 sm:grid-cols-4">
+                        <div className="bg-neutral-10 dark:bg-muted px-[8px] pt-[16px] pb-[8px] border border-neutral-40 dark:border-none rounded-[8px]">
+                            <div className="grid grid-cols-2 sm:grid-cols-4 w-full">
                                 <FormField
                                     control={form.control}
                                     name="direction"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="p-2 col-span-4 sm:col-span-2">
+                                        <FormItem className="col-span-4 sm:col-span-2 p-2">
                                             <Label>{translate("resources.direction.fees.direction")}</Label>
                                             <FormControl>
                                                 <Select value={field.value} onValueChange={field.onChange}>
@@ -164,7 +168,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                     control={form.control}
                                     name="type"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="p-2 col-span-4 sm:col-span-2">
+                                        <FormItem className="col-span-4 sm:col-span-2 p-2">
                                             <Label>{translate("resources.direction.fees.feeType")}</Label>
                                             <FormControl>
                                                 <Select
@@ -192,6 +196,63 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                                 variant={SelectType.GRAY}>
                                                                 {FeeEnum.FEE_FROM_TRANSACTION}
                                                             </SelectItem>
+                                                            <SelectItem
+                                                                value={IFeeType.NUMBER_3.toString()}
+                                                                variant={SelectType.GRAY}>
+                                                                {FeeEnum.FEE_FIX_WITHDRAW}
+                                                            </SelectItem>
+                                                        </SelectGroup>
+                                                    </SelectContent>
+                                                </Select>
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="currency"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="col-span-2 p-2">
+                                            <Label>{translate("resources.direction.fees.currency")}</Label>
+                                            <FormControl>
+                                                <Select
+                                                    value={field.value}
+                                                    onValueChange={field.onChange}
+                                                    disabled={currenciesDisabled}>
+                                                    <FormControl>
+                                                        <SelectTrigger
+                                                            variant={SelectType.GRAY}
+                                                            isError={fieldState.invalid}
+                                                            errorMessage={<FormMessage />}
+                                                            className="border-neutral-60">
+                                                            <SelectValue
+                                                                placeholder={
+                                                                    currenciesDisabled
+                                                                        ? translate("resources.direction.noCurrencies")
+                                                                        : ""
+                                                                }
+                                                            />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        <SelectGroup>
+                                                            {!currenciesDisabled && !variants?.length
+                                                                ? currencies.data.map(currency => (
+                                                                      <SelectItem
+                                                                          variant={SelectType.GRAY}
+                                                                          key={currency.code}
+                                                                          value={currency.code}>
+                                                                          {currency.code}
+                                                                      </SelectItem>
+                                                                  ))
+                                                                : variants?.map(currency => (
+                                                                      <SelectItem
+                                                                          key={currency}
+                                                                          value={currency}
+                                                                          variant={SelectType.GRAY}>
+                                                                          {currency}
+                                                                      </SelectItem>
+                                                                  ))}
                                                         </SelectGroup>
                                                     </SelectContent>
                                                 </Select>
@@ -203,7 +264,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                     control={form.control}
                                     name="value"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="p-2 col-span-4">
+                                        <FormItem className="col-span-4 p-2">
                                             <FormControl>
                                                 <Input
                                                     {...field}
@@ -222,7 +283,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                     control={form.control}
                                     name="description"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="w-full p-2 col-span-4">
+                                        <FormItem className="col-span-4 p-2 w-full">
                                             <FormControl>
                                                 <Input
                                                     {...field}
@@ -243,7 +304,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                     </div>
                 </form>
             </Form>
-            <div className="w-full md:w-2/5 p-2 pb-5 ml-auto flex space-x-2">
+            <div className="flex space-x-2 ml-auto p-2 pb-5 w-full md:w-2/5">
                 <Button onClick={form.handleSubmit(onSubmit)} variant="default" className="flex-1">
                     {translate("app.ui.actions.save")}
                 </Button>

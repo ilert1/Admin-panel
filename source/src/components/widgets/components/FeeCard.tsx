@@ -22,6 +22,7 @@ interface FeeCardProps {
     feeDirection: string;
     resource: FeesResource;
     id: string;
+    currency: string;
     description?: string;
     addFee?: boolean;
     providerName?: string;
@@ -35,6 +36,7 @@ export const FeeCard = memo((props: FeeCardProps) => {
         feeType,
         feeDirection,
         id,
+        currency,
         addFee,
         resource,
         description = "",
@@ -94,6 +96,11 @@ export const FeeCard = memo((props: FeeCardProps) => {
                         <TextField
                             text={String(feeDirection)}
                             label={translate("resources.direction.fees.direction")}
+                            labelSize="text-xs"
+                        />
+                        <TextField
+                            text={currency ?? "-"}
+                            label={translate("resources.direction.fees.currency")}
                             labelSize="text-xs"
                         />
 

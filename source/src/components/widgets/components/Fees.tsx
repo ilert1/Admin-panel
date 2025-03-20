@@ -16,7 +16,7 @@ interface FeesProps {
     fees?: FeeCreate[] | MerchantFees | DirectionFees;
     setFees?: React.Dispatch<React.SetStateAction<(FeeCreate & { innerId?: number })[]>>;
     feesResource?: FeesResource;
-    // feesVariants?: string[];
+    feesVariants?: string[];
     padding?: boolean;
     feeType?: FeeType;
     providerName?: string;
@@ -29,7 +29,7 @@ export const Fees = memo((props: FeesProps) => {
         fees,
         id,
         feesResource = FeesResource.MERCHANT,
-        // feesVariants = [],
+        feesVariants = [],
         padding = true,
         feeType = "default",
         providerName,
@@ -87,6 +87,7 @@ export const Fees = memo((props: FeesProps) => {
                                       feeAmount={
                                           feeType === "inner" ? fee.value : fee.value.quantity / fee.value.accuracy
                                       }
+                                      currency={fee.currency}
                                       feeType={feeTypes[fee.type]?.type_descr || ""}
                                       feeDirection={data.transactionTypes[fee.direction].type_descr || ""}
                                       id={id}
@@ -103,6 +104,7 @@ export const Fees = memo((props: FeesProps) => {
                             id={id}
                             onOpenChange={setAddNewOpen}
                             resource={feesResource}
+                            variants={id ? feesVariants : undefined}
                             setFees={setFees ?? undefined}
                             feeType={feeType}
                             providerName={providerName}
