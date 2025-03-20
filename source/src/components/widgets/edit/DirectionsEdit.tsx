@@ -141,7 +141,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="name"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -158,7 +158,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="src_currency"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <Label>{translate("resources.direction.sourceCurrency")}</Label>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
@@ -191,7 +191,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="merchant"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <Label>{translate("resources.direction.merchant")}</Label>
                                     <MerchantSelectFilter
                                         variant="outline"
@@ -207,7 +207,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="dst_currency"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <Label>{translate("resources.direction.destinationCurrency")}</Label>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
@@ -241,7 +241,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="provider"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <Label>{translate("resources.direction.provider")}</Label>
                                     <Select
                                         value={field.value}
@@ -281,7 +281,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="terminal"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <Label>{translate("resources.direction.fields.terminal")}</Label>
                                     <Select
                                         value={field.value}
@@ -323,9 +323,9 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="state"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <Label>{translate("resources.direction.fields.active")}</Label>
-                                    <Select {...field} value={field.value} onValueChange={field.onChange}>
+                                    <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
                                             <SelectTrigger
                                                 variant={SelectType.GRAY}
@@ -354,7 +354,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="weight"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -371,9 +371,9 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="type"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <Label>{translate("resources.direction.types.type")}</Label>
-                                    <Select {...field} value={field.value} onValueChange={field.onChange}>
+                                    <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
                                             <SelectTrigger
                                                 variant={SelectType.GRAY}
@@ -402,7 +402,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="description"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -416,7 +416,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                 </FormItem>
                             )}
                         />
-                        <div className="w-full mt-4 md:mt-0 md:w-2/5 p-2 ml-auto flex flex-col gap-3 sm:gap-0 sm:flex-row space-x-0 sm:space-x-2">
+                        <div className="flex sm:flex-row flex-col gap-3 sm:gap-0 space-x-0 sm:space-x-2 mt-4 md:mt-0 ml-auto p-2 w-full md:w-2/5">
                             <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>
