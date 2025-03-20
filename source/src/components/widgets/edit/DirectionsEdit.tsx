@@ -45,7 +45,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.direction.errors.name")).trim(),
-        active: z.boolean().default(false),
+        state: z.enum(["active", "inactive"]),
         description: z.string().trim().nullable(),
         src_currency: z.string().min(1, translate("resources.direction.errors.src_curr")),
         dst_currency: z.string().min(1, translate("resources.direction.errors.dst_curr")),
@@ -66,15 +66,15 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: controllerProps.record?.name || "",
-            active: controllerProps.record?.active,
+            state: controllerProps.record?.state || undefined,
             description: controllerProps.record?.description || "",
             src_currency: controllerProps.record?.src_currency.code || "",
             dst_currency: controllerProps.record?.dst_currency.code || "",
             merchant: controllerProps.record?.merchant.id || "",
             provider: controllerProps.record?.provider.name || "",
             terminal: controllerProps.record?.terminal?.terminal_id || "",
-            weight: controllerProps.record?.weight || 0
-            // type: controllerProps.record.type
+            weight: controllerProps.record?.weight || 0,
+            type: controllerProps.record?.type || undefined
         }
     });
 
@@ -82,15 +82,15 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         if (controllerProps.record) {
             form.reset({
                 name: controllerProps.record?.name || "",
-                active: controllerProps.record?.active,
+                state: controllerProps.record?.state || undefined,
                 description: controllerProps.record?.description || "",
                 src_currency: controllerProps.record?.src_currency.code || "",
                 dst_currency: controllerProps.record?.dst_currency.code || "",
                 merchant: controllerProps.record?.merchant.id || "",
                 provider: controllerProps.record?.provider.name || "",
                 terminal: controllerProps.record?.terminal?.terminal_id || "",
-                weight: controllerProps.record?.weight || 0
-                // type: controllerProps.record.type
+                weight: controllerProps.record?.weight || 0,
+                type: controllerProps.record.type || undefined
             });
         }
     }, [form, controllerProps.record]);
@@ -98,6 +98,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const onSubmit: SubmitHandler<DirectionUpdate> = async data => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
+
         try {
             await dataProvider.update<Direction>("direction", {
                 id,
@@ -320,13 +321,11 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                         />
                         <FormField
                             control={form.control}
-                            name="active"
+                            name="state"
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
                                     <Label>{translate("resources.direction.fields.active")}</Label>
-                                    <Select
-                                        value={field.value ? "true" : "false"}
-                                        onValueChange={value => field.onChange(value === "true")}>
+                                    <Select {...field} value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
                                             <SelectTrigger
                                                 variant={SelectType.GRAY}
@@ -339,10 +338,10 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                <SelectItem value="true" variant={SelectType.GRAY}>
+                                                <SelectItem value="active" variant={SelectType.GRAY}>
                                                     {translate("resources.direction.fields.stateActive")}
                                                 </SelectItem>
-                                                <SelectItem value="false" variant={SelectType.GRAY}>
+                                                <SelectItem value="inactive" variant={SelectType.GRAY}>
                                                     {translate("resources.direction.fields.stateInactive")}
                                                 </SelectItem>
                                             </SelectGroup>
@@ -374,7 +373,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full sm:w-1/2 p-2">
                                     <Label>{translate("resources.direction.types.type")}</Label>
-                                    <Select {...field}>
+                                    <Select {...field} value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
                                             <SelectTrigger
                                                 variant={SelectType.GRAY}
