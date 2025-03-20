@@ -96,7 +96,11 @@ export const App = () => {
     return (
         <ThemeProvider defaultTheme="dark" storageKey="juggler-ui-theme">
             <SheetProvider>
-                <BrowserRouter>
+                <BrowserRouter
+                    future={{
+                        v7_startTransition: true,
+                        v7_relativeSplatPath: true
+                    }}>
                     <CoreAdminContext
                         i18nProvider={i18nProvider}
                         dataProvider={dataProvider}
