@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { Label } from "@/components/ui/label";
 import { TextField } from "@/components/ui/text-field";
 import { feesDataProvider, FeesResource } from "@/data";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { HttpError, useRefresh, useTranslate } from "react-admin";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Trash2 } from "lucide-react";
@@ -20,7 +20,6 @@ interface FeeCardProps {
     feeAmount: number;
     feeType: string;
     feeDirection: string;
-    currency: string;
     resource: FeesResource;
     id: string;
     description?: string;
@@ -29,13 +28,12 @@ interface FeeCardProps {
     isInner?: boolean;
     deleteFn?: (innerId: number) => void;
 }
-export const FeeCard = (props: FeeCardProps) => {
+export const FeeCard = memo((props: FeeCardProps) => {
     const {
         account,
         feeAmount,
         feeType,
         feeDirection,
-        currency,
         id,
         addFee,
         resource,
@@ -71,11 +69,12 @@ export const FeeCard = (props: FeeCardProps) => {
             if (error instanceof HttpError) appToast("error", error.message);
         }
     };
+
     return (
         <>
             <div className="mt-[2px] mb-[16px]">
-                <div className="relative bg-neutral-10 dark:bg-muted rounded-8 p-4 pr-11">
-                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-[8px] gap-2">
+                <div className="relative bg-neutral-10 dark:bg-muted p-4 pr-11 rounded-8">
+                    <div className="gap-2 gap-y-[8px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full">
                         <TextField
                             copyValue
                             text={account}
@@ -97,20 +96,16 @@ export const FeeCard = (props: FeeCardProps) => {
                             label={translate("resources.direction.fees.direction")}
                             labelSize="text-xs"
                         />
-                        <TextField
-                            text={String(currency)}
-                            label={translate("resources.direction.fees.currency")}
-                            labelSize="text-xs"
-                        />
+
                         {description && (
-                            <div className="flex flex-col col-span-3">
+                            <div className="flex flex-col col-span-1 sm:col-span-2">
                                 <Label
-                                    className="text-note-1 !text-neutral-60 dark:!text-neutral-60 mb-0"
+                                    className="mb-0 !text-neutral-60 text-note-1 dark:!text-neutral-60"
                                     variant="note-1"
                                     htmlFor="">
                                     {translate("resources.direction.fees.descr")}
                                 </Label>
-                                <p className="!text-body resize-none dark:bg-muted border-none p-0">{description}</p>
+                                <p className="dark:bg-muted p-0 border-none !text-body resize-none">{description}</p>
                             </div>
                         )}
                     </div>
@@ -118,8 +113,8 @@ export const FeeCard = (props: FeeCardProps) => {
                         <Button
                             onClick={handleDeleteClicked}
                             variant="text_btn"
-                            className="absolute top-5 right-3 h-6 w-6 p-0 bg-transparent">
-                            <Trash2 className="h-4 w-4 text-red-40 hover:text-red-30 active:text-red-50" />
+                            className="top-5 right-3 absolute bg-transparent p-0 w-6 h-6">
+                            <Trash2 className="w-4 h-4 text-red-40 hover:text-red-30 active:text-red-50" />
                         </Button>
                     )}
                 </div>
@@ -127,7 +122,7 @@ export const FeeCard = (props: FeeCardProps) => {
 
             <div className="">
                 <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-                    <DialogContent className="rounded-16 max-h-56 xl:max-h-none h-auto w-[251px] bg-muted !z-[200] overflow-hidden">
+                    <DialogContent className="!z-[200] bg-muted rounded-16 w-[251px] h-auto max-h-56 xl:max-h-none overflow-hidden">
                         <DialogHeader>
                             <DialogTitle className="text-center">
                                 {translate("resources.direction.fees.deleteFee")}
@@ -157,4 +152,5 @@ export const FeeCard = (props: FeeCardProps) => {
             </div>
         </>
     );
-};
+});
+FeeCard.displayName = "FeeCard";

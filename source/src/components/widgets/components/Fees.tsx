@@ -16,7 +16,7 @@ interface FeesProps {
     fees?: FeeCreate[] | MerchantFees | DirectionFees;
     setFees?: React.Dispatch<React.SetStateAction<(FeeCreate & { innerId?: number })[]>>;
     feesResource?: FeesResource;
-    feesVariants?: string[];
+    // feesVariants?: string[];
     padding?: boolean;
     feeType?: FeeType;
     providerName?: string;
@@ -29,7 +29,7 @@ export const Fees = memo((props: FeesProps) => {
         fees,
         id,
         feesResource = FeesResource.MERCHANT,
-        feesVariants = [],
+        // feesVariants = [],
         padding = true,
         feeType = "default",
         providerName,
@@ -66,11 +66,12 @@ export const Fees = memo((props: FeesProps) => {
     if (!feeTypes) {
         return null;
     }
+    console.log(fees);
 
     return (
         <div className={cn("mt-[10px] w-full", padding ? "px-2" : "px-0")}>
-            <div className="flex flex-col bg-neutral-0 dark:bg-neutral-100 px-[32px] rounded-[8px] w-full ">
-                <h3 className="text-display-3 mt-[16px] mb-[16px]">{translate("resources.direction.fees.fees")}</h3>
+            <div className="flex flex-col bg-neutral-0 dark:bg-neutral-100 px-[32px] rounded-[8px] w-full">
+                <h3 className="mt-[16px] mb-[16px] text-display-3">{translate("resources.direction.fees.fees")}</h3>
                 <div className={cn("max-h-[40vh] overflow-auto pr-[10px]", className)}>
                     {fees && Object.keys(fees).length !== 0
                         ? Object.keys(fees).map(key => {
@@ -112,7 +113,7 @@ export const Fees = memo((props: FeesProps) => {
             </div>
             {addFee && (
                 <div className="flex justify-end">
-                    <Button onClick={() => setAddNewOpen(true)} className="w-full my-4 md:my-6 sm:w-2/5 flex gap-[4px]">
+                    <Button onClick={() => setAddNewOpen(true)} className="flex gap-[4px] my-4 md:my-6 w-full sm:w-2/5">
                         <PlusCircle className="w-[16px] h-[16px]" />
                         {translate("resources.direction.fees.addFee")}
                     </Button>
