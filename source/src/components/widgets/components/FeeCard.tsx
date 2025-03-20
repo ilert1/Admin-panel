@@ -75,7 +75,7 @@ export const FeeCard = memo((props: FeeCardProps) => {
     return (
         <>
             <div className="mt-[2px] mb-[16px]">
-                <div className="relative bg-neutral-10 dark:bg-muted px-4 pt-[16px] pb-5 rounded-[8px]">
+                <div className="bg-neutral-10 dark:bg-muted px-4 pt-[16px] pb-[8px] rounded-[8px]">
                     <div className="gap-2 gap-y-[8px] grid grid-cols-2 w-full">
                         <TextField
                             copyValue
