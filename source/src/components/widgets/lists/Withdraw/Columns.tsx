@@ -4,9 +4,10 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { useFetchMerchants, useGetTransactionState } from "@/hooks";
+import { useAbortableInfiniteGetList } from "@/hooks/useAbortableInfiniteGetList";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useCallback, useMemo, useState } from "react";
-import { useInfiniteGetList, useLocaleState, usePermissions, useTranslate } from "react-admin";
+import { useLocaleState, usePermissions, useTranslate } from "react-admin";
 
 export const useGetWithdrawColumns = () => {
     const translate = useTranslate();
@@ -26,7 +27,7 @@ export const useGetWithdrawColumns = () => {
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
 
     const { data: walletsData } = merchantOnly
-        ? useInfiniteGetList("merchant/wallet", {
+        ? useAbortableInfiniteGetList("merchant/wallet", {
               pagination: { perPage: 25, page: 1 },
               filter: { sort: "name", asc: "ASC" }
           })
@@ -191,7 +192,7 @@ export const useGetWithdrawColumns = () => {
                 return (
                     <div className="flex items-center justify-center">
                         <span
-                            className={`px-3 py-0.5 rounded-20 text-white font-normal text-base text-center truncate ${color}`}>
+                            className={`truncate rounded-20 px-3 py-0.5 text-center text-base font-normal text-white ${color}`}>
                             {text}
                         </span>
                     </div>

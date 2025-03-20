@@ -1,9 +1,10 @@
 import { UIEvent, useEffect, useMemo, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useInfiniteGetList, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 import { LoadingBalance } from "@/components/ui/loading";
 import { Label } from "@/components/ui/label";
 import { ProviderWithId } from "@/data/providers";
+import { useAbortableInfiniteGetList } from "@/hooks/useAbortableInfiniteGetList";
 
 export const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvider: (provider: string) => void }) => {
     const {
@@ -13,7 +14,7 @@ export const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvi
         isFetching,
         isFetched,
         fetchNextPage: providersNextPage
-    } = useInfiniteGetList<ProviderWithId>("provider", {
+    } = useAbortableInfiniteGetList<ProviderWithId>("provider", {
         pagination: { perPage: 25, page: 1 },
         filter: { sort: "name", asc: "ASC" }
     });
@@ -48,8 +49,8 @@ export const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvi
     };
 
     return (
-        <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
-            <div className="flex flex-1 flex-col gap-1 min-w-36">
+        <div className="flex flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-center sm:gap-x-4 sm:gap-y-3 md:items-end">
+            <div className="flex min-w-36 flex-1 flex-col gap-1">
                 <Label className="mb-0" variant="title-2">
                     {translate("resources.terminals.selectHeader")}
                 </Label>
@@ -63,15 +64,15 @@ export const TerminalsListFilter = ({ selectProvider = () => {} }: { selectProvi
                         {providersData?.pages.map(page => {
                             return page.data.map(provider => (
                                 <SelectItem key={provider.name} value={provider.name}>
-                                    <p className="truncate max-w-36">{provider.name}</p>
+                                    <p className="max-w-36 truncate">{provider.name}</p>
                                 </SelectItem>
                             ));
                         })}
 
                         {(providersLoadingProcess || (!providersLoadingProcess && isFetching && !providersData)) && (
                             <SelectItem value="null" disabled className="h-8">
-                                <div className="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center">
-                                    <LoadingBalance className=" w-[20px] h-[20px] overflow-hidden" />
+                                <div className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center">
+                                    <LoadingBalance className="h-[20px] w-[20px] overflow-hidden" />
                                 </div>
                             </SelectItem>
                         )}

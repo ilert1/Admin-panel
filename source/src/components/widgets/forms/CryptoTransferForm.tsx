@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/Button";
-import { useDataProvider, useInfiniteGetList, useTranslate } from "react-admin";
+import { useDataProvider, useTranslate } from "react-admin";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { WalletMinimal } from "lucide-react";
 import { Icon } from "../shared/Icon";
@@ -15,6 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import BlowFishCross from "@/lib/icons/BlowFishCross.svg?react";
 import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { useAbortableInfiniteGetList } from "@/hooks/useAbortableInfiniteGetList";
 
 export const CryptoTransferForm = (props: {
     loading: boolean;
@@ -42,7 +43,7 @@ export const CryptoTransferForm = (props: {
         isFetched: walletsDataFetched,
         isFetching: walletsDataLoading,
         fetchNextPage: walletsNextPage
-    } = useInfiniteGetList("merchant/wallet", {
+    } = useAbortableInfiniteGetList("merchant/wallet", {
         pagination: { perPage: 25, page: 1 },
         filter: { sort: "name", asc: "ASC" }
     });
