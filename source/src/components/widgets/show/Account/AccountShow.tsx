@@ -6,6 +6,7 @@ import { useGetAccountShowColumns } from "./Columns";
 import { useEffect, useState } from "react";
 import { ShowTransactionSheet } from "../../lists/Transactions/ShowTransactionSheet";
 import { uniqueId } from "lodash";
+import { Currency } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 interface AccountShowProps {
     id: string;
@@ -15,6 +16,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     const translate = useTranslate();
 
     const context = useShowController({ resource: "accounts", id });
+    console.log(context.record);
 
     const { historyColumns, chosenId, transcationInfoOpen, setTransactionInfoOpen } = useGetAccountShowColumns();
     const [balances, setBalances] = useState<string[]>([]);
@@ -29,15 +31,15 @@ export const AccountShow = ({ id }: AccountShowProps) => {
         if (!context.isLoading && context.record.amounts[0]) {
             setBalances(
                 context.record.amounts.map(
-                    (el: { value: { quantity: number; accuracy: number }; currency: string }) => {
-                        const number = el.value.quantity == 0 ? "0" : String(el.value.quantity / el.value.accuracy);
+                    (el: { value: { quantity: number; accuracy: number }; currency: Currency }) => {
+                        const number =
+                            el.value.quantity == 0
+                                ? "0"
+                                : (el.value.quantity / el.value.accuracy).toFixed(context.record.currency.accuracy);
                         const [intPart, decimalPart] = number.split(".");
-                        console.log(context.record);
 
                         const formattedIntPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-                        const formattedNumber = decimalPart
-                            ? `${formattedIntPart}.${decimalPart.slice(0, 3)}`
-                            : formattedIntPart;
+                        const formattedNumber = decimalPart ? `${formattedIntPart}.${decimalPart}` : formattedIntPart;
 
                         return formattedNumber + " " + el.currency;
                     }
