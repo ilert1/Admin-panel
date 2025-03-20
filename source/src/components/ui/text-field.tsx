@@ -99,7 +99,7 @@ export const TextField = ({
                                       overflow: "hidden",
                                       WebkitLineClamp: linesCount,
                                       WebkitBoxOrient: "vertical",
-                                      wordBreak: "break-word",
+                                      wordBreak: "break-all",
                                       textWrap: "wrap",
                                       maxWidth: maxWidth,
                                       minWidth: minWidth
