@@ -26,8 +26,6 @@ enum FeeEnum {
     FEE_FROM_SENDER = "FeeFromSender",
     FEE_FROM_TRANSACTION = "FeeFromTransaction",
     FEE_FIX_WITHDRAW = "FeeFixWithdraw"
-    FEE_FROM_TRANSACTION = "FeeFromTransaction",
-    FEE_FIX_WITHDRAW = "FeeFixWithdraw"
 }
 
 export type FeeType = "inner" | "default";
