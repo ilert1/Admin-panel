@@ -9,10 +9,22 @@ import {
 } from "@/lib/icons/WalletStore";
 import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronLeft, CirclePlus, LockKeyhole, LockKeyholeOpen, Vault, WalletCards } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDataProvider, usePermissions, useTranslate } from "react-admin";
 import { useQuery } from "@tanstack/react-query";
 import { NavLink, useLocation } from "react-router-dom";
+import { boolean } from "zod";
+
+interface ICustomViewRoute {
+    name: string;
+    icon: React.ReactNode;
+    childrens: {
+        name: string;
+        path: string;
+        icon: React.ReactNode;
+        showLock: boolean;
+    }[];
+}
 
 export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: boolean }) => {
     const translate = useTranslate();
@@ -27,7 +39,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
         enabled: permissions === "admin"
     });
 
-    const customViewRoutes = {
+    const [customViewRoutes, setCustomViewRoutes] = useState<ICustomViewRoute>({
         name: "wallet",
         icon: <BitcoinWalletIcon />,
         childrens: [
@@ -38,31 +50,42 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                 showLock: false
             }
         ]
-    };
+    });
 
-    if (permissions === "admin") {
-        customViewRoutes.childrens = [
-            {
-                name: "storage",
-                path: "/wallet/storage",
-                icon: <Vault />,
-                showLock: true
-            },
-            ...customViewRoutes.childrens,
-            {
-                name: "transactions",
-                path: "/wallet/transactions",
-                icon: <WalletCards />,
-                showLock: false
-            },
-            {
-                name: "linkedTransactions",
-                path: "/wallet/linkedTransactions",
-                icon: <WalletLinkedTransactionsIcon />,
-                showLock: false
-            }
-        ];
-    }
+    useEffect(() => {
+        if (permissions === "admin") {
+            setCustomViewRoutes({
+                name: "wallet",
+                icon: <BitcoinWalletIcon />,
+                childrens: [
+                    {
+                        name: "storage",
+                        path: "/wallet/storage",
+                        icon: <Vault />,
+                        showLock: true
+                    },
+                    {
+                        name: "manage",
+                        path: "/wallet",
+                        icon: <DoubleWalletsIcon />,
+                        showLock: false
+                    },
+                    {
+                        name: "transactions",
+                        path: "/wallet/transactions",
+                        icon: <WalletCards />,
+                        showLock: false
+                    },
+                    {
+                        name: "linkedTransactions",
+                        path: "/wallet/linkedTransactions",
+                        icon: <WalletLinkedTransactionsIcon />,
+                        showLock: false
+                    }
+                ]
+            });
+        }
+    }, []);
 
     const CurrentStateIcon = () => {
         if (storageStateLoading) {
@@ -121,11 +144,11 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                             className={`pointer flex items-center pl-6 text-left transition-colors duration-150 animate-in fade-in-0 hover:bg-neutral-20 hover:text-controlElements dark:hover:bg-black [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all ${
                                 showCaptions ? "gap-3" : ""
                             }`}>
-                            {customViewRoutes.icon}
+                            {customViewRoutes?.icon}
 
                             {showCaptions && (
                                 <span className="m-0 p-0 leading-[22px] transition-opacity animate-in fade-in-0">
-                                    {translate(`resources.${customViewRoutes.name}.name`)}
+                                    {translate(`resources.${customViewRoutes?.name}.name`)}
                                 </span>
                             )}
 
@@ -145,7 +168,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                         }
                         sideOffset={12}
                         side="right">
-                        {translate(`resources.${customViewRoutes.name}.name`)}
+                        {translate(`resources.${customViewRoutes?.name}.name`)}
                         <ChevronLeft
                             className="absolute -left-[13px] top-1.5 text-controlElements"
                             width={20}
@@ -159,7 +182,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                         className={`mr-[1px] flex flex-col gap-4 bg-green-0 py-1 pl-6 dark:bg-muted ${
                             showCaptions ? "pl-4" : "-ml-6 pl-4"
                         }`}>
-                        {customViewRoutes.childrens.map((customRoute, index) => (
+                        {customViewRoutes?.childrens.map((customRoute, index) => (
                             <Tooltip key={index}>
                                 <TooltipTrigger asChild>
                                     {/* className={cn(
