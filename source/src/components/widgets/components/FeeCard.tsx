@@ -18,8 +18,8 @@ import { Trash2 } from "lucide-react";
 interface FeeCardProps {
     account: string;
     feeAmount: number;
-    feeType: string;
-    feeDirection: string;
+    feeType: 1 | 2 | 3;
+    currency: string;
     resource: FeesResource;
     id: string;
     currency: string;
@@ -44,6 +44,7 @@ export const FeeCard = memo((props: FeeCardProps) => {
         deleteFn,
         providerName
     } = props;
+    const feeTypesMap = { 1: "FeeFromSender", 2: "FeeFromTransaction", 3: "FeeFixWithdraw" };
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
@@ -75,8 +76,8 @@ export const FeeCard = memo((props: FeeCardProps) => {
     return (
         <>
             <div className="mt-[2px] mb-[16px]">
-                <div className="relative bg-neutral-10 dark:bg-muted p-4 pr-11 rounded-8">
-                    <div className="gap-2 gap-y-[8px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full">
+                <div className="bg-neutral-10 dark:bg-muted px-4 pt-[16px] pb-[8px] rounded-[8px]">
+                    <div className="gap-2 gap-y-[8px] grid grid-cols-2 w-full">
                         <TextField
                             copyValue
                             text={account}
@@ -89,17 +90,12 @@ export const FeeCard = memo((props: FeeCardProps) => {
                             labelSize="text-xs"
                         />
                         <TextField
-                            text={String(feeType)}
+                            text={feeTypesMap[feeType]}
                             label={translate("resources.direction.fees.feeType")}
                             labelSize="text-xs"
                         />
                         <TextField
-                            text={String(feeDirection)}
-                            label={translate("resources.direction.fees.direction")}
-                            labelSize="text-xs"
-                        />
-                        <TextField
-                            text={currency ?? "-"}
+                            text={currency}
                             label={translate("resources.direction.fees.currency")}
                             labelSize="text-xs"
                         />
@@ -107,12 +103,16 @@ export const FeeCard = memo((props: FeeCardProps) => {
                         {description && (
                             <div className="flex flex-col col-span-1 sm:col-span-2">
                                 <Label
-                                    className="mb-0 !text-neutral-60 text-note-1 dark:!text-neutral-60"
+                                    className="!text-neutral-60 text-note-1 dark:!text-neutral-60"
                                     variant="note-1"
                                     htmlFor="">
                                     {translate("resources.direction.fees.descr")}
                                 </Label>
-                                <p className="dark:bg-muted p-0 border-none !text-body resize-none">{description}</p>
+                                <Textarea
+                                    readOnly
+                                    className="dark:bg-muted !text-body resize-none"
+                                    value={description}
+                                />
                             </div>
                         )}
                     </div>

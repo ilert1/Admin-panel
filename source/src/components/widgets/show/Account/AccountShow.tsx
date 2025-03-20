@@ -51,21 +51,20 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     }
 
     return (
-        <div className="p-4 pt-0 md:p-[42px] h-full min-h-[300px] flex flex-col">
-            <div className="flex flex-col sm:flex-row justify-between mb-6 gap-4">
-                <div className="flex flex-col gap-1 md:gap-4">
-                    <div className="md:text-display-2 text-neutral-90 dark:text-neutral-30">
+        <div className="flex flex-col mx-6 h-full min-h-[300px]">
+            <div className="flex sm:flex-row flex-col justify-between gap-4 mb-6 px-[20px]">
+                <div className="flex flex-col gap-4">
+                    <div className="text-display-2 text-neutral-90 dark:text-neutral-30">
                         <span>{context.record.meta.caption}</span>
                     </div>
 
                     <TextField text={id} copyValue className="text-neutral-90 dark:text-neutral-30" />
                 </div>
-
-                <div className="flex gap-2 flex-wrap justify-end content-end">
+                <div className="flex flex-wrap justify-end content-end gap-2">
                     {balances.length > 0 &&
                         balances.map(balance => (
                             <div className="bg-green-50 px-3 py-0.5 rounded-20" key={uniqueId()}>
-                                <span className="text-title-2 text-neutral-0">
+                                <span className="text-neutral-0 text-title-2">
                                     {translate("resources.accounts.balance")}: {balance}
                                 </span>
                             </div>

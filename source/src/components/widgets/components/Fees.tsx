@@ -72,6 +72,8 @@ export const Fees = memo((props: FeesProps) => {
         <div className={cn("mt-[10px] w-full", padding ? "px-2" : "px-0")}>
             <div className="flex flex-col bg-neutral-0 dark:bg-neutral-100 px-[32px] rounded-[8px] w-full">
                 <h3 className="mt-[16px] mb-[16px] text-display-3">{translate("resources.direction.fees.fees")}</h3>
+            <div className="flex flex-col bg-neutral-0 dark:bg-neutral-100 px-[32px] rounded-[8px] w-full">
+                <h3 className="mt-[16px] mb-[16px] text-display-3">{translate("resources.direction.fees.fees")}</h3>
                 <div className={cn("max-h-[40vh] overflow-auto pr-[10px]", className)}>
                     {fees && Object.keys(fees).length !== 0
                         ? Object.keys(fees).map(key => {
@@ -87,9 +89,7 @@ export const Fees = memo((props: FeesProps) => {
                                       feeAmount={
                                           feeType === "inner" ? fee.value : fee.value.quantity / fee.value.accuracy
                                       }
-                                      currency={fee.currency}
-                                      feeType={feeTypes[fee.type]?.type_descr || ""}
-                                      feeDirection={data.transactionTypes[fee.direction].type_descr || ""}
+                                      feeType={fee.type}
                                       id={id}
                                       resource={feesResource}
                                       description={fee.description}
@@ -115,7 +115,7 @@ export const Fees = memo((props: FeesProps) => {
             </div>
             {addFee && (
                 <div className="flex justify-end">
-                    <Button onClick={() => setAddNewOpen(true)} className="flex gap-[4px] my-4 md:my-6 w-full sm:w-2/5">
+                    <Button onClick={() => setAddNewOpen(true)} className="flex gap-[4px] my-6 w-full sm:w-2/5">
                         <PlusCircle className="w-[16px] h-[16px]" />
                         {translate("resources.direction.fees.addFee")}
                     </Button>
