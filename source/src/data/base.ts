@@ -27,7 +27,9 @@ export class BaseDataProvider {
         };
 
         Object.keys(params.filter).forEach(filterItem => {
-            data[filterItem] = params.filter[filterItem];
+            if (filterItem !== "signal") {
+                data[filterItem] = params.filter[filterItem];
+            }
         });
         const paramsStr = new URLSearchParams(data).toString();
 

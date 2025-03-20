@@ -21,11 +21,17 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
         id
     });
     const translate = useTranslate();
-    const dataProvider = useDataProvider<WalletsDataProvider>();
+    const dataProvider = useDataProvider();
 
-    const { data: accountsData } = useGetList<Account>("accounts", {
-        pagination: { perPage: 1000, page: 1 },
-        filter: { sort: "name", asc: "ASC" }
+    const { data: accountsData } = useQuery({
+        queryKey: ["accounts", "getList", "WalletShow"],
+        queryFn: async ({ signal }) =>
+            await dataProvider.getList<Account>("accounts", {
+                pagination: { perPage: 1000, page: 1 },
+                filter: { sort: "name", asc: "ASC" },
+                signal
+            }),
+        select: data => data?.data
     });
 
     const currentAccount = useMemo(

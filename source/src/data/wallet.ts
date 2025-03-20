@@ -24,7 +24,9 @@ export class WalletsDataProvider extends BaseDataProvider {
 
         if (resource !== "wallet" && resource !== "merchant/wallet") {
             Object.keys(params.filter).forEach(filterItem => {
-                data[filterItem] = params.filter[filterItem];
+                if (filterItem !== "signal") {
+                    data[filterItem] = params.filter[filterItem];
+                }
             });
         }
 

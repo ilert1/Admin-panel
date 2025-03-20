@@ -4,7 +4,7 @@ import { API_URL } from "@/data/base";
 
 export const useFetchCurrencies = () => {
     const { isLoading, data } = useQuery<{ data: Dictionaries.Currency[] }>({
-        queryKey: ["currencies"],
+        queryKey: ["currencies", "useFetchCurrencies"],
         queryFn: ({ signal }) =>
             fetch(`${API_URL}/dictionaries/curr`, {
                 headers: {

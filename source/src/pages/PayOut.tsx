@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUtils, HttpError, useGetList, useTranslate } from "react-admin";
+import { fetchUtils, HttpError, useDataProvider, useGetList, useTranslate } from "react-admin";
 import { BF_MANAGER_URL } from "@/data/base";
 import { PayOutForm } from "@/components/widgets/forms";
 
@@ -15,8 +15,18 @@ export const PayOutPage = () => {
     const [payoutTgUrl, setPayoutTgUrl] = useState("");
 
     const appToast = useAppToast();
+    const dataProvider = useDataProvider();
 
-    const { data: accounts } = useGetList("accounts");
+    const { data: accounts } = useQuery({
+        queryKey: ["accounts", "getList", "PayOutPage"],
+        queryFn: async ({ signal }) =>
+            await dataProvider.getList<Account>("accounts", {
+                pagination: { perPage: 1, page: 1 },
+                filter: { sort: "name", asc: "ASC" },
+                signal
+            }),
+        select: data => data?.data
+    });
 
     const currency = useMemo(() => accounts?.[0]?.amounts?.[0]?.shop_currency, [accounts]);
     const { data: currencies } = useFetchCurrencies();
@@ -27,7 +37,7 @@ export const PayOutPage = () => {
         data: payMethods,
         refetch: refetchPayMethods
     } = useQuery<PayOut.Response, unknown, PayOut.PayMethod[] | []>({
-        queryKey: ["paymethods", currency],
+        queryKey: ["paymethods", "PayOutPage"],
         queryFn: async ({ signal }) => {
             if (currency) {
                 const response = await fetch(`${BF_MANAGER_URL}/v1/payout/paymethods?currency=${currency}`, {
@@ -39,6 +49,7 @@ export const PayOutPage = () => {
                 return await response.json();
             }
         },
+        enabled: !!currency,
         select: data => data?.data,
         refetchOnWindowFocus: false
     });
