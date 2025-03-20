@@ -1,18 +1,16 @@
+import { useSheets } from "@/components/providers/SheetProvider";
 import { ShowButton } from "@/components/ui/Button";
 import { LoadingBalance } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
-import { useState } from "react";
 import { useTranslate } from "react-admin";
 
 export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<string, Wallets.WalletBalance>) => {
     const translate = useTranslate();
-    const [chosenId, setChosenId] = useState("");
-    const [quickShowOpen, setQuickShowOpen] = useState(false);
+    const { openSheet } = useSheets();
 
-    const openSheet = (id: string) => {
-        setChosenId(id);
-        setQuickShowOpen(true);
+    const handleOpenSheet = (id: string) => {
+        openSheet("wallet", { id });
     };
 
     const columns: ColumnDef<Wallets.Wallet>[] = [
@@ -34,6 +32,8 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
                         lineClamp
                         linesCount={1}
                         minWidth="50px"
+                        className="!text-green-50 dark:!text-green-40 hover:!text-green-40 dark:hover:!text-green-50 !cursor-pointer transition-all duration-300"
+                        onClick={() => openSheet("wallet", { id: row.original.id })}
                     />
                 );
             }
@@ -44,7 +44,16 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
             header: translate("resources.wallet.manage.fields.accountNumber"),
             cell: ({ row }) => {
                 return (
-                    <TextField text={row.original.account_id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />
+                    <TextField
+                        text={row.original.account_id}
+                        wrap
+                        copyValue
+                        lineClamp
+                        linesCount={1}
+                        minWidth="50px"
+                        className="!text-green-50 dark:!text-green-40 hover:!text-green-40 dark:hover:!text-green-50 !cursor-pointer transition-all duration-300"
+                        onClick={() => openSheet("account", { id: row.original.account_id })}
+                    />
                 );
             }
         },
@@ -92,20 +101,16 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
         },
         {
             id: "actions",
-            header: () => {
-                return <div className="text-center">{translate("resources.wallet.manage.fields.more")}</div>;
-            },
             cell: ({ row }) => {
                 return (
                     <ShowButton
                         onClick={() => {
-                            setChosenId(row.original.id);
-                            openSheet(row.original.id);
+                            handleOpenSheet(row.original.id);
                         }}
                     />
                 );
             }
         }
     ];
-    return { columns, chosenId, quickShowOpen, setQuickShowOpen };
+    return { columns };
 };

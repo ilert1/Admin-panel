@@ -55,7 +55,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const formSchema = z.object({
         value: z.coerce
             .number({ message: translate("resources.direction.fees.valueFieldError") })
-            .min(0, { message: translate("resources.direction.fees.valueFieldError") }),
+            .positive({ message: translate("resources.direction.fees.valueFieldError") }),
         type: z.custom<IFeeType>(),
         description: z.string(),
         direction: z.string().min(1, { message: translate("resources.direction.fees.directionFieldError") })

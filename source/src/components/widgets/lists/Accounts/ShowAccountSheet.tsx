@@ -5,12 +5,12 @@ import React from "react";
 import { CloseSheetXButton } from "../../components/CloseSheetXButton";
 
 export interface ShowSheetProps {
-    accountId: string;
+    id: string;
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
 
-export const ShowAccountSheet: React.FC<ShowSheetProps> = ({ accountId, open, onOpenChange = () => {} }) => {
+export const ShowAccountSheet: React.FC<ShowSheetProps> = ({ id, open, onOpenChange = () => {} }) => {
     const translate = useTranslate();
 
     return (
@@ -19,7 +19,7 @@ export const ShowAccountSheet: React.FC<ShowSheetProps> = ({ accountId, open, on
                 className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col h-full border-0 gap-[4px]"
                 tabIndex={-1}
                 close={false}>
-                <SheetHeader className="p-[42px] pb-0 flex-shrink-0">
+                <SheetHeader className="p-4 md:p-[42px] pb-0 flex-shrink-0">
                     <div className="flex flex-col gap-2">
                         <div className="flex justify-between items-center ">
                             <SheetTitle className="!text-display-1">{translate("app.ui.accountHistory")}</SheetTitle>
@@ -30,7 +30,7 @@ export const ShowAccountSheet: React.FC<ShowSheetProps> = ({ accountId, open, on
 
                 <div className="h-full min-h-0" tabIndex={-1}>
                     <SheetDescription />
-                    <AccountShow id={accountId} />
+                    <AccountShow id={id} />
                 </div>
             </SheetContent>
         </Sheet>

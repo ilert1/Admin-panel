@@ -5,6 +5,8 @@ import { CircleArrowLeftIcon, CircleArrowRightIcon } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useListContext, useTranslate } from "react-admin";
 import { useCallback, useEffect } from "react";
+import clsx from "clsx";
+import { cn } from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -138,7 +140,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
 
     return (
         <>
-            <Table className="">
+            <Table className={clsx("min-h-20", data?.length > 1 && "min-h-44")}>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup, i) => (
                         <TableRow key={i} className="bg-green-50 hover:bg-green-50 relative">
@@ -163,7 +165,12 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                                 {row.getVisibleCells().map((cell, j) => (
                                     <TableCell
                                         key={j}
-                                        className="text-sm border border-neutral-40 dark:border-muted text-neutral-90 dark:text-neutral-0 py-2 bg-neutral-0 dark:bg-neutral-100">
+                                        className={cn(
+                                            "text-sm border border-neutral-40 dark:border-muted text-neutral-90 dark:text-neutral-0 py-2 bg-neutral-0 dark:bg-neutral-100",
+                                            i % 2
+                                                ? "bg-neutral-20 dark:bg-neutral-bb-2"
+                                                : "bg-neutral-0 dark:bg-neutral-100"
+                                        )}>
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}
@@ -188,24 +195,28 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                 {pagination && total > perPage && renderPagination()}
 
                 <div className="flex items-center space-x-2">
-                    <p className="whitespace-nowrap text-sm font-normal text-neutral-90 dark:text-neutral-0">
+                    <p className="hidden sm:block whitespace-nowrap text-sm font-normal text-neutral-90 dark:text-neutral-0">
                         {translate("resources.transactions.pagination")}
                     </p>
                     <Select
-                        value={`${table.getState().pagination.pageSize}`}
+                        value={`${data?.length > 0 ? table.getState().pagination.pageSize : 0}`}
                         onValueChange={value => {
                             table.setPageSize(Number(value));
                             setPerPage(Number(value));
                         }}>
                         <SelectTrigger className="h-8 border-none bg-white dark:bg-green-60 p-1 w-auto gap-0.5 text-neutral-90 dark:text-white">
-                            <SelectValue placeholder={table.getState().pagination.pageSize} />
+                            <SelectValue placeholder={data?.length > 0 ? table.getState().pagination.pageSize : 0} />
                         </SelectTrigger>
                         <SelectContent>
-                            {[5, 10, 25, 50, 100].map(pageSize => (
-                                <SelectItem key={pageSize} value={`${pageSize}`}>
-                                    {pageSize}
-                                </SelectItem>
-                            ))}
+                            {data?.length > 0 ? (
+                                [5, 10, 25, 50, 100].map(pageSize => (
+                                    <SelectItem key={pageSize} value={`${pageSize}`}>
+                                        {pageSize}
+                                    </SelectItem>
+                                ))
+                            ) : (
+                                <SelectItem value="0">0</SelectItem>
+                            )}
                         </SelectContent>
                     </Select>
                 </div>

@@ -40,7 +40,7 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
 
     return (
         <div className="relative">
-            <div className="px-[42px] pb-[25px] flex flex-col sm:flex-row justify-between">
+            <div className="px-4 md:px-[42px] pb-1 md:pb-[25px] flex flex-row flex-wrap md:flex-nowrap gap-2 justify-between">
                 <TextField text={id} copyValue className="text-neutral-70 dark:text-neutral-30" />
 
                 <div className="flex items-center justify-center">
@@ -55,7 +55,7 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 px-[42px] gap-y-2 sm:gap-y-6 pb-[24px]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 px-4 md:px-[42px] gap-y-1 md:gap-y-6 pb-4 md:pb-[24px]">
                 <TextField label={translate("resources.users.fields.name")} text={userName} copyValue />
 
                 <TextField label={translate("resources.users.fields.login")} text={context.record.login} copyValue />
@@ -71,29 +71,18 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
                 <TextField
                     label={translate("resources.users.fields.roles")}
                     text={context.record.roles.map(role => translate(`resources.users.roles.${role.name}`)).join(", ")}
-                    // copyValue
                 />
-                <div className="flex flex-col">
-                    <span className="text-neutral-60 dark:text-neutral-40">
-                        {translate("resources.users.fields.merchant")}
-                    </span>
-                    {context.record.merchant_name && (
-                        <TextField
-                            // label={translate("resources.users.fields.merchant")}
-                            text={context.record.merchant_name}
-                            // copyValue
-                        />
-                    )}
-                    <TextField
-                        // label={translate("resources.users.fields.merchant")}
-                        text={context.record.merchant_id}
-                        className="text-neutral-70"
-                        copyValue
-                    />
+
+                <div>
+                    <span className="text-sm text-neutral-60">{translate("resources.users.fields.merchant")}</span>
+
+                    {context.record.merchant_name && <TextField text={context.record.merchant_name} />}
+
+                    <TextField text={context.record.merchant_id} copyValue />
                 </div>
             </div>
 
-            <div className="flex justify-end gap-4 px-[42px] mb-4 text-white font-normal">
+            <div className="flex flex-col sm:flex-row justify-end gap-2 md:gap-4 px-4 sm:px-[42px] mb-4 text-white font-normal">
                 <Button onClick={handleEditClicked} className="text-title-1">
                     {translate("resources.users.edit")}
                 </Button>

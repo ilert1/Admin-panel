@@ -1,4 +1,5 @@
 import { terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPost } from "@/api/enigma/terminal/terminal";
+import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, EditButton, ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
@@ -14,15 +15,13 @@ export const useGetTerminalColumns = () => {
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
+    const { openSheet } = useSheets();
 
     const [showAuthKeyOpen, setShowAuthKeyOpen] = useState(false);
     const [chosenId, setChosenId] = useState("");
-    const [chosenProvider, setChosenProvider] = useState("");
-    const [authData, setAuthData] = useState("");
+    // const [authData, setAuthData] = useState("");
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [showFees, setShowFees] = useState(false);
-    const [showAccountClicked, setShowAccountClicked] = useState(false);
     const [createButtonClicked, setCreateButtonClicked] = useState(false);
 
     const handleEditClicked = (id: string) => {
@@ -33,6 +32,13 @@ export const useGetTerminalColumns = () => {
     const handleDeleteClicked = async (id: string) => {
         setChosenId(id);
         setDeleteDialogOpen(true);
+    };
+
+    const handleOpenShowClicked = (id: string, provider: string) => {
+        openSheet("terminal", {
+            id,
+            provider
+        });
     };
 
     const handleCreateAccountClicked = async (provider: string, terminal_id: string) => {
@@ -85,7 +91,18 @@ export const useGetTerminalColumns = () => {
         {
             id: "verbose_name",
             accessorKey: "verbose_name",
-            header: translate("resources.terminals.fields.verbose_name")
+            header: translate("resources.terminals.fields.verbose_name"),
+            cell: ({ row }) => {
+                return (
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            handleOpenShowClicked(row.original.terminal_id ?? "", row.original.provider);
+                        }}>
+                        {row.original.verbose_name ?? ""}
+                    </Button>
+                );
+            }
         },
         {
             id: "description",
@@ -133,9 +150,7 @@ export const useGetTerminalColumns = () => {
                         {isAcount ? (
                             <ShowButton
                                 onClick={() => {
-                                    setChosenId(row.original.terminal_id);
-                                    setChosenProvider(row.original.provider);
-                                    setShowAccountClicked(true);
+                                    openSheet("account", { id: row.original.terminal_id });
                                 }}
                             />
                         ) : (
@@ -146,27 +161,15 @@ export const useGetTerminalColumns = () => {
                                     handleCreateAccountClicked(row.original.provider, row.original.terminal_id)
                                 }>
                                 <PlusCircle className="h-4 w-4" />
-                                <TextField text={translate("resources.terminals.fields.createAccount")} />
+                                <TextField
+                                    className="text-neutral-0"
+                                    text={translate("resources.terminals.fields.createAccount")}
+                                />
                             </Button>
                         )}
                     </div>
                 );
             }
-        },
-        {
-            id: "show",
-            header: () => {
-                return <div className="text-center">{translate("app.ui.actions.show")}</div>;
-            },
-            cell: ({ row }) => (
-                <ShowButton
-                    onClick={() => {
-                        setChosenId(row.original.terminal_id);
-                        setChosenProvider(row.original.provider);
-                        setShowFees(true);
-                    }}
-                />
-            )
         },
         {
             id: "update_field",
@@ -185,23 +188,28 @@ export const useGetTerminalColumns = () => {
             cell: ({ row }) => {
                 return <TrashButton onClick={() => handleDeleteClicked(row.original.terminal_id)} />;
             }
+        },
+        {
+            id: "show",
+            cell: ({ row }) => (
+                <ShowButton
+                    onClick={() => {
+                        handleOpenShowClicked(row.original.terminal_id ?? "", row.original.provider);
+                    }}
+                />
+            )
         }
     ];
 
     return {
         columns,
         showAuthKeyOpen,
-        showFees,
         chosenId,
-        authData,
+        // authData,
         editDialogOpen,
         deleteDialogOpen,
-        chosenProvider,
-        showAccountClicked,
-        setShowAccountClicked,
         setEditDialogOpen,
         setShowAuthKeyOpen,
-        setDeleteDialogOpen,
-        setShowFees
+        setDeleteDialogOpen
     };
 };

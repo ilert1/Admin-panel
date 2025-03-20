@@ -13,7 +13,7 @@ const ru: TranslationMessages = {
             merchant: {
                 name: "Мои счета"
             },
-            editDialogTitle: "Редактирование счета",
+            editDialogTitle: "Изменить счет",
             editFields: {
                 name: "Наименование",
                 wallet_create: "Создать кошелек",
@@ -38,8 +38,7 @@ const ru: TranslationMessages = {
                 trc20: "Адрес для пополнения баланса мерчанта в агрегаторе",
                 type: "Тип счёта",
                 balance: "Баланс счёта",
-                history: "История по счёту",
-                edit: "Редактировать",
+                edit: "Изменить",
                 id: "ID",
                 owner_id: "ID владельца",
                 amounts: "Суммы",
@@ -65,7 +64,7 @@ const ru: TranslationMessages = {
         users: {
             name: "Пользователи",
             user: "Пользователь",
-            edit: "Редактировать",
+            edit: "Изменить",
             deleteThisUser: "Удалить пользователя?",
             delete: "Удалить",
             fields: {
@@ -96,7 +95,7 @@ const ru: TranslationMessages = {
             },
             showHeader: "Информация о пользователе",
             showDescription: "Подробная информация о пользователе с ID %{id}",
-            editUser: "Редактирование пользователя",
+            editUser: "Изменить пользователя",
             editSuccessMessage: "Пользователь успешно изменен",
             create: {
                 successMessage: "Пользователь создан",
@@ -179,6 +178,7 @@ const ru: TranslationMessages = {
                 value: "Сумма",
                 history: "История",
                 fees: "Комиссии",
+                feeValue: "Сумма комиссии",
                 sourceValue: "Сумма отправления",
                 destValue: "Сумма зачисления"
             },
@@ -223,6 +223,7 @@ const ru: TranslationMessages = {
                 accountField: "Выберите аккаунт мерчанта"
             },
             filter: {
+                filters: "Фильтры",
                 showAll: "Показать все",
                 filterById: "Поиск по ID операции",
                 filterByIdPlaceholder: "ID",
@@ -333,7 +334,7 @@ const ru: TranslationMessages = {
             },
             create: "Добавить валюту",
             createDialogTitle: "Добавление валюты",
-            editDialogTitle: "Редактирование валюты",
+            editDialogTitle: "Изменить валюту",
             deleteDialogTitle: "Удалить валюту?",
             showTitle: "Детальная информацию о валюте",
             showDescription: "Детальная информацию о валюте"
@@ -345,7 +346,6 @@ const ru: TranslationMessages = {
                 id: "ID",
                 name: "Имя",
                 descr: "Описание",
-                view: "Просмотр",
                 directions: "Направления"
             },
             errors: {
@@ -360,7 +360,7 @@ const ru: TranslationMessages = {
             showTitle: "Детальная инфорация о мерчанте",
             createNew: "Создать нового мерчанта",
             creatingMerchant: "Создание нового мерчанта",
-            editingMerchant: "Редактирование мерчанта",
+            editingMerchant: "Изменить мерчанта",
             delete: "Удалить мерчанта?"
         },
         provider: {
@@ -399,7 +399,7 @@ const ru: TranslationMessages = {
             deleteProviderQuestion: "Удалить провайдера?",
             keysCreating: "Создание тестовых ключей",
             realKeysCreating: "Создание ключей",
-            editingProvider: "Редактирование провайдера",
+            editingProvider: "Изменить провайдера",
             creatingProvider: "Создание провайдера"
         },
         direction: {
@@ -439,7 +439,7 @@ const ru: TranslationMessages = {
 
                 directionFieldError: "Направление обязательно должно быть выбрано",
                 currencyFieldError: "Валюта обязательно должна быть выбрана",
-                valueFieldError: "Коммиссия должна быть положительным числом"
+                valueFieldError: "Коммиссия должна быть положительным числом, например 0.1"
             },
             errors: {
                 name: "У направления обязательно должно быть имя",
@@ -463,7 +463,7 @@ const ru: TranslationMessages = {
             weight: "Вес",
             description: "Описание",
             authInfo: "Информация об аутинтификации",
-            changeAuthDataHeader: "Изменение аутентификационной информации",
+            changeAuthDataHeader: "Измениту аутентификационную информацию",
             writeSecretPhrase: "Напишите информацию об аутентификации и нажмите сохранить",
             secretHelper: "Ожидается валидный JSON объект",
             note: "Внимание: Вы не можете использовать для направления провайдера, для которого нет ключа",
@@ -474,7 +474,7 @@ const ru: TranslationMessages = {
             noCurrencies: "Нет доступных валют",
             noTerminals: "Выберите провайдера перед выбором терминала",
             deleteDirection: "Удалить направление?",
-            editingDirection: "Редактирование направления",
+            editingDirection: "Изменить направление",
             creatingDirection: "Добавление направления"
         },
         terminals: {
@@ -498,7 +498,7 @@ const ru: TranslationMessages = {
             selectPlaceholder: "Выберите провайдера",
             creatingTerminal: "Создание терминала",
             deleteHeader: "Удалить терминал?",
-            editingTerminal: "Редактирование терминала",
+            editingTerminal: "Изменить терминал",
             accountCreatedSuccessfully: "Account created successfully"
         },
         bankTransfer: {
@@ -543,13 +543,12 @@ const ru: TranslationMessages = {
                     blockchain: "Блокчейн",
                     contactType: "Тип контакта в блокчейне",
                     minRemaini: "Минимальная остаточная сумма",
-                    more: "Подробнее",
                     balance: "Баланс"
                 },
                 errors: {
                     serverError: "Ошибка на стороне сервера. Попробуйте позже",
                     selectAccount: "Выберите аккаунт",
-                    errorWhenEditing: "Произошлка ошибка при редактировании кошелька",
+                    errorWhenEditing: "Произошлка ошибка при изменении кошелька",
                     errorWhenCreating: "Произошлка ошибка при создании кошелька",
                     alreadyExists: "Кошелек с таким адресом уже существует",
                     addressRequired: "Введите адрес кошелька",
@@ -559,7 +558,7 @@ const ru: TranslationMessages = {
                     intOnly: "Значение должно быть целым числом, без дробной части"
                 },
                 creatingWallet: "Добавление кошелька",
-                editingWallet: "Редактирование кошелька",
+                editingWallet: "Изменить кошелек",
                 deleteWallet: "Удалить кошелек?",
                 createWallet: "Создать кошелек"
             },
@@ -619,8 +618,7 @@ const ru: TranslationMessages = {
                     destinationAddress: "Адрес кошелька получателя",
                     type: "Тип операции",
                     amount: "Сумма прихода",
-                    currency: "Валюта",
-                    more: "Подробнее"
+                    currency: "Валюта"
                 }
             }
         }
@@ -660,7 +658,7 @@ const ru: TranslationMessages = {
             actions: {
                 quick_show: "Быстрый просмотр",
                 show: "Просмотр",
-                edit: "Редактировать",
+                edit: "Изменить",
                 delete: "Удалить",
                 save: "Сохранить",
                 addSecretKey: "Добавить аутентификационную инфорамцию",
@@ -940,7 +938,6 @@ const en: TranslationMessages = {
                 },
                 type: "Account type",
                 balance: "Account balance",
-                history: "Account history",
                 tron_wallet: "Tron wallet",
                 trc20: "Merchant balance replenishment address in aggregator",
                 id: "ID",
@@ -1082,6 +1079,7 @@ const en: TranslationMessages = {
                 feeType: "Fee type",
                 history: "History",
                 fees: "Fees",
+                feeValue: "Fee value",
                 sourceValue: "Source value",
                 destValue: "Destination value"
             },
@@ -1126,6 +1124,7 @@ const en: TranslationMessages = {
                 accountField: "Choose merchant account"
             },
             filter: {
+                filters: "Filters",
                 showAll: "Show all",
                 filterById: "Search by operation ID",
                 filterByIdPlaceholder: "ID",
@@ -1248,7 +1247,6 @@ const en: TranslationMessages = {
                 id: "ID",
                 name: "Name",
                 descr: "Description",
-                view: "Show more",
                 directions: "Directions"
             },
             errors: {
@@ -1341,7 +1339,7 @@ const en: TranslationMessages = {
                 successDelete: "Fee successfully deleted",
                 directionFieldError: "The direction must be selected",
                 currencyFieldError: "The currency must be selected",
-                valueFieldError: "The commission must be a positive number"
+                valueFieldError: "The commission must be a positive number. For example: 0.1"
             },
             errors: {
                 name: "The direction must have a name",
@@ -1442,7 +1440,6 @@ const en: TranslationMessages = {
                     merchantId: "Merchant ID",
                     currency: "Currency",
                     descr: "Description",
-                    more: "More",
                     internalId: "Internal wallet ID",
                     blockchain: "Blockchain",
                     contactType: "Contact type in blockchain",
@@ -1520,8 +1517,7 @@ const en: TranslationMessages = {
                     destinationAddress: "Destination address",
                     type: "Type",
                     amount: "Amount",
-                    currency: "Currency",
-                    more: "More"
+                    currency: "Currency"
                 }
             }
         }

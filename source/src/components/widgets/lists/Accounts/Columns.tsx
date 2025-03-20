@@ -1,8 +1,8 @@
-import { EditButton, ShowButton } from "@/components/ui/Button";
-import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { useSheets } from "@/components/providers/SheetProvider";
+import { Button, EditButton, ShowButton } from "@/components/ui/Button";
+import { TextField } from "@/components/ui/text-field";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { ColumnDef, Row } from "@tanstack/react-table";
-import { Copy } from "lucide-react";
 import { useState } from "react";
 import { RecordContextProvider, usePermissions, useTranslate } from "react-admin";
 import { NumericFormat } from "react-number-format";
@@ -15,47 +15,51 @@ export const useGetAccountsColumns = () => {
     const { permissions } = usePermissions();
 
     const data = fetchDictionaries();
+    const { openSheet } = useSheets();
 
-    const [showOpen, setShowOpen] = useState(false);
     const [showEditDialog, setShowEditDialog] = useState(false);
     const [showAccountId, setShowAccountId] = useState<string>("");
-    const appToast = useAppToast();
 
-    const openSheet = (id: string) => {
-        setShowAccountId(id);
-        setShowOpen(true);
+    const handleOpenSheet = (id: string) => {
+        openSheet("account", { id });
     };
 
     const columns: ColumnDef<Account>[] = [
         {
             id: "owner",
-            accessorFn: row => [row.meta?.caption, row.owner_id],
             header: translate("resources.accounts.fields.owner"),
-            cell: ({ row }) => (
-                <RecordContextProvider value={row.original}>
-                    <div className="flex flex-col justify-center gap-1">
-                        <span className="text-title-1">{(row.getValue("owner") as Array<string>)[0]}</span>
-                        <div className="flex flex-start text-neutral-60 dark:text-neutral-70 items-center gap-2">
-                            <Copy
-                                className="h-4 w-4 cursor-pointer"
-                                onClick={() => {
-                                    navigator.clipboard.writeText((row.getValue("owner") as Array<string>)[1]);
-                                    appToast("success", "", translate("app.ui.textField.copied"));
-                                }}
-                            />
+            cell: ({ row }) => {
+                const id = row.original.owner_id;
 
-                            <span className="text-nowrap overflow-hidden text-ellipsis max-w-[160px] min-w-[100px] text-neutral-70">
-                                {(row.getValue("owner") as Array<string>)[1]}
-                            </span>
-                        </div>
+                return (
+                    <div>
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                openSheet("merchant", {
+                                    id: row.original.owner_id,
+                                    merchantName: row.original.meta.caption
+                                });
+                            }}>
+                            {row.original.meta.caption ?? ""}
+                        </Button>
+                        <TextField
+                            className="text-neutral-70"
+                            text={id}
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                        />
                     </div>
-                </RecordContextProvider>
-            )
+                );
+            }
         },
         {
             id: "state",
             accessorKey: "state",
-            header: translate("resources.accounts.fields.state"),
+            header: () => <div className="flex justify-center">{translate("resources.accounts.fields.state")}</div>,
             cell: ({ row }) => {
                 const index = row.original.state - 1;
 
@@ -121,17 +125,14 @@ export const useGetAccountsColumns = () => {
             : []),
         {
             id: "history",
-            header: translate("resources.accounts.fields.history"),
             cell: ({ row }) => {
-                return <ShowButton onClick={() => openSheet(row.original.id)} />;
+                return <ShowButton onClick={() => handleOpenSheet(row.original.id)} />;
             }
         }
     ];
 
     return {
         columns,
-        showOpen,
-        setShowOpen,
         showEditDialog,
         setShowEditDialog,
         showAccountId

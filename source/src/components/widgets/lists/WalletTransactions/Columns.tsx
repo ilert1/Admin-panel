@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import fetchDictionaries from "@/helpers/get-dictionaries";
@@ -10,16 +11,15 @@ export const useGetWalletTransactionsColumns = () => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
     const data = fetchDictionaries();
+    const { openSheet } = useSheets();
 
     const [chosenId, setChosenId] = useState("");
-    const [openShowClicked, setOpenShowClicked] = useState(false);
     const [confirmOpen, setConfirmOpen] = useState(false);
 
     const { permissions } = usePermissions();
 
     const handleOpenShowClicked = (id: string) => {
-        setChosenId(id);
-        setOpenShowClicked(true);
+        openSheet("walletTransactions", { id });
     };
 
     const handleConfirmShowClicked = (id: string) => {
@@ -35,7 +35,9 @@ export const useGetWalletTransactionsColumns = () => {
                 return (
                     <>
                         <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
-                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
+                        <p className="text-nowrap text-neutral-70">
+                            {new Date(row.original.created_at).toLocaleTimeString(locale)}
+                        </p>
                     </>
                 );
             }
@@ -48,7 +50,9 @@ export const useGetWalletTransactionsColumns = () => {
                 return (
                     <>
                         <p className="text-nowrap">{new Date(row.original.updated_at).toLocaleDateString(locale)}</p>
-                        <p className="text-nowrap">{new Date(row.original.updated_at).toLocaleTimeString(locale)}</p>
+                        <p className="text-nowrap text-neutral-70">
+                            {new Date(row.original.updated_at).toLocaleTimeString(locale)}
+                        </p>
                     </>
                 );
             }
@@ -58,7 +62,17 @@ export const useGetWalletTransactionsColumns = () => {
             accessorKey: "id",
             header: translate("resources.wallet.transactions.fields.id"),
             cell: ({ row }) => {
-                return <TextField text={row.original.id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />;
+                return (
+                    <TextField
+                        text={row.original.id}
+                        wrap
+                        copyValue
+                        lineClamp
+                        linesCount={1}
+                        minWidth="50px"
+                        onClick={() => openSheet("walletTransactions", { id: row.original.id })}
+                    />
+                );
             }
         },
         {
@@ -171,14 +185,11 @@ export const useGetWalletTransactionsColumns = () => {
         },
         {
             id: "actions",
-            header: () => {
-                return <div className="text-center">{translate("resources.wallet.manage.fields.more")}</div>;
-            },
             cell: ({ row }) => {
                 return <ShowButton onClick={() => handleOpenShowClicked(row.original.id)} />;
             }
         }
     ];
 
-    return { columns, chosenId, openShowClicked, confirmOpen, setConfirmOpen, setOpenShowClicked };
+    return { columns, chosenId, confirmOpen, setConfirmOpen };
 };

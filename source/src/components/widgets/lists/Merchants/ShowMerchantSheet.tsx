@@ -19,18 +19,17 @@ export const ShowMerchantSheet = ({ id, open, merchantName, onOpenChange }: Show
                     className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] overflow-hidden w-full p-0 m-0 top-[84px] flex flex-col border-0 h-full"
                     tabIndex={-1}
                     close={false}>
-                    <div className="p-[42px] pb-[0px] flex-shrink-0">
-                        <div>
-                            <div className="flex justify-between items-center">
-                                <SheetTitle className="!text-display-1">
-                                    {translate("resources.merchant.merchant")}
-                                </SheetTitle>
-                                <button
-                                    onClick={() => onOpenChange(false)}
-                                    className="text-gray-500 hover:text-gray-700 transition-colors border-0 outline-0">
-                                    <XIcon className="h-[28px] w-[28px]" />
-                                </button>
-                            </div>
+                    <div className="p-4 md:p-[42px] pb-[0px] flex-shrink-0">
+                        <div className="flex justify-between items-center">
+                            <SheetTitle className="!text-display-1">
+                                {translate("resources.merchant.merchant")}
+                            </SheetTitle>
+
+                            <button
+                                onClick={() => onOpenChange(false)}
+                                className="text-gray-500 hover:text-gray-700 transition-colors border-0 outline-0">
+                                <XIcon className="h-[28px] w-[28px]" />
+                            </button>
                         </div>
                     </div>
 

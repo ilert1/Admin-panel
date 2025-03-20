@@ -33,7 +33,8 @@ module.exports = {
                     80: "hsl(var(--neutral-80))",
                     90: "hsl(var(--neutral-90))",
                     100: "hsl(var(--neutral-100))",
-                    bb: "hsl(var(--neutral-BB))"
+                    bb: "hsl(var(--neutral-BB))",
+                    "bb-2": "hsl(var(--neutral-BB-2))"
                 },
 
                 green: {
@@ -155,13 +156,13 @@ module.exports = {
             },
 
             fontSize: {
-                "display-1": ["32px", { lineHeight: "40px", fontWeight: 400 }],
+                "display-1": ["clamp(20px, 3.5vw, 32px)", { lineHeight: "40px", fontWeight: 400 }],
                 "display-2": ["28px", { lineHeight: "36px", fontWeight: 400 }],
                 "display-3": ["24px", { lineHeight: "32px", fontWeight: 400 }],
                 "display-4": ["20px", { lineHeight: "28px", fontWeight: 400 }],
                 "title-bold": ["14px", { lineHeight: "20px", fontWeight: 700 }],
-                "title-1": ["14px", { lineHeight: "20px", fontWeight: 400 }],
-                "title-2": ["16px", { lineHeight: "22px", fontWeight: 400 }],
+                "title-1": ["clamp(10px, 2.5vw, 14px)", { lineHeight: "20px", fontWeight: 400 }],
+                "title-2": ["clamp(12px, 2vw, 16px)", { lineHeight: "clamp(20px, 2vw, 22px);", fontWeight: 400 }],
                 body: ["12px", { lineHeight: "20px", fontWeight: 400 }],
                 "body-bold": ["12px", { lineHeight: "16px", fontWeight: 700 }],
                 text: ["12px", { lineHeight: "16px", fontWeight: 400 }],

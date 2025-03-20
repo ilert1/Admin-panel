@@ -1,6 +1,7 @@
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useTranslate } from "react-admin";
+import { cn } from "@/lib/utils";
 
 interface SimpleTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -38,7 +39,7 @@ export function SimpleTable<TData, TValue>({
                                     key={j}
                                     className={
                                         tableType === TableTypes.COLORED
-                                            ? "bg-green-50 text-neutral-0 border border-x border-muted"
+                                            ? "bg-green-50 text-neutral-0 border border-x border-neutral-40 dark:border-muted"
                                             : ""
                                     }>
                                     {header.isPlaceholder
@@ -58,7 +59,12 @@ export function SimpleTable<TData, TValue>({
                             data-state={row.getIsSelected() && "selected"}
                             className={
                                 tableType === TableTypes.COLORED
-                                    ? "bg-neutral-0 dark:bg-neutral-100 text-neutral-100 border border-muted"
+                                    ? cn(
+                                          "text-neutral-100 border border-neutral-40 dark:border-muted ",
+                                          i % 2
+                                              ? "bg-neutral-20 dark:bg-neutral-bb-2"
+                                              : "bg-neutral-0 dark:bg-neutral-100"
+                                      )
                                     : ""
                             }>
                             {row.getVisibleCells().map((cell, j) => (
@@ -66,7 +72,7 @@ export function SimpleTable<TData, TValue>({
                                     key={j}
                                     className={
                                         tableType === TableTypes.COLORED
-                                            ? "border border-muted text-neutral-90 dark:text-neutral-0"
+                                            ? "border border-neutral-40 dark:border-muted text-neutral-90 dark:text-neutral-0"
                                             : ""
                                     }>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

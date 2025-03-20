@@ -9,16 +9,18 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Label } from "@/components/ui/label";
 import { TextField } from "@/components/ui/text-field";
-import { Textarea } from "@/components/ui/textarea";
 import { feesDataProvider, FeesResource } from "@/data";
 import { useState } from "react";
 import { HttpError, useRefresh, useTranslate } from "react-admin";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { Trash2 } from "lucide-react";
 
 interface FeeCardProps {
     account: string;
     feeAmount: number;
     feeType: string;
+    feeDirection: string;
+    currency: string;
     resource: FeesResource;
     id: string;
     description?: string;
@@ -32,6 +34,8 @@ export const FeeCard = (props: FeeCardProps) => {
         account,
         feeAmount,
         feeType,
+        feeDirection,
+        currency,
         id,
         addFee,
         resource,
@@ -70,16 +74,14 @@ export const FeeCard = (props: FeeCardProps) => {
     return (
         <>
             <div className="mt-[2px] mb-[16px]">
-                <div className="bg-neutral-10 dark:bg-muted rounded-[8px] px-4 pt-[16px] pb-[8px]">
-                    <div className="w-full grid grid-cols-2 gap-y-[8px] gap-2">
-                        <div className="col-span-2">
-                            <TextField
-                                copyValue
-                                text={account}
-                                label={translate("resources.direction.fees.accountNumber")}
-                                labelSize="text-xs"
-                            />
-                        </div>
+                <div className="relative bg-neutral-10 dark:bg-muted rounded-8 p-4 pr-11">
+                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-[8px] gap-2">
+                        <TextField
+                            copyValue
+                            text={account}
+                            label={translate("resources.direction.fees.accountNumber")}
+                            labelSize="text-xs"
+                        />
                         <TextField
                             text={String(feeAmount)}
                             label={translate("resources.direction.fees.feeAmount")}
@@ -90,28 +92,35 @@ export const FeeCard = (props: FeeCardProps) => {
                             label={translate("resources.direction.fees.feeType")}
                             labelSize="text-xs"
                         />
+                        <TextField
+                            text={String(feeDirection)}
+                            label={translate("resources.direction.fees.direction")}
+                            labelSize="text-xs"
+                        />
+                        <TextField
+                            text={String(currency)}
+                            label={translate("resources.direction.fees.currency")}
+                            labelSize="text-xs"
+                        />
                         {description && (
-                            <div className="flex flex-col gap-[4px] col-span-2">
+                            <div className="flex flex-col col-span-3">
                                 <Label
-                                    className="text-note-1 !text-neutral-60 dark:!text-neutral-60"
+                                    className="text-note-1 !text-neutral-60 dark:!text-neutral-60 mb-0"
                                     variant="note-1"
                                     htmlFor="">
                                     {translate("resources.direction.fees.descr")}
                                 </Label>
-                                <Textarea
-                                    readOnly
-                                    className="!text-body resize-none dark:bg-muted"
-                                    value={description}
-                                />
+                                <p className="!text-body resize-none dark:bg-muted border-none p-0">{description}</p>
                             </div>
                         )}
                     </div>
                     {addFee && (
-                        <div className="flex justify-end mt-6 pb-2">
-                            <Button variant={"outline_gray"} onClick={handleDeleteClicked}>
-                                {translate("app.ui.actions.delete")}
-                            </Button>
-                        </div>
+                        <Button
+                            onClick={handleDeleteClicked}
+                            variant="text_btn"
+                            className="absolute top-5 right-3 h-6 w-6 p-0 bg-transparent">
+                            <Trash2 className="h-4 w-4 text-red-40 hover:text-red-30 active:text-red-50" />
+                        </Button>
                     )}
                 </div>
             </div>

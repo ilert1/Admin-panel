@@ -1,4 +1,5 @@
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, EditButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
@@ -6,30 +7,27 @@ import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
-export type MerchantTypeToShow = "fees" | "directions" | "all" | undefined;
-
 export const useGetMerchantColumns = () => {
     const translate = useTranslate();
 
     const [chosenId, setChosenId] = useState("");
+    const { openSheet } = useSheets();
 
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [showSheetOpen, setShowSheetOpen] = useState(false);
-    const [showType, setShowType] = useState<MerchantTypeToShow>();
 
     const handleEditClicked = (id: string) => {
         setChosenId(id);
         setEditDialogOpen(true);
     };
+
     const handleDeleteClicked = (id: string) => {
         setChosenId(id);
         setDeleteDialogOpen(true);
     };
-    const handleShowClicked = (id: string, type: MerchantTypeToShow) => {
-        setChosenId(id);
-        setShowType(type);
-        setShowSheetOpen(true);
+
+    const handleShowClicked = (id: string, merchantName: string) => {
+        openSheet("merchant", { id, merchantName });
     };
 
     const columns: ColumnDef<Merchant>[] = [
@@ -40,14 +38,21 @@ export const useGetMerchantColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div>
-                        <TextField text={row.original.name} />
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                handleShowClicked(row.original.id ?? "", row.original.name);
+                            }}>
+                            {row.original.name ?? ""}
+                        </Button>
                         <TextField
-                            copyValue
+                            className="text-neutral-70"
                             text={row.original.id}
+                            wrap
+                            copyValue
                             lineClamp
                             linesCount={1}
                             minWidth="50px"
-                            className="text-neutral-70"
                         />
                     </div>
                 );
@@ -75,21 +80,6 @@ export const useGetMerchantColumns = () => {
             }
         },
         {
-            id: "show_fees_field",
-            header: () => {
-                return <div className="text-center">{translate("resources.merchant.fields.view")}</div>;
-            },
-            cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Button onClick={() => handleShowClicked(row.original.id, "fees")} variant={"text_btn"}>
-                            <EyeIcon className="text-green-50 hover:text-green-40" />
-                        </Button>
-                    </div>
-                );
-            }
-        },
-        {
             id: "update_field",
             header: () => {
                 return <div className="text-center">{translate("app.ui.actions.edit")}</div>;
@@ -106,6 +96,20 @@ export const useGetMerchantColumns = () => {
             cell: ({ row }) => {
                 return <TrashButton onClick={() => handleDeleteClicked(row.original.id)} />;
             }
+        },
+        {
+            id: "show_fees_field",
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center justify-center">
+                        <Button
+                            onClick={() => handleShowClicked(row.original.id, row.original.name)}
+                            variant={"text_btn"}>
+                            <EyeIcon className="text-green-50 hover:text-green-40" />
+                        </Button>
+                    </div>
+                );
+            }
         }
     ];
 
@@ -114,9 +118,6 @@ export const useGetMerchantColumns = () => {
         chosenId,
         editDialogOpen,
         deleteDialogOpen,
-        showSheetOpen,
-        showType,
-        setShowSheetOpen,
         setEditDialogOpen,
         setDeleteDialogOpen
     };

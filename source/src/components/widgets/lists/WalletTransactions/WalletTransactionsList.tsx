@@ -3,7 +3,6 @@ import { useGetWalletTransactionsColumns } from "./Columns";
 import { Loading } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
 import { WalletTransactionsFilter } from "./WalletTransactionsFilter";
-import { ShowWalletTransactionsDialog } from "./ShowWalletTransactionsDialog";
 import { ConfirmDialog } from "./ConfirmDialog";
 
 export const WalletTransactionsList = () => {
@@ -16,8 +15,7 @@ export const WalletTransactionsList = () => {
         }
     });
 
-    const { columns, chosenId, openShowClicked, confirmOpen, setConfirmOpen, setOpenShowClicked } =
-        useGetWalletTransactionsColumns();
+    const { columns, chosenId, confirmOpen, setConfirmOpen } = useGetWalletTransactionsColumns();
 
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
@@ -30,7 +28,6 @@ export const WalletTransactionsList = () => {
                     <DataTable columns={columns} />
                 </ListContextProvider>
                 <ConfirmDialog open={confirmOpen} onOpenChange={setConfirmOpen} id={chosenId} />
-                <ShowWalletTransactionsDialog id={chosenId} open={openShowClicked} onOpenChange={setOpenShowClicked} />
             </>
         );
     }

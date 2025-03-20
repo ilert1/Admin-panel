@@ -1,10 +1,14 @@
 import { Button } from "@/components/ui/Button";
 import { debounce } from "lodash";
-import { XIcon } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 import { Label } from "@/components/ui/label";
+import { FilterButtonGroup } from "../../components/FilterButtonGroup";
+import { CreateDirectionDialog } from "./CreateDirectionDialog";
+import { AnimatedContainer } from "../../components/AnimatedContainer";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const DirectionListFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
@@ -12,6 +16,7 @@ export const DirectionListFilter = () => {
     const translate = useTranslate();
 
     const [merchantId, setMerchantId] = useState(filterValues?.merchant || "");
+    const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const onPropertySelected = debounce((value: string, type: "merchant") => {
         if (value) {
@@ -34,25 +39,52 @@ export const DirectionListFilter = () => {
         setPage(1);
     };
 
+    const handleCreateClick = () => {
+        setCreateDialogOpen(true);
+    };
+
+    const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
+    const clearDisabled = !merchantId;
+
     return (
-        <div className="flex flex-col justify-between sm:flex-row sm:items-center md:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
-            <div className="flex flex-1 flex-grow-100 min-w-[500px] md:flex-col gap-1 items-center md:items-start">
-                <Label variant="title-2" className="md:text-nowrap mb-0">
-                    {translate("resources.transactions.filter.filterByAccount")}
-                </Label>
+        <>
+            <div className="w-full flex flex-col">
+                <div className="flex gap-x-52 gap-y-3 sm:gap-3 flex-wrap justify-between mb-4 md:mb-6">
+                    <ResourceHeaderTitle />
 
-                <MerchantSelectFilter merchant={merchantId} onMerchantChanged={onAccountChanged} resource="merchant" />
+                    <div className="flex flex-row flex-1 sm:flex-none gap-2 sm:gap-6 justify-end">
+                        <Button
+                            onClick={handleCreateClick}
+                            variant="default"
+                            className="flex flex-1 sm:flex-none gap-[4px] items-center">
+                            <PlusCircle className="h-[16px] w-[16px]" />
+                            <span className="text-title-1">{translate("resources.direction.create")}</span>
+                        </Button>
+                        <FilterButtonGroup
+                            open={openFiltersClicked}
+                            onOpenChange={setOpenFiltersClicked}
+                            filterList={[merchantId]}
+                            clearButtonDisabled={clearDisabled}
+                            onClearFilters={clearFilters}
+                        />
+                    </div>
+                </div>
+
+                <AnimatedContainer open={openFiltersClicked}>
+                    <div className="flex flex-1 flex-grow-100 min-w-[150px] max-w-[700px] md:flex-col gap-1 items-center md:items-start mb-4 md:mb-6">
+                        <Label variant="title-2" className="md:text-nowrap mb-0">
+                            {translate("resources.transactions.filter.filterByAccount")}
+                        </Label>
+
+                        <MerchantSelectFilter
+                            merchant={merchantId}
+                            onMerchantChanged={onAccountChanged}
+                            resource="merchant"
+                        />
+                    </div>
+                </AnimatedContainer>
             </div>
-
-            <Button
-                className="ml-0 flex items-center gap-1 w-auto h-auto px-0 md:mr-7"
-                onClick={clearFilters}
-                variant="text_btn_sec"
-                size="default"
-                disabled={!merchantId}>
-                <span>{translate("resources.transactions.filter.clearFilters")}</span>
-                <XIcon className="size-4" />
-            </Button>
-        </div>
+            <CreateDirectionDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+        </>
     );
 };

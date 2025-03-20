@@ -37,11 +37,11 @@ const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableE
         }, [isScrollableLeft, isScrollableRight]);
 
         return (
-            <div className="relative flex-shrink-1 min-h-[15rem] mb-2">
-                <div ref={tableRef} className={cn("relative w-full h-full overflow-auto", className)}>
+            <div className={cn("relative flex-shrink-1 mb-2", className)}>
+                <div ref={tableRef} className="relative w-full h-full overflow-auto">
                     <table
                         ref={ref}
-                        className={cn("w-full h-full caption-bottom text-sm border-collapse", className)}
+                        className={cn("w-full h-full caption-bottom text-sm border-collapse")}
                         {...props}
                     />
                 </div>
@@ -66,14 +66,7 @@ Table.displayName = "Table";
 
 const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
     ({ className, ...props }, ref) => (
-        <thead
-            ref={ref}
-            className={cn(
-                "[&_tr]:border-b sticky top-0 z-10 before:-top-[1px] before:absolute before:bottom-[2px] before:left-0 before:right-0 before:bg-neutral-40 before:dark:bg-muted before:-z-10",
-                className
-            )}
-            {...props}
-        />
+        <thead ref={ref} className={cn("[&_tr]:border-b sticky -top-[1px] z-10", className)} {...props} />
     )
 );
 TableHeader.displayName = "TableHeader";

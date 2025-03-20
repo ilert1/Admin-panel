@@ -31,16 +31,17 @@ export const useGetTransactionShowColumns = () => {
                     ]?.type_descr.toLowerCase()}`
                 ) || ""
         },
-        {
+        /* {
             id: "currency",
             accessorKey: "currency",
             header: translate("resources.transactions.fields.currency")
-        },
+        }, */
         {
             id: "value",
             accessorKey: "value",
-            header: translate("resources.transactions.fields.value"),
-            cell: ({ row }) => computeValue(row.original.value.quantity, row.original.value.accuracy)
+            header: translate("resources.transactions.fields.feeValue"),
+            cell: ({ row }) =>
+                `${computeValue(row.original.value.quantity, row.original.value.accuracy)} ${row.original.currency}`
         }
     ];
 
@@ -53,7 +54,9 @@ export const useGetTransactionShowColumns = () => {
                 return (
                     <>
                         <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
-                        <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
+                        <p className="text-nowrap text-neutral-70">
+                            {new Date(row.original.created_at).toLocaleTimeString(locale)}
+                        </p>
                     </>
                 );
             }

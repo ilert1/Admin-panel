@@ -10,9 +10,7 @@ import { EditTerminalDialog } from "./EditTerminalDialog";
 import { TerminalsListFilter } from "./TerminalsListFilter";
 import { TerminalListTable } from "./TerminalsListTable";
 import { useGetTerminalColumns } from "./Columns";
-// import { ShowAuthDataDialog } from "./ShowAuthDataDialog";
-import { TerminalShowDialog } from "./TerminalShowDialog";
-import { ShowAccountSheet } from "../Accounts/ShowAccountSheet";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const TerminalsList = () => {
     const translate = useTranslate();
@@ -20,28 +18,13 @@ export const TerminalsList = () => {
     const [provider, setProvider] = useState("");
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
-    const {
-        columns,
-        showAuthKeyOpen,
-        showAccountClicked,
-        chosenId,
-        authData,
-        editDialogOpen,
-        chosenProvider,
-        deleteDialogOpen,
-        showFees,
-        setShowFees,
-        setShowAccountClicked,
-        setEditDialogOpen,
-        setShowAuthKeyOpen,
-        setDeleteDialogOpen
-    } = useGetTerminalColumns();
+    const { columns, chosenId, editDialogOpen, deleteDialogOpen, setEditDialogOpen, setDeleteDialogOpen } =
+        useGetTerminalColumns();
 
     return (
         <>
-            <div className="flex flex-col md:flex-row gap-2 md:items-end justify-between mb-4">
-                <TerminalsListFilter selectProvider={setProvider} />
-
+            <div className="flex justify-between mb-4 md:mb-6 gap-2 flex-wrap">
+                <ResourceHeaderTitle />
                 <Button
                     disabled={!provider}
                     onClick={() => setCreateDialogOpen(true)}
@@ -51,6 +34,9 @@ export const TerminalsList = () => {
 
                     <span className="text-title-1">{translate("resources.terminals.create")}</span>
                 </Button>
+            </div>
+            <div className="flex flex-col md:flex-row gap-2 md:items-end justify-between mb-4">
+                <TerminalsListFilter selectProvider={setProvider} />
             </div>
 
             {provider ? (
@@ -75,21 +61,6 @@ export const TerminalsList = () => {
                         open={deleteDialogOpen}
                         onOpenChange={setDeleteDialogOpen}
                         deleteId={chosenId}
-                    />
-                    {/* <ShowAuthDataDialog open={showAuthKeyOpen} onOpenChange={setShowAuthKeyOpen} authData={authData} /> */}
-                    <TerminalShowDialog
-                        open={showFees}
-                        onOpenChange={setShowFees}
-                        id={chosenId}
-                        provider={chosenProvider}
-                        setDeleteDialogOpen={setDeleteDialogOpen}
-                        setEditDialogOpen={setEditDialogOpen}
-                    />
-
-                    <ShowAccountSheet
-                        accountId={chosenId}
-                        open={showAccountClicked}
-                        onOpenChange={setShowAccountClicked}
                     />
                 </>
             ) : (

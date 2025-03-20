@@ -1,4 +1,6 @@
 import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useSheets } from "@/components/providers/SheetProvider";
+import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
 import { ProviderWithId } from "@/data/providers";
@@ -7,12 +9,23 @@ import { useTranslate } from "react-admin";
 
 export const useGetMerchantShowColumns = () => {
     const translate = useTranslate();
+    const { openSheet } = useSheets();
 
     const columns: ColumnDef<Direction>[] = [
         {
             id: "name",
-            accessorKey: "name",
-            header: translate("resources.direction.fields.name")
+            header: translate("resources.direction.fields.name"),
+            cell: ({ row }) => {
+                return (
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            openSheet("direction", { id: row.original.id });
+                        }}>
+                        {row.original.name ?? ""}
+                    </Button>
+                );
+            }
         },
         {
             id: "id",

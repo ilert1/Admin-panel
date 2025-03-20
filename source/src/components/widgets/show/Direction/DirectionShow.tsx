@@ -11,6 +11,7 @@ import { EditAuthData } from "./EditAuthData";
 import { Fees } from "../../components/Fees";
 import { Direction, MerchantFees } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { LimitsList } from "../../components/Limits/ui/LimitsList";
+import { useSheets } from "@/components/providers/SheetProvider";
 
 export interface DirectionsShowProps {
     id: string;
@@ -21,6 +22,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
     const context = useShowController<Direction>({ resource: "direction", id });
     const data = fetchDictionaries();
     const translate = useTranslate();
+    const { openSheet } = useSheets();
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -55,8 +57,8 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
         feesVariants.push(context.record.dst_currency.code);
 
     return (
-        <div className="px-[42px] pb-[42px]">
-            <div className="flex flex-col sm:flex-row justify-between">
+        <div className="px-4 md:px-[42px] md:pb-[42px]">
+            <div className="flex flex-row flex-wrap md:flex-nowrap items-center justify-between">
                 <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
 
                 <div className="flex self-start mt-2 sm:mt-0 sm:self-center items-center justify-center text-white">
@@ -72,9 +74,9 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                 </div>
             </div>
 
-            <div className="flex flex-col gap-[24px] pt-[24px]">
+            <div className="flex flex-col gap-2 md:gap-[24px] pt-2 md:pt-[24px]">
                 <div className="grid grid-cols-2">
-                    <div className="flex flex-col gap-[24px] ml-[32px]">
+                    <div className="flex flex-col gap-2 md:gap-[24px] md:ml-[32px]">
                         <TextField label={translate("resources.direction.fields.name")} text={context.record.name} />
 
                         <TextField
@@ -89,11 +91,18 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
 
                         <TextField
                             label={translate("resources.direction.fields.terminal")}
+                            className="!text-green-50 dark:!text-green-40 hover:!text-green-40 dark:hover:!text-green-50 !cursor-pointer transition-all duration-300"
                             text={context.record.terminal?.verbose_name || ""}
+                            onClick={() => {
+                                openSheet("terminal", {
+                                    id: context.record?.terminal?.terminal_id,
+                                    provider: context.record?.terminal?.provider
+                                });
+                            }}
                         />
                     </div>
 
-                    <div className="flex flex-col gap-[24px] ml-[32px]">
+                    <div className="flex flex-col gap-2 md:gap-[24px] ml-2 md:ml-[32px]">
                         <TextField
                             label={translate("resources.direction.merchant")}
                             text={context.record.merchant.name}
@@ -112,7 +121,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                     </div>
                 </div>
 
-                <div className="flex flex-wrap justify-end gap-[16px]">
+                <div className="flex flex-wrap justify-end gap-2 md:gap-4">
                     <Button className="" onClick={handleEditClicked}>
                         {translate("app.ui.actions.edit")}
                     </Button>

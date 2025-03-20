@@ -1,4 +1,4 @@
-import { ShowButton, TrashButton } from "@/components/ui/Button";
+import { EditButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
 import { ColumnDef } from "@tanstack/react-table";
@@ -69,7 +69,7 @@ export const useGetCurrencyColumns = () => {
             header: () => <div className="flex justify-center">{translate("resources.currency.fields.edit")}</div>,
             cell: ({ row }) => {
                 return (
-                    <ShowButton
+                    <EditButton
                         onClick={() => {
                             setCurrencyId(row.original.id);
                             setShowEditDialog(true);
