@@ -135,7 +135,7 @@ export const TransactionListFilter = () => {
                         />
 
                         {adminOnly && (
-                            <div className="flex flex-col flex-1 flex-grow-100 md:basis-[500px] gap-1 md:gap-1">
+                            <div className="flex flex-col flex-1 flex-grow-100 md:basis-[350px] gap-1 md:gap-1">
                                 <Label className="md:text-nowrap mb-0" variant="title-2">
                                     {translate("resources.transactions.filter.filterByAccount")}
                                 </Label>

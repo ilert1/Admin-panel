@@ -71,7 +71,7 @@ export const DirectionListFilter = () => {
                 </div>
 
                 <AnimatedContainer open={openFiltersClicked}>
-                    <div className="flex flex-1 flex-grow-100 min-w-[150px] max-w-[700px] md:flex-col gap-1 items-center md:items-start mb-4 md:mb-6">
+                    <div className="flex flex-1 flex-grow-100 min-w-[150px] max-w-[700px] flex-col gap-1 mb-4 md:mb-6">
                         <Label variant="title-2" className="md:text-nowrap mb-0">
                             {translate("resources.transactions.filter.filterByAccount")}
                         </Label>
