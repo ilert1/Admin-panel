@@ -1,7 +1,7 @@
 import { FeesResource } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useEffect, useState } from "react";
-import { useShowController, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useGetMerchantShowColumns } from "./Columns";
@@ -12,6 +12,7 @@ import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schem
 import { directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet } from "@/api/enigma/direction/direction";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import clsx from "clsx";
+import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 
 interface MerchantShowProps {
     id: string;
@@ -25,7 +26,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
     const data = fetchDictionaries();
     const appToast = useAppToast();
 
-    const context = useShowController<Merchant>({
+    const context = useAbortableShowController<Merchant>({
         resource: "merchant",
         id,
         queryOptions: {
@@ -86,7 +87,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
     const fees = context.record.fees;
     return (
         <>
-            <div className="pt-0 h-full min-h-[300px] flex flex-col overflow-auto">
+            <div className="flex h-full min-h-[300px] flex-col overflow-auto pt-0">
                 <div className="flex flex-col gap-1 md:gap-4">
                     <div className="px-4 md:px-[42px]">
                         <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
@@ -104,7 +105,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                         <TextField label="Keycloak ID" text={context.record.keycloak_id || ""} />
                     </div>
                 </div>
-                <div className="flex-1 mt-1 md:mt-4 w-full px-4 md:px-[42px]">
+                <div className="mt-1 w-full flex-1 px-4 md:mt-4 md:px-[42px]">
                     <Fees
                         id={id}
                         fees={fees}
@@ -113,7 +114,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                         padding={false}
                     />
 
-                    <div className="mt-1 md:mt-5 w-full flex flex-col gap-[8px] ">
+                    <div className="mt-1 flex w-full flex-col gap-[8px] md:mt-5">
                         <span className="text-display-3 text-neutral-90 dark:text-neutral-30">
                             {translate("resources.merchant.fields.directions")}
                         </span>

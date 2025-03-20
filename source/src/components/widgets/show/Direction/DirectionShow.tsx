@@ -1,4 +1,4 @@
-import { useShowController, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { useCallback, useEffect, useState } from "react";
 import fetchDictionaries from "@/helpers/get-dictionaries";
@@ -12,6 +12,7 @@ import { Fees } from "../../components/Fees";
 import { Direction, MerchantFees } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { LimitsList } from "../../components/Limits/ui/LimitsList";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 
 export interface DirectionsShowProps {
     id: string;
@@ -19,7 +20,7 @@ export interface DirectionsShowProps {
 }
 
 export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
-    const context = useShowController<Direction>({ resource: "direction", id });
+    const context = useAbortableShowController<Direction>({ resource: "direction", id });
     const data = fetchDictionaries();
     const translate = useTranslate();
     const { openSheet } = useSheets();
@@ -58,25 +59,25 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
-            <div className="flex flex-row flex-wrap md:flex-nowrap items-center justify-between">
+            <div className="flex flex-row flex-wrap items-center justify-between md:flex-nowrap">
                 <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
 
-                <div className="flex self-start mt-2 sm:mt-0 sm:self-center items-center justify-center text-white">
+                <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0 sm:self-center">
                     {context.record.active ? (
-                        <span className="px-3 py-0.5 bg-green-50 rounded-20 font-normal text-title-2 text-center whitespace-nowrap">
+                        <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
                             {translate("resources.direction.fields.stateActive")}
                         </span>
                     ) : (
-                        <span className="px-3 py-0.5 bg-red-50 rounded-20 font-normal text-title-2 text-center whitespace-nowrap">
+                        <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal">
                             {translate("resources.direction.fields.stateInactive")}
                         </span>
                     )}
                 </div>
             </div>
 
-            <div className="flex flex-col gap-2 md:gap-[24px] pt-2 md:pt-[24px]">
+            <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
                 <div className="grid grid-cols-2">
-                    <div className="flex flex-col gap-2 md:gap-[24px] md:ml-[32px]">
+                    <div className="flex flex-col gap-2 md:ml-[32px] md:gap-[24px]">
                         <TextField label={translate("resources.direction.fields.name")} text={context.record.name} />
 
                         <TextField
@@ -91,7 +92,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
 
                         <TextField
                             label={translate("resources.direction.fields.terminal")}
-                            className="!text-green-50 dark:!text-green-40 hover:!text-green-40 dark:hover:!text-green-50 !cursor-pointer transition-all duration-300"
+                            className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
                             text={context.record.terminal?.verbose_name || ""}
                             onClick={() => {
                                 openSheet("terminal", {
@@ -102,7 +103,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                         />
                     </div>
 
-                    <div className="flex flex-col gap-2 md:gap-[24px] ml-2 md:ml-[32px]">
+                    <div className="ml-2 flex flex-col gap-2 md:ml-[32px] md:gap-[24px]">
                         <TextField
                             label={translate("resources.direction.merchant")}
                             text={context.record.merchant.name}

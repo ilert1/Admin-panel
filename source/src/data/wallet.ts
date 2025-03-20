@@ -31,7 +31,7 @@ export class WalletsDataProvider extends BaseDataProvider {
         const paramsStr = new URLSearchParams(data).toString();
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}?${paramsStr}`, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
-            signal: params.signal
+            signal: params.signal || params.filter?.signal
         });
 
         if (!json.success) {
@@ -59,7 +59,7 @@ export class WalletsDataProvider extends BaseDataProvider {
         const url = `${API_URL}/${resource}/${params.id}`;
         const { json } = await fetchUtils.fetchJson(url, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
-            signal: params.signal
+            signal: params.signal || params.meta?.signal
         });
 
         if (!json.success) {

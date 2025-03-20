@@ -37,7 +37,7 @@ export class TerminalsDataProvider extends BaseDataProvider {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
                 },
-                signal: params.signal
+                signal: params.signal || params.filter?.signal
             }
         );
 
@@ -74,7 +74,7 @@ export class TerminalsDataProvider extends BaseDataProvider {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
                 },
-                signal: params.signal
+                signal: params.signal || params.meta?.signal
             }
         );
 

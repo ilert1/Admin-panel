@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { useMemo, useState } from "react";
-import { useDataProvider, useGetList, usePermissions, useShowController, useTranslate } from "react-admin";
+import { useDataProvider, useGetList, usePermissions, useTranslate } from "react-admin";
 import { DeleteWalletDialog } from "./DeleteWalletDialog";
 import { EditWalletDialog } from "./EditWalletDialog";
 import { useQuery } from "@tanstack/react-query";
 import { WalletsDataProvider } from "@/data";
 import { LoadingBalance } from "@/components/ui/loading";
+import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 
 interface WalletShowProps {
     id: string;
@@ -15,7 +16,7 @@ interface WalletShowProps {
 
 export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const { permissions } = usePermissions();
-    const context = useShowController<Wallets.Wallet>({
+    const context = useAbortableShowController<Wallets.Wallet>({
         resource: permissions === "admin" ? "wallet" : "merchant/wallet",
         id
     });

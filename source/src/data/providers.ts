@@ -33,7 +33,7 @@ export class ProvidersDataProvider extends BaseDataProvider {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
                 },
-                signal: params.signal
+                signal: params.signal || params.filter?.signal
             }
         );
 
@@ -99,7 +99,7 @@ export class ProvidersDataProvider extends BaseDataProvider {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             },
-            signal: params.signal
+            signal: params.signal || params.meta?.signal
         });
 
         if ("data" in res.data && res.data.success) {

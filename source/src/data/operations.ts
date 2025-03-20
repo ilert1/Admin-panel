@@ -16,7 +16,7 @@ export class OperationsDataProvider extends BaseDataProvider {
 
         const { json } = await fetchUtils.fetchJson(url, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
-            signal: params.signal
+            signal: params.signal || params.filter?.signal
         });
         if (!json?.success) {
             throw new Error(json.error);

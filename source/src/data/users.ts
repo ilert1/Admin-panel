@@ -27,7 +27,7 @@ export class UsersDataProvider extends BaseDataProvider {
         const paramsStr = new URLSearchParams(data).toString();
         const { json } = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/${resource}?${paramsStr}`, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
-            signal: params.signal
+            signal: params.signal || params.filter?.signal
         });
         return {
             data:
@@ -44,7 +44,7 @@ export class UsersDataProvider extends BaseDataProvider {
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
         const { json } = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/${resource}/${params.id}`, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
-            signal: params.signal
+            signal: params.signal || params.meta?.signal
         });
 
         if (!json.success) {

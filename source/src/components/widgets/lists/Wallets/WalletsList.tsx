@@ -1,4 +1,4 @@
-import { ListContextProvider, useDataProvider, useListController, usePermissions, useTranslate } from "react-admin";
+import { ListContextProvider, useDataProvider, usePermissions, useTranslate } from "react-admin";
 import { useGetWalletsColumns } from "./Columns";
 import { Loading } from "@/components/ui/loading";
 import { Button } from "@/components/ui/Button";
@@ -9,10 +9,11 @@ import { DataTable } from "../../shared";
 import { VaultDataProvider, WalletsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const WalletsList = () => {
     const { permissions } = usePermissions();
-    const listContext = useListController<Wallets.Wallet>(
+    const listContext = useAbortableListController<Wallets.Wallet>(
         permissions === "admin" ? { resource: "wallet" } : { resource: "merchant/wallet" }
     );
     const translate = useTranslate();

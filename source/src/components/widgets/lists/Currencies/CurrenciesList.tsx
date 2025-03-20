@@ -1,4 +1,4 @@
-import { ListContextProvider, useListController, useTranslate } from "react-admin";
+import { ListContextProvider, useTranslate } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { CirclePlus } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -9,9 +9,10 @@ import { EditCurrencyDialog } from "./EditCurrencyDialog";
 import { DeleteCurrencyDialog } from "./DeleteCurrencyDialog";
 import { CurrencyWithId } from "@/data/currencies";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const CurrenciesList = () => {
-    const listContext = useListController<CurrencyWithId>();
+    const listContext = useAbortableListController<CurrencyWithId>();
     const translate = useTranslate();
 
     const {
@@ -30,7 +31,7 @@ export const CurrenciesList = () => {
     } else {
         return (
             <>
-                <div className="flex flex-wrap gap-2 justify-between mb-6">
+                <div className="mb-6 flex flex-wrap justify-between gap-2">
                     <ResourceHeaderTitle />
                     <Button
                         onClick={() => setShowAddCurrencyDialog(true)}

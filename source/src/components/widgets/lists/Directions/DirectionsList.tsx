@@ -1,4 +1,4 @@
-import { ListContextProvider, useListController } from "react-admin";
+import { ListContextProvider } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import {} from "react-responsive";
 import { Loading } from "@/components/ui/loading";
@@ -6,9 +6,10 @@ import { Loading } from "@/components/ui/loading";
 import { useGetDirectionsColumns } from "./Columns";
 import { DirectionListFilter } from "./DirectionListFilter";
 import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const DirectionsList = () => {
-    const listContext = useListController<Direction>();
+    const listContext = useAbortableListController<Direction>();
 
     const { columns } = useGetDirectionsColumns();
 
@@ -17,7 +18,7 @@ export const DirectionsList = () => {
     } else {
         return (
             <>
-                <div className="flex flex-col md:flex-row gap-2 md:items-end justify-between">
+                <div className="flex flex-col justify-between gap-2 md:flex-row md:items-end">
                     <ListContextProvider value={listContext}>
                         <DirectionListFilter />
                     </ListContextProvider>

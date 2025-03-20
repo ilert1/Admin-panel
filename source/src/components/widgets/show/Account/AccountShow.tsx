@@ -1,10 +1,12 @@
-import { ListContextProvider, useListController, useShowController, useTranslate } from "react-admin";
+import { ListContextProvider, useTranslate } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useGetAccountShowColumns } from "./Columns";
 import { useEffect, useState } from "react";
 import { uniqueId } from "lodash";
+import { useAbortableListController } from "@/hooks/useAbortableListController";
+import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 
 interface AccountShowProps {
     id: string;
@@ -13,12 +15,12 @@ interface AccountShowProps {
 export const AccountShow = ({ id }: AccountShowProps) => {
     const translate = useTranslate();
 
-    const context = useShowController({ resource: "accounts", id });
+    const context = useAbortableShowController({ resource: "accounts", id });
 
     const { historyColumns } = useGetAccountShowColumns();
     const [balances, setBalances] = useState<string[]>([]);
 
-    const listContext = useListController<AccountHistory>({
+    const listContext = useAbortableListController<AccountHistory>({
         resource: "operations",
         filter: { accountId: id },
         disableSyncWithLocation: true
@@ -51,20 +53,20 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     }
 
     return (
-        <div className="p-4 pt-0 md:p-[42px] h-full min-h-[300px] flex flex-col">
-            <div className="flex flex-col sm:flex-row justify-between mb-6 gap-4">
+        <div className="flex h-full min-h-[300px] flex-col p-4 pt-0 md:p-[42px]">
+            <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row">
                 <div className="flex flex-col gap-1 md:gap-4">
-                    <div className="md:text-display-2 text-neutral-90 dark:text-neutral-30">
+                    <div className="text-neutral-90 dark:text-neutral-30 md:text-display-2">
                         <span>{context.record.meta.caption}</span>
                     </div>
 
                     <TextField text={id} copyValue className="text-neutral-90 dark:text-neutral-30" />
                 </div>
 
-                <div className="flex gap-2 flex-wrap justify-end content-end">
+                <div className="flex flex-wrap content-end justify-end gap-2">
                     {balances.length > 0 &&
                         balances.map(balance => (
-                            <div className="bg-green-50 px-3 py-0.5 rounded-20" key={uniqueId()}>
+                            <div className="rounded-20 bg-green-50 px-3 py-0.5" key={uniqueId()}>
                                 <span className="text-title-2 text-neutral-0">
                                     {translate("resources.accounts.balance")}: {balance}
                                 </span>

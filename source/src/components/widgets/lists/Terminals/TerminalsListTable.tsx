@@ -1,8 +1,9 @@
 import { LoadingBlock } from "@/components/ui/loading";
-import { ListContextProvider, useListController } from "react-admin";
+import { ListContextProvider } from "react-admin";
 import { DataTable } from "../../shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { TerminalWithId } from "@/data/terminals";
+import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 interface TerminalListTableProps {
     provider: string;
@@ -10,7 +11,7 @@ interface TerminalListTableProps {
 }
 
 export const TerminalListTable = ({ provider, columns }: TerminalListTableProps) => {
-    const terminalsContext = useListController<TerminalWithId>({
+    const terminalsContext = useAbortableListController<TerminalWithId>({
         resource: `${provider}/terminal`,
         disableSyncWithLocation: true
     });

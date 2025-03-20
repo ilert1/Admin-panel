@@ -1,7 +1,8 @@
 import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import fetchDictionaries from "@/helpers/get-dictionaries";
-import { useLocaleState, usePermissions, useShowController, useTranslate } from "react-admin";
+import { useAbortableShowController } from "@/hooks/useAbortableShowController";
+import { useLocaleState, usePermissions, useTranslate } from "react-admin";
 
 interface WalletTransactionsShowProps {
     id: string;
@@ -12,7 +13,7 @@ export const WalletTransactionsShow = ({ id }: WalletTransactionsShowProps) => {
     const dictionaries = fetchDictionaries();
     const [locale] = useLocaleState();
 
-    const context = useShowController<Wallets.Cryptotransactions>({
+    const context = useAbortableShowController<Wallets.Cryptotransactions>({
         resource: permissions === "admin" ? "transaction" : "merchant/transaction",
         id,
         queryOptions: {
@@ -24,8 +25,8 @@ export const WalletTransactionsShow = ({ id }: WalletTransactionsShowProps) => {
         return <Loading />;
     } else {
         return (
-            <div className="flex flex-col gap-4 md:gap-6 px-4 md:px-[42px]">
-                <div className="flex flex-col sm:grid grid-cols-2 gap-y-2 sm:gap-y-4">
+            <div className="flex flex-col gap-4 px-4 md:gap-6 md:px-[42px]">
+                <div className="flex grid-cols-2 flex-col gap-y-2 sm:grid sm:gap-y-4">
                     <TextField
                         label={translate("resources.wallet.transactions.fields.created_at")}
                         text={new Date(context.record?.created_at).toLocaleString(locale)}

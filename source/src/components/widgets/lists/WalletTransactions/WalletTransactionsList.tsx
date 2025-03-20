@@ -1,14 +1,15 @@
-import { ListContextProvider, useListController, usePermissions } from "react-admin";
+import { ListContextProvider, usePermissions } from "react-admin";
 import { useGetWalletTransactionsColumns } from "./Columns";
 import { Loading } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
 import { WalletTransactionsFilter } from "./WalletTransactionsFilter";
 import { ConfirmDialog } from "./ConfirmDialog";
+import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const WalletTransactionsList = () => {
     const { permissions } = usePermissions();
 
-    const listContext = useListController({
+    const listContext = useAbortableListController({
         resource: permissions === "admin" ? "transaction" : "merchant/transaction",
         queryOptions: {
             refetchInterval: 10000

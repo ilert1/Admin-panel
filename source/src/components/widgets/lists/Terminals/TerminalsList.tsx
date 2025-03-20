@@ -1,4 +1,4 @@
-import { ListContextProvider, useListController, useTranslate } from "react-admin";
+import { ListContextProvider, useTranslate } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";

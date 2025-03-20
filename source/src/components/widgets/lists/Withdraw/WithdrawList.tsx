@@ -1,12 +1,13 @@
-import { useListController, ListContextProvider } from "react-admin";
+import { ListContextProvider } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { Loading } from "@/components/ui/loading";
 import { CryptoTransfer } from "../../components/CryptoTransfer";
 import { WithdrawListFilter } from "./WithdrawListFilter";
 import { useGetWithdrawColumns } from "./Columns";
+import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const WithdrawList = () => {
-    const listContext = useListController<Transaction.Transaction>();
+    const listContext = useAbortableListController<Transaction.Transaction>();
 
     const { columns, repeatData, cryptoTransferState, isLoading, merchantOnly, setCryptoTransferState } =
         useGetWithdrawColumns();
@@ -20,17 +21,17 @@ export const WithdrawList = () => {
                     <div
                         className={
                             merchantOnly
-                                ? "grid gap-x-6 grid-rows-[auto_auto_1fr] lg:grid-rows-[auto_1fr] grid-cols-1 lg:grid-flow-col h-full min-h-0"
-                                : "flex flex-col h-full min-h-0"
+                                ? "grid h-full min-h-0 grid-cols-1 grid-rows-[auto_auto_1fr] gap-x-6 lg:grid-flow-col lg:grid-rows-[auto_1fr]"
+                                : "flex h-full min-h-0 flex-col"
                         }>
                         <WithdrawListFilter />
 
-                        <div className="h-full flex flex-col min-h-0">
+                        <div className="flex h-full min-h-0 flex-col">
                             <DataTable columns={columns} data={[]} />
                         </div>
 
                         {merchantOnly && (
-                            <div className="max-w-80 mb-6 row-start-1 lg:col-start-2 lg:row-start-2">
+                            <div className="row-start-1 mb-6 max-w-80 lg:col-start-2 lg:row-start-2">
                                 <CryptoTransfer
                                     cryptoTransferState={cryptoTransferState}
                                     setCryptoTransferState={setCryptoTransferState}
