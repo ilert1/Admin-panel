@@ -54,15 +54,25 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
 
     const { currencies, isLoading: loadingData } = useFetchDataForDirections();
 
-    const formSchema = z.object({
-        currency: z.string().min(1, { message: translate("resources.direction.fees.currencyFieldError") }),
-        value: z.coerce
-            .number({ message: translate("resources.direction.fees.valueFieldError") })
-            .positive({ message: translate("resources.direction.fees.valueFieldError") }),
-        type: z.custom<IFeeType>(),
-        description: z.string(),
-        direction: z.string().min(1, { message: translate("resources.direction.fees.directionFieldError") })
-    });
+    const formSchema = z
+        .object({
+            currency: z.optional(z.string()),
+            value: z.coerce
+                .number({ message: translate("resources.direction.fees.valueFieldError") })
+                .min(0, { message: translate("resources.direction.fees.valueFieldError") }),
+            type: z.custom<IFeeType>(),
+            description: z.string(),
+            direction: z.string().min(1, { message: translate("resources.direction.fees.directionFieldError") })
+        })
+        .superRefine((data, ctx) => {
+            if (data.type === IFeeType.NUMBER_3 && !data.currency) {
+                ctx.addIssue({
+                    path: ["currency"],
+                    message: translate("resources.direction.fees.currencyFieldError"),
+                    code: z.ZodIssueCode.custom
+                });
+            }
+        });
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (feeType === "inner") {
@@ -113,13 +123,17 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
         }
     });
 
+    const typeValue = form.watch("type");
+
     if (isLoading || loadingData)
         return (
             <div className="h-[320px]">
                 <LoadingBlock />
             </div>
         );
-    const currenciesDisabled = !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0);
+    const currenciesDisabled =
+        !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0) ||
+        typeValue !== IFeeType.NUMBER_3;
 
     return (
         <>
@@ -132,7 +146,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                     control={form.control}
                                     name="direction"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="col-span-4 sm:col-span-2 p-2">
+                                        <FormItem className="col-span-2 p-2">
                                             <Label>{translate("resources.direction.fees.direction")}</Label>
                                             <FormControl>
                                                 <Select value={field.value} onValueChange={field.onChange}>
@@ -166,15 +180,33 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                 />
                                 <FormField
                                     control={form.control}
+                                    name="value"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="col-span-2 p-2">
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    label={translate("resources.direction.fees.feeAmount")}
+                                                    labelSize="note-1"
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    variant={InputTypes.GRAY}
+                                                    borderColor="border-neutral-60"
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
                                     name="type"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="col-span-4 sm:col-span-2 p-2">
+                                        <FormItem className="col-span-2 p-2">
                                             <Label>{translate("resources.direction.fees.feeType")}</Label>
                                             <FormControl>
                                                 <Select
                                                     value={field.value.toString()}
-                                                    onValueChange={value => field.onChange(Number(value))}
-                                                    disabled={currenciesDisabled}>
+                                                    onValueChange={value => field.onChange(Number(value))}>
                                                     <FormControl>
                                                         <SelectTrigger
                                                             variant={SelectType.GRAY}
@@ -228,7 +260,13 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                             <SelectValue
                                                                 placeholder={
                                                                     currenciesDisabled
-                                                                        ? translate("resources.direction.noCurrencies")
+                                                                        ? typeValue !== IFeeType.NUMBER_3
+                                                                            ? translate(
+                                                                                  "resources.direction.errors.onlyThirdTypeError"
+                                                                              )
+                                                                            : translate(
+                                                                                  "resources.direction.noCurrencies"
+                                                                              )
                                                                         : ""
                                                                 }
                                                             />
@@ -260,30 +298,12 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                         </FormItem>
                                     )}
                                 />
-                                <FormField
-                                    control={form.control}
-                                    name="value"
-                                    render={({ field, fieldState }) => (
-                                        <FormItem className="col-span-4 p-2">
-                                            <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    label={translate("resources.direction.fees.feeAmount")}
-                                                    labelSize="note-1"
-                                                    error={fieldState.invalid}
-                                                    errorMessage={<FormMessage />}
-                                                    variant={InputTypes.GRAY}
-                                                    borderColor="border-neutral-60"
-                                                />
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                />
+
                                 <FormField
                                     control={form.control}
                                     name="description"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="col-span-4 p-2 w-full">
+                                        <FormItem className="col-span-2 sm:col-span-4 p-2 w-full">
                                             <FormControl>
                                                 <Input
                                                     {...field}

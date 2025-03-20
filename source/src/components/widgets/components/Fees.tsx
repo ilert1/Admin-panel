@@ -1,5 +1,5 @@
 import { FeesResource } from "@/data";
-import { memo, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FeeCard } from "./FeeCard";
 import { AddFeeCard, FeeType } from "./AddFeeCard";
 import { cn } from "@/lib/utils";
@@ -22,7 +22,7 @@ interface FeesProps {
     providerName?: string;
 }
 
-export const Fees = memo((props: FeesProps) => {
+export const Fees = (props: FeesProps) => {
     const {
         className,
         addFee = true,
@@ -87,14 +87,13 @@ export const Fees = memo((props: FeesProps) => {
                                       feeAmount={
                                           feeType === "inner" ? fee.value : fee.value.quantity / fee.value.accuracy
                                       }
-                                      currency={fee.currency}
-                                      feeType={feeTypes[fee.type]?.type_descr || ""}
-                                      feeDirection={data.transactionTypes[fee.direction].type_descr || ""}
+                                      feeType={fee.type}
                                       id={id}
                                       resource={feesResource}
                                       description={fee.description}
                                       addFee={addFee}
                                       providerName={providerName}
+                                      currency={fee.currency}
                                   />
                               );
                           })
@@ -115,7 +114,7 @@ export const Fees = memo((props: FeesProps) => {
             </div>
             {addFee && (
                 <div className="flex justify-end">
-                    <Button onClick={() => setAddNewOpen(true)} className="flex gap-[4px] my-4 md:my-6 w-full sm:w-2/5">
+                    <Button onClick={() => setAddNewOpen(true)} className="flex gap-[4px] my-6 w-full sm:w-2/5">
                         <PlusCircle className="w-[16px] h-[16px]" />
                         {translate("resources.direction.fees.addFee")}
                     </Button>
@@ -123,6 +122,4 @@ export const Fees = memo((props: FeesProps) => {
             )}
         </div>
     );
-});
-
-Fees.displayName = "Fees";
+};
