@@ -56,16 +56,16 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
 
     return (
         <div className="px-[42px] pb-[42px]">
-            <div className="flex flex-col sm:flex-row justify-between">
+            <div className="flex sm:flex-row flex-col justify-between">
                 <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
 
-                <div className="flex self-start mt-2 sm:mt-0 sm:self-center items-center justify-center text-white">
+                <div className="flex justify-center items-center self-start sm:self-center mt-2 sm:mt-0 text-white">
                     {context.record.state === "active" ? (
-                        <span className="px-3 py-0.5 bg-green-50 rounded-20 font-normal text-title-2 text-center whitespace-nowrap">
+                        <span className="bg-green-50 px-3 py-0.5 rounded-20 font-normal text-title-2 text-center whitespace-nowrap">
                             {translate("resources.direction.fields.stateActive")}
                         </span>
                     ) : (
-                        <span className="px-3 py-0.5 bg-red-50 rounded-20 font-normal text-title-2 text-center whitespace-nowrap">
+                        <span className="bg-red-50 px-3 py-0.5 rounded-20 font-normal text-title-2 text-center whitespace-nowrap">
                             {translate("resources.direction.fields.stateInactive")}
                         </span>
                     )}
@@ -90,6 +90,11 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                         <TextField
                             label={translate("resources.direction.fields.terminal")}
                             text={context.record.terminal?.verbose_name || ""}
+                        />
+
+                        <TextField
+                            label={translate("resources.direction.description")}
+                            text={context.record.description ?? ""}
                         />
                     </div>
 
