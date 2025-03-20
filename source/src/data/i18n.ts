@@ -458,7 +458,8 @@ const ru: TranslationMessages = {
                 terminalError: "Произошла ошибка при загрузке терминалов",
                 noTerminalsError: "У выбранного провайдера нет терминалов",
                 weightError: "Должно быть целым числом в диапазоне от 0 до 1000",
-                typeError: "Необходимо выбрать тип"
+                typeError: "Необходимо выбрать тип",
+                onlyThirdTypeError: "Валюты недоступны для выбранного типа комиссий"
             },
             create: "Добавить направление",
             sourceCurrency: "Валюта отправителя",
@@ -1365,7 +1366,8 @@ const en: TranslationMessages = {
                 terminalError: "An error occured when fetching terminals",
                 noTerminalsError: "Chosen provider does not have any terminals",
                 weightError: "Must be an integer in the range from 0 to 1000",
-                typeError: "Type must be chosen"
+                typeError: "Type must be chosen",
+                onlyThirdTypeError: "Currencies are unavailable for chosen type of fee"
             },
             create: "Add direction",
             sourceCurrency: "Source currency",

@@ -860,8 +860,6 @@ export interface FeeCreate {
     recipient: string;
     /** Type of the fee */
     type: FeeType;
-    /** Currency code for the fee */
-    currency?: FeeCreateCurrency;
     /** Rate value for the fee */
     value: FeeCreateValue;
     /** Fee direction if applicable */
