@@ -172,19 +172,6 @@ export const useGetTerminalColumns = () => {
             }
         },
         {
-            id: "show",
-            header: () => {
-                return <div className="text-center">{translate("app.ui.actions.show")}</div>;
-            },
-            cell: ({ row }) => (
-                <ShowButton
-                    onClick={() => {
-                        handleOpenShowClicked(row.original.terminal_id ?? "", row.original.provider);
-                    }}
-                />
-            )
-        },
-        {
             id: "update_field",
             header: () => {
                 return <div className="text-center">{translate("app.ui.actions.edit")}</div>;
@@ -201,6 +188,16 @@ export const useGetTerminalColumns = () => {
             cell: ({ row }) => {
                 return <TrashButton onClick={() => handleDeleteClicked(row.original.terminal_id)} />;
             }
+        },
+        {
+            id: "show",
+            cell: ({ row }) => (
+                <ShowButton
+                    onClick={() => {
+                        handleOpenShowClicked(row.original.terminal_id ?? "", row.original.provider);
+                    }}
+                />
+            )
         }
     ];
 
