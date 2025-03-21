@@ -54,7 +54,7 @@ export const useGetWalletLinkedTransactionColumns = () => {
                     lineClamp
                     linesCount={1}
                     minWidth="50px"
-                    className="!text-green-50 dark:!text-green-40 hover:!text-green-40 dark:hover:!text-green-50 !cursor-pointer transition-all duration-300"
+                    className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
                     onClick={() => openSheet("walletLinked", { id: row.original.transaction_id })}
                 />
             )

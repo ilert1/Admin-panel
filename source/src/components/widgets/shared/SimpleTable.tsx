@@ -39,7 +39,7 @@ export function SimpleTable<TData, TValue>({
                                     key={j}
                                     className={
                                         tableType === TableTypes.COLORED
-                                            ? "bg-green-50 text-neutral-0 border border-x border-neutral-40 dark:border-muted"
+                                            ? "border border-x border-neutral-40 bg-green-50 text-neutral-0 dark:border-muted"
                                             : ""
                                     }>
                                     {header.isPlaceholder
@@ -60,7 +60,7 @@ export function SimpleTable<TData, TValue>({
                             className={
                                 tableType === TableTypes.COLORED
                                     ? cn(
-                                          "text-neutral-100 border border-neutral-40 dark:border-muted ",
+                                          "border border-neutral-40 text-neutral-100 dark:border-muted",
                                           i % 2
                                               ? "bg-neutral-20 dark:bg-neutral-bb-2"
                                               : "bg-neutral-0 dark:bg-neutral-100"
@@ -72,7 +72,7 @@ export function SimpleTable<TData, TValue>({
                                     key={j}
                                     className={
                                         tableType === TableTypes.COLORED
-                                            ? "border border-neutral-40 dark:border-muted text-neutral-90 dark:text-neutral-0"
+                                            ? "border border-neutral-40 text-neutral-90 dark:border-muted dark:text-neutral-0"
                                             : ""
                                     }>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

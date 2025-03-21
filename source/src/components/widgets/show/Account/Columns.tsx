@@ -50,7 +50,7 @@ export const useGetAccountShowColumns = () => {
                     text={row.original.transaction_id}
                     copyValue
                     wrap
-                    className="p-0 h-auto mb-[4px] underline transition-colors outline-none text-green-50 hover:text-green-40 active:text-green-60 focus-visible:text-neutral-60 dark:text-green-40 dark:hover:text-green-50 dark:active:text-green-20 dark:focus-visible:text-neutral-70"
+                    className="mb-[4px] h-auto p-0 text-green-50 underline outline-none transition-colors hover:text-green-40 focus-visible:text-neutral-60 active:text-green-60 dark:text-green-40 dark:hover:text-green-50 dark:focus-visible:text-neutral-70 dark:active:text-green-20"
                     onClick={() => {
                         setChosenId(row.original.transaction_id);
                         setTransactionInfoOpen(true);

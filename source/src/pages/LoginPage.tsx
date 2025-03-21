@@ -49,12 +49,12 @@ export const LoginPage = () => {
     const loginBg = LoginBackground(theme === "dark" ? "#237648" : "#62D093");
     return (
         <>
-            <header className="flex flex-shrink-0 justify-end h-[84px] items-center gap-8 bg-header px-4 relative z-100 pointer-events-auto z">
+            <header className="z-100 z pointer-events-auto relative flex h-[84px] flex-shrink-0 items-center justify-end gap-8 bg-header px-4">
                 <LoginPageThemeSwitcher theme={theme} setTheme={setTheme} translate={translate} />
                 <LangSwitcher />
             </header>
 
-            <main className="relative h-[calc(100%-84px)] flex items-center justify-center bg-loginBG overflow-hidden min-h-[508px] md:h-[calc(100vh-84px)]">
+            <main className="relative flex h-[calc(100%-84px)] min-h-[508px] items-center justify-center overflow-hidden bg-loginBG md:h-[calc(100vh-84px)]">
                 {loginBg}
                 <LoginForm error={error} setError={setError} setDialogOpen={setConfigDialogOpen} />
 
@@ -62,7 +62,7 @@ export const LoginPage = () => {
                     <img
                         src="/BlowFish.svg"
                         alt="Decorative"
-                        className="w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] xl:w-[400px] xl:h-[400px] pointer-events-none select-none -z-50"
+                        className="pointer-events-none -z-50 h-[200px] w-[200px] select-none lg:h-[320px] lg:w-[320px] xl:h-[400px] xl:w-[400px]"
                     />
                 </div>
                 <AccountConfigDialog open={configDialogOpen} onOpenChange={setConfigDialogOpen} />

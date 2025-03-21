@@ -13,9 +13,9 @@ export const CreateCurrencyDialog = ({ open, onOpenChange }: CreateCurrencyDialo
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
                 disableOutsideClick
-                className="bg-muted max-w-full sm:w-[716px]  sm:max-h-[100dvh] !overflow-y-auto">
+                className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
                 <DialogHeader>
-                    <DialogTitle className="text-xl text-center mb-4">
+                    <DialogTitle className="mb-4 text-center text-xl">
                         {translate("resources.currency.createDialogTitle")}
                     </DialogTitle>
                 </DialogHeader>

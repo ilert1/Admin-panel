@@ -7,7 +7,7 @@ export const ShowButton = ({ onClick, disabled }: React.ButtonHTMLAttributes<HTM
             <Button
                 onClick={onClick}
                 variant="text_btn"
-                className="h-7 w-7 p-0 bg-transparent flex items-center disabled:text-neutral-90 text-green-50 size-7 hover:text-green-40"
+                className="flex size-7 h-7 w-7 items-center bg-transparent p-0 text-green-50 hover:text-green-40 disabled:text-neutral-90"
                 disabled={disabled}>
                 <EyeIcon className=" " />
             </Button>

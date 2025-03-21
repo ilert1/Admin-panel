@@ -83,7 +83,7 @@ const FormLabel = React.forwardRef<
         <Label
             ref={ref}
             className={cn(
-                "flex items-center gap-1 font-normal text-[12px] leading-[18px] text-neutral-30 mb-[4px]",
+                "mb-[4px] flex items-center gap-1 text-[12px] font-normal leading-[18px] text-neutral-30",
                 error && "text-red-40",
                 className
             )}

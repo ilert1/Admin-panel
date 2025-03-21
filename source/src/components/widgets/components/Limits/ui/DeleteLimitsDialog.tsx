@@ -39,7 +39,7 @@ export const DeleteLimitsDialog = (props: DeleteLimitsDialogProps) => {
                     <DialogDescription></DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                    <div className="flex justify-around w-full">
+                    <div className="flex w-full justify-around">
                         <Button onClick={handleDelete}>{translate("app.widgets.limits.reset")}</Button>
                         <Button
                             className="bg-neutral-0 dark:bg-neutral-100"

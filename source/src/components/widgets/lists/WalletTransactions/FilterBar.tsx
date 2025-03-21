@@ -63,8 +63,8 @@ export const FilterBar = () => {
 
     return (
         <>
-            <div className="flex gap-[16px] mb-5 items-center flex-wrap">
-                <div className="flex flex-col gap-[8px] min-w-[200px]">
+            <div className="mb-5 flex flex-wrap items-center gap-[16px]">
+                <div className="flex min-w-[200px] flex-col gap-[8px]">
                     <Label className="text-title-2 text-neutral-100" htmlFor="private">
                         {translate("resources.wallet.transactions.filterBar.searchById")}
                     </Label>
@@ -116,14 +116,14 @@ export const FilterBar = () => {
                         placeholder={""}
                     />
                 </div>
-                <div className="flex items-center pb-1 gap-[4px] place-self-end">
+                <div className="flex items-center gap-[4px] place-self-end pb-1">
                     <Label htmlFor="clear" className="text-title-1 text-neutral-50">
                         {translate("resources.wallet.transactions.filterBar.resetFilters")}
                     </Label>
                     <button
                         id="clear"
                         onClick={() => clearFilters()}
-                        className="text-gray-500 hover:text-gray-700 transition-colors border-0 outline-0">
+                        className="border-0 text-gray-500 outline-0 transition-colors hover:text-gray-700">
                         <XIcon className="h-[28px] w-[28px]" />
                     </button>
                 </div>

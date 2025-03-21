@@ -68,12 +68,12 @@ export const LoginForm = (props: LoginFormProps) => {
         };
     return (
         <div
-            className={`mx-4 my-4 overflow-y-auto w-full max-w-md px-8 sm:px-16 pb-12 rounded-16 shadow-md min-w-[240px] z-10 bg-white dark:bg-neutral-100`}>
-            <div className="flex justify-center mb-2.5 mt-5">
+            className={`z-10 mx-4 my-4 w-full min-w-[240px] max-w-md overflow-y-auto rounded-16 bg-white px-8 pb-12 shadow-md dark:bg-neutral-100 sm:px-16`}>
+            <div className="mb-2.5 mt-5 flex justify-center">
                 <img
                     src={theme === "light" ? "/NoNameLogoLight.svg" : "/NoNameLogo.svg"}
                     alt="Logo"
-                    className="h-[78px] w-[126.93px] pointer-events-none select-none"
+                    className="pointer-events-none h-[78px] w-[126.93px] select-none"
                 />
             </div>
             <form onSubmit={handleSubmit}>
@@ -111,12 +111,12 @@ export const LoginForm = (props: LoginFormProps) => {
                     />
                 </div>
 
-                <div className="flex justify-center mt-4 mb-7">
+                <div className="mb-7 mt-4 flex justify-center">
                     <TextField
                         text={translate("app.login.configure2fa")}
                         link={configure2faLink}
                         type="link"
-                        className="underline-offset-4 text-sm"
+                        className="text-sm underline-offset-4"
                     />
                 </div>
 
@@ -124,7 +124,7 @@ export const LoginForm = (props: LoginFormProps) => {
                     {translate("app.login.login")}
                 </Button>
 
-                {error && <div className="text-red-30 text-note-1 mt-5">{error}</div>}
+                {error && <div className="mt-5 text-note-1 text-red-30">{error}</div>}
             </form>
         </div>
     );

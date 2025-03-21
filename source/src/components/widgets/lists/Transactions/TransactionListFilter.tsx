@@ -47,8 +47,8 @@ export const TransactionListFilter = () => {
 
     return (
         <>
-            <div className="w-full flex flex-col gap-2">
-                <div className="flex gap-4 flex-wrap justify-between mb-4 md:mb-6">
+            <div className="flex w-full flex-col gap-2">
+                <div className="mb-4 flex flex-wrap justify-between gap-4 md:mb-6">
                     <ResourceHeaderTitle />
 
                     <FilterButtonGroup
@@ -67,8 +67,8 @@ export const TransactionListFilter = () => {
                     />
                 </div>
                 <AnimatedContainer open={openFiltersClicked}>
-                    <div className="flex flex-col justify-between sm:flex-row sm:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap mb-4">
-                        <div className="flex flex-1 flex-col gap-2 items-start min-w-36 md:min-w-56">
+                    <div className="mb-4 flex flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-end sm:gap-x-4 sm:gap-y-3">
+                        <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
                             <Input
                                 className="flex-1"
                                 label={translate("resources.transactions.filter.filterById")}
@@ -79,7 +79,7 @@ export const TransactionListFilter = () => {
                             />
                         </div>
 
-                        <div className="flex flex-1 flex-col gap-2 items-start min-w-36 md:min-w-56">
+                        <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
                             <Input
                                 className="flex-1"
                                 placeholder={translate("resources.transactions.filter.filterByIdPlaceholder")}
@@ -90,7 +90,7 @@ export const TransactionListFilter = () => {
                             />
                         </div>
 
-                        <div className="flex flex-1 flex-col gap-1 min-w-36">
+                        <div className="flex min-w-36 flex-1 flex-col gap-1">
                             <Label variant="title-2" className="mb-0">
                                 {translate("resources.transactions.filter.filterByOrderStatus")}
                             </Label>
@@ -100,7 +100,7 @@ export const TransactionListFilter = () => {
                                     val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged("")
                                 }
                                 value={orderStatusFilter}>
-                                <SelectTrigger className="text-ellipsis h-[38px]">
+                                <SelectTrigger className="h-[38px] text-ellipsis">
                                     <SelectValue
                                         placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
                                     />
@@ -135,8 +135,8 @@ export const TransactionListFilter = () => {
                         />
 
                         {adminOnly && (
-                            <div className="flex flex-col flex-1 flex-grow-100 md:basis-[350px] gap-1 md:gap-1">
-                                <Label className="md:text-nowrap mb-0" variant="title-2">
+                            <div className="flex-grow-100 flex flex-1 flex-col gap-1 md:basis-[350px] md:gap-1">
+                                <Label className="mb-0 md:text-nowrap" variant="title-2">
                                     {translate("resources.transactions.filter.filterByAccount")}
                                 </Label>
 
@@ -152,20 +152,20 @@ export const TransactionListFilter = () => {
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     disabled={!startDate || (adminOnly && !account)}
-                                    className="md:ml-auto mt-1 sm:mt-0"
+                                    className="mt-1 sm:mt-0 md:ml-auto"
                                     variant="default"
                                     size="sm">
                                     {translate("resources.transactions.download.downloadReportButtonText")}
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className="p-0 border-green-50" align="end">
+                            <DropdownMenuContent className="border-green-50 p-0" align="end">
                                 <DropdownMenuItem
-                                    className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-80 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-neutral-80 focus:dark:text-white"
                                     onClick={() => handleDownloadReport("csv")}>
                                     CSV
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
-                                    className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-80 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-neutral-80 focus:dark:text-white"
                                     onClick={() => handleDownloadReport("pdf")}>
                                     PDF
                                 </DropdownMenuItem>
@@ -176,7 +176,7 @@ export const TransactionListFilter = () => {
             </div>
 
             <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-3 flex-wrap mt-2">
+                <div className="mt-2 flex flex-wrap items-center gap-3">
                     <button
                         className={chooseClassTabActive(0)}
                         onClick={() => onTabChanged(0)}

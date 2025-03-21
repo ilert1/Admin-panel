@@ -71,14 +71,14 @@ export const TextField = ({
         <div className="text-neutral-90 dark:text-neutral-0">
             {label && <small className={cn("text-neutral-60", labelSize)}>{label}</small>}
             {(type === "text" || type === "link") && (
-                <p className={cn("leading-5 flex flex-row gap-2 items-center", className)}>
+                <p className={cn("flex flex-row items-center gap-2 leading-5", className)}>
                     {copyValue && text?.length > 0 && (
                         <span>
                             <Copy
                                 className={cn(
                                     "h-4 w-4 cursor-pointer",
                                     (type === "link" || onClick) &&
-                                        "text-green-50 dark:text-green-40 hover:text-green-40 dark:hover:text-green-50"
+                                        "text-green-50 hover:text-green-40 dark:text-green-40 dark:hover:text-green-50"
                                 )}
                                 onClick={copy}
                             />
@@ -89,7 +89,7 @@ export const TextField = ({
                             textStyle(),
                             "block cursor-default",
                             onClick &&
-                                "underline !text-green-50 dark:!text-green-40 hover:!text-green-40 dark:hover:!text-green-50 cursor-pointer transition-all duration-300"
+                                "cursor-pointer !text-green-50 underline transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
                         )}
                         onClick={onClick}
                         style={{
@@ -110,7 +110,7 @@ export const TextField = ({
                             <a
                                 href={link}
                                 target="_blank"
-                                className="block underline transition-colors outline-none text-green-50 hover:text-green-40 active:text-green-60 focus-visible:text-neutral-60 dark:text-green-40 dark:hover:text-green-50 dark:active:text-green-20 dark:focus-visible:text-neutral-70"
+                                className="block text-green-50 underline outline-none transition-colors hover:text-green-40 focus-visible:text-neutral-60 active:text-green-60 dark:text-green-40 dark:hover:text-green-50 dark:focus-visible:text-neutral-70 dark:active:text-green-20"
                                 rel="noreferrer">
                                 {currentText}
                             </a>

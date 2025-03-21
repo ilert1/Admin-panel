@@ -108,7 +108,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
         <EditContextProvider value={controllerProps}>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" autoFocus={false}>
-                    <div className="flex flex-col md:items-end gap-x-4 gap-y-5 md:grid md:grid-cols-2 md:grid-rows-2">
+                    <div className="flex flex-col gap-x-4 gap-y-5 md:grid md:grid-cols-2 md:grid-rows-2 md:items-end">
                         <FormField
                             control={form.control}
                             name="code"
@@ -240,7 +240,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                         />
                     </div>
 
-                    <div className="flex sm:flex-row flex-col sm:items-center sm:self-end gap-4">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:self-end">
                         <Button type="submit" variant="default" disabled={submitButtonDisabled}>
                             {translate("app.ui.actions.save")}
                         </Button>

@@ -12,7 +12,7 @@ export const HeaderButton = (props: HeaderButtonProps) => {
         <Button
             onClick={onClick}
             variant="default"
-            className="h-[50px] w-full rounded-none flex justify-start text-start gap-[8px] bg-transparent hover:bg-green-50 text-neutral-80 dark:text-neutral-50 hover:text-neutral-0 dark:hover:text-neutral-0">
+            className="flex h-[50px] w-full justify-start gap-[8px] rounded-none bg-transparent text-start text-neutral-80 hover:bg-green-50 hover:text-neutral-0 dark:text-neutral-50 dark:hover:text-neutral-0">
             {Icon && <Icon />}
             <span className="">{text}</span>
         </Button>

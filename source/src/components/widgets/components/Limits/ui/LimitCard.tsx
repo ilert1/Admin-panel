@@ -24,31 +24,31 @@ export const LimitCard = (props: LimitCardProps) => {
 
     return (
         <>
-            <div className="flex flex-col gap-4 bg-neutral-10 dark:bg-muted p-4 rounded-8 mb-4">
-                <div className="flex flex-col gap-4 sm:flex-row justify-center items-center">
-                    <div className="flex flex-col gap-2 flex-1">
+            <div className="mb-4 flex flex-col gap-4 rounded-8 bg-neutral-10 p-4 dark:bg-muted">
+                <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+                    <div className="flex flex-1 flex-col gap-2">
                         <TextField text={translate("app.widgets.limits.deposit")} />
-                        <div className="flex gap-2 flex-col">
+                        <div className="flex flex-col gap-2">
                             <TextField text={getMinValue(limits.payin)} label="min" />
                             <TextField text={getMaxValue(limits.payin)} label="max" />
                         </div>
                     </div>
-                    <div className="flex flex-col gap-2 flex-1">
+                    <div className="flex flex-1 flex-col gap-2">
                         <TextField text={translate("app.widgets.limits.payment")} />
-                        <div className="flex gap-2 flex-col">
+                        <div className="flex flex-col gap-2">
                             <TextField text={getMinValue(limits.payout)} label="min" />
                             <TextField text={getMaxValue(limits.payout)} label="max" />
                         </div>
                     </div>
-                    <div className="flex flex-col gap-2 flex-1">
+                    <div className="flex flex-1 flex-col gap-2">
                         <TextField text={translate("app.widgets.limits.reward")} />
-                        <div className="flex gap-2 flex-col">
+                        <div className="flex flex-col gap-2">
                             <TextField text={getMinValue(limits.reward)} label="min" />
                             <TextField text={getMaxValue(limits.reward)} label="max" />
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col sm:flex-row justify-end gap-[10px]">
+                <div className="flex flex-col justify-end gap-[10px] sm:flex-row">
                     <Button variant="outline" onClick={() => setEditClicked(true)}>
                         {translate("app.ui.actions.edit")}
                     </Button>

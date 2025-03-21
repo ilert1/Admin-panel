@@ -69,17 +69,17 @@ export const WalletManualReconciliationBar = () => {
     };
 
     return (
-        <div className="flex justify-end items-end">
+        <div className="flex items-end justify-end">
             <Button
                 onClick={() => setManualClicked(!manualClicked)}
-                className="flex items-center justify-center gap-1 font-normal self-end">
+                className="flex items-center justify-center gap-1 self-end font-normal">
                 <span>{translate("resources.wallet.linkedTransactions.manual_reconciliation")}</span>
             </Button>
 
             <Dialog open={manualClicked} onOpenChange={onOpenChange}>
                 <DialogContent
                     disableOutsideClick
-                    className="bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[300px] mx-2 !overflow-y-auto rounded-[0] md:rounded-[16px]">
+                    className="mx-2 h-full max-h-[300px] w-[716px] max-w-full !overflow-y-auto rounded-[0] bg-muted md:h-auto md:rounded-[16px]">
                     <DialogHeader>
                         <DialogTitle>
                             {translate("resources.wallet.linkedTransactions.manual_reconciliation")}
@@ -97,7 +97,7 @@ export const WalletManualReconciliationBar = () => {
                             label={translate("resources.wallet.linkedTransactions.fields.transactionId")}
                         />
 
-                        <div className="flex flex-col sm:self-end sm:flex-row items-center gap-4">
+                        <div className="flex flex-col items-center gap-4 sm:flex-row sm:self-end">
                             <Button
                                 onClick={handleCheckCLicked}
                                 variant="default"
@@ -105,7 +105,7 @@ export const WalletManualReconciliationBar = () => {
                                 disabled={!inputVal.length || isLoading || isError}>
                                 {isLoading ? (
                                     <div className="flex flex-col items-center justify-center">
-                                        <LoadingBalance className="w-[15px] h-[15px] overflow-hidden" />
+                                        <LoadingBalance className="h-[15px] w-[15px] overflow-hidden" />
                                     </div>
                                 ) : (
                                     translate("resources.wallet.linkedTransactions.check")

@@ -42,12 +42,12 @@ export const DeleteCurrencyDialog = ({ open, id, onOpenChange }: DeleteCurrencyD
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-[251px] max-h-[200px] sm:max-h-[140px] bg-muted overflow-auto">
+            <DialogContent className="max-h-[200px] max-w-[251px] overflow-auto bg-muted sm:max-h-[140px]">
                 <DialogHeader>
                     <DialogTitle className="text-xl">{translate("resources.currency.deleteDialogTitle")}</DialogTitle>
                 </DialogHeader>
 
-                <div className="flex flex-col gap-4 sm:gap-0 sm:flex-row justify-around w-full">
+                <div className="flex w-full flex-col justify-around gap-4 sm:flex-row sm:gap-0">
                     <Button onClick={handleDelete} variant="default">
                         {translate("app.ui.actions.delete")}
                     </Button>

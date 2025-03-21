@@ -99,7 +99,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                             control={form.control}
                             name="name"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="w-full p-2 sm:w-1/2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -117,7 +117,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                             control={form.control}
                             name="id"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="w-full p-2 sm:w-1/2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -135,7 +135,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                             control={form.control}
                             name="description"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="w-full p-2 sm:w-1/2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -154,7 +154,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                             control={form.control}
                             name="keycloak_id"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="w-full p-2 sm:w-1/2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -173,7 +173,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                 </form>
             </Form>
             <Fees id={""} fees={fees} feesResource={FeesResource.MERCHANT} setFees={setFees} feeType="inner" />
-            <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col gap-3 sm:gap-0 sm:flex-row space-x-0 sm:space-x-2">
+            <div className="ml-auto flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:w-2/5">
                 <Button
                     onClick={form.handleSubmit(onSubmit)}
                     variant="default"

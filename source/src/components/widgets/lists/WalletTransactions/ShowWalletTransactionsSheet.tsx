@@ -14,18 +14,18 @@ export const ShowWalletTransactionsSheet = ({ id, open, onOpenChange }: ShowWall
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
             <SheetContent
-                className="sm:max-w-[1015px] max-h-[calc(100dvh-84px)] h-full sm:h-[540px] w-full p-0 m-0 top-[84px] flex flex-col border-0 overflow-y-auto"
+                className="top-[84px] m-0 flex h-full max-h-[calc(100dvh-84px)] w-full flex-col overflow-y-auto border-0 p-0 sm:h-[540px] sm:max-w-[1015px]"
                 tabIndex={-1}
                 close={false}>
-                <div className="p-4 md:p-[42px] pb-[0px] flex-shrink-0">
+                <div className="flex-shrink-0 p-4 pb-[0px] md:p-[42px]">
                     <div>
-                        <div className="flex justify-between items-center">
-                            <SheetTitle className="!text-display-1 break-words overflow-hidden text-neutral-90 dark:text-neutral-30">
+                        <div className="flex items-center justify-between">
+                            <SheetTitle className="overflow-hidden break-words !text-display-1 text-neutral-90 dark:text-neutral-30">
                                 {translate("resources.wallet.transactions.cryptotransaction")}
                             </SheetTitle>
                             <button
                                 onClick={() => onOpenChange(false)}
-                                className="text-gray-500 hover:text-gray-700 transition-colors border-0 outline-0">
+                                className="border-0 text-gray-500 outline-0 transition-colors hover:text-gray-700">
                                 <XIcon className="h-[28px] w-[28px]" />
                             </button>
                         </div>

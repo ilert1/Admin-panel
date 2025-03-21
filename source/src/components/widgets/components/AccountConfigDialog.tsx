@@ -26,13 +26,13 @@ export const AccountConfigDialog = (props: AccountConfigDialogProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="rounded-16 max-h-80 xl:max-h-none h-auto overflow-hidden w-[350px]">
+            <DialogContent className="h-auto max-h-80 w-[350px] overflow-hidden rounded-16 xl:max-h-none">
                 <DialogHeader>
                     <DialogTitle className="text-center">{translate("app.login.accountConfigTitle")}</DialogTitle>
                     <DialogDescription></DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                    <div className="flex flex-col sm:flex-row justify-around gap-4 sm:gap-[35px] w-full">
+                    <div className="flex w-full flex-col justify-around gap-4 sm:flex-row sm:gap-[35px]">
                         <a href={configureKKLink} target="_blank" rel="noopener noreferrer">
                             <Button
                                 onClick={() => {
@@ -47,7 +47,7 @@ export const AccountConfigDialog = (props: AccountConfigDialogProps) => {
                                 onOpenChange(false);
                             }}
                             variant="secondary"
-                            className="w-full !ml-0 px-3 sm:w-24">
+                            className="!ml-0 w-full px-3 sm:w-24">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>

@@ -77,7 +77,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
         <CreateContextProvider value={controllerProps}>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
-                    <div className="flex flex-col items-stretch md:items-baseline gap-x-4 gap-y-5 md:grid md:grid-cols-2 md:grid-rows-2">
+                    <div className="flex flex-col items-stretch gap-x-4 gap-y-5 md:grid md:grid-cols-2 md:grid-rows-2 md:items-baseline">
                         <FormField
                             control={form.control}
                             name="code"
@@ -215,7 +215,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                         />
                     </div>
 
-                    <div className="flex sm:flex-row flex-col sm:items-center sm:self-end gap-4">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:self-end">
                         <Button type="submit" disabled={submitButtonDisabled}>
                             {translate("app.ui.actions.save")}
                         </Button>
@@ -224,7 +224,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                             type="button"
                             onClick={closeDialog}
                             variant="outline_gray"
-                            className="border border-neutral-50 hover:border-neutral-100 rounded-4">
+                            className="rounded-4 border border-neutral-50 hover:border-neutral-100">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>

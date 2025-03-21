@@ -228,45 +228,45 @@ const BarChart: React.FC<BarChartProps> = ({ startDate, endDate, typeTabActive, 
     const maxHeight = open ? "300vh" : "0px";
 
     return isLoading ? (
-        <div className={`bg-black flex items-center h-[637px] ${open ? "clicked" : "not-clicked"}`}>
+        <div className={`flex h-[637px] items-center bg-black ${open ? "clicked" : "not-clicked"}`}>
             <LoadingBlock />
         </div>
     ) : (
         <div
-            className={`bg-black mr-2 ${isLoading && open ? "pb-0 pt-0" : "p-5"} pb-0 ${
+            className={`mr-2 bg-black ${isLoading && open ? "pb-0 pt-0" : "p-5"} pb-0 ${
                 open ? "clicked" : "not-clicked"
             }`}
             style={{
                 maxHeight
             }}>
             <div className="overflow-x-auto">
-                <div style={{ width: chartWidth + "px" }} className="pl-[22px] h-[561px] ">
+                <div style={{ width: chartWidth + "px" }} className="h-[561px] pl-[22px]">
                     <Bar data={chartData} options={options} />
                 </div>
             </div>
-            <div className="flex justify-center mt-3 pb-3">
-                <div className="flex flex-col md:flex-row items-center justify-center space-x-4">
+            <div className="mt-3 flex justify-center pb-3">
+                <div className="flex flex-col items-center justify-center space-x-4 md:flex-row">
                     <div className="flex items-center">
-                        <div className="w-12 h-5 rounded-full bg-[#008C99]" />
+                        <div className="h-5 w-12 rounded-full bg-[#008C99]" />
                         <span className="ml-2 text-title-1 text-neutral-50">
                             {translate("resources.transactions.types.deposit")}
                         </span>
                     </div>
                     <div className="flex items-center">
-                        <div className="w-12 h-5 rounded-full bg-[#57CD8C]" />
-                        <span className="text-title-1 text-neutral-50 ml-2">
+                        <div className="h-5 w-12 rounded-full bg-[#57CD8C]" />
+                        <span className="ml-2 text-title-1 text-neutral-50">
                             {translate("resources.transactions.types.withdraw")}
                         </span>
                     </div>
                     <div className="flex items-center">
-                        <div className="w-12 h-5 rounded-full bg-[#D8F3E4]" />
-                        <span className="text-title-1 text-neutral-50 ml-2">
+                        <div className="h-5 w-12 rounded-full bg-[#D8F3E4]" />
+                        <span className="ml-2 text-title-1 text-neutral-50">
                             {translate("resources.transactions.types.reward")}
                         </span>
                     </div>
                     <div className="flex items-center">
-                        <div className="w-12 h-5 rounded-full bg-[#764b92]" />
-                        <span className="text-title-1 text-neutral-50 ml-2">
+                        <div className="h-5 w-12 rounded-full bg-[#764b92]" />
+                        <span className="ml-2 text-title-1 text-neutral-50">
                             {translate("resources.transactions.types.transfer")}
                         </span>
                     </div>

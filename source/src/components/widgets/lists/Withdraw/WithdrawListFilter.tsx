@@ -35,7 +35,7 @@ export const WithdrawListFilter = () => {
     return (
         <div>
             <div className="flex flex-col">
-                <div className="mb-6 flex gap-4 flex-wrap justify-between">
+                <div className="mb-6 flex flex-wrap justify-between gap-4">
                     <ResourceHeaderTitle />
 
                     <FilterButtonGroup
@@ -47,8 +47,8 @@ export const WithdrawListFilter = () => {
                     />
                 </div>
                 <AnimatedContainer open={openFiltersClicked}>
-                    <div className="w-full mb-4 sm:mb-6 flex flex-col justify-start sm:flex-row sm:items-end gap-2 sm:gap-x-4 sm:gap-y-3 flex-wrap">
-                        <div className="flex flex-1 md:flex-col gap-2 items-center md:items-start md:max-w-96 min-w-36">
+                    <div className="mb-4 flex w-full flex-col flex-wrap justify-start gap-2 sm:mb-6 sm:flex-row sm:items-end sm:gap-x-4 sm:gap-y-3">
+                        <div className="flex min-w-36 flex-1 items-center gap-2 md:max-w-96 md:flex-col md:items-start">
                             <Input
                                 className="flex-1 text-sm placeholder:text-neutral-70"
                                 placeholder={translate("resources.withdraw.filter.filterByIdPlaceholder")}
@@ -70,20 +70,20 @@ export const WithdrawListFilter = () => {
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     disabled={!startDate}
-                                    className="md:ml-auto mt-1 sm:mt-0"
+                                    className="mt-1 sm:mt-0 md:ml-auto"
                                     variant="default"
                                     size="sm">
                                     {translate("resources.withdraw.download.downloadReportButtonText")}
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className="p-0 border-green-50" align="end">
+                            <DropdownMenuContent className="border-green-50 p-0" align="end">
                                 <DropdownMenuItem
-                                    className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-80 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-neutral-80 focus:dark:text-white"
                                     onClick={() => handleDownloadReport("csv")}>
                                     CSV
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
-                                    className="px-4 py-1.5 text-sm text-neutral-80 dark:text-neutral-80 focus:bg-green-50 focus:text-white focus:dark:text-white rounded-none cursor-pointer"
+                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-neutral-80 focus:dark:text-white"
                                     onClick={() => handleDownloadReport("pdf")}>
                                     PDF
                                 </DropdownMenuItem>
@@ -94,8 +94,8 @@ export const WithdrawListFilter = () => {
             </div>
 
             <div>
-                <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
-                    <div className="flex items-center gap-3 flex-wrap text-neutral-60 dark:text-neutral-30">
+                <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex flex-wrap items-center gap-3 text-neutral-60 dark:text-neutral-30">
                         <button
                             className={chooseClassTabActive(0)}
                             onClick={() => onTabChanged(0)}

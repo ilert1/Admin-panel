@@ -139,8 +139,8 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
     return (
         <FormProvider {...form}>
             {!isMerchant && record?.type !== WalletTypes.EXTERNAL ? (
-                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full">
-                    <div className="grid md:grid-cols-2 gap-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col gap-6">
+                    <div className="grid gap-4 md:grid-cols-2">
                         <FormField
                             control={form.control}
                             name="type"
@@ -198,7 +198,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            className="bg-muted "
+                                            className="bg-muted"
                                             variant={InputTypes.GRAY}
                                             disabled
                                             title={translate("resources.wallet.manage.fields.currency")}
@@ -216,7 +216,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                         <Input
                                             disabled
                                             {...field}
-                                            className="bg-muted "
+                                            className="bg-muted"
                                             variant={InputTypes.GRAY}
                                             label={translate("resources.wallet.manage.fields.blockchain")}
                                         />
@@ -234,7 +234,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                         <Input
                                             disabled
                                             {...field}
-                                            className="bg-muted "
+                                            className="bg-muted"
                                             variant={InputTypes.GRAY}
                                             label={translate("resources.wallet.manage.fields.contactType")}
                                         />
@@ -250,7 +250,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            className="bg-white dark:bg-muted "
+                                            className="bg-white dark:bg-muted"
                                             variant={InputTypes.GRAY}
                                             label={translate("resources.wallet.manage.fields.minRemaini")}
                                         />
@@ -269,7 +269,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                             {...field}
                                             value={field.value ?? ""}
                                             placeholder={translate("resources.wallet.manage.fields.descr")}
-                                            className="w-full h-24 resize-none overflow-auto"
+                                            className="h-24 w-full resize-none overflow-auto"
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -277,20 +277,20 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                         />
                     </div>
 
-                    <div className="self-end flex items-center gap-4 ">
+                    <div className="flex items-center gap-4 self-end">
                         <Button type="submit" variant="default">
                             {translate("app.ui.actions.save")}
                         </Button>
                         <Button
                             onClick={() => onOpenChange(false)}
                             variant="outline_gray"
-                            className="border border-neutral-50 rounded-4 hover:border-neutral-100">
+                            className="rounded-4 border border-neutral-50 hover:border-neutral-100">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>
                 </form>
             ) : (
-                <form onSubmit={formMerchant.handleSubmit(onSubmitMerchant)} className="flex flex-col gap-6 w-full">
+                <form onSubmit={formMerchant.handleSubmit(onSubmitMerchant)} className="flex w-full flex-col gap-6">
                     <div className="flex flex-wrap">
                         <FormField
                             control={formMerchant.control}
@@ -305,7 +305,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 p-2 border border-neutral-60 rounded resize-none overflow-auto text-title-1 text-neutral-80 dark:text-white outline-none dark:bg-muted"
+                                                className="h-24 w-full resize-none overflow-auto rounded border border-neutral-60 p-2 text-title-1 text-neutral-80 outline-none dark:bg-muted dark:text-white"
                                             />
                                         </div>
                                     </FormControl>
@@ -314,7 +314,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                         />
                     </div>
 
-                    <div className="flex flex-col sm:self-end sm:flex-row items-center gap-4">
+                    <div className="flex flex-col items-center gap-4 sm:flex-row sm:self-end">
                         <Button type="submit" variant="default" className="w-full sm:w-auto">
                             {translate("app.ui.actions.save")}
                         </Button>
@@ -322,7 +322,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             onClick={() => onOpenChange(false)}
                             variant="outline_gray"
                             type="button"
-                            className="w-full sm:w-auto ">
+                            className="w-full sm:w-auto">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>

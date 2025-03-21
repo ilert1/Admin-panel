@@ -92,7 +92,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                             control={form.control}
                             name="name"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="w-full p-2 sm:w-1/2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -110,7 +110,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                             control={form.control}
                             name="fields_json_schema"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="w-full p-2 sm:w-1/2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -144,7 +144,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                             )}
                         />
 
-                        <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col sm:flex-row space-x-0 sm:space-x-2 mt-6">
+                        <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                             <Button
                                 disabled={hasErrors && isValid && submitButtonDisabled}
                                 type="submit"
@@ -155,7 +155,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                             <Button
                                 type="button"
                                 variant="outline_gray"
-                                className="flex-1 mt-4 sm:mt-0 w-full sm:w-1/2"
+                                className="mt-4 w-full flex-1 sm:mt-0 sm:w-1/2"
                                 onClick={onClose}>
                                 {translate("app.ui.actions.cancel")}
                             </Button>

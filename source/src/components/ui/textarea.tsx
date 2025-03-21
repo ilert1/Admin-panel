@@ -11,14 +11,14 @@ interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     ({ className, readOnly, error, errorMessage, ...props }, ref) => {
         return (
-            <div className="relative flex flex-col gap-[4px] h-full w-full">
+            <div className="relative flex h-full w-full flex-col gap-[4px]">
                 <textarea
                     className={cn(
-                        `flex min-h-10 w-full rounded-md border px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus:outline-none !mt-0`,
-                        "!text-neutral-80 placeholder:text-neutral-60 border-neutral-40 bg-neutral-0",
-                        "dark:!text-neutral-30 dark:bg-neutral-100 dark:border-neutral-60 placeholder:dark:text-neutral-70 dark:hover:border-green-40 dark:focus:border-green-50 ",
+                        `!mt-0 flex min-h-10 w-full rounded-md border px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus:outline-none`,
+                        "border-neutral-40 bg-neutral-0 !text-neutral-80 placeholder:text-neutral-60",
+                        "dark:border-neutral-60 dark:bg-neutral-100 dark:!text-neutral-30 placeholder:dark:text-neutral-70 dark:hover:border-green-40 dark:focus:border-green-50",
                         "disabled:border-neutral-40 disabled:bg-neutral-20 dark:disabled:bg-neutral-90",
-                        !readOnly ? "hover:border-green-40 active:border-green-50 focus:border-green-50" : "",
+                        !readOnly ? "hover:border-green-40 focus:border-green-50 active:border-green-50" : "",
                         error ? "!border-red-40 dark:!border-red-40" : "",
                         className
                     )}
@@ -26,8 +26,8 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
                     ref={ref}
                     {...props}
                 />
-                {error && <ErrorBadge className="absolute right-2 top-3 p-0 h-auto" errorMessage={errorMessage} />}
-                {error && errorMessage && <span className="!text-note-1 inline text-red-40">{errorMessage}</span>}
+                {error && <ErrorBadge className="absolute right-2 top-3 h-auto p-0" errorMessage={errorMessage} />}
+                {error && errorMessage && <span className="inline !text-note-1 text-red-40">{errorMessage}</span>}
             </div>
         );
     }

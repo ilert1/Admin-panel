@@ -74,9 +74,9 @@ export const FeeCard = memo((props: FeeCardProps) => {
 
     return (
         <>
-            <div className="mt-[2px] mb-[16px]">
-                <div className="relative bg-neutral-10 dark:bg-muted px-4 pt-[16px] pb-5 rounded-[8px]">
-                    <div className="gap-2 gap-y-[8px] grid grid-cols-2 w-full">
+            <div className="mb-[16px] mt-[2px]">
+                <div className="relative rounded-[8px] bg-neutral-10 px-4 pb-5 pt-[16px] dark:bg-muted">
+                    <div className="grid w-full grid-cols-2 gap-2 gap-y-[8px]">
                         <TextField
                             copyValue
                             text={account}
@@ -100,16 +100,16 @@ export const FeeCard = memo((props: FeeCardProps) => {
                         />
 
                         {description && (
-                            <div className="flex flex-col col-span-1 sm:col-span-2">
+                            <div className="col-span-1 flex flex-col sm:col-span-2">
                                 <Label
-                                    className="!text-neutral-60 text-note-1 dark:!text-neutral-60"
+                                    className="text-note-1 !text-neutral-60 dark:!text-neutral-60"
                                     variant="note-1"
                                     htmlFor="">
                                     {translate("resources.direction.fees.descr")}
                                 </Label>
                                 <Textarea
                                     readOnly
-                                    className="dark:bg-muted !text-body resize-none"
+                                    className="resize-none !text-body dark:bg-muted"
                                     value={description}
                                 />
                             </div>
@@ -119,8 +119,8 @@ export const FeeCard = memo((props: FeeCardProps) => {
                         <Button
                             onClick={handleDeleteClicked}
                             variant="text_btn"
-                            className="top-5 right-3 absolute bg-transparent p-0 w-6 h-6">
-                            <Trash2 className="w-4 h-4 text-red-40 hover:text-red-30 active:text-red-50" />
+                            className="absolute right-3 top-5 h-6 w-6 bg-transparent p-0">
+                            <Trash2 className="h-4 w-4 text-red-40 hover:text-red-30 active:text-red-50" />
                         </Button>
                     )}
                 </div>
@@ -128,7 +128,7 @@ export const FeeCard = memo((props: FeeCardProps) => {
 
             <div className="">
                 <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-                    <DialogContent className="!z-[200] bg-muted rounded-16 !w-[251px] h-auto max-h-56 xl:max-h-none overflow-hidden">
+                    <DialogContent className="!z-[200] h-auto max-h-56 !w-[251px] overflow-hidden rounded-16 bg-muted xl:max-h-none">
                         <DialogHeader>
                             <DialogTitle className="text-center">
                                 {translate("resources.direction.fees.deleteFee")}
@@ -136,7 +136,7 @@ export const FeeCard = memo((props: FeeCardProps) => {
                             <DialogDescription></DialogDescription>
                         </DialogHeader>
                         <DialogFooter>
-                            <div className="flex justify-around w-full">
+                            <div className="flex w-full justify-around">
                                 <Button
                                     onClick={() => {
                                         handleDelete();

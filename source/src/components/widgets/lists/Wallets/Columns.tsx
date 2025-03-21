@@ -32,7 +32,7 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
                         lineClamp
                         linesCount={1}
                         minWidth="50px"
-                        className="!text-green-50 dark:!text-green-40 hover:!text-green-40 dark:hover:!text-green-50 !cursor-pointer transition-all duration-300"
+                        className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
                         onClick={() => openSheet("wallet", { id: row.original.id })}
                     />
                 );
@@ -51,7 +51,7 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
                         lineClamp
                         linesCount={1}
                         minWidth="50px"
-                        className="!text-green-50 dark:!text-green-40 hover:!text-green-40 dark:hover:!text-green-50 !cursor-pointer transition-all duration-300"
+                        className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
                         onClick={() => openSheet("account", { id: row.original.account_id })}
                     />
                 );
@@ -63,7 +63,7 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
             header: translate("resources.wallet.manage.fields.balance"),
             cell: ({ row }) => {
                 return balances.get(row.original.id) ? (
-                    <div className="flex flex-col items-left justify-center">
+                    <div className="items-left flex flex-col justify-center">
                         {balances.get(row.original.id)?.usdt_amount != 0 && (
                             <TextField text={`${balances.get(row.original.id)?.usdt_amount} USDT`} />
                         )}
@@ -76,7 +76,7 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
                     </div>
                 ) : (
                     <div className="flex flex-col items-center justify-center">
-                        <LoadingBalance className="w-[15px] h-[15px] overflow-hidden" />
+                        <LoadingBalance className="h-[15px] w-[15px] overflow-hidden" />
                     </div>
                 );
             }

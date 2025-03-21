@@ -308,7 +308,7 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                         />
                     </div>
 
-                    <div className="w-full mt-4 md:mt-0 md:w-2/5 p-2 ml-auto flex flex-col gap-3 sm:gap-0 sm:flex-row space-x-0 sm:space-x-2">
+                    <div className="ml-auto mt-4 flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:mt-0 md:w-2/5">
                         <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
                             {translate("app.ui.actions.save")}
                         </Button>

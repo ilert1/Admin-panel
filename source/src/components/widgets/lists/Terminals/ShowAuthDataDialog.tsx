@@ -24,12 +24,12 @@ export const ShowAuthDataDialog = ({ open, authData, onOpenChange }: ShowAuthDat
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-[478px] max-h-[340px] overflow-auto bg-muted">
+            <DialogContent className="max-h-[340px] max-w-[478px] overflow-auto bg-muted">
                 <DialogHeader>
                     <DialogTitle className="text-center" />
                     <DialogDescription />
 
-                    <div className="w-full flex flex-col items-center justify-end ">
+                    <div className="flex w-full flex-col items-center justify-end">
                         <span className="self-start text-note-1">{translate("resources.terminals.fields.auth")}</span>
 
                         <MonacoEditor
@@ -44,7 +44,7 @@ export const ShowAuthDataDialog = ({ open, authData, onOpenChange }: ShowAuthDat
                 </DialogHeader>
 
                 <DialogFooter>
-                    <div className="flex justify-end w-full pr-1">
+                    <div className="flex w-full justify-end pr-1">
                         <Button
                             variant={"outline_gray"}
                             onClick={() => {

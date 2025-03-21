@@ -6,7 +6,7 @@ interface RuleProps {
 export const Rule = (props: RuleProps) => {
     const { text, isError } = props;
     return (
-        <div className="flex gap-[4px] items-center">
+        <div className="flex items-center gap-[4px]">
             {isError === undefined ? (
                 <CircleAlert className="h-[18px] w-[18px] stroke-yellow-40" />
             ) : isError ? (

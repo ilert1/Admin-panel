@@ -31,41 +31,41 @@ export const PayOutTgBanner = ({ url, onClose }: PayOutTgBannerProps) => {
 
     return (
         <>
-            <div className="relative p-[30px] flex flex-col rounded-16 bg-neutral-0 dark:bg-neutral-100 max-w-[700px] w-full md:mx-4">
-                <h1 className="mb-2 text-xl text-center text-neutral-80 dark:text-neutral-30">
+            <div className="relative flex w-full max-w-[700px] flex-col rounded-16 bg-neutral-0 p-[30px] dark:bg-neutral-100 md:mx-4">
+                <h1 className="mb-2 text-center text-xl text-neutral-80 dark:text-neutral-30">
                     {translate("app.widgets.forms.payoutBanner.title")}
                 </h1>
-                <p className="m-0 text-base text-center text-neutral-80 dark:text-neutral-30">
+                <p className="m-0 text-center text-base text-neutral-80 dark:text-neutral-30">
                     {translate("app.widgets.forms.payoutBanner.subtitle")}
                 </p>
-                <p className="mb-6 text-base text-center text-neutral-80 dark:text-neutral-30">
+                <p className="mb-6 text-center text-base text-neutral-80 dark:text-neutral-30">
                     {translate("app.widgets.forms.payoutBanner.description")}
                 </p>
 
                 <Button
                     variant={"text_btn"}
-                    className="mb-6 cursor-pointer bg-muted p-4 flex flex-row justify-start gap-2 rounded-8 text-green-50 h-auto"
+                    className="mb-6 flex h-auto cursor-pointer flex-row justify-start gap-2 rounded-8 bg-muted p-4 text-green-50"
                     onClick={copy}>
                     <Copy className="h-4 w-4 cursor-pointer" />
-                    <span className="text-base truncate">{url}</span>
+                    <span className="truncate text-base">{url}</span>
                 </Button>
 
                 <Button
                     onClick={() => setShowCancelDialog(true)}
                     variant={"outline"}
-                    className="self-start flex flex-1 justify-between items-center gap-3 px-4 py-2 hover:bg-neutral-0 hover:border-green-40 hover:text-green-40 dark:hover:bg-neutral-100 dark:hover:border-green-40">
+                    className="flex flex-1 items-center justify-between gap-3 self-start px-4 py-2 hover:border-green-40 hover:bg-neutral-0 hover:text-green-40 dark:hover:border-green-40 dark:hover:bg-neutral-100">
                     {translate("app.ui.actions.close")}
                 </Button>
 
                 <img
                     src="/BlowFishPayOut.svg"
                     alt="Decorative"
-                    className="absolute rounded-8 bottom-0 right-0 pointer-events-none"
+                    className="pointer-events-none absolute bottom-0 right-0 rounded-8"
                 />
             </div>
 
             <Dialog open={showCancelDialog} onOpenChange={setShowCancelDialog}>
-                <DialogContent className="max-w-[340px] px-[24px] bg-muted">
+                <DialogContent className="max-w-[340px] bg-muted px-[24px]">
                     <DialogHeader>
                         <DialogTitle className="text-center">
                             {translate("app.widgets.forms.payoutBanner.closeTitle")}
@@ -73,7 +73,7 @@ export const PayOutTgBanner = ({ url, onClose }: PayOutTgBannerProps) => {
                         <DialogDescription />
                     </DialogHeader>
                     <DialogFooter>
-                        <div className="flex justify-between gap-[35px] w-full">
+                        <div className="flex w-full justify-between gap-[35px]">
                             <Button onClick={() => onClose()}>{translate("app.ui.actions.close")}</Button>
                             <Button
                                 variant="outline_gray"

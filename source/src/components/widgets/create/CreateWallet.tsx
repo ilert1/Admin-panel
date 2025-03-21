@@ -142,8 +142,8 @@ export const CreateWallet = (props: CreateWalletProps) => {
         <>
             {!isMerchant ? (
                 <FormProvider {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full">
-                        <div className="grid md:grid-cols-2 gap-4">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col gap-6">
+                        <div className="grid gap-4 md:grid-cols-2">
                             <FormField
                                 control={form.control}
                                 name="type"
@@ -213,7 +213,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                                 resource="accounts"
                                             />
                                         </FormControl>
-                                        <FormMessage className="!text-note-1 inline text-red-40" />
+                                        <FormMessage className="inline !text-note-1 text-red-40" />
                                     </FormItem>
                                 )}
                             />
@@ -302,7 +302,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 rounded resize-none overflow-auto dark:bg-muted text-title-1 outline-none"
+                                                className="h-24 w-full resize-none overflow-auto rounded text-title-1 outline-none dark:bg-muted"
                                             />
                                             {/* border border-neutral-60 */}
                                         </FormControl>
@@ -311,7 +311,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                             />
                         </div>
 
-                        <div className="flex flex-col sm:self-end sm:flex-row sm:items-center gap-4">
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:self-end">
                             <Button type="submit" variant="default">
                                 {translate("app.ui.actions.save")}
                             </Button>
@@ -319,7 +319,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 onClick={() => onOpenChange(false)}
                                 variant="outline_gray"
                                 type="button"
-                                className="border border-neutral-50 rounded-4 hover:border-neutral-100">
+                                className="rounded-4 border border-neutral-50 hover:border-neutral-100">
                                 {translate("app.ui.actions.cancel")}
                             </Button>
                         </div>
@@ -327,7 +327,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                 </FormProvider>
             ) : (
                 <FormProvider {...merchantForm}>
-                    <form onSubmit={merchantForm.handleSubmit(onSubmitMerchant)} className="flex flex-col gap-6 w-full">
+                    <form onSubmit={merchantForm.handleSubmit(onSubmitMerchant)} className="flex w-full flex-col gap-6">
                         <div className="flex flex-wrap">
                             <FormField
                                 control={merchantForm.control}
@@ -359,7 +359,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                                 {...field}
                                                 value={field.value ?? ""}
                                                 placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                className="w-full h-24 border rounded resize-none overflow-auto text-neutral-80 dark:text-white text-title-1 outline-none dark:bg-muted border-neutral-40"
+                                                className="h-24 w-full resize-none overflow-auto rounded border border-neutral-40 text-title-1 text-neutral-80 outline-none dark:bg-muted dark:text-white"
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -367,7 +367,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                             />
                         </div>
 
-                        <div className="flex flex-col sm:self-end sm:flex-row sm:items-center gap-4">
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:self-end">
                             <Button type="submit" variant="default" className="w-full sm:w-auto">
                                 {translate("app.ui.actions.save")}
                             </Button>
@@ -375,7 +375,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                 onClick={() => onOpenChange(false)}
                                 variant="outline_gray"
                                 type="button"
-                                className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full sm:w-auto">
+                                className="w-full rounded-4 border border-neutral-50 hover:border-neutral-100 sm:w-auto">
                                 {translate("app.ui.actions.cancel")}
                             </Button>
                         </div>

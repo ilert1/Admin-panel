@@ -37,24 +37,24 @@ const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableE
         }, [isScrollableLeft, isScrollableRight]);
 
         return (
-            <div className={cn("relative flex-shrink-1 mb-2", className)}>
-                <div ref={tableRef} className="relative w-full h-full overflow-auto">
+            <div className={cn("flex-shrink-1 relative mb-2", className)}>
+                <div ref={tableRef} className="relative h-full w-full overflow-auto">
                     <table
                         ref={ref}
-                        className={cn("w-full h-full caption-bottom text-sm border-collapse")}
+                        className={cn("h-full w-full caption-bottom border-collapse text-sm")}
                         {...props}
                     />
                 </div>
                 {/* Right shadow */}
                 <div
-                    className={`pointer-events-none absolute top-0 -right-[1px] h-full w-6 sm:w-12 bg-gradient-to-l from-white dark:from-black to-transparent z-20 transition-opacity duration-300 ${
+                    className={`pointer-events-none absolute -right-[1px] top-0 z-20 h-full w-6 bg-gradient-to-l from-white to-transparent transition-opacity duration-300 dark:from-black sm:w-12 ${
                         isScrollableRight ? "opacity-50" : "opacity-0"
                     }`}
                 />
 
                 {/* Left shadow */}
                 <div
-                    className={`pointer-events-none absolute top-0 -left-[1px] h-full w-6 sm:w-12 bg-gradient-to-r from-white dark:from-black to-transparent z-20 transition-opacity duration-300 ${
+                    className={`pointer-events-none absolute -left-[1px] top-0 z-20 h-full w-6 bg-gradient-to-r from-white to-transparent transition-opacity duration-300 dark:from-black sm:w-12 ${
                         isScrollableLeft ? "opacity-50" : "opacity-0"
                     }`}
                 />
@@ -66,7 +66,7 @@ Table.displayName = "Table";
 
 const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
     ({ className, ...props }, ref) => (
-        <thead ref={ref} className={cn("[&_tr]:border-b sticky -top-[1px] z-10", className)} {...props} />
+        <thead ref={ref} className={cn("sticky -top-[1px] z-10 [&_tr]:border-b", className)} {...props} />
     )
 );
 TableHeader.displayName = "TableHeader";
@@ -93,7 +93,7 @@ const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTML
     ({ className, ...props }, ref) => (
         <tr
             ref={ref}
-            className={cn("border-b transition-colors  data-[state=selected]:bg-muted", className)}
+            className={cn("border-b transition-colors data-[state=selected]:bg-muted", className)}
             {...props}
         />
     )

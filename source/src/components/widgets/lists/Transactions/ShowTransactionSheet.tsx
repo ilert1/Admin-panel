@@ -17,12 +17,12 @@ export const ShowTransactionSheet: React.FC<ShowTransactionSheetProps> = ({ id, 
     return (
         <Sheet onOpenChange={onOpenChange} open={open}>
             <SheetContent
-                className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col h-full border-0"
+                className="top-[84px] m-0 flex h-full !max-h-[calc(100dvh-84px)] w-full flex-col border-0 p-0 sm:max-w-[1015px]"
                 tabIndex={-1}
                 close={false}>
-                <SheetHeader className="p-4 md:p-[42px] pb-1 md:pb-[24px] flex-shrink-0">
+                <SheetHeader className="flex-shrink-0 p-4 pb-1 md:p-[42px] md:pb-[24px]">
                     <div>
-                        <div className="flex justify-between items-center pb-2">
+                        <div className="flex items-center justify-between pb-2">
                             <SheetTitle className="!text-display-1">
                                 {translate("app.ui.transactionHistory")}
                             </SheetTitle>

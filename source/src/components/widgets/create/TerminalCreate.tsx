@@ -89,20 +89,20 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
                             control={form.control}
                             name="description"
                             render={({ field }) => (
-                                <FormItem className="w-full sm:w-full p-2">
+                                <FormItem className="w-full p-2 sm:w-full">
                                     <Label className="">{translate("resources.terminals.fields.description")}</Label>
                                     <FormControl>
                                         <Textarea
                                             {...field}
                                             value={field.value ?? ""}
                                             placeholder={translate("resources.wallet.manage.fields.descr")}
-                                            className="w-full h-24 p-2 rounded resize-none overflow-auto dark:bg-muted text-title-1 outline-none !mt-0"
+                                            className="!mt-0 h-24 w-full resize-none overflow-auto rounded p-2 text-title-1 outline-none dark:bg-muted"
                                         />
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
-                        <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col sm:flex-row space-x-0 sm:space-x-2 mt-6">
+                        <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                             <Button
                                 type="submit"
                                 variant="default"
@@ -113,7 +113,7 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
                             <Button
                                 type="button"
                                 variant="outline_gray"
-                                className="flex-1 mt-4 sm:mt-0 w-full sm:w-1/2"
+                                className="mt-4 w-full flex-1 sm:mt-0 sm:w-1/2"
                                 onClick={() => {
                                     form.reset();
                                     onClose();

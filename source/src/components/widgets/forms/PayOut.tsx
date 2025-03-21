@@ -95,7 +95,7 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div className="flex-1">
                         <FormField
                             disabled={loading}

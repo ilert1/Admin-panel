@@ -163,17 +163,17 @@ export function DateRangePicker({
     return (
         <Popover open={openPopover} onOpenChange={setOpenPopover}>
             <PopoverTrigger asChild>
-                <div className="flex flex-col items-stretch flex-wrap gap-2 sm:gap-3">
-                    <div className="relative flex flex-col gap-[4px] flex-1">
+                <div className="flex flex-col flex-wrap items-stretch gap-2 sm:gap-3">
+                    <div className="relative flex flex-1 flex-col gap-[4px]">
                         {title && <span className="text-neutral-60 dark:text-neutral-0">{title}</span>}
                         <Button
                             variant={"outline"}
                             className={cn(
-                                "flex flex-1 justify-between items-center gap-3 px-3 py-2 min-w-56",
-                                "border-neutral-40 focus:border-green-60 active:border-green-60 text-neutral-80 bg-neutral-0",
-                                "dark:border-green-50 dark:focus:border-green-50 dark:active:border-green-50 dark:text-neutral-0 dark:bg-neutral-100",
-                                "hover:bg-neutral-0 hover:border-green-40",
-                                "dark:hover:bg-neutral-100 dark:hover:border-green-40"
+                                "flex min-w-56 flex-1 items-center justify-between gap-3 px-3 py-2",
+                                "border-neutral-40 bg-neutral-0 text-neutral-80 focus:border-green-60 active:border-green-60",
+                                "dark:border-green-50 dark:bg-neutral-100 dark:text-neutral-0 dark:focus:border-green-50 dark:active:border-green-50",
+                                "hover:border-green-40 hover:bg-neutral-0",
+                                "dark:hover:border-green-40 dark:hover:bg-neutral-100"
                             )}>
                             {dateRange?.from ? (
                                 dateRange.to &&
@@ -198,18 +198,18 @@ export function DateRangePicker({
                                         onChange(undefined);
                                     }}
                                     tabIndex={-1}
-                                    className={"flex items-center justify-centertext-neutral-60 hover:text-neutral-80"}>
-                                    <X className="w-4 h-4" />
+                                    className={"justify-centertext-neutral-60 flex items-center hover:text-neutral-80"}>
+                                    <X className="h-4 w-4" />
                                 </span>
                             ) : (
-                                <CalendarIcon className="h-4 w-4 text-green-50 mb-0.5" />
+                                <CalendarIcon className="mb-0.5 h-4 w-4 text-green-50" />
                             )}
                         </Button>
                     </div>
                 </div>
             </PopoverTrigger>
             <PopoverContent
-                className="w-auto p-0 rounded-4 bg-neutral-0 dark:bg-neutral-100 dark:border-green-50 border-green-60 border shadow select-none"
+                className="w-auto select-none rounded-4 border border-green-60 bg-neutral-0 p-0 shadow dark:border-green-50 dark:bg-neutral-100"
                 align="center">
                 <Calendar
                     timeZone="+00:00"
@@ -224,7 +224,7 @@ export function DateRangePicker({
                 />
 
                 <div className="px-4 pb-2 text-sm text-neutral-80 dark:text-neutral-40">
-                    <div className="flex items-center gap-2 py-2 mb-1">
+                    <div className="mb-1 flex items-center gap-2 py-2">
                         <Checkbox checked={timeShow} onCheckedChange={showTimeHandler} id="showTime" />
                         <label
                             htmlFor="showTime"
@@ -238,11 +238,11 @@ export function DateRangePicker({
                             {dateRange?.from?.toLocaleDateString(locale) !==
                                 dateRange?.to?.toLocaleDateString(locale) && (
                                 <div className="flex gap-4">
-                                    <span className="block mb-1 text-xs flex-1">
+                                    <span className="mb-1 block flex-1 text-xs">
                                         {dateRange?.from?.toLocaleDateString(locale)}
                                     </span>
 
-                                    <span className="block mb-1 text-xs flex-1">
+                                    <span className="mb-1 block flex-1 text-xs">
                                         {dateRange?.to?.toLocaleDateString(locale)}
                                     </span>
                                 </div>
@@ -260,7 +260,7 @@ export function DateRangePicker({
                                     setTime={updateStartTime}
                                 />
 
-                                <span className="py-2 block">-</span>
+                                <span className="block py-2">-</span>
 
                                 <TimeInput
                                     error={
@@ -276,10 +276,10 @@ export function DateRangePicker({
 
                             {startTime === endTime && dateRange?.from?.getDate() === dateRange?.to?.getDate() && (
                                 <div>
-                                    <p className="text-xs text-center pt-1 text-red-50">
+                                    <p className="pt-1 text-center text-xs text-red-50">
                                         {translate("app.ui.timePickerErrorTitle")}
                                     </p>
-                                    <p className="text-xs text-center text-red-50">
+                                    <p className="text-center text-xs text-red-50">
                                         ({translate("app.ui.timePickerErrorDescription")})
                                     </p>
                                 </div>

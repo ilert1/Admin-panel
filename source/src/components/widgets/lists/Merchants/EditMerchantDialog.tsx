@@ -21,7 +21,7 @@ export const EditMerchantDialog = ({ id, open, onOpenChange }: EditMerchantDialo
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
                 disableOutsideClick
-                className="bg-muted max-w-full sm:w-[716px]  sm:max-h-[100dvh] !overflow-y-auto">
+                className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
                 <DialogHeader>
                     <DialogTitle className="mb-4 text-center">
                         {translate("resources.merchant.editingMerchant")}
