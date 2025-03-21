@@ -174,24 +174,29 @@ export const CryptoTransferForm = (props: {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [shouldTrigger]);
 
-    useQuery({
-        queryKey: ["withdrawList"],
-        queryFn: ({ signal }) =>
-            dataProvider
-                .getList("withdraw", {
-                    pagination: { page: 1, perPage: 1 },
-                    sort: { field: "id", order: "ASC" },
-                    filter: {},
-                    signal
-                })
-                .then(({ data }) => {
-                    const isFound = checkAddress(data[0]?.destination?.requisites[0]?.blockchain_address);
-                    if (isFound) {
-                        setLastUsedWallet(data[0]?.destination?.requisites[0]?.blockchain_address);
-                    }
-                }),
+    const { data: withdrawList } = useQuery({
+        queryKey: ["withdrawList", "CryptoTransferForm"],
+        queryFn: async ({ signal }) =>
+            await dataProvider.getList<Transaction.Transaction>("withdraw", {
+                pagination: { page: 1, perPage: 1 },
+                sort: { field: "id", order: "ASC" },
+                filter: {},
+                signal
+            }),
+        select: data => data?.data,
         enabled: props.transferState === "process" && walletsDataFetched
     });
+
+    useEffect(() => {
+        if (withdrawList && withdrawList.length > 0) {
+            const isFound = checkAddress(withdrawList[0]?.destination?.requisites[0]?.blockchain_address);
+
+            if (isFound) {
+                setLastUsedWallet(withdrawList[0]?.destination?.requisites[0]?.blockchain_address);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [withdrawList]);
 
     if (props.loading || !props.balance) {
         return (
