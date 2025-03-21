@@ -11,9 +11,9 @@ export const AccountList = () => {
 
     const translate = useTranslate();
 
-    const { columns, showEditDialog, setShowEditDialog, showAccountId } = useGetAccountsColumns();
+    const { columns, showEditDialog, setShowEditDialog, showAccountId, isLoadingCurrencies } = useGetAccountsColumns();
 
-    if (listContext.isLoading || !listContext.data) {
+    if (listContext.isLoading || !listContext.data || isLoadingCurrencies) {
         return <Loading />;
     } else {
         return (

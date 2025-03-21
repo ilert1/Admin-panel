@@ -3,9 +3,11 @@ import { DataTable } from "@/components/widgets/shared";
 import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useGetAccountShowColumns } from "./Columns";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { ShowTransactionSheet } from "../../lists/Transactions/ShowTransactionSheet";
 import { uniqueId } from "lodash";
-
+import { useBalances } from "@/hooks/useBalances";
 interface AccountShowProps {
     id: string;
 }
@@ -15,8 +17,9 @@ export const AccountShow = ({ id }: AccountShowProps) => {
 
     const context = useShowController({ resource: "accounts", id });
 
-    const { historyColumns } = useGetAccountShowColumns();
-    const [balances, setBalances] = useState<string[]>([]);
+    const { balances } = useBalances(context.isLoading, context.record.amounts);
+
+    const { historyColumns, chosenId, transcationInfoOpen, setTransactionInfoOpen } = useGetAccountShowColumns();
 
     const listContext = useListController<AccountHistory>({
         resource: "operations",
@@ -25,26 +28,10 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     });
 
     useEffect(() => {
-        if (!context.isLoading && context.record.amounts[0]) {
-            setBalances(
-                context.record.amounts.map(
-                    (el: { value: { quantity: number; accuracy: number }; currency: string }) => {
-                        return (
-                            String(el.value.quantity == 0 ? "0" : el.value.quantity / el.value.accuracy).replace(
-                                /\B(?=(\d{3})+(?!\d))/g,
-                                " "
-                            ) +
-                            " " +
-                            el.currency
-                        );
-                    }
-                )
-            );
-        } else {
-            setBalances(["0"]);
+        if (chosenId) {
+            setTransactionInfoOpen(true);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [context.isLoading]);
+    }, [chosenId, setTransactionInfoOpen]);
 
     if (context.isLoading || !context.record || listContext.isLoading || !listContext.data) {
         return <LoadingBlock />;
@@ -71,6 +58,8 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                         ))}
                 </div>
             </div>
+
+            <ShowTransactionSheet id={chosenId} open={transcationInfoOpen} onOpenChange={setTransactionInfoOpen} />
 
             <ListContextProvider value={{ ...listContext }}>
                 <DataTable columns={historyColumns} />
