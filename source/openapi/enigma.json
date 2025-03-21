@@ -72,22 +72,22 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
-                            "title": "Field for search",
-                            "description": "Name of the field to perform the search on"
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "title": "Search fields",
+                            "description": "List of fields to perform the search on"
                         },
-                        "description": "Name of the field to perform the search on"
+                        "description": "List of fields to perform the search on"
                     },
                     {
                         "name": "searchString",
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
-                            "title": "Search string",
-                            "description": "Value to search for within the specified field"
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "title": "Search strings",
+                            "description": "List of values to search for in corresponding fields"
                         },
-                        "description": "Value to search for within the specified field"
+                        "description": "List of values to search for in corresponding fields"
                     },
                     {
                         "name": "searchIgnoreCase",
@@ -326,22 +326,22 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
-                            "title": "Field for search",
-                            "description": "Name of the field to perform the search on"
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "title": "Search fields",
+                            "description": "List of fields to perform the search on"
                         },
-                        "description": "Name of the field to perform the search on"
+                        "description": "List of fields to perform the search on"
                     },
                     {
                         "name": "searchString",
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
-                            "title": "Search string",
-                            "description": "Value to search for within the specified field"
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "title": "Search strings",
+                            "description": "List of values to search for in corresponding fields"
                         },
-                        "description": "Value to search for within the specified field"
+                        "description": "List of values to search for in corresponding fields"
                     },
                     {
                         "name": "searchIgnoreCase",
@@ -720,22 +720,22 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
-                            "title": "Field for search",
-                            "description": "Name of the field to perform the search on"
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "title": "Search fields",
+                            "description": "List of fields to perform the search on"
                         },
-                        "description": "Name of the field to perform the search on"
+                        "description": "List of fields to perform the search on"
                     },
                     {
                         "name": "searchString",
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
-                            "title": "Search string",
-                            "description": "Value to search for within the specified field"
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "title": "Search strings",
+                            "description": "List of values to search for in corresponding fields"
                         },
-                        "description": "Value to search for within the specified field"
+                        "description": "List of values to search for in corresponding fields"
                     },
                     {
                         "name": "searchIgnoreCase",
@@ -1052,22 +1052,22 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
-                            "title": "Field for search",
-                            "description": "Name of the field to perform the search on"
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "title": "Search fields",
+                            "description": "List of fields to perform the search on"
                         },
-                        "description": "Name of the field to perform the search on"
+                        "description": "List of fields to perform the search on"
                     },
                     {
                         "name": "searchString",
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
-                            "title": "Search string",
-                            "description": "Value to search for within the specified field"
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "title": "Search strings",
+                            "description": "List of values to search for in corresponding fields"
                         },
-                        "description": "Value to search for within the specified field"
+                        "description": "List of values to search for in corresponding fields"
                     },
                     {
                         "name": "searchIgnoreCase",
@@ -1699,22 +1699,22 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
-                            "title": "Field for search",
-                            "description": "Name of the field to perform the search on"
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "title": "Search fields",
+                            "description": "List of fields to perform the search on"
                         },
-                        "description": "Name of the field to perform the search on"
+                        "description": "List of fields to perform the search on"
                     },
                     {
                         "name": "searchString",
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
-                            "title": "Search string",
-                            "description": "Value to search for within the specified field"
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "title": "Search strings",
+                            "description": "List of values to search for in corresponding fields"
                         },
-                        "description": "Value to search for within the specified field"
+                        "description": "List of values to search for in corresponding fields"
                     },
                     {
                         "name": "searchIgnoreCase",
@@ -1857,22 +1857,22 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
-                            "title": "Field for search",
-                            "description": "Name of the field to perform the search on"
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "title": "Search fields",
+                            "description": "List of fields to perform the search on"
                         },
-                        "description": "Name of the field to perform the search on"
+                        "description": "List of fields to perform the search on"
                     },
                     {
                         "name": "searchString",
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
-                            "title": "Search string",
-                            "description": "Value to search for within the specified field"
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "title": "Search strings",
+                            "description": "List of values to search for in corresponding fields"
                         },
-                        "description": "Value to search for within the specified field"
+                        "description": "List of values to search for in corresponding fields"
                     },
                     {
                         "name": "searchIgnoreCase",
@@ -2030,6 +2030,128 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_NoneType_" } }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                        }
+                    }
+                }
+            }
+        },
+        "/enigma/v1/direction/batch": {
+            "patch": {
+                "tags": ["Direction"],
+                "summary": "Bulk update directions",
+                "description": "Updates multiple directions in one request using bulk update.",
+                "operationId": "DirectionEndpoints_bulk_update_directions_enigma_v1_direction_batch_patch",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "items": { "$ref": "#/components/schemas/DirectionUpdateBulkItem" },
+                                "type": "array",
+                                "title": "Updates"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__" }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                        }
+                    }
+                }
+            }
+        },
+        "/enigma/v1/direction/{direction_id}/state": {
+            "patch": {
+                "tags": ["Direction"],
+                "summary": "Update state for a direction",
+                "description": "Updates the state (active/inactive) for the specified direction.",
+                "operationId": "DirectionEndpoints_update_state_enigma_v1_direction__direction_id__state_patch",
+                "parameters": [
+                    {
+                        "name": "direction_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier for the direction.",
+                            "title": "Direction Id"
+                        },
+                        "description": "The unique identifier for the direction.",
+                        "example": "123e4567-e89b-12d3-a456-426614174001"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": { "schema": { "$ref": "#/components/schemas/DirectionUpdateState" } }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                        }
+                    }
+                }
+            }
+        },
+        "/enigma/v1/direction/{direction_id}/type": {
+            "patch": {
+                "tags": ["Direction"],
+                "summary": "Update type for a direction",
+                "description": "Updates the type ('universal', 'deposit', 'withdraw') for the specified direction.",
+                "operationId": "DirectionEndpoints_update_type_enigma_v1_direction__direction_id__type_patch",
+                "parameters": [
+                    {
+                        "name": "direction_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier for the direction.",
+                            "title": "Direction Id"
+                        },
+                        "description": "The unique identifier for the direction.",
+                        "example": "123e4567-e89b-12d3-a456-426614174001"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": { "schema": { "$ref": "#/components/schemas/DirectionUpdateType" } }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
                         }
                     },
                     "422": {
@@ -2794,6 +2916,13 @@
                         "title": "Is Coin",
                         "description": "Indicates if the currency is a coin",
                         "examples": [false]
+                    },
+                    "accuracy": {
+                        "type": "integer",
+                        "title": "Accuracy",
+                        "description": "Accuracy of the currency (number of decimal places)",
+                        "default": 2,
+                        "examples": [2]
                     }
                 },
                 "type": "object",
@@ -2827,6 +2956,15 @@
                         "description": "Indicates if the currency is a coin",
                         "default": false,
                         "examples": [false]
+                    },
+                    "accuracy": {
+                        "type": "integer",
+                        "maximum": 16.0,
+                        "minimum": 1.0,
+                        "title": "Accuracy",
+                        "description": "Accuracy of the currency (number of decimal places)",
+                        "default": 2,
+                        "examples": [2]
                     }
                 },
                 "type": "object",
@@ -2853,6 +2991,12 @@
                         "title": "Is Coin",
                         "description": "Indicates if the currency is a coin",
                         "examples": [false]
+                    },
+                    "accuracy": {
+                        "anyOf": [{ "type": "integer", "maximum": 16.0, "minimum": 1.0 }, { "type": "null" }],
+                        "title": "Accuracy",
+                        "description": "Accuracy of the currency (number of decimal places)",
+                        "examples": [2]
                     }
                 },
                 "type": "object",
@@ -2879,11 +3023,17 @@
                         "description": "Account identifier associated with the direction",
                         "examples": ["acc_123"]
                     },
-                    "active": {
-                        "type": "boolean",
-                        "title": "Active",
-                        "description": "Indicates if the direction is active",
-                        "examples": [true]
+                    "state": {
+                        "$ref": "#/components/schemas/DirectionState",
+                        "description": "State of the direction; can be 'active' or 'inactive'",
+                        "default": "active",
+                        "examples": ["active"]
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/DirectionType",
+                        "description": "Type of the direction; can be 'universal', 'deposit', or 'withdraw'",
+                        "default": "universal",
+                        "examples": ["universal"]
                     },
                     "description": {
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
@@ -2936,7 +3086,6 @@
                 "required": [
                     "id",
                     "name",
-                    "active",
                     "weight",
                     "merchant",
                     "provider",
@@ -2955,12 +3104,17 @@
                         "description": "Name of the direction",
                         "examples": ["Direction A"]
                     },
-                    "active": {
-                        "type": "boolean",
-                        "title": "Active",
-                        "description": "Indicates if the direction is active",
-                        "default": true,
-                        "examples": [true]
+                    "state": {
+                        "$ref": "#/components/schemas/DirectionState",
+                        "description": "State of the direction; defaults to 'active'",
+                        "default": "active",
+                        "examples": ["active"]
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/DirectionType",
+                        "description": "Type of the direction; defaults to 'universal'",
+                        "default": "universal",
+                        "examples": ["universal"]
                     },
                     "description": {
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
@@ -3015,8 +3169,14 @@
                     }
                 },
                 "type": "object",
-                "required": ["name", "src_currency", "dst_currency", "merchant", "provider", "terminal"],
+                "required": ["name", "src_currency", "dst_currency", "merchant", "provider"],
                 "title": "DirectionCreate"
+            },
+            "DirectionState": { "type": "string", "enum": ["active", "inactive"], "title": "DirectionState" },
+            "DirectionType": {
+                "type": "string",
+                "enum": ["universal", "deposit", "withdraw"],
+                "title": "DirectionType"
             },
             "DirectionUpdate": {
                 "properties": {
@@ -3026,11 +3186,15 @@
                         "description": "Name of the direction",
                         "examples": ["Direction A"]
                     },
-                    "active": {
-                        "anyOf": [{ "type": "boolean" }, { "type": "null" }],
-                        "title": "Active",
-                        "description": "Indicates if the direction is active",
-                        "examples": [true]
+                    "state": {
+                        "anyOf": [{ "$ref": "#/components/schemas/DirectionState" }, { "type": "null" }],
+                        "description": "State of the direction; can be 'active' or 'inactive'",
+                        "examples": ["active"]
+                    },
+                    "type": {
+                        "anyOf": [{ "$ref": "#/components/schemas/DirectionType" }, { "type": "null" }],
+                        "description": "Type of the direction; can be 'universal', 'deposit', or 'withdraw'",
+                        "examples": ["universal"]
                     },
                     "description": {
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
@@ -3089,6 +3253,88 @@
                 "type": "object",
                 "title": "DirectionUpdate"
             },
+            "DirectionUpdateBulkItem": {
+                "properties": {
+                    "name": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Name",
+                        "description": "Name of the direction",
+                        "examples": ["Direction A"]
+                    },
+                    "state": {
+                        "anyOf": [{ "$ref": "#/components/schemas/DirectionState" }, { "type": "null" }],
+                        "description": "State of the direction; can be 'active' or 'inactive'",
+                        "examples": ["active"]
+                    },
+                    "type": {
+                        "anyOf": [{ "$ref": "#/components/schemas/DirectionType" }, { "type": "null" }],
+                        "description": "Type of the direction; can be 'universal', 'deposit', or 'withdraw'",
+                        "examples": ["universal"]
+                    },
+                    "description": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Description",
+                        "description": "Description of the direction",
+                        "examples": ["This direction is used for currency conversion"]
+                    },
+                    "src_currency": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Src Currency",
+                        "description": "Source currency code",
+                        "examples": ["USD"]
+                    },
+                    "dst_currency": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Dst Currency",
+                        "description": "Destination currency code",
+                        "examples": ["EUR"]
+                    },
+                    "weight": {
+                        "anyOf": [{ "type": "integer" }, { "type": "null" }],
+                        "title": "Weight",
+                        "description": "Weight of the direction",
+                        "examples": [10]
+                    },
+                    "account_id": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Account Id",
+                        "description": "Account identifier associated with the direction",
+                        "examples": ["acc_123"]
+                    },
+                    "merchant": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Merchant",
+                        "description": "Merchant ID associated with the direction",
+                        "examples": ["merchant_001"]
+                    },
+                    "provider": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Provider",
+                        "description": "Provider name associated with the direction",
+                        "examples": ["ProviderA"]
+                    },
+                    "terminal": {
+                        "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }],
+                        "title": "Terminal",
+                        "description": "Terminal ID associated with the direction",
+                        "examples": ["123e4567-e89b-12d3-a456-426614174000"]
+                    },
+                    "auth_data": {
+                        "anyOf": [{ "type": "object" }, { "type": "null" }],
+                        "title": "Auth Data",
+                        "description": "Deprecated. Authentication data for the direction"
+                    },
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id",
+                        "description": "Unique identifier of the direction to update"
+                    }
+                },
+                "type": "object",
+                "required": ["id"],
+                "title": "DirectionUpdateBulkItem"
+            },
             "DirectionUpdateLimits": {
                 "properties": {
                     "limits": {
@@ -3099,6 +3345,30 @@
                 "type": "object",
                 "required": ["limits"],
                 "title": "DirectionUpdateLimits"
+            },
+            "DirectionUpdateState": {
+                "properties": {
+                    "state": {
+                        "$ref": "#/components/schemas/DirectionState",
+                        "description": "State of the direction; can be 'active' or 'inactive'",
+                        "default": "active",
+                        "examples": ["active"]
+                    }
+                },
+                "type": "object",
+                "title": "DirectionUpdateState"
+            },
+            "DirectionUpdateType": {
+                "properties": {
+                    "type": {
+                        "$ref": "#/components/schemas/DirectionType",
+                        "description": "Type of the direction; can be 'universal', 'deposit', or 'withdraw'",
+                        "default": "universal",
+                        "examples": ["universal"]
+                    }
+                },
+                "type": "object",
+                "title": "DirectionUpdateType"
             },
             "ErrorBody": {
                 "properties": {
@@ -3140,7 +3410,7 @@
                         "examples": [3]
                     },
                     "currency": {
-                        "type": "string",
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Currency",
                         "description": "Currency code for the fee",
                         "examples": ["USD"]
@@ -3159,7 +3429,7 @@
                     }
                 },
                 "type": "object",
-                "required": ["recipient", "type", "currency", "value"],
+                "required": ["recipient", "type", "value"],
                 "title": "Fee"
             },
             "FeeCreate": {
@@ -3176,7 +3446,7 @@
                         "examples": [3]
                     },
                     "currency": {
-                        "type": "string",
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Currency",
                         "description": "Currency code for the fee",
                         "examples": ["USD"]
@@ -3206,7 +3476,7 @@
                     }
                 },
                 "type": "object",
-                "required": ["recipient", "type", "currency", "value"],
+                "required": ["recipient", "type", "value"],
                 "title": "FeeCreate"
             },
             "FeeType": { "type": "integer", "enum": [1, 2, 3], "title": "FeeType" },
@@ -3842,6 +4112,7 @@
                         "minimum": 0.0,
                         "title": "Quantity",
                         "description": "The quantity part of the rate value. It represents the numeric value without the decimal separator. For example, '12.34' is stored as 1234.",
+                        "default": 0,
                         "examples": [1234]
                     },
                     "accuracy": {
@@ -3849,11 +4120,11 @@
                         "minimum": 0.0,
                         "title": "Accuracy",
                         "description": "The accuracy factor for the rate value. It must be a power of 10 (e.g., 1, 10, 100, 1000) corresponding to the number of decimal places.",
+                        "default": 1,
                         "examples": [100]
                     }
                 },
                 "type": "object",
-                "required": ["quantity", "accuracy"],
                 "title": "RateValue"
             },
             "Status": { "type": "string", "enum": ["Ok"], "title": "Status" },
