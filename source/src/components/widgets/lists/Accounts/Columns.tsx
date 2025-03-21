@@ -1,11 +1,12 @@
 import { EditButton, ShowButton } from "@/components/ui/Button";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { formatNumber } from "@/helpers/formatNumber";
 import fetchDictionaries from "@/helpers/get-dictionaries";
+import { useGetCurrencies } from "@/hooks/useGetCurrencies";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { Copy } from "lucide-react";
 import { useState } from "react";
 import { RecordContextProvider, usePermissions, useTranslate } from "react-admin";
-import { NumericFormat } from "react-number-format";
 
 const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
 const translations = ["active", "frozen", "blocked", "deleted"];
@@ -19,6 +20,8 @@ export const useGetAccountsColumns = () => {
     const [showOpen, setShowOpen] = useState(false);
     const [showEditDialog, setShowEditDialog] = useState(false);
     const [showAccountId, setShowAccountId] = useState<string>("");
+    const { currencies, isLoadingCurrencies } = useGetCurrencies();
+
     const appToast = useAppToast();
 
     const openSheet = (id: string) => {
@@ -35,16 +38,16 @@ export const useGetAccountsColumns = () => {
                 <RecordContextProvider value={row.original}>
                     <div className="flex flex-col justify-center gap-1">
                         <span className="text-title-1">{(row.getValue("owner") as Array<string>)[0]}</span>
-                        <div className="flex flex-start text-neutral-60 dark:text-neutral-70 items-center gap-2">
+                        <div className="flex flex-start items-center gap-2 text-neutral-60 dark:text-neutral-70">
                             <Copy
-                                className="h-4 w-4 cursor-pointer"
+                                className="w-4 h-4 cursor-pointer"
                                 onClick={() => {
                                     navigator.clipboard.writeText((row.getValue("owner") as Array<string>)[1]);
                                     appToast("success", "", translate("app.ui.textField.copied"));
                                 }}
                             />
 
-                            <span className="text-nowrap overflow-hidden text-ellipsis max-w-[160px] min-w-[100px] text-neutral-70">
+                            <span className="min-w-[100px] max-w-[160px] overflow-hidden text-neutral-70 text-ellipsis text-nowrap">
                                 {(row.getValue("owner") as Array<string>)[1]}
                             </span>
                         </div>
@@ -60,7 +63,7 @@ export const useGetAccountsColumns = () => {
                 const index = row.original.state - 1;
 
                 return (
-                    <div className="flex items-center justify-center">
+                    <div className="flex justify-center items-center">
                         <span
                             className={`px-3 py-0.5 rounded-20 text-white font-normal text-base text-center ${styles[index]}`}>
                             {translate(`resources.accounts.fields.states.${translations[index]}`)}
@@ -83,17 +86,8 @@ export const useGetAccountsColumns = () => {
                 <RecordContextProvider value={row.original}>
                     <div className="flex flex-col justify-center">
                         {row.original.amounts.map(item => {
-                            return (
-                                <div key={item.id}>
-                                    <NumericFormat
-                                        value={item.value.quantity / item.value.accuracy}
-                                        displayType={"text"}
-                                        thousandSeparator=" "
-                                        decimalSeparator=","
-                                    />
-                                    {` ${item.currency}`}
-                                </div>
-                            );
+                            const number = formatNumber(currencies, item);
+                            return <div key={item.id}>{number}</div>;
                         })}
                     </div>
                 </RecordContextProvider>
@@ -131,6 +125,7 @@ export const useGetAccountsColumns = () => {
     return {
         columns,
         showOpen,
+        isLoadingCurrencies,
         setShowOpen,
         showEditDialog,
         setShowEditDialog,

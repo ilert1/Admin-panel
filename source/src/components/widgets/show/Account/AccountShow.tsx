@@ -3,11 +3,10 @@ import { DataTable } from "@/components/widgets/shared";
 import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useGetAccountShowColumns } from "./Columns";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ShowTransactionSheet } from "../../lists/Transactions/ShowTransactionSheet";
 import { uniqueId } from "lodash";
-import { Currency } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-
+import { useBalances } from "@/hooks/useBalances";
 interface AccountShowProps {
     id: string;
 }
@@ -17,53 +16,15 @@ export const AccountShow = ({ id }: AccountShowProps) => {
 
     const context = useShowController({ resource: "accounts", id });
 
-    const { isLoading: isLoadingCurrencies, data: currencies } = useListController({
-        resource: "currency",
-        perPage: 100000,
-        disableSyncWithLocation: true,
-        queryOptions: {
-            cacheTime: 1000 * 60 * 5,
-            staleTime: 1000 * 60 * 10
-        }
-    });
+    const { balances } = useBalances(context.isLoading, context.record.amounts);
 
     const { historyColumns, chosenId, transcationInfoOpen, setTransactionInfoOpen } = useGetAccountShowColumns();
-    const [balances, setBalances] = useState<string[]>([]);
 
     const listContext = useListController<AccountHistory>({
         resource: "operations",
         filter: { accountId: id },
         disableSyncWithLocation: true
     });
-
-    useEffect(() => {
-        if (!context.isLoading && !isLoadingCurrencies && context.record.amounts[0]) {
-            setBalances(
-                context.record.amounts.map(
-                    (el: { value: { quantity: number; accuracy: number }; currency: string }) => {
-                        let accuracy = 2;
-                        if (currencies) {
-                            const currency = currencies.find((cur: Currency) => cur.code === el.currency);
-                            accuracy = currency?.accuracy ?? 2;
-                        }
-
-                        const number =
-                            el.value.quantity == 0 ? "0" : (el.value.quantity / el.value.accuracy).toFixed(accuracy);
-
-                        const [intPart, decimalPart] = number.split(".");
-
-                        const formattedIntPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-                        const formattedNumber = decimalPart ? `${formattedIntPart}.${decimalPart}` : formattedIntPart;
-
-                        return formattedNumber + " " + el.currency;
-                    }
-                )
-            );
-        } else {
-            setBalances(["0"]);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [context.isLoading, isLoadingCurrencies]);
 
     useEffect(() => {
         if (chosenId) {

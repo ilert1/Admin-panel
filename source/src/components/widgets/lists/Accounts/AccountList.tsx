@@ -12,10 +12,10 @@ export const AccountList = () => {
 
     const translate = useTranslate();
 
-    const { columns, showOpen, setShowOpen, showEditDialog, setShowEditDialog, showAccountId } =
+    const { columns, showOpen, setShowOpen, showEditDialog, setShowEditDialog, showAccountId, isLoadingCurrencies } =
         useGetAccountsColumns();
 
-    if (listContext.isLoading || !listContext.data) {
+    if (listContext.isLoading || !listContext.data || isLoadingCurrencies) {
         return <Loading />;
     } else {
         return (
@@ -30,7 +30,7 @@ export const AccountList = () => {
                 <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
                     <DialogContent
                         disableOutsideClick
-                        className="bg-muted max-w-full w-[716px] h-full md:h-auto max-h-[100dvh] !overflow-y-auto rounded-[0] md:rounded-[16px]">
+                        className="bg-muted rounded-[0] md:rounded-[16px] w-[716px] max-w-full h-full md:h-auto max-h-[100dvh] !overflow-y-auto">
                         <DialogHeader>
                             <DialogTitle className="text-xl text-center">
                                 {translate("resources.accounts.editDialogTitle")}

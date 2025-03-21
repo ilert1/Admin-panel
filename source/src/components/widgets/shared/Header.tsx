@@ -15,6 +15,8 @@ import { HeaderButton } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { useGetCurrencies } from "@/hooks/useGetCurrencies";
+import { formatNumber } from "@/helpers/formatNumber";
 // import { debounce } from "lodash";
 
 export const Header = (props: { handleLogout: () => void }) => {
@@ -24,8 +26,9 @@ export const Header = (props: { handleLogout: () => void }) => {
     // const [chatOpen, setChatOpen] = useState(false);
     // const debounced = debounce(setChatOpen, 120);
 
-    const appToast = useAppToast();
+    const { currencies, isLoadingCurrencies } = useGetCurrencies();
 
+    const appToast = useAppToast();
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const isMerchant = useMemo(() => permissions === "merchant", [permissions]);
@@ -55,6 +58,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                     Authorization: `Bearer ${localStorage.getItem("access-token")}`
                 }
             });
+
             if (!response.ok) {
                 throw new Error(translate("app.ui.header.totalError"));
             }
@@ -62,6 +66,7 @@ export const Header = (props: { handleLogout: () => void }) => {
             if (!json.success) {
                 throw new Error(translate("app.ui.header.totalError"));
             }
+
             return json.data as AccountBalance[];
         },
         {
@@ -83,11 +88,11 @@ export const Header = (props: { handleLogout: () => void }) => {
 
     return (
         <header
-            className="flex flex-shrink-0 h-[84px] items-center gap-4 bg-header px-4 relative z-100 pointer-events-auto z"
+            className="z-100 relative flex flex-shrink-0 items-center gap-4 bg-header px-4 h-[84px] pointer-events-auto z"
             onClick={e => e.stopPropagation()}>
             {identity?.data && (
-                <div className="ml-auto flex items-center gap-2 mr-6">
-                    <div className="flex items-center gap-8 relative !z-60">
+                <div className="flex items-center gap-2 mr-6 ml-auto">
+                    <div className="!z-60 relative flex items-center gap-8">
                         <DropdownMenu open={profileOpen} onOpenChange={setProfileOpen} modal={true}>
                             <div
                                 className={cn(
@@ -100,16 +105,16 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     transition: "border-color .15s"
                                 }}>
                                 <DropdownMenuTrigger asChild>
-                                    <Avatar className="flex items-center justify-center w-[60px] h-[60px] border-2 border-green-40 bg-muted cursor-pointer">
+                                    <Avatar className="flex justify-center items-center bg-muted border-2 border-green-40 w-[60px] h-[60px] cursor-pointer">
                                         <Blowfish />
                                     </Avatar>
                                 </DropdownMenuTrigger>
 
-                                <div className="flex flex-col gap-[2px] items-start min-w-[137px]">
+                                <div className="flex flex-col items-start gap-[2px] min-w-[137px]">
                                     <span className={"text-neutral-90 dark:text-neutral-0 text-title-2 cursor-default"}>
                                         {identity.data.fullName ? identity.data.fullName : ""}
                                     </span>
-                                    <span className="text-note-2 text-neutral-70 dark:text-neutral-60">
+                                    <span className="text-neutral-70 text-note-2 dark:text-neutral-60">
                                         {!isMerchant
                                             ? translate("app.ui.header.aggregatorProfit")
                                             : translate("app.ui.header.totalBalance")}
@@ -117,7 +122,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     {totalLoading && !totalAmount ? (
                                         <span>{translate("app.ui.header.totalLoading")}</span>
                                     ) : (
-                                        <div className="w-full relative overflow-hidden">
+                                        <div className="relative w-full overflow-hidden">
                                             <DropdownMenuTrigger>
                                                 <h1 className="text-display-5">
                                                     <div className="absolute inset-0">
@@ -138,18 +143,11 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                         ? "translate-y-full opacity-0 z-0 delay-300"
                                                                         : "translate-y-[200%] opacity-0 z-0 delay-300"
                                                                 }`}>
-                                                                <NumericFormat
-                                                                    className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-full block text-neutral-90 dark:text-white"
-                                                                    value={
-                                                                        Math.round(
-                                                                            (el.value.quantity / el.value.accuracy) *
-                                                                                10000
-                                                                        ) / 10000
-                                                                    }
-                                                                    displayType={"text"}
-                                                                    thousandSeparator=" "
-                                                                    decimalSeparator=","
-                                                                />
+                                                                {!isLoadingCurrencies && (
+                                                                    <span className="block max-w-full overflow-ellipsis overflow-hidden text-neutral-90 dark:text-white whitespace-nowrap">
+                                                                        {formatNumber(currencies, el, true)}
+                                                                    </span>
+                                                                )}
                                                                 <div className="flex justify-center">
                                                                     <CurrencyIcon name={el.currency} textSmall />
                                                                 </div>
@@ -183,7 +181,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                 align="end"
                                 alignOffset={-18}
                                 className={`p-0 w-72 border border-green-20 dark:border-neutral-20 z-[1000] flex flex-col gap-2 !rounded-4 bg-green-0 dark:bg-muted `}>
-                                <div className="flex content-start items-center pl-4 pr-4 mt-[0.8rem]">
+                                <div className="flex items-center content-start mt-[0.8rem] pr-4 pl-4">
                                     <Avatar className="w-5 h-5">
                                         <AvatarFallback
                                             className={`bg-green-50 transition-colors text-primary cursor-default text-white`}>
@@ -193,20 +191,20 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         </AvatarFallback>
                                     </Avatar>
                                     <div className="ml-3 text-neutral-100">
-                                        <div className="text-title-1 cursor-default text-neutral-90 dark:text-white">
+                                        <div className="text-neutral-90 text-title-1 dark:text-white cursor-default">
                                             {isMerchant
                                                 ? translate("app.ui.roles.merchant")
                                                 : translate("app.ui.roles.admin")}
                                         </div>
                                         {identity.data.email && (
-                                            <div className="text-note-2 cursor-default text-neutral-60 dark:text-neutral-50">
+                                            <div className="text-neutral-60 text-note-2 dark:text-neutral-50 cursor-default">
                                                 {identity.data.email}
                                             </div>
                                         )}
                                     </div>
                                 </div>
-                                <div className="flex flex-col content-start items-center pl-4 pr-2 mb-1">
-                                    <span className="text-note-2 self-start text-neutral-60 mt-[0.5rem] mb-1">
+                                <div className="flex flex-col items-center content-start mb-1 pr-2 pl-4">
+                                    <span className="self-start mt-[0.5rem] mb-1 text-neutral-60 text-note-2">
                                         {!isMerchant
                                             ? translate("app.ui.header.accurateAggregatorProfit")
                                             : translate("app.ui.header.accurateBalance")}
@@ -216,9 +214,9 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         {!totalLoading && totalAmount ? (
                                             totalAmount.map(el => (
                                                 <div
-                                                    className="flex items-center w-full justify-between"
+                                                    className="flex justify-between items-center w-full"
                                                     key={el.currency}>
-                                                    <h4 className="text-display-4 overflow-y-hidden text-neutral-90 dark:text-white">
+                                                    <h4 className="overflow-y-hidden text-display-4 text-neutral-90 dark:text-white">
                                                         <NumericFormat
                                                             className="whitespace-nowrap"
                                                             value={el.value.quantity / el.value.accuracy}
@@ -237,13 +235,13 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         )}
                                     </div>
                                 </div>
-                                <div className="flex content-start items-center pl-4 pr-4">
+                                <div className="flex items-center content-start pr-4 pl-4">
                                     <Switch
                                         checked={theme === "light"}
                                         onCheckedChange={toggleTheme}
-                                        className="dark:border-green-40 data-[state=checked]:bg-green-60 data-[state=unchecked]:bg-muted"
+                                        className="data-[state=checked]:bg-green-60 data-[state=unchecked]:bg-muted dark:border-green-40"
                                     />
-                                    <span className="ml-3 cursor-default text-neutral-60 dark:text-neutral-50">
+                                    <span className="ml-3 text-neutral-60 dark:text-neutral-50 cursor-default">
                                         {theme === "dark" ? translate("app.theme.light") : translate("app.theme.dark")}
                                     </span>
                                 </div>
@@ -278,23 +276,23 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                     ? "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
                                                     : "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-green-50 hover:text-neutral-100 border-2 border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
                                             }>
-                                            <MessagesSquareIcon className="h-[30px] w-[30px]" />
+                                            <MessagesSquareIcon className="w-[30px] h-[30px]" />
                                         </Avatar>
                                     </div>
                                 </SheetTrigger>
                                 <SheetContent
-                                    className="sm:max-w-[520px] !top-[84px] !max-h-[calc(100vh-84px)] w-full p-0 m-0"
+                                    className="!top-[84px] m-0 p-0 w-full sm:max-w-[520px] !max-h-[calc(100vh-84px)]"
                                     close={false}>
-                                    <SheetHeader className="p-4 bg-green-60">
-                                        <div className="flex justify-between items-center ">
+                                    <SheetHeader className="bg-green-60 p-4">
+                                        <div className="flex justify-between items-center">
                                             <SheetTitle className="text-display-3">
                                                 {translate("app.ui.actions.chatWithSupport")}
                                             </SheetTitle>
                                             <button
                                                 tabIndex={-1}
                                                 onClick={() => setChatOpen(false)}
-                                                className="text-gray-500 hover:text-gray-700 transition-colors outline-0 border-0 -tab-1">
-                                                <XIcon className="h-[28px] w-[28px]" />
+                                                className="border-0 outline-0 text-gray-500 hover:text-gray-700 transition-colors -tab-1">
+                                                <XIcon className="w-[28px] h-[28px]" />
                                             </button>
                                         </div>
                                     </SheetHeader>
