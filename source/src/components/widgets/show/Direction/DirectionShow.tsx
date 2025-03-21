@@ -89,17 +89,21 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                             text={context.record.dst_currency.code}
                         />
 
-                        <TextField
-                            label={translate("resources.direction.fields.terminal")}
-                            className="!text-green-50 dark:!text-green-40 hover:!text-green-40 dark:hover:!text-green-50 !cursor-pointer transition-all duration-300"
-                            text={context.record.terminal?.verbose_name || ""}
-                            onClick={() => {
-                                openSheet("terminal", {
-                                    id: context.record?.terminal?.terminal_id,
-                                    provider: context.record?.terminal?.provider
-                                });
-                            }}
-                        />
+                        {context.record.terminal?.verbose_name ? (
+                            <TextField
+                                label={translate("resources.direction.fields.terminal")}
+                                className="!text-green-50 dark:!text-green-40 hover:!text-green-40 dark:hover:!text-green-50 !cursor-pointer transition-all duration-300"
+                                text={context.record.terminal?.verbose_name || ""}
+                                onClick={() => {
+                                    openSheet("terminal", {
+                                        id: context.record?.terminal?.terminal_id,
+                                        provider: context.record?.terminal?.provider
+                                    });
+                                }}
+                            />
+                        ) : (
+                            <TextField label={translate("resources.direction.fields.terminal")} text="" />
+                        )}
                     </div>
 
                     <div className="flex flex-col gap-2 md:gap-[24px] ml-2 md:ml-[32px]">
