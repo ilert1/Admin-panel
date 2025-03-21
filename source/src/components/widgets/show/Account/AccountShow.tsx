@@ -16,7 +16,12 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     const translate = useTranslate();
 
     const context = useShowController({ resource: "accounts", id });
-    console.log(context.record);
+
+    const { isLoading: isLoadingCurrencies, data: currencies } = useListController({
+        resource: "currency",
+        perPage: 100000,
+        disableSyncWithLocation: true
+    });
 
     const { historyColumns, chosenId, transcationInfoOpen, setTransactionInfoOpen } = useGetAccountShowColumns();
     const [balances, setBalances] = useState<string[]>([]);
@@ -28,14 +33,17 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     });
 
     useEffect(() => {
-        if (!context.isLoading && context.record.amounts[0]) {
+        if (!context.isLoading && !isLoadingCurrencies && context.record.amounts[0]) {
             setBalances(
                 context.record.amounts.map(
-                    (el: { value: { quantity: number; accuracy: number }; currency: Currency }) => {
+                    (el: { value: { quantity: number; accuracy: number }; currency: string }) => {
+                        const currency = currencies.find((cur: Currency) => cur.code === el.currency);
+
                         const number =
                             el.value.quantity == 0
                                 ? "0"
-                                : (el.value.quantity / el.value.accuracy).toFixed(context.record.currency.accuracy);
+                                : (el.value.quantity / el.value.accuracy).toFixed(currency.accuracy);
+
                         const [intPart, decimalPart] = number.split(".");
 
                         const formattedIntPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -49,7 +57,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
             setBalances(["0"]);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [context.isLoading]);
+    }, [context.isLoading, isLoadingCurrencies]);
 
     useEffect(() => {
         if (chosenId) {
@@ -62,15 +70,15 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     }
 
     return (
-        <div className="mx-6 h-full min-h-[300px] flex flex-col">
-            <div className="flex flex-col sm:flex-row justify-between px-[20px] mb-6 gap-4">
+        <div className="flex flex-col mx-6 h-full min-h-[300px]">
+            <div className="flex sm:flex-row flex-col justify-between gap-4 mb-6 px-[20px]">
                 <div className="flex flex-col gap-4">
                     <div className="text-display-2 text-neutral-90 dark:text-neutral-30">
                         <span>{context.record.meta.caption}</span>
                     </div>
                     <TextField text={id} copyValue className="text-neutral-90 dark:text-neutral-30" />
                 </div>
-                <div className="flex gap-2 flex-wrap justify-end content-end">
+                <div className="flex flex-wrap justify-end content-end gap-2">
                     {balances.length > 0 &&
                         balances.map(balance => (
                             <div className="bg-green-50 px-3 py-0.5 rounded-20" key={uniqueId()}>
