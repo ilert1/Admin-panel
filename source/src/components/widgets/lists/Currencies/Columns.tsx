@@ -58,6 +58,13 @@ export const useGetCurrencyColumns = () => {
             }
         },
         {
+            id: "accuracy",
+            header: translate("resources.currency.fields.accuracy"),
+            cell: ({ row }) => {
+                return <TextField text={String(row.original.accuracy) ?? ""} />;
+            }
+        },
+        {
             id: "exmaple",
             header: translate("resources.currency.fields.example"),
             cell: ({ row }) => {
