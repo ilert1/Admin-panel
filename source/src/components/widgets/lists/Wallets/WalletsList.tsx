@@ -31,14 +31,14 @@ export const WalletsList = () => {
         setCreateDialogOpen(true);
     };
 
-    const fetchBalances = async () => {
+    const fetchBalances = async (signal: AbortSignal) => {
         if (!listContext.data) return;
 
         const tempBalancesMap: Map<string, Wallets.WalletBalance> = new Map();
 
         const balancePromises = listContext.data.map(async wallet => {
             return dataProvider
-                .getWalletBalance(permissions === "admin" ? "wallet" : "merchant/wallet", wallet.id)
+                .getWalletBalance(permissions === "admin" ? "wallet" : "merchant/wallet", wallet.id, signal)
                 .then(data => {
                     if (data) {
                         tempBalancesMap.set(wallet.id, data);
@@ -47,13 +47,20 @@ export const WalletsList = () => {
         });
 
         await Promise.allSettled(balancePromises);
-        setBalances(tempBalancesMap);
+
+        if (!signal.aborted) {
+            setBalances(tempBalancesMap); // Обновляем состояние только если запросы не отменены
+        }
     };
 
     useEffect(() => {
+        const abortController = new AbortController();
+
         if (listContext.data) {
-            fetchBalances();
+            fetchBalances(abortController.signal);
         }
+
+        return () => abortController.abort();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [listContext.data]);
 
