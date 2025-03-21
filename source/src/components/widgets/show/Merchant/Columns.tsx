@@ -79,12 +79,13 @@ export const useGetMerchantShowColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center text-white">
-                        {row.original.active ? (
-                            <span className="px-3 py-0.5 bg-green-50 rounded-20 font-normal text-title-2 text-center whitespace-nowrap">
+                        {row.original.state === "active" && (
+                            <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
                                 {translate("resources.direction.fields.stateActive")}
                             </span>
-                        ) : (
-                            <span className="px-3 py-0.5 bg-red-50 rounded-20 font-normal text-title-2 text-center whitespace-nowrap">
+                        )}
+                        {row.original.state === "inactive" && (
+                            <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal">
                                 {translate("resources.direction.fields.stateInactive")}
                             </span>
                         )}
