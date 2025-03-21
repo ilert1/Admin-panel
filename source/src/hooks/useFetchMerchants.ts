@@ -1,6 +1,3 @@
-import { useState, useEffect } from "react";
-
-import { MerchantsDataProvider } from "@/data";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useQuery } from "@tanstack/react-query";
 import { useDataProvider } from "react-admin";

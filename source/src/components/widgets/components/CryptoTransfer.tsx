@@ -43,7 +43,7 @@ export const CryptoTransfer = ({ repeatData, cryptoTransferState, setCryptoTrans
                 return 0;
             }
 
-            const usdtObject = amounts.find((el: any) => el.currency === "USDT");
+            const usdtObject = amounts.find(el => el.currency === "USDT");
             if (usdtObject) {
                 return +usdtObject.value.quantity / +usdtObject.value.accuracy;
             }

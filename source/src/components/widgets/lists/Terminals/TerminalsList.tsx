@@ -1,5 +1,4 @@
-import { ListContextProvider, useTranslate } from "react-admin";
-import { DataTable } from "@/components/widgets/shared";
+import { useTranslate } from "react-admin";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { PlusCircle } from "lucide-react";
@@ -11,7 +10,6 @@ import { TerminalsListFilter } from "./TerminalsListFilter";
 import { TerminalListTable } from "./TerminalsListTable";
 import { useGetTerminalColumns } from "./Columns";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
-import { ProviderWithId } from "@/data/providers";
 import { EmptyTable } from "../../shared/EmptyTable";
 
 export const TerminalsList = () => {

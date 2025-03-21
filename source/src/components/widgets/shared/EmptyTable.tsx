@@ -1,12 +1,7 @@
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable, getPaginationRowModel } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Button } from "@/components/ui/Button";
-import { CircleArrowLeftIcon, CircleArrowRightIcon } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useListContext, useTranslate } from "react-admin";
-import { useCallback, useEffect } from "react";
-import clsx from "clsx";
-import { cn } from "@/lib/utils";
+import { useTranslate } from "react-admin";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];

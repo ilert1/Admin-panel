@@ -114,6 +114,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
             }
         }
         checkAuth();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {

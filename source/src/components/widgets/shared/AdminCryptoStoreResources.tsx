@@ -13,7 +13,6 @@ import { useEffect, useState } from "react";
 import { useDataProvider, usePermissions, useTranslate } from "react-admin";
 import { useQuery } from "@tanstack/react-query";
 import { NavLink, useLocation } from "react-router-dom";
-import { boolean } from "zod";
 
 interface ICustomViewRoute {
     name: string;
@@ -85,6 +84,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                 ]
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const CurrentStateIcon = () => {

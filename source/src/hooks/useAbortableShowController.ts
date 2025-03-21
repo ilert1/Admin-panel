@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useShowController, ShowControllerProps, ShowControllerResult, RaRecord } from "react-admin";
 
-export const useAbortableShowController = <RecordType extends RaRecord = any>(
+export const useAbortableShowController = <RecordType extends RaRecord>(
     props: ShowControllerProps<RecordType>
 ): ShowControllerResult<RecordType> => {
     const abortControllerRef = useRef(new AbortController());

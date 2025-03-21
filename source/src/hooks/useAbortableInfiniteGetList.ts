@@ -1,14 +1,15 @@
 import { useEffect, useRef, useMemo } from "react";
 import { RaRecord, useInfiniteGetList, GetListParams, UseInfiniteGetListHookValue } from "react-admin";
 
-export const useAbortableInfiniteGetList = <RecordType extends RaRecord = any>(
+export const useAbortableInfiniteGetList = <RecordType extends RaRecord>(
     resource: string,
     params: Partial<GetListParams>
 ): UseInfiniteGetListHookValue<RecordType> => {
     const abortControllerRef = useRef(new AbortController());
 
     useEffect(() => {
-        return () => abortControllerRef.current.abort();
+        const abortController = abortControllerRef.current;
+        return () => abortController.abort();
     }, []);
 
     const infiniteListController = useInfiniteGetList<RecordType>(resource, {

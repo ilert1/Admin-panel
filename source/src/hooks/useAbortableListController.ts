@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useListController, ListControllerProps, ListControllerResult, RaRecord } from "react-admin";
 
-export const useAbortableListController = <RecordType extends RaRecord = any>(
+export const useAbortableListController = <RecordType extends RaRecord>(
     props: ListControllerProps<RecordType> = {}
 ): ListControllerResult<RecordType> => {
     const abortControllerRef = useRef(new AbortController());
