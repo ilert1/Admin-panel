@@ -1,6 +1,5 @@
 import { FeesResource } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
-import { useEffect, useState } from "react";
 import { useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
@@ -8,11 +7,12 @@ import { useGetMerchantShowColumns } from "./Columns";
 import { SimpleTable } from "../../shared";
 import { TableTypes } from "../../shared/SimpleTable";
 import { Fees } from "../../components/Fees";
-import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet } from "@/api/enigma/direction/direction";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import clsx from "clsx";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
+import { useQuery } from "@tanstack/react-query";
 
 interface MerchantShowProps {
     id: string;
@@ -39,10 +39,9 @@ export const MerchantShow = (props: MerchantShowProps) => {
 
     const { columns } = useGetMerchantShowColumns();
 
-    const [merchantDirections, setMerchantDirections] = useState<Direction[]>([]);
-
-    useEffect(() => {
-        const fetchMerchantDirections = async () => {
+    const { data: merchantDirections } = useQuery({
+        queryKey: ["merchantDirections", "MerchantShow"],
+        queryFn: async () => {
             if (context.record?.id) {
                 try {
                     const res =
@@ -60,7 +59,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                         );
 
                     if ("data" in res.data && res.data.success) {
-                        setMerchantDirections(res.data.data.items);
+                        return res.data.data.items;
                     } else if ("data" in res.data && !res.data.success) {
                         throw new Error(res.data.error?.error_message);
                     } else if ("detail" in res.data) {
@@ -72,13 +71,9 @@ export const MerchantShow = (props: MerchantShowProps) => {
                     }
                 }
             }
-        };
-
-        if (context.record) {
-            fetchMerchantDirections();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [context.record]);
+        },
+        enabled: !!context.record?.id
+    });
 
     if (context.isLoading || !context.record || !data) {
         return <Loading />;
@@ -121,8 +116,11 @@ export const MerchantShow = (props: MerchantShowProps) => {
                         <SimpleTable
                             columns={columns}
                             tableType={TableTypes.COLORED}
-                            data={merchantDirections}
-                            className={clsx("max-h-[30dvh] min-h-20", merchantDirections.length > 1 && "min-h-44")}
+                            data={merchantDirections || []}
+                            className={clsx(
+                                "max-h-[30dvh] min-h-20",
+                                merchantDirections && merchantDirections.length > 1 && "min-h-44"
+                            )}
                         />
                     </div>
                 </div>
