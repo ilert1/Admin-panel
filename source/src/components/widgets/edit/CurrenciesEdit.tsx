@@ -42,15 +42,17 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
         position: z.enum([CurrencyPosition.after, CurrencyPosition.before]),
         symbol: z.string().trim().nullable(),
         is_coin: z.boolean().default(false),
-
-        accuracy: z.optional(
-            z.coerce
-                .number({ message: translate("resources.currency.errors.intOnly") })
-                .int(translate("resources.currency.errors.intOnly"))
-                .min(1, translate("resources.currency.errors.minVal"))
-                .max(16, translate("resources.currency.errors.maxVal"))
-                .optional()
-        )
+        accuracy: z
+            .union([
+                z.coerce
+                    .number({ message: translate("resources.currency.errors.intOnly") })
+                    .int(translate("resources.currency.errors.intOnly"))
+                    .min(1, translate("resources.currency.errors.minVal"))
+                    .max(16, translate("resources.currency.errors.maxVal")),
+                z.literal(""),
+                z.null()
+            ])
+            .optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -60,7 +62,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
             position: controllerProps.record?.position || CurrencyPosition.before,
             symbol: controllerProps.record?.symbol || "",
             is_coin: controllerProps.record?.is_coin || false,
-            accuracy: controllerProps.record?.accuracy || 1
+            accuracy: controllerProps.record?.accuracy || 2
         }
     });
 
@@ -71,7 +73,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                 position: controllerProps.record?.position || CurrencyPosition.before,
                 symbol: controllerProps.record?.symbol || "",
                 is_coin: controllerProps.record?.is_coin || false,
-                accuracy: controllerProps.record?.accuracy || 1
+                accuracy: controllerProps.record?.accuracy || 2
             });
         }
     }, [form, controllerProps.record]);
@@ -79,6 +81,11 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
+
+        if (!data.accuracy) {
+            delete data.accuracy;
+        }
+
         try {
             await dataProvider.update("currency", {
                 id,
