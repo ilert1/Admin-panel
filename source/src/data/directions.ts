@@ -27,7 +27,7 @@ export class DirectionsDataProvider extends BaseDataProvider {
                 currentPage: params?.pagination?.page,
                 pageSize: params?.pagination?.perPage,
                 ...(Object.hasOwn(params?.filter, "merchant") && {
-                    searchField: "merchant",
+                    searchField: ["merchant"],
                     searchString: params?.filter["merchant"]
                 })
             },

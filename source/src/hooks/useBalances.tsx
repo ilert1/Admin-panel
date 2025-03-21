@@ -12,7 +12,7 @@ export const useBalances = (isLoading: boolean, amounts: Amount[]) => {
 
     useEffect(() => {
         if (!isLoading && !isLoadingCurrencies && amounts[0]) {
-            setBalances(amounts.map((el: any) => formatNumber(currencies, el)));
+            setBalances(amounts.map(el => formatNumber(currencies, el)));
         } else {
             setBalances(["0"]);
         }

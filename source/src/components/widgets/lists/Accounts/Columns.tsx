@@ -2,7 +2,6 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, EditButton, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 // import { EditButton, ShowButton } from "@/components/ui/Button";
-import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { formatNumber } from "@/helpers/formatNumber";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useGetCurrencies } from "@/hooks/useGetCurrencies";
@@ -70,9 +69,9 @@ export const useGetAccountsColumns = () => {
                 const index = row.original.state - 1;
 
                 return (
-                    <div className="flex justify-center items-center">
+                    <div className="flex items-center justify-center">
                         <span
-                            className={`px-3 py-0.5 rounded-20 text-white font-normal text-base text-center ${styles[index]}`}>
+                            className={`rounded-20 px-3 py-0.5 text-center text-base font-normal text-white ${styles[index]}`}>
                             {translate(`resources.accounts.fields.states.${translations[index]}`)}
                         </span>
                     </div>

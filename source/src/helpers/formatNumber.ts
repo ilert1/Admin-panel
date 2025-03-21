@@ -1,6 +1,10 @@
 import { Currency } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
-export const formatNumber = (currencies: Currency[], el: Amount | AccountBalance, withoutCurrency = false) => {
+export const formatNumber = (
+    currencies: Currency[] | undefined,
+    el: Amount | AccountBalance,
+    withoutCurrency = false
+) => {
     let accuracy = 2;
     if (currencies) {
         const currency = currencies.find((cur: Currency) => cur.code === el.currency);

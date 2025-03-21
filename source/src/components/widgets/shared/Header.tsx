@@ -14,7 +14,6 @@ import { CurrencyIcon } from "./CurrencyIcon";
 import { HeaderButton } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router";
-import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetCurrencies } from "@/hooks/useGetCurrencies";
 import { formatNumber } from "@/helpers/formatNumber";
 // import { debounce } from "lodash";
@@ -28,7 +27,6 @@ export const Header = (props: { handleLogout: () => void }) => {
 
     const { currencies, isLoadingCurrencies } = useGetCurrencies();
 
-    const appToast = useAppToast();
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const isMerchant = useMemo(() => permissions === "merchant", [permissions]);
