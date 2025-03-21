@@ -14,6 +14,9 @@ import { CurrencyIcon } from "./CurrencyIcon";
 import { HeaderButton } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { useGetCurrencies } from "@/hooks/useGetCurrencies";
+import { formatNumber } from "@/helpers/formatNumber";
 // import { debounce } from "lodash";
 
 export const Header = (props: { handleLogout: () => void }) => {
@@ -23,6 +26,9 @@ export const Header = (props: { handleLogout: () => void }) => {
     // const [chatOpen, setChatOpen] = useState(false);
     // const debounced = debounce(setChatOpen, 120);
 
+    const { currencies, isLoadingCurrencies } = useGetCurrencies();
+
+    const appToast = useAppToast();
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const isMerchant = useMemo(() => permissions === "merchant", [permissions]);
@@ -42,6 +48,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                 },
                 signal
             });
+
             if (!response.ok) {
                 throw new Error(translate("app.ui.header.totalError"));
             }
@@ -49,6 +56,7 @@ export const Header = (props: { handleLogout: () => void }) => {
             if (!json.success) {
                 throw new Error(translate("app.ui.header.totalError"));
             }
+
             return json.data as AccountBalance[];
         },
         retry: 2, // Ограничение повторных попыток
@@ -122,18 +130,11 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                             ? "z-0 translate-y-full opacity-0 delay-300"
                                                                             : "z-0 translate-y-[200%] opacity-0 delay-300"
                                                                 }`}>
-                                                                <NumericFormat
-                                                                    className="block max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap text-neutral-90 dark:text-white"
-                                                                    value={
-                                                                        Math.round(
-                                                                            (el.value.quantity / el.value.accuracy) *
-                                                                                10000
-                                                                        ) / 10000
-                                                                    }
-                                                                    displayType={"text"}
-                                                                    thousandSeparator=" "
-                                                                    decimalSeparator=","
-                                                                />
+                                                                {!isLoadingCurrencies && (
+                                                                    <span className="block max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap text-neutral-90 dark:text-white">
+                                                                        {formatNumber(currencies, el, true)}
+                                                                    </span>
+                                                                )}
                                                                 <div className="flex justify-center">
                                                                     <CurrencyIcon name={el.currency} textSmall />
                                                                 </div>
@@ -262,23 +263,23 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                     ? "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-neutral-100 border-2 border-green-50 bg-green-50 transition-colors duration-150"
                                                     : "flex items-center justify-center cursor-pointer w-[60px] h-[60px] text-green-50 hover:text-neutral-100 border-2 border-green-50 bg-muted hover:bg-green-50 transition-colors duration-150"
                                             }>
-                                            <MessagesSquareIcon className="h-[30px] w-[30px]" />
+                                            <MessagesSquareIcon className="w-[30px] h-[30px]" />
                                         </Avatar>
                                     </div>
                                 </SheetTrigger>
                                 <SheetContent
-                                    className="sm:max-w-[520px] !top-[84px] !max-h-[calc(100vh-84px)] w-full p-0 m-0"
+                                    className="!top-[84px] m-0 p-0 w-full sm:max-w-[520px] !max-h-[calc(100vh-84px)]"
                                     close={false}>
-                                    <SheetHeader className="p-4 bg-green-60">
-                                        <div className="flex justify-between items-center ">
+                                    <SheetHeader className="bg-green-60 p-4">
+                                        <div className="flex justify-between items-center">
                                             <SheetTitle className="text-display-3">
                                                 {translate("app.ui.actions.chatWithSupport")}
                                             </SheetTitle>
                                             <button
                                                 tabIndex={-1}
                                                 onClick={() => setChatOpen(false)}
-                                                className="text-gray-500 hover:text-gray-700 transition-colors outline-0 border-0 -tab-1">
-                                                <XIcon className="h-[28px] w-[28px]" />
+                                                className="border-0 outline-0 text-gray-500 hover:text-gray-700 transition-colors -tab-1">
+                                                <XIcon className="w-[28px] h-[28px]" />
                                             </button>
                                         </div>
                                     </SheetHeader>

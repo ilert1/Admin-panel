@@ -8,7 +8,7 @@ export default function fetchDictionaries(): Dictionaries.DataObject {
     const { data } = useQuery({
         queryKey: ["dictionaries"],
         queryFn: ({ signal }) => dataProvider.getDictionaries("dictionaries", signal),
-        staleTime: 1000 * 60 * 5
+        staleTime: 1000 * 60 * 10
     });
 
     return data;
