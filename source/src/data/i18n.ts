@@ -327,7 +327,8 @@ const ru: TranslationMessages = {
                 example: "Пример",
                 edit: "Изменить",
                 delete: "Удалить",
-                accuracy: "Точность"
+                accuracy: "Точность",
+                defaultAccuracyPlaceholder: "По умолчанию 2"
             },
             errors: {
                 code: "Код валюты обязательно нужно ввести",
@@ -1240,7 +1241,8 @@ const en: TranslationMessages = {
                 example: "Example",
                 edit: "Edit",
                 delete: "Delete",
-                accuracy: "Accuracy"
+                accuracy: "Accuracy",
+                defaultAccuracyPlaceholder: "By default 2"
             },
             errors: {
                 code: "Code is required",

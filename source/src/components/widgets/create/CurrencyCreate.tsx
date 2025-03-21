@@ -198,7 +198,9 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                                     <FormControl>
                                         <Input
                                             className="text-sm"
-                                            placeholder="2"
+                                            placeholder={translate(
+                                                "resources.currency.fields.defaultAccuracyPlaceholder"
+                                            )}
                                             variant={InputTypes.GRAY}
                                             label={translate("resources.currency.fields.accuracy")}
                                             error={fieldState.invalid}
