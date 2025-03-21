@@ -20,7 +20,11 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     const { isLoading: isLoadingCurrencies, data: currencies } = useListController({
         resource: "currency",
         perPage: 100000,
-        disableSyncWithLocation: true
+        disableSyncWithLocation: true,
+        queryOptions: {
+            cacheTime: 1000 * 60 * 5,
+            staleTime: 1000 * 60 * 10
+        }
     });
 
     const { historyColumns, chosenId, transcationInfoOpen, setTransactionInfoOpen } = useGetAccountShowColumns();
@@ -37,12 +41,14 @@ export const AccountShow = ({ id }: AccountShowProps) => {
             setBalances(
                 context.record.amounts.map(
                     (el: { value: { quantity: number; accuracy: number }; currency: string }) => {
-                        const currency = currencies.find((cur: Currency) => cur.code === el.currency);
+                        let accuracy = 2;
+                        if (currencies) {
+                            const currency = currencies.find((cur: Currency) => cur.code === el.currency);
+                            accuracy = currency?.accuracy ?? 2;
+                        }
 
                         const number =
-                            el.value.quantity == 0
-                                ? "0"
-                                : (el.value.quantity / el.value.accuracy).toFixed(currency.accuracy);
+                            el.value.quantity == 0 ? "0" : (el.value.quantity / el.value.accuracy).toFixed(accuracy);
 
                         const [intPart, decimalPart] = number.split(".");
 
