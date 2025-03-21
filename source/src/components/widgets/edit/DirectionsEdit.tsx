@@ -21,6 +21,7 @@ import { Label } from "@/components/ui/label";
 import { Direction, DirectionUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 
 export interface DirectionEditProps {
     id?: string;
@@ -40,9 +41,11 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
 
+    const { directionTypes } = useGetDirectionTypes();
+
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.direction.errors.name")).trim(),
-        active: z.boolean().default(false),
+        state: z.enum(["active", "inactive"]),
         description: z.string().trim().nullable(),
         src_currency: z.string().min(1, translate("resources.direction.errors.src_curr")),
         dst_currency: z.string().min(1, translate("resources.direction.errors.dst_curr")),
@@ -53,21 +56,25 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
             .number({ message: translate("resources.direction.errors.weightError") })
             .int(translate("resources.direction.errors.weightError"))
             .min(0, translate("resources.direction.errors.weightError"))
-            .max(1000, translate("resources.direction.errors.weightError"))
+            .max(1000, translate("resources.direction.errors.weightError")),
+        type: z.enum(["universal", "withdraw", "deposit"], {
+            message: translate("resources.direction.errors.typeError")
+        })
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: controllerProps.record?.name || "",
-            active: controllerProps.record?.active,
+            state: controllerProps.record?.state || undefined,
             description: controllerProps.record?.description || "",
             src_currency: controllerProps.record?.src_currency.code || "",
             dst_currency: controllerProps.record?.dst_currency.code || "",
             merchant: controllerProps.record?.merchant.id || "",
             provider: controllerProps.record?.provider.name || "",
             terminal: controllerProps.record?.terminal?.terminal_id || "",
-            weight: controllerProps.record?.weight || 0
+            weight: controllerProps.record?.weight || 0,
+            type: controllerProps.record?.type || undefined
         }
     });
 
@@ -75,14 +82,15 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         if (controllerProps.record) {
             form.reset({
                 name: controllerProps.record?.name || "",
-                active: controllerProps.record?.active,
+                state: controllerProps.record?.state || undefined,
                 description: controllerProps.record?.description || "",
                 src_currency: controllerProps.record?.src_currency.code || "",
                 dst_currency: controllerProps.record?.dst_currency.code || "",
                 merchant: controllerProps.record?.merchant.id || "",
                 provider: controllerProps.record?.provider.name || "",
                 terminal: controllerProps.record?.terminal?.terminal_id || "",
-                weight: controllerProps.record?.weight || 0
+                weight: controllerProps.record?.weight || 0,
+                type: controllerProps.record.type || undefined
             });
         }
     }, [form, controllerProps.record]);
@@ -90,6 +98,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const onSubmit: SubmitHandler<DirectionUpdate> = async data => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
+
         try {
             await dataProvider.update<Direction>("direction", {
                 id,
@@ -132,7 +141,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="name"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -149,7 +158,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="src_currency"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <Label>{translate("resources.direction.sourceCurrency")}</Label>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
@@ -182,7 +191,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="merchant"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <Label>{translate("resources.direction.merchant")}</Label>
                                     <MerchantSelectFilter
                                         variant="outline"
@@ -198,7 +207,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="dst_currency"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <Label>{translate("resources.direction.destinationCurrency")}</Label>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
@@ -232,7 +241,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="provider"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <Label>{translate("resources.direction.provider")}</Label>
                                     <Select
                                         value={field.value}
@@ -272,7 +281,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="terminal"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <Label>{translate("resources.direction.fields.terminal")}</Label>
                                     <Select
                                         value={field.value}
@@ -312,13 +321,11 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                         />
                         <FormField
                             control={form.control}
-                            name="active"
+                            name="state"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <Label>{translate("resources.direction.fields.active")}</Label>
-                                    <Select
-                                        value={field.value ? "true" : "false"}
-                                        onValueChange={value => field.onChange(value === "true")}>
+                                    <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
                                             <SelectTrigger
                                                 variant={SelectType.GRAY}
@@ -331,10 +338,10 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                <SelectItem value="true" variant={SelectType.GRAY}>
+                                                <SelectItem value="active" variant={SelectType.GRAY}>
                                                     {translate("resources.direction.fields.stateActive")}
                                                 </SelectItem>
-                                                <SelectItem value="false" variant={SelectType.GRAY}>
+                                                <SelectItem value="inactive" variant={SelectType.GRAY}>
                                                     {translate("resources.direction.fields.stateInactive")}
                                                 </SelectItem>
                                             </SelectGroup>
@@ -347,7 +354,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="weight"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -362,9 +369,40 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                         />
                         <FormField
                             control={form.control}
+                            name="type"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="p-2 w-full sm:w-1/2">
+                                    <Label>{translate("resources.direction.types.type")}</Label>
+                                    <Select value={field.value} onValueChange={field.onChange}>
+                                        <FormControl>
+                                            <SelectTrigger
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                {directionTypes.map(type => (
+                                                    <SelectItem
+                                                        value={type.value}
+                                                        variant={SelectType.GRAY}
+                                                        key={type.value}>
+                                                        {type.translation}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="description"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2">
+                                <FormItem className="p-2 w-full sm:w-1/2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -378,7 +416,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                 </FormItem>
                             )}
                         />
-                        <div className="w-full mt-4 md:mt-0 md:w-2/5 p-2 ml-auto flex flex-col gap-3 sm:gap-0 sm:flex-row space-x-0 sm:space-x-2">
+                        <div className="flex sm:flex-row flex-col gap-3 sm:gap-0 space-x-0 sm:space-x-2 mt-4 md:mt-0 ml-auto p-2 w-full md:w-2/5">
                             <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>

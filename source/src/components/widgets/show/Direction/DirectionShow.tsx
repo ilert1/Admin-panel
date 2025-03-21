@@ -63,7 +63,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                 <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
 
                 <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0 sm:self-center">
-                    {context.record.active ? (
+                    {context.record.state === "active" ? (
                         <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
                             {translate("resources.direction.fields.stateActive")}
                         </span>
@@ -118,6 +118,11 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                             label={translate("resources.direction.authInfo")}
                             text={JSON.stringify(context.record.auth_data)}
                             copyValue={JSON.stringify(context.record.auth_data).length === 0 ? false : true}
+                        />
+
+                        <TextField
+                            label={translate("resources.direction.types.type")}
+                            text={context.record.type ?? ""}
                         />
                     </div>
                 </div>

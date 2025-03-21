@@ -24,7 +24,8 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 enum FeeEnum {
     FEE_FROM_SENDER = "FeeFromSender",
-    FEE_FROM_TRANSACTION = "FeeFromTransaction"
+    FEE_FROM_TRANSACTION = "FeeFromTransaction",
+    FEE_FIX_WITHDRAW = "FeeFixWithdraw"
 }
 
 export type FeeType = "inner" | "default";
@@ -40,7 +41,7 @@ export interface AddFeeCardProps {
 }
 
 export const AddFeeCard = (props: AddFeeCardProps) => {
-    const { id, resource, onOpenChange, setFees, variants = undefined, providerName, feeType = "default" } = props;
+    const { id, resource, onOpenChange, setFees, variants, providerName, feeType = "default" } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
 
@@ -53,15 +54,25 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
 
     const { currencies, isLoading: loadingData } = useFetchDataForDirections();
 
-    const formSchema = z.object({
-        currency: z.string().min(1, { message: translate("resources.direction.fees.currencyFieldError") }),
-        value: z.coerce
-            .number({ message: translate("resources.direction.fees.valueFieldError") })
-            .positive({ message: translate("resources.direction.fees.valueFieldError") }),
-        type: z.custom<IFeeType>(),
-        description: z.string(),
-        direction: z.string().min(1, { message: translate("resources.direction.fees.directionFieldError") })
-    });
+    const formSchema = z
+        .object({
+            currency: z.optional(z.string()),
+            value: z.coerce
+                .number({ message: translate("resources.direction.fees.valueFieldError") })
+                .min(0, { message: translate("resources.direction.fees.valueFieldError") }),
+            type: z.custom<IFeeType>(),
+            description: z.string(),
+            direction: z.string().min(1, { message: translate("resources.direction.fees.directionFieldError") })
+        })
+        .superRefine((data, ctx) => {
+            if (data.type === IFeeType.NUMBER_3 && !data.currency) {
+                ctx.addIssue({
+                    path: ["currency"],
+                    message: translate("resources.direction.fees.currencyFieldError"),
+                    code: z.ZodIssueCode.custom
+                });
+            }
+        });
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (feeType === "inner") {
@@ -104,13 +115,15 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            currency: "",
             value: 0,
             type: 1,
             description: "",
-            direction: ""
+            direction: "",
+            currency: ""
         }
     });
+
+    const typeValue = form.watch("type");
 
     if (isLoading || loadingData)
         return (
@@ -118,20 +131,22 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                 <LoadingBlock />
             </div>
         );
-    const currenciesDisabled = !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0);
+    const currenciesDisabled =
+        !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0) ||
+        typeValue !== IFeeType.NUMBER_3;
 
     return (
         <>
             <Form {...form}>
                 <form className="space-y-6">
                     <div className="mb-[16px]">
-                        <div className="bg-neutral-10 dark:bg-muted border border-neutral-40 dark:border-none rounded-[8px] px-[8px] pt-[16px] pb-[8px]">
-                            <div className="w-full grid grid-cols-2 sm:grid-cols-4">
+                        <div className="bg-neutral-10 dark:bg-muted px-[8px] pt-[16px] pb-[8px] border border-neutral-40 dark:border-none rounded-[8px]">
+                            <div className="grid grid-cols-2 sm:grid-cols-4 w-full">
                                 <FormField
                                     control={form.control}
                                     name="direction"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="p-2 col-span-2">
+                                        <FormItem className="col-span-2 p-2">
                                             <Label>{translate("resources.direction.fees.direction")}</Label>
                                             <FormControl>
                                                 <Select value={field.value} onValueChange={field.onChange}>
@@ -167,7 +182,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                     control={form.control}
                                     name="value"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="p-2 col-span-2">
+                                        <FormItem className="col-span-2 p-2">
                                             <FormControl>
                                                 <Input
                                                     {...field}
@@ -186,13 +201,12 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                     control={form.control}
                                     name="type"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="p-2 col-span-2">
+                                        <FormItem className="col-span-2 p-2">
                                             <Label>{translate("resources.direction.fees.feeType")}</Label>
                                             <FormControl>
                                                 <Select
                                                     value={field.value.toString()}
-                                                    onValueChange={value => field.onChange(Number(value))}
-                                                    disabled={currenciesDisabled}>
+                                                    onValueChange={value => field.onChange(Number(value))}>
                                                     <FormControl>
                                                         <SelectTrigger
                                                             variant={SelectType.GRAY}
@@ -214,6 +228,11 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                                 variant={SelectType.GRAY}>
                                                                 {FeeEnum.FEE_FROM_TRANSACTION}
                                                             </SelectItem>
+                                                            <SelectItem
+                                                                value={IFeeType.NUMBER_3.toString()}
+                                                                variant={SelectType.GRAY}>
+                                                                {FeeEnum.FEE_FIX_WITHDRAW}
+                                                            </SelectItem>
                                                         </SelectGroup>
                                                     </SelectContent>
                                                 </Select>
@@ -225,7 +244,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                     control={form.control}
                                     name="currency"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="p-2 col-span-2">
+                                        <FormItem className="col-span-2 p-2">
                                             <Label>{translate("resources.direction.fees.currency")}</Label>
                                             <FormControl>
                                                 <Select
@@ -241,7 +260,13 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                             <SelectValue
                                                                 placeholder={
                                                                     currenciesDisabled
-                                                                        ? translate("resources.direction.noCurrencies")
+                                                                        ? typeValue !== IFeeType.NUMBER_3
+                                                                            ? translate(
+                                                                                  "resources.direction.errors.onlyThirdTypeError"
+                                                                              )
+                                                                            : translate(
+                                                                                  "resources.direction.noCurrencies"
+                                                                              )
                                                                         : ""
                                                                 }
                                                             />
@@ -273,11 +298,12 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                         </FormItem>
                                     )}
                                 />
+
                                 <FormField
                                     control={form.control}
                                     name="description"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="w-full p-2 col-span-2 sm:col-span-4">
+                                        <FormItem className="col-span-2 sm:col-span-4 p-2 w-full">
                                             <FormControl>
                                                 <Input
                                                     {...field}
@@ -298,7 +324,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                     </div>
                 </form>
             </Form>
-            <div className="w-full md:w-2/5 p-2 pb-5 ml-auto flex space-x-2">
+            <div className="flex space-x-2 ml-auto p-2 pb-5 w-full md:w-2/5">
                 <Button onClick={form.handleSubmit(onSubmit)} variant="default" className="flex-1">
                     {translate("app.ui.actions.save")}
                 </Button>

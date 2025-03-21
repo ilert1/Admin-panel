@@ -1,7 +1,6 @@
 import { ListContextProvider } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
-import {} from "react-responsive";
-import { Loading } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 
 import { useGetDirectionsColumns } from "./Columns";
 import { DirectionListFilter } from "./DirectionListFilter";
@@ -13,21 +12,12 @@ export const DirectionsList = () => {
 
     const { columns } = useGetDirectionsColumns();
 
-    if (listContext.isLoading || !listContext.data) {
-        return <Loading />;
-    } else {
-        return (
-            <>
-                <div className="flex flex-col justify-between gap-2 md:flex-row md:items-end">
-                    <ListContextProvider value={listContext}>
-                        <DirectionListFilter />
-                    </ListContextProvider>
-                </div>
-
-                <ListContextProvider value={listContext}>
-                    <DataTable columns={columns} />
-                </ListContextProvider>
-            </>
-        );
-    }
+    return (
+        <>
+            <ListContextProvider value={listContext}>
+                <DirectionListFilter />
+                {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
+            </ListContextProvider>
+        </>
+    );
 };

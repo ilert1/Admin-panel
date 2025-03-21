@@ -1,6 +1,6 @@
 import { ListContextProvider } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
-import { Loading } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { TransactionListFilter } from "./TransactionListFilter";
 import { useGetTransactionColumns } from "./Columns";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
@@ -9,19 +9,16 @@ export const TransactionList = () => {
     const listContext = useAbortableListController<Transaction.TransactionView>({ resource: "transactions/view" });
     const { columns } = useGetTransactionColumns();
 
-    if (listContext.isLoading || !listContext.data) {
-        return <Loading />;
-    } else {
-        return (
-            <>
-                <ListContextProvider value={listContext}>
-                    <div className="mb-4 mt-5">
-                        <TransactionListFilter
-                        // setChartOpen={setChartOpen}
-                        // chartOpen={chartOpen}
-                        />
-                    </div>
-                    {/* <div className="w-full mb-6 overflow-y-hidden">
+    return (
+        <>
+            <ListContextProvider value={listContext}>
+                <div className="mb-4 mt-5">
+                    <TransactionListFilter
+                    // setChartOpen={setChartOpen}
+                    // chartOpen={chartOpen}
+                    />
+                </div>
+                {/* <div className="w-full mb-6 overflow-y-hidden">
                         <BarChart
                             startDate={startDate}
                             endDate={endDate}
@@ -30,9 +27,8 @@ export const TransactionList = () => {
                         />
                     </div> */}
 
-                    <DataTable columns={columns} />
-                </ListContextProvider>
-            </>
-        );
-    }
+                {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
+            </ListContextProvider>
+        </>
+    );
 };

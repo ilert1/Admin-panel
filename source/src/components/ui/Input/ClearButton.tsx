@@ -8,7 +8,6 @@ interface ClearButtonProps {
 }
 export const ClearButton = (props: ClearButtonProps) => {
     const { handleClear, inputVariant } = props;
-    // console.log(inputVariant);
 
     return (
         <span

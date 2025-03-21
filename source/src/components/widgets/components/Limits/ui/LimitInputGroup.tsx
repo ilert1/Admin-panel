@@ -20,9 +20,6 @@ export const LimitInputGroup = ({
     onMinChange,
     onMaxChange
 }: LimitInputGroupProps) => {
-    // console.log(errorMin);
-    // console.log(errorMax);
-
     return (
         <div className="flex flex-col gap-4 flex-1">
             <TextField text={label} className="text-display-5" />

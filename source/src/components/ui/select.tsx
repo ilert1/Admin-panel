@@ -75,7 +75,6 @@ const SelectContent = React.forwardRef<
         const calculateMaxHeight = () => {
             setIsLoading(true);
             if (selectRef.current) {
-                // console.log(selectRef.current?.style.maxHeight);
                 const viewportHeight = window.innerHeight;
                 const selectRect = selectRef.current.getBoundingClientRect();
                 const topSpace = selectRect.top;
