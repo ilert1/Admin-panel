@@ -41,7 +41,18 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
         code: z.string().min(1, translate("resources.currency.errors.code")),
         position: z.enum([CurrencyPosition.after, CurrencyPosition.before]),
         symbol: z.string().trim().nullable(),
-        is_coin: z.boolean().default(false)
+        is_coin: z.boolean().default(false),
+        accuracy: z
+            .union([
+                z.coerce
+                    .number({ message: translate("resources.currency.errors.intOnly") })
+                    .int(translate("resources.currency.errors.intOnly"))
+                    .min(1, translate("resources.currency.errors.minVal"))
+                    .max(16, translate("resources.currency.errors.maxVal")),
+                z.literal(""),
+                z.null()
+            ])
+            .optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -50,7 +61,8 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
             code: controllerProps.record?.code || "",
             position: controllerProps.record?.position || CurrencyPosition.before,
             symbol: controllerProps.record?.symbol || "",
-            is_coin: controllerProps.record?.is_coin || false
+            is_coin: controllerProps.record?.is_coin || false,
+            accuracy: controllerProps.record?.accuracy || 2
         }
     });
 
@@ -60,7 +72,8 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                 code: controllerProps.record?.code || "",
                 position: controllerProps.record?.position || CurrencyPosition.before,
                 symbol: controllerProps.record?.symbol || "",
-                is_coin: controllerProps.record?.is_coin || false
+                is_coin: controllerProps.record?.is_coin || false,
+                accuracy: controllerProps.record?.accuracy || 2
             });
         }
     }, [form, controllerProps.record]);
@@ -68,6 +81,11 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
+
+        if (!data.accuracy) {
+            delete data.accuracy;
+        }
+
         try {
             await dataProvider.update("currency", {
                 id,
@@ -90,7 +108,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
         <EditContextProvider value={controllerProps}>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" autoFocus={false}>
-                    <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:grid-flow-col gap-y-5 gap-x-4 md:items-end">
+                    <div className="flex flex-col md:items-end gap-x-4 gap-y-5 md:grid md:grid-cols-2 md:grid-rows-2">
                         <FormField
                             control={form.control}
                             name="code"
@@ -108,7 +126,6 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             control={form.control}
                             name="symbol"
@@ -128,7 +145,6 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             control={form.control}
                             name="is_coin"
@@ -162,7 +178,6 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             control={form.control}
                             name="position"
@@ -200,9 +215,32 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                                 </FormItem>
                             )}
                         />
+                        <FormField
+                            control={form.control}
+                            name="accuracy"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="space-y-1">
+                                    <FormControl>
+                                        <Input
+                                            className="text-sm"
+                                            placeholder={translate(
+                                                "resources.currency.fields.defaultAccuracyPlaceholder"
+                                            )}
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.currency.fields.accuracy")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            inputMode="numeric"
+                                            {...field}
+                                            value={field.value ?? ""}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
                     </div>
 
-                    <div className="sm:self-end flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div className="flex sm:flex-row flex-col sm:items-center sm:self-end gap-4">
                         <Button type="submit" variant="default" disabled={submitButtonDisabled}>
                             {translate("app.ui.actions.save")}
                         </Button>

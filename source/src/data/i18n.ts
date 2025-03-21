@@ -326,11 +326,16 @@ const ru: TranslationMessages = {
                 currencyName: "Название валюты",
                 example: "Пример",
                 edit: "Изменить",
-                delete: "Удалить"
+                delete: "Удалить",
+                accuracy: "Точность",
+                defaultAccuracyPlaceholder: "По умолчанию 2"
             },
             errors: {
                 code: "Код валюты обязательно нужно ввести",
-                alreadyInUse: "Данное имя уже тспользуется. Выберите другое."
+                alreadyInUse: "Данное имя уже тспользуется. Выберите другое.",
+                intOnly: "Значение должно быть целым числом, без дробной части",
+                minVal: "Минимальное значение 1",
+                maxVal: "Максмальное значение 16"
             },
             create: "Добавить валюту",
             createDialogTitle: "Добавление валюты",
@@ -1235,11 +1240,16 @@ const en: TranslationMessages = {
                 currencyName: "Currency name",
                 example: "Example",
                 edit: "Edit",
-                delete: "Delete"
+                delete: "Delete",
+                accuracy: "Accuracy",
+                defaultAccuracyPlaceholder: "By default 2"
             },
             errors: {
                 code: "Code is required",
-                alreadyInUse: "This name is already in use. Choose another one."
+                alreadyInUse: "This name is already in use. Choose another one.",
+                intOnly: "Input should be a valid integer without fractional part",
+                minVal: "Minimum value is 1",
+                maxVal: "Maximum value is 16"
             },
             create: "Add currency",
             createDialogTitle: "Adding a currency",

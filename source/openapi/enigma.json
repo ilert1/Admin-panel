@@ -1,6 +1,6 @@
 {
     "openapi": "3.1.0",
-    "info": { "title": "BlowFish - Enigma API Service", "version": "default_version" },
+    "info": { "title": "BlowFish - Enigma API Service", "version": "develop" },
     "paths": {
         "/health": {
             "get": {
