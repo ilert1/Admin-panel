@@ -41,6 +41,9 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const onSubmit: SubmitHandler<IDirectionCreate> = async data => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
+
+        if (!data.terminal) delete data.terminal;
+
         try {
             const dataWithLimits = {
                 ...data,
@@ -97,7 +100,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
         dst_currency: z.string().min(1, translate("resources.direction.errors.dst_curr")),
         merchant: z.string().min(1, translate("resources.direction.errors.merchant")),
         provider: z.string().min(1, translate("resources.direction.errors.provider")),
-        terminal: z.string().min(1, translate("resources.direction.errors.terminal")),
+        terminal: z.string().optional(),
         weight: z.coerce
             .number({ message: translate("resources.direction.errors.weightError") })
             .int(translate("resources.direction.errors.weightError"))
