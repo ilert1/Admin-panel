@@ -28,7 +28,11 @@ export class VaultDataProvider extends BaseDataProvider {
     async addPartialKey(
         resource: "vault",
         params: { key_part: string }
-    ): Promise<{ data: Wallets.WalletStorage; success: boolean; error: string }> {
+    ): Promise<{
+        data: Wallets.WalletStorage | string;
+        success: boolean;
+        error: { error_message: string; error_type: string };
+    }> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/partial`, {
             method: "POST",
             body: JSON.stringify(params),
