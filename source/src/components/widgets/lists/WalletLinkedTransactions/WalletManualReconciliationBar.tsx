@@ -79,7 +79,7 @@ export const WalletManualReconciliationBar = () => {
             <Dialog open={manualClicked} onOpenChange={onOpenChange}>
                 <DialogContent
                     disableOutsideClick
-                    className="mx-2 h-full max-h-[300px] w-[716px] max-w-full !overflow-y-auto rounded-[0] bg-muted md:h-auto md:rounded-[16px]">
+                    className="h-auto max-h-80 w-[350px] overflow-hidden rounded-16 xl:max-h-none">
                     <DialogHeader>
                         <DialogTitle>
                             {translate("resources.wallet.linkedTransactions.manual_reconciliation")}
