@@ -43,10 +43,10 @@ export const useGetAccountsColumns = () => {
                             onClick={() => {
                                 openSheet("merchant", {
                                     id: row.original.owner_id,
-                                    merchantName: row.original.meta.caption
+                                    merchantName: row.original.meta?.caption
                                 });
                             }}>
-                            {row.original.meta.caption ?? ""}
+                            {row.original.meta?.caption ?? ""}
                         </Button>
                         <TextField
                             className="text-neutral-70"

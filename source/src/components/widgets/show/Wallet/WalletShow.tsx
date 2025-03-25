@@ -100,7 +100,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
                 {currentAccount && (
                     <TextField
                         label={translate("resources.wallet.manage.fields.merchantName")}
-                        text={currentAccount.meta?.caption ? currentAccount.meta.caption : currentAccount.owner_id}
+                        text={currentAccount.meta?.caption ? currentAccount.meta?.caption : currentAccount.owner_id}
                     />
                 )}
                 <TextField label={translate("resources.wallet.manage.fields.internalId")} text={context.record.id} />

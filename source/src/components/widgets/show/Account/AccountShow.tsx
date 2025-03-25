@@ -44,7 +44,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
             <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row">
                 <div className="flex flex-col gap-1 md:gap-4">
                     <div className="text-display-2 text-neutral-90 dark:text-neutral-30">
-                        <span>{context.record.meta.caption}</span>
+                        <span>{context.record.meta?.caption}</span>
                     </div>
 
                     <TextField text={id} copyValue className="text-neutral-90 dark:text-neutral-30" />
