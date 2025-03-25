@@ -540,7 +540,9 @@ const ru: TranslationMessages = {
                     allKeys: "Всего частей ключа",
                     requiredKeys: "Необходимо для открытия",
                     enteredKeys: "Введено частей ключа",
-                    toFinishKeys: "До распечатывания осталось"
+                    toFinishKeys: "До распечатывания осталось",
+                    unsealSuccess: "Хранилище успешно распечатано",
+                    keyPartSuccess: "Часть ключа введена успешно"
                 }
             },
             manage: {
@@ -1457,7 +1459,9 @@ const en: TranslationMessages = {
                     allKeys: "Total key shards",
                     requiredKeys: "Required to unseal",
                     enteredKeys: "Entered key shards",
-                    toFinishKeys: "Shards remaining to unseal"
+                    toFinishKeys: "Shards remaining to unseal",
+                    unsealSuccess: "Storage unsealed successfully",
+                    keyPartSuccess: "Part of the key has been entered successfully"
                 }
             },
             manage: {
