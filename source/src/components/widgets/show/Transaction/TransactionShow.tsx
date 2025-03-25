@@ -33,7 +33,6 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     const { openSheet } = useSheets();
     const { permissions } = usePermissions();
     const context = useAbortableShowController<Transaction.Transaction>({ resource: "transactions", id });
-    console.log(data);
 
     const [newState, setNewState] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
