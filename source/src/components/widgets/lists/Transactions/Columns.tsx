@@ -136,7 +136,7 @@ export const useGetTransactionColumns = () => {
             header: translate("resources.transactions.fields.rateInfo"),
             cell: ({ row }) => (
                 <>
-                    <p className="text-neutral-60 dark:text-neutral-70">{`${row.original.rate_source_currency} / ${row.original.rate_destination_currency}:`}</p>
+                    <p className="text-neutral-60 dark:text-neutral-70">{`${row.original.rate_source_currency ?? "-"} / ${row.original.rate_destination_currency ?? "-"}`}</p>
                     <p>{row.original.rate}</p>
                 </>
             )
