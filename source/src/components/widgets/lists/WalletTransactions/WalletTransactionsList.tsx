@@ -28,10 +28,3 @@ export const WalletTransactionsList = () => {
         </>
     );
 };
-
-// const [elem, setElem] = useState<ReactNode>(undefined);
-// setTimeout(() => {
-//     setElem(<DataTable columns={columns} />);
-// }, 3000);
-// console.log(elem);
-// {listContext.isLoading || !elem ? <LoadingBlock /> : elem}
