@@ -241,7 +241,9 @@ const ru: TranslationMessages = {
                 transfer: "Перевод средств",
                 reward: "Выплата вознаграждения",
                 feefromsender: "Комиссия от отправителя",
-                feefromtransaction: "Комиссия с транзакции"
+                feefromtransaction: "Комиссия с транзакции",
+                unknown: "Неизвестный тип",
+                undefined: "Неизвестный тип"
             },
             states: {
                 all: "Показать все",
@@ -1156,7 +1158,9 @@ const en: TranslationMessages = {
                 transfer: "Transfer",
                 reward: "Reward",
                 feefromsender: "Fee from sender",
-                feefromtransaction: "Fee from transaction"
+                feefromtransaction: "Fee from transaction",
+                unknown: "Unknown type",
+                undefined: "Unknown type"
             },
             states: {
                 all: "Show all",
