@@ -118,16 +118,15 @@ export const WalletStore = () => {
         <>
             <ResourceHeaderTitle marginBottom />
 
-            <div className="right-[-48px] bottom-[-90px] absolute p-4">
+            <div className="absolute bottom-[-90px] right-[-48px] p-4">
                 <img
                     src="/BlowFish.svg"
                     alt="Decorative"
-                    className="-z-50 opacity-[0.3] w-[280px] lg:w-[320px] xl:w-[400px] h-[280px] lg:h-[320px] xl:h-[400px] pointer-events-none select-none"
-                    className="-z-50 opacity-[0.3] w-[280px] lg:w-[320px] xl:w-[400px] h-[280px] lg:h-[320px] xl:h-[400px] pointer-events-none select-none"
+                    className="pointer-events-none -z-50 h-[280px] w-[280px] select-none opacity-[0.3] lg:h-[320px] lg:w-[320px] xl:h-[400px] xl:w-[400px]"
                 />
             </div>
-            <section className="flex justify-center items-center">
-                <div className="flex flex-col gap-6 bg-neutral-0 dark:bg-neutral-100 p-[30px] rounded-16 w-full min-w-[200px] max-w-[500px]">
+            <section className="flex items-center justify-center">
+                <div className="flex w-full min-w-[200px] max-w-[500px] flex-col gap-6 rounded-16 bg-neutral-0 p-[30px] dark:bg-neutral-100">
                     {storageStateLoading ? (
                         <LoadingBlock />
                     ) : (
@@ -135,16 +134,15 @@ export const WalletStore = () => {
                             {!storageState?.initiated && (
                                 <>
                                     {stepForUnsealed !== "error" ? (
-                                        <h2 className="text-neutral-100 dark:text-neutral-0 text-xl text-center">
-                                        <h2 className="text-neutral-100 dark:text-neutral-0 text-xl text-center">
+                                        <h2 className="text-center text-xl text-neutral-100 dark:text-neutral-0">
                                             {translate("resources.wallet.storage.initiatedTitle")}
                                         </h2>
                                     ) : (
                                         <div className="flex flex-col items-center gap-1">
-                                            <h2 className="text-red-40 text-xl">
+                                            <h2 className="text-xl text-red-40">
                                                 {translate("resources.wallet.storage.initiatedError")}
                                             </h2>
-                                            <h3 className="text-neutral-100 dark:text-neutral-0 text-sm">
+                                            <h3 className="text-sm text-neutral-100 dark:text-neutral-0">
                                                 {translate("resources.wallet.storage.unsealed.errorSubtitle")}
                                             </h3>
                                         </div>
@@ -165,16 +163,15 @@ export const WalletStore = () => {
                             {storageState?.state === "sealed" && storageState?.initiated && (
                                 <>
                                     {stepForUnsealed !== "error" ? (
-                                        <h2 className="text-neutral-100 dark:text-neutral-0 text-xl text-center">
-                                        <h2 className="text-neutral-100 dark:text-neutral-0 text-xl text-center">
+                                        <h2 className="text-center text-xl text-neutral-100 dark:text-neutral-0">
                                             {translate("resources.wallet.storage.titleClosed")}
                                         </h2>
                                     ) : (
                                         <div className="flex flex-col items-center gap-1">
-                                            <h2 className="text-red-40 text-xl">
+                                            <h2 className="text-xl text-red-40">
                                                 {translate("resources.wallet.storage.unsealed.errorTitle")}
                                             </h2>
-                                            <h3 className="text-neutral-100 dark:text-neutral-0 text-sm">
+                                            <h3 className="text-sm text-neutral-100 dark:text-neutral-0">
                                                 {translate("resources.wallet.storage.unsealed.errorSubtitle")}
                                             </h3>
                                         </div>
@@ -233,7 +230,6 @@ export const WalletStore = () => {
 
                                                                             <TooltipContent
                                                                                 className="bottom-0 border-none"
-                                                                                className="bottom-0 border-none"
                                                                                 side="left">
                                                                                 <FormMessage />
                                                                             </TooltipContent>
@@ -249,10 +245,9 @@ export const WalletStore = () => {
                                             <Button
                                                 disabled={loadingProcess || keyText.length < 3}
                                                 type="submit"
-                                                className="flex items-center self-end gap-1 w-full sm:w-1/4 min-w-28">
-                                                className="flex items-center self-end gap-1 w-full sm:w-1/4 min-w-28">
+                                                className="flex w-full min-w-28 items-center gap-1 self-end sm:w-1/4">
                                                 {loadingProcess ? (
-                                                    <LoadingBlock className="!w-5 !h-5" />
+                                                    <LoadingBlock className="!h-5 !w-5" />
                                                 ) : (
                                                     <span className="text-sm">
                                                         {translate("resources.wallet.storage.buttonForSend")}
@@ -267,8 +262,7 @@ export const WalletStore = () => {
                                 storageState?.initiated &&
                                 stepForUnsealed !== 1 && (
                                     <>
-                                        <h2 className="text-neutral-100 dark:text-neutral-0 text-xl text-center">
-                                        <h2 className="text-neutral-100 dark:text-neutral-0 text-xl text-center">
+                                        <h2 className="text-center text-xl text-neutral-100 dark:text-neutral-0">
                                             {storageState?.state === "waiting"
                                                 ? translate("resources.wallet.storage.titleClosed")
                                                 : translate("resources.wallet.storage.titleOpened")}
@@ -291,7 +285,7 @@ export const WalletStore = () => {
                                             )}
 
                                             {storageState?.state === "waiting" && (
-                                                <p className="text-yellow-40 text-base leading-[22px]">
+                                                <p className="text-base leading-[22px] text-yellow-40">
                                                     {translate("resources.wallet.storage.unsealed.toFinishKeys")}:{" "}
                                                     {+storageState.split_min - +storageState.recieved_shares}
                                                 </p>
@@ -305,7 +299,7 @@ export const WalletStore = () => {
                                                     onClick={cancelUnsealing}
                                                     className="flex flex-1 items-center gap-1 bg-red-40 hover:bg-red-30 focus:bg-red-30 active:bg-red-30">
                                                     {loadingProcess ? (
-                                                        <LoadingBlock className="!w-5 !h-5" />
+                                                        <LoadingBlock className="!h-5 !w-5" />
                                                     ) : (
                                                         <>
                                                             <LockKeyhole width={16} height={16} />
@@ -322,7 +316,6 @@ export const WalletStore = () => {
                                                         setStepForUnsealed(1);
                                                     }}
                                                     className="flex flex-1 items-center gap-1">
-                                                    className="flex flex-1 items-center gap-1">
                                                     <KeyRound width={16} height={16} />
                                                     <span className="text-sm">
                                                         {translate("resources.wallet.storage.buttonForEnterKey")}
@@ -334,9 +327,8 @@ export const WalletStore = () => {
                                                 disabled={loadingProcess}
                                                 onClick={cancelUnsealing}
                                                 className="relative flex flex-1 items-center gap-1 bg-red-40 hover:bg-red-30 focus:bg-red-30 active:bg-red-30">
-                                                className="relative flex flex-1 items-center gap-1 bg-red-40 hover:bg-red-30 focus:bg-red-30 active:bg-red-30">
                                                 {loadingProcess ? (
-                                                    <LoadingBlock className="!w-5 !h-5" />
+                                                    <LoadingBlock className="!h-5 !w-5" />
                                                 ) : (
                                                     <>
                                                         <LockKeyhole width={16} height={16} />
