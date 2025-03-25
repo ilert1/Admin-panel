@@ -88,7 +88,9 @@ export const WalletStore = () => {
             }
 
             if (json.data === "Vault was unsealed") {
-                appToast("success", translate("resources.wallet.storage.unsealSuccess"));
+                appToast("success", translate("resources.wallet.storage.unsealed.unsealSuccess"));
+            } else {
+                appToast("success", translate("resources.wallet.storage.unsealed.keyPartSuccess"));
             }
 
             setStepForUnsealed(0);
