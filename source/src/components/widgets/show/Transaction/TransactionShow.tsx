@@ -86,7 +86,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     }
 
     return (
-        <div className="top-[82px] flex h-full flex-col gap-6 overflow-auto p-4 pt-0 md:p-[42px]">
+        <div className="top-[82px] flex h-full flex-col gap-6 overflow-auto p-4 pt-0 md:px-[42px]">
             {permissions === "admin" && (
                 <div className={`flex flex-wrap justify-between gap-4`}>
                     {showState && (

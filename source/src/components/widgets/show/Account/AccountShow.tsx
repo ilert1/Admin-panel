@@ -40,7 +40,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     }
 
     return (
-        <div className="flex h-full min-h-[300px] flex-col p-4 pt-0 md:p-[42px]">
+        <div className="flex h-full min-h-[300px] flex-col p-4 pt-0 md:px-[42px]">
             <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row">
                 <div className="flex flex-col gap-1 md:gap-4">
                     <div className="text-display-2 text-neutral-90 dark:text-neutral-30">
