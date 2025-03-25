@@ -22,7 +22,8 @@ export default defineConfig({
             target: "./src/api/enigma",
             client: "fetch",
             headers: true,
-            prettier: true
+            prettier: true,
+            urlEncodeParameters: true
         }
     }
 });
