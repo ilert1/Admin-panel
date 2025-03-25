@@ -1753,7 +1753,8 @@ const en: TranslationMessages = {
                     minGreaterThanMax: "The maximum value cannot be less than the minimum value",
                     maxTooSmall: "The maximum value must be 0 or greater than 1",
                     minTooSmall: "The minimum value must be 0 or greater than 1",
-                    maxTooLarge: "The maximum value cannot be greater than 10,000,000"
+                    maxTooLarge: "The maximum value cannot be greater than 10,000,000",
+                    minTooSmallForOne: "The maximum value must be 1 or greater"
                 }
             }
         },

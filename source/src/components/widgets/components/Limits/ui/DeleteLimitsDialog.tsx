@@ -33,7 +33,7 @@ export const DeleteLimitsDialog = (props: DeleteLimitsDialogProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="w-[270px] bg-muted">
+            <DialogContent className="bg-muted !w-[270px]">
                 <DialogHeader>
                     <DialogTitle className="text-center">{translate("app.widgets.limits.deleteLimits")}</DialogTitle>
                     <DialogDescription></DialogDescription>

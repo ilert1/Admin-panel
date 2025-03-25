@@ -20,27 +20,28 @@ export const LimitCard = (props: LimitCardProps) => {
 
     const handleDelete = () => {
         setDeleteClicked(true);
-    };
+    };  
+        
 
     return (
         <>
-            <div className="mb-4 flex flex-col gap-4 rounded-8 bg-neutral-10 p-4 dark:bg-muted">
-                <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-                    <div className="flex flex-1 flex-col gap-2">
+            <div className="flex flex-col gap-4 bg-neutral-10 dark:bg-muted mb-4 p-4 rounded-8">
+                <div className="flex sm:flex-row flex-col justify-center items-center gap-4">
+                    <div className="flex flex-col flex-1 gap-2">
                         <TextField text={translate("app.widgets.limits.deposit")} />
                         <div className="flex flex-col gap-2">
                             <TextField text={getMinValue(limits.payin)} label="min" />
                             <TextField text={getMaxValue(limits.payin)} label="max" />
                         </div>
                     </div>
-                    <div className="flex flex-1 flex-col gap-2">
+                    <div className="flex flex-col flex-1 gap-2">
                         <TextField text={translate("app.widgets.limits.payment")} />
                         <div className="flex flex-col gap-2">
                             <TextField text={getMinValue(limits.payout)} label="min" />
                             <TextField text={getMaxValue(limits.payout)} label="max" />
                         </div>
                     </div>
-                    <div className="flex flex-1 flex-col gap-2">
+                    <div className="flex flex-col flex-1 gap-2">
                         <TextField text={translate("app.widgets.limits.reward")} />
                         <div className="flex flex-col gap-2">
                             <TextField text={getMinValue(limits.reward)} label="min" />
@@ -48,7 +49,7 @@ export const LimitCard = (props: LimitCardProps) => {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col justify-end gap-[10px] sm:flex-row">
+                <div className="flex sm:flex-row flex-col justify-end gap-[10px]">
                     <Button variant="outline" onClick={() => setEditClicked(true)}>
                         {translate("app.ui.actions.edit")}
                     </Button>
