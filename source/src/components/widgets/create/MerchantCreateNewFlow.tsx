@@ -126,13 +126,13 @@ export const MerchantCreateNewFlow = ({ onOpenChange }: { onOpenChange: (state: 
     return (
         <CreateContextProvider value={controllerProps}>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                     <div className="flex flex-wrap">
                         <FormField
                             control={form.control}
                             name="name"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="w-full p-2 sm:w-1/2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -150,7 +150,7 @@ export const MerchantCreateNewFlow = ({ onOpenChange }: { onOpenChange: (state: 
                             control={form.control}
                             name="description"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="w-full p-2 sm:w-1/2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -170,7 +170,7 @@ export const MerchantCreateNewFlow = ({ onOpenChange }: { onOpenChange: (state: 
                                 name="public_key"
                                 control={form.control}
                                 render={({ field, fieldState }) => (
-                                    <FormItem className="space-y-0 h-full flex flex-col">
+                                    <FormItem className="flex h-full flex-col space-y-0">
                                         <Label>{translate("app.widgets.forms.userCreate.publicKey")}</Label>
                                         <FormControl>
                                             <Textarea
@@ -179,7 +179,7 @@ export const MerchantCreateNewFlow = ({ onOpenChange }: { onOpenChange: (state: 
                                                 placeholder={translate(
                                                     "app.widgets.forms.userCreate.publicKeyPlaceholder"
                                                 )}
-                                                className={`h-full resize-none min-h-20 dark:bg-muted`}
+                                                className={`h-full min-h-20 resize-none dark:bg-muted`}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                             />
@@ -192,7 +192,7 @@ export const MerchantCreateNewFlow = ({ onOpenChange }: { onOpenChange: (state: 
                 </form>
             </Form>
             <Fees id={""} fees={fees} feesResource={FeesResource.MERCHANT} setFees={setFees} feeType="inner" />
-            <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col gap-3 sm:gap-0 sm:flex-row space-x-0 sm:space-x-2">
+            <div className="ml-auto flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:w-2/5">
                 <Button
                     onClick={form.handleSubmit(onSubmit)}
                     variant="default"

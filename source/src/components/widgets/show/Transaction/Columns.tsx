@@ -8,10 +8,14 @@ export const useGetTransactionShowColumns = () => {
     const [locale] = useLocaleState();
     const dataDictionaries = fetchDictionaries();
 
-    function computeValue(quantity: number, accuracy: number) {
-        const value = (quantity || 0) / accuracy;
-        if (isNaN(value)) return "-";
-        return value.toFixed(Math.log10(accuracy));
+    function computeValue(quantity: number | undefined, accuracy: number | undefined) {
+        if (quantity && accuracy) {
+            const value = (quantity || 0) / accuracy;
+            if (isNaN(value)) return "-";
+            return value.toFixed(Math.log10(accuracy));
+        }
+
+        return "-";
     }
 
     const feesColumns: ColumnDef<Fee>[] = [
@@ -31,11 +35,6 @@ export const useGetTransactionShowColumns = () => {
                     ]?.type_descr.toLowerCase()}`
                 ) || ""
         },
-        /* {
-            id: "currency",
-            accessorKey: "currency",
-            header: translate("resources.transactions.fields.currency")
-        }, */
         {
             id: "value",
             accessorKey: "value",
@@ -60,11 +59,6 @@ export const useGetTransactionShowColumns = () => {
                     </>
                 );
             }
-        },
-        {
-            id: "id",
-            accessorKey: "id",
-            header: translate("resources.transactions.fields.id")
         },
         {
             id: "type",

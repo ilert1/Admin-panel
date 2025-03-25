@@ -12,13 +12,13 @@ export const ClearButton = (props: ClearButtonProps) => {
     return (
         <span
             className={cn(
-                "pr-[4px] flex items-center justify-center dark:bg-neutral-100 h-[36px] cursor-pointer",
+                "flex h-[36px] cursor-pointer items-center justify-center pr-[4px] dark:bg-neutral-100",
                 "bg-neutral-0 text-neutral-60",
                 "dark:text-neutral-40",
                 inputVariant === InputTypes.GRAY ? "dark:bg-muted" : "bg-neutral-0 dark:bg-neutral-100"
             )}
             onMouseDown={handleClear}>
-            <X className="w-4 h-4" />
+            <X className="h-4 w-4" />
         </span>
     );
 };

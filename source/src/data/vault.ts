@@ -5,10 +5,11 @@ import { BaseDataProvider } from "./base";
 const API_URL = import.meta.env.VITE_WALLET_URL;
 
 export class VaultDataProvider extends BaseDataProvider {
-    async getVaultState(resource: "vault"): Promise<Wallets.WalletStorage> {
+    async getVaultState(resource: "vault", signal?: AbortSignal): Promise<Wallets.WalletStorage> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/state`, {
             method: "GET",
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+            signal
         });
 
         return json?.data;

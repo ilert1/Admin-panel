@@ -4,9 +4,10 @@ import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from "@
 import { ErrorBadge } from "@/components/ui/Input/ErrorBadge";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
 import { Check, ChevronDown } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import { useGetList, useTranslate } from "react-admin";
+import { useDataProvider, useTranslate } from "react-admin";
 
 interface MerchantSelectFilterProps {
     merchant: string;
@@ -30,15 +31,19 @@ export const MerchantSelectFilter = ({
     disabled = false
 }: MerchantSelectFilterProps) => {
     const translate = useTranslate();
+    const dataProvider = useDataProvider();
 
-    const { data: merchantData, isFetching } = useGetList<ResourceData<typeof resource>>(
-        resource,
-        {
-            pagination: { perPage: 10000, page: 1 },
-            filter: { sort: "name", asc: "ASC" }
-        },
-        { refetchInterval: 60 * 60 * 60 }
-    );
+    const { isFetching, data: merchantData } = useQuery({
+        queryKey: [resource, "getList", "MerchantSelectFilter"],
+        queryFn: async ({ signal }) =>
+            await dataProvider.getList<ResourceData<typeof resource>>(resource, {
+                pagination: { perPage: 10000, page: 1 },
+                filter: { sort: "name", asc: "ASC" },
+                signal
+            }),
+        select: data => data?.data,
+        refetchInterval: 60 * 60 * 60
+    });
 
     useEffect(() => {
         if (isLoading) {
@@ -79,12 +84,12 @@ export const MerchantSelectFilter = ({
                     aria-expanded={open}
                     disabled={merchantData === undefined || !merchantData.length || disabled}
                     className={cn(
-                        "min-w-36 disabled:bg-neutral-20 disabled:dark:bg-neutral-90  disabled:!text-neutral-80 disabled:dark:!text-neutral-60 disabled:pointer-events-none hover:!border-green-40 w-full font-normal justify-between flex h-9 flex-1 items-center text-start border border-neutral-40 dark:border-neutral-60 rounded-4 bg-neutral-0 dark:bg-neutral-100 px-3 py-2 text-sm ring-offset-background [&:is([data-state='open'])]:border-green-50 active:border-green-50 disabled:cursor-not-allowed [&>span]:line-clamp-1 focus:outline-none [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180 !mt-0 ",
+                        "!mt-0 flex h-9 w-full min-w-36 flex-1 items-center justify-between rounded-4 border border-neutral-40 bg-neutral-0 px-3 py-2 text-start text-sm font-normal ring-offset-background hover:!border-green-40 focus:outline-none active:border-green-50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-neutral-20 disabled:!text-neutral-80 dark:border-neutral-60 dark:bg-neutral-100 disabled:dark:bg-neutral-90 disabled:dark:!text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180 [&:is([data-state='open'])]:border-green-50 [&>span]:line-clamp-1 [&[data-placeholder]]:text-neutral-60 [&[data-placeholder]]:dark:text-neutral-70",
                         variant === "outline" && "bg-white dark:bg-muted",
                         error && "border-red-40 dark:border-red-40"
                     )}>
                     {merchant ? (
-                        <span className="text-neutral-80 dark:text-neutral-0 hover:!text-neutral-80 focus:!text-neutral-80 active:!text-neutral-80">
+                        <span className="text-neutral-80 hover:!text-neutral-80 focus:!text-neutral-80 active:!text-neutral-80 dark:text-neutral-0">
                             {merchantName(merchantData?.find(account => account.id === merchant))}
                         </span>
                     ) : (
@@ -95,12 +100,12 @@ export const MerchantSelectFilter = ({
                     <div className="flex items-center gap-2">
                         <ChevronDown
                             id="selectToggleIcon"
-                            className="h-4 w-4 text-green-50 dark:text-green-40 transition-transform"
+                            className="h-4 w-4 text-green-50 transition-transform dark:text-green-40"
                         />
                         {error && (
                             <ErrorBadge
                                 errorMessage={error}
-                                className="!flex items-center justify-center h-4 !text-red-40 dark:!text-red-40"
+                                className="!flex h-4 items-center justify-center !text-red-40 dark:!text-red-40"
                             />
                         )}
                     </div>
@@ -109,13 +114,13 @@ export const MerchantSelectFilter = ({
 
             <PopoverContent
                 className={cn(
-                    "md:w-[--radix-popover-trigger-width] md:max-h-[--radix-popover-content-available-height] p-0 z-[70] min-w-[8rem] overflow-hidden rounded-4 border border-green-50 bg-white dark:bg-neutral-100 shadow-1 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2"
+                    "z-[70] min-w-[8rem] overflow-hidden rounded-4 border border-green-50 bg-white p-0 shadow-1 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:bg-neutral-100 md:max-h-[--radix-popover-content-available-height] md:w-[--radix-popover-trigger-width]"
                     // isTabletOrMobile ? "!max-h-[100px]" : "",
                 )}>
                 <Command filter={merchantFilter}>
                     <CommandInput
                         className={cn(
-                            "bg-white cursor-pointer",
+                            "cursor-pointer bg-white",
                             variant === "outline" ? "dark:bg-muted" : "dark:bg-neutral-100"
                         )}
                         placeholder={translate("app.ui.actions.search")}
@@ -126,7 +131,7 @@ export const MerchantSelectFilter = ({
                             <CommandItem
                                 value={"null"}
                                 className={cn(
-                                    "bg-white cursor-pointer",
+                                    "cursor-pointer bg-white",
                                     variant === "outline" ? "dark:bg-muted" : "dark:bg-neutral-100"
                                 )}
                                 onSelect={() => {
@@ -148,7 +153,7 @@ export const MerchantSelectFilter = ({
                                     value={account.id}
                                     onSelect={onSelectMerchant}
                                     className={cn(
-                                        "bg-white cursor-pointer",
+                                        "cursor-pointer bg-white",
                                         variant === "outline" ? "dark:bg-muted" : "dark:bg-neutral-100"
                                     )}>
                                     {merchantName(account)}

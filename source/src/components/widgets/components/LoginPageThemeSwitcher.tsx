@@ -17,23 +17,23 @@ export const LoginPageThemeSwitcher = (props: LoginPageThemeSwitcherProps) => {
 
     return (
         <div
-            className="flex border border-neutral-50 rounded-full items-center bg-white dark:bg-black relative w-[140px] h-[60px] overflow-hidden cursor-pointer z-[-2]"
+            className="relative z-[-2] flex h-[60px] w-[140px] cursor-pointer items-center overflow-hidden rounded-full border border-neutral-50 bg-white dark:bg-black"
             onClick={toggleTheme}>
-            <div className="absolute w-full h-full flex items-center gap-0">
+            <div className="absolute flex h-full w-full items-center gap-0">
                 <div className="flex items-center">
                     <div
                         className={cn(
-                            "absolute rounded-full bg-neutral-50 overflow-hidden m-[5px] mr-0 duration-500 opacity:duration-0 z-1 ease-in-out",
-                            theme === "dark" ? "translate-x-0 ml-[7px] opacity-100" : "translate-x-[160%] opacity-0"
+                            "opacity:duration-0 z-1 absolute m-[5px] mr-0 overflow-hidden rounded-full bg-neutral-50 duration-500 ease-in-out",
+                            theme === "dark" ? "ml-[7px] translate-x-0 opacity-100" : "translate-x-[160%] opacity-0"
                         )}
                         style={{
                             boxShadow: "0px 0px 16px rgba(255, 2555, 255, 0.75)"
                         }}>
-                        <MoonIcon className="shadow-1 z-2" />
+                        <MoonIcon className="z-2 shadow-1" />
                     </div>
                     <div
                         className={cn(
-                            "rounded-full overflow-hidden cursor-pointer ml-0 duration-500 opacity:duration-0 z-1 ease-in-out",
+                            "opacity:duration-0 z-1 ml-0 cursor-pointer overflow-hidden rounded-full duration-500 ease-in-out",
                             theme === "dark" ? "translate-x-[15%] opacity-0" : "translate-x-[165%] opacity-100"
                         )}>
                         <SunIcon
@@ -42,31 +42,31 @@ export const LoginPageThemeSwitcher = (props: LoginPageThemeSwitcherProps) => {
                                 borderRadius: "50%",
                                 border: "0"
                             }}
-                            className="shadow-1 z-2"
+                            className="z-2 shadow-1"
                         />
                     </div>
                 </div>
                 <div
                     className={cn(
-                        "flex items-center justify-end w-full h-full ml-1 z-[-1]",
+                        "z-[-1] ml-1 flex h-full w-full items-center justify-end",
                         theme === "dark" ? "translate-x-0" : "-translate-x-[60%]"
                     )}>
                     <Text
                         text={translate("app.login.darkTheme")}
                         className={cn(
-                            "absolute px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-0 text-center w-full z-[-1] select-none ease-in-out",
+                            "absolute z-[-1] w-full select-none px-[13px] py-[16px] text-center !text-title-2 text-neutral-90 ease-in-out dark:text-neutral-0",
                             theme === "dark"
-                                ? "opacity-100 opacity:duration-0"
-                                : "opacity-0 translate-x-[0%] opacity:duration-200"
+                                ? "opacity:duration-0 opacity-100"
+                                : "opacity:duration-200 translate-x-[0%] opacity-0"
                         )}
                     />
                     <Text
                         text={translate("app.login.lightTheme")}
                         className={cn(
-                            "absolute px-[13px] py-[16px] !text-title-2 text-neutral-90 dark:text-neutral-0 text-center w-full z-[-1] select-none ease-in-out",
+                            "absolute z-[-1] w-full select-none px-[13px] py-[16px] text-center !text-title-2 text-neutral-90 ease-in-out dark:text-neutral-0",
                             theme === "dark"
-                                ? "opacity-0 -translate-x-[0%] opacity:duration-200"
-                                : "opacity-100 opacity:duration-0"
+                                ? "opacity:duration-200 -translate-x-[0%] opacity-0"
+                                : "opacity:duration-0 opacity-100"
                         )}
                     />
                 </div>

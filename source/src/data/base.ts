@@ -22,17 +22,20 @@ export const BF_MANAGER_URL = import.meta.env.VITE_BF_MANAGER_URL;
 export class BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
         const data: { [key: string]: string } = {
-            limit: params.pagination.perPage.toString(),
-            offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
+            limit: params.pagination ? params.pagination.perPage.toString() : "10",
+            offset: params.pagination ? ((params.pagination.page - 1) * +params.pagination.perPage).toString() : "0"
         };
 
         Object.keys(params.filter).forEach(filterItem => {
-            data[filterItem] = params.filter[filterItem];
+            if (filterItem !== "signal") {
+                data[filterItem] = params.filter[filterItem];
+            }
         });
         const paramsStr = new URLSearchParams(data).toString();
 
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}?${paramsStr}`, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+            signal: params.signal || params.filter?.signal
         });
         return {
             data: json.data || [],
@@ -42,7 +45,8 @@ export class BaseDataProvider {
 
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+            signal: params.signal || params.meta?.signal
         });
         return { data: json.data };
     }
@@ -89,7 +93,8 @@ export class BaseDataProvider {
     async getManyReference(resource: string, params: GetManyReferenceParams): Promise<GetManyReferenceResult> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}/history`, {
             method: "GET",
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+            signal: params.signal || params.meta?.signal || params.filter?.signal
         });
         return { data: json?.data || [], total: json?.data?.length || 0 };
     }
@@ -102,10 +107,11 @@ export class BaseDataProvider {
         throw new Error("Method not implemented");
     }
 
-    async getDictionaries(): Promise<Dictionaries.DataObject> {
+    async getDictionaries(resource: string, signal?: AbortSignal): Promise<Dictionaries.DataObject> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/dictionaries`, {
             method: "GET",
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+            signal
         });
         return json?.data;
     }

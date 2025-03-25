@@ -126,7 +126,7 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
                             control={form.control}
                             name="verbose_name"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="w-full p-2 sm:w-1/2">
                                     <FormControl>
                                         <Input
                                             label={translate("resources.terminals.fields.verbose_name")}
@@ -146,7 +146,7 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
                             control={form.control}
                             name="description"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full sm:w-1/2 p-2">
+                                <FormItem className="w-full p-2 sm:w-1/2">
                                     <FormControl>
                                         <Input
                                             variant={InputTypes.GRAY}
@@ -184,7 +184,7 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
                             )}
                         />
 
-                        <div className="w-full md:w-2/5 p-2 ml-auto flex flex-col sm:flex-row space-x-0 sm:space-x-2 mt-6">
+                        <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                             <Button
                                 disabled={(hasErrors && !isValid) || submitButtonDisabled || !monacoEditorMounted}
                                 type="submit"
@@ -195,7 +195,7 @@ export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) 
                             <Button
                                 type="button"
                                 variant="outline_gray"
-                                className="flex-1 mt-4 sm:mt-0 w-full sm:w-1/2"
+                                className="mt-4 w-full flex-1 sm:mt-0 sm:w-1/2"
                                 onClick={() => onClose()}>
                                 {translate("app.ui.actions.cancel")}
                             </Button>

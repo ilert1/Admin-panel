@@ -32,9 +32,9 @@ const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrimitive.T
                     ref={ref}
                     className={cn(
                         variant === SelectType.GRAY ? "!bg-white dark:!bg-muted" : "",
-                        `border !mt-[0px] flex h-[38px] w-full items-center justify-between text-start rounded-4 px-3 py-2 text-sm ring-offset-background disabled:cursor-not-allowed [&>span]:line-clamp-1 focus:outline-none`,
-                        "[&:is([data-state='open'])]:border-green-50 [&:is([data-state='open'])]:text-neutral-80 [&:is([data-state='open'])]:dark:text-neutral-0 [&[data-placeholder]]:dark:text-neutral-70 [&[data-placeholder]]:text-neutral-60 [&:is([data-state='open'])_#selectToggleIcon]:rotate-180",
-                        "border-neutral-40 dark:border-neutral-60 hover:!border-green-20 bg-neutral-0 dark:bg-neutral-100 active:border-green-50 dark:text-neutral-40 text-neutral-80",
+                        `!mt-[0px] flex h-[38px] w-full items-center justify-between rounded-4 border px-3 py-2 text-start text-sm ring-offset-background focus:outline-none disabled:cursor-not-allowed [&>span]:line-clamp-1`,
+                        "[&:is([data-state='open'])]:border-green-50 [&:is([data-state='open'])]:text-neutral-80 [&:is([data-state='open'])]:dark:text-neutral-0 [&:is([data-state='open'])_#selectToggleIcon]:rotate-180 [&[data-placeholder]]:text-neutral-60 [&[data-placeholder]]:dark:text-neutral-70",
+                        "border-neutral-40 bg-neutral-0 text-neutral-80 hover:!border-green-20 active:border-green-50 dark:border-neutral-60 dark:bg-neutral-100 dark:text-neutral-40",
                         "",
                         isError ? "!border-red-40 dark:!border-red-40" : "",
                         className
@@ -45,18 +45,18 @@ const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrimitive.T
                         <div className="flex items-center gap-2">
                             <ChevronDown
                                 id="selectToggleIcon"
-                                className="h-4 w-4 text-green-50 dark:text-green-40 transition-transform"
+                                className="h-4 w-4 text-green-50 transition-transform dark:text-green-40"
                             />
                             {isError && (
                                 <ErrorBadge
                                     errorMessage={errorMessage}
-                                    className="!flex items-center justify-center h-4 "
+                                    className="!flex h-4 items-center justify-center"
                                 />
                             )}
                         </div>
                     </SelectPrimitive.Icon>
                 </SelectPrimitive.Trigger>
-                {isError && <span className="!text-note-1 block sm:!hidden !mt-[4px]">{errorMessage}</span>}
+                {isError && <span className="!mt-[4px] block !text-note-1 sm:!hidden">{errorMessage}</span>}
             </>
         );
     }
@@ -141,7 +141,7 @@ const SelectItem = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Item
             className={cn(
                 `${
                     variant === SelectType.GRAY ? "bg-white dark:bg-muted" : ""
-                } relative cursor-pointer flex w-full select-none items-center py-2 pl-8 pr-2 text-neutral-80 dark:text-neutral-30 text-sm outline-none focus:bg-green-50 focus:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:hover:bg-green-50 dark:hover:text-neutral-0 dark:focus:bg-green-50`,
+                } relative flex w-full cursor-pointer select-none items-center py-2 pl-8 pr-2 text-sm text-neutral-80 outline-none focus:bg-green-50 focus:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:text-neutral-30 dark:hover:bg-green-50 dark:hover:text-neutral-0 dark:focus:bg-green-50`,
                 className
             )}
             {...props}>

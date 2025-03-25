@@ -21,10 +21,10 @@ export const UserListFilter = () => {
 
     const onPropertySelected = debounce((value: string | number, type: "id" | "name" | "state") => {
         if (value) {
-            setFilters({ ...filterValues, [type]: value }, displayedFilters);
+            setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
         } else {
             Reflect.deleteProperty(filterValues, type);
-            setFilters(filterValues, displayedFilters);
+            setFilters(filterValues, displayedFilters, true);
         }
         setPage(1);
     }, 300);
@@ -52,7 +52,7 @@ export const UserListFilter = () => {
         setUserInputId("");
         setUsername("");
         setCheckedActivity(false);
-        setFilters({}, displayedFilters);
+        setFilters({}, displayedFilters, true);
         setPage(1);
     };
 
@@ -62,14 +62,14 @@ export const UserListFilter = () => {
     return (
         <div className="flex flex-col gap-4">
             <div className="flex flex-col">
-                <div className="flex flex-col sm:flex-row gap-6 justify-end">
-                    <div className="flex flex-wrap gap-x-56 gap-y-3 sm:gap-3 justify-between w-full mb-4 md:mb-6">
+                <div className="flex flex-col justify-end gap-6 sm:flex-row">
+                    <div className="mb-4 flex w-full flex-wrap justify-between gap-x-56 gap-y-3 sm:gap-3 md:mb-6">
                         <ResourceHeaderTitle />
 
-                        <div className="flex flex-row flex-1 sm:flex-none gap-3">
+                        <div className="flex flex-1 flex-row gap-3 sm:flex-none">
                             <Button
                                 onClick={() => setShowAddUserNewFlowDialog(true)}
-                                className="flex flex-1 sm:flex-none items-center justify-center gap-1 font-normal ">
+                                className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none">
                                 <CirclePlus width={16} height={16} />
                                 <span>{translate("resources.users.createButton")}</span>
                             </Button>
@@ -89,9 +89,9 @@ export const UserListFilter = () => {
                 </div>
 
                 <AnimatedContainer open={openFiltersClicked}>
-                    <div className="flex flex-col gap-2 mb-4 sm:mb-6">
-                        <div className="flex flex-col sm:flex-row sm:items-end gap-2 sm:gap-4 flex-wrap">
-                            <div className="flex flex-1 flex-col gap-2 lg:min-w-52 min-w-36">
+                    <div className="mb-4 flex flex-col gap-2 sm:mb-6">
+                        <div className="flex flex-col flex-wrap gap-2 sm:flex-row sm:items-end sm:gap-4">
+                            <div className="flex min-w-36 flex-1 flex-col gap-2 lg:min-w-52">
                                 <Input
                                     className="flex-1 text-sm placeholder:text-neutral-70"
                                     label={translate("resources.users.filter.filterByUsername")}
@@ -115,13 +115,13 @@ export const UserListFilter = () => {
                         </div>
                         <label
                             onClick={() => onUserActivityChanged(!checkedActivity)}
-                            className="flex gap-2 items-center self-start cursor-pointer [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
-                            <div className="relative w-4 h-4 rounded-full border transition-all bg-white dark:bg-black border-neutral-60 flex justify-center items-center">
+                            className="flex cursor-pointer items-center gap-2 self-start [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
+                            <div className="relative flex h-4 w-4 items-center justify-center rounded-full border border-neutral-60 bg-white transition-all dark:bg-black">
                                 {checkedActivity && (
-                                    <div id="checked" className="w-2.5 h-2.5 rounded-full bg-green-50"></div>
+                                    <div id="checked" className="h-2.5 w-2.5 rounded-full bg-green-50"></div>
                                 )}
                             </div>
-                            <span className="font-normal text-sm text-neutral-70 dark:text-neutral-40 transition-all">
+                            <span className="text-sm font-normal text-neutral-70 transition-all dark:text-neutral-40">
                                 {translate("resources.users.filter.filterByActivity")}
                             </span>
                         </label>

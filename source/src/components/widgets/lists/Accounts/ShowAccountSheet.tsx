@@ -16,12 +16,12 @@ export const ShowAccountSheet: React.FC<ShowSheetProps> = ({ id, open, onOpenCha
     return (
         <Sheet onOpenChange={onOpenChange} open={open}>
             <SheetContent
-                className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col h-full border-0 gap-[4px]"
+                className="top-[84px] m-0 flex h-full !max-h-[calc(100dvh-84px)] w-full flex-col gap-[4px] border-0 p-0 sm:max-w-[1015px]"
                 tabIndex={-1}
                 close={false}>
-                <SheetHeader className="p-4 md:p-[42px] pb-0 flex-shrink-0">
+                <SheetHeader className="flex-shrink-0 p-4 pb-0 md:p-[42px]">
                     <div className="flex flex-col gap-2">
-                        <div className="flex justify-between items-center ">
+                        <div className="flex items-center justify-between">
                             <SheetTitle className="!text-display-1">{translate("app.ui.accountHistory")}</SheetTitle>
                             <CloseSheetXButton onOpenChange={onOpenChange} />
                         </div>

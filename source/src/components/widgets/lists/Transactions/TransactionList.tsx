@@ -1,11 +1,12 @@
-import { useListController, ListContextProvider } from "react-admin";
+import { ListContextProvider } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { LoadingBlock } from "@/components/ui/loading";
 import { TransactionListFilter } from "./TransactionListFilter";
 import { useGetTransactionColumns } from "./Columns";
+import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const TransactionList = () => {
-    const listContext = useListController<Transaction.TransactionView>({ resource: "transactions/view" });
+    const listContext = useAbortableListController<Transaction.TransactionView>({ resource: "transactions/view" });
     const { columns } = useGetTransactionColumns();
 
     return (

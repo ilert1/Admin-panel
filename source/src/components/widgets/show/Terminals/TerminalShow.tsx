@@ -2,7 +2,7 @@ import { useDataProvider, useTranslate } from "react-admin";
 import { Fees } from "../../components/Fees";
 import { FeesResource } from "@/data";
 import { TextField } from "@/components/ui/text-field";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { LoadingBlock } from "@/components/ui/loading";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/Button";
@@ -26,9 +26,9 @@ export const TerminalShow = (props: TerminalShowProps) => {
 
     const { data, isLoading } = useQuery({
         queryKey: ["terminal-fees", provider, id],
-        queryFn: async () => {
+        queryFn: async ({ signal }) => {
             try {
-                const { data } = await dataProvider.getOne<TerminalWithId>(`${provider}/terminal`, { id });
+                const { data } = await dataProvider.getOne<TerminalWithId>(`${provider}/terminal`, { id, signal });
 
                 if (!data) {
                     throw new Error();
@@ -47,7 +47,7 @@ export const TerminalShow = (props: TerminalShowProps) => {
 
     return (
         <>
-            <div className="px-4 md:px-[45px] flex flex-col gap-2 md:gap-4">
+            <div className="flex flex-col gap-2 px-4 md:gap-4 md:px-[45px]">
                 <div className="flex flex-col gap-3 md:gap-6">
                     <div className="flex flex-col gap-2">
                         <TextField text={id} copyValue className="text-display-4" />

@@ -26,13 +26,14 @@ export class ProvidersDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<ProviderWithId>> {
         const res = await providerEndpointsListProvidersEnigmaV1ProviderGet(
             {
-                currentPage: params?.pagination.page,
-                pageSize: params?.pagination.perPage
+                currentPage: params?.pagination?.page,
+                pageSize: params?.pagination?.perPage
             },
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal: params.signal || params.filter?.signal
             }
         );
 
@@ -97,7 +98,8 @@ export class ProvidersDataProvider extends BaseDataProvider {
         const res = await providerEndpointsGetProviderEnigmaV1ProviderProviderNameGet(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
+            },
+            signal: params.signal || params.meta?.signal
         });
 
         if ("data" in res.data && res.data.success) {

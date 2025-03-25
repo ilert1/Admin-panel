@@ -16,10 +16,10 @@ export const Message = (props: MessageProps) => {
     return (
         <>
             {!isUserMessage && (
-                <div className="flex gap-3 items-start px-4">
+                <div className="flex items-start gap-3 px-4">
                     {icon && <MessageIcon />}
-                    <div className="flex flex-col items-start max-w-full pt-0">
-                        <div className="text-neutral-100 w-fit max-w-xs lg:max-w-md px-4 py-[19px] text-title-2 rounded-r-22 rounded-tl-22 break-words bg-muted">
+                    <div className="flex max-w-full flex-col items-start pt-0">
+                        <div className="w-fit max-w-xs break-words rounded-r-22 rounded-tl-22 bg-muted px-4 py-[19px] text-title-2 text-neutral-100 lg:max-w-md">
                             <TextField text={text} wrap={true} />
                         </div>
                         <MessageTime locale={locale} timestamp={timestamp} />
@@ -28,10 +28,10 @@ export const Message = (props: MessageProps) => {
             )}
 
             {isUserMessage && (
-                <div className={`flex gap-3 items-start justify-end px-4`}>
-                    <div className="flex flex-col items-end max-w-full pt-0">
+                <div className={`flex items-start justify-end gap-3 px-4`}>
+                    <div className="flex max-w-full flex-col items-end pt-0">
                         <div className="flex justify-end">
-                            <div className="text-neutral-0 w-fit max-w-xs lg:max-w-md px-4 py-[19px] text-title-2 rounded-l-22 rounded-tr-22 break-words bg-green-40">
+                            <div className="w-fit max-w-xs break-words rounded-l-22 rounded-tr-22 bg-green-40 px-4 py-[19px] text-title-2 text-neutral-0 lg:max-w-md">
                                 <TextField text={text} wrap={true} />
                             </div>
                         </div>

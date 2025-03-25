@@ -49,7 +49,15 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
             .min(1, translate("resources.currency.errors.code")),
         position: z.enum([CurrencyPosition.after, CurrencyPosition.before]),
         symbol: z.string().trim().nullable(),
-        is_coin: z.boolean().default(false)
+        is_coin: z.boolean().default(false),
+        accuracy: z.optional(
+            z.coerce
+                .number({ message: translate("resources.currency.errors.intOnly") })
+                .int(translate("resources.currency.errors.intOnly"))
+                .min(1, translate("resources.currency.errors.minVal"))
+                .max(16, translate("resources.currency.errors.maxVal"))
+                .optional()
+        )
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -58,7 +66,8 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
             code: "",
             position: CurrencyPosition.before,
             symbol: "",
-            is_coin: false
+            is_coin: false,
+            accuracy: undefined
         }
     });
 
@@ -68,7 +77,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
         <CreateContextProvider value={controllerProps}>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
-                    <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:grid-flow-col gap-y-5 gap-x-4 items-stretch md:items-baseline">
+                    <div className="flex flex-col items-stretch gap-x-4 gap-y-5 md:grid md:grid-cols-2 md:grid-rows-2 md:items-baseline">
                         <FormField
                             control={form.control}
                             name="code"
@@ -181,9 +190,32 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                                 </FormItem>
                             )}
                         />
+                        <FormField
+                            control={form.control}
+                            name="accuracy"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="space-y-1">
+                                    <FormControl>
+                                        <Input
+                                            className="text-sm"
+                                            placeholder={translate(
+                                                "resources.currency.fields.defaultAccuracyPlaceholder"
+                                            )}
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.currency.fields.accuracy")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            inputMode="numeric"
+                                            {...field}
+                                            value={field.value ?? ""}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
                     </div>
 
-                    <div className="sm:self-end flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:self-end">
                         <Button type="submit" disabled={submitButtonDisabled}>
                             {translate("app.ui.actions.save")}
                         </Button>
@@ -192,7 +224,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                             type="button"
                             onClick={closeDialog}
                             variant="outline_gray"
-                            className="border border-neutral-50 rounded-4 hover:border-neutral-100">
+                            className="rounded-4 border border-neutral-50 hover:border-neutral-100">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>

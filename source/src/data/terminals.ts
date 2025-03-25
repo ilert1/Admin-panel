@@ -30,13 +30,14 @@ export class TerminalsDataProvider extends BaseDataProvider {
         const res = await terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGet(
             providerName,
             {
-                currentPage: params?.pagination.page,
-                pageSize: params?.pagination.perPage
+                currentPage: params?.pagination?.page,
+                pageSize: params?.pagination?.perPage
             },
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal: params.signal || params.filter?.signal
             }
         );
 
@@ -72,7 +73,8 @@ export class TerminalsDataProvider extends BaseDataProvider {
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal: params.signal || params.meta?.signal
             }
         );
 

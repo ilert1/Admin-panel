@@ -1,4 +1,4 @@
-import { ListContextProvider, useListController, useTranslate, useRefresh } from "react-admin";
+import { ListContextProvider, useTranslate, useRefresh } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/loading";
@@ -12,9 +12,10 @@ import { CreateProviderDialog } from "./CreateProviderDialog";
 import { ConfirmCreatingDialog } from "./ConfirmCreatingDialog";
 import { ProviderWithId } from "@/data/providers";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const ProvidersList = () => {
-    const listContext = useListController<ProviderWithId>();
+    const listContext = useAbortableListController<ProviderWithId>();
     const translate = useTranslate();
     const refresh = useRefresh();
 
@@ -47,11 +48,11 @@ export const ProvidersList = () => {
             <>
                 <div>
                     <div className="flex justify-between">
-                        <div className="flex gap-2 flex-wrap w-full justify-between mb-6">
+                        <div className="mb-6 flex w-full flex-wrap justify-between gap-2">
                             <ResourceHeaderTitle />
 
                             <Button onClick={handleCreateClicked} variant="default" className="flex gap-[4px]">
-                                <CirclePlus className="w-[16px] h-[16px]" />
+                                <CirclePlus className="h-[16px] w-[16px]" />
                                 <span className="text-title-1">{translate("resources.provider.createNew")}</span>
                             </Button>
                         </div>

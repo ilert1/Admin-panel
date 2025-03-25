@@ -8,10 +8,14 @@ export const useGetTransactionShowColumns = () => {
     const [locale] = useLocaleState();
     const dataDictionaries = fetchDictionaries();
 
-    function computeValue(quantity: number, accuracy: number) {
-        const value = (quantity || 0) / accuracy;
-        if (isNaN(value)) return "-";
-        return value.toFixed(Math.log10(accuracy));
+    function computeValue(quantity: number | undefined, accuracy: number | undefined) {
+        if (quantity && accuracy) {
+            const value = (quantity || 0) / accuracy;
+            if (isNaN(value)) return "-";
+            return value.toFixed(Math.log10(accuracy));
+        }
+
+        return "-";
     }
 
     const feesColumns: ColumnDef<Fee>[] = [

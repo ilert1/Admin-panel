@@ -24,17 +24,18 @@ export class DirectionsDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<Direction>> {
         const res = await directionEndpointsListDirectionsEnigmaV1DirectionGet(
             {
-                currentPage: params?.pagination.page,
-                pageSize: params?.pagination.perPage,
+                currentPage: params?.pagination?.page,
+                pageSize: params?.pagination?.perPage,
                 ...(Object.hasOwn(params?.filter, "merchant") && {
-                    searchField: "merchant",
+                    searchField: ["merchant"],
                     searchString: params?.filter["merchant"]
                 })
             },
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal: params.signal || params.filter?.signal
             }
         );
 
@@ -59,7 +60,8 @@ export class DirectionsDataProvider extends BaseDataProvider {
         const res = await directionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGet(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
+            },
+            signal: params.signal || params.meta?.signal
         });
 
         if ("data" in res.data && res.data.success) {

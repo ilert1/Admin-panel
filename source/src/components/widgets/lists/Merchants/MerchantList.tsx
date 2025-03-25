@@ -1,4 +1,4 @@
-import { ListContextProvider, useListController, useTranslate } from "react-admin";
+import { ListContextProvider, useTranslate } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 
 import { Button } from "@/components/ui/Button";
@@ -13,9 +13,10 @@ import { CreateMerchantDialogNewFlow } from "./CreateMerchantDialogNewFlow";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { PlusCircle } from "lucide-react";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const MerchantList = () => {
-    const listContext = useListController<Merchant>();
+    const listContext = useAbortableListController<Merchant>();
     const translate = useTranslate();
 
     const { columns, chosenId, editDialogOpen, deleteDialogOpen, setEditDialogOpen, setDeleteDialogOpen } =
@@ -33,14 +34,14 @@ export const MerchantList = () => {
     } else {
         return (
             <>
-                <div className="flex flex-end flex-wrap justify-between gap-3 mb-6">
+                <div className="flex-end mb-6 flex flex-wrap justify-between gap-3">
                     <ResourceHeaderTitle />
                     {/* <Button onClick={handleCreateClick} variant="default">
                         {translate("resources.merchant.createNew")}
                     </Button> */}
 
                     <Button onClick={() => setCreateDialogNewFlowOpen(true)} variant="default" className="flex gap-1">
-                        <PlusCircle className="w-[16px] h-[16px]" />
+                        <PlusCircle className="h-[16px] w-[16px]" />
                         {translate("resources.merchant.createNew")}
                     </Button>
                 </div>

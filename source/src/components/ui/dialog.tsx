@@ -24,7 +24,7 @@ const DialogOverlay = React.forwardRef<
     <DialogPrimitive.Overlay
         ref={ref}
         className={cn(
-            "fixed inset-0 z-[60] bg-neutral-100/35 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 ",
+            "fixed inset-0 z-[60] bg-neutral-100/35 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
             className
         )}
         {...props}
@@ -40,7 +40,7 @@ const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.C
                 ref={ref}
                 onInteractOutside={disableOutsideClick ? e => e.preventDefault() : props.onInteractOutside}
                 className={cn(
-                    "shadow-dialog !bg-neutral-20 dark:!bg-muted fixed left-[50%] top-[50%] z-[60] grid w-[calc(100%-32px)] sm:w-full max-w-3xl translate-x-[-50%] translate-y-[-50%] gap-4 px-4 py-6 sm:p-[30px] duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-16 overflow-auto sm:max-h-[100dvh] outline-none",
+                    "fixed left-[50%] top-[50%] z-[60] grid w-[calc(100%-32px)] max-w-3xl translate-x-[-50%] translate-y-[-50%] gap-4 overflow-auto rounded-16 !bg-neutral-20 px-4 py-6 shadow-dialog outline-none duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] dark:!bg-muted sm:max-h-[100dvh] sm:w-full sm:p-[30px]",
                     className
                 )}
                 {...props}>

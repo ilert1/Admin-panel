@@ -140,8 +140,8 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
             <Form {...form}>
                 <form className="space-y-6">
                     <div className="mb-[16px]">
-                        <div className="bg-neutral-10 dark:bg-muted px-[8px] pt-[16px] pb-[8px] border border-neutral-40 dark:border-none rounded-[8px]">
-                            <div className="grid grid-cols-2 sm:grid-cols-4 w-full">
+                        <div className="rounded-[8px] border border-neutral-40 bg-neutral-10 px-[8px] pb-[8px] pt-[16px] dark:border-none dark:bg-muted">
+                            <div className="grid w-full grid-cols-2 sm:grid-cols-4">
                                 <FormField
                                     control={form.control}
                                     name="direction"
@@ -303,7 +303,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                     control={form.control}
                                     name="description"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="col-span-2 sm:col-span-4 p-2 w-full">
+                                        <FormItem className="col-span-2 w-full p-2 sm:col-span-4">
                                             <FormControl>
                                                 <Input
                                                     {...field}
@@ -324,7 +324,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                     </div>
                 </form>
             </Form>
-            <div className="flex space-x-2 ml-auto p-2 pb-5 w-full md:w-2/5">
+            <div className="ml-auto flex w-full space-x-2 p-2 pb-5 md:w-2/5">
                 <Button onClick={form.handleSubmit(onSubmit)} variant="default" className="flex-1">
                     {translate("app.ui.actions.save")}
                 </Button>

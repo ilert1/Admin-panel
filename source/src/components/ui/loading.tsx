@@ -30,7 +30,7 @@ export const Loading = ({ className = "" }: { className?: string }) => {
 
 export const LoadingBlock = ({ className = "" }: { className?: string }) => {
     return (
-        <div className={`flex justify-center items-center h-full w-full ${className}`}>
+        <div className={`flex h-full w-full items-center justify-center ${className}`}>
             <RingSpinner />
         </div>
     );
@@ -38,14 +38,14 @@ export const LoadingBlock = ({ className = "" }: { className?: string }) => {
 
 export const LoadingBalance = ({ className = "" }: { className?: string }) => {
     return (
-        <div className={`flex justify-center items-center ${className}`}>
+        <div className={`flex items-center justify-center ${className}`}>
             <RingSpinner />
         </div>
     );
 };
 export const RingSpinner = () => {
     return (
-        <svg className={`animate-spin w-24 h-24`} viewBox="0 0 100 100">
+        <svg className={`h-24 w-24 animate-spin`} viewBox="0 0 100 100">
             <defs>
                 <linearGradient id="spinner-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="28.01%" stopColor="#57CD8C" />
@@ -53,7 +53,7 @@ export const RingSpinner = () => {
                 </linearGradient>
             </defs>
             <circle
-                className={`stroke-[10px] fill-none stroke-[url(#spinner-gradient)]`}
+                className={`fill-none stroke-[url(#spinner-gradient)] stroke-[10px]`}
                 cx="50"
                 cy="50"
                 r="45"

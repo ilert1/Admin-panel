@@ -17,12 +17,13 @@ export const ShowDirectionSheet: React.FC<ShowDirectionSheetProps> = props => {
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
             <SheetContent
-                className="sm:max-w-[1015px] !max-h-[calc(100dvh-84px)] w-full p-0 m-0 top-[84px] flex flex-col border-0 "
+                className="top-[84px] m-0 flex !max-h-[calc(100dvh-84px)] w-full flex-col border-0 p-0 sm:max-w-[1015px]"
                 tabIndex={-1}
-                close={false}>
-                <div className="p-4 md:p-[42px] pb-[0px] flex-shrink-0">
+                close={false}
+            >
+                <div className="flex-shrink-0 p-4 pb-[0px] md:p-[42px]">
                     <div>
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                             <SheetTitle className="!text-display-1">
                                 {translate("resources.direction.direction")}
                             </SheetTitle>

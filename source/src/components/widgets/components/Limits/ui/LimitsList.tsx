@@ -19,8 +19,8 @@ export const LimitsList = (props: LimitsProps) => {
 
     return (
         <div className={cn("mt-[10px] w-full px-2")}>
-            <div className="flex flex-col bg-neutral-0 dark:bg-neutral-100 px-[32px] rounded-[8px] w-full p">
-                <h3 className="text-display-3 mt-[16px] mb-[16px]">{translate("app.widgets.limits.limits")}</h3>
+            <div className="p flex w-full flex-col rounded-[8px] bg-neutral-0 px-[32px] dark:bg-neutral-100">
+                <h3 className="mb-[16px] mt-[16px] text-display-3">{translate("app.widgets.limits.limits")}</h3>
                 <div className={cn("max-h-[40vh] overflow-auto pr-[10px]", className)}>
                     {editClicked ? (
                         <EditLimitCard directionId={id} setEditClicked={setEditClicked} limitsData={limits} />

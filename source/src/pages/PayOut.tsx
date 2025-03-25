@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
-import { useQuery } from "react-query";
-import { fetchUtils, HttpError, useGetList, useTranslate } from "react-admin";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUtils, HttpError, useDataProvider, useTranslate } from "react-admin";
 import { BF_MANAGER_URL } from "@/data/base";
 import { PayOutForm } from "@/components/widgets/forms";
 
@@ -15,8 +15,18 @@ export const PayOutPage = () => {
     const [payoutTgUrl, setPayoutTgUrl] = useState("");
 
     const appToast = useAppToast();
+    const dataProvider = useDataProvider();
 
-    const { data: accounts } = useGetList("accounts");
+    const { data: accounts } = useQuery({
+        queryKey: ["accounts", "getList", "PayOutPage"],
+        queryFn: async ({ signal }) =>
+            await dataProvider.getList<Account>("accounts", {
+                pagination: { perPage: 1, page: 1 },
+                filter: { sort: "name", asc: "ASC" },
+                signal
+            }),
+        select: data => data?.data
+    });
 
     const currency = useMemo(() => accounts?.[0]?.amounts?.[0]?.shop_currency, [accounts]);
     const { data: currencies } = useFetchCurrencies();
@@ -26,23 +36,23 @@ export const PayOutPage = () => {
         isFetching,
         data: payMethods,
         refetch: refetchPayMethods
-    } = useQuery<PayOut.Response, unknown, PayOut.PayMethod[] | []>(
-        ["paymethods", currency],
-        async () => {
+    } = useQuery<PayOut.Response, unknown, PayOut.PayMethod[] | []>({
+        queryKey: ["paymethods", "PayOutPage"],
+        queryFn: async ({ signal }) => {
             if (currency) {
                 const response = await fetch(`${BF_MANAGER_URL}/v1/payout/paymethods?currency=${currency}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                    }
+                    },
+                    signal
                 });
                 return await response.json();
             }
         },
-        {
-            select: data => data?.data,
-            refetchOnWindowFocus: false
-        }
-    );
+        enabled: !!currency,
+        select: data => data?.data,
+        refetchOnWindowFocus: false
+    });
 
     const [localLoading, setLocalLoading] = useState(false);
 
@@ -87,7 +97,7 @@ export const PayOutPage = () => {
                     "success",
                     <>
                         {translate("app.widgets.forms.payout.successDescription")}:{" "}
-                        <NavLink to="/transactions" className="dark:text-green-40 text-green-50">
+                        <NavLink to="/transactions" className="text-green-50 dark:text-green-40">
                             {translate("resources.transactions.name")}
                         </NavLink>
                     </>
@@ -109,12 +119,12 @@ export const PayOutPage = () => {
     };
 
     return (
-        <div className="flex items-center justify-center md:absolute md:top-0 md:bottom-20 md:left-0 md:right-0">
+        <div className="flex items-center justify-center md:absolute md:bottom-20 md:left-0 md:right-0 md:top-0">
             {payoutTgUrl ? (
                 <PayOutTgBanner url={payoutTgUrl} onClose={() => setPayoutTgUrl("")} />
             ) : (
-                <div className="p-[30px] rounded-16 bg-neutral-0 dark:bg-neutral-100 max-w-[700px] w-full md:mx-4">
-                    <h1 className="mb-6 text-xl text-center text-neutral-80 dark:text-neutral-30">
+                <div className="w-full max-w-[700px] rounded-16 bg-neutral-0 p-[30px] dark:bg-neutral-100 md:mx-4">
+                    <h1 className="mb-6 text-center text-xl text-neutral-80 dark:text-neutral-30">
                         {translate("app.widgets.forms.payout.title")}
                     </h1>
                     <PayOutForm

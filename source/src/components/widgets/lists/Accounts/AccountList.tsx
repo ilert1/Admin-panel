@@ -1,19 +1,20 @@
-import { ListContextProvider, useListController, useTranslate } from "react-admin";
+import { ListContextProvider, useTranslate } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { Loading } from "@/components/ui/loading";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AccountEdit } from "../../edit/AccountEdit";
 import { useGetAccountsColumns } from "./Columns";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const AccountList = () => {
-    const listContext = useListController<Account>();
+    const listContext = useAbortableListController<Account>();
 
     const translate = useTranslate();
 
-    const { columns, showEditDialog, setShowEditDialog, showAccountId } = useGetAccountsColumns();
+    const { columns, showEditDialog, setShowEditDialog, showAccountId, isLoadingCurrencies } = useGetAccountsColumns();
 
-    if (listContext.isLoading || !listContext.data) {
+    if (listContext.isLoading || !listContext.data || isLoadingCurrencies) {
         return <Loading />;
     } else {
         return (
@@ -26,9 +27,9 @@ export const AccountList = () => {
                 <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
                     <DialogContent
                         disableOutsideClick
-                        className="bg-muted max-w-full sm:w-[716px] sm:max-h-[100dvh] !overflow-y-auto">
+                        className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
                         <DialogHeader>
-                            <DialogTitle className="text-xl text-center">
+                            <DialogTitle className="text-center text-xl">
                                 {translate("resources.accounts.editDialogTitle")}
                             </DialogTitle>
                         </DialogHeader>

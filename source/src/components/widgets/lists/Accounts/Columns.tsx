@@ -1,11 +1,13 @@
 import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, EditButton, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
+// import { EditButton, ShowButton } from "@/components/ui/Button";
+import { formatNumber } from "@/helpers/formatNumber";
 import fetchDictionaries from "@/helpers/get-dictionaries";
+import { useGetCurrencies } from "@/hooks/useGetCurrencies";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useState } from "react";
 import { RecordContextProvider, usePermissions, useTranslate } from "react-admin";
-import { NumericFormat } from "react-number-format";
 
 const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
 const translations = ["active", "frozen", "blocked", "deleted"];
@@ -19,6 +21,9 @@ export const useGetAccountsColumns = () => {
 
     const [showEditDialog, setShowEditDialog] = useState(false);
     const [showAccountId, setShowAccountId] = useState<string>("");
+    const { currencies, isLoadingCurrencies } = useGetCurrencies();
+
+    // const appToast = useAppToast();
 
     const handleOpenSheet = (id: string) => {
         openSheet("account", { id });
@@ -66,7 +71,7 @@ export const useGetAccountsColumns = () => {
                 return (
                     <div className="flex items-center justify-center">
                         <span
-                            className={`px-3 py-0.5 rounded-20 text-white font-normal text-base text-center ${styles[index]}`}>
+                            className={`rounded-20 px-3 py-0.5 text-center text-base font-normal text-white ${styles[index]}`}>
                             {translate(`resources.accounts.fields.states.${translations[index]}`)}
                         </span>
                     </div>
@@ -87,17 +92,8 @@ export const useGetAccountsColumns = () => {
                 <RecordContextProvider value={row.original}>
                     <div className="flex flex-col justify-center">
                         {row.original.amounts.map(item => {
-                            return (
-                                <div key={item.id}>
-                                    <NumericFormat
-                                        value={item.value.quantity / item.value.accuracy}
-                                        displayType={"text"}
-                                        thousandSeparator=" "
-                                        decimalSeparator=","
-                                    />
-                                    {` ${item.currency}`}
-                                </div>
-                            );
+                            const number = formatNumber(currencies, item);
+                            return <div key={item.id}>{number}</div>;
                         })}
                     </div>
                 </RecordContextProvider>
@@ -133,6 +129,7 @@ export const useGetAccountsColumns = () => {
 
     return {
         columns,
+        isLoadingCurrencies,
         showEditDialog,
         setShowEditDialog,
         showAccountId

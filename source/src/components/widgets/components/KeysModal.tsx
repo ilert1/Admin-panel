@@ -54,12 +54,12 @@ export const KeysModal = (props: KeysModalProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange} defaultOpen={false}>
-            <DialogContent disableOutsideClick className="bg-muted max-w-[716px] max-h-full h-[468px] rounded-[16px]">
+            <DialogContent disableOutsideClick className="h-[468px] max-h-full max-w-[716px] rounded-[16px] bg-muted">
                 <DialogHeader>
                     <DialogTitle />
                     <DialogDescription />
-                    <div className="flex flex-col gap-[24px] max-h-[468px] w-full">
-                        <div className="text-center flex items-center justify-center">
+                    <div className="flex max-h-[468px] w-full flex-col gap-[24px]">
+                        <div className="flex items-center justify-center text-center">
                             <TextField
                                 text={
                                     isTest
@@ -82,15 +82,15 @@ export const KeysModal = (props: KeysModalProps) => {
                                     <div className="flex items-center justify-center gap-2">
                                         <Textarea
                                             value={privateKey}
-                                            className="w-full h-24 p-2 rounded resize-none overflow-auto dark:bg-muted !text-neutral-50 dark:!text-neutral-70"
+                                            className="h-24 w-full resize-none overflow-auto rounded p-2 !text-neutral-50 dark:bg-muted dark:!text-neutral-70"
                                             readOnly
                                             id="private"
                                         />
                                         <Button
                                             onClick={handlePrivateCopy}
                                             variant={copyPrivateClicked ? "default" : "text_btn"}
-                                            className="ml-0 text-center py-[16px] px-[10px]">
-                                            <Copy className="w-4 h-4" />
+                                            className="ml-0 px-[10px] py-[16px] text-center">
+                                            <Copy className="h-4 w-4" />
                                         </Button>
                                     </div>
                                 </div>
@@ -103,15 +103,15 @@ export const KeysModal = (props: KeysModalProps) => {
                                     <div className="flex items-center justify-center gap-2">
                                         <Textarea
                                             value={publicKey}
-                                            className="w-full h-24 p-2 rounded resize-none overflow-auto dark:bg-muted !text-neutral-50 dark:!text-neutral-70"
+                                            className="h-24 w-full resize-none overflow-auto rounded p-2 !text-neutral-50 dark:bg-muted dark:!text-neutral-70"
                                             readOnly
                                             id="public"
                                         />
                                         <Button
                                             onClick={handlePublicCopy}
                                             variant={copyPublicClicked ? "default" : "text_btn"}
-                                            className="ml-0 text-center py-[16px] px-[10px]">
-                                            <Copy className="w-4 h-4" />
+                                            className="ml-0 px-[10px] py-[16px] text-center">
+                                            <Copy className="h-4 w-4" />
                                         </Button>
                                     </div>
                                 </div>
@@ -121,12 +121,12 @@ export const KeysModal = (props: KeysModalProps) => {
                 </DialogHeader>
                 {!isLoading && (
                     <DialogFooter className="flex !justify-between">
-                        <div className="flex flex-col gap-2 sm:flex-row sm:gap-0 justify-between w-full">
+                        <div className="flex w-full flex-col justify-between gap-2 sm:flex-row sm:gap-0">
                             <div className="flex flex-col">
-                                <span className="text-red-40 text-title-1">
+                                <span className="text-title-1 text-red-40">
                                     {translate("resources.provider.warning")}
                                 </span>
-                                <span className="text-red-40 text-title-1">
+                                <span className="text-title-1 text-red-40">
                                     {translate("resources.provider.sendToDevOps")}
                                 </span>
                             </div>

@@ -4,7 +4,7 @@ export const CloseSheetXButton = ({ onOpenChange }: { onOpenChange: (state: bool
     return (
         <button
             onClick={() => onOpenChange(false)}
-            className="text-gray-500 hover:text-gray-700 transition-colors border-0 outline-0">
+            className="border-0 text-gray-500 outline-0 transition-colors hover:text-gray-700">
             <XIcon className="h-[28px] w-[28px]" />
         </button>
     );

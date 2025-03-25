@@ -49,23 +49,23 @@ export const Sidebar = (props: SidebarProps) => {
         <aside
             className={
                 isSheetOpen && !isMobile
-                    ? "w-[280px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden justify-start bg-header transition-[width] pt-6"
-                    : "w-[72px] h-full flex flex-col items-stretch flex-shrink-0 overflow-y-auto overflow-x-hidden justify-start bg-header transition-[width] pt-6"
+                    ? "flex h-full w-[280px] flex-shrink-0 flex-col items-stretch justify-start overflow-y-auto overflow-x-hidden bg-header pt-6 transition-[width]"
+                    : "flex h-full w-[72px] flex-shrink-0 flex-col items-stretch justify-start overflow-y-auto overflow-x-hidden bg-header pt-6 transition-[width]"
             }>
             {!isMobile && (
                 <>
                     {isSheetOpen ? (
-                        <div className="flex flex-shrink-0 justify-center items-center h-[63px] gap-6 px-6">
-                            <div className="flex items-center w-[189px] m-0 p-0">
-                                <div className="animate-in fade-in-0 transition-opacity duration-700">
+                        <div className="flex h-[63px] flex-shrink-0 items-center justify-center gap-6 px-6">
+                            <div className="m-0 flex w-[189px] items-center p-0">
+                                <div className="transition-opacity duration-700 animate-in fade-in-0">
                                     <img
                                         src={theme === "light" ? "/NoNameLogoLight.svg" : "/NoNameLogo.svg"}
                                         alt="Logo"
-                                        className="h-[55px] w-[89.51px] pointer-events-none select-none"
+                                        className="pointer-events-none h-[55px] w-[89.51px] select-none"
                                     />
                                 </div>
                             </div>
-                            <button className="flex flex-col items-center animate-in fade-in-0 transition-opacity duration-300">
+                            <button className="flex flex-col items-center transition-opacity duration-300 animate-in fade-in-0">
                                 <ChevronLeftCircleIcon
                                     onClick={() => handleMenuState(!isSheetOpen)}
                                     className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-green-60 dark:hover:text-white"
@@ -73,11 +73,11 @@ export const Sidebar = (props: SidebarProps) => {
                             </button>
                         </div>
                     ) : (
-                        <div className="w-[70px] flex justify-center">
-                            <button className="h-[63px] ">
+                        <div className="flex w-[70px] justify-center">
+                            <button className="h-[63px]">
                                 <ChevronRightCircleIcon
                                     onClick={() => handleMenuState(!isSheetOpen)}
-                                    className="flex h-7 w-7 items-center justify-center rounded-lg text-green-50 transition-colors hover:text-green-60 dark:hover:text-white border-none outline-none"
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg border-none text-green-50 outline-none transition-colors hover:text-green-60 dark:hover:text-white"
                                 />
                             </button>
                         </div>
@@ -85,7 +85,7 @@ export const Sidebar = (props: SidebarProps) => {
                 </>
             )}
 
-            <nav className={clsx("flex flex-col items-baseline text-base gap-4", !isMobile && "mt-6")}>
+            <nav className={clsx("flex flex-col items-baseline gap-4 text-base", !isMobile && "mt-6")}>
                 {Object.keys(resources).map(resource => {
                     if (!resource.includes("wallet")) {
                         return (
@@ -96,12 +96,12 @@ export const Sidebar = (props: SidebarProps) => {
                                             to={`/${resource}`}
                                             className={
                                                 resourceName[0] === resource
-                                                    ? " pl-6 bg-neutral-20 dark:bg-black w-full flex items-center gap-3 text-controlElements animate-in fade-in-0 py-2"
-                                                    : "pl-6 flex items-center gap-3 hover:bg-neutral-20 dark:hover:bg-black w-full hover:text-controlElements animate-in fade-in-0 py-2"
+                                                    ? "flex w-full items-center gap-3 bg-neutral-20 py-2 pl-6 text-controlElements animate-in fade-in-0 dark:bg-black"
+                                                    : "flex w-full items-center gap-3 py-2 pl-6 animate-in fade-in-0 hover:bg-neutral-20 hover:text-controlElements dark:hover:bg-black"
                                             }>
                                             {createElement(resources[resource].icon, {})}
                                             {showCaptions && !isMobile && (
-                                                <span className="animate-in fade-in-0 transition-opacity">
+                                                <span className="transition-opacity animate-in fade-in-0">
                                                     {getResLabel(resources[resource].name, permissions)}
                                                 </span>
                                             )}
@@ -112,7 +112,7 @@ export const Sidebar = (props: SidebarProps) => {
                                         className={
                                             showCaptions && !isMobile
                                                 ? "hidden"
-                                                : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 dark:after:bg-neutral-100 after:rotate-45"
+                                                : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:h-2 after:w-2 after:rotate-45 after:bg-neutral-0 dark:after:bg-neutral-100"
                                         }
                                         sideOffset={12}
                                         side="right">
@@ -132,20 +132,20 @@ export const Sidebar = (props: SidebarProps) => {
             </nav>
 
             {permissions === "admin" && (
-                <div className="flex flex-grow items-end ml-[18px] mr-[10px] mb-6 mt-4">
+                <div className="mb-6 ml-[18px] mr-[10px] mt-4 flex flex-grow items-end">
                     <TooltipProvider delayDuration={100}>
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <Button
                                     className={
-                                        showCaptions && !isMobile ? "w-full pl-6 flex gap-[4px] text-title-1" : "p-2.5"
+                                        showCaptions && !isMobile ? "flex w-full gap-[4px] pl-6 text-title-1" : "p-2.5"
                                     }
                                     onClick={() => {
                                         setTestKeysModalOpen(true);
                                     }}>
-                                    <KeyRound className="text-white w-[16px] h-[16px]" />
+                                    <KeyRound className="h-[16px] w-[16px] text-white" />
                                     {showCaptions && !isMobile ? (
-                                        <span className="animate-in fade-in-0 text-white transition-opacity p-0 m-0">
+                                        <span className="m-0 p-0 text-white transition-opacity animate-in fade-in-0">
                                             {translate("resources.provider.createTestKeys")}
                                         </span>
                                     ) : null}
@@ -156,7 +156,7 @@ export const Sidebar = (props: SidebarProps) => {
                                 className={
                                     showCaptions && !isMobile
                                         ? "hidden"
-                                        : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:w-2 after:h-2 after:bg-neutral-0 after:rotate-45"
+                                        : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:h-2 after:w-2 after:rotate-45 after:bg-neutral-0"
                                 }
                                 side="right"
                                 sideOffset={12}>

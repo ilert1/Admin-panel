@@ -18,7 +18,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface UserEditProps {
@@ -51,12 +51,16 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [disabledMerchantField, setDisabledMerchantField] = useState(false);
 
-    const { data: userRoles } = useQuery(["userRoles"], async () => {
-        const res = await fetchUtils.fetchJson(`${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles`, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
+    const { data: userRoles } = useQuery({
+        queryKey: ["userRoles"],
+        queryFn: async ({ signal }) => {
+            const res = await fetchUtils.fetchJson(`${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles`, {
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+                signal
+            });
 
-        return res.json as KecloakRoles[];
+            return res.json as KecloakRoles[];
+        }
     });
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
@@ -145,7 +149,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" autoComplete="off">
-                <div className="flex flex-col md:grid md:grid-cols-2 md:grid-template-rows-auto gap-y-5 gap-x-4 items-stretch md:items-baseline">
+                <div className="md:grid-template-rows-auto flex flex-col items-stretch gap-x-4 gap-y-5 md:grid md:grid-cols-2 md:items-baseline">
                     <Input
                         label={translate("app.widgets.forms.userCreate.id")}
                         disabled
@@ -379,7 +383,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                     </div>
                 </div>
 
-                <div className="sm:self-end flex flex-col sm:flex-row sm:items-center gap-4">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:self-end">
                     <Button type="submit" disabled={submitButtonDisabled}>
                         {translate("app.ui.actions.save")}
                     </Button>
@@ -388,7 +392,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                         type="button"
                         onClick={() => onOpenChange(false)}
                         variant="outline_gray"
-                        className="border border-neutral-50 rounded-4 hover:border-neutral-100">
+                        className="rounded-4 border border-neutral-50 hover:border-neutral-100">
                         {translate("app.widgets.forms.userCreate.cancelBtn")}
                     </Button>
                 </div>

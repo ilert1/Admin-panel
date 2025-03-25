@@ -1,12 +1,14 @@
-import { useSheets } from "@/components/providers/SheetProvider";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
+import { useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
 
 export const useGetAccountShowColumns = () => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
-    const { openSheet } = useSheets();
+
+    const [chosenId, setChosenId] = useState("");
+    const [transcationInfoOpen, setTransactionInfoOpen] = useState(false);
 
     const historyColumns: ColumnDef<AccountHistory>[] = [
         {
@@ -48,13 +50,20 @@ export const useGetAccountShowColumns = () => {
                     text={row.original.transaction_id}
                     copyValue
                     wrap
-                    className="p-0 h-auto mb-[4px] underline transition-colors outline-none text-green-50 hover:text-green-40 active:text-green-60 focus-visible:text-neutral-60 dark:text-green-40 dark:hover:text-green-50 dark:active:text-green-20 dark:focus-visible:text-neutral-70"
+                    className="mb-[4px] h-auto p-0 text-green-50 underline outline-none transition-colors hover:text-green-40 focus-visible:text-neutral-60 active:text-green-60 dark:text-green-40 dark:hover:text-green-50 dark:focus-visible:text-neutral-70 dark:active:text-green-20"
                     onClick={() => {
-                        openSheet("transaction", { id: row.original.transaction_id });
+                        setChosenId(row.original.transaction_id);
+                        setTransactionInfoOpen(true);
                     }}
                 />
             )
         },
+        /* {
+            id: "account_id",
+            accessorKey: "account_id",
+            header: translate("resources.transactions.fields.account_id"),
+            cell: ({ row }) => row.original.account_id
+        }, */
         {
             id: "account_balance",
             accessorKey: "account_balance",
@@ -75,5 +84,5 @@ export const useGetAccountShowColumns = () => {
         }
     ];
 
-    return { historyColumns };
+    return { historyColumns, chosenId, transcationInfoOpen, setTransactionInfoOpen };
 };

@@ -9,7 +9,7 @@ import { CirclePlus, KeyRound, LockKeyhole, LockKeyholeOpen, TriangleAlert } fro
 import { ChangeEvent, useState } from "react";
 import { useDataProvider, useTranslate } from "react-admin";
 import { ControllerRenderProps, useForm } from "react-hook-form";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { ResourceHeaderTitle } from "@/components/widgets/components/ResourceHeaderTitle";
@@ -48,7 +48,10 @@ export const WalletStore = () => {
         data: storageState,
         refetch: refetchStorageState,
         isLoading: storageStateLoading
-    } = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"));
+    } = useQuery({
+        queryKey: ["walletStorage"],
+        queryFn: ({ signal }) => dataProvider.getVaultState("vault", signal)
+    });
 
     const storageInitiated = async () => {
         try {
@@ -120,6 +123,7 @@ export const WalletStore = () => {
                     src="/BlowFish.svg"
                     alt="Decorative"
                     className="-z-50 opacity-[0.3] w-[280px] lg:w-[320px] xl:w-[400px] h-[280px] lg:h-[320px] xl:h-[400px] pointer-events-none select-none"
+                    className="-z-50 opacity-[0.3] w-[280px] lg:w-[320px] xl:w-[400px] h-[280px] lg:h-[320px] xl:h-[400px] pointer-events-none select-none"
                 />
             </div>
             <section className="flex justify-center items-center">
@@ -131,6 +135,7 @@ export const WalletStore = () => {
                             {!storageState?.initiated && (
                                 <>
                                     {stepForUnsealed !== "error" ? (
+                                        <h2 className="text-neutral-100 dark:text-neutral-0 text-xl text-center">
                                         <h2 className="text-neutral-100 dark:text-neutral-0 text-xl text-center">
                                             {translate("resources.wallet.storage.initiatedTitle")}
                                         </h2>
@@ -160,6 +165,7 @@ export const WalletStore = () => {
                             {storageState?.state === "sealed" && storageState?.initiated && (
                                 <>
                                     {stepForUnsealed !== "error" ? (
+                                        <h2 className="text-neutral-100 dark:text-neutral-0 text-xl text-center">
                                         <h2 className="text-neutral-100 dark:text-neutral-0 text-xl text-center">
                                             {translate("resources.wallet.storage.titleClosed")}
                                         </h2>
@@ -210,7 +216,7 @@ export const WalletStore = () => {
                                                         <FormControl>
                                                             <Textarea
                                                                 autoFocus
-                                                                className={`text-sm resize-none min-h-24`}
+                                                                className={`min-h-24 resize-none text-sm`}
                                                                 value={keyText}
                                                                 onChange={e => handleTextChange(e, field)}
                                                                 placeholder={translate("resources.wallet.storage.key")}>
@@ -226,6 +232,7 @@ export const WalletStore = () => {
                                                                             </TooltipTrigger>
 
                                                                             <TooltipContent
+                                                                                className="bottom-0 border-none"
                                                                                 className="bottom-0 border-none"
                                                                                 side="left">
                                                                                 <FormMessage />
@@ -243,6 +250,7 @@ export const WalletStore = () => {
                                                 disabled={loadingProcess || keyText.length < 3}
                                                 type="submit"
                                                 className="flex items-center self-end gap-1 w-full sm:w-1/4 min-w-28">
+                                                className="flex items-center self-end gap-1 w-full sm:w-1/4 min-w-28">
                                                 {loadingProcess ? (
                                                     <LoadingBlock className="!w-5 !h-5" />
                                                 ) : (
@@ -259,6 +267,7 @@ export const WalletStore = () => {
                                 storageState?.initiated &&
                                 stepForUnsealed !== 1 && (
                                     <>
+                                        <h2 className="text-neutral-100 dark:text-neutral-0 text-xl text-center">
                                         <h2 className="text-neutral-100 dark:text-neutral-0 text-xl text-center">
                                             {storageState?.state === "waiting"
                                                 ? translate("resources.wallet.storage.titleClosed")
@@ -313,6 +322,7 @@ export const WalletStore = () => {
                                                         setStepForUnsealed(1);
                                                     }}
                                                     className="flex flex-1 items-center gap-1">
+                                                    className="flex flex-1 items-center gap-1">
                                                     <KeyRound width={16} height={16} />
                                                     <span className="text-sm">
                                                         {translate("resources.wallet.storage.buttonForEnterKey")}
@@ -323,6 +333,7 @@ export const WalletStore = () => {
                                             <Button
                                                 disabled={loadingProcess}
                                                 onClick={cancelUnsealing}
+                                                className="relative flex flex-1 items-center gap-1 bg-red-40 hover:bg-red-30 focus:bg-red-30 active:bg-red-30">
                                                 className="relative flex flex-1 items-center gap-1 bg-red-40 hover:bg-red-30 focus:bg-red-30 active:bg-red-30">
                                                 {loadingProcess ? (
                                                     <LoadingBlock className="!w-5 !h-5" />

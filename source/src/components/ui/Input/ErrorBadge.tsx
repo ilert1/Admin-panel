@@ -11,7 +11,7 @@ export const ErrorBadge = (props: ErrorBadgeProps) => {
     const { errorMessage, disableErrorMessage = false, className = "" } = props;
 
     return (
-        <span className={cn("flex items-center justify-center bg-black h-[36px] pr-[4px] bg-transparent", className)}>
+        <span className={cn("flex h-[36px] items-center justify-center bg-black bg-transparent pr-[4px]", className)}>
             <TooltipProvider>
                 <Tooltip>
                     <TooltipTrigger tabIndex={-1} asChild>

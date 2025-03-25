@@ -70,7 +70,7 @@ export const BitcoinWalletIcon = () => (
         fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <path
-            className="stroke-neutral-90 dark:stroke-neutral-0 "
+            className="stroke-neutral-90 dark:stroke-neutral-0"
             d="M7 7.45117H19C19.5304 7.45117 20.0391 7.66189 20.4142 8.03696C20.7893 8.41203 21 8.92074 21 9.45117V19.4512C21 19.9816 20.7893 20.4903 20.4142 20.8654C20.0391 21.2405 19.5304 21.4512 19 21.4512H5C4.46957 21.4512 3.96086 21.2405 3.58579 20.8654C3.21071 20.4903 3 19.9816 3 19.4512V5.45117C3 4.92074 3.21071 4.41203 3.58579 4.03696C3.96086 3.66189 4.46957 3.45117 5 3.45117H19"
             stroke="white"
             strokeWidth="2"

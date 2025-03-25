@@ -50,7 +50,7 @@ export const EditAuthData = ({ open, id, onOpenChange }: EditAuthDataProps) => {
     return (
         <>
             <Dialog open={open} onOpenChange={onOpenChange}>
-                <DialogContent disableOutsideClick className="max-w-[468px] max-h-[464px] bg-muted p-[30px] ">
+                <DialogContent disableOutsideClick className="max-h-[464px] max-w-[468px] bg-muted p-[30px]">
                     <DialogHeader>
                         <DialogTitle className="text-center">
                             <span className="text-display-4">
@@ -58,11 +58,11 @@ export const EditAuthData = ({ open, id, onOpenChange }: EditAuthDataProps) => {
                             </span>
                         </DialogTitle>
                         <DialogDescription></DialogDescription>
-                        <div className="text-title-1 mb-[24px]">
+                        <div className="mb-[24px] text-title-1">
                             {translate("resources.direction.writeSecretPhrase")}
                         </div>
-                        <div className="w-full flex flex-col items-center mb-[24px]">
-                            <div className="flex justify-start w-full text-note-1 pb-[4px]">
+                        <div className="mb-[24px] flex w-full flex-col items-center">
+                            <div className="flex w-full justify-start pb-[4px] text-note-1">
                                 {translate("resources.direction.secretHelper")}
                             </div>
                             <MonacoEditor
@@ -73,7 +73,7 @@ export const EditAuthData = ({ open, id, onOpenChange }: EditAuthDataProps) => {
                                 setCode={setCode}
                             />
                         </div>
-                        <div className="flex flex-col sm:flex-row justify-end gap-[16px] w-full">
+                        <div className="flex w-full flex-col justify-end gap-[16px] sm:flex-row">
                             <Button onClick={() => handleSaveClicked()} disabled={hasErrors || !isValid}>
                                 {translate("app.ui.actions.save")}
                             </Button>

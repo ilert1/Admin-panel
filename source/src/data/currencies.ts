@@ -26,13 +26,14 @@ export class CurrenciesDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<CurrencyWithId>> {
         const res = await currencyEndpointsListCurrenciesEnigmaV1CurrencyGet(
             {
-                currentPage: params?.pagination.page,
-                pageSize: params?.pagination.perPage
+                currentPage: params?.pagination?.page,
+                pageSize: params?.pagination?.perPage
             },
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal: params.signal || params.filter?.signal
             }
         );
 
@@ -97,7 +98,8 @@ export class CurrenciesDataProvider extends BaseDataProvider {
         const res = await currencyEndpointsGetCurrencyEnigmaV1CurrencyCurrencyCodeGet(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
+            },
+            signal: params.signal || params.meta?.signal
         });
 
         if ("data" in res.data && res.data.success) {

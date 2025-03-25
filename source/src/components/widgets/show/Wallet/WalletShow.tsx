@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { useMemo, useState } from "react";
-import { useDataProvider, useGetList, usePermissions, useShowController, useTranslate } from "react-admin";
+import { useDataProvider, usePermissions, useTranslate } from "react-admin";
 import { DeleteWalletDialog } from "./DeleteWalletDialog";
 import { EditWalletDialog } from "./EditWalletDialog";
-import { useQuery } from "react-query";
-import { WalletsDataProvider } from "@/data";
+import { useQuery } from "@tanstack/react-query";
 import { LoadingBalance } from "@/components/ui/loading";
+import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 
 interface WalletShowProps {
     id: string;
@@ -15,16 +15,22 @@ interface WalletShowProps {
 
 export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const { permissions } = usePermissions();
-    const context = useShowController<Wallets.Wallet>({
+    const context = useAbortableShowController<Wallets.Wallet>({
         resource: permissions === "admin" ? "wallet" : "merchant/wallet",
         id
     });
     const translate = useTranslate();
-    const dataProvider = useDataProvider<WalletsDataProvider>();
+    const dataProvider = useDataProvider();
 
-    const { data: accountsData } = useGetList<Account>("accounts", {
-        pagination: { perPage: 1000, page: 1 },
-        filter: { sort: "name", asc: "ASC" }
+    const { data: accountsData } = useQuery({
+        queryKey: ["accounts", "getList", "WalletShow"],
+        queryFn: async ({ signal }) =>
+            await dataProvider.getList<Account>("accounts", {
+                pagination: { perPage: 1000, page: 1 },
+                filter: { sort: "name", asc: "ASC" },
+                signal
+            }),
+        select: data => data?.data
     });
 
     const currentAccount = useMemo(
@@ -35,13 +41,12 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
 
-    const { data: walletBalance, isFetching: walletBalanceFetching } = useQuery<Wallets.WalletBalance>(
-        ["walletBalance"],
-        () => dataProvider.getWalletBalance(permissions === "admin" ? "wallet" : "merchant/wallet", id),
-        {
-            enabled: !!id
-        }
-    );
+    const { data: walletBalance, isFetching: walletBalanceFetching } = useQuery<Wallets.WalletBalance>({
+        queryKey: ["walletBalance"],
+        queryFn: ({ signal }) =>
+            dataProvider.getWalletBalance(permissions === "admin" ? "wallet" : "merchant/wallet", id, signal),
+        enabled: !!id
+    });
 
     const handleDeleteClicked = () => {
         setDeleteDialogOpen(true);
@@ -54,8 +59,8 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     if (context.isLoading || !context.record) return;
 
     return (
-        <div className="flex flex-col gap-4 md:gap-6 px-4 md:px-[42px]">
-            <div className="flex flex-col sm:grid sm:grid-cols-2 gap-y-2 sm:gap-y-4">
+        <div className="flex flex-col gap-4 px-4 md:gap-6 md:px-[42px]">
+            <div className="flex flex-col gap-y-2 sm:grid sm:grid-cols-2 sm:gap-y-4">
                 <TextField label={translate("resources.wallet.manage.fields.walletType")} text={context.record.type} />
 
                 <div>
@@ -64,7 +69,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
                     </small>
 
                     {!walletBalanceFetching ? (
-                        <div className="flex flex-col items-left justify-center">
+                        <div className="items-left flex flex-col justify-center">
                             {walletBalance?.usdt_amount != 0 && (
                                 <TextField text={`${walletBalance?.usdt_amount} USDT`} />
                             )}
@@ -74,7 +79,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
                             )}
                         </div>
                     ) : (
-                        <LoadingBalance className="text-base w-[15px] h-[15px] overflow-hidden" />
+                        <LoadingBalance className="h-[15px] w-[15px] overflow-hidden text-base" />
                     )}
                 </div>
 
@@ -122,7 +127,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
                 </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row justify-end gap-2 md:gap-4 px-0 sm:px-[42px] mb-4">
+            <div className="mb-4 flex flex-col justify-end gap-2 px-0 sm:flex-row sm:px-[42px] md:gap-4">
                 <Button variant={"outline_gray"} onClick={() => handleDeleteClicked()}>
                     {translate("resources.users.delete")}
                 </Button>

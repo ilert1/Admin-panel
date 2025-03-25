@@ -24,13 +24,14 @@ export class MerchantsDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<Merchant>> {
         const res = await merchantEndpointsListMerchantsEnigmaV1MerchantGet(
             {
-                currentPage: params?.pagination.page,
-                pageSize: params?.pagination.perPage
+                currentPage: params?.pagination?.page,
+                pageSize: params?.pagination?.perPage
             },
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal: params.signal || params.filter?.signal
             }
         );
 
@@ -85,7 +86,8 @@ export class MerchantsDataProvider extends BaseDataProvider {
         const res = await merchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGet(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
+            },
+            signal: params.signal || params.meta?.signal
         });
 
         if ("data" in res.data && res.data.success) {

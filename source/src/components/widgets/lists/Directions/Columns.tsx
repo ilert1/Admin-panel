@@ -142,7 +142,7 @@ export const useGetDirectionsColumns = () => {
         {
             id: "type",
             header: () => (
-                <div className="flex justify-center items-center">{translate("resources.direction.types.type")}</div>
+                <div className="flex items-center justify-center">{translate("resources.direction.types.type")}</div>
             ),
             cell: ({ row }) => {
                 const type = row.original.type;
@@ -159,11 +159,11 @@ export const useGetDirectionsColumns = () => {
                 return (
                     <div className="flex items-center justify-center text-white">
                         {row.original.state === "active" ? (
-                            <span className="px-3 py-0.5 bg-green-50 rounded-20 font-normal text-title-2 text-center whitespace-nowrap">
+                            <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
                                 {translate("resources.direction.fields.stateActive")}
                             </span>
                         ) : (
-                            <span className="px-3 py-0.5 bg-red-50 rounded-20 font-normal text-title-2 text-center whitespace-nowrap">
+                            <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal">
                                 {translate("resources.direction.fields.stateInactive")}
                             </span>
                         )}

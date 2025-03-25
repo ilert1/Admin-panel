@@ -1,11 +1,12 @@
-import { ListContextProvider, useListController } from "react-admin";
+import { ListContextProvider } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { LoadingBlock } from "@/components/ui/loading";
 import { UserListFilter } from "./UserListFilter";
 import { useGetUserColumns } from "./Columns";
+import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const UserList = () => {
-    const listContext = useListController<Users.User>();
+    const listContext = useAbortableListController<Users.User>();
 
     const { columns } = useGetUserColumns();
 

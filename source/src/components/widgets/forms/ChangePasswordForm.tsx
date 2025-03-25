@@ -17,7 +17,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
     const translate = useTranslate();
     const { onOpenChange } = props;
     const usersDataProvider = new UsersDataProvider();
-    const { getIdentity } = useAuthProvider();
+    const authProvider = useAuthProvider();
     const [userId, setUserId] = useState("");
 
     const [isPasswordLengthError, setIsPasswordLenghtError] = useState<boolean | undefined>(undefined);
@@ -108,12 +108,13 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
 
     useEffect(() => {
         async function checkAuth() {
-            if (getIdentity) {
-                const data = await getIdentity();
+            if (authProvider?.getIdentity) {
+                const data = await authProvider?.getIdentity();
                 setUserId(String(data.id));
             }
         }
         checkAuth();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -169,8 +170,8 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full" autoComplete="off">
-                <div className="flex flex-col w-full gap-[20px]">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col gap-6" autoComplete="off">
+                <div className="flex w-full flex-col gap-[20px]">
                     <FormField
                         control={form.control}
                         name="currentPassword"
@@ -231,7 +232,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
                             </FormItem>
                         )}
                     />
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-[4px] gap-x-[15px] justify-between">
+                    <div className="grid grid-cols-1 justify-between gap-x-[15px] gap-y-[4px] sm:grid-cols-2">
                         <Rule
                             text={translate("pages.settings.passChange.rules.notLessThanTenSymbols")}
                             isError={isPasswordLengthError}
@@ -250,7 +251,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
                         />
                     </div>
                 </div>
-                <div className="flex flex-col sm:self-end sm:flex-row items-center gap-4">
+                <div className="flex flex-col items-center gap-4 sm:flex-row sm:self-end">
                     <Button
                         type="submit"
                         variant="default"
@@ -262,7 +263,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
                         onClick={() => onOpenChange(false)}
                         variant="outline_gray"
                         type="button"
-                        className="border border-neutral-50 rounded-4 hover:border-neutral-100 w-full sm:w-auto">
+                        className="w-full rounded-4 border border-neutral-50 hover:border-neutral-100 sm:w-auto">
                         {translate("app.ui.actions.cancel")}
                     </Button>
                 </div>

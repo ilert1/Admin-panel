@@ -41,7 +41,7 @@ export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-[270px] max-h-[200px] sm:max-h-[140px] bg-muted overflow-auto">
+            <DialogContent className="max-h-[200px] max-w-[270px] overflow-auto bg-muted sm:max-h-[140px]">
                 <DialogHeader>
                     <DialogTitle className="text-center">
                         {translate("resources.provider.deleteProviderQuestion")}
@@ -49,7 +49,7 @@ export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
                     <DialogDescription></DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                    <div className="flex flex-col gap-4 sm:gap-0 sm:flex-row justify-around w-full">
+                    <div className="flex w-full flex-col justify-around gap-4 sm:flex-row sm:gap-0">
                         <Button onClick={handleDelete}>{translate("app.ui.actions.delete")}</Button>
                         <Button
                             variant={"outline"}

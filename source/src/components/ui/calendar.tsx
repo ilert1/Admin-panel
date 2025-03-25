@@ -81,10 +81,10 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
                                     !option.disabled ? handleChange(String(option.value)) : e.preventDefault()
                                 }
                                 className={
-                                    "text-sm font-medium dark:text-neutral-0 text-neutral-80 rounded-4 px-1 py-1.5 pointer" +
-                                    (option.value === value ? " bg-green-50 dark:bg-green-50 !text-neutral-0" : "") +
+                                    "pointer rounded-4 px-1 py-1.5 text-sm font-medium text-neutral-80 dark:text-neutral-0" +
+                                    (option.value === value ? " bg-green-50 !text-neutral-0 dark:bg-green-50" : "") +
                                     (option.disabled
-                                        ? " text-muted-foreground opacity-40 select-none dark:text-neutral-0"
+                                        ? " select-none text-muted-foreground opacity-40 dark:text-neutral-0"
                                         : "")
                                 }
                                 key={`${option.value}-${id}`}>
@@ -108,7 +108,7 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
                             </button>
 
                             {showDropdown && (
-                                <div className="absolute overflow-auto top-0 bottom-0 left-0 right-0 grid grid-cols-3 grid-rows-4 bg-neutral-0 dark:bg-neutral-100 z-30 gap-x-1 gap-y-2 p-2 rounded-4">
+                                <div className="absolute bottom-0 left-0 right-0 top-0 z-30 grid grid-cols-3 grid-rows-4 gap-x-1 gap-y-2 overflow-auto rounded-4 bg-neutral-0 p-2 dark:bg-neutral-100">
                                     {renderItems}
                                 </div>
                             )}

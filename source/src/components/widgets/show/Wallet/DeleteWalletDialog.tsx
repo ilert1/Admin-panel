@@ -36,7 +36,7 @@ export const DeleteWalletDialog = (props: DeleteWalletDialogProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="w-[251px] bg-muted">
+            <DialogContent className="max-w-[270px] bg-muted">
                 <DialogHeader>
                     <DialogTitle className="text-center">
                         {translate("resources.wallet.manage.deleteWallet")}
@@ -44,7 +44,7 @@ export const DeleteWalletDialog = (props: DeleteWalletDialogProps) => {
                     <DialogDescription></DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                    <div className="flex justify-around w-full">
+                    <div className="flex w-full justify-around">
                         <Button onClick={deleteElem}>{translate("app.ui.actions.delete")}</Button>
                         <Button
                             className="bg-neutral-0 dark:bg-neutral-100"

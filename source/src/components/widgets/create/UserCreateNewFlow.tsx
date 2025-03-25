@@ -23,7 +23,7 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 
@@ -56,12 +56,16 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
 
     const isFirefox = useMemo(() => navigator.userAgent.match(/firefox|fxios/i), []);
 
-    const { data: userRoles } = useQuery(["userRoles"], async () => {
-        const res = await fetchUtils.fetchJson(`${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles`, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-        });
+    const { data: userRoles } = useQuery({
+        queryKey: ["userRoles"],
+        queryFn: async ({ signal }) => {
+            const res = await fetchUtils.fetchJson(`${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles`, {
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+                signal
+            });
 
-        return res.json as KecloakRoles[];
+            return res.json as KecloakRoles[];
+        }
     });
 
     const formSchema = z.object({
@@ -152,7 +156,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
             <CreateContextProvider value={contrProps}>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" autoComplete="off">
-                        <div className="flex flex-col md:grid md:grid-cols-2 md:grid-template-rows-auto gap-y-5 gap-x-4 items-stretch md:items-baseline">
+                        <div className="md:grid-template-rows-auto flex flex-col items-stretch gap-x-4 gap-y-5 md:grid md:grid-cols-2 md:items-baseline">
                             <FormField
                                 name="first_name"
                                 control={form.control}
@@ -343,7 +347,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
                             </div>
                         </div>
 
-                        <div className="sm:self-end flex flex-col sm:flex-row sm:items-center gap-4">
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:self-end">
                             <Button type="submit" disabled={submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>

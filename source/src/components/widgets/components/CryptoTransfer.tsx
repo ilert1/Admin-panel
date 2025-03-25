@@ -3,7 +3,7 @@ import { useRefresh, useTranslate } from "react-admin";
 import { BF_MANAGER_URL, API_URL } from "@/data/base";
 import { CryptoTransferForm } from "@/components/widgets/forms";
 import { parseJWT } from "@/helpers/jwt";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { TextField } from "@/components/ui/text-field";
 
 interface CryptoTransferProps {
@@ -27,31 +27,30 @@ export const CryptoTransfer = ({ repeatData, cryptoTransferState, setCryptoTrans
         }
     }, []);
 
-    const { isLoading: balanceLoading, data: balance } = useQuery(
-        "accounts",
-        () =>
+    const { isLoading: balanceLoading, data: balance } = useQuery({
+        queryKey: ["accounts"],
+        queryFn: ({ signal }) =>
             fetch(`${API_URL}/accounts/${merchantId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal
             }).then(response => response.json()),
-        {
-            select(data) {
-                const amounts = data.data.amounts;
+        select(data) {
+            const amounts = data.data.amounts;
 
-                if (!Array.isArray(amounts) || amounts.length === 0) {
-                    return 0;
-                }
-
-                const usdtObject = amounts.find((el: any) => el.currency === "USDT");
-                if (usdtObject) {
-                    return +usdtObject.value.quantity / +usdtObject.value.accuracy;
-                }
-
+            if (!Array.isArray(amounts) || amounts.length === 0) {
                 return 0;
             }
+
+            const usdtObject = amounts.find(el => el.currency === "USDT");
+            if (usdtObject) {
+                return +usdtObject.value.quantity / +usdtObject.value.accuracy;
+            }
+
+            return 0;
         }
-    );
+    });
 
     const [localLoading, setLocalLoading] = useState(false);
     const isLoading = useMemo(() => balanceLoading || localLoading, [balanceLoading, localLoading]);

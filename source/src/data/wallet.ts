@@ -18,19 +18,22 @@ const API_URL = import.meta.env.VITE_WALLET_URL;
 export class WalletsDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
         const data: { [key: string]: string } = {
-            limit: params.pagination.perPage.toString(),
-            offset: ((params.pagination.page - 1) * +params.pagination.perPage).toString()
+            limit: params.pagination ? params.pagination.perPage.toString() : "10",
+            offset: params.pagination ? ((params.pagination.page - 1) * +params.pagination.perPage).toString() : "0"
         };
 
         if (resource !== "wallet" && resource !== "merchant/wallet") {
             Object.keys(params.filter).forEach(filterItem => {
-                data[filterItem] = params.filter[filterItem];
+                if (filterItem !== "signal") {
+                    data[filterItem] = params.filter[filterItem];
+                }
             });
         }
 
         const paramsStr = new URLSearchParams(data).toString();
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}?${paramsStr}`, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+            signal: params.signal || params.filter?.signal
         });
 
         if (!json.success) {
@@ -57,7 +60,8 @@ export class WalletsDataProvider extends BaseDataProvider {
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
         const url = `${API_URL}/${resource}/${params.id}`;
         const { json } = await fetchUtils.fetchJson(url, {
-            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+            signal: params.signal || params.meta?.signal
         });
 
         if (!json.success) {
@@ -80,11 +84,12 @@ export class WalletsDataProvider extends BaseDataProvider {
         };
     }
 
-    async getWalletBalance(resource: string, id: string): Promise<Wallets.WalletBalance> {
+    async getWalletBalance(resource: string, id: string, signal?: AbortSignal): Promise<Wallets.WalletBalance> {
         const { json } = await fetchUtils
             .fetchJson(`${API_URL}/${resource}/${id}/balance`, {
                 method: "GET",
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+                signal
             })
             .catch(() => {
                 return { json: { success: false } };

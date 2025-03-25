@@ -16,11 +16,11 @@ export const ShowUserSheet: React.FC<ShowSheetProps> = ({ id = "", open, onOpenC
     return (
         <Sheet onOpenChange={onOpenChange} open={open}>
             <SheetContent
-                className="sm:max-w-[1015px] h-full sm:h-[502px] max-h-[calc(100dvh-84px)] overflow-hidden w-full p-0 m-0 top-[84px] flex flex-col"
+                className="top-[84px] m-0 flex h-full max-h-[calc(100dvh-84px)] w-full flex-col overflow-hidden p-0 sm:h-[502px] sm:max-w-[1015px]"
                 tabIndex={-1}
                 close={false}>
-                <div className="p-4 md:p-[42px] pb-[0px] flex-shrink-0">
-                    <div className="flex justify-between items-center md:pb-2">
+                <div className="flex-shrink-0 p-4 pb-[0px] md:p-[42px]">
+                    <div className="flex items-center justify-between md:pb-2">
                         <SheetTitle className="!text-display-1">{translate("resources.users.user")}</SheetTitle>
                         <CloseSheetXButton onOpenChange={onOpenChange} />
                     </div>

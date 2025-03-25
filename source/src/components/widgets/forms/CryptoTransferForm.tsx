@@ -4,17 +4,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/Button";
-import { useDataProvider, useInfiniteGetList, useTranslate } from "react-admin";
+import { useDataProvider, useTranslate } from "react-admin";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { WalletMinimal } from "lucide-react";
 import { Icon } from "../shared/Icon";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectType } from "@/components/ui/select";
 import { CreateWalletDialog } from "../lists/Wallets";
 import { LoadingBlock, LoadingBalance } from "@/components/ui/loading";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import BlowFishCross from "@/lib/icons/BlowFishCross.svg?react";
 import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { useAbortableInfiniteGetList } from "@/hooks/useAbortableInfiniteGetList";
 
 export const CryptoTransferForm = (props: {
     loading: boolean;
@@ -42,7 +43,7 @@ export const CryptoTransferForm = (props: {
         isFetched: walletsDataFetched,
         isFetching: walletsDataLoading,
         fetchNextPage: walletsNextPage
-    } = useInfiniteGetList("merchant/wallet", {
+    } = useAbortableInfiniteGetList("merchant/wallet", {
         pagination: { perPage: 25, page: 1 },
         filter: { sort: "name", asc: "ASC" }
     });
@@ -173,27 +174,33 @@ export const CryptoTransferForm = (props: {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [shouldTrigger]);
 
-    useQuery(
-        "withdrawList",
-        () =>
-            dataProvider
-                .getList("withdraw", {
-                    pagination: { page: 1, perPage: 1 },
-                    sort: { field: "id", order: "ASC" },
-                    filter: {}
-                })
-                .then(({ data }) => {
-                    const isFound = checkAddress(data[0]?.destination?.requisites[0]?.blockchain_address);
-                    if (isFound) {
-                        setLastUsedWallet(data[0]?.destination?.requisites[0]?.blockchain_address);
-                    }
-                }),
-        { enabled: props.transferState === "process" && walletsDataFetched }
-    );
+    const { data: withdrawList } = useQuery({
+        queryKey: ["withdrawList", "CryptoTransferForm"],
+        queryFn: async ({ signal }) =>
+            await dataProvider.getList<Transaction.Transaction>("withdraw", {
+                pagination: { page: 1, perPage: 1 },
+                sort: { field: "id", order: "ASC" },
+                filter: {},
+                signal
+            }),
+        select: data => data?.data,
+        enabled: props.transferState === "process" && walletsDataFetched
+    });
+
+    useEffect(() => {
+        if (withdrawList && withdrawList.length > 0) {
+            const isFound = checkAddress(withdrawList[0]?.destination?.requisites[0]?.blockchain_address);
+
+            if (isFound) {
+                setLastUsedWallet(withdrawList[0]?.destination?.requisites[0]?.blockchain_address);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [withdrawList]);
 
     if (props.loading || !props.balance) {
         return (
-            <div className="flex flex-col lg:w-[325px] max-w-[476px] px-6 bg-neutral-0 dark:bg-neutral-100 rounded-2xl py-[50px] items-center">
+            <div className="flex max-w-[476px] flex-col items-center rounded-2xl bg-neutral-0 px-6 py-[50px] dark:bg-neutral-100 lg:w-[325px]">
                 {props.loading ? (
                     <LoadingBlock />
                 ) : (
@@ -214,7 +221,7 @@ export const CryptoTransferForm = (props: {
         return (
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="">
-                    <div className="flex flex-col lg:w-[325px] max-w-[476px] px-6 py-4 bg-neutral-0 dark:bg-neutral-100 rounded-2xl gap-4">
+                    <div className="flex max-w-[476px] flex-col gap-4 rounded-2xl bg-neutral-0 px-6 py-4 dark:bg-neutral-100 lg:w-[325px]">
                         <div className="flex-1">
                             <FormField
                                 disabled={props.loading}
@@ -253,11 +260,11 @@ export const CryptoTransferForm = (props: {
                                                                 <SelectItem
                                                                     value={lastUsedWallet}
                                                                     variant={SelectType.DEFAULT}>
-                                                                    <p className="truncate max-w-[235px]">
+                                                                    <p className="max-w-[235px] truncate">
                                                                         {lastUsedWallet}
                                                                     </p>
                                                                     <p
-                                                                        className="truncate max-w-[235px] text-note-2 text-neutral-50"
+                                                                        className="max-w-[235px] truncate text-note-2 text-neutral-50"
                                                                         style={{ bottom: "-.5" }}>
                                                                         {translate(
                                                                             "app.widgets.forms.cryptoTransfer.lastUsedWallet"
@@ -275,11 +282,11 @@ export const CryptoTransferForm = (props: {
                                                                                 <SelectItem
                                                                                     value={wallet.address}
                                                                                     variant={SelectType.DEFAULT}>
-                                                                                    <p className="truncate max-w-[235px]">
+                                                                                    <p className="max-w-[235px] truncate">
                                                                                         {wallet.address}
                                                                                     </p>
                                                                                     <p
-                                                                                        className="truncate max-w-[235px] text-note-2 text-neutral-50"
+                                                                                        className="max-w-[235px] truncate text-note-2 text-neutral-50"
                                                                                         style={{ bottom: "-.5" }}>
                                                                                         {wallet.description}
                                                                                     </p>
@@ -289,12 +296,12 @@ export const CryptoTransferForm = (props: {
                                                                     }
                                                                 });
                                                             })}
-                                                            <div className="sticky bottom-0 bg-neutral-20 dark:bg-black p-2 z-10 flex items-center w-full h-[48px]">
+                                                            <div className="sticky bottom-0 z-10 flex h-[48px] w-full items-center bg-neutral-20 p-2 dark:bg-black">
                                                                 <Button
                                                                     variant={"default"}
-                                                                    className="h-full py-[6px] px-[16px] w-full flex gap-[6px] justify-center items-center"
+                                                                    className="flex h-full w-full items-center justify-center gap-[6px] px-[16px] py-[6px]"
                                                                     onClick={() => setCreateOpen(true)}>
-                                                                    <WalletMinimal className="w-4 h-4" />
+                                                                    <WalletMinimal className="h-4 w-4" />
                                                                     <p className="text-title-1">
                                                                         {translate(
                                                                             "app.widgets.forms.cryptoTransfer.createNewWallet"
@@ -311,7 +318,7 @@ export const CryptoTransferForm = (props: {
                                 )}
                             />
                         </div>
-                        <div className="flex-1 flex flex-col gap-2">
+                        <div className="flex flex-1 flex-col gap-2">
                             <FormField
                                 disabled={props.loading}
                                 control={form.control}
@@ -339,23 +346,23 @@ export const CryptoTransferForm = (props: {
                                     </FormItem>
                                 )}
                             />
-                            <div className="flex-1 flex gap-2 items-center">
+                            <div className="flex flex-1 items-center gap-2">
                                 <label
                                     onClick={handleButtonAllTransfer}
-                                    className="flex gap-2 items-center self-start cursor-pointer [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
-                                    <div className="relative w-4 h-4 rounded-full border transition-all bg-white dark:bg-black border-neutral-60 flex justify-center items-center">
+                                    className="flex cursor-pointer items-center gap-2 self-start [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
+                                    <div className="relative flex h-4 w-4 items-center justify-center rounded-full border border-neutral-60 bg-white transition-all dark:bg-black">
                                         {checked && (
-                                            <div id="checked" className="w-2.5 h-2.5 rounded-full bg-green-50"></div>
+                                            <div id="checked" className="h-2.5 w-2.5 rounded-full bg-green-50"></div>
                                         )}
                                     </div>
-                                    <div className="font-normal text-sm text-neutral-60 transition-all">
+                                    <div className="text-sm font-normal text-neutral-60 transition-all">
                                         <p>{translate("app.widgets.forms.cryptoTransfer.allAmount")}</p>
                                         <p>({props.balance} USD₮)</p>
                                     </div>
                                 </label>
                             </div>
                         </div>
-                        <div className="flex-1 flex gap-6 text-title-1">
+                        <div className="flex flex-1 gap-6 text-title-1">
                             <div className="flex flex-col items-start">
                                 <span className="text-neutral-60 dark:text-neutral-40">
                                     {translate("app.widgets.forms.cryptoTransfer.commission")}
@@ -378,7 +385,7 @@ export const CryptoTransferForm = (props: {
                             {!props.loading ? (
                                 translate("app.widgets.forms.cryptoTransfer.createTransfer")
                             ) : (
-                                <LoadingBalance className="w-[25px] h-[25px] overflow-hidden" />
+                                <LoadingBalance className="h-[25px] w-[25px] overflow-hidden" />
                             )}
                         </Button>
                     </div>
@@ -398,8 +405,8 @@ export const CryptoTransferForm = (props: {
         );
     else if (props.transferState === "success" || props.transferState === "error")
         return (
-            <div className="flex flex-col max-w-[476px] h-[308px] px-6 py-4 bg-neutral-0 dark:bg-neutral-100 rounded-2xl gap-6 justify-center items-center">
-                <div className="flex flex-col gap-2 items-center">
+            <div className="flex h-[308px] max-w-[476px] flex-col items-center justify-center gap-6 rounded-2xl bg-neutral-0 px-6 py-4 dark:bg-neutral-100">
+                <div className="flex flex-col items-center gap-2">
                     <div className="w-[114px]">
                         {props.transferState === "success" && <Icon name="BlowFishCheck" />}
                         {props.transferState === "error" && <Icon name="BlowFishCross" />}

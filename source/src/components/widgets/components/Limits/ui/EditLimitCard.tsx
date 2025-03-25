@@ -112,7 +112,7 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
         }
     };
     return (
-        <div className="flex flex-col gap-4 bg-muted rounded-8 mb-4 p-4">
+        <div className="mb-4 flex flex-col gap-4 rounded-8 bg-muted p-4">
             <div className="flex flex-col gap-4 md:flex-row">
                 <LimitInputGroup
                     label={translate("app.widgets.limits.deposit")}
@@ -144,7 +144,7 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
                     onMaxChange={value => handleChange("rewardMax", value)}
                 />
             </div>
-            <div className="flex flex-col sm:flex-row justify-start gap-[10px]">
+            <div className="flex flex-col justify-start gap-[10px] sm:flex-row">
                 <Button onClick={handleSubmit}>{translate("app.ui.actions.save")}</Button>
                 <Button variant="outline_gray" onClick={() => setEditClicked(false)}>
                     {translate("app.ui.actions.cancel")}

@@ -35,11 +35,11 @@ export const FilterButtonGroup = (props: FilterButtonProps) => {
     const fc = filtersCount();
 
     return (
-        <div className={cn("flex flex-col sm:flex-row justify-end relative gap-2 sm:gap-0", className)}>
+        <div className={cn("relative flex flex-col justify-end gap-2 sm:flex-row sm:gap-0", className)}>
             <Button
                 variant={"outline"}
                 className={cn(
-                    "text-neutral-80 dark:text-neutral-0 border-green-40 dark:border-neutral-0 dark:hover:text-green-50 relative flex gap-1 rounded-4",
+                    "relative flex gap-1 rounded-4 border-green-40 text-neutral-80 dark:border-neutral-0 dark:text-neutral-0 dark:hover:text-green-50",
                     fc && "border-green-50 dark:border-green-50",
                     open && "!border-green-50 !text-green-50"
                 )}
@@ -47,11 +47,11 @@ export const FilterButtonGroup = (props: FilterButtonProps) => {
                 <SlidersHorizontal className="" />
                 <span>{translate("resources.transactions.filter.filters")}</span>
 
-                {open ? <ChevronUp className="w-6 h-6 " /> : <ChevronDown className="w-6 h-6 " />}
+                {open ? <ChevronUp className="h-6 w-6" /> : <ChevronDown className="h-6 w-6" />}
 
                 {fc ? (
                     <div
-                        className="absolute w-4 h-4 bg-green-50 rounded-full flex items-center justify-center !text-neutral-0 text-note-2"
+                        className="absolute flex h-4 w-4 items-center justify-center rounded-full bg-green-50 text-note-2 !text-neutral-0"
                         style={{
                             transform: "translateX(450%) translateY(-100%)"
                         }}>
@@ -69,7 +69,7 @@ export const FilterButtonGroup = (props: FilterButtonProps) => {
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden">
                         <Button
-                            className="flex items-center gap-1 px-0 ml-0 sm:ml-6"
+                            className="ml-0 flex items-center gap-1 px-0 sm:ml-6"
                             onClick={onClearFilters}
                             variant="text_btn_sec"
                             size="default">

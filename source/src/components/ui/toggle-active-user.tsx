@@ -3,7 +3,7 @@ import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
 
 export const ToggleActiveUser = ({ active }: { active: boolean }) => {
     return (
-        <div className={clsx("flex items-center w-[50px] rounded-20 p-0.5 bg-green-50", !active && "bg-red-40")}>
+        <div className={clsx("flex w-[50px] items-center rounded-20 bg-green-50 p-0.5", !active && "bg-red-40")}>
             <div
                 className={clsx(
                     "flex items-center justify-center rounded-full bg-neutral-0 p-1",

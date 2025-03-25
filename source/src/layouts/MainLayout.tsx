@@ -21,16 +21,16 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
     const [testKeysModalOpen, setTestKeysModalOpen] = useState(false);
 
     return (
-        <div className="flex flex-col h-full md:h-screen">
+        <div className="flex h-full flex-col md:h-screen">
             <Header handleLogout={handleLogout} />
             <div className="flex h-full overflow-hidden">
                 <Sidebar resourceName={resourceName} setTestKeysModalOpen={setTestKeysModalOpen} />
                 <div
-                    className={`bg-neutral-20 dark:bg-muted overflow-y-auto grow scrollbar-stable transition-[margin-left] relative  ${
-                        resourceName[1] === "storage" ? " overflow-y-hidden overflow-x-hidden" : ""
+                    className={`relative grow overflow-y-auto bg-neutral-20 transition-[margin-left] scrollbar-stable dark:bg-muted ${
+                        resourceName[1] === "storage" ? "overflow-x-hidden overflow-y-hidden" : ""
                     }`}>
                     <main
-                        className={`p-6 pr-4 h-full flex flex-col container ${
+                        className={`container flex h-full flex-col p-6 pr-4 ${
                             resourceName[0] == "error" ? "h-full" : ""
                         }`}>
                         {children}

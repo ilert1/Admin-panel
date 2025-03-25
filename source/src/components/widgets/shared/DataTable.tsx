@@ -34,7 +34,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
     const context = useListContext();
     const isUsingContext = !props.total;
 
-    const data = isUsingContext ? context.data : propData;
+    const data = isUsingContext ? context.data || [] : propData;
     const total = isUsingContext ? context.total : propTotal;
     const page = isUsingContext ? context.page : propPage;
     const perPage = isUsingContext ? context.perPage : propPerPage;
@@ -113,7 +113,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                             size="sm"
                             variant="text_btn"
                             onClick={() => setPage(page)}
-                            className={`m-0 p-0 text-sm font-normal cursor-pointer transition-colors ${
+                            className={`m-0 cursor-pointer p-0 text-sm font-normal transition-colors ${
                                 page === currentPage ? "text-green-50" : "text-neutral-90 dark:text-neutral-0"
                             }`}>
                             {page}
@@ -143,12 +143,12 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
             <Table className={clsx("min-h-20", data?.length > 1 && "min-h-44")}>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup, i) => (
-                        <TableRow key={i} className="bg-green-50 hover:bg-green-50 relative">
+                        <TableRow key={i} className="relative bg-green-50 hover:bg-green-50">
                             {headerGroup.headers.map((header, j) => {
                                 return (
                                     <TableHead
                                         key={j}
-                                        className="text-white text-base border border-neutral-40 dark:border-muted px-4 py-[9px] leading-4 text-left">
+                                        className="border border-neutral-40 px-4 py-[9px] text-left text-base leading-4 text-white dark:border-muted">
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(header.column.columnDef.header, header.getContext())}
@@ -161,12 +161,12 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                 <TableBody>
                     {data && table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row, i) => (
-                            <TableRow key={i} data-state={row.getIsSelected() && "selected"} className="border-muted ">
+                            <TableRow key={i} data-state={row.getIsSelected() && "selected"} className="border-muted">
                                 {row.getVisibleCells().map((cell, j) => (
                                     <TableCell
                                         key={j}
                                         className={cn(
-                                            "text-sm border border-neutral-40 dark:border-muted text-neutral-90 dark:text-neutral-0 py-2 bg-neutral-0 dark:bg-neutral-100",
+                                            "border border-neutral-40 bg-neutral-0 py-2 text-sm text-neutral-90 dark:border-muted dark:bg-neutral-100 dark:text-neutral-0",
                                             i % 2
                                                 ? "bg-neutral-20 dark:bg-neutral-bb-2"
                                                 : "bg-neutral-0 dark:bg-neutral-100"
@@ -180,7 +180,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                         <TableRow>
                             <TableCell
                                 colSpan={columns.length}
-                                className="h-24 text-center text-sm border border-muted text-neutral-90 dark:text-neutral-30 bg-white dark:bg-black">
+                                className="h-24 border border-muted bg-white text-center text-sm text-neutral-90 dark:bg-black dark:text-neutral-30">
                                 {translate("resources.transactions.undefined")}
                             </TableCell>
                         </TableRow>
@@ -189,13 +189,13 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
             </Table>
 
             <div
-                className={`flex w-full min-h-[1.5rem] mb-2 items-center justify-between gap-4 overflow-x-auto  overflow-y-hidden p-1 sm:flex-row sm:gap-8 ${
-                    pagination && total > perPage ? "" : "!justify-end"
+                className={`mb-2 flex min-h-[1.5rem] w-full items-center justify-between gap-4 overflow-x-auto overflow-y-hidden p-1 sm:flex-row sm:gap-8 ${
+                    pagination && total && total > perPage ? "" : "!justify-end"
                 }`}>
-                {pagination && total > perPage && renderPagination()}
+                {pagination && total && total > perPage && renderPagination()}
 
                 <div className="flex items-center space-x-2">
-                    <p className="hidden sm:block whitespace-nowrap text-sm font-normal text-neutral-90 dark:text-neutral-0">
+                    <p className="hidden whitespace-nowrap text-sm font-normal text-neutral-90 dark:text-neutral-0 sm:block">
                         {translate("resources.transactions.pagination")}
                     </p>
                     <Select
@@ -204,7 +204,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                             table.setPageSize(Number(value));
                             setPerPage(Number(value));
                         }}>
-                        <SelectTrigger className="h-8 border-none bg-white dark:bg-green-60 p-1 w-auto gap-0.5 text-neutral-90 dark:text-white">
+                        <SelectTrigger className="h-8 w-auto gap-0.5 border-none bg-white p-1 text-neutral-90 dark:bg-green-60 dark:text-white">
                             <SelectValue placeholder={data?.length > 0 ? table.getState().pagination.pageSize : 0} />
                         </SelectTrigger>
                         <SelectContent>

@@ -22,9 +22,9 @@ export const ChangePasswordDialog = (props: ChangePasswordDialogProps) => {
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
                 disableOutsideClick
-                className="bg-muted w-[380px] h-auto !overflow-y-auto rounded-[16px] mx-2 sm:mx-0 gap-0">
+                className="mx-2 h-auto w-[380px] gap-0 !overflow-y-auto rounded-[16px] bg-muted sm:mx-0">
                 <DialogHeader className="flex flex-col gap-[24px]">
-                    <DialogTitle className="text-center !mb-0">
+                    <DialogTitle className="!mb-0 text-center">
                         {translate("pages.settings.passChange.passChange")}
                     </DialogTitle>
                     <ChangePasswordForm onOpenChange={onOpenChange} />

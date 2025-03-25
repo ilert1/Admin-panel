@@ -15,6 +15,8 @@ interface UserShowProps {
 }
 
 export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
+    // оставить так, пока не будет отдельной ручки
+    // когда будет отдельная, перевести на useAbortableShowController()
     const context = useShowController<Users.User>({
         resource: "users",
         id,
@@ -40,12 +42,12 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
 
     return (
         <div className="relative">
-            <div className="px-4 md:px-[42px] pb-1 md:pb-[25px] flex flex-row flex-wrap md:flex-nowrap gap-2 justify-between">
+            <div className="flex flex-row flex-wrap justify-between gap-2 px-4 pb-1 md:flex-nowrap md:px-[42px] md:pb-[25px]">
                 <TextField text={id} copyValue className="text-neutral-70 dark:text-neutral-30" />
 
                 <div className="flex items-center justify-center">
                     <span
-                        className={`px-3 py-0.5 rounded-20 font-normal text-white text-base text-center ${
+                        className={`rounded-20 px-3 py-0.5 text-center text-base font-normal text-white ${
                             context.record.activity ? "bg-green-50" : "bg-extra-2"
                         }`}>
                         {translate(
@@ -55,7 +57,7 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 px-4 md:px-[42px] gap-y-1 md:gap-y-6 pb-4 md:pb-[24px]">
+            <div className="grid grid-cols-1 gap-y-1 px-4 pb-4 sm:grid-cols-2 md:gap-y-6 md:px-[42px] md:pb-[24px]">
                 <TextField label={translate("resources.users.fields.name")} text={userName} copyValue />
 
                 <TextField label={translate("resources.users.fields.login")} text={context.record.login} copyValue />
@@ -82,7 +84,7 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
                 </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row justify-end gap-2 md:gap-4 px-4 sm:px-[42px] mb-4 text-white font-normal">
+            <div className="mb-4 flex flex-col justify-end gap-2 px-4 font-normal text-white sm:flex-row sm:px-[42px] md:gap-4">
                 <Button onClick={handleEditClicked} className="text-title-1">
                     {translate("resources.users.edit")}
                 </Button>

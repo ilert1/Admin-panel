@@ -74,7 +74,7 @@ export const ChatSheet = ({ locale = "ru" }: ChatSheetProps) => {
             <div
                 tabIndex={-1}
                 ref={messagesContainerRef}
-                className="bg-neutral-0 flex-auto overflow-y-auto pb-4"
+                className="flex-auto overflow-y-auto bg-neutral-0 pb-4"
                 style={{ maxHeight: "calc(100vh - 200px)" }}>
                 <div className="flex flex-col gap-2 pt-[24px]">
                     {messages.map((message, index) => (
@@ -90,7 +90,7 @@ export const ChatSheet = ({ locale = "ru" }: ChatSheetProps) => {
                 </div>
                 <div ref={messagesEndRef} />
             </div>
-            <div className="h-[92px] bg-muted p-4 flex items-center gap-4" tabIndex={-1}>
+            <div className="flex h-[92px] items-center gap-4 bg-muted p-4" tabIndex={-1}>
                 <Input
                     className="h-[60px] flex-grow"
                     value={message}
@@ -102,7 +102,7 @@ export const ChatSheet = ({ locale = "ru" }: ChatSheetProps) => {
                     tabIndex={1}
                 />
                 <Button className="h-[60px] w-[60px]" disabled={!message.trim()} onClick={handleSendClicked}>
-                    <Send className="w-[40px] h-[40px]" />
+                    <Send className="h-[40px] w-[40px]" />
                 </Button>
             </div>
         </div>

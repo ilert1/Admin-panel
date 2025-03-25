@@ -8,8 +8,8 @@ export const OptionsPage = () => {
 
     return (
         <>
-            <h1 className="text-3xl mb-6 text-neutral-90 dark:text-white">{translate("app.ui.header.settings")}</h1>
-            <div className="w-full flex flex-col items-center justify-center gap-[12px]">
+            <h1 className="mb-6 text-3xl text-neutral-90 dark:text-white">{translate("app.ui.header.settings")}</h1>
+            <div className="flex w-full flex-col items-center justify-center gap-[12px]">
                 <GeneralInfo />
                 {/* <LoginTypeBlock /> */}
             </div>

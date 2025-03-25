@@ -1,4 +1,4 @@
-import { useShowController, useTranslate, useGetManyReference, usePermissions } from "react-admin";
+import { useTranslate, useGetManyReference, usePermissions } from "react-admin";
 import { SimpleTable } from "@/components/widgets/shared";
 import { TextField } from "@/components/ui/text-field";
 import { useCallback, useMemo, useState } from "react";
@@ -19,6 +19,7 @@ import { useTransactionActions } from "./useTransactionActions";
 import { useFetchMerchants } from "@/hooks";
 import { useGetTransactionShowColumns } from "./Columns";
 import clsx from "clsx";
+import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 
 interface TransactionShowProps {
     id: string;
@@ -29,7 +30,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     const translate = useTranslate();
 
     const { permissions } = usePermissions();
-    const context = useShowController<Transaction.Transaction>({ resource: "transactions", id });
+    const context = useAbortableShowController<Transaction.Transaction>({ resource: "transactions", id });
     const [newState, setNewState] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -85,11 +86,11 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     }
 
     return (
-        <div className="p-4 md:p-[42px] pt-0 h-full flex flex-col gap-6 top-[82px] overflow-auto">
+        <div className="top-[82px] flex h-full flex-col gap-6 overflow-auto p-4 pt-0 md:p-[42px]">
             {permissions === "admin" && (
-                <div className={`flex justify-between flex-wrap gap-4`}>
+                <div className={`flex flex-wrap justify-between gap-4`}>
                     {showState && (
-                        <div className="flex gap-2 items-center">
+                        <div className="flex items-center gap-2">
                             <TextField text={translate("resources.transactions.fields.state.state_description")} />
                             <Select value={newState} onValueChange={setNewState}>
                                 <SelectTrigger className="w-[180px]">
@@ -98,7 +99,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                     />
                                 </SelectTrigger>
 
-                                <SelectContent className="bg-neutral-0 !max-h-56">
+                                <SelectContent className="!max-h-56 bg-neutral-0">
                                     {states.map(state => (
                                         <SelectItem key={state.state_int} value={state.state_int.toString()}>
                                             {translate(
@@ -132,7 +133,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                 </Button>
 
                                 <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                                    <DialogContent className="rounded-16 max-h-56 xl:max-h-none h-auto max-w-[350px] overflow-hidden">
+                                    <DialogContent className="h-auto max-h-56 max-w-[350px] overflow-hidden rounded-16 xl:max-h-none">
                                         <DialogHeader>
                                             <DialogTitle className="text-center">
                                                 {translate("resources.transactions.show.commitTransaction")}
@@ -140,7 +141,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                             <DialogDescription></DialogDescription>
                                         </DialogHeader>
                                         <DialogFooter>
-                                            <div className="flex flex-col sm:flex-row justify-around gap-4 sm:gap-[35px] w-full">
+                                            <div className="flex w-full flex-col justify-around gap-4 sm:flex-row sm:gap-[35px]">
                                                 <Button
                                                     onClick={() => {
                                                         commitTransaction();
@@ -154,7 +155,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                                         setDialogOpen(false);
                                                     }}
                                                     variant="outline"
-                                                    className="w-full !ml-0 px-3 sm:w-24">
+                                                    className="!ml-0 w-full px-3 sm:w-24">
                                                     {translate("app.ui.actions.cancel")}
                                                 </Button>
                                             </div>
@@ -178,7 +179,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     </div>
                 </div>
             )}
-            <div className="flex gap-3 md:gap-6 items-baseline">
+            <div className="flex items-baseline gap-3 md:gap-6">
                 <TextField
                     label={translate("resources.transactions.fields.type")}
                     text={translate(
@@ -232,7 +233,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                         }
                         tableType={TableTypes.COLORED}
                         className={clsx(
-                            "flex-shrink-1 h-auto auto min-h-20",
+                            "flex-shrink-1 auto h-auto min-h-20",
                             context.record.fees.length > 1 && "min-h-44"
                         )}
                     />

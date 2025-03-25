@@ -1,13 +1,14 @@
-import { ListContextProvider, useListController, usePermissions } from "react-admin";
+import { ListContextProvider, usePermissions } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
 import { WalletManualReconciliationBar } from "./WalletManualReconciliationBar";
 import { useGetWalletLinkedTransactionColumns } from "./Columns";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const WalletLinkedTransactionsList = () => {
     const { permissions } = usePermissions();
-    const listContext = useListController<Wallets.WalletLinkedTransactions>(
+    const listContext = useAbortableListController<Wallets.WalletLinkedTransactions>(
         permissions === "admin" ? { resource: "reconciliation" } : { resource: "merchant/reconciliation" }
     );
 
@@ -18,7 +19,7 @@ export const WalletLinkedTransactionsList = () => {
     } else {
         return (
             <>
-                <div className="flex flex-wrap gap-2 justify-between mb-6">
+                <div className="mb-6 flex flex-wrap justify-between gap-2">
                     <ResourceHeaderTitle />
 
                     <WalletManualReconciliationBar />

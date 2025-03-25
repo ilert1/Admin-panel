@@ -1,4 +1,4 @@
-import { ListContextProvider, useDataProvider, useListController, usePermissions, useTranslate } from "react-admin";
+import { ListContextProvider, useDataProvider, usePermissions, useTranslate } from "react-admin";
 import { useGetWalletsColumns } from "./Columns";
 import { Loading } from "@/components/ui/loading";
 import { Button } from "@/components/ui/Button";
@@ -7,12 +7,13 @@ import { CreateWalletDialog } from "./CreateWalletDialog";
 import { useEffect, useState } from "react";
 import { DataTable } from "../../shared";
 import { VaultDataProvider, WalletsDataProvider } from "@/data";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const WalletsList = () => {
     const { permissions } = usePermissions();
-    const listContext = useListController<Wallets.Wallet>(
+    const listContext = useAbortableListController<Wallets.Wallet>(
         permissions === "admin" ? { resource: "wallet" } : { resource: "merchant/wallet" }
     );
     const translate = useTranslate();
@@ -20,7 +21,9 @@ export const WalletsList = () => {
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const dataProvider = useDataProvider<VaultDataProvider & WalletsDataProvider>();
-    const { data: storageState } = useQuery(["walletStorage"], () => dataProvider.getVaultState("vault"), {
+    const { data: storageState } = useQuery({
+        queryKey: ["walletStorage"],
+        queryFn: ({ signal }) => dataProvider.getVaultState("vault", signal),
         enabled: permissions === "admin"
     });
 
@@ -28,14 +31,14 @@ export const WalletsList = () => {
         setCreateDialogOpen(true);
     };
 
-    const fetchBalances = async () => {
+    const fetchBalances = async (signal: AbortSignal) => {
         if (!listContext.data) return;
 
         const tempBalancesMap: Map<string, Wallets.WalletBalance> = new Map();
 
         const balancePromises = listContext.data.map(async wallet => {
             return dataProvider
-                .getWalletBalance(permissions === "admin" ? "wallet" : "merchant/wallet", wallet.id)
+                .getWalletBalance(permissions === "admin" ? "wallet" : "merchant/wallet", wallet.id, signal)
                 .then(data => {
                     if (data) {
                         tempBalancesMap.set(wallet.id, data);
@@ -44,13 +47,20 @@ export const WalletsList = () => {
         });
 
         await Promise.allSettled(balancePromises);
-        setBalances(tempBalancesMap);
+
+        if (!signal.aborted) {
+            setBalances(tempBalancesMap); // Обновляем состояние только если запросы не отменены
+        }
     };
 
     useEffect(() => {
+        const abortController = new AbortController();
+
         if (listContext.data) {
-            fetchBalances();
+            fetchBalances(abortController.signal);
         }
+
+        return () => abortController.abort();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [listContext.data]);
 
@@ -61,13 +71,13 @@ export const WalletsList = () => {
     } else {
         return (
             <>
-                <div className="flex gap-2 flex-wrap justify-between mb-6">
+                <div className="mb-6 flex flex-wrap justify-between gap-2">
                     <ResourceHeaderTitle />
 
                     <Button
                         onClick={handleCreateClick}
                         variant="default"
-                        className="flex gap-[4px] items-center"
+                        className="flex items-center gap-[4px]"
                         disabled={
                             permissions === "admin" && (!storageState?.initiated || storageState?.state === "sealed")
                         }>
