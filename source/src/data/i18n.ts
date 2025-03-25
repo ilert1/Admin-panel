@@ -839,7 +839,8 @@ const ru: TranslationMessages = {
                     minGreaterThanMax: "Максимальное значение не может быть меньше минимального",
                     maxTooSmall: "Максимальное значение должно быть равным 0 или больше 1",
                     minTooSmall: "Минимальное значение должно быть равным 0 или больше 1",
-                    maxTooLarge: "Максимальное значение не может быть больше 10.000.000"
+                    maxTooLarge: "Максимальное значение не может быть больше 10.000.000",
+                    minTooSmallForOne: "Минимальное значение должно быть равным или больше 1"
                 }
             }
         },
@@ -1753,7 +1754,8 @@ const en: TranslationMessages = {
                     minGreaterThanMax: "The maximum value cannot be less than the minimum value",
                     maxTooSmall: "The maximum value must be 0 or greater than 1",
                     minTooSmall: "The minimum value must be 0 or greater than 1",
-                    maxTooLarge: "The maximum value cannot be greater than 10,000,000"
+                    maxTooLarge: "The maximum value cannot be greater than 10,000,000",
+                    minTooSmallForOne: "The maximum value must be 1 or greater"
                 }
             }
         },

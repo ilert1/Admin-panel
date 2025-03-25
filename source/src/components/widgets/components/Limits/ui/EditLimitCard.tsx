@@ -20,18 +20,18 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
     const refresh = useRefresh();
 
     const appToast = useAppToast();
-
+    
     const [limits, setLimits] = useState<UpdateLimitsType>({
-        payInMin: getMinValue(limitsData.payin) ?? "",
-        payInMax: getMaxValue(limitsData.payin) ?? "",
+        payInMin: getMinValue(limitsData.payin) ?? "1",
+        payInMax: getMaxValue(limitsData.payin) ?? "0",
 
-        payOutMin: getMinValue(limitsData.payout) ?? "",
-        payOutMax: getMaxValue(limitsData.payout) ?? "",
+        payOutMin: getMinValue(limitsData.payout) ?? "1",
+        payOutMax: getMaxValue(limitsData.payout) ?? "0",
 
-        rewardMin: getMinValue(limitsData.reward) ?? "",
-        rewardMax: getMaxValue(limitsData.reward) ?? ""
+        rewardMin: getMinValue(limitsData.reward) ?? "0",
+        rewardMax: getMaxValue(limitsData.reward) ?? "0"
     });
-
+    
     const [errors, setErrors] = useState<Record<string, string>>({});
 
     const validate = () => {
@@ -53,7 +53,7 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
             "rewardMin",
             "rewardMax"
         ];
-
+        
         for (const key of keys) {
             const minKey = key.includes("Min") ? key : (key.replace("Max", "Min") as keyof UpdateLimitsType);
             const maxKey = key.includes("Max") ? key : (key.replace("Min", "Max") as keyof UpdateLimitsType);
@@ -61,15 +61,23 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
             const minValue = parseFloat(limits[minKey]) || 0;
             const maxValue = parseFloat(limits[maxKey]) || 0;
 
-            if (minValue > maxValue && minValue !== 0 && maxValue !== 0) {
+            if(key === 'rewardMin' && minValue > maxValue && minValue !== 0 && maxValue !== 0){
+                setErrors({ [maxKey]: translate("app.widgets.limits.errors.minGreaterThanMax") });
+                appToast("error", translate("app.widgets.limits.errors.minGreaterThanMax"), errorMessages[minKey]);
+                return false;
+            } else if (minValue > maxValue && minValue !== 1 && maxValue !== 0) {
                 setErrors({ [maxKey]: translate("app.widgets.limits.errors.minGreaterThanMax") });
                 appToast("error", translate("app.widgets.limits.errors.minGreaterThanMax"), errorMessages[minKey]);
                 return false;
             }
-
-            if (minValue > 0 && minValue < 1 && minValue !== 0) {
+            
+            if((key === "rewardMin" && minValue > 0 && minValue < 1 && minValue !== 0)){
                 setErrors({ [minKey]: translate("app.widgets.limits.errors.minTooSmall") });
                 appToast("error", translate("app.widgets.limits.errors.minTooSmall"), errorMessages[minKey]);
+                return false;
+            } else if((key === "payOutMin" || key === "payInMin") && minValue < 1){                
+                setErrors({ [minKey]: translate("app.widgets.limits.errors.minTooSmall") });
+                appToast("error", translate("app.widgets.limits.errors.minTooSmallForOne"), errorMessages[minKey]);
                 return false;
             }
 
@@ -91,7 +99,7 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
 
     const handleSubmit = async () => {
         if (!validate()) return;
-
+        
         const { success, errorMessage } = await updateLimits(directionId, limits);
         setErrors({});
 
@@ -105,15 +113,16 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
         const sanitizedValue = value.replace(/^0+(\d)/, "$1");
 
         if (/^(0|[1-9]\d*)(\.\d*)?$/.test(sanitizedValue) || sanitizedValue === "") {
-            setLimits(prev => ({
-                ...prev,
-                [key]: sanitizedValue === "" ? "0" : sanitizedValue
-            }));
+                setLimits(prev => ({
+                    ...prev,
+                    [key]: sanitizedValue === "" ? "0" : sanitizedValue
+                }));
         }
     };
     return (
-        <div className="mb-4 flex flex-col gap-4 rounded-8 bg-muted p-4">
-            <div className="flex flex-col gap-4 md:flex-row">
+
+        <div className="flex flex-col gap-4 bg-muted mb-4 p-4 rounded-8">
+            <div className="flex md:flex-row flex-col gap-4">
                 <LimitInputGroup
                     label={translate("app.widgets.limits.deposit")}
                     minValue={limits.payInMin}
@@ -144,7 +153,7 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
                     onMaxChange={value => handleChange("rewardMax", value)}
                 />
             </div>
-            <div className="flex flex-col justify-start gap-[10px] sm:flex-row">
+            <div className="flex sm:flex-row flex-col justify-start gap-[10px]">
                 <Button onClick={handleSubmit}>{translate("app.ui.actions.save")}</Button>
                 <Button variant="outline_gray" onClick={() => setEditClicked(false)}>
                     {translate("app.ui.actions.cancel")}

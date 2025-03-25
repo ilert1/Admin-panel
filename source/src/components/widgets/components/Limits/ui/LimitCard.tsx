@@ -14,13 +14,13 @@ interface LimitCardProps {
 
 export const LimitCard = (props: LimitCardProps) => {
     const { limits, directionId, setEditClicked } = props;
-    const [deleteClicked, setDeleteClicked] = useState(false);
+    // const [deleteClicked, setDeleteClicked] = useState(false);
 
     const translate = useTranslate();
 
-    const handleDelete = () => {
-        setDeleteClicked(true);
-    };
+    // const handleDelete = () => {
+    //     setDeleteClicked(true);
+    // };
 
     return (
         <>
@@ -52,12 +52,12 @@ export const LimitCard = (props: LimitCardProps) => {
                     <Button variant="outline" onClick={() => setEditClicked(true)}>
                         {translate("app.ui.actions.edit")}
                     </Button>
-                    <Button variant="outline_gray" onClick={handleDelete}>
+                    {/* <Button variant="outline_gray" onClick={handleDelete}>
                         {translate("app.widgets.limits.reset")}
-                    </Button>
+                    </Button> */}
                 </div>
             </div>
-            <DeleteLimitsDialog id={directionId} open={deleteClicked} onOpenChange={setDeleteClicked} />
+            {/* <DeleteLimitsDialog id={directionId} open={deleteClicked} onOpenChange={setDeleteClicked} /> */}
         </>
     );
 };
