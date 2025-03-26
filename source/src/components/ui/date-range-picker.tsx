@@ -10,6 +10,9 @@ import { Checkbox } from "./checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { TimeInput } from "./time-input";
 
+const concateTimeString = (date: Date) =>
+    `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}`;
+
 export function DateRangePicker({
     title,
     placeholder,
@@ -31,7 +34,11 @@ export function DateRangePicker({
     };
 
     const [timeShow, setTimeShow] = useState<CheckedState>(() =>
-        dateRange?.from && dateRange?.to && dateRange.from.toLocaleString() !== dateRange.to.toLocaleString()
+        dateRange?.from &&
+        dateRange?.to &&
+        dateRange.from.toLocaleString() !== dateRange.to.toLocaleString() &&
+        concateTimeString(dateRange.from) !== "00:00:00.000" &&
+        concateTimeString(dateRange.to) !== "23:59:59.999"
             ? true
             : false
     );
@@ -125,7 +132,9 @@ export function DateRangePicker({
                 newDateRange.to = genereateDateTime(newDateRange.to, hours, minutes);
             }
         } else {
-            if (newDateRange?.to && newDateRange?.from?.toLocaleDateString() !== newDateRange.to.toLocaleDateString()) {
+            if (newDateRange?.to) {
+                setStartTime("00:00");
+                setEndTime("23:59");
                 newDateRange.to = genereateDateTime(newDateRange.to, 23, 59, 59, 999);
             }
         }
@@ -134,36 +143,24 @@ export function DateRangePicker({
     };
 
     const showTimeHandler = () => {
-        if (timeShow && dateRange?.from && dateRange?.to) {
+        if (timeShow && dateRange?.from && dateRange?.to && (startTime !== "00:00" || endTime !== "23:59")) {
             setStartTime("00:00");
-            setEndTime("00:00");
+            setEndTime("23:59");
 
-            if (dateRange.from.toLocaleDateString() === dateRange.to.toLocaleDateString()) {
-                onChange({
-                    from: genereateDateTime(dateRange.from, 0, 0),
-                    to: genereateDateTime(dateRange.to, 0, 0)
-                });
-            } else {
-                onChange({
-                    from: genereateDateTime(dateRange.from, 0, 0),
-                    to: genereateDateTime(dateRange.to, 23, 59, 59, 999)
-                });
-            }
-        } else if (!timeShow) {
+            onChange({
+                from: genereateDateTime(dateRange.from, 0, 0),
+                to: genereateDateTime(dateRange.to, 23, 59, 59, 999)
+            });
+        }
+
+        if (!timeShow && !dateRange?.from && !dateRange?.to) {
             setStartTime("00:00");
-            setEndTime("01:00");
+            setEndTime("23:59");
 
-            if (dateRange?.from && dateRange?.to) {
-                onChange({
-                    from: genereateDateTime(dateRange.from, 0, 0),
-                    to: genereateDateTime(dateRange.to, 1, 0)
-                });
-            } else {
-                onChange({
-                    from: genereateDateTime(initDate, 0, 0),
-                    to: genereateDateTime(initDate, 1, 0)
-                });
-            }
+            onChange({
+                from: genereateDateTime(initDate, 0, 0),
+                to: genereateDateTime(initDate, 23, 59, 59, 999)
+            });
         }
 
         setTimeShow(!timeShow);
