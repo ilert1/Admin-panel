@@ -16,7 +16,8 @@ import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { RefreshCw } from "lucide-react";
-import { useRefresh } from "react-admin";
+import { useLoading, useRefresh } from "react-admin";
+import clsx from "clsx";
 
 export const TransactionListFilter = () => {
     const {
@@ -45,6 +46,7 @@ export const TransactionListFilter = () => {
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
 
     const refresh = useRefresh();
+    const loading = useLoading();
 
     const clearDiasbled =
         !operationId && !account && !customerPaymentId && !startDate && !typeTabActive && !orderStatusFilter;
@@ -58,8 +60,9 @@ export const TransactionListFilter = () => {
                     <div className="flex flex-1 flex-row gap-3 sm:flex-none">
                         <Button
                             onClick={refresh}
+                            disabled={loading}
                             className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none">
-                            <RefreshCw width={16} height={16} />
+                            <RefreshCw className={clsx(loading && "animate-spin")} width={16} height={16} />
                             <span>{translate("app.ui.actions.refresh")}</span>
                         </Button>
 
