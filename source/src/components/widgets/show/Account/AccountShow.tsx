@@ -4,24 +4,35 @@ import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useGetAccountShowColumns } from "./Columns";
 // import { useEffect, useState } from "react";
-import { useEffect } from "react";
-import { ShowTransactionSheet } from "../../lists/Transactions/ShowTransactionSheet";
 import { uniqueId } from "lodash";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { useBalances } from "@/hooks/useBalances";
+import { useSheets } from "@/components/providers/SheetProvider";
+import { useFetchMerchants } from "@/hooks";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 interface AccountShowProps {
     id: string;
 }
 
 export const AccountShow = ({ id }: AccountShowProps) => {
     const translate = useTranslate();
+    const { openSheet } = useSheets();
+    const appToast = useAppToast();
+
+    const { isLoading, merchantsList } = useFetchMerchants();
 
     const context = useAbortableShowController({ resource: "accounts", id });
 
+    const getMerchantData = (merchantName: string) => {
+        const merch = merchantsList.find(el => el.name === merchantName);
+
+        return { id: merch?.id, merchantName: merch?.name };
+    };
+
     const { balances } = useBalances(context.isLoading, context.record?.amounts);
 
-    const { historyColumns, chosenId, transcationInfoOpen, setTransactionInfoOpen } = useGetAccountShowColumns();
+    const { historyColumns } = useGetAccountShowColumns();
 
     const listContext = useAbortableListController<AccountHistory>({
         resource: "operations",
@@ -29,22 +40,30 @@ export const AccountShow = ({ id }: AccountShowProps) => {
         disableSyncWithLocation: true
     });
 
-    useEffect(() => {
-        if (chosenId) {
-            setTransactionInfoOpen(true);
-        }
-    }, [chosenId, setTransactionInfoOpen]);
-
-    if (context.isLoading || !context.record || listContext.isLoading || !listContext.data) {
+    if (context.isLoading || !context.record || listContext.isLoading || !listContext.data || isLoading) {
         return <LoadingBlock />;
     }
+
+    const { id: merchId = "", merchantName = context.record.meta.caption } = getMerchantData(
+        context.record.meta.caption
+    );
 
     return (
         <div className="flex h-full min-h-[300px] flex-col p-4 pt-0 md:px-[42px]">
             <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row">
                 <div className="flex flex-col gap-1 md:gap-4">
                     <div className="text-display-2 text-neutral-90 dark:text-neutral-30">
-                        <span>{context.record.meta?.caption}</span>
+                        <TextField
+                            text={context.record.meta?.caption}
+                            onClick={() => {
+                                merchId
+                                    ? openSheet("merchant", { id: merchId ?? "", merchantName })
+                                    : appToast(
+                                          "error",
+                                          translate("resources.merchant.errors.notFound", { name: merchantName })
+                                      );
+                            }}
+                        />
                     </div>
 
                     <TextField text={id} copyValue className="text-neutral-90 dark:text-neutral-30" />
@@ -60,8 +79,6 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                         ))}
                 </div>
             </div>
-
-            <ShowTransactionSheet id={chosenId} open={transcationInfoOpen} onOpenChange={setTransactionInfoOpen} />
 
             <ListContextProvider value={{ ...listContext }}>
                 <DataTable columns={historyColumns} />
