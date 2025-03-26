@@ -685,7 +685,8 @@ const ru: TranslationMessages = {
                 chatWithSupport: "Чат с поддержкой",
                 close: "Закрыть",
                 confirm: "Потвердить",
-                search: "Поиск..."
+                search: "Поиск...",
+                refresh: "Обновить"
             },
             pagination: {
                 next: "Далее",
@@ -1602,7 +1603,8 @@ const en: TranslationMessages = {
                 chatWithSupport: "Chat with support",
                 close: "Close",
                 confirm: "Confirm",
-                search: "Search..."
+                search: "Search...",
+                refresh: "Refresh"
             },
             pagination: {
                 next: "Next",

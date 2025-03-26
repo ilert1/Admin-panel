@@ -15,6 +15,8 @@ import { useState } from "react";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { RefreshCw } from "lucide-react";
+import { useRefresh } from "react-admin";
 
 export const TransactionListFilter = () => {
     const {
@@ -42,6 +44,8 @@ export const TransactionListFilter = () => {
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
 
+    const refresh = useRefresh();
+
     const clearDiasbled =
         !operationId && !account && !customerPaymentId && !startDate && !typeTabActive && !orderStatusFilter;
 
@@ -51,20 +55,29 @@ export const TransactionListFilter = () => {
                 <div className="mb-4 flex flex-wrap justify-between gap-4 md:mb-6">
                     <ResourceHeaderTitle />
 
-                    <FilterButtonGroup
-                        open={openFiltersClicked}
-                        onOpenChange={setOpenFiltersClicked}
-                        filterList={[
-                            operationId,
-                            account,
-                            customerPaymentId,
-                            startDate,
-                            typeTabActive,
-                            orderStatusFilter
-                        ]}
-                        clearButtonDisabled={clearDiasbled}
-                        onClearFilters={clearFilters}
-                    />
+                    <div className="flex flex-1 flex-row gap-3 sm:flex-none">
+                        <Button
+                            onClick={refresh}
+                            className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none">
+                            <RefreshCw width={16} height={16} />
+                            <span>{translate("app.ui.actions.refresh")}</span>
+                        </Button>
+
+                        <FilterButtonGroup
+                            open={openFiltersClicked}
+                            onOpenChange={setOpenFiltersClicked}
+                            filterList={[
+                                operationId,
+                                account,
+                                customerPaymentId,
+                                startDate,
+                                typeTabActive,
+                                orderStatusFilter
+                            ]}
+                            clearButtonDisabled={clearDiasbled}
+                            onClearFilters={clearFilters}
+                        />
+                    </div>
                 </div>
                 <AnimatedContainer open={openFiltersClicked}>
                     <div className="mb-4 flex flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-end sm:gap-x-4 sm:gap-y-3">
