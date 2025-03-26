@@ -135,18 +135,15 @@ export function DateRangePicker({
 
     const showTimeHandler = () => {
         if (timeShow && dateRange?.from && dateRange?.to) {
-            if (dateRange.from.toLocaleDateString() === dateRange.to.toLocaleDateString()) {
-                setStartTime("00:00");
-                setEndTime("00:00");
+            setStartTime("00:00");
+            setEndTime("00:00");
 
+            if (dateRange.from.toLocaleDateString() === dateRange.to.toLocaleDateString()) {
                 onChange({
                     from: genereateDateTime(dateRange.from, 0, 0),
                     to: genereateDateTime(dateRange.to, 0, 0)
                 });
             } else {
-                setStartTime("00:00");
-                setEndTime("23:59");
-
                 onChange({
                     from: genereateDateTime(dateRange.from, 0, 0),
                     to: genereateDateTime(dateRange.to, 23, 59, 59, 999)
