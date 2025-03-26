@@ -44,8 +44,8 @@ export const AccountShow = ({ id }: AccountShowProps) => {
         return <LoadingBlock />;
     }
 
-    const { id: merchId = "", merchantName = context.record.meta.caption } = getMerchantData(
-        context.record.meta.caption
+    const { id: merchId = "", merchantName = context.record.meta?.caption } = getMerchantData(
+        context.record.meta?.caption
     );
 
     return (
