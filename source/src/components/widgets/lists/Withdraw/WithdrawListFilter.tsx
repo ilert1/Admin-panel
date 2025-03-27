@@ -38,7 +38,7 @@ export const WithdrawListFilter = () => {
     } = useWithdrawFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
-    const clearDisabled = !operationId && !startDate && !typeTabActive;
+    const clearDisabled = !operationId && !startDate && !typeTabActive && !merchantId && !statusFilter;
 
     return (
         <div>

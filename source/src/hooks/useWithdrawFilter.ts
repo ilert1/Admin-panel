@@ -19,15 +19,15 @@ const useWithdrawFilter = () => {
         filterValues?.end_date ? new Date(filterValues?.end_date) : undefined
     );
 
-    const [statusFilter, setStatusFilter] = useState(filterValues?.state || "");
+    const [statusFilter, setStatusFilter] = useState<string>(filterValues?.state || "");
 
     const appToast = useAppToast();
 
     const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
 
-    const [merchantId, setMerchantId] = useState(filterValues?.merchant || "");
+    const [merchantId, setMerchantId] = useState<string>(filterValues?.merchant || "");
 
-    const [operationId, setOperationId] = useState(filterValues?.id || "");
+    const [operationId, setOperationId] = useState<string>(filterValues?.id || "");
 
     const translate = useTranslate();
 
@@ -93,6 +93,8 @@ const useWithdrawFilter = () => {
         setStartDate(undefined);
         setEndDate(undefined);
         setOperationId("");
+        setMerchantId("");
+        setStatusFilter("");
         setTypeTabActive(0);
         setFilters({}, displayedFilters, true);
         setPage(1);
