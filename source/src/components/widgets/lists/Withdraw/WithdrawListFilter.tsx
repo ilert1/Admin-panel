@@ -74,7 +74,7 @@ export const WithdrawListFilter = () => {
                             onChange={changeDate}
                         />
 
-                        <div className="flex min-w-36 flex-1 flex-col gap-1">
+                        <div className="flex min-w-36 flex-1 flex-col gap-1 md:max-w-80">
                             <Label variant="title-2" className="mb-0">
                                 {translate("resources.transactions.filter.filterByOrderStatus")}
                             </Label>
