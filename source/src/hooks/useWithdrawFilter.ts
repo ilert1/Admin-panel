@@ -19,6 +19,8 @@ const useWithdrawFilter = () => {
         filterValues?.end_date ? new Date(filterValues?.end_date) : undefined
     );
 
+    const [statusFilter, setStatusFilter] = useState(filterValues?.state || "");
+
     const appToast = useAppToast();
 
     const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
@@ -35,7 +37,10 @@ const useWithdrawFilter = () => {
     const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
     const onPropertySelected = debounce(
-        (value: string | { from: string; to: string } | number, type: "id" | "date" | "order_type" | "merchant") => {
+        (
+            value: string | { from: string; to: string } | number,
+            type: "id" | "date" | "order_type" | "merchant" | "state"
+        ) => {
             if (value) {
                 if (type === "date" && typeof value !== "string" && typeof value !== "number") {
                     setFilters(
@@ -77,6 +82,11 @@ const useWithdrawFilter = () => {
     const onMerchantChanged = (merchant: string) => {
         setMerchantId(merchant);
         onPropertySelected(merchant, "merchant");
+    };
+
+    const onStatusFilterChanged = (order: string) => {
+        setStatusFilter(order);
+        onPropertySelected(order, "state");
     };
 
     const clearFilters = () => {
@@ -149,6 +159,7 @@ const useWithdrawFilter = () => {
         endDate,
         startDate,
         merchantId,
+        statusFilter,
         typeTabActive,
         translate,
         onOperationIdChanged,
@@ -158,6 +169,7 @@ const useWithdrawFilter = () => {
         chooseClassTabActive,
         onTabChanged,
         onMerchantChanged,
+        onStatusFilterChanged,
         adminOnly
     };
 };

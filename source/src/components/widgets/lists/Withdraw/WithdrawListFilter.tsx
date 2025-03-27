@@ -14,6 +14,7 @@ import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { Label } from "@/components/ui/label";
 import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export const WithdrawListFilter = () => {
     const {
@@ -22,6 +23,7 @@ export const WithdrawListFilter = () => {
         startDate,
         endDate,
         merchantId,
+        statusFilter,
         onMerchantChanged,
         typeTabActive,
         translate,
@@ -31,6 +33,7 @@ export const WithdrawListFilter = () => {
         clearFilters,
         chooseClassTabActive,
         onTabChanged,
+        onStatusFilterChanged,
         adminOnly
     } = useWithdrawFilter();
 
@@ -70,6 +73,43 @@ export const WithdrawListFilter = () => {
                             dateRange={{ from: startDate, to: endDate }}
                             onChange={changeDate}
                         />
+
+                        <div className="flex min-w-36 flex-1 flex-col gap-1">
+                            <Label variant="title-2" className="mb-0">
+                                {translate("resources.transactions.filter.filterByOrderStatus")}
+                            </Label>
+
+                            <Select
+                                onValueChange={val =>
+                                    val !== "null" ? onStatusFilterChanged(val) : onStatusFilterChanged("")
+                                }
+                                value={statusFilter}>
+                                <SelectTrigger className="h-[38px] text-ellipsis">
+                                    <SelectValue
+                                        placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
+                                    />
+                                </SelectTrigger>
+
+                                <SelectContent>
+                                    <SelectItem value="null">
+                                        {translate("resources.transactions.filter.showAll")}
+                                    </SelectItem>
+
+                                    {dictionaries &&
+                                        Object.keys(dictionaries.states).map(index => (
+                                            <SelectItem
+                                                key={dictionaries.states[index].state_int}
+                                                value={dictionaries.states[index].state_int.toString()}>
+                                                {translate(
+                                                    `resources.transactions.states.${dictionaries?.states?.[
+                                                        index
+                                                    ]?.state_description?.toLowerCase()}`
+                                                )}
+                                            </SelectItem>
+                                        ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
 
                         {adminOnly && (
                             <div className="flex-grow-100 flex min-w-[150px] max-w-[700px] flex-1 flex-col gap-1">
