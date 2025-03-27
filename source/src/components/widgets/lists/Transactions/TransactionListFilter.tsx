@@ -57,30 +57,20 @@ export const TransactionListFilter = () => {
                 <div className="mb-4 flex flex-wrap justify-between gap-4 md:mb-6">
                     <ResourceHeaderTitle />
 
-                    <div className="flex flex-1 flex-row gap-3 sm:flex-none">
-                        <Button
-                            onClick={refresh}
-                            disabled={loading}
-                            className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none">
-                            <RefreshCw className={clsx(loading && "animate-spin")} width={16} height={16} />
-                            <span>{translate("app.ui.actions.refresh")}</span>
-                        </Button>
-
-                        <FilterButtonGroup
-                            open={openFiltersClicked}
-                            onOpenChange={setOpenFiltersClicked}
-                            filterList={[
-                                operationId,
-                                account,
-                                customerPaymentId,
-                                startDate,
-                                typeTabActive,
-                                orderStatusFilter
-                            ]}
-                            clearButtonDisabled={clearDiasbled}
-                            onClearFilters={clearFilters}
-                        />
-                    </div>
+                    <FilterButtonGroup
+                        open={openFiltersClicked}
+                        onOpenChange={setOpenFiltersClicked}
+                        filterList={[
+                            operationId,
+                            account,
+                            customerPaymentId,
+                            startDate,
+                            typeTabActive,
+                            orderStatusFilter
+                        ]}
+                        clearButtonDisabled={clearDiasbled}
+                        onClearFilters={clearFilters}
+                    />
                 </div>
                 <AnimatedContainer open={openFiltersClicked}>
                     <div className="mb-4 flex flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-end sm:gap-x-4 sm:gap-y-3">
@@ -191,7 +181,7 @@ export const TransactionListFilter = () => {
                 </AnimatedContainer>
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-col flex-wrap items-stretch justify-between gap-3 sm:flex-row sm:items-center">
                 <div className="mt-2 flex flex-wrap items-center gap-3">
                     <button
                         className={chooseClassTabActive(0)}
@@ -222,6 +212,14 @@ export const TransactionListFilter = () => {
                             }
                         })}
                 </div>
+
+                <Button
+                    onClick={refresh}
+                    disabled={loading}
+                    className="-order-1 flex flex-1 items-center justify-center gap-1 font-normal sm:order-1 sm:flex-none">
+                    <RefreshCw className={clsx(loading && "animate-spin")} width={16} height={16} />
+                    <span>{translate("app.ui.actions.refresh")}</span>
+                </Button>
 
                 {/* <div className="flex items-center gap-1">
                     <Button onClick={() => debounced(prev => !prev)} variant={"clearBtn"} className="flex gap-1">
