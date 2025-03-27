@@ -1,6 +1,6 @@
 import { debounce } from "lodash";
-import { ChangeEvent, useCallback, useState } from "react";
-import { useListContext, useTranslate } from "react-admin";
+import { ChangeEvent, useCallback, useMemo, useState } from "react";
+import { useListContext, usePermissions, useTranslate } from "react-admin";
 import { DateRange } from "react-day-picker";
 import { API_URL } from "@/data/base";
 import fetchDictionaries from "@/helpers/get-dictionaries";
@@ -23,14 +23,19 @@ const useWithdrawFilter = () => {
 
     const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
 
+    const [merchantId, setMerchantId] = useState(filterValues?.merchant || "");
+
     const [operationId, setOperationId] = useState(filterValues?.id || "");
 
     const translate = useTranslate();
 
+    const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+
     const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
     const onPropertySelected = debounce(
-        (value: string | { from: string; to: string } | number, type: "id" | "date" | "order_type") => {
+        (value: string | { from: string; to: string } | number, type: "id" | "date" | "order_type" | "merchant") => {
             if (value) {
                 if (type === "date" && typeof value !== "string" && typeof value !== "number") {
                     setFilters(
@@ -67,6 +72,11 @@ const useWithdrawFilter = () => {
             setEndDate(undefined);
             onPropertySelected({ from: "", to: "" }, "date");
         }
+    };
+
+    const onMerchantChanged = (merchant: string) => {
+        setMerchantId(merchant);
+        onPropertySelected(merchant, "merchant");
     };
 
     const clearFilters = () => {
@@ -138,6 +148,7 @@ const useWithdrawFilter = () => {
         operationId,
         endDate,
         startDate,
+        merchantId,
         typeTabActive,
         translate,
         onOperationIdChanged,
@@ -145,7 +156,9 @@ const useWithdrawFilter = () => {
         handleDownloadReport,
         clearFilters,
         chooseClassTabActive,
-        onTabChanged
+        onTabChanged,
+        onMerchantChanged,
+        adminOnly
     };
 };
 

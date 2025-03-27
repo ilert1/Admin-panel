@@ -12,6 +12,8 @@ import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { useState } from "react";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { Label } from "@/components/ui/label";
+import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 
 export const WithdrawListFilter = () => {
     const {
@@ -19,6 +21,8 @@ export const WithdrawListFilter = () => {
         operationId,
         startDate,
         endDate,
+        merchantId,
+        onMerchantChanged,
         typeTabActive,
         translate,
         onOperationIdChanged,
@@ -26,7 +30,8 @@ export const WithdrawListFilter = () => {
         handleDownloadReport,
         clearFilters,
         chooseClassTabActive,
-        onTabChanged
+        onTabChanged,
+        adminOnly
     } = useWithdrawFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
@@ -65,6 +70,20 @@ export const WithdrawListFilter = () => {
                             dateRange={{ from: startDate, to: endDate }}
                             onChange={changeDate}
                         />
+
+                        {adminOnly && (
+                            <div className="flex-grow-100 flex min-w-[150px] max-w-[700px] flex-1 flex-col gap-1">
+                                <Label variant="title-2" className="mb-0 md:text-nowrap">
+                                    {translate("resources.transactions.filter.filterByAccount")}
+                                </Label>
+
+                                <MerchantSelectFilter
+                                    merchant={merchantId}
+                                    onMerchantChanged={onMerchantChanged}
+                                    resource="merchant"
+                                />
+                            </div>
+                        )}
 
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
