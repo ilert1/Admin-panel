@@ -42,7 +42,6 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
                     })
                 )
                 .max(999999999.99),
-
             rewardMin: z.coerce
                 .number()
                 .min(
@@ -51,10 +50,40 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
                         field: translate("app.widgets.limits.errors.ofReward")
                     })
                 )
-                .max(999999999.99),
-            payOutMax: z.coerce.number().max(999999999.99),
-            payInMax: z.coerce.number().max(999999999.99),
-            rewardMax: z.coerce.number().max(999999999.99)
+                .max(999999999.99)
+                .refine(value => value === 0 || value >= 1, {
+                    message: translate("app.widgets.limits.errors.minTooSmall", {
+                        field: translate("app.widgets.limits.errors.ofReward")
+                    }),
+                    path: ["rewardMin"]
+                }),
+            payOutMax: z.coerce
+                .number()
+                .max(999999999.99)
+                .refine(
+                    value => value === 0 || value > 1,
+                    translate("app.widgets.limits.errors.maxTooSmall", {
+                        field: translate("app.widgets.limits.errors.ofDeposit")
+                    })
+                ),
+            payInMax: z.coerce
+                .number()
+                .max(999999999.99)
+                .refine(
+                    value => value === 0 || value > 1,
+                    translate("app.widgets.limits.errors.maxTooSmall", {
+                        field: translate("app.widgets.limits.errors.ofPayment")
+                    })
+                ),
+            rewardMax: z.coerce
+                .number()
+                .max(999999999.99)
+                .refine(
+                    value => value === 0 || value > 1,
+                    translate("app.widgets.limits.errors.maxTooSmall", {
+                        field: translate("app.widgets.limits.errors.ofReward")
+                    })
+                )
         })
         .refine(
             data => {
@@ -85,7 +114,7 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
                 if (data.rewardMax === 0) {
                     return true;
                 }
-                return data.rewardMin <= data.rewardMin;
+                return data.rewardMin <= data.rewardMax;
             },
             {
                 message: translate("app.widgets.limits.errors.minGreaterThanMax"),
@@ -116,7 +145,6 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
                 newErrors[issue.path[0] as string] = issue.message;
             });
 
-            // appToast("error", translate("Validation failed"));
             setErrors(newErrors);
             return;
         }
