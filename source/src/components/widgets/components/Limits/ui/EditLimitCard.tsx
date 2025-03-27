@@ -7,6 +7,7 @@ import { LimitInputGroup } from "./LimitInputGroup";
 import { Limits } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { getMaxValue, getMinValue } from "../model/helpers/minmaxValue";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { z } from "zod";
 
 interface EditLimitCardProps {
     directionId: string;
@@ -20,7 +21,78 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
     const refresh = useRefresh();
 
     const appToast = useAppToast();
-    
+
+    const limitSchema = z
+        .object({
+            payInMin: z.coerce
+                .number()
+                .min(
+                    1,
+                    translate("app.widgets.limits.errors.minTooSmallForOne", {
+                        field: translate("app.widgets.limits.errors.ofDeposit")
+                    })
+                )
+                .max(999999999.99),
+            payOutMin: z.coerce
+                .number()
+                .min(
+                    1,
+                    translate("app.widgets.limits.errors.minTooSmallForOne", {
+                        field: translate("app.widgets.limits.errors.ofPayment")
+                    })
+                )
+                .max(999999999.99),
+
+            rewardMin: z.coerce
+                .number()
+                .min(
+                    0,
+                    translate("app.widgets.limits.errors.minTooSmall", {
+                        field: translate("app.widgets.limits.errors.ofReward")
+                    })
+                )
+                .max(999999999.99),
+            payOutMax: z.coerce.number().max(999999999.99),
+            payInMax: z.coerce.number().max(999999999.99),
+            rewardMax: z.coerce.number().max(999999999.99)
+        })
+        .refine(
+            data => {
+                if (data.payInMax === 0) {
+                    return true;
+                }
+                return data.payInMin <= data.payInMax;
+            },
+            {
+                message: translate("app.widgets.limits.errors.minGreaterThanMax"),
+                path: ["payInMax"]
+            }
+        )
+        .refine(
+            data => {
+                if (data.payOutMax === 0) {
+                    return true;
+                }
+                return data.payOutMin <= data.payOutMax;
+            },
+            {
+                message: translate("app.widgets.limits.errors.minGreaterThanMax"),
+                path: ["payOutMax"]
+            }
+        )
+        .refine(
+            data => {
+                if (data.rewardMax === 0) {
+                    return true;
+                }
+                return data.rewardMin <= data.rewardMin;
+            },
+            {
+                message: translate("app.widgets.limits.errors.minGreaterThanMax"),
+                path: ["rewardMax"]
+            }
+        );
+
     const [limits, setLimits] = useState<UpdateLimitsType>({
         payInMin: getMinValue(limitsData.payin) ?? "1",
         payInMax: getMaxValue(limitsData.payin) ?? "0",
@@ -31,75 +103,24 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
         rewardMin: getMinValue(limitsData.reward) ?? "0",
         rewardMax: getMaxValue(limitsData.reward) ?? "0"
     });
-    
+
     const [errors, setErrors] = useState<Record<string, string>>({});
 
-    const validate = () => {
-        setErrors({});
-        const errorMessages: Record<string, string> = {
-            payInMin: translate("app.widgets.limits.deposit"),
-            payInMax: translate("app.widgets.limits.deposit"),
-            payOutMin: translate("app.widgets.limits.payment"),
-            payOutMax: translate("app.widgets.limits.payment"),
-            rewardMin: translate("app.widgets.limits.reward"),
-            rewardMax: translate("app.widgets.limits.reward")
-        };
+    const handleSubmit = async () => {
+        const result = limitSchema.safeParse(limits);
 
-        const keys: (keyof UpdateLimitsType)[] = [
-            "payInMin",
-            "payInMax",
-            "payOutMin",
-            "payOutMax",
-            "rewardMin",
-            "rewardMax"
-        ];
-        
-        for (const key of keys) {
-            const minKey = key.includes("Min") ? key : (key.replace("Max", "Min") as keyof UpdateLimitsType);
-            const maxKey = key.includes("Max") ? key : (key.replace("Min", "Max") as keyof UpdateLimitsType);
+        if (!result.success) {
+            const newErrors: Record<string, string> = {};
+            result.error.issues.forEach(issue => {
+                appToast("error", issue.message);
+                newErrors[issue.path[0] as string] = issue.message;
+            });
 
-            const minValue = parseFloat(limits[minKey]) || 0;
-            const maxValue = parseFloat(limits[maxKey]) || 0;
-
-            if(key === 'rewardMin' && minValue > maxValue && minValue !== 0 && maxValue !== 0){
-                setErrors({ [maxKey]: translate("app.widgets.limits.errors.minGreaterThanMax") });
-                appToast("error", translate("app.widgets.limits.errors.minGreaterThanMax"), errorMessages[minKey]);
-                return false;
-            } else if (minValue > maxValue && minValue !== 1 && maxValue !== 0) {
-                setErrors({ [maxKey]: translate("app.widgets.limits.errors.minGreaterThanMax") });
-                appToast("error", translate("app.widgets.limits.errors.minGreaterThanMax"), errorMessages[minKey]);
-                return false;
-            }
-            
-            if((key === "rewardMin" && minValue > 0 && minValue < 1 && minValue !== 0)){
-                setErrors({ [minKey]: translate("app.widgets.limits.errors.minTooSmall") });
-                appToast("error", translate("app.widgets.limits.errors.minTooSmall"), errorMessages[minKey]);
-                return false;
-            } else if((key === "payOutMin" || key === "payInMin") && minValue < 1){                
-                setErrors({ [minKey]: translate("app.widgets.limits.errors.minTooSmall") });
-                appToast("error", translate("app.widgets.limits.errors.minTooSmallForOne"), errorMessages[minKey]);
-                return false;
-            }
-
-            if (maxValue > 0 && maxValue < 1 && maxValue !== 0) {
-                setErrors({ [maxKey]: translate("app.widgets.limits.errors.maxTooSmall") });
-                appToast("error", translate("app.widgets.limits.errors.maxTooSmall"), errorMessages[maxKey]);
-                return false;
-            }
-
-            if (maxValue > 10000000) {
-                setErrors({ [maxKey]: translate("app.widgets.limits.errors.maxTooLarge") });
-                appToast("error", translate("app.widgets.limits.errors.maxTooLarge"), errorMessages[maxKey]);
-                return false;
-            }
+            // appToast("error", translate("Validation failed"));
+            setErrors(newErrors);
+            return;
         }
 
-        return true;
-    };
-
-    const handleSubmit = async () => {
-        if (!validate()) return;
-        
         const { success, errorMessage } = await updateLimits(directionId, limits);
         setErrors({});
 
@@ -109,20 +130,27 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
         refresh();
         setEditClicked(false);
     };
-    const handleChange = (key: keyof typeof limits, value: string) => {
-        const sanitizedValue = value.replace(/^0+(\d)/, "$1");
 
-        if (/^(0|[1-9]\d*)(\.\d*)?$/.test(sanitizedValue) || sanitizedValue === "") {
+    const handleChange = (key: keyof typeof limits, value: string) => {
+        const sanitizedValue = value
+            .replace(/^0+(\d)/, "$1")
+            .replace(/[^\d.]/g, "")
+            .replace(/(\.\d{2})\d+/, "$1");
+
+        if (/^(0|[1-9]\d*)(\.\d{0,2})?$/.test(sanitizedValue) || sanitizedValue === "") {
+            const numValue = parseFloat(sanitizedValue) || 0;
+            if (numValue <= 999999999.99) {
                 setLimits(prev => ({
                     ...prev,
                     [key]: sanitizedValue === "" ? "0" : sanitizedValue
                 }));
+            }
         }
     };
-    return (
 
-        <div className="flex flex-col gap-4 bg-muted mb-4 p-4 rounded-8">
-            <div className="flex md:flex-row flex-col gap-4">
+    return (
+        <div className="mb-4 flex flex-col gap-4 rounded-8 bg-muted p-4">
+            <div className="flex flex-col gap-4 md:flex-row">
                 <LimitInputGroup
                     label={translate("app.widgets.limits.deposit")}
                     minValue={limits.payInMin}
@@ -153,7 +181,7 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
                     onMaxChange={value => handleChange("rewardMax", value)}
                 />
             </div>
-            <div className="flex sm:flex-row flex-col justify-start gap-[10px]">
+            <div className="flex flex-col justify-start gap-[10px] sm:flex-row">
                 <Button onClick={handleSubmit}>{translate("app.ui.actions.save")}</Button>
                 <Button variant="outline_gray" onClick={() => setEditClicked(false)}>
                     {translate("app.ui.actions.cancel")}
