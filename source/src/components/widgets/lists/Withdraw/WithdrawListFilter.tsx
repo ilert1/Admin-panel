@@ -50,7 +50,7 @@ export const WithdrawListFilter = () => {
                         open={openFiltersClicked}
                         onOpenChange={setOpenFiltersClicked}
                         clearButtonDisabled={clearDisabled}
-                        filterList={[operationId, startDate, typeTabActive]}
+                        filterList={[operationId, startDate, merchantId, statusFilter, typeTabActive]}
                         onClearFilters={clearFilters}
                     />
                 </div>
