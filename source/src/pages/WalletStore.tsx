@@ -245,7 +245,11 @@ export const WalletStore = () => {
                                             />
 
                                             <Button
-                                                disabled={loadingProcess || keyText.length < 3}
+                                                disabled={
+                                                    loadingProcess ||
+                                                    keyText.length < 3 ||
+                                                    !/^[a-zA-Z0-9]*$/.test(keyText)
+                                                }
                                                 type="submit"
                                                 className="flex w-full min-w-28 items-center gap-1 self-end sm:w-1/4">
                                                 {loadingProcess ? (
