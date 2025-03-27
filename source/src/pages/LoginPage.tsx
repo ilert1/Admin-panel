@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLogin, useTranslate } from "react-admin";
+import { useCheckAuth, useLogin, useTranslate } from "react-admin";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useTheme } from "@/components/providers";
 import { LangSwitcher } from "@/components/widgets/components/LangSwitcher";
@@ -7,13 +7,15 @@ import { LoginBackground } from "@/lib/icons/LoginBackground";
 import { LoginForm } from "@/components/widgets/forms/LoginForm";
 import { AccountConfigDialog } from "@/components/widgets/components/AccountConfigDialog";
 import { LoginPageThemeSwitcher } from "@/components/widgets/components/LoginPageThemeSwitcher";
+import { useSheets } from "@/components/providers/SheetProvider";
 
 export const LoginPage = () => {
     const translate = useTranslate();
     const login = useLogin();
     const navigate = useNavigate();
     const { theme, setTheme } = useTheme();
-
+    const checkAuth = useCheckAuth();
+    const { closeAllSheets } = useSheets();
     const [configDialogOpen, setConfigDialogOpen] = useState(false);
     const [error, setError] = useState("");
     const [formEnabled, setFormEnabled] = useState(true);
@@ -43,6 +45,13 @@ export const LoginPage = () => {
             setFormEnabled(false);
             getTokenByCode(totpRequestCode);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        checkAuth().catch(() => {
+            closeAllSheets();
+        });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

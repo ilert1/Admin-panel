@@ -84,7 +84,6 @@ export const authProvider: AuthProvider = {
     checkAuth: () => {
         if (isTokenStillFresh(String(localStorage.getItem("access-token")))) return Promise.resolve();
         else {
-            window.dispatchEvent(new Event("logout"));
             return Promise.reject();
         }
     },

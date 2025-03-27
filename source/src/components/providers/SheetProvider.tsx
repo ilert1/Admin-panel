@@ -1,4 +1,4 @@
-import { ReactNode, useState, useContext, createContext, useEffect } from "react";
+import { ReactNode, useState, useContext, createContext } from "react";
 import { SHEETS_COMPONENTS } from "./SheetManager";
 
 type SheetKey = keyof typeof SHEETS_COMPONENTS;
@@ -44,12 +44,6 @@ export const SheetProvider = ({ children }: { children: ReactNode }) => {
     const closeSheet = (key: SheetKey) => {
         setSheets(prev => prev.map(s => (s.key === key ? { ...s, open: false } : s)));
     };
-
-    useEffect(() => {
-        const handleLogout = () => closeAllSheets();
-        window.addEventListener("logout", handleLogout);
-        return () => window.removeEventListener("logout", handleLogout);
-    }, []);
 
     return (
         <SheetContext.Provider value={{ sheets, openSheet, closeSheet, closeAllSheets }}>
