@@ -21,9 +21,9 @@ export const LimitInputGroup = ({
     onMaxChange
 }: LimitInputGroupProps) => {
     return (
-        <div className="flex flex-1 flex-col gap-4">
+        <div className="flex flex-1 flex-col gap-2 md:gap-4">
             <TextField text={label} className="text-display-5" />
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-row gap-4 md:flex-col">
                 <Input
                     variant={InputTypes.GRAY}
                     label="min"

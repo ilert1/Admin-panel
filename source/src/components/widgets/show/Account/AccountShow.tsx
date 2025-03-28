@@ -1,4 +1,4 @@
-import { ListContextProvider, useTranslate } from "react-admin";
+import { ListContextProvider, usePermissions, useTranslate } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
 import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
@@ -19,6 +19,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
     const appToast = useAppToast();
+    const { permissions } = usePermissions();
 
     const { isLoading, merchantsList } = useFetchMerchants();
 
@@ -55,14 +56,20 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                     <div className="text-display-2 text-neutral-90 dark:text-neutral-30">
                         <TextField
                             text={context.record.meta?.caption}
-                            onClick={() => {
-                                merchId
-                                    ? openSheet("merchant", { id: merchId ?? "", merchantName })
-                                    : appToast(
-                                          "error",
-                                          translate("resources.merchant.errors.notFound", { name: merchantName })
-                                      );
-                            }}
+                            onClick={
+                                permissions === "admin"
+                                    ? () => {
+                                          merchId
+                                              ? openSheet("merchant", { id: merchId ?? "", merchantName })
+                                              : appToast(
+                                                    "error",
+                                                    translate("resources.merchant.errors.notFound", {
+                                                        name: merchantName
+                                                    })
+                                                );
+                                      }
+                                    : undefined
+                            }
                         />
                     </div>
 

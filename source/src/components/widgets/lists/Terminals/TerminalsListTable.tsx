@@ -16,13 +16,9 @@ export const TerminalListTable = ({ provider, columns }: TerminalListTableProps)
         disableSyncWithLocation: true
     });
 
-    if (terminalsContext.isFetching) {
-        return <LoadingBlock />;
-    } else {
-        return (
-            <ListContextProvider value={terminalsContext}>
-                <DataTable columns={columns} />
-            </ListContextProvider>
-        );
-    }
+    return (
+        <ListContextProvider value={terminalsContext}>
+            {terminalsContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
+        </ListContextProvider>
+    );
 };
