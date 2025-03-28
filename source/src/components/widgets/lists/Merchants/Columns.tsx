@@ -80,6 +80,26 @@ export const useGetMerchantColumns = () => {
             }
         },
         {
+            id: "feesIn",
+            header: translate("resources.merchant.fields.feePayIn"),
+            cell: ({ row }) => {
+                const entries = Object.entries(row.original.fees ?? {});
+                const d1 = entries.find(el => el[1].direction === 1);
+
+                return <TextField text={d1 ? String((d1[1].value.quantity ?? 0) / (d1[1].value.accuracy ?? 1)) : ""} />;
+            }
+        },
+
+        {
+            id: "feesOut",
+            header: translate("resources.merchant.fields.feePayOut"),
+            cell: ({ row }) => {
+                const entries = Object.entries(row.original.fees ?? {});
+                const d2 = entries.find(el => el[1].direction === 2);
+                return <TextField text={d2 ? String((d2[1].value.quantity ?? 0) / (d2[1].value.accuracy ?? 1)) : ""} />;
+            }
+        },
+        {
             id: "update_field",
             header: () => {
                 return <div className="text-center">{translate("app.ui.actions.edit")}</div>;
