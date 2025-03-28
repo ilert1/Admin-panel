@@ -841,11 +841,14 @@ const ru: TranslationMessages = {
                 updatedSuccessfully: "Лимиты успешно обновлены",
 
                 errors: {
-                    minGreaterThanMax: "Максимальное значение не может быть меньше минимального",
-                    maxTooSmall: "Максимальное значение должно быть равным 0 или больше 1",
-                    minTooSmall: "Минимальное значение должно быть равным 0 или больше 1",
-                    maxTooLarge: "Максимальное значение не может быть больше 10.000.000",
-                    minTooSmallForOne: "Минимальное значение должно быть равным или больше 1"
+                    minGreaterThanMax: "Максимальное значение лимита %{field} не может быть меньше минимального",
+                    maxTooSmall: "Максимальное значение лимита %{field} должно быть равным 0 или больше 1",
+                    minTooSmall: "Минимальное значение лимита %{field} должно быть равным 0 или больше 1",
+                    maxTooLarge: "Максимальное значение лимита %{field} не может быть больше 10.000.000",
+                    minTooSmallForOne: "Минимальное значение лимита %{field} должно быть больше либо равно 1",
+                    ofDeposit: "депозита",
+                    ofPayment: "выплаты",
+                    ofReward: "вознаграждения"
                 }
             }
         },
@@ -1761,11 +1764,14 @@ const en: TranslationMessages = {
                 updatedSuccessfully: "Limits updated successfully",
                 resetedSuccessfully: "Limits reset successfully",
                 errors: {
-                    minGreaterThanMax: "The maximum value cannot be less than the minimum value",
-                    maxTooSmall: "The maximum value must be 0 or greater than 1",
-                    minTooSmall: "The minimum value must be 0 or greater than 1",
-                    maxTooLarge: "The maximum value cannot be greater than 10,000,000",
-                    minTooSmallForOne: "The maximum value must be 1 or greater"
+                    minGreaterThanMax: "The maximum value of %{field} limit cannot be less than the minimum value",
+                    maxTooSmall: "The maximum value of %{field} limit must be 0 or greater than 1",
+                    minTooSmall: "The minimum value of %{field} limit must be 0 or greater than 1",
+                    maxTooLarge: "The maximum value of %{field} limit cannot be greater than 10,000,000",
+                    minTooSmallForOne: "The minimum value of %{field} limit must be 1 or greater",
+                    ofDeposit: "deposit",
+                    ofPayment: "payment",
+                    ofReward: "reward"
                 }
             }
         },
