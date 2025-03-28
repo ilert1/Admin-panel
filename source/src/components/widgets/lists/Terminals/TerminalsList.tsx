@@ -6,7 +6,7 @@ import { CreateTerminalDialog } from "./CreateTerminalDialog";
 
 import { DeleteTerminalDialog } from "./DeleteTerminalDialog";
 import { EditTerminalDialog } from "./EditTerminalDialog";
-import { TerminalsListFilter } from "./TerminalsListFilter";
+import { TerminalsListFilter } from "./TerminalsListFilter/TerminalsListFilter";
 import { TerminalListTable } from "./TerminalsListTable";
 import { useGetTerminalColumns } from "./Columns";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
@@ -15,6 +15,7 @@ import { EmptyTable } from "../../shared/EmptyTable";
 export const TerminalsList = () => {
     const translate = useTranslate();
 
+    const [filterName, setFilterName] = useState("");
     const [provider, setProvider] = useState("");
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
@@ -35,13 +36,17 @@ export const TerminalsList = () => {
                     <span className="text-title-1">{translate("resources.terminals.create")}</span>
                 </Button>
             </div>
-            <div className="mb-4 flex flex-col justify-between gap-2 md:flex-row md:items-end">
-                <TerminalsListFilter selectProvider={setProvider} currentProvider={provider} />
-            </div>
+
+            <TerminalsListFilter
+                selectProvider={setProvider}
+                currentProvider={provider}
+                terminalFilterName={filterName}
+                onChangeTerminalFilter={setFilterName}
+            />
 
             {provider ? (
                 <>
-                    <TerminalListTable provider={provider} columns={columns} />
+                    <TerminalListTable provider={provider} columns={columns} filterName={filterName} />
 
                     <CreateTerminalDialog
                         provider={provider}

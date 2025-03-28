@@ -2,20 +2,27 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { LoadingBalance } from "@/components/ui/loading";
 import { Label } from "@/components/ui/label";
 import useTerminalFilter from "@/hooks/useTerminalFilter";
+import { TerminalSelectFilter } from "./TerminalSelectFilter";
 
-export const TerminalsListFilter = ({
-    selectProvider = () => {},
-    currentProvider = ""
-}: {
+interface ITerminalsListFilter {
     selectProvider: React.Dispatch<React.SetStateAction<string>>;
     currentProvider: string;
-}) => {
+    terminalFilterName: string;
+    onChangeTerminalFilter: (terminal: string) => void;
+}
+
+export const TerminalsListFilter = ({
+    selectProvider,
+    currentProvider,
+    onChangeTerminalFilter,
+    terminalFilterName
+}: ITerminalsListFilter) => {
     const { providersData, isFetching, providersLoadingProcess, onProviderChanged, translate, providerScrollHandler } =
         useTerminalFilter({ selectProvider });
 
     return (
-        <div className="flex flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-center sm:gap-x-4 sm:gap-y-3 md:items-end">
-            <div className="flex min-w-36 flex-1 flex-col gap-1">
+        <div className="mb-4 flex flex-col flex-wrap gap-2 sm:flex-row sm:items-center sm:gap-x-4 sm:gap-y-3 md:flex-row md:items-end">
+            <div className="md: flex min-w-36 flex-1 flex-col gap-1 sm:max-w-96 md:max-w-60">
                 <Label className="mb-0" variant="title-2">
                     {translate("resources.terminals.selectHeader")}
                 </Label>
@@ -43,6 +50,19 @@ export const TerminalsListFilter = ({
                         )}
                     </SelectContent>
                 </Select>
+            </div>
+
+            <div className="flex-grow-100 flex min-w-[150px] flex-1 flex-col gap-1 sm:max-w-96 md:max-w-[400px]">
+                <Label variant="title-2" className="mb-0 md:text-nowrap">
+                    {translate("resources.terminals.filter.filterByName")}
+                </Label>
+
+                <TerminalSelectFilter
+                    currentProvider={currentProvider}
+                    onChangeTerminalFilter={onChangeTerminalFilter}
+                    terminalFilterName={terminalFilterName}
+                    disabled={providersLoadingProcess || (!providersLoadingProcess && isFetching && !providersData)}
+                />
             </div>
         </div>
     );

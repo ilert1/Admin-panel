@@ -504,6 +504,12 @@ const ru: TranslationMessages = {
                 createAccount: "Создать счёт",
                 account: "Счёт"
             },
+            filter: {
+                filters: "Фильтры",
+                showAll: "Показать все",
+                filterAllPlaceholder: "Все",
+                filterByName: "Терминал"
+            },
             errors: {
                 verbose_name: "У терминала обязательно должно быть имя",
                 description: "У терминала обязательно должно быть описание"
@@ -1426,6 +1432,12 @@ const en: TranslationMessages = {
                 fees: "Fees",
                 createAccount: "Create account",
                 account: "Account"
+            },
+            filter: {
+                filters: "Filters",
+                showAll: "Show all",
+                filterAllPlaceholder: "All",
+                filterByName: "Terminal"
             },
             errors: {
                 verbose_name: "The terminal must have a name",
