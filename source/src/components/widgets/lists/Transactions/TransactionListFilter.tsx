@@ -15,6 +15,9 @@ import { useState } from "react";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { RefreshCw } from "lucide-react";
+import { useLoading, useRefresh } from "react-admin";
+import clsx from "clsx";
 
 export const TransactionListFilter = () => {
     const {
@@ -41,6 +44,9 @@ export const TransactionListFilter = () => {
     // const debounced = debounce(setChartOpen, 200);
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
+
+    const refresh = useRefresh();
+    const loading = useLoading();
 
     const clearDiasbled =
         !operationId && !account && !customerPaymentId && !startDate && !typeTabActive && !orderStatusFilter;
@@ -175,7 +181,7 @@ export const TransactionListFilter = () => {
                 </AnimatedContainer>
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-col flex-wrap items-stretch justify-between gap-3 sm:flex-row sm:items-center">
                 <div className="mt-2 flex flex-wrap items-center gap-3">
                     <button
                         className={chooseClassTabActive(0)}
@@ -206,6 +212,14 @@ export const TransactionListFilter = () => {
                             }
                         })}
                 </div>
+
+                <Button
+                    onClick={refresh}
+                    disabled={loading}
+                    className="-order-1 flex flex-1 items-center justify-center gap-1 font-normal sm:order-1 sm:flex-none">
+                    <RefreshCw className={clsx(loading && "animate-spin")} width={16} height={16} />
+                    <span>{translate("app.ui.actions.refresh")}</span>
+                </Button>
 
                 {/* <div className="flex items-center gap-1">
                     <Button onClick={() => debounced(prev => !prev)} variant={"clearBtn"} className="flex gap-1">

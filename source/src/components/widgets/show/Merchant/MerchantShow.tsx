@@ -26,6 +26,11 @@ export const MerchantShow = (props: MerchantShowProps) => {
     const data = fetchDictionaries();
     const appToast = useAppToast();
 
+    if (!id) {
+        appToast("error", translate("resources.merchant.errors.notFound", { name: merchantName }));
+        onOpenChange(false);
+    }
+
     const context = useAbortableShowController<Merchant>({
         resource: "merchant",
         id,

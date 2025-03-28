@@ -20,6 +20,8 @@ import { useFetchMerchants } from "@/hooks";
 import { useGetTransactionShowColumns } from "./Columns";
 import clsx from "clsx";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
+import { useSheets } from "@/components/providers/SheetProvider";
+import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 interface TransactionShowProps {
     id: string;
@@ -28,9 +30,10 @@ interface TransactionShowProps {
 export const TransactionShow = ({ id }: TransactionShowProps) => {
     const data = fetchDictionaries();
     const translate = useTranslate();
-
+    const { openSheet } = useSheets();
     const { permissions } = usePermissions();
     const context = useAbortableShowController<Transaction.Transaction>({ resource: "transactions", id });
+
     const [newState, setNewState] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -61,29 +64,50 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         permissions === "admin" ? useFetchMerchants() : { isLoading: false, merchantsList: [] };
 
-    const merchantNameGenerate = useCallback(
-        (type: number, source: string, destination: string) => {
+    const getNameAndIdByType = (type: number, sourceMerch: Merchant | undefined, destMerch: Merchant | undefined) => {
+        switch (type) {
+            case 1:
+                return [{ name: destMerch?.name || "", id: destMerch?.id }];
+            case 2:
+            case 4:
+                return [{ name: sourceMerch?.name || "", id: sourceMerch?.id }];
+            case 3:
+                return [
+                    { name: sourceMerch?.name, id: sourceMerch?.id },
+                    { name: destMerch?.name, id: destMerch?.id }
+                ];
+            default:
+                return [];
+        }
+    };
+
+    const getSourceAndDestMerch = useCallback(
+        (source: string, destination: string) => {
             const sourceMerch = merchantsList.find(el => el.id === source);
             const destMerch = merchantsList.find(el => el.id === destination);
 
-            switch (type) {
-                case 1:
-                    return destMerch?.name || "";
-                case 2:
-                case 4:
-                    return sourceMerch?.name || "";
-                case 3:
-                    return `${sourceMerch?.name} - ${destMerch?.name}`;
-                default:
-                    return "";
-            }
+            return { sourceMerch, destMerch };
         },
         [merchantsList]
     );
 
+    const merchantNameAndIdGenerate = (type: number, source: string, destination: string) => {
+        const { destMerch, sourceMerch } = getSourceAndDestMerch(source, destination);
+
+        const res = getNameAndIdByType(type, sourceMerch, destMerch);
+
+        return res;
+    };
+
     if (context.isLoading || context.isFetching || !context.record || isLoading) {
         return <LoadingBlock />;
     }
+
+    const merchantsInfo = merchantNameAndIdGenerate(
+        context.record?.type,
+        context.record?.source?.id,
+        context.record?.destination?.id
+    );
 
     return (
         <div className="top-[82px] flex h-full flex-col gap-6 overflow-auto p-4 pt-0 md:px-[42px]">
@@ -197,14 +221,30 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 />
 
                 {permissions === "admin" && (
-                    <TextField
-                        label={translate("resources.transactions.fields.destination.header")}
-                        text={merchantNameGenerate(
-                            context.record?.type,
-                            context.record?.source?.id,
-                            context.record?.destination?.id
+                    <>
+                        {merchantsInfo.length !== 0 ? (
+                            merchantsInfo.map(el => {
+                                return (
+                                    <TextField
+                                        key={el.id}
+                                        label={translate("resources.transactions.fields.destination.header")}
+                                        text={el.name ?? ""}
+                                        onClick={() =>
+                                            openSheet("merchant", {
+                                                id: el.id,
+                                                merchantName: el.name
+                                            })
+                                        }
+                                    />
+                                );
+                            })
+                        ) : (
+                            <TextField
+                                label={translate("resources.transactions.fields.destination.header")}
+                                text={""}
+                            />
                         )}
-                    />
+                    </>
                 )}
             </div>
 

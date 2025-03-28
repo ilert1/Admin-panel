@@ -10,6 +10,9 @@ import { Checkbox } from "./checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { TimeInput } from "./time-input";
 
+const concateTimeString = (date: Date) =>
+    `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}`;
+
 export function DateRangePicker({
     title,
     placeholder,
@@ -31,7 +34,11 @@ export function DateRangePicker({
     };
 
     const [timeShow, setTimeShow] = useState<CheckedState>(() =>
-        dateRange?.from && dateRange?.to && dateRange.from.toLocaleString() !== dateRange.to.toLocaleString()
+        dateRange?.from &&
+        dateRange?.to &&
+        dateRange.from.toLocaleString() !== dateRange.to.toLocaleString() &&
+        concateTimeString(dateRange.from) !== "00:00:00.000" &&
+        concateTimeString(dateRange.to) !== "23:59:59.999"
             ? true
             : false
     );
@@ -40,8 +47,8 @@ export function DateRangePicker({
     const [endTime, setEndTime] = useState(dateRange?.to ? timeFormat(dateRange?.to) : "00:00");
     const initDate = new Date();
 
-    const genereateDateTime = (date: Date, hours: number, minutes: number) =>
-        new Date(date.getFullYear(), date.getMonth(), date.getDate(), hours, minutes);
+    const genereateDateTime = (date: Date, hours: number, minutes: number, seconds: number = 0, ms: number = 0) =>
+        new Date(date.getFullYear(), date.getMonth(), date.getDate(), hours, minutes, seconds, ms);
 
     const updateStartTime = (time: string) => {
         if (dateRange?.from && dateRange.to) {
@@ -114,43 +121,46 @@ export function DateRangePicker({
     const onSelectDate = (date: DateRange | undefined) => {
         const newDateRange = date ? { from: date.from, to: date.to } : undefined;
 
-        if (startTime && newDateRange?.from) {
-            const [hours, minutes] = startTime.split(":").map(str => parseInt(str, 10));
-            newDateRange.from = genereateDateTime(newDateRange.from, hours, minutes);
-        }
+        if (timeShow) {
+            if (startTime && newDateRange?.from) {
+                const [hours, minutes] = startTime.split(":").map(str => parseInt(str, 10));
+                newDateRange.from = genereateDateTime(newDateRange.from, hours, minutes);
+            }
 
-        if (endTime && newDateRange?.to) {
-            const [hours, minutes] = endTime.split(":").map(str => parseInt(str, 10));
-            newDateRange.to = genereateDateTime(newDateRange.to, hours, minutes);
+            if (endTime && newDateRange?.to) {
+                const [hours, minutes] = endTime.split(":").map(str => parseInt(str, 10));
+                newDateRange.to = genereateDateTime(newDateRange.to, hours, minutes);
+            }
+        } else {
+            if (newDateRange?.to) {
+                setStartTime("00:00");
+                setEndTime("23:59");
+                newDateRange.to = genereateDateTime(newDateRange.to, 23, 59, 59, 999);
+            }
         }
 
         onChange(newDateRange);
     };
 
     const showTimeHandler = () => {
-        if (timeShow && dateRange?.from && dateRange?.to) {
+        if (timeShow && dateRange?.from && dateRange?.to && (startTime !== "00:00" || endTime !== "23:59")) {
             setStartTime("00:00");
-            setEndTime("00:00");
+            setEndTime("23:59");
 
             onChange({
                 from: genereateDateTime(dateRange.from, 0, 0),
-                to: genereateDateTime(dateRange.to, 0, 0)
+                to: genereateDateTime(dateRange.to, 23, 59, 59, 999)
             });
-        } else if (!timeShow) {
-            setStartTime("00:00");
-            setEndTime("01:00");
+        }
 
-            if (dateRange?.from && dateRange?.to) {
-                onChange({
-                    from: genereateDateTime(dateRange.from, 0, 0),
-                    to: genereateDateTime(dateRange.to, 1, 0)
-                });
-            } else {
-                onChange({
-                    from: genereateDateTime(initDate, 0, 0),
-                    to: genereateDateTime(initDate, 1, 0)
-                });
-            }
+        if (!timeShow && !dateRange?.from && !dateRange?.to) {
+            setStartTime("00:00");
+            setEndTime("23:59");
+
+            onChange({
+                from: genereateDateTime(initDate, 0, 0),
+                to: genereateDateTime(initDate, 23, 59, 59, 999)
+            });
         }
 
         setTimeShow(!timeShow);

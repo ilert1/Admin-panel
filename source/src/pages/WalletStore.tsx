@@ -80,14 +80,23 @@ export const WalletStore = () => {
 
             setKeyText("");
             form.setValue("key_part", "");
-            refetchStorageState();
+
+            await refetchStorageState();
 
             if (!json.success) {
-                throw new Error(json.error);
+                throw new Error(json.error.error_message);
+            }
+
+            if (json.data === "Vault was unsealed") {
+                appToast("success", translate("resources.wallet.storage.unsealed.unsealSuccess"));
+            } else {
+                appToast("success", translate("resources.wallet.storage.unsealed.keyPartSuccess"));
             }
 
             setStepForUnsealed(0);
         } catch (error) {
+            if (error instanceof Error) appToast("error", error.message);
+
             setStepForUnsealed("error");
         } finally {
             setLoadingProcess(false);
@@ -236,7 +245,7 @@ export const WalletStore = () => {
                                             />
 
                                             <Button
-                                                disabled={loadingProcess}
+                                                disabled={loadingProcess || keyText.length < 3}
                                                 type="submit"
                                                 className="flex w-full min-w-28 items-center gap-1 self-end sm:w-1/4">
                                                 {loadingProcess ? (

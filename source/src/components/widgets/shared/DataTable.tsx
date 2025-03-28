@@ -190,33 +190,29 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
 
             <div
                 className={`mb-2 flex min-h-[1.5rem] w-full items-center justify-between gap-4 overflow-x-auto overflow-y-hidden p-1 sm:flex-row sm:gap-8 ${
-                    pagination && total && total > perPage ? "" : "!justify-end"
+                    pagination && !!total && total > perPage ? "" : "!justify-end"
                 }`}>
-                {pagination && total && total > perPage && renderPagination()}
+                {pagination && !!total && total > perPage && renderPagination()}
 
                 <div className="flex items-center space-x-2">
                     <p className="hidden whitespace-nowrap text-sm font-normal text-neutral-90 dark:text-neutral-0 sm:block">
                         {translate("resources.transactions.pagination")}
                     </p>
                     <Select
-                        value={`${data?.length > 0 ? table.getState().pagination.pageSize : 0}`}
+                        value={table.getState().pagination.pageSize.toString()}
                         onValueChange={value => {
                             table.setPageSize(Number(value));
                             setPerPage(Number(value));
                         }}>
                         <SelectTrigger className="h-8 w-auto gap-0.5 border-none bg-white p-1 text-neutral-90 dark:bg-green-60 dark:text-white">
-                            <SelectValue placeholder={data?.length > 0 ? table.getState().pagination.pageSize : 0} />
+                            <SelectValue placeholder={table.getState().pagination.pageSize} />
                         </SelectTrigger>
                         <SelectContent>
-                            {data?.length > 0 ? (
-                                [5, 10, 25, 50, 100].map(pageSize => (
-                                    <SelectItem key={pageSize} value={`${pageSize}`}>
-                                        {pageSize}
-                                    </SelectItem>
-                                ))
-                            ) : (
-                                <SelectItem value="0">0</SelectItem>
-                            )}
+                            {[5, 10, 25, 50, 100].map(pageSize => (
+                                <SelectItem key={pageSize} value={`${pageSize}`}>
+                                    {pageSize}
+                                </SelectItem>
+                            ))}
                         </SelectContent>
                     </Select>
                 </div>
