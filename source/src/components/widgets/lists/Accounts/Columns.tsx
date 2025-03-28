@@ -1,5 +1,5 @@
 import { useSheets } from "@/components/providers/SheetProvider";
-import { Button, EditButton, ShowButton } from "@/components/ui/Button";
+import { EditButton, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 // import { EditButton, ShowButton } from "@/components/ui/Button";
 import { formatNumber } from "@/helpers/formatNumber";
@@ -38,16 +38,19 @@ export const useGetAccountsColumns = () => {
 
                 return (
                     <div>
-                        <Button
-                            variant={"resourceLink"}
-                            onClick={() => {
-                                openSheet("merchant", {
-                                    id: row.original.owner_id,
-                                    merchantName: row.original.meta?.caption
-                                });
-                            }}>
-                            {row.original.meta?.caption ?? ""}
-                        </Button>
+                        <TextField
+                            text={row.original.meta?.caption ?? ""}
+                            onClick={
+                                permissions === "admin"
+                                    ? () => {
+                                          openSheet("merchant", {
+                                              id: row.original.owner_id,
+                                              merchantName: row.original.meta?.caption
+                                          });
+                                      }
+                                    : undefined
+                            }
+                        />
                         <TextField
                             className="text-neutral-70"
                             text={id}

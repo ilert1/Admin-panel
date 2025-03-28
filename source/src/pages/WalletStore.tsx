@@ -73,6 +73,8 @@ export const WalletStore = () => {
     };
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        data.key_part = data.key_part.trim();
+
         try {
             setLoadingProcess(true);
 
@@ -115,6 +117,8 @@ export const WalletStore = () => {
             setLoadingProcess(false);
         }
     };
+
+    const buttonDisabledState = loadingProcess || keyText.trim().length < 16 || !/^[a-zA-Z0-9]*$/.test(keyText.trim());
 
     return (
         <>
@@ -245,7 +249,7 @@ export const WalletStore = () => {
                                             />
 
                                             <Button
-                                                disabled={loadingProcess || keyText.length < 3}
+                                                disabled={buttonDisabledState}
                                                 type="submit"
                                                 className="flex w-full min-w-28 items-center gap-1 self-end sm:w-1/4">
                                                 {loadingProcess ? (
