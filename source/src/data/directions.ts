@@ -22,14 +22,16 @@ import { Direction, DirectionCreate } from "@/api/enigma/blowFishEnigmaAPIServic
 
 export class DirectionsDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<Direction>> {
+        const fieldsForSearch = Object.keys(params.filter).filter(item => item === "merchant");
+
         const res = await directionEndpointsListDirectionsEnigmaV1DirectionGet(
             {
                 currentPage: params?.pagination?.page,
                 pageSize: params?.pagination?.perPage,
-                ...(Object.hasOwn(params?.filter, "merchant") && {
-                    searchField: ["merchant"],
-                    searchString: params?.filter["merchant"]
-                })
+                ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) }),
+                ...(params.filter?.asc && { sortOrder: params.filter?.asc?.toLowerCase() }),
+                ...(params.filter?.sort && { orderBy: params.filter?.sort?.toLowerCase() })
             },
             {
                 headers: {

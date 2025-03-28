@@ -20,7 +20,7 @@ export const DirectionListFilter = () => {
 
     const onPropertySelected = debounce((value: string, type: "merchant") => {
         if (value) {
-            setFilters({ ...filterValues, [type]: value, order_by: "name", asc: true }, displayedFilters, true);
+            setFilters({ ...filterValues, [type]: value, sort: "name", asc: "ASC" }, displayedFilters, true);
         } else {
             Reflect.deleteProperty(filterValues, type);
             setFilters(filterValues, displayedFilters, true);
