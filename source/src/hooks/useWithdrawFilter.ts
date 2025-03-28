@@ -39,7 +39,7 @@ const useWithdrawFilter = () => {
     const onPropertySelected = debounce(
         (
             value: string | { from: string; to: string } | number,
-            type: "id" | "date" | "order_type" | "merchant" | "state"
+            type: "id" | "date" | "order_type" | "merchant" | "order_state"
         ) => {
             if (value) {
                 if (type === "date" && typeof value !== "string" && typeof value !== "number") {
@@ -86,7 +86,7 @@ const useWithdrawFilter = () => {
 
     const onStatusFilterChanged = (order: string) => {
         setStatusFilter(order);
-        onPropertySelected(order, "state");
+        onPropertySelected(order, "order_state");
     };
 
     const clearFilters = () => {
