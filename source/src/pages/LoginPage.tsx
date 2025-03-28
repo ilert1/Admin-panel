@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useCheckAuth, useLogin, useTranslate } from "react-admin";
+import { useAuthState, useLogin, useTranslate } from "react-admin";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useTheme } from "@/components/providers";
 import { LangSwitcher } from "@/components/widgets/components/LangSwitcher";
@@ -14,7 +14,8 @@ export const LoginPage = () => {
     const login = useLogin();
     const navigate = useNavigate();
     const { theme, setTheme } = useTheme();
-    const checkAuth = useCheckAuth();
+    const { isLoading, authenticated, refetch: refetchLogin } = useAuthState();
+
     const { closeAllSheets } = useSheets();
     const [configDialogOpen, setConfigDialogOpen] = useState(false);
     const [error, setError] = useState("");
@@ -34,6 +35,7 @@ export const LoginPage = () => {
                 setFormEnabled(true);
                 navigate("/", { replace: true });
             });
+            refetchLogin();
         }
     };
 
@@ -49,11 +51,15 @@ export const LoginPage = () => {
     }, []);
 
     useEffect(() => {
-        checkAuth().catch(() => {
+        if (isLoading) return;
+
+        if (!authenticated) {
             closeAllSheets();
-        });
+        } else {
+            navigate("/", { replace: true });
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [authenticated, isLoading]);
 
     const loginBg = LoginBackground(theme === "dark" ? "#237648" : "#62D093");
     return (
