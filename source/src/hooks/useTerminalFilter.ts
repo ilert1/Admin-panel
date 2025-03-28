@@ -1,4 +1,4 @@
-import { UIEvent, useEffect, useMemo, useState } from "react";
+import { UIEvent, useEffect, useMemo } from "react";
 import { useTranslate } from "react-admin";
 import { useAbortableInfiniteGetList } from "./useAbortableInfiniteGetList";
 import { ProviderWithId } from "@/data/providers";
@@ -22,21 +22,23 @@ const useTerminalFilter = ({
 
     const translate = useTranslate();
 
-    const [providerName, setProviderName] = useState(localStorage.getItem("providerInTerminals") || "");
     const providersLoadingProcess = useMemo(() => isFetchingNextPage && hasNextPage, [isFetchingNextPage, hasNextPage]);
 
     const onProviderChanged = (provider: string) => {
         localStorage.setItem("providerInTerminals", provider);
-        setProviderName(provider);
         selectProvider(provider);
     };
 
     useEffect(() => {
+        const previousProvider = localStorage.getItem("providerInTerminals");
+
         if (
+            previousProvider &&
             isFetched &&
-            providersData?.pages.find(providerItem => providerItem.data.find(item => item.name === providerName))
+            providersData?.pages.find(providerItem => providerItem.data.find(item => item.name === previousProvider))
         ) {
-            selectProvider(providerName);
+            console.log(previousProvider);
+            selectProvider(previousProvider);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [providersLoadingProcess, providersData?.pages]);
@@ -53,7 +55,6 @@ const useTerminalFilter = ({
         providersData,
         isFetching,
         providersLoadingProcess,
-        providerName,
         onProviderChanged,
         translate,
         providerScrollHandler

@@ -36,7 +36,7 @@ export const TerminalsList = () => {
                 </Button>
             </div>
             <div className="mb-4 flex flex-col justify-between gap-2 md:flex-row md:items-end">
-                <TerminalsListFilter selectProvider={setProvider} />
+                <TerminalsListFilter selectProvider={setProvider} currentProvider={provider} />
             </div>
 
             {provider ? (

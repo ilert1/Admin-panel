@@ -4,19 +4,14 @@ import { Label } from "@/components/ui/label";
 import useTerminalFilter from "@/hooks/useTerminalFilter";
 
 export const TerminalsListFilter = ({
-    selectProvider = () => {}
+    selectProvider = () => {},
+    currentProvider = ""
 }: {
     selectProvider: React.Dispatch<React.SetStateAction<string>>;
+    currentProvider: string;
 }) => {
-    const {
-        providersData,
-        isFetching,
-        providersLoadingProcess,
-        providerName,
-        onProviderChanged,
-        translate,
-        providerScrollHandler
-    } = useTerminalFilter({ selectProvider });
+    const { providersData, isFetching, providersLoadingProcess, onProviderChanged, translate, providerScrollHandler } =
+        useTerminalFilter({ selectProvider });
 
     return (
         <div className="flex flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-center sm:gap-x-4 sm:gap-y-3 md:items-end">
@@ -25,7 +20,7 @@ export const TerminalsListFilter = ({
                     {translate("resources.terminals.selectHeader")}
                 </Label>
 
-                <Select onValueChange={onProviderChanged} value={providerName}>
+                <Select onValueChange={onProviderChanged} value={currentProvider}>
                     <SelectTrigger className="text-ellipsis">
                         <SelectValue placeholder={translate("resources.terminals.selectPlaceholder")} />
                     </SelectTrigger>
