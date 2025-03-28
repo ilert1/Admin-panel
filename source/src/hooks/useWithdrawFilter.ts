@@ -19,7 +19,7 @@ const useWithdrawFilter = () => {
         filterValues?.end_date ? new Date(filterValues?.end_date) : undefined
     );
 
-    const [statusFilter, setStatusFilter] = useState<string>(filterValues?.state || "");
+    const [statusFilter, setStatusFilter] = useState<string>(filterValues?.order_state || "");
 
     const appToast = useAppToast();
 
