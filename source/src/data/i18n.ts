@@ -354,8 +354,8 @@ const ru: TranslationMessages = {
                 name: "Имя",
                 descr: "Описание",
                 directions: "Направления",
-                feePayIn: "Комиссия PayIn",
-                feePayOut: "Комиссия PayOut"
+                feePay: "Комиссия PayIn/PayOut"
+                // feePayOut: "Комиссия PayOut"
             },
             errors: {
                 id: "ID обязательно должен быть заполнен",
@@ -505,8 +505,8 @@ const ru: TranslationMessages = {
                 fees: "Комиссии",
                 createAccount: "Создать счёт",
                 account: "Счёт",
-                feePayIn: "Комиссия PayIn",
-                feePayOut: "Комиссия PayOut"
+                feePay: "Комиссия PayIn/PayOut"
+                // feePayOut: "Комиссия PayOut"
             },
             errors: {
                 verbose_name: "У терминала обязательно должно быть имя",
@@ -1277,8 +1277,8 @@ const en: TranslationMessages = {
                 name: "Name",
                 descr: "Description",
                 directions: "Directions",
-                feePayIn: "PayIn fee",
-                feePayOut: "PayOut fee"
+                feePay: "PayIn/PayOut fee"
+                // feePayOut: "PayOut fee"
             },
             errors: {
                 id: "ID is required",
@@ -1428,8 +1428,8 @@ const en: TranslationMessages = {
                 fees: "Fees",
                 createAccount: "Create account",
                 account: "Account",
-                feePayIn: "PayIn fee",
-                feePayOut: "PayOut fee"
+                feePay: "PayIn/PayOut fee"
+                // feePayOut: "PayOut fee"
             },
             errors: {
                 verbose_name: "The terminal must have a name",
