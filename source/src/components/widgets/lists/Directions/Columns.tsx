@@ -45,22 +45,7 @@ export const useGetDirectionsColumns = () => {
                 );
             }
         },
-        {
-            id: "id",
-            accessorKey: "id",
-            header: translate("resources.direction.fields.id"),
-            cell: ({ row }) => {
-                return <TextField text={row.original.id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />;
-            }
-        },
-        {
-            id: "account_id",
-            accessorKey: "account_id",
-            header: translate("resources.direction.fields.accountNumber"),
-            cell: ({ row }) => {
-                return <TextField text={row.original.account_id || ""} wrap copyValue />;
-            }
-        },
+
         {
             id: "src_currency",
             accessorKey: "src_currency",

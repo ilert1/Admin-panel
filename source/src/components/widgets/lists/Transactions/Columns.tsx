@@ -132,16 +132,6 @@ export const useGetTransactionColumns = () => {
             }
         },
         {
-            accessorKey: "rate_info",
-            header: translate("resources.transactions.fields.rateInfo"),
-            cell: ({ row }) => (
-                <>
-                    <p className="text-neutral-60 dark:text-neutral-70">{`${row.original.rate_source_currency ?? "-"} / ${row.original.rate_destination_currency ?? "-"}`}</p>
-                    <p>{row.original.rate}</p>
-                </>
-            )
-        },
-        {
             id: "actions",
             cell: ({ row }) => {
                 return <ShowButton onClick={() => handleOpenSheet(row.original.id)} />;

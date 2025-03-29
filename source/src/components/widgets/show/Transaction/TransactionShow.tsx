@@ -219,6 +219,18 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                         `resources.transactions.states.${context.record.state.state_description.toLowerCase()}`
                     )}
                 />
+                <div>
+                    <TextField
+                        label={translate("resources.transactions.fields.rateInfo")}
+                        text={`${context.record.rate_info.s_currency ?? "-"} / ${context.record.rate_info.d_currency ?? "-"}`}
+                    />
+                    <TextField
+                        text={
+                            String(context.record.rate_info.value.quantity / context.record.rate_info.value.accuracy) ??
+                            ""
+                        }
+                    />
+                </div>
 
                 {permissions === "admin" && (
                     <>
