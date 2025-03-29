@@ -354,7 +354,7 @@ const ru: TranslationMessages = {
                 name: "Имя",
                 descr: "Описание",
                 directions: "Направления",
-                feePay: "Комиссия PayIn/PayOut"
+                feePay: "Комиссии PayIn/PayOut"
                 // feePayOut: "Комиссия PayOut"
             },
             errors: {
@@ -505,7 +505,7 @@ const ru: TranslationMessages = {
                 fees: "Комиссии",
                 createAccount: "Создать счёт",
                 account: "Счёт",
-                feePay: "Комиссия PayIn/PayOut"
+                feePay: "Комиссии PayIn/PayOut"
                 // feePayOut: "Комиссия PayOut"
             },
             errors: {
@@ -1277,7 +1277,7 @@ const en: TranslationMessages = {
                 name: "Name",
                 descr: "Description",
                 directions: "Directions",
-                feePay: "PayIn/PayOut fee"
+                feePay: "PayIn/PayOut fees"
                 // feePayOut: "PayOut fee"
             },
             errors: {
@@ -1428,7 +1428,7 @@ const en: TranslationMessages = {
                 fees: "Fees",
                 createAccount: "Create account",
                 account: "Account",
-                feePay: "PayIn/PayOut fee"
+                feePay: "PayIn/PayOut fees"
                 // feePayOut: "PayOut fee"
             },
             errors: {
