@@ -8,21 +8,19 @@ import { useAbortableListController } from "@/hooks/useAbortableListController";
 interface TerminalListTableProps {
     provider: string;
     columns: ColumnDef<TerminalWithId>[];
+    filterName?: string;
 }
 
-export const TerminalListTable = ({ provider, columns }: TerminalListTableProps) => {
+export const TerminalListTable = ({ provider, columns, filterName = "" }: TerminalListTableProps) => {
     const terminalsContext = useAbortableListController<TerminalWithId>({
         resource: `${provider}/terminal`,
+        ...(filterName && { filter: { verbose_name: filterName } }),
         disableSyncWithLocation: true
     });
 
-    if (terminalsContext.isFetching) {
-        return <LoadingBlock />;
-    } else {
-        return (
-            <ListContextProvider value={terminalsContext}>
-                <DataTable columns={columns} />
-            </ListContextProvider>
-        );
-    }
+    return (
+        <ListContextProvider value={terminalsContext}>
+            {terminalsContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
+        </ListContextProvider>
+    );
 };

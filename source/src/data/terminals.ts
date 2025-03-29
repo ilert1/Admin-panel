@@ -26,12 +26,17 @@ export class TerminalsDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<TerminalWithId>> {
         // resource === "${providerName}/terminal"
         const providerName = resource.split("/")[0];
+        const fieldsForSearch = Object.keys(params.filter).filter(item => item === "verbose_name");
 
         const res = await terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGet(
             providerName,
             {
                 currentPage: params?.pagination?.page,
-                pageSize: params?.pagination?.perPage
+                pageSize: params?.pagination?.perPage,
+                ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) }),
+                ...(params.filter?.asc && { sortOrder: params.filter?.asc?.toLowerCase() }),
+                ...(params.filter?.sort && { orderBy: params.filter?.sort?.toLowerCase() })
             },
             {
                 headers: {

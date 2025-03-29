@@ -1,11 +1,11 @@
 import { ListContextProvider, useTranslate } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
-import { Loading } from "@/components/ui/loading";
+import { Loading, LoadingBlock } from "@/components/ui/loading";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AccountEdit } from "../../edit/AccountEdit";
 import { useGetAccountsColumns } from "./Columns";
-import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
+import { AccountListFilter } from "./AccountListFilter";
 
 export const AccountList = () => {
     const listContext = useAbortableListController<Account>();
@@ -19,9 +19,12 @@ export const AccountList = () => {
     } else {
         return (
             <>
-                <ResourceHeaderTitle marginBottom />
                 <ListContextProvider value={{ ...listContext }}>
-                    <DataTable columns={columns} />
+                    <div className="mb-4 mt-5">
+                        <AccountListFilter />
+                    </div>
+
+                    {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
                 </ListContextProvider>
 
                 <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>

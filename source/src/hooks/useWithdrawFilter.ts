@@ -1,6 +1,6 @@
 import { debounce } from "lodash";
-import { ChangeEvent, useCallback, useState } from "react";
-import { useListContext, useTranslate } from "react-admin";
+import { ChangeEvent, useCallback, useMemo, useState } from "react";
+import { useListContext, usePermissions, useTranslate } from "react-admin";
 import { DateRange } from "react-day-picker";
 import { API_URL } from "@/data/base";
 import fetchDictionaries from "@/helpers/get-dictionaries";
@@ -19,18 +19,28 @@ const useWithdrawFilter = () => {
         filterValues?.end_date ? new Date(filterValues?.end_date) : undefined
     );
 
+    const [statusFilter, setStatusFilter] = useState<string>(filterValues?.state || "");
+
     const appToast = useAppToast();
 
     const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
 
-    const [operationId, setOperationId] = useState(filterValues?.id || "");
+    const [merchantId, setMerchantId] = useState<string>(filterValues?.merchant || "");
+
+    const [operationId, setOperationId] = useState<string>(filterValues?.id || "");
 
     const translate = useTranslate();
+
+    const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
     const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
     const onPropertySelected = debounce(
-        (value: string | { from: string; to: string } | number, type: "id" | "date" | "order_type") => {
+        (
+            value: string | { from: string; to: string } | number,
+            type: "id" | "date" | "order_type" | "merchant" | "state"
+        ) => {
             if (value) {
                 if (type === "date" && typeof value !== "string" && typeof value !== "number") {
                     setFilters(
@@ -69,10 +79,22 @@ const useWithdrawFilter = () => {
         }
     };
 
+    const onMerchantChanged = (merchant: string) => {
+        setMerchantId(merchant);
+        onPropertySelected(merchant, "merchant");
+    };
+
+    const onStatusFilterChanged = (order: string) => {
+        setStatusFilter(order);
+        onPropertySelected(order, "state");
+    };
+
     const clearFilters = () => {
         setStartDate(undefined);
         setEndDate(undefined);
         setOperationId("");
+        setMerchantId("");
+        setStatusFilter("");
         setTypeTabActive(0);
         setFilters({}, displayedFilters, true);
         setPage(1);
@@ -138,6 +160,8 @@ const useWithdrawFilter = () => {
         operationId,
         endDate,
         startDate,
+        merchantId,
+        statusFilter,
         typeTabActive,
         translate,
         onOperationIdChanged,
@@ -145,7 +169,10 @@ const useWithdrawFilter = () => {
         handleDownloadReport,
         clearFilters,
         chooseClassTabActive,
-        onTabChanged
+        onTabChanged,
+        onMerchantChanged,
+        onStatusFilterChanged,
+        adminOnly
     };
 };
 
