@@ -100,19 +100,7 @@ export const FeeCard = memo((props: FeeCardProps) => {
                         />
 
                         {description && (
-                            <div className="col-span-1 flex flex-col sm:col-span-2">
-                                <Label
-                                    className="text-note-1 !text-neutral-60 dark:!text-neutral-60"
-                                    variant="note-1"
-                                    htmlFor="">
-                                    {translate("resources.direction.fees.descr")}
-                                </Label>
-                                <Textarea
-                                    readOnly
-                                    className="resize-none !text-body dark:bg-muted"
-                                    value={description}
-                                />
-                            </div>
+                            <TextField text={description} label={translate("resources.direction.fees.descr")} />
                         )}
                     </div>
                     {addFee && (
