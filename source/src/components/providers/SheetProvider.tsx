@@ -40,9 +40,9 @@ export const SheetProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const openSheet = async <K extends SheetKey>(key: K, data: SheetDataMap[K]) => {
-        const isAuth = await checkAuth();
-
-        if (isAuth) setSheets(prev => [...prev.filter(s => s.key !== key), { key, open: true, data }]);
+        checkAuth()
+            .then(() => setSheets(prev => [...prev.filter(s => s.key !== key), { key, open: true, data }]))
+            .catch(() => {});
     };
 
     const closeSheet = (key: SheetKey) => {
