@@ -1,5 +1,6 @@
 import { ReactNode, useState, useContext, createContext } from "react";
 import { SHEETS_COMPONENTS } from "./SheetManager";
+import { useAuthenticated, useAuthState, useCheckAuth } from "react-admin";
 
 type SheetKey = keyof typeof SHEETS_COMPONENTS;
 
@@ -32,13 +33,16 @@ const SheetContext = createContext<SheetContextProps | undefined>(undefined);
 
 export const SheetProvider = ({ children }: { children: ReactNode }) => {
     const [sheets, setSheets] = useState<SheetState<SheetKey>[]>([]);
+    const checkAuth = useCheckAuth();
 
     const closeAllSheets = () => {
         setSheets([]);
     };
 
-    const openSheet = <K extends SheetKey>(key: K, data: SheetDataMap[K]) => {
-        setSheets(prev => [...prev.filter(s => s.key !== key), { key, open: true, data }]);
+    const openSheet = async <K extends SheetKey>(key: K, data: SheetDataMap[K]) => {
+        const isAuth = await checkAuth();
+
+        if (isAuth) setSheets(prev => [...prev.filter(s => s.key !== key), { key, open: true, data }]);
     };
 
     const closeSheet = (key: SheetKey) => {
