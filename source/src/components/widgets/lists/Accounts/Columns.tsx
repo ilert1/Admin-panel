@@ -1,16 +1,12 @@
 import { useSheets } from "@/components/providers/SheetProvider";
 import { EditButton, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
-// import { EditButton, ShowButton } from "@/components/ui/Button";
 import { formatNumber } from "@/helpers/formatNumber";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useGetCurrencies } from "@/hooks/useGetCurrencies";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useState } from "react";
 import { RecordContextProvider, usePermissions, useTranslate } from "react-admin";
-
-const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
-const translations = ["active", "frozen", "blocked", "deleted"];
 
 export const useGetAccountsColumns = () => {
     const translate = useTranslate();
@@ -22,8 +18,6 @@ export const useGetAccountsColumns = () => {
     const [showEditDialog, setShowEditDialog] = useState(false);
     const [showAccountId, setShowAccountId] = useState<string>("");
     const { currencies, isLoadingCurrencies } = useGetCurrencies();
-
-    // const appToast = useAppToast();
 
     const handleOpenSheet = (id: string) => {
         openSheet("account", { id });
@@ -60,23 +54,6 @@ export const useGetAccountsColumns = () => {
                             linesCount={1}
                             minWidth="50px"
                         />
-                    </div>
-                );
-            }
-        },
-        {
-            id: "state",
-            accessorKey: "state",
-            header: () => <div className="flex justify-center">{translate("resources.accounts.fields.state")}</div>,
-            cell: ({ row }) => {
-                const index = row.original.state - 1;
-
-                return (
-                    <div className="flex items-center justify-center">
-                        <span
-                            className={`rounded-20 px-3 py-0.5 text-center text-base font-normal text-white ${styles[index]}`}>
-                            {translate(`resources.accounts.fields.states.${translations[index]}`)}
-                        </span>
                     </div>
                 );
             }
