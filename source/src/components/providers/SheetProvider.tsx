@@ -1,6 +1,6 @@
 import { ReactNode, useState, useContext, createContext } from "react";
 import { SHEETS_COMPONENTS } from "./SheetManager";
-import { useAuthenticated, useAuthState, useCheckAuth } from "react-admin";
+import { useCheckAuth } from "react-admin";
 
 type SheetKey = keyof typeof SHEETS_COMPONENTS;
 
