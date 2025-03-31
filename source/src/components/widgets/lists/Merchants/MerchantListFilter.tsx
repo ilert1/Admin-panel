@@ -6,19 +6,19 @@ import { useListContext, useTranslate } from "react-admin";
 import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 import { Label } from "@/components/ui/label";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
-import { CreateDirectionDialog } from "./CreateDirectionDialog";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { CreateMerchantDialogNewFlow } from "./CreateMerchantDialogNewFlow";
 
-export const DirectionListFilter = () => {
+export const MerchantListFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
 
     const translate = useTranslate();
 
     const [merchantId, setMerchantId] = useState(filterValues?.merchant || "");
-    const [createDialogOpen, setCreateDialogOpen] = useState(false);
+    const [createDialogNewFlowOpen, setCreateDialogNewFlowOpen] = useState(false);
 
-    const onPropertySelected = debounce((value: string, type: "merchant") => {
+    const onPropertySelected = debounce((value: string, type: "id") => {
         if (value) {
             setFilters({ ...filterValues, [type]: value, sort: "name", asc: "ASC" }, displayedFilters, true);
         } else {
@@ -30,17 +30,13 @@ export const DirectionListFilter = () => {
 
     const onAccountChanged = (merchant: string) => {
         setMerchantId(merchant);
-        onPropertySelected(merchant, "merchant");
+        onPropertySelected(merchant, "id");
     };
 
     const clearFilters = () => {
         setMerchantId("");
         setFilters({}, displayedFilters, true);
         setPage(1);
-    };
-
-    const handleCreateClick = () => {
-        setCreateDialogOpen(true);
     };
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
@@ -54,12 +50,13 @@ export const DirectionListFilter = () => {
 
                     <div className="flex flex-1 flex-row justify-end gap-2 sm:flex-none sm:gap-6">
                         <Button
-                            onClick={handleCreateClick}
+                            onClick={() => setCreateDialogNewFlowOpen(true)}
                             variant="default"
-                            className="flex flex-1 items-center gap-[4px] sm:flex-none">
+                            className="flex flex-1 items-center gap-1 sm:flex-none">
                             <PlusCircle className="h-[16px] w-[16px]" />
-                            <span className="text-title-1">{translate("resources.direction.create")}</span>
+                            <span className="text-title-1">{translate("resources.merchant.createNew")}</span>
                         </Button>
+
                         <FilterButtonGroup
                             open={openFiltersClicked}
                             onOpenChange={setOpenFiltersClicked}
@@ -84,7 +81,8 @@ export const DirectionListFilter = () => {
                     </div>
                 </AnimatedContainer>
             </div>
-            <CreateDirectionDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+
+            <CreateMerchantDialogNewFlow open={createDialogNewFlowOpen} onOpenChange={setCreateDialogNewFlowOpen} />
         </>
     );
 };

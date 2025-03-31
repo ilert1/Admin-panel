@@ -22,10 +22,16 @@ import { Merchant, MerchantCreate } from "@/api/enigma/blowFishEnigmaAPIService.
 
 export class MerchantsDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<Merchant>> {
+        const fieldsForSearch = Object.keys(params.filter).filter(item => item === "id");
+
         const res = await merchantEndpointsListMerchantsEnigmaV1MerchantGet(
             {
                 currentPage: params?.pagination?.page,
-                pageSize: params?.pagination?.perPage
+                pageSize: params?.pagination?.perPage,
+                ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) }),
+                ...(params.filter?.asc && { sortOrder: params.filter?.asc?.toLowerCase() }),
+                ...(params.filter?.sort && { orderBy: params.filter?.sort?.toLowerCase() })
             },
             {
                 headers: {

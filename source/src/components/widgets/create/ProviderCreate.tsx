@@ -31,7 +31,6 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
-        public_key: z.string().nullable(),
         fields_json_schema: z.string().optional().default(""),
         methods: z.string()
     });
@@ -40,7 +39,6 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            public_key: "",
             fields_json_schema: "",
             methods: ""
         }
@@ -54,8 +52,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
         const parseData: IProviderCreate = {
             name: data.name,
             methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {},
-            fields_json_schema: data.fields_json_schema || "",
-            public_key: data.public_key || null
+            fields_json_schema: data.fields_json_schema || ""
         };
 
         try {

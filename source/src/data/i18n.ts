@@ -353,7 +353,9 @@ const ru: TranslationMessages = {
                 id: "ID",
                 name: "Имя",
                 descr: "Описание",
-                directions: "Направления"
+                directions: "Направления",
+                feePay: "Комиссии PayIn/PayOut"
+                // feePayOut: "Комиссия PayOut"
             },
             errors: {
                 id: "ID обязательно должен быть заполнен",
@@ -502,7 +504,15 @@ const ru: TranslationMessages = {
                 auth: "Данные аутентификации",
                 fees: "Комиссии",
                 createAccount: "Создать счёт",
-                account: "Счёт"
+                account: "Счёт",
+                feePay: "Комиссии PayIn/PayOut"
+                // feePayOut: "Комиссия PayOut"
+            },
+            filter: {
+                filters: "Фильтры",
+                showAll: "Показать все",
+                filterAllPlaceholder: "Все",
+                filterByName: "Терминал"
             },
             errors: {
                 verbose_name: "У терминала обязательно должно быть имя",
@@ -1276,7 +1286,9 @@ const en: TranslationMessages = {
                 id: "ID",
                 name: "Name",
                 descr: "Description",
-                directions: "Directions"
+                directions: "Directions",
+                feePay: "PayIn/PayOut fees"
+                // feePayOut: "PayOut fee"
             },
             errors: {
                 id: "ID is required",
@@ -1425,7 +1437,15 @@ const en: TranslationMessages = {
                 auth: "Auth data",
                 fees: "Fees",
                 createAccount: "Create account",
-                account: "Account"
+                account: "Account",
+                feePay: "PayIn/PayOut fees"
+                // feePayOut: "PayOut fee"
+            },
+            filter: {
+                filters: "Filters",
+                showAll: "Show all",
+                filterAllPlaceholder: "All",
+                filterByName: "Terminal"
             },
             errors: {
                 verbose_name: "The terminal must have a name",

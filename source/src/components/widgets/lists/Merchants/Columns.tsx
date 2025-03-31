@@ -80,6 +80,45 @@ export const useGetMerchantColumns = () => {
             }
         },
         {
+            id: "fees",
+            header: () => {
+                return <div className="flex text-center">{translate("resources.merchant.fields.feePay")}</div>;
+            },
+            cell: ({ row }) => {
+                const entries = Object.entries(row.original.fees ?? {});
+                const d1 = entries.find(el => el[1].direction === 1);
+                const payInValue = d1 && `${String((d1[1].value.quantity ?? 0) / (d1[1].value.accuracy ?? 1))}`;
+                const d2 = entries.find(el => el[1].direction === 2);
+                const payOutValue = d2 && `${String((d2[1].value.quantity ?? 0) / (d2[1].value.accuracy ?? 1))}`;
+
+                return (
+                    <div className="flex justify-center gap-1">
+                        {d1 ? (
+                            <span className="">
+                                <span className="mr-[1px]">{payInValue}</span>
+                                <span className="text-note-2 text-neutral-80 dark:text-neutral-40">%</span>
+                            </span>
+                        ) : (
+                            <span className="flex items-center justify-center text-note-2 text-neutral-80 dark:text-neutral-40">
+                                -
+                            </span>
+                        )}
+                        <span>{"/"}</span>
+                        {d2 ? (
+                            <span className="">
+                                <span className="mr-[1px]">{payOutValue}</span>
+                                <span className="text-note-2 text-neutral-80 dark:text-neutral-40">%</span>
+                            </span>
+                        ) : (
+                            <span className="flex items-center justify-center text-note-2 text-neutral-80 dark:text-neutral-40">
+                                -
+                            </span>
+                        )}
+                    </div>
+                );
+            }
+        },
+        {
             id: "update_field",
             header: () => {
                 return <div className="text-center">{translate("app.ui.actions.edit")}</div>;
