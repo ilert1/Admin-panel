@@ -109,6 +109,7 @@ export const LoginForm = (props: LoginFormProps) => {
                         className="block w-full text-title-1"
                         label={translate("app.login.totp")}
                         labelSize="login-page"
+                        autoComplete="off"
                         shadow
                     />
                 </div>
