@@ -1,9 +1,10 @@
 import { useTheme } from "@/components/providers";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input/input";
+import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useState } from "react";
-import { useLogin, useTranslate } from "react-admin";
+import { useAuthState, useLogin, useTranslate } from "react-admin";
 
 const realm = import.meta.env.VITE_KEYCLOAK_REALM;
 const kk = import.meta.env.VITE_KEYCLOAK_URL;
@@ -17,6 +18,7 @@ interface LoginFormProps {
 
 export const LoginForm = (props: LoginFormProps) => {
     const { error, setError, setDialogOpen } = props;
+    const { refetch: refetchLogin } = useAuthState();
 
     const translate = useTranslate();
     const login = useLogin();
@@ -30,7 +32,7 @@ export const LoginForm = (props: LoginFormProps) => {
 
     const configure2faLink = `${kk}/realms/${realm}/protocol/openid-connect/auth?client_id=${clientId}&redirect_uri=${window.location.href}&response_type=code&scope=openid&kc_action=CONFIGURE_TOTP`;
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (formEnabled) {
@@ -42,7 +44,7 @@ export const LoginForm = (props: LoginFormProps) => {
                 totpCode
             };
 
-            login(userData).catch(error => {
+            await login(userData).catch(error => {
                 if (error.status === 401) {
                     setError(translate("app.login.logPassError"));
                 } else if (
@@ -55,9 +57,9 @@ export const LoginForm = (props: LoginFormProps) => {
                 } else {
                     setError(translate("app.login.networkError"));
                 }
-
-                setFormEnabled(true);
             });
+            refetchLogin();
+            setFormEnabled(true);
         }
     };
 
@@ -120,8 +122,12 @@ export const LoginForm = (props: LoginFormProps) => {
                     />
                 </div>
 
-                <Button type="submit" className="w-full">
-                    {translate("app.login.login")}
+                <Button type="submit" className="w-full" disabled={!formEnabled}>
+                    {formEnabled ? (
+                        translate("app.login.login")
+                    ) : (
+                        <LoadingBlock className="!h-4 !w-4 overflow-hidden" />
+                    )}
                 </Button>
 
                 {error && <div className="mt-5 text-note-1 text-red-30">{error}</div>}
