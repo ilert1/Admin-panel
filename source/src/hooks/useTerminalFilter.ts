@@ -37,7 +37,6 @@ const useTerminalFilter = ({
             isFetched &&
             providersData?.pages.find(providerItem => providerItem.data.find(item => item.name === previousProvider))
         ) {
-            console.log(previousProvider);
             selectProvider(previousProvider);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

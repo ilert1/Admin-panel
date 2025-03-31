@@ -78,8 +78,6 @@ export const AccountEdit = ({ id, onClose }: AccountEditProps) => {
             .or(z.literal(""))
     });
 
-    console.log(controllerProps.record);
-
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
