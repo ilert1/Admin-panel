@@ -27,10 +27,10 @@ const BF_MANAGER_URL = import.meta.env.VITE_BF_MANAGER_URL;
 
 interface AccountEditProps {
     id?: string;
-    onOpenChange: (state: boolean) => void;
+    onClose: () => void;
 }
 
-export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
+export const AccountEdit = ({ id, onClose }: AccountEditProps) => {
     const controllerProps = useEditController({ resource: "accounts", id, mutationMode: "pessimistic" });
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -78,17 +78,19 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
             .or(z.literal(""))
     });
 
+    console.log(controllerProps.record);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            account_id: "",
-            name: "",
-            wallet_create: false,
-            wallet_type: WalletTypes.INTERNAL,
-            tron_wallet: "",
-            tron_address: "",
-            reward_account: "",
-            provider_account: ""
+            account_id: controllerProps.record?.id || "",
+            name: controllerProps.record?.meta?.caption || "",
+            wallet_create: controllerProps.record?.wallet_create || false,
+            wallet_type: controllerProps.record?.wallet_type || WalletTypes.INTERNAL,
+            tron_wallet: controllerProps.record?.meta?.tron_wallet || "",
+            tron_address: controllerProps.record?.meta?.tron_address || "",
+            reward_account: controllerProps.record?.meta?.reward_account || "",
+            provider_account: controllerProps.record?.meta?.provider_account || ""
         }
     });
 
@@ -123,7 +125,7 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
             }
 
             refresh();
-            onOpenChange(false);
+            onClose();
         } catch (error) {
             setSubmitButtonDisabled(false);
             if (error instanceof HttpError) appToast("error", error.message);
@@ -151,12 +153,12 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                                 <FormItem className="p-2">
                                     <FormControl>
                                         <Input
+                                            {...field}
                                             className="text-sm"
                                             label={translate("resources.accounts.editFields.name")}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                             variant={InputTypes.GRAY}
-                                            {...field}
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -234,18 +236,18 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                         />
 
                         <FormField
-                            disabled={form.getValues("wallet_create")}
                             control={form.control}
                             name="tron_wallet"
                             render={({ field, fieldState }) => (
                                 <FormItem className="p-2">
                                     <FormControl>
                                         <Input
+                                            {...field}
                                             label={translate("resources.accounts.editFields.tron_wallet")}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                             variant={InputTypes.GRAY}
-                                            {...field}
+                                            disabled={form.getValues("wallet_create")}
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -259,11 +261,11 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                                 <FormItem className="p-2">
                                     <FormControl>
                                         <Input
+                                            {...field}
                                             label={translate("resources.accounts.editFields.tron_address")}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                             variant={InputTypes.GRAY}
-                                            {...field}
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -277,11 +279,11 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                                 <FormItem className="w-full p-2">
                                     <FormControl>
                                         <Input
+                                            {...field}
                                             label={translate("resources.accounts.editFields.provider_account")}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                             variant={InputTypes.GRAY}
-                                            {...field}
                                             value={field.value ?? ""}
                                         />
                                     </FormControl>
@@ -312,13 +314,7 @@ export const AccountEdit = ({ id, onOpenChange }: AccountEditProps) => {
                         <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
                             {translate("app.ui.actions.save")}
                         </Button>
-                        <Button
-                            type="button"
-                            variant="outline_gray"
-                            className="flex-1"
-                            onClick={() => {
-                                onOpenChange(false);
-                            }}>
+                        <Button type="button" variant="outline_gray" className="flex-1" onClick={onClose}>
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>
