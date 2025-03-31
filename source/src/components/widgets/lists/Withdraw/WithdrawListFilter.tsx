@@ -120,7 +120,7 @@ export const WithdrawListFilter = () => {
                                 <MerchantSelectFilter
                                     merchant={merchantId}
                                     onMerchantChanged={onMerchantChanged}
-                                    resource="merchant"
+                                    resource="accounts"
                                 />
                             </div>
                         )}
