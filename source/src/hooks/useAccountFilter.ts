@@ -15,7 +15,7 @@ const useAccountFilter = () => {
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
-    const onPropertySelected = debounce((value: string, type: "merchant") => {
+    const onPropertySelected = debounce((value: string, type: "merchantId") => {
         if (value) {
             setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
         } else {
@@ -27,7 +27,7 @@ const useAccountFilter = () => {
 
     const onMerchantChanged = (merchant: string) => {
         setMerchantId(merchant);
-        onPropertySelected(merchant, "merchant");
+        onPropertySelected(merchant, "merchantId");
     };
 
     const clearFilters = () => {
