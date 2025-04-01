@@ -23,7 +23,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const dataProvider = useDataProvider();
 
     const { data: accountsData } = useQuery({
-        queryKey: ["accounts", "getList", "WalletShow"],
+        queryKey: ["accounts", "getList", "WalletShow", id],
         queryFn: async ({ signal }) =>
             await dataProvider.getList<Account>("accounts", {
                 pagination: { perPage: 1000, page: 1 },
