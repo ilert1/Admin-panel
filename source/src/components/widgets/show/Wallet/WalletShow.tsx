@@ -22,7 +22,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const translate = useTranslate();
     const dataProvider = useDataProvider();
 
-    const { data: accountsData } = useQuery({
+    const { data: accountsData, isLoading: isAccountsLoading } = useQuery({
         queryKey: ["accounts", "getList", "WalletShow", id],
         queryFn: async ({ signal }) =>
             await dataProvider.getList<Account>("accounts", {
@@ -56,7 +56,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
         setEditDialogOpen(true);
     };
 
-    if (context.isLoading || !context.record) {
+    if (context.isLoading || !context.record || isAccountsLoading) {
         return <Loading />;
     }
 
