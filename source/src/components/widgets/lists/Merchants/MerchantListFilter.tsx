@@ -28,7 +28,7 @@ export const MerchantListFilter = () => {
         setPage(1);
     }, 300);
 
-    const onAccountChanged = (merchant: string) => {
+    const onMerchantChanged = (merchant: string) => {
         setMerchantId(merchant);
         onPropertySelected(merchant, "id");
     };
@@ -75,7 +75,7 @@ export const MerchantListFilter = () => {
 
                         <MerchantSelectFilter
                             merchant={merchantId}
-                            onMerchantChanged={onAccountChanged}
+                            onMerchantChanged={onMerchantChanged}
                             resource="merchant"
                         />
                     </div>
