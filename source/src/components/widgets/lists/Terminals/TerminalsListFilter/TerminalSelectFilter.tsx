@@ -53,7 +53,11 @@ export const TerminalSelectFilter = ({
     }, [currentProvider]);
 
     useEffect(() => {
-        if (terminalFilterName && !allTerminalsList?.find(terminal => terminal.verbose_name === terminalFilterName)) {
+        if (
+            isFetched &&
+            terminalFilterName &&
+            !allTerminalsList?.find(terminal => terminal.verbose_name === terminalFilterName)
+        ) {
             onChangeTerminalFilter("");
         }
     }, [allTerminalsList]);
