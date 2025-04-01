@@ -15,7 +15,7 @@ export const MerchantListFilter = () => {
 
     const translate = useTranslate();
 
-    const [merchantId, setMerchantId] = useState(filterValues?.merchant || "");
+    const [merchantId, setMerchantId] = useState(filterValues?.id || "");
     const [createDialogNewFlowOpen, setCreateDialogNewFlowOpen] = useState(false);
 
     const onPropertySelected = debounce((value: string, type: "id") => {
