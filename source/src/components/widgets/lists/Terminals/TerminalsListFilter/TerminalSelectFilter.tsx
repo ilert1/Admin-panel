@@ -33,7 +33,7 @@ export const TerminalSelectFilter = ({
         isLoading,
         isFetched
     } = useQuery({
-        queryKey: ["terminals", "getList", "allTerminalsList"],
+        queryKey: ["terminals", "getList", "allTerminalsList", currentProvider],
         queryFn: async ({ signal }) =>
             await dataProvider.getList<TerminalWithId>(`${currentProvider}/terminal`, {
                 pagination: { perPage: 10000, page: 1 },
