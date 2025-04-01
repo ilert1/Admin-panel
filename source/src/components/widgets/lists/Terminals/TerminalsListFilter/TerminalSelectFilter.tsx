@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from "@/components/ui/Button";
 import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -49,8 +50,13 @@ export const TerminalSelectFilter = ({
             onChangeTerminalFilter("");
             refetchAllTerminalsList();
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentProvider]);
+
+    useEffect(() => {
+        if (!allTerminalsList?.find(terminal => terminal.verbose_name === terminalFilterName)) {
+            onChangeTerminalFilter("");
+        }
+    }, [allTerminalsList]);
 
     const terminalCommandFilter = (value: string, search: string) => {
         const extendValue = allTerminalsList?.find(terminal => terminal.verbose_name === value)?.verbose_name;
