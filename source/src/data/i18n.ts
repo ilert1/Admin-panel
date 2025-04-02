@@ -521,6 +521,9 @@ const ru: TranslationMessages = {
                 verbose_name: "У терминала обязательно должно быть имя",
                 description: "У терминала обязательно должно быть описание"
             },
+            success: {
+                create: "Терминал %{name} успешно создан."
+            },
             create: "Создать терминал",
             selectHeader: "Провайдер",
             selectPlaceholder: "Выберите провайдера",
@@ -1457,6 +1460,9 @@ const en: TranslationMessages = {
             errors: {
                 verbose_name: "The terminal must have a name",
                 description: "The terminal must have a description"
+            },
+            success: {
+                create: "Terminal %{name} has been successfully created."
             },
             create: "Create terminal",
             selectHeader: "Provider",
