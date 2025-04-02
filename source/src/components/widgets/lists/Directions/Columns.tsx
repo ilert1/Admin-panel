@@ -4,22 +4,16 @@ import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
 import { ProviderWithId } from "@/data/providers";
+import { useGetMerchantIdByName } from "@/hooks/useGetMerchantName";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslate } from "react-admin";
 
 export const useGetDirectionsColumns = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
-
+    const { getMerchantId, isLoadingMerchants } = useGetMerchantIdByName();
     const handleDirectionShowOpen = (id: string) => {
         openSheet("direction", { id });
-    };
-
-    const handleMerchantShowOpen = (merchant: Merchant) => {
-        openSheet("merchant", {
-            id: merchant.id ?? "",
-            merchantName: merchant.name
-        });
     };
 
     const handleTerminalShowOpen = (id: string, providerName: string) => {
@@ -71,15 +65,21 @@ export const useGetDirectionsColumns = () => {
             cell: ({ row }) => {
                 const merchant: Merchant = row.getValue("merchant");
 
+                const merchId = getMerchantId(merchant.name);
                 return (
                     <div>
-                        <Button
-                            variant={"resourceLink"}
-                            onClick={() => {
-                                handleMerchantShowOpen(merchant);
-                            }}>
-                            {merchant.name ?? ""}
-                        </Button>
+                        <TextField
+                            text={merchant.name ?? ""}
+                            onClick={
+                                merchId
+                                    ? () =>
+                                          openSheet("merchant", {
+                                              id: merchant.id ?? "",
+                                              merchantName: merchant.name
+                                          })
+                                    : undefined
+                            }
+                        />
                         <TextField
                             className="text-neutral-70"
                             text={merchant.id}
@@ -170,6 +170,7 @@ export const useGetDirectionsColumns = () => {
         }
     ];
     return {
-        columns
+        columns,
+        isLoadingMerchants
     };
 };

@@ -9,9 +9,10 @@ import { EditAccountDialog } from "./EditAccountDialog";
 export const AccountList = () => {
     const listContext = useAbortableListController<Account>();
 
-    const { columns, showEditDialog, setShowEditDialog, showAccountId, isLoadingCurrencies } = useGetAccountsColumns();
+    const { columns, showEditDialog, setShowEditDialog, showAccountId, isLoadingCurrencies, isLoadingMerchants } =
+        useGetAccountsColumns();
 
-    if (listContext.isLoading || !listContext.data || isLoadingCurrencies) {
+    if (listContext.isLoading || !listContext.data || isLoadingCurrencies || isLoadingMerchants) {
         return <Loading />;
     } else {
         return (

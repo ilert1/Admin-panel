@@ -1,6 +1,7 @@
 import { useSheets } from "@/components/providers/SheetProvider";
-import { Button, ShowButton } from "@/components/ui/Button";
+import { ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
+import { useGetMerchantIdByName } from "@/hooks/useGetMerchantName";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useLocaleState, usePermissions, useTranslate } from "react-admin";
 
@@ -9,6 +10,7 @@ export type MerchantTypeToShow = "fees" | "directions" | undefined;
 export const useGetTransactionColumns = () => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
+    const { getMerchantId, isLoadingMerchants } = useGetMerchantIdByName();
     const { permissions } = usePermissions();
     const { openSheet } = useSheets();
 
@@ -81,17 +83,15 @@ export const useGetTransactionColumns = () => {
                   {
                       header: translate("resources.withdraw.fields.merchant"),
                       cell: ({ row }: { row: Row<Transaction.TransactionView> }) => {
+                          const merchantName = row.original.participant_name ?? "";
+                          const id = getMerchantId(merchantName);
+
                           return (
                               <div>
-                                  <Button
-                                      variant={"resourceLink"}
-                                      onClick={() => {
-                                          const id = row.original.participant_id ?? "";
-                                          const merchantName = row.original.participant_name ?? "";
-                                          openSheet("merchant", { id, merchantName });
-                                      }}>
-                                      {row.original.participant_name ?? ""}
-                                  </Button>
+                                  <TextField
+                                      text={row.original.participant_name ?? ""}
+                                      onClick={id ? () => openSheet("merchant", { id, merchantName }) : undefined}
+                                  />
                                   <TextField
                                       className="text-neutral-70"
                                       text={row.original.participant_id}
@@ -140,6 +140,7 @@ export const useGetTransactionColumns = () => {
     ];
 
     return {
-        columns
+        columns,
+        isLoadingMerchants
     };
 };
