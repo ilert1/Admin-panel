@@ -473,6 +473,9 @@ const ru: TranslationMessages = {
                 typeError: "Необходимо выбрать тип",
                 onlyThirdTypeError: "Валюты недоступны для выбранного типа комиссий"
             },
+            success: {
+                create: "Направление %{name} успешно создано."
+            },
             create: "Добавить направление",
             sourceCurrency: "Валюта отправителя",
             destinationCurrency: "Валюта получателя",
@@ -1411,6 +1414,9 @@ const en: TranslationMessages = {
                 weightError: "Must be an integer in the range from 0 to 1000",
                 typeError: "Type must be chosen",
                 onlyThirdTypeError: "Currencies are unavailable for chosen type of fee"
+            },
+            success: {
+                create: "Direction %{name} has been successfully created."
             },
             create: "Add direction",
             sourceCurrency: "Source currency",
