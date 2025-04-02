@@ -98,7 +98,7 @@ const ru: TranslationMessages = {
             editUser: "Изменить пользователя",
             editSuccessMessage: "Пользователь успешно изменен",
             create: {
-                successMessage: "Пользователь создан",
+                successMessage: "Пользователь %{name} успешно создан.",
                 errorMessage: "Не удалось создать пользователя",
                 deleteError: "Не удалось создать пользователя"
             },
@@ -1036,7 +1036,7 @@ const en: TranslationMessages = {
             editUser: "Edit user",
             editSuccessMessage: "The user has been successfully edited",
             create: {
-                successMessage: "User is created",
+                successMessage: "User %{name} has been successfully created.",
                 errorMessage: "Failed to create user"
             },
             deleteMessages: {
