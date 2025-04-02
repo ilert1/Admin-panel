@@ -25,6 +25,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { isTRC20Address } from "@/helpers/isTRC20Address";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { useSheets } from "@/components/providers/SheetProvider";
 interface CreateWalletProps {
     onOpenChange: (state: boolean) => void;
     callbackData: (data: Wallets.Wallet) => void;
@@ -36,6 +37,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
     const refresh = useRefresh();
     const dataProvider = useDataProvider();
 
+    const { openSheet } = useSheets();
     const appToast = useAppToast();
 
     const { permissions, isLoading } = usePermissions();
@@ -52,10 +54,23 @@ export const CreateWallet = (props: CreateWalletProps) => {
         data.account_id = data.accountNumber;
         delete data.accountNumber;
         try {
-            const json = await dataProvider.create<Wallets.Wallet>("wallet", { data: data });
+            const res = await dataProvider.create<Wallets.Wallet>("wallet", { data: data });
+
+            appToast(
+                "success",
+                <>
+                    <p>{translate("resources.wallet.manage.success.create")}</p>
+                    <Button variant="resourceLink" onClick={() => openSheet("wallet", { id: res.data.id })}>
+                        {translate("app.ui.actions.details")}
+                    </Button>
+                </>,
+                translate("app.ui.toast.success"),
+                10000
+            );
+
             refresh();
 
-            callbackData(json.data);
+            callbackData(res.data);
             onOpenChange(false);
         } catch (error) {
             appToast("error", translate("resources.wallet.manage.errors.errorWhenCreating"));

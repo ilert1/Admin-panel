@@ -593,6 +593,9 @@ const ru: TranslationMessages = {
                     minBalance: "Минимальное значение 0",
                     intOnly: "Значение должно быть целым числом, без дробной части"
                 },
+                success: {
+                    create: "Кошелек был успешно создан."
+                },
                 creatingWallet: "Добавление кошелька",
                 editingWallet: "Изменить кошелек",
                 deleteWallet: "Удалить кошелек?",
@@ -1535,6 +1538,9 @@ const en: TranslationMessages = {
                     invalidTransactionId: "Invalid TRC20 transaction ID",
                     minBalance: "Minimum value is 0",
                     intOnly: "Input should be a valid integer without fractional part"
+                },
+                success: {
+                    create: "Wallet has been successfully created."
                 },
                 creatingWallet: "Adding wallet",
                 editingWallet: "Editing wallet",
