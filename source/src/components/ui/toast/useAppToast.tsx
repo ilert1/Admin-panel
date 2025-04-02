@@ -7,13 +7,13 @@ type AppToastType = "success" | "error";
 export const useAppToast = () => {
     const translate = useTranslate();
 
-    return (type: AppToastType, description: string | ReactNode, title?: string) => {
+    return (type: AppToastType, description: string | ReactNode, title?: string, duration?: number) => {
         const defaultTitle = type === "success" ? translate("app.ui.toast.success") : translate("app.ui.toast.error");
 
         toast[type](title ?? defaultTitle, {
             description,
             dismissible: true,
-            duration: 3000
+            duration: duration ?? 3000
         });
     };
 };
