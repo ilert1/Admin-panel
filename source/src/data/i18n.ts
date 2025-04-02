@@ -366,6 +366,9 @@ const ru: TranslationMessages = {
                 required: "Обязательное поле",
                 notFound: "Мерчант %{name} не найден"
             },
+            success: {
+                create: "Мерчант %{name} успешно создан."
+            },
             showTitle: "Детальная инфорация о мерчанте",
             createNew: "Создать нового мерчанта",
             creatingMerchant: "Создание нового мерчанта",
@@ -696,7 +699,8 @@ const ru: TranslationMessages = {
                 close: "Закрыть",
                 confirm: "Потвердить",
                 search: "Поиск...",
-                refresh: "Обновить"
+                refresh: "Обновить",
+                details: "Подробнее"
             },
             pagination: {
                 next: "Далее",
@@ -1299,6 +1303,9 @@ const en: TranslationMessages = {
                 required: "Required field",
                 notFound: "Merchant %{name} was not found"
             },
+            success: {
+                create: "Merchant %{name} has been successfully created."
+            },
             showTitle: "Detailed information about merchant",
             createNew: "Create new merchant",
             editingMerchant: "Editing merchant",
@@ -1627,7 +1634,8 @@ const en: TranslationMessages = {
                 close: "Close",
                 confirm: "Confirm",
                 search: "Search...",
-                refresh: "Refresh"
+                refresh: "Refresh",
+                details: "More detailed"
             },
             pagination: {
                 next: "Next",
