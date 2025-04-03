@@ -127,12 +127,19 @@ export const PayOutPage = () => {
                     <h1 className="mb-6 text-center text-xl text-neutral-80 dark:text-neutral-30">
                         {translate("app.widgets.forms.payout.title")}
                     </h1>
-                    <PayOutForm
-                        currencies={currencies?.data}
-                        payMethods={payMethods}
-                        loading={initialLoading || localLoading || isFetching}
-                        create={createPayOut}
-                    />
+
+                    {currency ? (
+                        <PayOutForm
+                            currencies={currencies?.data}
+                            payMethods={payMethods}
+                            loading={initialLoading || localLoading || isFetching}
+                            create={createPayOut}
+                        />
+                    ) : (
+                        <p className="text-center text-lg text-red-40">
+                            {translate("app.widgets.forms.payout.loadingError")}
+                        </p>
+                    )}
                 </div>
             )}
         </div>

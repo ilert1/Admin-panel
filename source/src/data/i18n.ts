@@ -780,7 +780,8 @@ const ru: TranslationMessages = {
                     errorTitle: "Ошибка создания заявки",
                     createOrder: "Создать ордер",
                     required: "Обязательное поле",
-                    noResult: "Нет доступных методов"
+                    noResult: "Нет доступных методов",
+                    loadingError: "Произошла ошибка, обратитесь к администратору."
                 },
                 payoutBanner: {
                     title: "Банковский перевод",
@@ -1724,7 +1725,8 @@ const en: TranslationMessages = {
                     errorTitle: "Request creation error",
                     createOrder: "Create order",
                     required: "Required field",
-                    noResult: "No methods available"
+                    noResult: "No methods available",
+                    loadingError: "An error has occurred, please contact the administrator."
                 },
                 payoutBanner: {
                     title: "Bank transfer",
