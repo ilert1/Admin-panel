@@ -224,7 +224,6 @@ export const CryptoTransferForm = (props: {
                     <div className="flex max-w-[476px] flex-col gap-4 rounded-2xl bg-neutral-0 px-6 py-4 dark:bg-neutral-100 lg:w-[325px]">
                         <div className="flex-1">
                             <FormField
-                                disabled={props.loading}
                                 control={form.control}
                                 name="address"
                                 render={({ field, fieldState }) => (
@@ -320,7 +319,6 @@ export const CryptoTransferForm = (props: {
                         </div>
                         <div className="flex flex-1 flex-col gap-2">
                             <FormField
-                                disabled={props.loading}
                                 control={form.control}
                                 name="amount"
                                 render={({ field, fieldState }) => (
@@ -341,6 +339,7 @@ export const CryptoTransferForm = (props: {
                                                     }
                                                     form.trigger("amount");
                                                 }}
+                                                disabled={props.loading}
                                             />
                                         </FormControl>
                                     </FormItem>

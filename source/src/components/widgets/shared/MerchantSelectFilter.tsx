@@ -33,7 +33,11 @@ export const MerchantSelectFilter = ({
     const translate = useTranslate();
     const dataProvider = useDataProvider();
 
-    const { isFetching, data: merchantData } = useQuery({
+    const {
+        data: merchantData,
+        isFetching,
+        isFetched
+    } = useQuery({
         queryKey: [resource, "getList", "MerchantSelectFilter"],
         queryFn: async ({ signal }) =>
             await dataProvider.getList<ResourceData<typeof resource>>(resource, {
@@ -50,6 +54,13 @@ export const MerchantSelectFilter = ({
             isLoading(isFetching);
         }
     }, [isFetching, isLoading]);
+
+    useEffect(() => {
+        if (isFetched && merchant && !merchantName(merchantData?.find(account => account.id === merchant))) {
+            onMerchantChanged("");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [merchantData]);
 
     const [open, setOpen] = useState(false);
 

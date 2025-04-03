@@ -26,6 +26,7 @@ import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { useSheets } from "@/components/providers/SheetProvider";
 
 interface UserCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -49,6 +50,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
     const dataProvider = useDataProvider();
     const contrProps = useCreateController();
 
+    const { openSheet } = useSheets();
     const appToast = useAppToast();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -139,8 +141,22 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
         }
 
         try {
-            await dataProvider.create(`users`, { data: tempData });
-            appToast("success", translate("resources.users.create.successMessage"));
+            const res = await dataProvider.create(`users`, { data: tempData });
+
+            appToast(
+                "success",
+                <span>
+                    {translate("resources.users.create.successMessage", { name: data.login })}
+                    <Button
+                        className="!pl-1"
+                        variant="resourceLink"
+                        onClick={() => openSheet("user", { id: res.data.id })}>
+                        {translate("app.ui.actions.details")}
+                    </Button>
+                </span>,
+                translate("app.ui.toast.success"),
+                10000
+            );
 
             refresh();
             onOpenChange(false);

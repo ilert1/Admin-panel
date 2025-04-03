@@ -95,16 +95,13 @@ dataProvider.supportAbortSignal = true;
 export const App = () => {
     return (
         <ThemeProvider defaultTheme="dark" storageKey="juggler-ui-theme">
-            <SheetProvider>
-                <BrowserRouter
-                    future={{
-                        v7_startTransition: true,
-                        v7_relativeSplatPath: true
-                    }}>
-                    <CoreAdminContext
-                        i18nProvider={i18nProvider}
-                        dataProvider={dataProvider}
-                        authProvider={authProvider}>
+            <BrowserRouter
+                future={{
+                    v7_startTransition: true,
+                    v7_relativeSplatPath: true
+                }}>
+                <CoreAdminContext i18nProvider={i18nProvider} dataProvider={dataProvider} authProvider={authProvider}>
+                    <SheetProvider>
                         <CoreAdminUI
                             catchAll={NotFound}
                             layout={MainLayout}
@@ -164,9 +161,9 @@ export const App = () => {
                         </CoreAdminUI>
                         <SheetManager />
                         <Toaster />
-                    </CoreAdminContext>
-                </BrowserRouter>
-            </SheetProvider>
+                    </SheetProvider>
+                </CoreAdminContext>
+            </BrowserRouter>
         </ThemeProvider>
     );
 };

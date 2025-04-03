@@ -55,7 +55,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
 
     const trnId = useMemo<string>(() => context.record?.id || "", [context]);
 
-    const { data: history } = useGetManyReference("transactions", {
+    const { data: history, isLoading: isHistoryLoading } = useGetManyReference("transactions", {
         target: "id",
         id: trnId
     });
@@ -260,12 +260,16 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 )}
             </div>
 
-            <SimpleTable
-                columns={briefHistory}
-                data={history ? history : []}
-                tableType={TableTypes.COLORED}
-                className={clsx("flex-shrink-1 h-auto min-h-24", history && history.length > 1 && "min-h-48")}
-            />
+            {isHistoryLoading ? (
+                <LoadingBlock className="flex-shrink-1 h-auto max-h-72 min-h-24" />
+            ) : (
+                <SimpleTable
+                    columns={briefHistory}
+                    data={history ? history : []}
+                    tableType={TableTypes.COLORED}
+                    className={clsx("flex-shrink-1 h-auto min-h-24", history && history.length > 1 && "min-h-48")}
+                />
+            )}
 
             {(permissions === "admin" ||
                 (permissions === "merchant" && context.record.committed && context.record.state.state_int === 16)) && (

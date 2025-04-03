@@ -15,6 +15,9 @@ interface AccountShowProps {
     id: string;
 }
 
+const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
+const translations = ["active", "frozen", "blocked", "deleted"];
+
 export const AccountShow = ({ id }: AccountShowProps) => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
@@ -53,7 +56,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
         <div className="flex h-full min-h-[300px] flex-col p-4 pt-0 md:px-[42px]">
             <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row">
                 <div className="flex flex-col gap-1 md:gap-4">
-                    <div className="text-display-2 text-neutral-90 dark:text-neutral-30">
+                    <div className="flex items-center gap-2 text-display-2 text-neutral-90 dark:text-neutral-30">
                         <TextField
                             text={context.record.meta?.caption}
                             onClick={
@@ -71,6 +74,11 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                                     : undefined
                             }
                         />
+
+                        <span
+                            className={`rounded-20 px-3 py-0.5 text-center text-base font-normal text-white ${styles[context.record.state - 1]}`}>
+                            {translate(`resources.accounts.fields.states.${translations[context.record.state - 1]}`)}
+                        </span>
                     </div>
 
                     <TextField text={id} copyValue className="text-neutral-90 dark:text-neutral-30" />

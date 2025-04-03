@@ -1,7 +1,7 @@
 import { FeesResource } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useTranslate } from "react-admin";
-import { Loading } from "@/components/ui/loading";
+import { Loading, LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useGetMerchantShowColumns } from "./Columns";
 import { SimpleTable } from "../../shared";
@@ -44,8 +44,8 @@ export const MerchantShow = (props: MerchantShowProps) => {
 
     const { columns } = useGetMerchantShowColumns();
 
-    const { data: merchantDirections } = useQuery({
-        queryKey: ["merchantDirections", "MerchantShow"],
+    const { data: merchantDirections, isLoading: isMerchantDirectionsLoading } = useQuery({
+        queryKey: ["merchantDirections", "MerchantShow", context.record?.id],
         queryFn: async () => {
             if (context.record?.id) {
                 try {
@@ -118,15 +118,20 @@ export const MerchantShow = (props: MerchantShowProps) => {
                         <span className="text-display-3 text-neutral-90 dark:text-neutral-30">
                             {translate("resources.merchant.fields.directions")}
                         </span>
-                        <SimpleTable
-                            columns={columns}
-                            tableType={TableTypes.COLORED}
-                            data={merchantDirections || []}
-                            className={clsx(
-                                "max-h-[30dvh] min-h-20",
-                                merchantDirections && merchantDirections.length > 1 && "min-h-44"
-                            )}
-                        />
+
+                        {isMerchantDirectionsLoading ? (
+                            <LoadingBlock />
+                        ) : (
+                            <SimpleTable
+                                columns={columns}
+                                tableType={TableTypes.COLORED}
+                                data={merchantDirections || []}
+                                className={clsx(
+                                    "max-h-[30dvh] min-h-20",
+                                    merchantDirections && merchantDirections.length > 1 && "min-h-44"
+                                )}
+                            />
+                        )}
                     </div>
                 </div>
             </div>

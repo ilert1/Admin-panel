@@ -5,7 +5,7 @@ import { useDataProvider, usePermissions, useTranslate } from "react-admin";
 import { DeleteWalletDialog } from "./DeleteWalletDialog";
 import { EditWalletDialog } from "./EditWalletDialog";
 import { useQuery } from "@tanstack/react-query";
-import { LoadingBalance } from "@/components/ui/loading";
+import { Loading, LoadingBalance } from "@/components/ui/loading";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 
 interface WalletShowProps {
@@ -22,8 +22,8 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const translate = useTranslate();
     const dataProvider = useDataProvider();
 
-    const { data: accountsData } = useQuery({
-        queryKey: ["accounts", "getList", "WalletShow"],
+    const { data: accountsData, isLoading: isAccountsLoading } = useQuery({
+        queryKey: ["accounts", "getList", "WalletShow", id],
         queryFn: async ({ signal }) =>
             await dataProvider.getList<Account>("accounts", {
                 pagination: { perPage: 1000, page: 1 },
@@ -56,7 +56,9 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
         setEditDialogOpen(true);
     };
 
-    if (context.isLoading || !context.record) return;
+    if (context.isLoading || !context.record || isAccountsLoading) {
+        return <Loading />;
+    }
 
     return (
         <div className="flex flex-col gap-4 px-4 md:gap-6 md:px-[42px]">

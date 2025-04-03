@@ -1,5 +1,6 @@
 import { ReactNode, useState, useContext, createContext } from "react";
 import { SHEETS_COMPONENTS } from "./SheetManager";
+import { useCheckAuth } from "react-admin";
 
 type SheetKey = keyof typeof SHEETS_COMPONENTS;
 
@@ -25,22 +26,34 @@ interface SheetContextProps {
     sheets: SheetState<SheetKey>[];
     openSheet: <K extends SheetKey>(key: K, data: SheetDataMap[K]) => void;
     closeSheet: (key: SheetKey) => void;
+    closeAllSheets: () => void;
 }
 
 const SheetContext = createContext<SheetContextProps | undefined>(undefined);
 
 export const SheetProvider = ({ children }: { children: ReactNode }) => {
     const [sheets, setSheets] = useState<SheetState<SheetKey>[]>([]);
+    const checkAuth = useCheckAuth();
 
-    const openSheet = <K extends SheetKey>(key: K, data: SheetDataMap[K]) => {
-        setSheets(prev => [...prev.filter(s => s.key !== key), { key, open: true, data }]);
+    const closeAllSheets = () => {
+        setSheets([]);
+    };
+
+    const openSheet = async <K extends SheetKey>(key: K, data: SheetDataMap[K]) => {
+        checkAuth()
+            .then(() => setSheets(prev => [...prev.filter(s => s.key !== key), { key, open: true, data }]))
+            .catch(() => {});
     };
 
     const closeSheet = (key: SheetKey) => {
         setSheets(prev => prev.map(s => (s.key === key ? { ...s, open: false } : s)));
     };
 
-    return <SheetContext.Provider value={{ sheets, openSheet, closeSheet }}>{children}</SheetContext.Provider>;
+    return (
+        <SheetContext.Provider value={{ sheets, openSheet, closeSheet, closeAllSheets }}>
+            {children}
+        </SheetContext.Provider>
+    );
 };
 
 export const useSheets = () => {

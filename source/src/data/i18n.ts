@@ -98,7 +98,7 @@ const ru: TranslationMessages = {
             editUser: "Изменить пользователя",
             editSuccessMessage: "Пользователь успешно изменен",
             create: {
-                successMessage: "Пользователь создан",
+                successMessage: "Пользователь %{name} успешно создан.",
                 errorMessage: "Не удалось создать пользователя",
                 deleteError: "Не удалось создать пользователя"
             },
@@ -366,6 +366,9 @@ const ru: TranslationMessages = {
                 required: "Обязательное поле",
                 notFound: "Мерчант %{name} не найден"
             },
+            success: {
+                create: "Мерчант %{name} успешно создан."
+            },
             showTitle: "Детальная инфорация о мерчанте",
             createNew: "Создать нового мерчанта",
             creatingMerchant: "Создание нового мерчанта",
@@ -470,6 +473,9 @@ const ru: TranslationMessages = {
                 typeError: "Необходимо выбрать тип",
                 onlyThirdTypeError: "Валюты недоступны для выбранного типа комиссий"
             },
+            success: {
+                create: "Направление %{name} успешно создано."
+            },
             create: "Добавить направление",
             sourceCurrency: "Валюта отправителя",
             destinationCurrency: "Валюта получателя",
@@ -517,6 +523,9 @@ const ru: TranslationMessages = {
             errors: {
                 verbose_name: "У терминала обязательно должно быть имя",
                 description: "У терминала обязательно должно быть описание"
+            },
+            success: {
+                create: "Терминал %{name} успешно создан."
             },
             create: "Создать терминал",
             selectHeader: "Провайдер",
@@ -583,6 +592,9 @@ const ru: TranslationMessages = {
                     invalidTransactionId: "Неправильный формат ID TRC20 транзакции",
                     minBalance: "Минимальное значение 0",
                     intOnly: "Значение должно быть целым числом, без дробной части"
+                },
+                success: {
+                    create: "Кошелек был успешно создан."
                 },
                 creatingWallet: "Добавление кошелька",
                 editingWallet: "Изменить кошелек",
@@ -696,7 +708,8 @@ const ru: TranslationMessages = {
                 close: "Закрыть",
                 confirm: "Потвердить",
                 search: "Поиск...",
-                refresh: "Обновить"
+                refresh: "Обновить",
+                details: "Подробнее"
             },
             pagination: {
                 next: "Далее",
@@ -1032,7 +1045,7 @@ const en: TranslationMessages = {
             editUser: "Edit user",
             editSuccessMessage: "The user has been successfully edited",
             create: {
-                successMessage: "User is created",
+                successMessage: "User %{name} has been successfully created.",
                 errorMessage: "Failed to create user"
             },
             deleteMessages: {
@@ -1299,6 +1312,9 @@ const en: TranslationMessages = {
                 required: "Required field",
                 notFound: "Merchant %{name} was not found"
             },
+            success: {
+                create: "Merchant %{name} has been successfully created."
+            },
             showTitle: "Detailed information about merchant",
             createNew: "Create new merchant",
             editingMerchant: "Editing merchant",
@@ -1402,6 +1418,9 @@ const en: TranslationMessages = {
                 typeError: "Type must be chosen",
                 onlyThirdTypeError: "Currencies are unavailable for chosen type of fee"
             },
+            success: {
+                create: "Direction %{name} has been successfully created."
+            },
             create: "Add direction",
             sourceCurrency: "Source currency",
             destinationCurrency: "Destination currency",
@@ -1450,6 +1469,9 @@ const en: TranslationMessages = {
             errors: {
                 verbose_name: "The terminal must have a name",
                 description: "The terminal must have a description"
+            },
+            success: {
+                create: "Terminal %{name} has been successfully created."
             },
             create: "Create terminal",
             selectHeader: "Provider",
@@ -1516,6 +1538,9 @@ const en: TranslationMessages = {
                     invalidTransactionId: "Invalid TRC20 transaction ID",
                     minBalance: "Minimum value is 0",
                     intOnly: "Input should be a valid integer without fractional part"
+                },
+                success: {
+                    create: "Wallet has been successfully created."
                 },
                 creatingWallet: "Adding wallet",
                 editingWallet: "Editing wallet",
@@ -1627,7 +1652,8 @@ const en: TranslationMessages = {
                 close: "Close",
                 confirm: "Confirm",
                 search: "Search...",
-                refresh: "Refresh"
+                refresh: "Refresh",
+                details: "More detailed"
             },
             pagination: {
                 next: "Next",

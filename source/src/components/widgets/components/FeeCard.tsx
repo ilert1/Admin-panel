@@ -7,14 +7,12 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/Button";
-import { Label } from "@/components/ui/label";
 import { TextField } from "@/components/ui/text-field";
 import { feesDataProvider, FeesResource } from "@/data";
 import { memo, useState } from "react";
 import { HttpError, useRefresh, useTranslate } from "react-admin";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Trash2 } from "lucide-react";
-import { Textarea } from "@/components/ui/textarea";
 
 interface FeeCardProps {
     account: string;
@@ -100,17 +98,12 @@ export const FeeCard = memo((props: FeeCardProps) => {
                         />
 
                         {description && (
-                            <div className="col-span-1 flex flex-col sm:col-span-2">
-                                <Label
-                                    className="text-note-1 !text-neutral-60 dark:!text-neutral-60"
-                                    variant="note-1"
-                                    htmlFor="">
-                                    {translate("resources.direction.fees.descr")}
-                                </Label>
-                                <Textarea
-                                    readOnly
-                                    className="resize-none !text-body dark:bg-muted"
-                                    value={description}
+                            <div className="col-span-2">
+                                <TextField
+                                    text={description}
+                                    label={translate("resources.direction.fees.descr")}
+                                    linesCount={5}
+                                    lineClamp
                                 />
                             </div>
                         )}

@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { TerminalWithId } from "@/data/terminals";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { useSheets } from "@/components/providers/SheetProvider";
 
 export interface ProviderCreateProps {
     provider: string;
@@ -22,6 +23,7 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
     const refresh = useRefresh();
     const translate = useTranslate();
     const appToast = useAppToast();
+    const { openSheet } = useSheets();
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController<TerminalWithId>();
     const { theme } = useTheme();
@@ -46,7 +48,22 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
         try {
             setSubmitButtonDisabled(true);
 
-            await dataProvider.create<TerminalWithId>(`${provider}/terminal`, { data });
+            const res = await dataProvider.create<TerminalWithId>(`${provider}/terminal`, { data });
+
+            appToast(
+                "success",
+                <span>
+                    {translate("resources.terminals.success.create", { name: data.verbose_name })}
+                    <Button
+                        className="!pl-1"
+                        variant="resourceLink"
+                        onClick={() => openSheet("terminal", { id: res.data.id, provider })}>
+                        {translate("app.ui.actions.details")}
+                    </Button>
+                </span>,
+                translate("app.ui.toast.success"),
+                10000
+            );
 
             refresh();
             form.reset();

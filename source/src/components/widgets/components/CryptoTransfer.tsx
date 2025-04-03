@@ -28,7 +28,7 @@ export const CryptoTransfer = ({ repeatData, cryptoTransferState, setCryptoTrans
     }, []);
 
     const { isLoading: balanceLoading, data: balance } = useQuery({
-        queryKey: ["accounts"],
+        queryKey: ["accounts", merchantId],
         queryFn: ({ signal }) =>
             fetch(`${API_URL}/accounts/${merchantId}`, {
                 headers: {

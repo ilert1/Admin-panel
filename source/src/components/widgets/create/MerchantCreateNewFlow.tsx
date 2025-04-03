@@ -16,10 +16,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { BF_MANAGER_URL } from "@/data/base";
 import { FeeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { useSheets } from "@/components/providers/SheetProvider";
 
 export type FeeType = "inner" | "default";
 
 export const MerchantCreateNewFlow = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
+    const { openSheet } = useSheets();
     const controllerProps = useCreateController();
     const data = fetchDictionaries();
     const feeDataProvider = feesDataProvider({ id: "", resource: FeesResource.MERCHANT });
@@ -81,6 +83,21 @@ export const MerchantCreateNewFlow = ({ onOpenChange }: { onOpenChange: (state: 
             await fees.reduce((accum, item) => {
                 return accum.then(() => feeDataProvider.addFee(item));
             }, Promise.resolve());
+
+            appToast(
+                "success",
+                <span>
+                    {translate("resources.merchant.success.create", { name: data.name })}
+                    <Button
+                        className="!pl-1"
+                        variant="resourceLink"
+                        onClick={() => openSheet("merchant", { id: json.data.id, merchantName: data.name })}>
+                        {translate("app.ui.actions.details")}
+                    </Button>
+                </span>,
+                translate("app.ui.toast.success"),
+                10000
+            );
 
             refresh();
             onOpenChange(false);

@@ -98,7 +98,6 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div className="flex-1">
                         <FormField
-                            disabled={loading}
                             control={form.control}
                             name="payMethod"
                             render={({ field, fieldState }) => (
@@ -155,13 +154,13 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
 
                     <div className="flex-1">
                         <FormField
-                            disabled={loading}
                             control={form.control}
                             name="value"
                             render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormControl>
                                         <Input
+                                            {...field}
                                             variant={InputTypes.GRAY}
                                             disabled={loading}
                                             error={fieldState.invalid}
@@ -169,7 +168,6 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                                             label={translate("app.widgets.forms.payout.value", {
                                                 currency: currency || ""
                                             })}
-                                            {...field}
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -179,7 +177,6 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
 
                     {additionalFields?.map((item, i: number) => (
                         <FormField
-                            disabled={loading}
                             key={i}
                             control={form.control}
                             name={item}
@@ -187,12 +184,12 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                                 <FormItem>
                                     <FormControl>
                                         <Input
+                                            {...field}
                                             disabled={loading}
                                             variant={InputTypes.GRAY}
                                             label={translate(`app.widgets.forms.payout.${item}`)}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
-                                            {...field}
                                         />
                                     </FormControl>
                                 </FormItem>

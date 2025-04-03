@@ -37,7 +37,7 @@ export const PayOutPage = () => {
         data: payMethods,
         refetch: refetchPayMethods
     } = useQuery<PayOut.Response, unknown, PayOut.PayMethod[] | []>({
-        queryKey: ["paymethods", "PayOutPage"],
+        queryKey: ["paymethods", "PayOutPage", currency],
         queryFn: async ({ signal }) => {
             if (currency) {
                 const response = await fetch(`${BF_MANAGER_URL}/v1/payout/paymethods?currency=${currency}`, {
