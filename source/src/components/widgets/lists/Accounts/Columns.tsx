@@ -43,7 +43,7 @@ export const useGetAccountsColumns = () => {
                                     ? merchId
                                         ? () => {
                                               openSheet("merchant", {
-                                                  id: row.original.owner_id,
+                                                  id: merchId,
                                                   merchantName: merchName
                                               });
                                           }
