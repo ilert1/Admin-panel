@@ -30,7 +30,6 @@ interface SheetContextProps {
 }
 
 const SheetContext = createContext<SheetContextProps | undefined>(undefined);
-
 export const SheetProvider = ({ children }: { children: ReactNode }) => {
     const [sheets, setSheets] = useState<SheetState<SheetKey>[]>([]);
     const checkAuth = useCheckAuth();
@@ -41,12 +40,26 @@ export const SheetProvider = ({ children }: { children: ReactNode }) => {
 
     const openSheet = async <K extends SheetKey>(key: K, data: SheetDataMap[K]) => {
         checkAuth()
-            .then(() => setSheets(prev => [...prev.filter(s => s.key !== key), { key, open: true, data }]))
+            .then(() => {
+                setSheets(prev => [...prev, { key, open: true, data }]);
+            })
             .catch(() => {});
     };
 
     const closeSheet = (key: SheetKey) => {
-        setSheets(prev => prev.map(s => (s.key === key ? { ...s, open: false } : s)));
+        setSheets(prev => {
+            const index = prev.findLastIndex(s => s.key === key);
+            if (index === -1) return prev;
+
+            const updatedSheets = [...prev];
+            updatedSheets[index] = { ...updatedSheets[index], open: false };
+
+            setTimeout(() => {
+                setSheets(sheets => sheets.filter((_, i) => i !== index));
+            }, 300);
+
+            return updatedSheets;
+        });
     };
 
     return (
@@ -55,7 +68,6 @@ export const SheetProvider = ({ children }: { children: ReactNode }) => {
         </SheetContext.Provider>
     );
 };
-
 export const useSheets = () => {
     const context = useContext(SheetContext);
     if (!context) {
