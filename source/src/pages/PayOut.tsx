@@ -8,6 +8,7 @@ import { NavLink } from "react-router-dom";
 import { useFetchCurrencies } from "@/hooks/useFetchCurrencies";
 import { PayOutTgBanner } from "@/components/widgets/forms/PayOutTgBanner";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { LoadingBlock } from "@/components/ui/loading";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
@@ -17,7 +18,7 @@ export const PayOutPage = () => {
     const appToast = useAppToast();
     const dataProvider = useDataProvider();
 
-    const { data: accounts } = useQuery({
+    const { data: accounts, isLoading: isAccountsLoading } = useQuery({
         queryKey: ["accounts", "getList", "PayOutPage"],
         queryFn: async ({ signal }) =>
             await dataProvider.getList<Account>("accounts", {
@@ -118,6 +119,11 @@ export const PayOutPage = () => {
         }
     };
 
+    const isLoading = useMemo(
+        () => isAccountsLoading || initialLoading || localLoading || isFetching || !payMethods,
+        [initialLoading, isAccountsLoading, isFetching, localLoading, payMethods]
+    );
+
     return (
         <div className="flex items-center justify-center md:absolute md:bottom-20 md:left-0 md:right-0 md:top-0">
             {payoutTgUrl ? (
@@ -128,17 +134,25 @@ export const PayOutPage = () => {
                         {translate("app.widgets.forms.payout.title")}
                     </h1>
 
-                    {currency ? (
-                        <PayOutForm
-                            currencies={currencies?.data}
-                            payMethods={payMethods}
-                            loading={initialLoading || localLoading || isFetching}
-                            create={createPayOut}
-                        />
+                    {isLoading ? (
+                        <div className="h-28">
+                            <LoadingBlock />
+                        </div>
                     ) : (
-                        <p className="text-center text-lg text-red-40">
-                            {translate("app.widgets.forms.payout.loadingError")}
-                        </p>
+                        <>
+                            {currency ? (
+                                <PayOutForm
+                                    currencies={currencies?.data}
+                                    payMethods={payMethods}
+                                    loading={isLoading}
+                                    create={createPayOut}
+                                />
+                            ) : (
+                                <p className="text-center text-lg text-red-40">
+                                    {translate("app.widgets.forms.payout.loadingError")}
+                                </p>
+                            )}
+                        </>
                     )}
                 </div>
             )}

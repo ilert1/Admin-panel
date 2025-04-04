@@ -84,14 +84,6 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
         }
     }
 
-    if (loading || !payMethods) {
-        return (
-            <div className="h-28">
-                <LoadingBlock />
-            </div>
-        );
-    }
-
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
