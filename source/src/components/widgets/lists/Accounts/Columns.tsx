@@ -73,7 +73,7 @@ export const useGetAccountsColumns = () => {
                     <div className="flex flex-col justify-center">
                         {row.original.amounts.map(item => {
                             const number = formatNumber(currencies, item);
-                            return <div key={item.id}>{number}</div>;
+                            return <div key={item.id}>{number.balance}</div>;
                         })}
                     </div>
                 </RecordContextProvider>

@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useGetIdentity, usePermissions, useTranslate } from "react-admin";
 import { NumericFormat } from "react-number-format";
 import { useQuery } from "@tanstack/react-query";
-import { EllipsisVerticalIcon, LogOut, Settings } from "lucide-react";
+import { EllipsisVerticalIcon, LogOut, Settings, Snowflake } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { LangSwitcher } from "../components/LangSwitcher";
 import { CurrencyIcon } from "./CurrencyIcon";
@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router";
 import { useGetCurrencies } from "@/hooks/useGetCurrencies";
 import { formatNumber } from "@/helpers/formatNumber";
+import React from "react";
 // import { debounce } from "lodash";
 
 export const Header = (props: { handleLogout: () => void }) => {
@@ -111,33 +112,61 @@ export const Header = (props: { handleLogout: () => void }) => {
                                             <DropdownMenuTrigger>
                                                 <h1 className="text-display-5">
                                                     <div className="absolute inset-0">
-                                                        {totalAmount?.map((el, index) => (
-                                                            <div
-                                                                key={el.currency}
-                                                                style={{
-                                                                    transition:
-                                                                        "opacity .1s ease-in-out, transform .3s ease-in-out"
-                                                                }}
-                                                                className={`absolute inset-0 flex items-center gap-[6px] ${
-                                                                    totalAmount.length === 1
-                                                                        ? "z-10 translate-y-0 opacity-100"
-                                                                        : index === currentIndex
-                                                                          ? "z-10 translate-y-0 opacity-100 delay-0"
-                                                                          : index ===
-                                                                              (currentIndex + 1) % totalAmount.length
-                                                                            ? "z-0 translate-y-full opacity-0 delay-300"
-                                                                            : "z-0 translate-y-[200%] opacity-0 delay-300"
-                                                                }`}>
-                                                                {!isLoadingCurrencies && (
-                                                                    <span className="block max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap text-neutral-90 dark:text-white">
-                                                                        {formatNumber(currencies, el, true)}
-                                                                    </span>
-                                                                )}
-                                                                <div className="flex justify-center">
-                                                                    <CurrencyIcon name={el.currency} textSmall />
-                                                                </div>
-                                                            </div>
-                                                        ))}
+                                                        {totalAmount &&
+                                                            totalAmount
+                                                                .flatMap(el => [
+                                                                    { ...el, type: "available" },
+                                                                    el.holds && {
+                                                                        ...el,
+                                                                        value: el.holds,
+                                                                        type: "holds"
+                                                                    }
+                                                                ])
+                                                                .filter(Boolean)
+                                                                .map((el, index) => (
+                                                                    <div
+                                                                        key={`${el?.currency}-${el?.type}`}
+                                                                        className="flex flex-col">
+                                                                        <div
+                                                                            style={{
+                                                                                transition:
+                                                                                    "opacity .1s ease-in-out, transform .3s ease-in-out"
+                                                                            }}
+                                                                            className={`absolute inset-0 flex items-center gap-[6px] ${
+                                                                                totalAmount.length === 1
+                                                                                    ? "z-10 translate-y-0 opacity-100"
+                                                                                    : index === currentIndex
+                                                                                      ? "z-10 translate-y-0 opacity-100 delay-0"
+                                                                                      : index ===
+                                                                                          (currentIndex + 1) %
+                                                                                              totalAmount.length
+                                                                                        ? "z-0 translate-y-full opacity-0 delay-300"
+                                                                                        : "z-0 translate-y-[200%] opacity-0 delay-300"
+                                                                            }`}>
+                                                                            {!isLoadingCurrencies && (
+                                                                                <span className="flex max-w-full items-center gap-1 overflow-hidden overflow-ellipsis whitespace-nowrap text-neutral-90 dark:text-white">
+                                                                                    {el?.type === "holds" && (
+                                                                                        <Snowflake className="h-4 w-4 text-extra-7" />
+                                                                                    )}
+                                                                                    {el && el?.type === "holds"
+                                                                                        ? el?.holds.quantity /
+                                                                                          el?.holds.accuracy
+                                                                                        : formatNumber(
+                                                                                              currencies,
+                                                                                              el,
+                                                                                              true
+                                                                                          ).balance}
+                                                                                </span>
+                                                                            )}
+                                                                            <div className="flex justify-center">
+                                                                                <CurrencyIcon
+                                                                                    name={el?.currency ?? ""}
+                                                                                    textSmall
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
                                                     </div>
                                                 </h1>
                                             </DropdownMenuTrigger>
@@ -198,22 +227,39 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         className={`flex max-h-[250px] w-full flex-col items-start gap-[2px] overflow-y-auto overflow-x-hidden pr-2`}>
                                         {!totalLoading && totalAmount ? (
                                             totalAmount.map(el => (
-                                                <div
-                                                    className="flex w-full items-center justify-between"
-                                                    key={el.currency}>
-                                                    <h4 className="overflow-y-hidden text-display-4 text-neutral-90 dark:text-white">
-                                                        <NumericFormat
-                                                            className="whitespace-nowrap"
-                                                            value={el.value.quantity / el.value.accuracy}
-                                                            displayType={"text"}
-                                                            thousandSeparator=" "
-                                                            decimalSeparator=","
-                                                        />
-                                                    </h4>
-                                                    <div className="flex justify-center overflow-y-hidden">
-                                                        <CurrencyIcon name={el.currency} />
+                                                <React.Fragment key={el.currency}>
+                                                    <div className="flex w-full items-center justify-between">
+                                                        <h4 className="overflow-y-hidden text-display-4 text-neutral-90 dark:text-white">
+                                                            <NumericFormat
+                                                                className="whitespace-nowrap"
+                                                                value={el.value.quantity / el.value.accuracy}
+                                                                displayType={"text"}
+                                                                thousandSeparator=" "
+                                                                decimalSeparator=","
+                                                            />
+                                                        </h4>
+                                                        <div className="flex justify-center overflow-y-hidden">
+                                                            <CurrencyIcon name={el.currency} />
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                    {el.holds && el.holds.quantity !== 0 && (
+                                                        <div className="flex w-full items-center justify-between">
+                                                            <h4 className="flex items-center gap-1 overflow-y-hidden text-display-4 text-neutral-90 dark:text-white">
+                                                                <Snowflake className="h-4 w-4 text-extra-7" />
+                                                                <NumericFormat
+                                                                    className="whitespace-nowrap"
+                                                                    value={el.holds.quantity / el.holds.accuracy}
+                                                                    displayType={"text"}
+                                                                    thousandSeparator=" "
+                                                                    decimalSeparator=","
+                                                                />
+                                                            </h4>
+                                                            <div className="flex justify-center overflow-y-hidden">
+                                                                <CurrencyIcon name={el.currency} />
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </React.Fragment>
                                             ))
                                         ) : (
                                             <></>

@@ -34,9 +34,10 @@ export const AccountShow = ({ id }: AccountShowProps) => {
         return { id: merch?.id, merchantName: merch?.name };
     };
 
-    const { balances } = useBalances(context.isLoading, context.record?.amounts);
-
+    const { balances, holds } = useBalances(context.isLoading, context.record?.amounts);
     const { historyColumns } = useGetAccountShowColumns();
+    console.log(balances);
+    console.log(holds);
 
     const listContext = useAbortableListController<AccountHistory>({
         resource: "operations",
@@ -92,6 +93,17 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                                 </span>
                             </div>
                         ))}
+                    {holds &&
+                        holds.length > 0 &&
+                        holds.map(hold => {
+                            return (
+                                <div className="rounded-20 bg-green-50 px-3 py-0.5" key={uniqueId()}>
+                                    <span className="text-title-2 text-neutral-0">
+                                        {translate("resources.accounts.balance")}: {hold}
+                                    </span>
+                                </div>
+                            );
+                        })}
                 </div>
             </div>
 

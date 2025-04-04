@@ -3389,58 +3389,6 @@
                 "required": ["error_type", "error_message"],
                 "title": "ErrorBody"
             },
-            "ExecutionMethod-Input": {
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "title": "Type",
-                        "description": "The type of the method.",
-                        "examples": ["deposit"]
-                    },
-                    "execution_name": {
-                        "type": "string",
-                        "title": "Execution Name",
-                        "description": "The name of the workflow or activity to be executed.",
-                        "examples": ["PayIn_h2h_sync"]
-                    },
-                    "task_queue": {
-                        "type": "string",
-                        "title": "Task Queue",
-                        "description": "The queue (task_queue) where the execution will be dispatched.",
-                        "examples": ["pay4u-workflows"]
-                    }
-                },
-                "type": "object",
-                "required": ["type", "execution_name", "task_queue"],
-                "title": "ExecutionMethod"
-            },
-            "ExecutionMethod-Output": {
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "title": "Type",
-                        "description": "The type of the method.",
-                        "examples": ["deposit"]
-                    },
-                    "execution_name": {
-                        "type": "string",
-                        "title": "Execution Name",
-                        "description": "The name of the workflow or activity to be executed.",
-                        "examples": ["PayIn_h2h_sync"]
-                    },
-                    "task_queue": {
-                        "type": "string",
-                        "title": "Task Queue",
-                        "description": "The queue (task_queue) where the execution will be dispatched.",
-                        "examples": ["pay4u-workflows"]
-                    },
-                    "workflow_name": { "type": "string", "title": "Workflow Name", "readOnly": true },
-                    "workflow_queue": { "type": "string", "title": "Workflow Queue", "readOnly": true }
-                },
-                "type": "object",
-                "required": ["type", "execution_name", "task_queue", "workflow_name", "workflow_queue"],
-                "title": "ExecutionMethod"
-            },
             "Fee": {
                 "properties": {
                     "id": {
@@ -3810,6 +3758,31 @@
                 "type": "object",
                 "title": "MerchantUpdate"
             },
+            "Method": {
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "title": "Type",
+                        "description": "The type of the method.",
+                        "examples": ["deposit"]
+                    },
+                    "workflow_name": {
+                        "type": "string",
+                        "title": "Workflow Name",
+                        "description": "The name of the workflow to be executed.",
+                        "examples": ["Pay4U_PayIn_h2h_sync"]
+                    },
+                    "workflow_queue": {
+                        "type": "string",
+                        "title": "Workflow Queue",
+                        "description": "The queue where the workflow will be dispatched.",
+                        "examples": ["pay4u-workflows"]
+                    }
+                },
+                "type": "object",
+                "required": ["type", "workflow_name", "workflow_queue"],
+                "title": "Method"
+            },
             "OffsetPagination_Currency_": {
                 "properties": {
                     "items": {
@@ -3987,36 +3960,27 @@
                         "examples": ["GfH2hQvQmHzo1Lj6j6Wnq3X6dFiD1kLQ6Jz37vZ5p9np"]
                     },
                     "methods": {
-                        "additionalProperties": { "$ref": "#/components/schemas/ExecutionMethod-Output" },
+                        "additionalProperties": { "$ref": "#/components/schemas/Method" },
+                        "propertyNames": { "$ref": "#/components/schemas/WorkflowCategory" },
                         "type": "object",
                         "title": "Methods",
-                        "description": "Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases.",
+                        "description": "Provider methods configuration",
                         "examples": [
                             {
-                                "get_trade_methods_payin": {
-                                    "execution_name": "api_get_trade_methods",
-                                    "task_queue": "pay4u-activities",
-                                    "type": "trade_methods_payin"
-                                },
-                                "get_trade_methods_payout": {
-                                    "execution_name": "api_get_trade_methods_payout",
-                                    "task_queue": "pay4u-activities",
-                                    "type": "trade_methods_payout"
-                                },
                                 "h2h_async": {
-                                    "execution_name": "PayIn_h2h_async",
-                                    "task_queue": "pay4u-workflows",
-                                    "type": "withdraw"
+                                    "type": "withdraw",
+                                    "workflow_name": "Pay4U_PayOut_h2h_async",
+                                    "workflow_queue": "pay4u-async-queue"
                                 },
                                 "h2h_sync": {
-                                    "execution_name": "PayIn_h2h_sync",
-                                    "task_queue": "pay4u-workflows",
-                                    "type": "deposit"
+                                    "type": "deposit",
+                                    "workflow_name": "Pay4U_PayIn_h2h_sync",
+                                    "workflow_queue": "pay4u-workflows"
                                 },
                                 "h2h_sync_out": {
-                                    "execution_name": "PayOut_h2h",
-                                    "task_queue": "pay4u-workflows",
-                                    "type": "transfer"
+                                    "type": "transfer",
+                                    "workflow_name": "Pay4U_Transfer_h2h_sync_out",
+                                    "workflow_queue": "pay4u-sync-out-queue"
                                 }
                             }
                         ]
@@ -4047,7 +4011,7 @@
                         "type": "string",
                         "title": "Name",
                         "description": "Provider name",
-                        "examples": ["Pay4U"]
+                        "examples": ["ProviderA"]
                     },
                     "fields_json_schema": {
                         "type": "string",
@@ -4055,37 +4019,34 @@
                         "description": "JSON schema for provider fields",
                         "examples": ["string"]
                     },
+                    "public_key": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Public Key",
+                        "description": "The public key encoded in base58, corresponding to the private key.",
+                        "examples": ["GfH2hQvQmHzo1Lj6j6Wnq3X6dFiD1kLQ6Jz37vZ5p9np"]
+                    },
                     "methods": {
-                        "additionalProperties": { "$ref": "#/components/schemas/ExecutionMethod-Input" },
+                        "additionalProperties": { "$ref": "#/components/schemas/Method" },
+                        "propertyNames": { "$ref": "#/components/schemas/WorkflowCategory" },
                         "type": "object",
                         "title": "Methods",
                         "description": "Provider methods configuration",
                         "examples": [
                             {
-                                "get_trade_methods_payin": {
-                                    "execution_name": "api_get_trade_methods",
-                                    "task_queue": "pay4u-activities",
-                                    "type": "trade_methods_payin"
-                                },
-                                "get_trade_methods_payout": {
-                                    "execution_name": "api_get_trade_methods_payout",
-                                    "task_queue": "pay4u-activities",
-                                    "type": "trade_methods_payout"
-                                },
                                 "h2h_async": {
-                                    "execution_name": "PayIn_h2h_async",
-                                    "task_queue": "pay4u-workflows",
-                                    "type": "withdraw"
+                                    "type": "withdraw",
+                                    "workflow_name": "Pay4U_PayOut_h2h_async",
+                                    "workflow_queue": "pay4u-async-queue"
                                 },
                                 "h2h_sync": {
-                                    "execution_name": "PayIn_h2h_sync",
-                                    "task_queue": "pay4u-workflows",
-                                    "type": "deposit"
+                                    "type": "deposit",
+                                    "workflow_name": "Pay4U_PayIn_h2h_sync",
+                                    "workflow_queue": "pay4u-workflows"
                                 },
                                 "h2h_sync_out": {
-                                    "execution_name": "PayOut_h2h",
-                                    "task_queue": "pay4u-workflows",
-                                    "type": "transfer"
+                                    "type": "transfer",
+                                    "workflow_name": "Pay4U_Transfer_h2h_sync_out",
+                                    "workflow_queue": "pay4u-sync-out-queue"
                                 }
                             }
                         ]
@@ -4103,10 +4064,17 @@
                         "description": "JSON schema for provider fields",
                         "examples": ["string"]
                     },
+                    "public_key": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Public Key",
+                        "description": "The public key encoded in base58, corresponding to the private key.",
+                        "examples": ["GfH2hQvQmHzo1Lj6j6Wnq3X6dFiD1kLQ6Jz37vZ5p9np"]
+                    },
                     "methods": {
                         "anyOf": [
                             {
-                                "additionalProperties": { "$ref": "#/components/schemas/ExecutionMethod-Input" },
+                                "additionalProperties": { "$ref": "#/components/schemas/Method" },
+                                "propertyNames": { "$ref": "#/components/schemas/WorkflowCategory" },
                                 "type": "object"
                             },
                             { "type": "null" }
@@ -4115,30 +4083,20 @@
                         "description": "Provider methods configuration",
                         "examples": [
                             {
-                                "get_trade_methods_payin": {
-                                    "execution_name": "api_get_trade_methods",
-                                    "task_queue": "pay4u-activities",
-                                    "type": "trade_methods_payin"
-                                },
-                                "get_trade_methods_payout": {
-                                    "execution_name": "api_get_trade_methods_payout",
-                                    "task_queue": "pay4u-activities",
-                                    "type": "trade_methods_payout"
-                                },
                                 "h2h_async": {
-                                    "execution_name": "PayIn_h2h_async",
-                                    "task_queue": "pay4u-workflows",
-                                    "type": "withdraw"
+                                    "type": "withdraw",
+                                    "workflow_name": "Pay4U_PayOut_h2h_async",
+                                    "workflow_queue": "pay4u-async-queue"
                                 },
                                 "h2h_sync": {
-                                    "execution_name": "PayIn_h2h_sync",
-                                    "task_queue": "pay4u-workflows",
-                                    "type": "deposit"
+                                    "type": "deposit",
+                                    "workflow_name": "Pay4U_PayIn_h2h_sync",
+                                    "workflow_queue": "pay4u-workflows"
                                 },
                                 "h2h_sync_out": {
-                                    "execution_name": "PayOut_h2h",
-                                    "task_queue": "pay4u-workflows",
-                                    "type": "transfer"
+                                    "type": "transfer",
+                                    "workflow_name": "Pay4U_Transfer_h2h_sync_out",
+                                    "workflow_queue": "pay4u-sync-out-queue"
                                 }
                             }
                         ]
@@ -4306,6 +4264,11 @@
                 "type": "object",
                 "required": ["loc", "msg", "type"],
                 "title": "ValidationError"
+            },
+            "WorkflowCategory": {
+                "type": "string",
+                "enum": ["h2h_sync", "h2h_async", "h2h_sync_out"],
+                "title": "WorkflowCategory"
             }
         }
     }

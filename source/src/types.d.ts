@@ -15,6 +15,7 @@ type Amount = {
     id: string;
     type: string;
     value: Value;
+    holds: Value;
 };
 
 type Meta = {
@@ -49,6 +50,10 @@ interface AccountHistory {
 interface AccountBalance {
     currency: string;
     value: {
+        quantity: number;
+        accuracy: number;
+    };
+    holds: {
         quantity: number;
         accuracy: number;
     };

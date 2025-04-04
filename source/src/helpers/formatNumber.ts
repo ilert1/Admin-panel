@@ -11,12 +11,22 @@ export const formatNumber = (
         accuracy = currency?.accuracy ?? 2;
     }
 
-    const number = el.value.quantity == 0 ? "0" : (el.value.quantity / el.value.accuracy).toFixed(accuracy);
+    const formatValue = (value: number, acc: number) => {
+        const num = value === 0 ? "0" : (value / acc).toFixed(accuracy);
+        const [intPart, decimalPart] = num.split(".");
+        const formattedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        return decimalPart ? `${formattedInt}.${decimalPart}` : formattedInt;
+    };
 
-    const [intPart, decimalPart] = number.split(".");
+    const formattedValue = formatValue(el.value.quantity, el.value.accuracy);
+    const formattedHolds = el.holds ? formatValue(el.holds.quantity, el.holds.accuracy) : null;
 
-    const formattedIntPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    const formattedNumber = decimalPart ? `${formattedIntPart}.${decimalPart}` : formattedIntPart;
+    const result = withoutCurrency ? formattedValue : `${formattedValue} ${el.currency}`;
 
-    return withoutCurrency ? formattedNumber : formattedNumber + " " + el.currency;
+    return formattedHolds
+        ? {
+              balance: result,
+              holds: `${formattedHolds} ${el.currency}`
+          }
+        : { balance: result };
 };
