@@ -188,7 +188,7 @@ export const CryptoTransferForm = (props: {
     });
 
     useEffect(() => {
-        if (withdrawList && withdrawList.length > 0) {
+        if (withdrawList && withdrawList.length > 0 && withdrawList[0]?.destination?.requisites) {
             const isFound = checkAddress(withdrawList[0]?.destination?.requisites[0]?.blockchain_address);
 
             if (isFound) {

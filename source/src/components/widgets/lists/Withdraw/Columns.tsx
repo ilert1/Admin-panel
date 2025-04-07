@@ -79,7 +79,7 @@ export const useGetWithdrawColumns = () => {
             header: translate("resources.withdraw.fields.destination.id"),
             cell: ({ row }) => {
                 const text = Object.hasOwn(row.original.destination, "requisites")
-                    ? row.original.destination.requisites[0].blockchain_address
+                    ? row.original.destination.requisites[0]?.blockchain_address
                     : "";
 
                 return <TextField text={text} wrap copyValue lineClamp linesCount={1} minWidth="50px" />;
@@ -119,7 +119,8 @@ export const useGetWithdrawColumns = () => {
         {
             header: translate("resources.withdraw.fields.idInBlockChain"),
             cell: ({ row }) => {
-                const hasRequsites = Object.hasOwn(row.original.destination, "requisites");
+                const hasRequsites =
+                    row.original.destination.requisites && Object.hasOwn(row.original.destination, "requisites");
 
                 const text = hasRequsites ? row.original.destination.requisites[0].hash : "";
 
@@ -156,7 +157,10 @@ export const useGetWithdrawColumns = () => {
                       id: "resend",
                       header: translate("resources.withdraw.fields.resend"),
                       cell: ({ row }: { row: Row<Transaction.Transaction> }) => {
-                          if (Object.hasOwn(row.original.destination, "requisites")) {
+                          if (
+                              row.original.destination.requisites &&
+                              Object.hasOwn(row.original.destination, "requisites")
+                          ) {
                               const isFound = checkAddress(row.original.destination.requisites[0]?.blockchain_address);
                               return isFound && isFound[0] ? (
                                   <Button
