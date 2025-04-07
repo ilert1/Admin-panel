@@ -9,8 +9,7 @@ import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { useBalances } from "@/hooks/useBalances";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { useFetchMerchants } from "@/hooks";
-import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { useGetMerchantIdByName } from "@/hooks/useGetMerchantName";
 interface AccountShowProps {
     id: string;
 }
@@ -21,18 +20,10 @@ const translations = ["active", "frozen", "blocked", "deleted"];
 export const AccountShow = ({ id }: AccountShowProps) => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
-    const appToast = useAppToast();
     const { permissions } = usePermissions();
+    const { getMerchantId, isLoadingMerchants } = useGetMerchantIdByName();
 
-    const { isLoading, merchantsList } = useFetchMerchants();
-
-    const context = useAbortableShowController({ resource: "accounts", id });
-
-    const getMerchantData = (merchantName: string) => {
-        const merch = merchantsList.find(el => el.name === merchantName);
-
-        return { id: merch?.id, merchantName: merch?.name };
-    };
+    const context = useAbortableShowController<Account>({ resource: "accounts", id });
 
     const { balances } = useBalances(context.isLoading, context.record?.amounts);
 
@@ -44,13 +35,11 @@ export const AccountShow = ({ id }: AccountShowProps) => {
         disableSyncWithLocation: true
     });
 
-    if (context.isLoading || !context.record || listContext.isLoading || !listContext.data || isLoading) {
+    if (context.isLoading || !context.record || listContext.isLoading || !listContext.data || isLoadingMerchants) {
         return <LoadingBlock />;
     }
 
-    const { id: merchId = "", merchantName = context.record.meta?.caption } = getMerchantData(
-        context.record.meta?.caption
-    );
+    const merchId = getMerchantId(context.record.owner_id);
 
     return (
         <div className="flex h-full min-h-[300px] flex-col p-4 pt-0 md:px-[42px]">
@@ -58,19 +47,16 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                 <div className="flex flex-col gap-1 md:gap-4">
                     <div className="flex items-center gap-2 text-display-2 text-neutral-90 dark:text-neutral-30">
                         <TextField
-                            text={context.record.meta?.caption}
+                            text={context.record.meta.caption}
                             onClick={
                                 permissions === "admin"
-                                    ? () => {
-                                          merchId
-                                              ? openSheet("merchant", { id: merchId ?? "", merchantName })
-                                              : appToast(
-                                                    "error",
-                                                    translate("resources.merchant.errors.notFound", {
-                                                        name: merchantName
-                                                    })
-                                                );
-                                      }
+                                    ? merchId
+                                        ? () =>
+                                              openSheet("merchant", {
+                                                  id: merchId ?? "",
+                                                  merchantName: context.record.meta.caption
+                                              })
+                                        : undefined
                                     : undefined
                             }
                         />

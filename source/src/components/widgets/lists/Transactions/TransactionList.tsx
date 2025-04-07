@@ -7,7 +7,7 @@ import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const TransactionList = () => {
     const listContext = useAbortableListController<Transaction.TransactionView>({ resource: "transactions/view" });
-    const { columns } = useGetTransactionColumns();
+    const { columns, isLoadingMerchants } = useGetTransactionColumns();
 
     return (
         <>
@@ -27,7 +27,7 @@ export const TransactionList = () => {
                         />
                     </div> */}
 
-                {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
+                {listContext.isLoading || isLoadingMerchants ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>
         </>
     );

@@ -4,6 +4,7 @@ import { TextField } from "@/components/ui/text-field";
 import { formatNumber } from "@/helpers/formatNumber";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useGetCurrencies } from "@/hooks/useGetCurrencies";
+import { useGetMerchantIdByName } from "@/hooks/useGetMerchantName";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useState } from "react";
 import { RecordContextProvider, usePermissions, useTranslate } from "react-admin";
@@ -22,6 +23,7 @@ export const useGetAccountsColumns = () => {
     const handleOpenSheet = (id: string) => {
         openSheet("account", { id });
     };
+    const { getMerchantId, isLoadingMerchants } = useGetMerchantIdByName();
 
     const columns: ColumnDef<Account>[] = [
         {
@@ -29,19 +31,23 @@ export const useGetAccountsColumns = () => {
             header: translate("resources.accounts.fields.owner"),
             cell: ({ row }) => {
                 const id = row.original.owner_id;
+                const merchName = row?.original?.meta?.caption ?? "";
+                const merchId = getMerchantId(id);
 
                 return (
                     <div>
                         <TextField
-                            text={row.original.meta?.caption ?? ""}
+                            text={merchName ?? ""}
                             onClick={
                                 permissions === "admin"
-                                    ? () => {
-                                          openSheet("merchant", {
-                                              id: row.original.owner_id,
-                                              merchantName: row.original.meta?.caption
-                                          });
-                                      }
+                                    ? merchId
+                                        ? () => {
+                                              openSheet("merchant", {
+                                                  id: merchId,
+                                                  merchantName: merchName
+                                              });
+                                          }
+                                        : undefined
                                     : undefined
                             }
                         />
@@ -112,6 +118,7 @@ export const useGetAccountsColumns = () => {
         isLoadingCurrencies,
         showEditDialog,
         setShowEditDialog,
-        showAccountId
+        showAccountId,
+        isLoadingMerchants
     };
 };

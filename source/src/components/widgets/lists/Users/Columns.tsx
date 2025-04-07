@@ -2,6 +2,7 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ToggleActiveUser } from "@/components/ui/toggle-active-user";
+import { useGetMerchantIdByName } from "@/hooks/useGetMerchantName";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslate } from "react-admin";
 
@@ -11,6 +12,7 @@ import { useTranslate } from "react-admin";
 export const useGetUserColumns = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
+    const { getMerchantId, isLoadingMerchants } = useGetMerchantIdByName();
 
     // const [locale] = useLocaleState();
 
@@ -90,18 +92,24 @@ export const useGetUserColumns = () => {
             // cell: ({ row }) => <TextField text={row.original.merchant_id} copyValue wrap />
 
             cell: ({ row }) => {
+                const merchId = getMerchantId(row.original.merchant_id);
+
                 return (
                     <div>
-                        {row.original.merchant_name && (
-                            <Button
-                                variant={"resourceLink"}
-                                onClick={() => {
-                                    const id = row.original.merchant_id ?? "";
-                                    const merchantName = row.original.merchant_name ?? "";
-                                    openSheet("merchant", { id, merchantName });
-                                }}>
-                                {row.original.merchant_name ?? ""}
-                            </Button>
+                        {merchId && (
+                            <TextField
+                                text={row.original.merchant_name ?? ""}
+                                onClick={
+                                    merchId
+                                        ? () => {
+                                              openSheet("merchant", {
+                                                  id: merchId,
+                                                  merchantName: row.original.merchant_name
+                                              });
+                                          }
+                                        : undefined
+                                }
+                            />
                         )}
                         <TextField
                             className="text-neutral-70"
@@ -137,6 +145,7 @@ export const useGetUserColumns = () => {
     ];
 
     return {
-        columns
+        columns,
+        isLoadingMerchants
     };
 };

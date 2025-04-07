@@ -8,14 +8,14 @@ import { useAbortableListController } from "@/hooks/useAbortableListController";
 export const UserList = () => {
     const listContext = useAbortableListController<Users.User>();
 
-    const { columns } = useGetUserColumns();
+    const { columns, isLoadingMerchants } = useGetUserColumns();
 
     return (
         <>
             <ListContextProvider value={listContext}>
                 <UserListFilter />
 
-                {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
+                {listContext.isLoading || isLoadingMerchants ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>
         </>
     );
