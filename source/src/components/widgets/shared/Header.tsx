@@ -149,7 +149,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                                         <SnowFlakeIcon className="h-4 w-4 text-extra-7" />
                                                                                     )}
                                                                                     {el && el?.type === "holds" ? (
-                                                                                        <span className="text-extra-7">
+                                                                                        <span className="text-title-1 text-extra-7">
                                                                                             {el?.holds.quantity /
                                                                                                 el?.holds.accuracy}
                                                                                         </span>
@@ -256,7 +256,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                             <h4 className="flex items-center gap-1 overflow-y-hidden text-display-4 text-neutral-90 dark:text-white">
                                                                 <SnowFlakeIcon className="h-5 w-5 text-extra-7" />
                                                                 <NumericFormat
-                                                                    className="whitespace-nowrap text-extra-7"
+                                                                    className="whitespace-nowrap !text-title-1 text-extra-7"
                                                                     value={(
                                                                         el.holds.quantity / el.holds.accuracy
                                                                     ).toFixed(2)}
