@@ -65,7 +65,8 @@ export const useGetDirectionsColumns = () => {
             cell: ({ row }) => {
                 const merchant: Merchant = row.getValue("merchant");
 
-                const merchId = getMerchantId(merchant.name);
+                const merchId = getMerchantId(merchant.id);
+
                 return (
                     <div>
                         <TextField

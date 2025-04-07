@@ -3,8 +3,8 @@ import { useFetchMerchants } from "./useFetchMerchants";
 export const useGetMerchantIdByName = () => {
     const { isLoading: isLoadingMerchants, merchantsList } = useFetchMerchants();
 
-    const getMerchantId = (merchantName: string) => {
-        const merch = merchantsList.find(el => el.name === merchantName);
+    const getMerchantId = (id: string) => {
+        const merch = merchantsList.find(el => el.id === id);
         return merch?.id ?? "";
     };
 

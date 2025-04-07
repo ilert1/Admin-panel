@@ -23,7 +23,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     const { permissions } = usePermissions();
     const { getMerchantId, isLoadingMerchants } = useGetMerchantIdByName();
 
-    const context = useAbortableShowController({ resource: "accounts", id });
+    const context = useAbortableShowController<Account>({ resource: "accounts", id });
 
     const { balances } = useBalances(context.isLoading, context.record?.amounts);
 
@@ -38,9 +38,8 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     if (context.isLoading || !context.record || listContext.isLoading || !listContext.data || isLoadingMerchants) {
         return <LoadingBlock />;
     }
-    const merchantName = context.record.meta?.caption;
 
-    const merchId = getMerchantId(merchantName);
+    const merchId = getMerchantId(context.record.owner_id);
 
     return (
         <div className="flex h-full min-h-[300px] flex-col p-4 pt-0 md:px-[42px]">
@@ -48,11 +47,15 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                 <div className="flex flex-col gap-1 md:gap-4">
                     <div className="flex items-center gap-2 text-display-2 text-neutral-90 dark:text-neutral-30">
                         <TextField
-                            text={merchantName}
+                            text={context.record.meta.caption}
                             onClick={
                                 permissions === "admin"
                                     ? merchId
-                                        ? () => openSheet("merchant", { id: merchId ?? "", merchantName })
+                                        ? () =>
+                                              openSheet("merchant", {
+                                                  id: merchId ?? "",
+                                                  merchantName: context.record.meta.caption
+                                              })
                                         : undefined
                                     : undefined
                             }

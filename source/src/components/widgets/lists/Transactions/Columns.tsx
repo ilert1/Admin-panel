@@ -84,7 +84,7 @@ export const useGetTransactionColumns = () => {
                       header: translate("resources.withdraw.fields.merchant"),
                       cell: ({ row }: { row: Row<Transaction.TransactionView> }) => {
                           const merchantName = row.original.participant_name ?? "";
-                          const id = getMerchantId(merchantName);
+                          const id = getMerchantId(row.original.participant_id);
 
                           return (
                               <div>

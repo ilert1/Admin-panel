@@ -92,19 +92,20 @@ export const useGetUserColumns = () => {
             // cell: ({ row }) => <TextField text={row.original.merchant_id} copyValue wrap />
 
             cell: ({ row }) => {
-                const merchantName = row.original.merchant_name;
-                const merchId = getMerchantId(merchantName ?? "");
-                console.log(merchId);
+                const merchId = getMerchantId(row.original.merchant_id);
 
                 return (
                     <div>
-                        {merchantName && (
+                        {merchId && (
                             <TextField
-                                text={merchantName}
+                                text={row.original.merchant_name ?? ""}
                                 onClick={
                                     merchId
                                         ? () => {
-                                              openSheet("merchant", { id: merchId, merchantName });
+                                              openSheet("merchant", {
+                                                  id: merchId,
+                                                  merchantName: row.original.merchant_name
+                                              });
                                           }
                                         : undefined
                                 }

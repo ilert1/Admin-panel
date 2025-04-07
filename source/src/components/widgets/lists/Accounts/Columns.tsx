@@ -32,7 +32,7 @@ export const useGetAccountsColumns = () => {
             cell: ({ row }) => {
                 const id = row.original.owner_id;
                 const merchName = row?.original?.meta?.caption ?? "";
-                const merchId = getMerchantId(merchName);
+                const merchId = getMerchantId(id);
 
                 return (
                     <div>
