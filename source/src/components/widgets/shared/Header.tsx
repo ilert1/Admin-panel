@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useGetIdentity, usePermissions, useTranslate } from "react-admin";
 import { NumericFormat } from "react-number-format";
 import { useQuery } from "@tanstack/react-query";
-import { EllipsisVerticalIcon, LogOut, Settings, Snowflake } from "lucide-react";
+import { EllipsisVerticalIcon, LogOut, Settings } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { LangSwitcher } from "../components/LangSwitcher";
 import { CurrencyIcon } from "./CurrencyIcon";
@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router";
 import { useGetCurrencies } from "@/hooks/useGetCurrencies";
 import { formatNumber } from "@/helpers/formatNumber";
-import React from "react";
+import SnowFlakeIcon from "@/lib/icons/snowflake.svg?react";
 // import { debounce } from "lodash";
 
 export const Header = (props: { handleLogout: () => void }) => {
@@ -146,16 +146,20 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                             {!isLoadingCurrencies && (
                                                                                 <span className="flex max-w-full items-center gap-1 overflow-hidden overflow-ellipsis whitespace-nowrap text-neutral-90 dark:text-white">
                                                                                     {el?.type === "holds" && (
-                                                                                        <Snowflake className="h-4 w-4 text-extra-7" />
+                                                                                        <SnowFlakeIcon className="h-4 w-4 text-extra-7" />
                                                                                     )}
-                                                                                    {el && el?.type === "holds"
-                                                                                        ? el?.holds.quantity /
-                                                                                          el?.holds.accuracy
-                                                                                        : formatNumber(
-                                                                                              currencies,
-                                                                                              el,
-                                                                                              true
-                                                                                          ).balance}
+                                                                                    {el && el?.type === "holds" ? (
+                                                                                        <span className="text-extra-7">
+                                                                                            {el?.holds.quantity /
+                                                                                                el?.holds.accuracy}
+                                                                                        </span>
+                                                                                    ) : (
+                                                                                        formatNumber(
+                                                                                            currencies,
+                                                                                            el,
+                                                                                            true
+                                                                                        ).balance
+                                                                                    )}
                                                                                 </span>
                                                                             )}
                                                                             <div className="flex justify-center">
@@ -217,21 +221,26 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         )}
                                     </div>
                                 </div>
-                                <div className="mb-1 flex flex-col content-start items-center pl-4 pr-2">
+                                <div className="mb-1 flex flex-col content-start items-center">
                                     <span className="mb-1 mt-[0.5rem] self-start text-note-2 text-neutral-60">
                                         {!isMerchant
                                             ? translate("app.ui.header.accurateAggregatorProfit")
                                             : translate("app.ui.header.accurateBalance")}
                                     </span>
                                     <div
-                                        className={`flex max-h-[250px] w-full flex-col items-start gap-[2px] overflow-y-auto overflow-x-hidden pr-2`}>
+                                        className={`flex max-h-[250px] w-full flex-col items-start gap-[2px] overflow-y-auto overflow-x-hidden`}>
                                         {!totalLoading && totalAmount ? (
-                                            totalAmount.map(el => (
-                                                <React.Fragment key={el.currency}>
-                                                    <div className="flex w-full items-center justify-between">
-                                                        <h4 className="overflow-y-hidden text-display-4 text-neutral-90 dark:text-white">
+                                            totalAmount.map((el, index) => (
+                                                <div
+                                                    key={el.currency}
+                                                    className={cn(
+                                                        "flex w-full flex-col py-2 pl-4 pr-2",
+                                                        index % 2 ? "dark:bg-neutral-bb" : "dark:bg-neutral-100"
+                                                    )}>
+                                                    <div className="flex w-full items-center gap-2">
+                                                        <h4 className="overflow-y-hidden text-neutral-90 dark:text-white">
                                                             <NumericFormat
-                                                                className="whitespace-nowrap"
+                                                                className="whitespace-nowrap !text-display-4"
                                                                 value={el.value.quantity / el.value.accuracy}
                                                                 displayType={"text"}
                                                                 thousandSeparator=" "
@@ -245,21 +254,20 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                     {el.holds && el.holds.quantity !== 0 && (
                                                         <div className="flex w-full items-center justify-between">
                                                             <h4 className="flex items-center gap-1 overflow-y-hidden text-display-4 text-neutral-90 dark:text-white">
-                                                                <Snowflake className="h-4 w-4 text-extra-7" />
+                                                                <SnowFlakeIcon className="h-5 w-5 text-extra-7" />
                                                                 <NumericFormat
-                                                                    className="whitespace-nowrap"
-                                                                    value={el.holds.quantity / el.holds.accuracy}
+                                                                    className="whitespace-nowrap text-extra-7"
+                                                                    value={(
+                                                                        el.holds.quantity / el.holds.accuracy
+                                                                    ).toFixed(2)}
                                                                     displayType={"text"}
                                                                     thousandSeparator=" "
                                                                     decimalSeparator=","
                                                                 />
                                                             </h4>
-                                                            <div className="flex justify-center overflow-y-hidden">
-                                                                <CurrencyIcon name={el.currency} />
-                                                            </div>
                                                         </div>
                                                     )}
-                                                </React.Fragment>
+                                                </div>
                                             ))
                                         ) : (
                                             <></>

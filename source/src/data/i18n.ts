@@ -59,7 +59,8 @@ const ru: TranslationMessages = {
             },
             showHeader: "Информация о счете",
             showDescription: "Подробная информация о счете с ID %{id}",
-            balance: "Баланс"
+            balance: "Баланс",
+            held: "Заморожено"
         },
         users: {
             name: "Пользователи",
@@ -1006,7 +1007,8 @@ const en: TranslationMessages = {
             },
             showHeader: "Account info",
             showDescription: "Detailed information about account with ID %{id}",
-            balance: "Balance"
+            balance: "Balance",
+            held: "Held"
         },
         users: {
             name: "Users",

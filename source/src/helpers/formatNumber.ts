@@ -10,6 +10,7 @@ export const formatNumber = (
         const currency = currencies.find((cur: Currency) => cur.code === el.currency);
         accuracy = currency?.accuracy ?? 2;
     }
+    console.log(el);
 
     const formatValue = (value: number, acc: number) => {
         const num = value === 0 ? "0" : (value / acc).toFixed(accuracy);
@@ -19,7 +20,8 @@ export const formatNumber = (
     };
 
     const formattedValue = formatValue(el.value.quantity, el.value.accuracy);
-    const formattedHolds = el.holds ? formatValue(el.holds.quantity, el.holds.accuracy) : null;
+    const formattedHolds =
+        el.holds && el.holds.quantity !== 0 ? formatValue(el.holds.quantity, el.holds.accuracy) : null;
 
     const result = withoutCurrency ? formattedValue : `${formattedValue} ${el.currency}`;
 

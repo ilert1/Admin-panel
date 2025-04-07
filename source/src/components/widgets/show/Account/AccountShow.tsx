@@ -11,6 +11,7 @@ import { useBalances } from "@/hooks/useBalances";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { useFetchMerchants } from "@/hooks";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { Snowflake } from "lucide-react";
 interface AccountShowProps {
     id: string;
 }
@@ -36,8 +37,6 @@ export const AccountShow = ({ id }: AccountShowProps) => {
 
     const { balances, holds } = useBalances(context.isLoading, context.record?.amounts);
     const { historyColumns } = useGetAccountShowColumns();
-    console.log(balances);
-    console.log(holds);
 
     const listContext = useAbortableListController<AccountHistory>({
         resource: "operations",
@@ -86,13 +85,29 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                 </div>
                 <div className="flex flex-wrap content-end justify-end gap-2">
                     {balances.length > 0 &&
-                        balances.map(balance => (
-                            <div className="rounded-20 bg-green-50 px-3 py-0.5" key={uniqueId()}>
-                                <span className="text-title-2 text-neutral-0">
-                                    {translate("resources.accounts.balance")}: {balance}
-                                </span>
-                            </div>
-                        ))}
+                        balances.map(balance => {
+                            let currentHold;
+
+                            if (holds.length > 0) {
+                                currentHold = holds.find(el => el.split(" ").at(-1) === balance.split(" ").at(-1));
+                            }
+
+                            return (
+                                <div className="flex flex-col" key={uniqueId()}>
+                                    <div className="rounded-20 bg-green-50 px-3 py-0.5">
+                                        <span className="text-title-2 text-neutral-0">
+                                            {translate("resources.accounts.balance")}: {balance}
+                                        </span>
+                                    </div>
+                                    {currentHold && (
+                                        <span className="flex items-center gap-[7px] self-end text-title-2 text-extra-7">
+                                            <Snowflake className="h-4 w-4" />
+                                            {translate("resources.accounts.held")}: {currentHold}
+                                        </span>
+                                    )}
+                                </div>
+                            );
+                        })}
                     {holds &&
                         holds.length > 0 &&
                         holds.map(hold => {
