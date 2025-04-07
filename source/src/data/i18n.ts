@@ -773,6 +773,7 @@ const ru: TranslationMessages = {
                     selectPayMethod: "Выберите метод оплаты",
                     payMethodMessage: "Пожалуйста, выберите метод оплаты",
                     valueMessage: "Некорректное значение",
+                    valueMinMessage: "Минимальное значение должно быть больше нуля",
                     value: "Сумма зачисления %{currency}",
                     create: "Создать",
                     successTitle: "Заявка успешно создана",
@@ -781,7 +782,10 @@ const ru: TranslationMessages = {
                     createOrder: "Создать ордер",
                     required: "Обязательное поле",
                     noResult: "Нет доступных методов",
-                    loadingError: "Произошла ошибка, обратитесь к администратору."
+                    loadingError: "Произошла ошибка, обратитесь к администратору.",
+                    wordsRegex: "Допускается ввод латиницы. Минимум 3 символа, максимум 255",
+                    minSymbol: "Поле не должно быть пустым",
+                    numberRegex: "Допускается только ввод цифр и специальных символов"
                 },
                 payoutBanner: {
                     title: "Банковский перевод",
@@ -1719,6 +1723,7 @@ const en: TranslationMessages = {
                     payMethodMessage: "Please, select pay method",
                     value: "Destination value %{currency}",
                     valueMessage: "Wrong value",
+                    valueMinMessage: "The minimum value must be greater than zero",
                     create: "Created",
                     successTitle: "The request has been successfully created",
                     successDescription: "You can track her status in the section",
@@ -1726,7 +1731,10 @@ const en: TranslationMessages = {
                     createOrder: "Create order",
                     required: "Required field",
                     noResult: "No methods available",
-                    loadingError: "An error has occurred, please contact the administrator."
+                    loadingError: "An error has occurred, please contact the administrator.",
+                    wordsRegex: "It is allowed to enter Latin letters. Minimum 3 characters, maximum 255",
+                    minSymbol: "The field must not be empty",
+                    numberRegex: "You can only enter numbers and special characters"
                 },
                 payoutBanner: {
                     title: "Bank transfer",

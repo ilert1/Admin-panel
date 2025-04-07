@@ -35,9 +35,9 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
         payMethod: z
             .string({ message: translate("app.widgets.forms.payout.required") })
             .min(1, translate("app.widgets.forms.payout.payMethodMessage")),
-        value: z
-            .string({ message: translate("app.widgets.forms.payout.required") })
-            .regex(/^[+-]?([0-9]*[.])?[0-9]+$/, translate("app.widgets.forms.payout.valueMessage"))
+        value: z.coerce
+            .number({ message: translate("app.widgets.forms.payout.valueMessage") })
+            .gt(0, translate("app.widgets.forms.payout.valueMinMessage"))
     });
 
     const payMethodsWithId = useMemo(() => {
@@ -59,11 +59,23 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
         let schema = formSchema;
 
         additionalFields?.forEach(field => {
-            schema = schema.extend({
-                [field]: z
-                    .string({ message: translate("app.widgets.forms.payout.required") })
-                    .min(1, translate("app.widgets.forms.payout.valueMessage"))
-            });
+            if (field === "card_holder" || field === "account_name") {
+                schema = schema.extend({
+                    [field]: z
+                        .string({ message: translate("app.widgets.forms.payout.required") })
+                        .min(1, translate("app.widgets.forms.payout.minSymbol"))
+                        .regex(/^[a-zA-Z -]{3,255}$/, translate("app.widgets.forms.payout.wordsRegex"))
+                        .trim()
+                });
+            } else {
+                schema = schema.extend({
+                    [field]: z
+                        .string({ message: translate("app.widgets.forms.payout.required") })
+                        .min(1, translate("app.widgets.forms.payout.minSymbol"))
+                        .regex(/^[0-9- ()+]{1,255}$/, translate("app.widgets.forms.payout.numberRegex"))
+                        .trim()
+                });
+            }
         });
 
         return schema;
@@ -101,6 +113,7 @@ export const PayOutForm = ({ currencies, payMethods, loading, create }: IProps) 
                                             form.setValue("payMethod", e);
                                             field.onChange(e);
                                             setPayMethodId(e);
+                                            form.reset({ ...form.getValues() });
                                         }}
                                         value={field.value}>
                                         <FormControl>
