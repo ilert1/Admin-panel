@@ -1,8 +1,10 @@
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useQuery } from "@tanstack/react-query";
-import { useDataProvider } from "react-admin";
+import { useDataProvider, usePermissions } from "react-admin";
 
 export const useFetchMerchants = () => {
+    const { permissions } = usePermissions();
+
     const dataProvider = useDataProvider();
     const {
         isLoading,
@@ -16,6 +18,7 @@ export const useFetchMerchants = () => {
                 filter: { sort: "name", asc: "ASC" },
                 signal
             }),
+        enabled: permissions === "admin",
         select: data => data?.data
     });
 
