@@ -5,9 +5,8 @@ include:
       - build.yml
       - deploy.yml
   - project: gitlab/blowfish/includes/build
-    file: build.yml
     ref: master
-
+    file: build.yml
 
 variables:
   PROJECT_NAME: ${PROJECT_NAME}
