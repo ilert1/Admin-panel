@@ -33,8 +33,6 @@ build-develop:
 
 build-develop-argocd:
   extends: .pre-build-k8s
-  tags:
-    - blowfish
   variables:
     ENVIROMENT:       develop
     IMAGE_TAG:        develop-k8s
