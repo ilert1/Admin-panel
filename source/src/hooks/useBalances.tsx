@@ -6,7 +6,7 @@ import { useGetCurrencies } from "./useGetCurrencies";
  *
  * @param isLoading Loading state of parent component context
  */
-export const useBalances = (isLoading: boolean, amounts: Amount[]) => {
+export const useBalances = (isLoading: boolean, amounts: Amount[] | AccountBalance[] | undefined) => {
     const { currencies, isLoadingCurrencies } = useGetCurrencies();
     const [balances, setBalances] = useState<string[]>([]);
     const [holds, setHolds] = useState<string[]>([]);

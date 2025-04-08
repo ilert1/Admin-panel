@@ -108,17 +108,6 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                                 </div>
                             );
                         })}
-                    {holds &&
-                        holds.length > 0 &&
-                        holds.map(hold => {
-                            return (
-                                <div className="rounded-20 bg-green-50 px-3 py-0.5" key={uniqueId()}>
-                                    <span className="text-title-2 text-neutral-0">
-                                        {translate("resources.accounts.balance")}: {hold}
-                                    </span>
-                                </div>
-                            );
-                        })}
                 </div>
             </div>
 
