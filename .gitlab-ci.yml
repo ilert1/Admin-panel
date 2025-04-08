@@ -4,6 +4,10 @@ include:
     file:
       - build.yml
       - deploy.yml
+  - project: gitlab/blowfish/includes/build
+    file: build.yml
+    ref: master
+
 
 variables:
   PROJECT_NAME: ${PROJECT_NAME}
@@ -20,9 +24,22 @@ stages:
 build-develop:
   extends: .pre-build
   variables:
-    ENVIRONMENT: develop
-    IMAGE_TAG: develop
-    APP_CONFIG: ${BF_DEVELOP_APP_CONFIG}
+    ENVIRONMENT:  develop
+    IMAGE_TAG:    develop
+    APP_CONFIG:   ${BF_DEVELOP_APP_CONFIG}
+  only:
+    refs:
+      - develop
+
+build-develop-argocd:
+  extends: .pre-build-k8s
+  tags:
+    - blowfish
+  variables:
+    ENVIROMENT:       develop
+    IMAGE_TAG:        develop-k8s
+    DOCKERFILE_PATH:  ${DOCKERFILE_PATH}
+    APP_CONFIG:       ${BF_DEVELOP_APP_CONFIG}
   only:
     refs:
       - develop
