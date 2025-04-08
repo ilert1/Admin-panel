@@ -140,6 +140,10 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                             label={translate("resources.direction.types.type")}
                             text={context.record.type ?? ""}
                         />
+                        <TextField
+                            label={translate("resources.direction.fields.description")}
+                            text={context.record.description ?? ""}
+                        />
                     </div>
                 </div>
 
