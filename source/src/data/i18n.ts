@@ -474,7 +474,10 @@ const ru: TranslationMessages = {
                 onlyThirdTypeError: "Валюты недоступны для выбранного типа комиссий"
             },
             success: {
-                create: "Направление %{name} успешно создано."
+                create: "Направление %{name} успешно создано.",
+                active: "активировано",
+                inactive: "деактивировано",
+                editActivity: "Направление %{name} успешно %{state}."
             },
             create: "Добавить направление",
             sourceCurrency: "Валюта отправителя",
@@ -1424,7 +1427,10 @@ const en: TranslationMessages = {
                 onlyThirdTypeError: "Currencies are unavailable for chosen type of fee"
             },
             success: {
-                create: "Direction %{name} has been successfully created."
+                create: "Direction %{name} has been successfully created.",
+                active: "activated",
+                inactive: "deactivated",
+                editActivity: "Direction %{name} has been successfully %{state}."
             },
             create: "Add direction",
             sourceCurrency: "Source currency",
