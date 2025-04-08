@@ -803,26 +803,6 @@ export interface ErrorBody {
     error_message: string;
 }
 
-export interface ExecutionMethodInput {
-    /** The type of the method. */
-    type: string;
-    /** The name of the workflow or activity to be executed. */
-    execution_name: string;
-    /** The queue (task_queue) where the execution will be dispatched. */
-    task_queue: string;
-}
-
-export interface ExecutionMethodOutput {
-    /** The type of the method. */
-    type: string;
-    /** The name of the workflow or activity to be executed. */
-    execution_name: string;
-    /** The queue (task_queue) where the execution will be dispatched. */
-    task_queue: string;
-    readonly workflow_name: string;
-    readonly workflow_queue: string;
-}
-
 /**
  * Currency code for the fee
  */
@@ -1092,6 +1072,15 @@ export interface MerchantUpdate {
     keycloak_id?: MerchantUpdateKeycloakId;
 }
 
+export interface Method {
+    /** The type of the method. */
+    type: string;
+    /** The name of the workflow to be executed. */
+    workflow_name: string;
+    /** The queue where the workflow will be dispatched. */
+    workflow_queue: string;
+}
+
 export interface OffsetPaginationCurrency {
     /** A list of items in the current page. */
     items: Currency[];
@@ -1153,9 +1142,9 @@ export interface OffsetPaginationTerminal {
 export type ProviderPublicKey = string | null;
 
 /**
- * Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases.
+ * Provider methods configuration
  */
-export type ProviderMethods = { [key: string]: ExecutionMethodOutput };
+export type ProviderMethods = { [key: string]: Method };
 
 export interface Provider {
     /**
@@ -1167,7 +1156,7 @@ export interface Provider {
     fields_json_schema: string;
     /** The public key encoded in base58, corresponding to the private key. */
     public_key?: ProviderPublicKey;
-    /** Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases. */
+    /** Provider methods configuration */
     methods: ProviderMethods;
 }
 
@@ -1179,15 +1168,22 @@ export interface ProviderAddKeypair {
 }
 
 /**
+ * The public key encoded in base58, corresponding to the private key.
+ */
+export type ProviderCreatePublicKey = string | null;
+
+/**
  * Provider methods configuration
  */
-export type ProviderCreateMethods = { [key: string]: ExecutionMethodInput };
+export type ProviderCreateMethods = { [key: string]: Method };
 
 export interface ProviderCreate {
     /** Provider name */
     name: string;
     /** JSON schema for provider fields */
     fields_json_schema: string;
+    /** The public key encoded in base58, corresponding to the private key. */
+    public_key?: ProviderCreatePublicKey;
     /** Provider methods configuration */
     methods?: ProviderCreateMethods;
 }
@@ -1197,7 +1193,12 @@ export interface ProviderCreate {
  */
 export type ProviderUpdateFieldsJsonSchema = string | null;
 
-export type ProviderUpdateMethodsAnyOf = { [key: string]: ExecutionMethodInput };
+/**
+ * The public key encoded in base58, corresponding to the private key.
+ */
+export type ProviderUpdatePublicKey = string | null;
+
+export type ProviderUpdateMethodsAnyOf = { [key: string]: Method };
 
 /**
  * Provider methods configuration
@@ -1207,6 +1208,8 @@ export type ProviderUpdateMethods = ProviderUpdateMethodsAnyOf | null;
 export interface ProviderUpdate {
     /** JSON schema for provider fields */
     fields_json_schema?: ProviderUpdateFieldsJsonSchema;
+    /** The public key encoded in base58, corresponding to the private key. */
+    public_key?: ProviderUpdatePublicKey;
     /** Provider methods configuration */
     methods?: ProviderUpdateMethods;
 }
@@ -1321,6 +1324,15 @@ export interface ValidationError {
     msg: string;
     type: string;
 }
+
+export type WorkflowCategory = (typeof WorkflowCategory)[keyof typeof WorkflowCategory];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const WorkflowCategory = {
+    h2h_sync: "h2h_sync",
+    h2h_async: "h2h_async",
+    h2h_sync_out: "h2h_sync_out"
+} as const;
 
 export type CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetParams = {
     /**

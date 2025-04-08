@@ -15,8 +15,17 @@ import { HeaderButton } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router";
 import { useGetCurrencies } from "@/hooks/useGetCurrencies";
-import { formatNumber } from "@/helpers/formatNumber";
+import { formatValue } from "@/helpers/formatNumber";
+import SnowFlakeIcon from "@/lib/icons/snowflake.svg?react";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 // import { debounce } from "lodash";
+
+interface ICombinedBalances {
+    value: { quantity: number; accuracy: number };
+    currency: string;
+    type: "balance" | "hold";
+}
 
 export const Header = (props: { handleLogout: () => void }) => {
     const { setTheme, theme } = useTheme();
@@ -30,6 +39,7 @@ export const Header = (props: { handleLogout: () => void }) => {
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const isMerchant = useMemo(() => permissions === "merchant", [permissions]);
+    const [combinedAmounts, setCombinedAmounts] = useState<ICombinedBalances[]>();
     const [currentIndex, setCurrentIndex] = useState(0);
     const navigate = useNavigate();
 
@@ -62,14 +72,34 @@ export const Header = (props: { handleLogout: () => void }) => {
     });
 
     useEffect(() => {
+        function combine() {
+            const combined: ICombinedBalances[] = [];
+            totalAmount?.map(el => {
+                combined.push({ value: el.value, currency: el.currency, type: "balance" });
+                if (el.holds.quantity !== 0) {
+                    combined.push({ value: el.holds, currency: el.currency, type: "hold" });
+                }
+            });
+            return combined;
+        }
+        if (!totalLoading) {
+            const combined = combine();
+            setCombinedAmounts(combined);
+        }
+    }, [totalAmount, totalLoading]);
+
+    useEffect(() => {
+        if (!combinedAmounts?.length) return;
         let interval: NodeJS.Timeout;
-        if (totalAmount) {
+
+        if (combinedAmounts?.length > 1) {
             interval = setInterval(() => {
-                setCurrentIndex(prevIndex => (prevIndex + 1) % totalAmount.length);
+                setCurrentIndex(prevIndex => (prevIndex + 1) % combinedAmounts?.length);
             }, 5000);
         }
+
         return () => clearInterval(interval);
-    }, [totalAmount, currentIndex]);
+    }, [combinedAmounts?.length]);
 
     return (
         <header
@@ -107,38 +137,51 @@ export const Header = (props: { handleLogout: () => void }) => {
                                     {totalLoading && !totalAmount ? (
                                         <span>{translate("app.ui.header.totalLoading")}</span>
                                     ) : (
-                                        <div className="relative w-full overflow-hidden">
-                                            <DropdownMenuTrigger>
-                                                <h1 className="text-display-5">
-                                                    <div className="absolute inset-0">
-                                                        {totalAmount?.map((el, index) => (
-                                                            <div
-                                                                key={el.currency}
-                                                                style={{
-                                                                    transition:
-                                                                        "opacity .1s ease-in-out, transform .3s ease-in-out"
-                                                                }}
-                                                                className={`absolute inset-0 flex items-center gap-[6px] ${
-                                                                    totalAmount.length === 1
-                                                                        ? "z-10 translate-y-0 opacity-100"
-                                                                        : index === currentIndex
-                                                                          ? "z-10 translate-y-0 opacity-100 delay-0"
-                                                                          : index ===
-                                                                              (currentIndex + 1) % totalAmount.length
-                                                                            ? "z-0 translate-y-full opacity-0 delay-300"
-                                                                            : "z-0 translate-y-[200%] opacity-0 delay-300"
-                                                                }`}>
+                                        <div className="relative h-full w-full overflow-hidden">
+                                            <DropdownMenuTrigger className="block !h-[24px] w-full">
+                                                <h1 className="text-display-5 relative h-full w-full overflow-hidden text-center">
+                                                    <AnimatePresence mode="popLayout">
+                                                        {combinedAmounts && combinedAmounts.length > 0 && (
+                                                            <motion.div
+                                                                key={`${combinedAmounts[currentIndex].currency}-${combinedAmounts[currentIndex].type}-${currentIndex}`}
+                                                                className="absolute inset-0 flex items-center gap-2"
+                                                                initial={{ y: 100, opacity: 0 }}
+                                                                animate={{ y: 0, opacity: 1 }}
+                                                                exit={{ y: -100, opacity: 0 }}
+                                                                transition={{
+                                                                    type: "spring",
+                                                                    stiffness: 300,
+                                                                    damping: 30
+                                                                }}>
+                                                                {combinedAmounts[currentIndex].type === "hold" && (
+                                                                    <SnowFlakeIcon className="h-4 w-4" />
+                                                                )}
                                                                 {!isLoadingCurrencies && (
-                                                                    <span className="block max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap text-neutral-90 dark:text-white">
-                                                                        {formatNumber(currencies, el, true)}
+                                                                    <span
+                                                                        className={cn(
+                                                                            "block max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap text-neutral-90 dark:text-white",
+                                                                            combinedAmounts[currentIndex].type ===
+                                                                                "hold" &&
+                                                                                "text-extra-7 dark:text-extra-7"
+                                                                        )}>
+                                                                        {formatValue(
+                                                                            combinedAmounts[currentIndex].value
+                                                                                .quantity,
+                                                                            combinedAmounts[currentIndex].value
+                                                                                .accuracy,
+                                                                            2
+                                                                        )}
                                                                     </span>
                                                                 )}
                                                                 <div className="flex justify-center">
-                                                                    <CurrencyIcon name={el.currency} textSmall />
+                                                                    <CurrencyIcon
+                                                                        name={combinedAmounts[currentIndex].currency}
+                                                                        textSmall
+                                                                    />
                                                                 </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
+                                                            </motion.div>
+                                                        )}
+                                                    </AnimatePresence>
                                                 </h1>
                                             </DropdownMenuTrigger>
                                         </div>
@@ -188,31 +231,52 @@ export const Header = (props: { handleLogout: () => void }) => {
                                         )}
                                     </div>
                                 </div>
-                                <div className="mb-1 flex flex-col content-start items-center pl-4 pr-2">
-                                    <span className="mb-1 mt-[0.5rem] self-start text-note-2 text-neutral-60">
+                                <div className="mb-1 flex flex-col content-start items-center">
+                                    <span className="mb-1 mt-[0.5rem] self-start pl-4 text-note-2 text-neutral-60">
                                         {!isMerchant
                                             ? translate("app.ui.header.accurateAggregatorProfit")
                                             : translate("app.ui.header.accurateBalance")}
                                     </span>
                                     <div
-                                        className={`flex max-h-[250px] w-full flex-col items-start gap-[2px] overflow-y-auto overflow-x-hidden pr-2`}>
+                                        className={`flex max-h-[250px] w-full flex-col items-start gap-[2px] overflow-y-auto overflow-x-hidden`}>
                                         {!totalLoading && totalAmount ? (
-                                            totalAmount.map(el => (
+                                            totalAmount.map((el, index) => (
                                                 <div
-                                                    className="flex w-full items-center justify-between"
-                                                    key={el.currency}>
-                                                    <h4 className="overflow-y-hidden text-display-4 text-neutral-90 dark:text-white">
-                                                        <NumericFormat
-                                                            className="whitespace-nowrap"
-                                                            value={el.value.quantity / el.value.accuracy}
-                                                            displayType={"text"}
-                                                            thousandSeparator=" "
-                                                            decimalSeparator=","
-                                                        />
-                                                    </h4>
-                                                    <div className="flex justify-center overflow-y-hidden">
-                                                        <CurrencyIcon name={el.currency} />
+                                                    key={el.currency}
+                                                    className={cn(
+                                                        "flex w-full flex-col py-2 pl-4 pr-2",
+                                                        index % 2 ? "dark:bg-neutral-bb" : "dark:bg-neutral-100"
+                                                    )}>
+                                                    <div className="flex w-full items-center gap-2">
+                                                        <h4 className="overflow-y-hidden text-neutral-90 dark:text-white">
+                                                            <NumericFormat
+                                                                className="whitespace-nowrap !text-display-4"
+                                                                value={el.value.quantity / el.value.accuracy}
+                                                                displayType={"text"}
+                                                                thousandSeparator=" "
+                                                                decimalSeparator=","
+                                                            />
+                                                        </h4>
+                                                        <div className="flex justify-center overflow-y-hidden">
+                                                            <CurrencyIcon name={el.currency} />
+                                                        </div>
                                                     </div>
+                                                    {el.holds && el.holds.quantity !== 0 && (
+                                                        <div className="flex w-full items-center justify-between">
+                                                            <h4 className="flex items-center gap-1 overflow-y-hidden text-display-4 text-neutral-90 dark:text-white">
+                                                                <SnowFlakeIcon className="h-5 w-5 text-extra-7" />
+                                                                <NumericFormat
+                                                                    className="whitespace-nowrap !text-title-1 text-extra-7"
+                                                                    value={(
+                                                                        el.holds.quantity / el.holds.accuracy
+                                                                    ).toFixed(2)}
+                                                                    displayType={"text"}
+                                                                    thousandSeparator=" "
+                                                                    decimalSeparator=","
+                                                                />
+                                                            </h4>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             ))
                                         ) : (
