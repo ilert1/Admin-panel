@@ -9,7 +9,7 @@ interface IDirectionActivityBtn {
     id: string;
     directionName: string;
     activityState: boolean;
-    isFetching: boolean;
+    isFetching?: boolean;
 }
 
 export const DirectionActivityBtn = ({ id, directionName, activityState, isFetching }: IDirectionActivityBtn) => {
