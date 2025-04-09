@@ -169,6 +169,12 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                 )}
                                                                 <div className="flex justify-center">
                                                                     <CurrencyIcon
+                                                                        className={
+                                                                            combinedAmounts[currentIndex].type ===
+                                                                            "hold"
+                                                                                ? "!fill-extra-7 !text-extra-7"
+                                                                                : ""
+                                                                        }
                                                                         name={combinedAmounts[currentIndex].currency}
                                                                         textSmall
                                                                     />

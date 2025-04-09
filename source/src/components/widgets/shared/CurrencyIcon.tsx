@@ -1,11 +1,23 @@
 import { currenciesIconsMap } from "@/lib/icons/Currencies/currencies";
+import { cn } from "@/lib/utils";
 
-export function CurrencyIcon({ name, textSmall = false }: { name: string; folder?: string; textSmall?: boolean }) {
-    const icon = currenciesIconsMap[name];
-    if (!icon)
+export function CurrencyIcon({
+    name,
+    textSmall = false,
+    className = ""
+}: {
+    name: string;
+    textSmall?: boolean;
+    className?: string;
+}) {
+    const IconComponent = currenciesIconsMap[name];
+
+    if (!IconComponent)
         return (
-            <span className={`text-controlElements ${textSmall ? "" : "text-display-4"} overflow-hidden`}>{name}</span>
+            <span className={cn(`overflow-hidden text-controlElements`, textSmall ? "" : "text-display-4", className)}>
+                {name}
+            </span>
         );
 
-    return icon;
+    return <IconComponent className={className} />;
 }

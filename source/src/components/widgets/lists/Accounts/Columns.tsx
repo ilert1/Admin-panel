@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { RecordContextProvider, usePermissions, useTranslate } from "react-admin";
 import SnowFlakeIcon from "@/lib/icons/snowflake.svg?react";
 import { cn } from "@/lib/utils";
+import { formatValue } from "@/helpers/formatNumber";
 
 export const useGetAccountsColumns = () => {
     const translate = useTranslate();
@@ -80,7 +81,9 @@ export const useGetAccountsColumns = () => {
                                     <React.Fragment key={index}>
                                         <div className="flex flex-col">
                                             <span className="text-title-1">
-                                                {(el.value.quantity / el.value.accuracy).toFixed(
+                                                {formatValue(
+                                                    el.value.quantity,
+                                                    el.value.accuracy,
                                                     foundCur?.accuracy ?? 2
                                                 ) +
                                                     " " +
@@ -90,7 +93,9 @@ export const useGetAccountsColumns = () => {
                                                 <div className="flex items-center gap-1 pl-1 text-extra-7">
                                                     <SnowFlakeIcon className="h-4 w-4" />
                                                     <span className="text-note-1">
-                                                        {(el.holds.quantity / el.holds.accuracy).toFixed(
+                                                        {formatValue(
+                                                            el.holds.quantity,
+                                                            el.holds.accuracy,
                                                             foundCur?.accuracy ?? 2
                                                         )}
                                                     </span>
