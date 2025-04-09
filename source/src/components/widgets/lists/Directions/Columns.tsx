@@ -9,7 +9,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useTranslate } from "react-admin";
 import { DirectionActivityBtn } from "./DirectionActivityBtn";
 
-export const useGetDirectionsColumns = ({ isFetching }: { isFetching?: boolean }) => {
+export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
     const { getMerchantId, isLoadingMerchants } = useGetMerchantIdByName();
