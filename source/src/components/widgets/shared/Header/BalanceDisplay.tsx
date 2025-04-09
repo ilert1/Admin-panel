@@ -4,7 +4,7 @@ import { useGetCurrencies } from "@/hooks/useGetCurrencies";
 import { useEffect, useState } from "react";
 import { CurrencyIcon } from "./CurrencyIcon";
 import { UserIdentity, useTranslate } from "react-admin";
-import { SnowflakeIcon } from "lucide-react";
+import SnowFlakeIcon from "@/lib/icons/snowflake.svg?react";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -81,7 +81,7 @@ export const BalanceDisplay = ({ totalAmount, isMerchant, identity, totalLoading
                                             damping: 30
                                         }}>
                                         {combinedAmounts[currentIndex].type === "hold" && (
-                                            <SnowflakeIcon className="h-4 w-4" />
+                                            <SnowFlakeIcon className="h-4 w-4" />
                                         )}
                                         {!isLoadingCurrencies && (
                                             <span

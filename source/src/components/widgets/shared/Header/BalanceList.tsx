@@ -1,7 +1,7 @@
 import { useTranslate } from "react-admin";
 import { CurrencyIcon } from "./CurrencyIcon";
 import { NumericFormat } from "react-number-format";
-import { SnowflakeIcon } from "lucide-react";
+import SnowFlakeIcon from "@/lib/icons/snowflake.svg?react";
 import { cn } from "@/lib/utils";
 
 interface IBalanceList {
@@ -47,7 +47,7 @@ export const BalanceList = ({ totalAmount, isMerchant, totalLoading }: IBalanceL
                             {el.holds && el.holds.quantity !== 0 && (
                                 <div className="flex w-full items-center justify-between">
                                     <h4 className="flex items-center gap-1 overflow-y-hidden text-display-4 text-neutral-90 dark:text-white">
-                                        <SnowflakeIcon className="h-5 w-5 text-extra-7" />
+                                        <SnowFlakeIcon className="h-5 w-5 text-extra-7" />
                                         <NumericFormat
                                             className="whitespace-nowrap !text-title-1 text-extra-7"
                                             value={(el.holds.quantity / el.holds.accuracy).toFixed(2)}
