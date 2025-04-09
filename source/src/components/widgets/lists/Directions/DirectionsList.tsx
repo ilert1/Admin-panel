@@ -10,7 +10,7 @@ import { useAbortableListController } from "@/hooks/useAbortableListController";
 export const DirectionsList = () => {
     const listContext = useAbortableListController<Direction>();
 
-    const { columns } = useGetDirectionsColumns();
+    const { columns } = useGetDirectionsColumns({ isFetching: listContext.isFetching });
 
     return (
         <>

@@ -1,22 +1,33 @@
 import { Currency } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
+export const formatValue = (value: number, acc: number, fixTo: number) => {
+    const num = value === 0 ? "0" : (value / acc).toFixed(fixTo);
+    const [intPart, decimalPart] = num.split(".");
+    const formattedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    return decimalPart ? `${formattedInt}.${decimalPart}` : formattedInt;
+};
+
 export const formatNumber = (
     currencies: Currency[] | undefined,
     el: Amount | AccountBalance,
     withoutCurrency = false
 ) => {
-    let accuracy = 2;
+    let fixTo = 2;
     if (currencies) {
         const currency = currencies.find((cur: Currency) => cur.code === el.currency);
-        accuracy = currency?.accuracy ?? 2;
+        fixTo = currency?.accuracy ?? 2;
     }
 
-    const number = el.value.quantity == 0 ? "0" : (el.value.quantity / el.value.accuracy).toFixed(accuracy);
+    const formattedValue = formatValue(el.value.quantity, el.value.accuracy, fixTo);
+    const formattedHolds =
+        el.holds && el.holds.quantity !== 0 ? formatValue(el.holds.quantity, el.holds.accuracy, fixTo) : null;
 
-    const [intPart, decimalPart] = number.split(".");
+    const result = withoutCurrency ? formattedValue : `${formattedValue} ${el.currency}`;
 
-    const formattedIntPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    const formattedNumber = decimalPart ? `${formattedIntPart}.${decimalPart}` : formattedIntPart;
-
-    return withoutCurrency ? formattedNumber : formattedNumber + " " + el.currency;
+    return formattedHolds
+        ? {
+              balance: result,
+              holds: `${formattedHolds} ${el.currency}`
+          }
+        : { balance: result };
 };
