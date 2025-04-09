@@ -409,3 +409,9 @@ declare namespace Wallets {
         token_address: string;
     }
 }
+
+interface ICombinedBalances {
+    value: { quantity: number; accuracy: number };
+    currency: string;
+    type: "balance" | "hold";
+}
