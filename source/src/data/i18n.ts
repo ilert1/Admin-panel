@@ -1016,7 +1016,7 @@ const en: TranslationMessages = {
             showHeader: "Account info",
             showDescription: "Detailed information about account with ID %{id}",
             balance: "Balance",
-            held: "Held"
+            held: "Hold"
         },
         users: {
             name: "Users",

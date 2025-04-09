@@ -21,12 +21,6 @@ import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 // import { debounce } from "lodash";
 
-interface ICombinedBalances {
-    value: { quantity: number; accuracy: number };
-    currency: string;
-    type: "balance" | "hold";
-}
-
 export const Header = (props: { handleLogout: () => void }) => {
     const { setTheme, theme } = useTheme();
     const identity = useGetIdentity();
@@ -175,6 +169,12 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                 )}
                                                                 <div className="flex justify-center">
                                                                     <CurrencyIcon
+                                                                        className={
+                                                                            combinedAmounts[currentIndex].type ===
+                                                                            "hold"
+                                                                                ? "!fill-extra-7 !text-extra-7"
+                                                                                : ""
+                                                                        }
                                                                         name={combinedAmounts[currentIndex].currency}
                                                                         textSmall
                                                                     />
@@ -245,7 +245,9 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                     key={el.currency}
                                                     className={cn(
                                                         "flex w-full flex-col py-2 pl-4 pr-2",
-                                                        index % 2 ? "dark:bg-neutral-bb" : "dark:bg-neutral-100"
+                                                        index % 2
+                                                            ? "dark:bg-neutral-bb"
+                                                            : "bg-neutral-20 dark:bg-neutral-100"
                                                     )}>
                                                     <div className="flex w-full items-center gap-2">
                                                         <h4 className="overflow-y-hidden text-neutral-90 dark:text-white">

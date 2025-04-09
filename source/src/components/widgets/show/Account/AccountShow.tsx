@@ -3,14 +3,14 @@ import { DataTable } from "@/components/widgets/shared";
 import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useGetAccountShowColumns } from "./Columns";
-// import { useEffect, useState } from "react";
 import { uniqueId } from "lodash";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { useBalances } from "@/hooks/useBalances";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { useGetMerchantIdByName } from "@/hooks/useGetMerchantName";
-import { Snowflake } from "lucide-react";
+import SnowFlakeIcon from "@/lib/icons/snowflake.svg?react";
+
 interface AccountShowProps {
     id: string;
 }
@@ -79,17 +79,19 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                             }
 
                             return (
-                                <div className="flex flex-col" key={uniqueId()}>
-                                    <div className="rounded-20 bg-green-50 px-3 py-0.5">
+                                <div className="flex flex-col items-start" key={uniqueId()}>
+                                    <div className="inline-flex w-auto w-full rounded-20 bg-green-50 px-3 py-0.5">
                                         <span className="text-title-2 text-neutral-0">
                                             {translate("resources.accounts.balance")}: {balance}
                                         </span>
                                     </div>
                                     {currentHold && (
-                                        <span className="flex items-center gap-[7px] self-end text-title-2 text-extra-7">
-                                            <Snowflake className="h-4 w-4" />
-                                            {translate("resources.accounts.held")}: {currentHold}
-                                        </span>
+                                        <div>
+                                            <span className="text-title-3 mx-2 flex items-center gap-[7px] self-start text-extra-7">
+                                                <SnowFlakeIcon className="h-5 w-5" />
+                                                {translate("resources.accounts.held")}:{currentHold}
+                                            </span>
+                                        </div>
                                     )}
                                 </div>
                             );
