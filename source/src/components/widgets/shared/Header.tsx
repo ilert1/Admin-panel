@@ -254,7 +254,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                 value={el.value.quantity / el.value.accuracy}
                                                                 displayType={"text"}
                                                                 thousandSeparator=" "
-                                                                decimalSeparator=","
+                                                                decimalSeparator="."
                                                             />
                                                         </h4>
                                                         <div className="flex justify-center overflow-y-hidden">
@@ -272,7 +272,7 @@ export const Header = (props: { handleLogout: () => void }) => {
                                                                     ).toFixed(2)}
                                                                     displayType={"text"}
                                                                     thousandSeparator=" "
-                                                                    decimalSeparator=","
+                                                                    decimalSeparator="."
                                                                 />
                                                             </h4>
                                                         </div>
