@@ -4,7 +4,7 @@ import { TextField } from "@/components/ui/text-field";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useGetCurrencies } from "@/hooks/useGetCurrencies";
 import { ColumnDef, Row } from "@tanstack/react-table";
-import { useState } from "react";
+import React, { useState } from "react";
 import { RecordContextProvider, usePermissions, useTranslate } from "react-admin";
 import SnowFlakeIcon from "@/lib/icons/snowflake.svg?react";
 import { cn } from "@/lib/utils";
@@ -77,8 +77,8 @@ export const useGetAccountsColumns = () => {
                                 const foundCur = currencies?.find(cur => cur.code === el.currency);
 
                                 return (
-                                    <>
-                                        <div key={index} className="flex flex-col">
+                                    <React.Fragment key={index}>
+                                        <div className="flex flex-col">
                                             <span className="text-title-1">
                                                 {(el.value.quantity / el.value.accuracy).toFixed(
                                                     foundCur?.accuracy ?? 2
@@ -92,9 +92,7 @@ export const useGetAccountsColumns = () => {
                                                     <span className="text-note-1">
                                                         {(el.holds.quantity / el.holds.accuracy).toFixed(
                                                             foundCur?.accuracy ?? 2
-                                                        ) +
-                                                            " " +
-                                                            el.currency}
+                                                        )}
                                                     </span>
                                                 </div>
                                             )}
@@ -107,7 +105,7 @@ export const useGetAccountsColumns = () => {
                                                 )}
                                             />
                                         )}
-                                    </>
+                                    </React.Fragment>
                                 );
                             })}
                         </div>
