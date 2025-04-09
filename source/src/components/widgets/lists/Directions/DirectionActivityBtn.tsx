@@ -49,24 +49,26 @@ export const DirectionActivityBtn = ({ id, directionName, activityState, isFetch
     };
 
     return (
-        <button
-            disabled={btnDisabled || isFetching}
-            onClick={changeActivity}
-            className={clsx(
-                "flex h-[27px] w-[50px] cursor-pointer items-center rounded-20 border-none p-0.5 outline-none transition-colors disabled:grayscale",
-                currentState ? "bg-green-50" : "bg-red-40"
-            )}>
-            <span
+        <div className="flex items-center justify-center">
+            <button
+                disabled={btnDisabled || isFetching}
+                onClick={changeActivity}
                 className={clsx(
-                    "flex h-[23px] w-[23px] items-center justify-center rounded-full bg-white p-1 transition-transform",
-                    currentState ? "translate-x-0" : "translate-x-full"
+                    "flex h-[27px] w-[50px] cursor-pointer items-center rounded-20 border-none p-0.5 outline-none transition-colors disabled:grayscale",
+                    currentState ? "bg-green-50" : "bg-red-40"
                 )}>
-                {currentState ? (
-                    <LockKeyholeOpen className="h-[15px] w-[15px] text-green-50" />
-                ) : (
-                    <LockKeyhole className="h-[15px] w-[15px] text-red-40" />
-                )}
-            </span>
-        </button>
+                <span
+                    className={clsx(
+                        "flex h-[23px] w-[23px] items-center justify-center rounded-full bg-white p-1 transition-transform",
+                        currentState ? "translate-x-0" : "translate-x-full"
+                    )}>
+                    {currentState ? (
+                        <LockKeyholeOpen className="h-[15px] w-[15px] text-green-50" />
+                    ) : (
+                        <LockKeyhole className="h-[15px] w-[15px] text-red-40" />
+                    )}
+                </span>
+            </button>
+        </div>
     );
 };
