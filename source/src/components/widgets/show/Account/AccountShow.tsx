@@ -94,17 +94,17 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                             }
 
                             return (
-                                <div className="flex flex-col items-end" key={uniqueId()}>
-                                    <div className="inline-flex w-auto rounded-20 bg-green-50 px-3 py-0.5">
+                                <div className="flex flex-col items-start" key={uniqueId()}>
+                                    <div className="inline-flex w-auto w-full rounded-20 bg-green-50 px-3 py-0.5">
                                         <span className="text-title-2 text-neutral-0">
                                             {translate("resources.accounts.balance")}: {balance}
                                         </span>
                                     </div>
                                     {currentHold && (
                                         <div>
-                                            <span className="flex items-center gap-[7px] self-end text-title-2 text-extra-7">
+                                            <span className="text-title-3 mx-2 flex items-center gap-[7px] self-start text-extra-7">
                                                 <SnowFlakeIcon className="h-5 w-5" />
-                                                {translate("resources.accounts.held")}: {currentHold}
+                                                {translate("resources.accounts.held")}:{currentHold}
                                             </span>
                                         </div>
                                     )}
