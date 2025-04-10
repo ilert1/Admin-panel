@@ -64,22 +64,6 @@ export const useGetMerchantColumns = () => {
             header: translate("resources.merchant.fields.descr")
         },
         {
-            id: "keycloak_id",
-            accessorKey: "keycloak_id",
-            header: "Keycloak ID",
-            cell: ({ row }) => {
-                return (
-                    <TextField
-                        text={row.original.keycloak_id ?? ""}
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                        minWidth="50px"
-                    />
-                );
-            }
-        },
-        {
             id: "fees",
             header: () => {
                 return (
