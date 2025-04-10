@@ -55,8 +55,8 @@ export const WithdrawListFilter = () => {
                     />
                 </div>
                 <AnimatedContainer open={openFiltersClicked}>
-                    <div className="mb-4 flex w-full flex-col flex-wrap justify-start gap-2 sm:mb-6 sm:flex-row sm:items-end sm:gap-x-4 sm:gap-y-3">
-                        <div className="flex min-w-36 flex-1 items-center gap-2 md:max-w-96 md:flex-col md:items-start">
+                    <div className="mb-4 flex flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-end sm:gap-x-4 sm:gap-y-3">
+                        <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
                             <Input
                                 className="flex-1 text-sm placeholder:text-neutral-70"
                                 placeholder={translate("resources.withdraw.filter.filterByIdPlaceholder")}
@@ -112,7 +112,7 @@ export const WithdrawListFilter = () => {
                         </div>
 
                         {adminOnly && (
-                            <div className="flex-grow-100 flex min-w-[150px] max-w-[700px] flex-1 flex-col gap-1">
+                            <div className="flex-grow-100 flex flex-1 flex-col gap-1 md:basis-[350px] md:gap-1">
                                 <Label variant="title-2" className="mb-0 md:text-nowrap">
                                     {translate("resources.transactions.filter.filterByAccount")}
                                 </Label>
