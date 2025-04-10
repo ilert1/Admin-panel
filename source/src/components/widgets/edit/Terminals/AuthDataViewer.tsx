@@ -32,14 +32,17 @@ export const AuthDataViewer = ({
         {
             id: "key",
             accessorKey: "key",
-            header: "Key"
+            header: "Key",
+            cell: ({ row }) => {
+                return <TextField text={row.original.key} wrap lineClamp />;
+            }
         },
         {
             id: "value",
             accessorKey: "value",
             header: "Value",
             cell: ({ row }) => {
-                return <TextField text={row.original.value} wrap copyValue lineClamp linesCount={1} />;
+                return <TextField text={row.original.value} type="secret" copyValue />;
             }
         }
     ];
