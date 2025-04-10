@@ -7,13 +7,12 @@ import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
-import { Label } from "@/components/ui/label";
 import { TerminalWithId } from "@/data/terminals";
 import { terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPut } from "@/api/enigma/terminal/terminal";
 import { TerminalUpdateAuthAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { AuthDataViewer } from "./AuthDataViewer";
 
 interface ProviderEditParams {
     provider: string;
@@ -167,16 +166,13 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                             name="auth"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
-                                    <Label>{translate("resources.terminals.fields.auth")}</Label>
                                     <FormControl>
-                                        <MonacoEditor
-                                            height="144px"
-                                            width="100%"
+                                        <AuthDataViewer
                                             onMountEditor={() => setMonacoEditorMounted(true)}
                                             onErrorsChange={setHasErrors}
                                             onValidChange={setIsValid}
-                                            code={field.value}
-                                            setCode={field.onChange}
+                                            authData={field.value}
+                                            setAuthData={field.onChange}
                                         />
                                     </FormControl>
                                     <FormMessage />
