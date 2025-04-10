@@ -2,8 +2,12 @@ import { Button } from "@/components/ui/Button";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { OnMount } from "@monaco-editor/react";
 import clsx from "clsx";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useMemo, useState } from "react";
 import { useTranslate } from "react-admin";
+import { SimpleTable } from "../../shared";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableTypes } from "../../shared/SimpleTable";
+import { TextField } from "@/components/ui/text-field";
 
 interface IAuthDataViewer {
     authData: string;
@@ -24,10 +28,41 @@ export const AuthDataViewer = ({
 
     const [showJson, setShowJson] = useState(true);
 
+    const authDataColumns: ColumnDef<{ [key: string]: string }>[] = [
+        {
+            id: "key",
+            accessorKey: "key",
+            header: "Key"
+        },
+        {
+            id: "value",
+            accessorKey: "value",
+            header: "Value",
+            cell: ({ row }) => {
+                return <TextField text={row.original.value} wrap copyValue lineClamp linesCount={1} />;
+            }
+        }
+    ];
+
     const toggleJsonHandler = (e: MouseEvent) => {
         e.preventDefault();
         setShowJson(prev => !prev);
     };
+
+    const parseAuthData = useMemo(() => {
+        if (!showJson) {
+            try {
+                const parse = JSON.parse(authData);
+
+                return Object.keys(parse).map(key => ({ key, value: parse[key] }));
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
+        }
+
+        return [];
+    }, [authData, showJson]);
 
     return (
         <div className="flex flex-col gap-3">
@@ -62,6 +97,7 @@ export const AuthDataViewer = ({
 
             {showJson ? (
                 <MonacoEditor
+                    disabled
                     height="144px"
                     width="100%"
                     onMountEditor={onMountEditor}
@@ -71,7 +107,7 @@ export const AuthDataViewer = ({
                     setCode={setAuthData}
                 />
             ) : (
-                <div></div>
+                <SimpleTable columns={authDataColumns} data={parseAuthData} tableType={TableTypes.COLORED} />
             )}
         </div>
     );
