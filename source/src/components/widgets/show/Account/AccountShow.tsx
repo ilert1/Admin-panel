@@ -47,14 +47,14 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                 <div className="flex flex-col gap-1 md:gap-4">
                     <div className="flex items-center gap-2 text-display-2 text-neutral-90 dark:text-neutral-30">
                         <TextField
-                            text={context.record.meta.caption}
+                            text={context.record.meta?.caption}
                             onClick={
                                 permissions === "admin"
                                     ? merchId
                                         ? () =>
                                               openSheet("merchant", {
                                                   id: merchId ?? "",
-                                                  merchantName: context.record.meta.caption
+                                                  merchantName: context.record.meta?.caption
                                               })
                                         : undefined
                                     : undefined
