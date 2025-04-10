@@ -40,11 +40,16 @@ export const AuthDataViewer = ({
                     <label className="flex items-center gap-2">
                         <button
                             onClick={toggleJsonHandler}
-                            className="flex w-11 items-center rounded-[50px] bg-green-50 p-0.5 outline outline-1 outline-offset-0 outline-green-40">
+                            className={clsx(
+                                "flex w-11 items-center rounded-[50px] p-0.5 outline outline-1",
+                                showJson ? "bg-green-50 outline-green-40" : "bg-transparent outline-green-50"
+                            )}>
                             <span
                                 className={clsx(
-                                    "h-5 w-5 rounded-full bg-black outline outline-1 outline-offset-0 outline-green-40 transition-transform",
-                                    showJson ? "translate-x-full" : "translate-x-0"
+                                    "h-5 w-5 rounded-full outline outline-1 transition-all",
+                                    showJson
+                                        ? "translate-x-full bg-black outline-green-40"
+                                        : "translate-x-0 bg-green-50 outline-transparent"
                                 )}
                             />
                         </button>
