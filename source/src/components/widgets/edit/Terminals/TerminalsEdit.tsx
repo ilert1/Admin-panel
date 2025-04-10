@@ -21,7 +21,7 @@ interface ProviderEditParams {
     onClose: () => void;
 }
 
-export const TerminalEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) => {
+export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) => {
     const dataProvider = useDataProvider();
     const translate = useTranslate();
     const refresh = useRefresh();

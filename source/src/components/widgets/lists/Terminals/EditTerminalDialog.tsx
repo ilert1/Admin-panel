@@ -7,7 +7,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useTranslate } from "react-admin";
-import { TerminalEdit } from "../../edit/TerminalEdit";
+import { TerminalsEdit } from "../../edit/Terminals";
 
 interface EditProviderDialogProps {
     open?: boolean;
@@ -29,7 +29,7 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
                         {translate("resources.terminals.editingTerminal")}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
-                    <TerminalEdit provider={provider} id={id} onClose={() => onOpenChange(false)} />
+                    <TerminalsEdit provider={provider} id={id} onClose={() => onOpenChange(false)} />
                 </DialogHeader>
                 <DialogFooter></DialogFooter>
             </DialogContent>
