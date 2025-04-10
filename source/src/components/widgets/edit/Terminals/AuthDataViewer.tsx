@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/Button";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { OnMount } from "@monaco-editor/react";
 import clsx from "clsx";
@@ -26,7 +25,7 @@ export const AuthDataViewer = ({
 }: IAuthDataViewer) => {
     const translate = useTranslate();
 
-    const [showJson, setShowJson] = useState(true);
+    const [showJson, setShowJson] = useState(false);
 
     const authDataColumns: ColumnDef<{ [key: string]: string }>[] = [
         {
@@ -94,13 +93,12 @@ export const AuthDataViewer = ({
                         <p className="text-base">JSON</p>
                     </label>
 
-                    <Button>{translate("app.ui.actions.edit")}</Button>
+                    {/* <Button>{translate("app.ui.actions.edit")}</Button> */}
                 </div>
             </div>
 
             {showJson ? (
                 <MonacoEditor
-                    disabled
                     height="144px"
                     width="100%"
                     onMountEditor={onMountEditor}
