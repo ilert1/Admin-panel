@@ -194,15 +194,6 @@ export const useGetTerminalColumns = () => {
             }
         },
         {
-            id: "update_field",
-            header: () => {
-                return <div className="text-center">{translate("app.ui.actions.edit")}</div>;
-            },
-            cell: ({ row }) => {
-                return <EditButton onClick={() => handleEditClicked(row.original.terminal_id)} />;
-            }
-        },
-        {
             id: "delete_field",
             header: () => {
                 return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
