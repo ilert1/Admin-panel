@@ -4,7 +4,6 @@ import { FeesResource } from "@/data";
 import { TextField } from "@/components/ui/text-field";
 import { useQuery } from "@tanstack/react-query";
 import { LoadingBlock } from "@/components/ui/loading";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/Button";
 import { TerminalWithId } from "@/data/terminals";
 import { EditTerminalDialog } from "../../lists/Terminals/EditTerminalDialog";
@@ -64,11 +63,14 @@ export const TerminalShow = (props: TerminalShowProps) => {
                                 text={data.description ?? ""}
                                 label={translate("resources.terminals.fields.description")}
                             />
-                        </div>
-
-                        <div>
-                            <Label className="mb-0">{translate("resources.terminals.fields.auth")}</Label>
-                            <TextField text={JSON.stringify(data.auth)} copyValue />
+                            <TextField
+                                text={JSON.stringify(data.auth)}
+                                copyValue
+                                lineClamp
+                                linesCount={1}
+                                maxWidth="10%"
+                                label={translate("resources.terminals.fields.auth")}
+                            />
                         </div>
                     </div>
 
