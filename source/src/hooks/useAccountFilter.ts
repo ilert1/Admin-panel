@@ -8,7 +8,7 @@ const useAccountFilter = () => {
 
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
 
-    const [merchantId, setMerchantId] = useState<string>(filterValues?.merchant || "");
+    const [merchantId, setMerchantId] = useState<string>(filterValues?.merchantId || "");
 
     const translate = useTranslate();
 
