@@ -25,7 +25,7 @@ export const TextField = ({
     label?: string | undefined;
     labelSize?: LabelSize;
     link?: string;
-    type?: "text" | "link" | "internal-link";
+    type?: "text" | "link" | "internal-link" | "secret";
     copyValue?: boolean;
     wrap?: boolean | "break-all";
     lineClamp?: boolean;
@@ -70,7 +70,7 @@ export const TextField = ({
     return (
         <div className="text-neutral-90 dark:text-neutral-0">
             {label && <small className={cn("text-neutral-60", labelSize)}>{label}</small>}
-            {(type === "text" || type === "link") && (
+            {(type === "text" || type === "link" || type === "secret") && (
                 <p className={cn("flex flex-row items-center gap-2 leading-5", className)}>
                     {copyValue && text?.length > 0 && (
                         <span>
@@ -84,40 +84,57 @@ export const TextField = ({
                             />
                         </span>
                     )}
-                    <span
-                        className={cn(
-                            textStyle(),
-                            "block cursor-default",
-                            onClick &&
-                                "cursor-pointer !text-green-50 underline transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
-                        )}
-                        onClick={onClick}
-                        style={{
-                            ...(lineClamp
-                                ? {
-                                      display: "-webkit-box",
-                                      overflow: "hidden",
-                                      WebkitLineClamp: linesCount,
-                                      WebkitBoxOrient: "vertical",
-                                      wordBreak: "break-all",
-                                      textWrap: "wrap",
-                                      maxWidth: maxWidth,
-                                      minWidth: minWidth
-                                  }
-                                : {})
-                        }}>
-                        {type === "link" ? (
-                            <a
-                                href={link}
-                                target="_blank"
-                                className="block text-green-50 underline outline-none transition-colors hover:text-green-40 focus-visible:text-neutral-60 active:text-green-60 dark:text-green-40 dark:hover:text-green-50 dark:focus-visible:text-neutral-70 dark:active:text-green-20"
-                                rel="noreferrer">
-                                {currentText}
-                            </a>
-                        ) : (
-                            currentText
-                        )}
-                    </span>
+
+                    {(type === "text" || type === "link") && (
+                        <span
+                            className={cn(
+                                textStyle(),
+                                "block cursor-default",
+                                onClick &&
+                                    "cursor-pointer !text-green-50 underline transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
+                            )}
+                            onClick={onClick}
+                            style={{
+                                ...(lineClamp
+                                    ? {
+                                          display: "-webkit-box",
+                                          overflow: "hidden",
+                                          WebkitLineClamp: linesCount,
+                                          WebkitBoxOrient: "vertical",
+                                          wordBreak: "break-all",
+                                          textWrap: "wrap",
+                                          maxWidth: maxWidth,
+                                          minWidth: minWidth
+                                      }
+                                    : {})
+                            }}>
+                            {type === "link" ? (
+                                <a
+                                    href={link}
+                                    target="_blank"
+                                    className="block text-green-50 underline outline-none transition-colors hover:text-green-40 focus-visible:text-neutral-60 active:text-green-60 dark:text-green-40 dark:hover:text-green-50 dark:focus-visible:text-neutral-70 dark:active:text-green-20"
+                                    rel="noreferrer">
+                                    {currentText}
+                                </a>
+                            ) : (
+                                currentText
+                            )}
+                        </span>
+                    )}
+
+                    {type === "secret" && (
+                        <span
+                            className="flex cursor-default gap-1"
+                            style={{
+                                overflow: "hidden",
+                                maxWidth: maxWidth,
+                                minWidth: minWidth
+                            }}>
+                            {Array.from({ length: 20 }, (x, i) => i).map(item => (
+                                <span key={item} className="h-1 w-1 rounded-full bg-neutral-50" />
+                            ))}
+                        </span>
+                    )}
                 </p>
             )}
         </div>
