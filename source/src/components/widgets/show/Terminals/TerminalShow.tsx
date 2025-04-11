@@ -82,8 +82,6 @@ export const TerminalShow = ({ id, provider, onOpenChange }: TerminalShowProps) 
                             <AuthDataViewer
                                 authData={data.auth}
                                 showAuthDataEditSheet={() => setEditAuthDataDialogOpen(true)}
-                                titleClassName="text-xl md:text-2xl"
-                                tableClassName="rounded-16 overflow-hidden"
                             />
                         </div>
                     </div>

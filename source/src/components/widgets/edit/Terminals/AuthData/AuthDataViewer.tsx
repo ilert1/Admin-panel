@@ -1,5 +1,4 @@
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import clsx from "clsx";
 import { useMemo, useState } from "react";
 import { useTranslate } from "react-admin";
 import { SimpleTable } from "../../../shared";
@@ -13,16 +12,9 @@ import { TerminalAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 interface IAuthDataViewer {
     authData: TerminalAuth | undefined;
     showAuthDataEditSheet: () => void;
-    titleClassName?: string;
-    tableClassName?: string;
 }
 
-export const AuthDataViewer = ({
-    authData,
-    showAuthDataEditSheet,
-    titleClassName = "",
-    tableClassName = ""
-}: IAuthDataViewer) => {
+export const AuthDataViewer = ({ authData, showAuthDataEditSheet }: IAuthDataViewer) => {
     const translate = useTranslate();
 
     const [showJson, setShowJson] = useState(false);
@@ -55,7 +47,7 @@ export const AuthDataViewer = ({
         <>
             <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between gap-1">
-                    <p className={clsx("text-note-1 !text-neutral-90 dark:!text-neutral-30", titleClassName)}>
+                    <p className="text-xl !text-neutral-90 dark:!text-neutral-30 md:text-2xl">
                         {translate("resources.terminals.fields.auth")}
                     </p>
 
@@ -84,7 +76,7 @@ export const AuthDataViewer = ({
                         columns={authDataColumns}
                         data={parseAuthData}
                         tableType={TableTypes.COLORED}
-                        className={tableClassName}
+                        className="overflow-hidden rounded-16"
                     />
                 )}
             </div>
