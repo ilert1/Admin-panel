@@ -1,5 +1,4 @@
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import { OnMount } from "@monaco-editor/react";
 import clsx from "clsx";
 import { useMemo, useState } from "react";
 import { useTranslate } from "react-admin";
@@ -14,10 +13,6 @@ import { TerminalAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 interface IAuthDataViewer {
     authData: TerminalAuth | undefined;
     showAuthDataEditSheet: () => void;
-    setAuthData?: (value: string) => void;
-    onErrorsChange?: (hasErrors: boolean) => void;
-    onValidChange?: (isValid: boolean) => void;
-    onMountEditor?: OnMount;
     titleClassName?: string;
     tableClassName?: string;
 }
