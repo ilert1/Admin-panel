@@ -12,7 +12,7 @@ import { TerminalWithId } from "@/data/terminals";
 import { terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPut } from "@/api/enigma/terminal/terminal";
 import { TerminalUpdateAuthAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { AuthDataViewer } from "./AuthDataViewer";
+import { AuthDataViewer } from "./AuthData";
 
 interface ProviderEditParams {
     provider: string;

@@ -9,7 +9,7 @@ import { TerminalWithId } from "@/data/terminals";
 import { EditTerminalDialog } from "../../lists/Terminals/EditTerminalDialog";
 import { DeleteTerminalDialog } from "../../lists/Terminals/DeleteTerminalDialog";
 import { useState } from "react";
-import { AuthDataViewer } from "../../edit/Terminals/AuthDataViewer";
+import { AuthDataViewer } from "../../edit/Terminals/AuthData";
 
 interface TerminalShowProps {
     id: string;
