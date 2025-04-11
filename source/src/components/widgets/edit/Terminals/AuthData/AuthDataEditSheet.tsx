@@ -2,13 +2,17 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { useRefresh, useTranslate } from "react-admin";
 import { CloseSheetXButton } from "../../../components/CloseSheetXButton";
 import { AuthDataJsonToggle } from "./AuthDataJsonToggle";
-import { useState } from "react";
+import { SetStateAction, useEffect, useMemo, useState } from "react";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/Button";
 import { TerminalAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPut } from "@/api/enigma/terminal/terminal";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-// import { SimpleTable } from "@/components/widgets/shared";
+import { ColumnDef } from "@tanstack/react-table";
+import { TextField } from "@/components/ui/text-field";
+import { SimpleTable } from "@/components/widgets/shared";
+import { TableTypes } from "@/components/widgets/shared/SimpleTable";
+import { Input } from "@/components/ui/Input/input";
 
 interface IAuthDataEditSheet {
     open: boolean;
@@ -33,41 +37,83 @@ export const AuthDataEditSheet = ({
     const [isValid, setIsValid] = useState(false);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [authData, setAuthData] = useState(() => originalAuthData);
+    const [stringAuthData, setStringAuthData] = useState(() => JSON.stringify(originalAuthData, null, 2));
     const [showJson, setShowJson] = useState(false);
     const [disabledBtn, setDisabledBtn] = useState(false);
 
-    const submitHandler = async () => {
-        if (authData && originalAuthData !== authData) {
-            try {
-                setDisabledBtn(true);
+    const parseAuthData = useMemo(
+        () => (authData ? Object.keys(authData).map(key => ({ key, value: authData[key] as string })) : []),
+        [authData]
+    );
 
-                const res =
-                    await terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPut(
-                        provider,
-                        terminalId,
-                        {
-                            auth: authData
-                        },
-                        {
-                            headers: {
-                                authorization: `Bearer ${localStorage.getItem("access-token")}`
-                            }
-                        }
-                    );
-
-                if ("data" in res.data && !res.data.success) {
-                    throw new Error(res.data.error?.error_message);
-                } else if ("detail" in res.data) {
-                    throw new Error(res.data.detail?.[0].msg);
-                }
-
-                refresh();
-                onOpenChange(false);
-            } catch (error) {
-                if (error instanceof Error) appToast("error", error.message);
-            } finally {
-                setDisabledBtn(false);
+    const authDataColumns: ColumnDef<{ [key: string]: string }>[] = [
+        {
+            id: "key",
+            accessorKey: "key",
+            header: "Key",
+            cell: ({ row }) => {
+                return <TextField text={row.original.key} wrap lineClamp />;
             }
+        },
+        {
+            id: "value",
+            accessorKey: "value",
+            header: "Value",
+            cell: ({ row }) => {
+                return <TextField text={row.original.value} type="secret" copyValue />;
+            }
+        }
+    ];
+
+    const toggleJsonHandler = (state: SetStateAction<boolean>) => {
+        try {
+            if (state) {
+                setStringAuthData(JSON.stringify(authData, null, 2));
+            } else {
+                setAuthData(JSON.parse(stringAuthData));
+            }
+
+            setShowJson(state);
+        } catch (error) {
+            appToast("error", translate("resources.terminals.errors.auth_data_toggle"));
+        }
+    };
+
+    const cancelHandler = () => {
+        setAuthData(originalAuthData);
+        setStringAuthData(JSON.stringify(originalAuthData, null, 2));
+        onOpenChange(false);
+    };
+
+    const submitHandler = async () => {
+        try {
+            setDisabledBtn(true);
+
+            const res = await terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPut(
+                provider,
+                terminalId,
+                {
+                    auth: authData || {}
+                },
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
+
+            if ("data" in res.data && !res.data.success) {
+                throw new Error(res.data.error?.error_message);
+            } else if ("detail" in res.data) {
+                throw new Error(res.data.detail?.[0].msg);
+            }
+
+            refresh();
+            onOpenChange(false);
+        } catch (error) {
+            if (error instanceof Error) appToast("error", error.message);
+        } finally {
+            setDisabledBtn(false);
         }
     };
 
@@ -91,7 +137,7 @@ export const AuthDataEditSheet = ({
 
                 <div className="mb-4 flex flex-col gap-6 p-4 md:mb-[42px] md:px-[42px]">
                     <div className="self-end">
-                        <AuthDataJsonToggle showJson={showJson} setShowJson={setShowJson} />
+                        <AuthDataJsonToggle showJson={showJson} setShowJson={toggleJsonHandler} />
                     </div>
 
                     {showJson ? (
@@ -101,17 +147,11 @@ export const AuthDataEditSheet = ({
                             onMountEditor={() => setMonacoEditorMounted(true)}
                             onErrorsChange={setHasErrors}
                             onValidChange={setIsValid}
-                            code={JSON.stringify(authData, null, 2)}
-                            setCode={value => setAuthData(JSON.parse(value))}
+                            code={stringAuthData}
+                            setCode={setStringAuthData}
                         />
                     ) : (
-                        // <SimpleTable
-                        //     columns={authDataColumns}
-                        //     data={parseAuthData}
-                        //     tableType={TableTypes.COLORED}
-                        //     className={tableClassName}
-                        // />
-                        <></>
+                        <SimpleTable columns={authDataColumns} data={parseAuthData} tableType={TableTypes.COLORED} />
                     )}
 
                     <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
@@ -123,12 +163,13 @@ export const AuthDataEditSheet = ({
                             className="flex-1">
                             {translate("app.ui.actions.save")}
                         </Button>
+
                         <Button
                             disabled={disabledBtn}
                             type="button"
                             variant="outline_gray"
                             className="mt-4 w-full flex-1 sm:mt-0 sm:w-1/2"
-                            onClick={() => onOpenChange(false)}>
+                            onClick={cancelHandler}>
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>
