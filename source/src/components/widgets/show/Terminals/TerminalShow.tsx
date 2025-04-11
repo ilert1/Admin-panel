@@ -118,13 +118,7 @@ export const TerminalShow = ({ id, provider, onOpenChange }: TerminalShowProps) 
                 originalAuthData={data.auth}
             />
 
-            <EditTerminalDialog
-                provider={provider}
-                id={id}
-                open={editDialogOpen}
-                onOpenChange={setEditDialogOpen}
-                showAuthDataEditSheet={() => setEditAuthDataDialogOpen(true)}
-            />
+            <EditTerminalDialog provider={provider} id={id} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
 
             <DeleteTerminalDialog
                 provider={provider}

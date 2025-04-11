@@ -10,16 +10,14 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { usePreventFocus } from "@/hooks";
 import { TerminalWithId } from "@/data/terminals";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { AuthDataViewer } from "./AuthData";
 
 interface ProviderEditParams {
     provider: string;
     id: string;
-    showAuthDataEditSheet: () => void;
     onClose: () => void;
 }
 
-export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose, showAuthDataEditSheet }) => {
+export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) => {
     const dataProvider = useDataProvider();
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -128,13 +126,6 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose, s
                                 </FormItem>
                             )}
                         />
-
-                        <div className="w-full p-2">
-                            <AuthDataViewer
-                                authData={controllerProps.record?.auth}
-                                showAuthDataEditSheet={showAuthDataEditSheet}
-                            />
-                        </div>
 
                         <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                             <Button disabled={submitButtonDisabled} type="submit" variant="default" className="flex-1">
