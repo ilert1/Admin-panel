@@ -4,12 +4,12 @@ import { FeesResource } from "@/data";
 import { TextField } from "@/components/ui/text-field";
 import { useQuery } from "@tanstack/react-query";
 import { LoadingBlock } from "@/components/ui/loading";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/Button";
 import { TerminalWithId } from "@/data/terminals";
 import { EditTerminalDialog } from "../../lists/Terminals/EditTerminalDialog";
 import { DeleteTerminalDialog } from "../../lists/Terminals/DeleteTerminalDialog";
 import { useState } from "react";
+import { AuthDataViewer } from "../../edit/Terminals/AuthDataViewer";
 
 interface TerminalShowProps {
     id: string;
@@ -47,9 +47,9 @@ export const TerminalShow = (props: TerminalShowProps) => {
 
     return (
         <>
-            <div className="flex flex-col gap-2 px-4 md:gap-4 md:px-[45px]">
-                <div className="flex flex-col gap-3 md:gap-6">
-                    <div className="flex flex-col gap-2">
+            <div className="flex flex-col px-4 md:px-[45px]">
+                <div className="flex flex-col">
+                    <div className="flex flex-col">
                         <TextField text={id} copyValue className="text-display-4" />
 
                         <div className="flex gap-4 md:gap-6">
@@ -66,21 +66,25 @@ export const TerminalShow = (props: TerminalShowProps) => {
                             />
                         </div>
 
-                        <div>
-                            <Label className="mb-0">{translate("resources.terminals.fields.auth")}</Label>
-                            <TextField text={JSON.stringify(data.auth)} copyValue />
+                        <div className="mt-3 flex justify-end">
+                            <div className="flex gap-3 md:gap-4">
+                                <Button className="" onClick={() => setEditDialogOpen(true)}>
+                                    {translate("app.ui.actions.edit")}
+                                </Button>
+
+                                <Button className="" onClick={() => setDeleteDialogOpen(true)} variant={"outline_gray"}>
+                                    {translate("app.ui.actions.delete")}
+                                </Button>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="flex justify-end">
-                        <div className="flex gap-3 md:gap-4">
-                            <Button className="" onClick={() => setEditDialogOpen(true)}>
-                                {translate("app.ui.actions.edit")}
-                            </Button>
-
-                            <Button className="" onClick={() => setDeleteDialogOpen(true)} variant={"outline_gray"}>
-                                {translate("app.ui.actions.delete")}
-                            </Button>
+                        <div className="my-5 border-y-[1px] border-neutral-90 py-5 md:my-10 md:py-10">
+                            <AuthDataViewer
+                                disabledEditJson={true}
+                                authData={JSON.stringify(data.auth, null, 2)}
+                                titleClassName="text-xl md:text-2xl"
+                                tableClassName="rounded-16 overflow-hidden"
+                            />
                         </div>
                     </div>
                     {/* TODO */}

@@ -48,7 +48,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         defaultValues: {
             verbose_name: controllerProps.record?.verbose_name || "",
             description: controllerProps.record?.description || "",
-            auth: JSON.stringify(controllerProps.record?.auth) || ""
+            auth: JSON.stringify(controllerProps.record?.auth, null, 2) || ""
         }
     });
 

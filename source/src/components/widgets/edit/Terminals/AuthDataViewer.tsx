@@ -10,20 +10,24 @@ import { TextField } from "@/components/ui/text-field";
 
 interface IAuthDataViewer {
     authData: string;
-    setAuthData: (value: string) => void;
-    onErrorsChange: (hasErrors: boolean) => void;
-    onValidChange: (isValid: boolean) => void;
+    setAuthData?: (value: string) => void;
+    onErrorsChange?: (hasErrors: boolean) => void;
+    onValidChange?: (isValid: boolean) => void;
     onMountEditor?: OnMount;
     disabledEditJson?: boolean;
+    titleClassName?: string;
+    tableClassName?: string;
 }
 
 export const AuthDataViewer = ({
     authData,
-    setAuthData,
-    onMountEditor,
-    onErrorsChange,
-    onValidChange,
-    disabledEditJson = true
+    setAuthData = () => {},
+    onMountEditor = () => {},
+    onErrorsChange = () => {},
+    onValidChange = () => {},
+    disabledEditJson = true,
+    titleClassName = "",
+    tableClassName = ""
 }: IAuthDataViewer) => {
     const translate = useTranslate();
 
@@ -71,7 +75,7 @@ export const AuthDataViewer = ({
     return (
         <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between gap-1">
-                <p className="text-note-1 !text-neutral-60 dark:!text-neutral-30">
+                <p className={clsx("text-note-1 !text-neutral-90 dark:!text-neutral-30", titleClassName)}>
                     {translate("resources.terminals.fields.auth")}
                 </p>
 
@@ -85,7 +89,7 @@ export const AuthDataViewer = ({
                             )}>
                             <span
                                 className={clsx(
-                                    "h-5 w-5 rounded-full outline outline-1 transition-all",
+                                    "h-5 w-5 rounded-full text-neutral-90 outline outline-1 transition-all dark:text-neutral-30",
                                     showJson
                                         ? "translate-x-full bg-black outline-green-40"
                                         : "translate-x-0 bg-green-50 outline-transparent"
@@ -111,7 +115,12 @@ export const AuthDataViewer = ({
                     setCode={setAuthData}
                 />
             ) : (
-                <SimpleTable columns={authDataColumns} data={parseAuthData} tableType={TableTypes.COLORED} />
+                <SimpleTable
+                    columns={authDataColumns}
+                    data={parseAuthData}
+                    tableType={TableTypes.COLORED}
+                    className={tableClassName}
+                />
             )}
         </div>
     );
