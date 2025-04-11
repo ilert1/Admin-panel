@@ -168,6 +168,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                                 <FormItem className="w-full p-2">
                                     <FormControl>
                                         <AuthDataViewer
+                                            disabledEditJson={false}
                                             onMountEditor={() => setMonacoEditorMounted(true)}
                                             onErrorsChange={setHasErrors}
                                             onValidChange={setIsValid}

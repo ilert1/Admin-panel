@@ -14,6 +14,7 @@ interface IAuthDataViewer {
     onErrorsChange: (hasErrors: boolean) => void;
     onValidChange: (isValid: boolean) => void;
     onMountEditor?: OnMount;
+    disabledEditJson?: boolean;
 }
 
 export const AuthDataViewer = ({
@@ -21,7 +22,8 @@ export const AuthDataViewer = ({
     setAuthData,
     onMountEditor,
     onErrorsChange,
-    onValidChange
+    onValidChange,
+    disabledEditJson = true
 }: IAuthDataViewer) => {
     const translate = useTranslate();
 
@@ -99,6 +101,7 @@ export const AuthDataViewer = ({
 
             {showJson ? (
                 <MonacoEditor
+                    disabled={disabledEditJson}
                     height="144px"
                     width="100%"
                     onMountEditor={onMountEditor}
