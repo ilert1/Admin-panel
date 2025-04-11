@@ -119,7 +119,6 @@ export const AuthDataEditSheet = ({
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
             <SheetContent
-                overside={1}
                 className="bottom-auto top-[84px] m-0 flex h-auto w-full flex-col gap-0 border-0 p-0 sm:max-w-[1015px]"
                 tabIndex={-1}
                 close={false}>
