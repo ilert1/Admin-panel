@@ -9,8 +9,7 @@ interface IAuthDataEditSheet {
     onOpenChange: (state: boolean) => void;
 }
 
-export const AuthDataEditSheet = (props: IAuthDataEditSheet) => {
-    const { open, onOpenChange } = props;
+export const AuthDataEditSheet = ({ open, onOpenChange }: IAuthDataEditSheet) => {
     const translate = useTranslate();
 
     return (
@@ -23,7 +22,6 @@ export const AuthDataEditSheet = (props: IAuthDataEditSheet) => {
                     <div>
                         <div className="flex items-center justify-between">
                             <SheetTitle className="!text-display-1">
-                                {" "}
                                 {translate("resources.terminals.fields.auth")}
                             </SheetTitle>
                             <CloseSheetXButton onOpenChange={onOpenChange} />

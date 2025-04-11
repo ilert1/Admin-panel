@@ -7,7 +7,7 @@ import { SimpleTable } from "../../../shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { TableTypes } from "../../../shared/SimpleTable";
 import { TextField } from "@/components/ui/text-field";
-import { AuthDataEditSheet } from "./AuthDataEdit";
+import { AuthDataEditSheet } from "./AuthDataEditSheet";
 import { Button } from "@/components/ui/Button";
 import { AuthDataJsonToggle } from "./AuthDataJsonToggle";
 
