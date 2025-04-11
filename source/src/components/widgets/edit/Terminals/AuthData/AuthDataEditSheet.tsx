@@ -2,7 +2,7 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { useRefresh, useTranslate } from "react-admin";
 import { CloseSheetXButton } from "../../../components/CloseSheetXButton";
 import { AuthDataJsonToggle } from "./AuthDataJsonToggle";
-import { SetStateAction, useEffect, useMemo, useState } from "react";
+import { SetStateAction, useMemo, useState } from "react";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/Button";
 import { TerminalAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
@@ -12,7 +12,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { TextField } from "@/components/ui/text-field";
 import { SimpleTable } from "@/components/widgets/shared";
 import { TableTypes } from "@/components/widgets/shared/SimpleTable";
-import { Input } from "@/components/ui/Input/input";
 
 interface IAuthDataEditSheet {
     open: boolean;
