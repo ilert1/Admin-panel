@@ -19,7 +19,6 @@ export const useGetTerminalColumns = () => {
 
     const [showAuthKeyOpen, setShowAuthKeyOpen] = useState(false);
     const [chosenId, setChosenId] = useState("");
-    const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [createButtonClicked, setCreateButtonClicked] = useState(false);
 
@@ -217,9 +216,7 @@ export const useGetTerminalColumns = () => {
         columns,
         showAuthKeyOpen,
         chosenId,
-        editDialogOpen,
         deleteDialogOpen,
-        setEditDialogOpen,
         setShowAuthKeyOpen,
         setDeleteDialogOpen
     };
