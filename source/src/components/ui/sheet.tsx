@@ -4,6 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { clsx } from "clsx";
 
 const Sheet = SheetPrimitive.Root;
 
@@ -51,34 +52,35 @@ interface SheetContentProps
     close?: boolean;
 }
 
-const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Content>, SheetContentProps>(
-    ({ side = "right", className, children, close, ...props }, ref) => {
-        const handleInteractOutside = (ev: Event) => {
-            const isToastItem = (ev.target as Element)?.closest("[data-sonner-toaster]");
-            if (isToastItem) ev.preventDefault();
-        };
+const SheetContent = React.forwardRef<
+    React.ElementRef<typeof SheetPrimitive.Content>,
+    SheetContentProps & { overside?: number }
+>(({ side = "right", className, children, close, overside, ...props }, ref) => {
+    const handleInteractOutside = (ev: Event) => {
+        const isToastItem = (ev.target as Element)?.closest("[data-sonner-toaster]");
+        if (isToastItem) ev.preventDefault();
+    };
 
-        return (
-            <SheetPortal>
-                <SheetOverlay />
-                <SheetPrimitive.Content
-                    onPointerDownOutside={handleInteractOutside}
-                    onInteractOutside={handleInteractOutside}
-                    ref={ref}
-                    className={cn(sheetVariants({ side }), className)}
-                    {...props}>
-                    {children}
-                    {close && (
-                        <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm bg-muted opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
-                            <X className="h-4 w-4" />
-                            <span className="sr-only">Close</span>
-                        </SheetPrimitive.Close>
-                    )}
-                </SheetPrimitive.Content>
-            </SheetPortal>
-        );
-    }
-);
+    return (
+        <SheetPortal>
+            <SheetOverlay className={clsx(overside && overside > 0 && `z-[10${overside}]`)} />
+            <SheetPrimitive.Content
+                onPointerDownOutside={handleInteractOutside}
+                onInteractOutside={handleInteractOutside}
+                ref={ref}
+                className={cn(sheetVariants({ side }), className, overside && overside > 0 ? `z-[10${overside}]` : "")}
+                {...props}>
+                {children}
+                {close && (
+                    <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm bg-muted opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
+                        <X className="h-4 w-4" />
+                        <span className="sr-only">Close</span>
+                    </SheetPrimitive.Close>
+                )}
+            </SheetPrimitive.Content>
+        </SheetPortal>
+    );
+});
 SheetContent.displayName = SheetPrimitive.Content.displayName;
 
 const SheetHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
