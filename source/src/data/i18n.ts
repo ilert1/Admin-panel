@@ -501,7 +501,7 @@ const ru: TranslationMessages = {
             creatingDirection: "Добавление направления"
         },
         terminals: {
-            name: "Терминал",
+            name: "Терминалы",
             fields: {
                 verbose_name: "Наименование",
                 id: "ID",
@@ -1452,7 +1452,7 @@ const en: TranslationMessages = {
             creatingDirection: "Creating direction"
         },
         terminals: {
-            name: "Terminal",
+            name: "Terminals",
             fields: {
                 verbose_name: "Name",
                 id: "ID",
