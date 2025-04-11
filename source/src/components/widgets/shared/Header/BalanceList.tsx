@@ -3,6 +3,8 @@ import { CurrencyIcon } from "./CurrencyIcon";
 import { NumericFormat } from "react-number-format";
 import SnowFlakeIcon from "@/lib/icons/snowflake.svg?react";
 import { cn } from "@/lib/utils";
+import { LoadingBlock } from "@/components/ui/loading";
+import { useGetCurrencies } from "@/hooks/useGetCurrencies";
 
 interface IBalanceList {
     totalAmount: AccountBalance[] | undefined;
@@ -12,6 +14,23 @@ interface IBalanceList {
 
 export const BalanceList = ({ totalAmount, isMerchant, totalLoading }: IBalanceList) => {
     const translate = useTranslate();
+
+    const { currencies, isLoadingCurrencies } = useGetCurrencies();
+    console.log(currencies);
+
+    const getFixedValue = (value: number, currencyStr: string) => {
+        const currency = currencies?.find(el => currencyStr === el.code);
+
+        if (!currency?.is_coin) {
+            return value.toFixed(2);
+        }
+
+        return value.toFixed(currency?.accuracy ?? 2);
+    };
+
+    if (isLoadingCurrencies) {
+        return <LoadingBlock />;
+    }
 
     return (
         <div className="mb-1 flex flex-col content-start items-center">
@@ -34,7 +53,7 @@ export const BalanceList = ({ totalAmount, isMerchant, totalLoading }: IBalanceL
                                 <h4 className="overflow-y-hidden text-neutral-90 dark:text-white">
                                     <NumericFormat
                                         className="whitespace-nowrap !text-display-4"
-                                        value={el.value.quantity / el.value.accuracy}
+                                        value={getFixedValue(el.value.quantity / el.value.accuracy, el.currency)}
                                         displayType={"text"}
                                         thousandSeparator=" "
                                         decimalSeparator="."
@@ -50,7 +69,7 @@ export const BalanceList = ({ totalAmount, isMerchant, totalLoading }: IBalanceL
                                         <SnowFlakeIcon className="h-5 w-5 text-extra-7" />
                                         <NumericFormat
                                             className="whitespace-nowrap !text-title-1 text-extra-7"
-                                            value={(el.holds.quantity / el.holds.accuracy).toFixed(2)}
+                                            value={getFixedValue(el.value.quantity / el.value.accuracy, el.currency)}
                                             displayType={"text"}
                                             thousandSeparator=" "
                                             decimalSeparator="."
