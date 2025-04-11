@@ -3,13 +3,14 @@ import { DataTable } from "@/components/widgets/shared";
 import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useGetAccountShowColumns } from "./Columns";
-// import { useEffect, useState } from "react";
 import { uniqueId } from "lodash";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { useBalances } from "@/hooks/useBalances";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { useGetMerchantIdByName } from "@/hooks/useGetMerchantName";
+import SnowFlakeIcon from "@/lib/icons/snowflake.svg?react";
+
 interface AccountShowProps {
     id: string;
 }
@@ -25,8 +26,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
 
     const context = useAbortableShowController<Account>({ resource: "accounts", id });
 
-    const { balances } = useBalances(context.isLoading, context.record?.amounts);
-
+    const { balances, holds } = useBalances(context.isLoading, context.record?.amounts);
     const { historyColumns } = useGetAccountShowColumns();
 
     const listContext = useAbortableListController<AccountHistory>({
@@ -47,14 +47,14 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                 <div className="flex flex-col gap-1 md:gap-4">
                     <div className="flex items-center gap-2 text-display-2 text-neutral-90 dark:text-neutral-30">
                         <TextField
-                            text={context.record.meta.caption}
+                            text={context.record.meta?.caption}
                             onClick={
                                 permissions === "admin"
                                     ? merchId
                                         ? () =>
                                               openSheet("merchant", {
                                                   id: merchId ?? "",
-                                                  merchantName: context.record.meta.caption
+                                                  merchantName: context.record.meta?.caption
                                               })
                                         : undefined
                                     : undefined
@@ -71,13 +71,31 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                 </div>
                 <div className="flex flex-wrap content-end justify-end gap-2">
                     {balances.length > 0 &&
-                        balances.map(balance => (
-                            <div className="rounded-20 bg-green-50 px-3 py-0.5" key={uniqueId()}>
-                                <span className="text-title-2 text-neutral-0">
-                                    {translate("resources.accounts.balance")}: {balance}
-                                </span>
-                            </div>
-                        ))}
+                        balances.map(balance => {
+                            let currentHold;
+
+                            if (holds.length > 0) {
+                                currentHold = holds.find(el => el.split(" ").at(-1) === balance.split(" ").at(-1));
+                            }
+
+                            return (
+                                <div className="flex flex-col items-start" key={uniqueId()}>
+                                    <div className="inline-flex w-auto w-full rounded-20 bg-green-50 px-3 py-0.5">
+                                        <span className="text-title-2 text-neutral-0">
+                                            {translate("resources.accounts.balance")}: {balance}
+                                        </span>
+                                    </div>
+                                    {currentHold && (
+                                        <div>
+                                            <span className="text-title-3 mx-2 flex items-center gap-[7px] self-start text-extra-7">
+                                                <SnowFlakeIcon className="h-5 w-5" />
+                                                {translate("resources.accounts.held")}:{currentHold}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
                 </div>
             </div>
 

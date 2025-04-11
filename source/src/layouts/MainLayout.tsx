@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useState } from "react";
 // import Logo from "@/lib/icons/Logo";
 import { KeysModal } from "@/components/widgets/components/KeysModal";
-import { Header } from "@/components/widgets/shared/Header";
+import { Header } from "@/components/widgets/shared/Header/Header";
 import { Sidebar } from "./Sidebar";
 import { useGetResourceHeaderData } from "@/hooks/useGetResourceHeaderData";
 

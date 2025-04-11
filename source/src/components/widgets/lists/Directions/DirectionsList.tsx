@@ -11,7 +11,9 @@ import { DeleteDirectionDialog } from "../../show/Direction/DeleteDirectionDialo
 export const DirectionsList = () => {
     const listContext = useAbortableListController<Direction>();
 
-    const { columns, deleteDialogOpen, chosenId, setDeleteDialogOpen, onCloseSheet } = useGetDirectionsColumns();
+    const { columns, deleteDialogOpen, chosenId, setDeleteDialogOpen, onCloseSheet } = useGetDirectionsColumns({
+        isFetching: listContext.isFetching
+    });
 
     return (
         <>

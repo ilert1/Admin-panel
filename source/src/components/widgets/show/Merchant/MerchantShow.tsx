@@ -46,9 +46,11 @@ export const MerchantShow = (props: MerchantShowProps) => {
         }
     });
 
-    const { columns } = useGetMerchantShowColumns();
-
-    const { data: merchantDirections, isLoading: isMerchantDirectionsLoading } = useQuery({
+    const {
+        data: merchantDirections,
+        isLoading: isMerchantDirectionsLoading,
+        isFetching: isMerchantDirectionsFetching
+    } = useQuery({
         queryKey: ["merchantDirections", "MerchantShow", context.record?.id],
         queryFn: async () => {
             if (context.record?.id) {
@@ -84,6 +86,8 @@ export const MerchantShow = (props: MerchantShowProps) => {
         },
         enabled: !!context.record?.id
     });
+
+    const { columns } = useGetMerchantShowColumns({ isFetching: isMerchantDirectionsFetching });
 
     const handleEditClicked = () => {
         setEditDialogOpen(true);

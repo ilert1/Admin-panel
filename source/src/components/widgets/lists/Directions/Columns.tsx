@@ -8,8 +8,9 @@ import { useGetMerchantIdByName } from "@/hooks/useGetMerchantName";
 import { ColumnDef } from "@tanstack/react-table";
 import { useCallback, useState } from "react";
 import { useTranslate } from "react-admin";
+import { DirectionActivityBtn } from "./DirectionActivityBtn";
 
-export const useGetDirectionsColumns = () => {
+export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
     const { openSheet, closeSheet } = useSheets();
     const { getMerchantId, isLoadingMerchants } = useGetMerchantIdByName();
@@ -157,17 +158,12 @@ export const useGetDirectionsColumns = () => {
             },
             cell: ({ row }) => {
                 return (
-                    <div className="flex items-center justify-center text-white">
-                        {row.original.state === "active" ? (
-                            <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
-                                {translate("resources.direction.fields.stateActive")}
-                            </span>
-                        ) : (
-                            <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal">
-                                {translate("resources.direction.fields.stateInactive")}
-                            </span>
-                        )}
-                    </div>
+                    <DirectionActivityBtn
+                        id={row.original.id}
+                        directionName={row.original.name}
+                        activityState={row.original.state === "active"}
+                        isFetching={isFetching}
+                    />
                 );
             }
         },
