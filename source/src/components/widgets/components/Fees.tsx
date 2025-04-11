@@ -66,6 +66,7 @@ export const Fees = (props: FeesProps) => {
     if (!feeTypes) {
         return null;
     }
+    console.log(fees);
 
     return (
         <div className={cn("mt-[10px] w-full", padding ? "px-2" : "px-0")}>
@@ -93,6 +94,7 @@ export const Fees = (props: FeesProps) => {
                                       addFee={addFee}
                                       providerName={providerName}
                                       currency={fee.currency}
+                                      direction={fee.direction}
                                   />
                               );
                           })
