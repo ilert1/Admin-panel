@@ -131,7 +131,7 @@ export const TextField = ({
                                 minWidth: minWidth
                             }}>
                             {Array.from({ length: 20 }, (x, i) => i).map(item => (
-                                <span key={item} className="h-1 w-1 rounded-full bg-neutral-50" />
+                                <span key={item} className="h-1 w-1 rounded-full bg-neutral-70 dark:bg-neutral-50" />
                             ))}
                         </span>
                     )}
