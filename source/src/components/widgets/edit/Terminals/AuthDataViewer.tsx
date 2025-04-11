@@ -91,7 +91,7 @@ export const AuthDataViewer = ({
                                 className={clsx(
                                     "h-5 w-5 rounded-full text-neutral-90 outline outline-1 transition-all dark:text-neutral-30",
                                     showJson
-                                        ? "translate-x-full bg-black outline-green-40"
+                                        ? "translate-x-full bg-neutral-10 outline-green-40 dark:bg-black dark:outline-green-50"
                                         : "translate-x-0 bg-green-50 outline-transparent"
                                 )}
                             />
