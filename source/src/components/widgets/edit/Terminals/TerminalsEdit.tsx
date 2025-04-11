@@ -9,18 +9,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { usePreventFocus } from "@/hooks";
 import { TerminalWithId } from "@/data/terminals";
-import { terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPut } from "@/api/enigma/terminal/terminal";
-import { TerminalUpdateAuthAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { AuthDataViewer } from "./AuthData";
 
 interface ProviderEditParams {
     provider: string;
     id: string;
+    showAuthDataEditSheet: () => void;
     onClose: () => void;
 }
 
-export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) => {
+export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose, showAuthDataEditSheet }) => {
     const dataProvider = useDataProvider();
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -32,23 +31,18 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         mutationMode: "pessimistic"
     });
 
-    const [hasErrors, setHasErrors] = useState(false);
-    const [isValid, setIsValid] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-    const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
 
     const formSchema = z.object({
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
-        description: z.union([z.string().trim(), z.literal("")]),
-        auth: z.string()
+        description: z.union([z.string().trim(), z.literal("")])
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             verbose_name: controllerProps.record?.verbose_name || "",
-            description: controllerProps.record?.description || "",
-            auth: JSON.stringify(controllerProps.record?.auth, null, 2) || ""
+            description: controllerProps.record?.description || ""
         }
     });
 
@@ -56,8 +50,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         if (controllerProps.record) {
             form.reset({
                 verbose_name: controllerProps.record.verbose_name || "",
-                description: controllerProps.record.description || "",
-                auth: JSON.stringify(controllerProps.record.auth, null, 2) || ""
+                description: controllerProps.record.description || ""
             });
         }
     }, [form, controllerProps.record]);
@@ -76,32 +69,6 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 },
                 previousData: undefined
             });
-
-            if (data.auth) {
-                const parseAuthData: TerminalUpdateAuthAuth = JSON.parse(data.auth);
-
-                if (JSON.stringify(controllerProps.record?.auth) !== data.auth) {
-                    const res =
-                        await terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPut(
-                            provider,
-                            id,
-                            {
-                                auth: parseAuthData
-                            },
-                            {
-                                headers: {
-                                    authorization: `Bearer ${localStorage.getItem("access-token")}`
-                                }
-                            }
-                        );
-
-                    if ("data" in res.data && !res.data.success) {
-                        throw new Error(res.data.error?.error_message);
-                    } else if ("detail" in res.data) {
-                        throw new Error(res.data.detail?.[0].msg);
-                    }
-                }
-            }
 
             refresh();
         } catch (error) {
@@ -161,32 +128,16 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="auth"
-                            render={({ field }) => (
-                                <FormItem className="w-full p-2">
-                                    <FormControl>
-                                        <AuthDataViewer
-                                            disabledEditJson={false}
-                                            onMountEditor={() => setMonacoEditorMounted(true)}
-                                            onErrorsChange={setHasErrors}
-                                            onValidChange={setIsValid}
-                                            authData={field.value}
-                                            setAuthData={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+
+                        <div className="w-full p-2">
+                            <AuthDataViewer
+                                authData={controllerProps.record?.auth}
+                                showAuthDataEditSheet={showAuthDataEditSheet}
+                            />
+                        </div>
 
                         <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
-                            <Button
-                                disabled={(hasErrors && !isValid) || submitButtonDisabled || !monacoEditorMounted}
-                                type="submit"
-                                variant="default"
-                                className="flex-1">
+                            <Button disabled={submitButtonDisabled} type="submit" variant="default" className="flex-1">
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button

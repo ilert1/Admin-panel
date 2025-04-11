@@ -14,9 +14,16 @@ interface EditProviderDialogProps {
     onOpenChange?: (state: boolean) => void;
     provider: string;
     id: string;
+    showAuthDataEditSheet: () => void;
 }
 
-export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {} }: EditProviderDialogProps) => {
+export const EditTerminalDialog = ({
+    open,
+    id,
+    provider,
+    onOpenChange = () => {},
+    showAuthDataEditSheet
+}: EditProviderDialogProps) => {
     const translate = useTranslate();
 
     return (
@@ -29,7 +36,12 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
                         {translate("resources.terminals.editingTerminal")}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
-                    <TerminalsEdit provider={provider} id={id} onClose={() => onOpenChange(false)} />
+                    <TerminalsEdit
+                        showAuthDataEditSheet={showAuthDataEditSheet}
+                        provider={provider}
+                        id={id}
+                        onClose={() => onOpenChange(false)}
+                    />
                 </DialogHeader>
                 <DialogFooter></DialogFooter>
             </DialogContent>

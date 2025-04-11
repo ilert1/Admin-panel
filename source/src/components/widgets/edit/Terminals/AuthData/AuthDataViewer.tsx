@@ -7,35 +7,30 @@ import { SimpleTable } from "../../../shared";
 import { ColumnDef } from "@tanstack/react-table";
 import { TableTypes } from "../../../shared/SimpleTable";
 import { TextField } from "@/components/ui/text-field";
-import { AuthDataEditSheet } from "./AuthDataEditSheet";
 import { Button } from "@/components/ui/Button";
 import { AuthDataJsonToggle } from "./AuthDataJsonToggle";
+import { TerminalAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 interface IAuthDataViewer {
-    authData: string;
+    authData: TerminalAuth | undefined;
+    showAuthDataEditSheet: () => void;
     setAuthData?: (value: string) => void;
     onErrorsChange?: (hasErrors: boolean) => void;
     onValidChange?: (isValid: boolean) => void;
     onMountEditor?: OnMount;
-    disabledEditJson?: boolean;
     titleClassName?: string;
     tableClassName?: string;
 }
 
 export const AuthDataViewer = ({
     authData,
-    setAuthData = () => {},
-    onMountEditor = () => {},
-    onErrorsChange = () => {},
-    onValidChange = () => {},
-    disabledEditJson = true,
+    showAuthDataEditSheet,
     titleClassName = "",
     tableClassName = ""
 }: IAuthDataViewer) => {
     const translate = useTranslate();
 
     const [showJson, setShowJson] = useState(false);
-    const [editAuthDataDialogOpen, setEditAuthDataDialogOpen] = useState(false);
 
     const authDataColumns: ColumnDef<{ [key: string]: string }>[] = [
         {
@@ -56,20 +51,10 @@ export const AuthDataViewer = ({
         }
     ];
 
-    const parseAuthData = useMemo(() => {
-        if (!showJson) {
-            try {
-                const parse = JSON.parse(authData);
-
-                return Object.keys(parse).map(key => ({ key, value: parse[key] }));
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-
-        return [];
-    }, [authData, showJson]);
+    const parseAuthData = useMemo(
+        () => (authData ? Object.keys(authData).map(key => ({ key, value: authData[key] as string })) : []),
+        [authData]
+    );
 
     return (
         <>
@@ -82,7 +67,11 @@ export const AuthDataViewer = ({
                     <div className="flex gap-4">
                         <AuthDataJsonToggle showJson={showJson} setShowJson={setShowJson} />
 
-                        <Button onClick={() => setEditAuthDataDialogOpen(true)}>
+                        <Button
+                            onClick={e => {
+                                e.preventDefault();
+                                showAuthDataEditSheet();
+                            }}>
                             {translate("app.ui.actions.edit")}
                         </Button>
                     </div>
@@ -90,14 +79,10 @@ export const AuthDataViewer = ({
 
                 {showJson ? (
                     <MonacoEditor
-                        disabled={disabledEditJson}
+                        disabled={true}
                         height="144px"
                         width="100%"
-                        onMountEditor={onMountEditor}
-                        onErrorsChange={onErrorsChange}
-                        onValidChange={onValidChange}
-                        code={authData}
-                        setCode={setAuthData}
+                        code={JSON.stringify(authData, null, 2)}
                     />
                 ) : (
                     <SimpleTable
@@ -108,8 +93,6 @@ export const AuthDataViewer = ({
                     />
                 )}
             </div>
-
-            <AuthDataEditSheet open={editAuthDataDialogOpen} onOpenChange={setEditAuthDataDialogOpen} />
         </>
     );
 };

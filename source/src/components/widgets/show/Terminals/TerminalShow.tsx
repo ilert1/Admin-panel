@@ -9,20 +9,20 @@ import { TerminalWithId } from "@/data/terminals";
 import { EditTerminalDialog } from "../../lists/Terminals/EditTerminalDialog";
 import { DeleteTerminalDialog } from "../../lists/Terminals/DeleteTerminalDialog";
 import { useState } from "react";
-import { AuthDataViewer } from "../../edit/Terminals/AuthData";
+import { AuthDataViewer, AuthDataEditSheet } from "../../edit/Terminals/AuthData";
 
 interface TerminalShowProps {
     id: string;
     provider: string;
     onOpenChange: (state: boolean) => void;
 }
-export const TerminalShow = (props: TerminalShowProps) => {
-    const { id, provider, onOpenChange } = props;
-
-    const [editDialogOpen, setEditDialogOpen] = useState(false);
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+export const TerminalShow = ({ id, provider, onOpenChange }: TerminalShowProps) => {
     const dataProvider = useDataProvider();
     const translate = useTranslate();
+
+    const [editAuthDataDialogOpen, setEditAuthDataDialogOpen] = useState(false);
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const { data, isLoading } = useQuery({
         queryKey: ["terminal-fees", provider, id],
@@ -80,8 +80,8 @@ export const TerminalShow = (props: TerminalShowProps) => {
 
                         <div className="my-5 border-y-[1px] border-neutral-90 py-5 md:my-10 md:py-10">
                             <AuthDataViewer
-                                disabledEditJson={true}
-                                authData={JSON.stringify(data.auth, null, 2)}
+                                authData={data.auth}
+                                showAuthDataEditSheet={() => setEditAuthDataDialogOpen(true)}
                                 titleClassName="text-xl md:text-2xl"
                                 tableClassName="rounded-16 overflow-hidden"
                             />
@@ -100,6 +100,7 @@ export const TerminalShow = (props: TerminalShowProps) => {
                     </div>
                 </div> */}
                 </div>
+
                 <Fees
                     fees={data?.fees}
                     feesResource={FeesResource.TERMINAL}
@@ -108,7 +109,22 @@ export const TerminalShow = (props: TerminalShowProps) => {
                     padding={false}
                 />
             </div>
-            <EditTerminalDialog provider={provider} id={id} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
+
+            <AuthDataEditSheet
+                terminalId={id}
+                provider={provider}
+                open={editAuthDataDialogOpen}
+                onOpenChange={setEditAuthDataDialogOpen}
+                originalAuthData={data.auth}
+            />
+
+            <EditTerminalDialog
+                provider={provider}
+                id={id}
+                open={editDialogOpen}
+                onOpenChange={setEditDialogOpen}
+                showAuthDataEditSheet={() => setEditAuthDataDialogOpen(true)}
+            />
 
             <DeleteTerminalDialog
                 provider={provider}
