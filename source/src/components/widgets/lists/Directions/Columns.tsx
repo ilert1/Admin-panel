@@ -1,17 +1,31 @@
 import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { Button, ShowButton } from "@/components/ui/Button";
+import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
 import { ProviderWithId } from "@/data/providers";
 import { useGetMerchantIdByName } from "@/hooks/useGetMerchantName";
 import { ColumnDef } from "@tanstack/react-table";
+import { useCallback, useState } from "react";
 import { useTranslate } from "react-admin";
 
 export const useGetDirectionsColumns = () => {
     const translate = useTranslate();
-    const { openSheet } = useSheets();
+    const { openSheet, closeSheet } = useSheets();
     const { getMerchantId, isLoadingMerchants } = useGetMerchantIdByName();
+
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [chosenId, setChosenId] = useState("");
+
+    const onCloseSheet = () => {
+        closeSheet("direction");
+    };
+
+    const handleDeleteClicked = useCallback((id: string) => {
+        setChosenId(id);
+        setDeleteDialogOpen(prev => !prev);
+    }, []);
+
     const handleDirectionShowOpen = (id: string) => {
         openSheet("direction", { id });
     };
@@ -158,6 +172,15 @@ export const useGetDirectionsColumns = () => {
             }
         },
         {
+            id: "delete_field",
+            header: () => {
+                return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
+            },
+            cell: ({ row }) => {
+                return <TrashButton onClick={() => handleDeleteClicked(row.original.id)} />;
+            }
+        },
+        {
             id: "actions",
             cell: ({ row }) => {
                 return (
@@ -172,6 +195,10 @@ export const useGetDirectionsColumns = () => {
     ];
     return {
         columns,
-        isLoadingMerchants
+        deleteDialogOpen,
+        isLoadingMerchants,
+        chosenId,
+        setDeleteDialogOpen,
+        onCloseSheet
     };
 };

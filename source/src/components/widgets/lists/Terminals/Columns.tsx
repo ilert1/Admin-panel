@@ -1,6 +1,6 @@
 import { terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPost } from "@/api/enigma/terminal/terminal";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { Button, EditButton, ShowButton, TrashButton } from "@/components/ui/Button";
+import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { TerminalWithId } from "@/data/terminals";
@@ -23,11 +23,6 @@ export const useGetTerminalColumns = () => {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [createButtonClicked, setCreateButtonClicked] = useState(false);
-
-    const handleEditClicked = (id: string) => {
-        setChosenId(id);
-        setEditDialogOpen(true);
-    };
 
     const handleDeleteClicked = async (id: string) => {
         setChosenId(id);
@@ -191,15 +186,6 @@ export const useGetTerminalColumns = () => {
                         )}
                     </div>
                 );
-            }
-        },
-        {
-            id: "update_field",
-            header: () => {
-                return <div className="text-center">{translate("app.ui.actions.edit")}</div>;
-            },
-            cell: ({ row }) => {
-                return <EditButton onClick={() => handleEditClicked(row.original.terminal_id)} />;
             }
         },
         {
