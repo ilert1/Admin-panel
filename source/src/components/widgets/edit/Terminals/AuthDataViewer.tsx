@@ -85,18 +85,20 @@ export const AuthDataViewer = ({
                             onClick={toggleJsonHandler}
                             className={clsx(
                                 "flex w-11 items-center rounded-[50px] p-0.5 outline outline-1",
-                                showJson ? "bg-green-50 outline-green-40" : "bg-transparent outline-green-50"
+                                showJson
+                                    ? "bg-neutral-100 outline-transparent dark:bg-green-50 dark:outline-green-40"
+                                    : "bg-transparent outline-green-40 dark:outline-green-50"
                             )}>
                             <span
                                 className={clsx(
-                                    "h-5 w-5 rounded-full text-neutral-90 outline outline-1 transition-all dark:text-neutral-30",
+                                    "h-5 w-5 rounded-full outline outline-1 transition-all",
                                     showJson
-                                        ? "translate-x-full bg-neutral-10 outline-green-40 dark:bg-black dark:outline-green-50"
-                                        : "translate-x-0 bg-green-50 outline-transparent"
+                                        ? "translate-x-full bg-neutral-0 outline-transparent dark:bg-neutral-100 dark:outline-green-40"
+                                        : "translate-x-0 bg-green-50 outline-green-40 dark:bg-green-50 dark:outline-transparent"
                                 )}
                             />
                         </button>
-                        <p className="text-base">JSON</p>
+                        <p className="text-base text-neutral-90 dark:text-neutral-30">JSON</p>
                     </label>
 
                     {/* <Button>{translate("app.ui.actions.edit")}</Button> */}
