@@ -10,6 +10,8 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { usePreventFocus } from "@/hooks";
 import { TerminalWithId } from "@/data/terminals";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 interface ProviderEditParams {
     provider: string;
@@ -84,22 +86,22 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
     return (
         <EditContextProvider value={controllerProps}>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                     <div className="flex flex-wrap">
                         <FormField
                             control={form.control}
                             name="verbose_name"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
+                                <FormItem className="w-full p-2">
                                     <FormControl>
                                         <Input
                                             label={translate("resources.terminals.fields.verbose_name")}
-                                            error={fieldState.invalid}
-                                            variant={InputTypes.GRAY}
-                                            errorMessage={<FormMessage />}
                                             autoCorrect="off"
                                             autoCapitalize="none"
                                             spellCheck="false"
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            variant={InputTypes.GRAY}
                                             {...field}
                                         />
                                     </FormControl>
@@ -109,18 +111,15 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                         <FormField
                             control={form.control}
                             name="description"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2 sm:w-full">
+                                    <Label className="">{translate("resources.terminals.fields.description")}</Label>
                                     <FormControl>
-                                        <Input
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate("resources.terminals.fields.description")}
-                                            autoCorrect="off"
-                                            autoCapitalize="none"
-                                            spellCheck="false"
+                                        <Textarea
                                             {...field}
+                                            value={field.value ?? ""}
+                                            placeholder={translate("resources.wallet.manage.fields.descr")}
+                                            className="!mt-0 h-24 w-full resize-none overflow-auto rounded p-2 text-title-1 outline-none dark:bg-muted"
                                         />
                                     </FormControl>
                                 </FormItem>
