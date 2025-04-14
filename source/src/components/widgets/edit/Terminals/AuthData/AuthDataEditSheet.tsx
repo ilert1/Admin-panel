@@ -8,10 +8,9 @@ import { Button } from "@/components/ui/Button";
 import { TerminalAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPut } from "@/api/enigma/terminal/terminal";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { ColumnDef } from "@tanstack/react-table";
-import { TextField } from "@/components/ui/text-field";
 import { SimpleTable } from "@/components/widgets/shared";
 import { TableTypes } from "@/components/widgets/shared/SimpleTable";
+import { useAuthDataEditColumns } from "./AuthDataEditColumns";
 
 interface IAuthDataEditSheet {
     open: boolean;
@@ -40,29 +39,15 @@ export const AuthDataEditSheet = ({
     const [showJson, setShowJson] = useState(true);
     const [disabledBtn, setDisabledBtn] = useState(false);
 
+    const { authDataColumns } = useAuthDataEditColumns({ authData, setAuthData });
+
     const parseAuthData = useMemo(
-        () => (authData ? Object.keys(authData).map(key => ({ key, value: authData[key] as string })) : []),
+        () =>
+            authData
+                ? Object.keys(authData).map((key, index) => ({ id: index, key, value: authData[key] as string }))
+                : [],
         [authData]
     );
-
-    const authDataColumns: ColumnDef<{ [key: string]: string }>[] = [
-        {
-            id: "key",
-            accessorKey: "key",
-            header: "Key",
-            cell: ({ row }) => {
-                return <TextField text={row.original.key} wrap lineClamp />;
-            }
-        },
-        {
-            id: "value",
-            accessorKey: "value",
-            header: "Value",
-            cell: ({ row }) => {
-                return <TextField text={row.original.value} type="secret" copyValue />;
-            }
-        }
-    ];
 
     const toggleJsonHandler = (state: SetStateAction<boolean>) => {
         try {
@@ -79,8 +64,8 @@ export const AuthDataEditSheet = ({
     };
 
     const cancelHandler = () => {
-        setAuthData(originalAuthData);
-        setStringAuthData(JSON.stringify(originalAuthData, null, 2));
+        setAuthData(() => originalAuthData);
+        setStringAuthData(() => JSON.stringify(originalAuthData, null, 2));
         onOpenChange(false);
     };
 
@@ -92,7 +77,7 @@ export const AuthDataEditSheet = ({
                 provider,
                 terminalId,
                 {
-                    auth: authData || {}
+                    auth: showJson ? JSON.parse(stringAuthData) : authData
                 },
                 {
                     headers: {
@@ -149,7 +134,11 @@ export const AuthDataEditSheet = ({
                             setCode={setStringAuthData}
                         />
                     ) : (
-                        <SimpleTable columns={authDataColumns} data={parseAuthData} tableType={TableTypes.COLORED} />
+                        <SimpleTable
+                            columns={authDataColumns}
+                            data={parseAuthData.concat({ id: parseAuthData.length, key: "", value: "" })}
+                            tableType={TableTypes.COLORED}
+                        />
                     )}
 
                     <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
