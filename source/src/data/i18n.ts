@@ -309,6 +309,7 @@ const ru: TranslationMessages = {
             },
             filter: {
                 filterById: "Поиск по ID",
+                filterByTrc20: "Поиск по адресу TRC20",
                 filterByIdPlaceholder: "ID",
                 filterByDate: "Дата",
                 filterByDatePlaceholder: "Выберите дату",
@@ -1264,6 +1265,7 @@ const en: TranslationMessages = {
             },
             filter: {
                 filterById: "Search by ID",
+                filterByTrc20: "Search by TRC20 address",
                 filterByIdPlaceholder: "ID",
                 filterByDate: "Date",
                 filterByDatePlaceholder: "Select period",

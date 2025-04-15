@@ -28,6 +28,7 @@ const useWithdrawFilter = () => {
     const [merchantId, setMerchantId] = useState<string>(filterValues?.merchant || "");
 
     const [operationId, setOperationId] = useState<string>(filterValues?.id || "");
+    const [operationTrc20, setOperationTrc20] = useState<string>(filterValues?.dst_address || "");
 
     const translate = useTranslate();
 
@@ -39,7 +40,7 @@ const useWithdrawFilter = () => {
     const onPropertySelected = debounce(
         (
             value: string | { from: string; to: string } | number,
-            type: "id" | "date" | "order_type" | "accountId" | "order_state"
+            type: "id" | "dst_address" | "date" | "order_type" | "accountId" | "order_state"
         ) => {
             if (value) {
                 if (type === "date" && typeof value !== "string" && typeof value !== "number") {
@@ -63,6 +64,11 @@ const useWithdrawFilter = () => {
     const onOperationIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
         setOperationId(e.target.value);
         onPropertySelected(e.target.value, "id");
+    };
+
+    const onOperationTrc20Changed = (e: ChangeEvent<HTMLInputElement>) => {
+        setOperationTrc20(e.target.value);
+        onPropertySelected(e.target.value, "dst_address");
     };
 
     const changeDate = (date: DateRange | undefined) => {
@@ -93,6 +99,7 @@ const useWithdrawFilter = () => {
         setStartDate(undefined);
         setEndDate(undefined);
         setOperationId("");
+        setOperationTrc20("");
         setMerchantId("");
         setStatusFilter("");
         setTypeTabActive(0);
@@ -158,6 +165,7 @@ const useWithdrawFilter = () => {
     return {
         dictionaries,
         operationId,
+        operationTrc20,
         endDate,
         startDate,
         merchantId,
@@ -165,6 +173,7 @@ const useWithdrawFilter = () => {
         typeTabActive,
         translate,
         onOperationIdChanged,
+        onOperationTrc20Changed,
         changeDate,
         handleDownloadReport,
         clearFilters,
