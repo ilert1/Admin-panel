@@ -2,15 +2,13 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { useRefresh, useTranslate } from "react-admin";
 import { CloseSheetXButton } from "../../../components/CloseSheetXButton";
 import { AuthDataJsonToggle } from "./AuthDataJsonToggle";
-import { SetStateAction, useMemo, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/Button";
 import { TerminalAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPut } from "@/api/enigma/terminal/terminal";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { SimpleTable } from "@/components/widgets/shared";
-import { TableTypes } from "@/components/widgets/shared/SimpleTable";
-import { useAuthDataEditColumns } from "./AuthDataEditColumns";
+import { AuthDataEditTable } from "./AuthDataEditTable";
 
 interface IAuthDataEditSheet {
     open: boolean;
@@ -39,16 +37,6 @@ export const AuthDataEditSheet = ({
     const [showJson, setShowJson] = useState(true);
     const [disabledBtn, setDisabledBtn] = useState(false);
 
-    const { authDataColumns } = useAuthDataEditColumns({ authData, setAuthData });
-
-    const parseAuthData = useMemo(
-        () =>
-            authData
-                ? Object.keys(authData).map((key, index) => ({ id: index, key, value: authData[key] as string }))
-                : [],
-        [authData]
-    );
-
     const toggleJsonHandler = (state: SetStateAction<boolean>) => {
         try {
             if (state) {
@@ -64,10 +52,13 @@ export const AuthDataEditSheet = ({
     };
 
     const cancelHandler = () => {
-        setAuthData(() => originalAuthData);
-        setStringAuthData(() => JSON.stringify(originalAuthData, null, 2));
         onOpenChange(false);
     };
+
+    useEffect(() => {
+        setAuthData(() => originalAuthData);
+        setStringAuthData(() => JSON.stringify(originalAuthData, null, 2));
+    }, [originalAuthData]);
 
     const submitHandler = async () => {
         try {
@@ -134,10 +125,11 @@ export const AuthDataEditSheet = ({
                             setCode={setStringAuthData}
                         />
                     ) : (
-                        <SimpleTable
-                            columns={authDataColumns}
-                            data={parseAuthData.concat({ id: parseAuthData.length, key: "", value: "" })}
-                            tableType={TableTypes.COLORED}
+                        <AuthDataEditTable
+                            loading={disabledBtn}
+                            authData={authData}
+                            originalAuthData={originalAuthData}
+                            onChangeAuthData={setAuthData}
                         />
                     )}
 
