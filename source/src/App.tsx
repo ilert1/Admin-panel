@@ -11,7 +11,9 @@ import {
     DirectionsDataProvider,
     WalletsDataProvider,
     VaultDataProvider,
-    TerminalsDataProvider
+    TerminalsDataProvider,
+    OperationsDataProvider,
+    CallbridgeDataProvider
 } from "@/data";
 import {
     AccountList,
@@ -41,7 +43,8 @@ import {
     NetworkIcon,
     SignpostIcon,
     CreditCardIcon,
-    SquareTerminal
+    SquareTerminal,
+    Split
 } from "lucide-react";
 import { authProvider, ThemeProvider } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
@@ -52,9 +55,10 @@ import { NotFound } from "./components/widgets/shared/NotFound";
 import WalletsLogo from "./lib/icons/Wallets";
 import { WalletStore } from "./pages/WalletStore";
 import { OptionsPage } from "./pages/SettingsPage";
-import { OperationsDataProvider } from "./data/operations";
 import { SheetProvider } from "./components/providers/SheetProvider";
 import { SheetManager } from "./components/providers/SheetManager";
+import { MappingsList } from "./components/widgets/lists/Mappings/MappingsList";
+import { CallbackHistoryList } from "./components/widgets/lists/CallbridgeHistory/CallbridgeHistory";
 
 const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
 
@@ -86,6 +90,8 @@ const dataProvider = combineDataProviders((resource: string) => {
         return new VaultDataProvider();
     } else if (resource === "operations") {
         return new OperationsDataProvider();
+    } else if (resource.includes("callbridge")) {
+        return new CallbridgeDataProvider();
     } else {
         return new BaseDataProvider();
     }
@@ -143,6 +149,10 @@ export const App = () => {
                                             <Resource name="provider" list={ProvidersList} icon={NetworkIcon} />
                                             <Resource name="terminals" list={TerminalsList} icon={SquareTerminal} />
                                             <Resource name="direction" list={DirectionsList} icon={SignpostIcon} />
+                                            <Resource name="callbridge" icon={Split}>
+                                                <Route path="mapping" element={<MappingsList />} />
+                                                <Route path="history" element={<CallbackHistoryList />} />
+                                            </Resource>
                                         </>
                                     )}
 

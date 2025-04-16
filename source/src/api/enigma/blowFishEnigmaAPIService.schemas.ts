@@ -1334,6 +1334,527 @@ export const WorkflowCategory = {
     h2h_sync_out: "h2h_sync_out"
 } as const;
 
+/**
+ * The error details if the request was not successful.
+ */
+export type ApiResponseCallbackMappingReadError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseCallbackMappingReadMeta = unknown | null;
+
+export interface ApiResponseCallbackMappingRead {
+    /** Indicates whether the request was successful. */
+    success?: boolean;
+    /** The actual response data if the request was successful. */
+    data: CallbackMappingRead;
+    /** The error details if the request was not successful. */
+    error?: ApiResponseCallbackMappingReadError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseCallbackMappingReadMeta;
+}
+
+/**
+ * The error details if the request was not successful.
+ */
+export type ApiResponseOffsetPaginationCallbackHistoryReadError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationCallbackHistoryReadMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationCallbackHistoryRead {
+    /** Indicates whether the request was successful. */
+    success?: boolean;
+    /** The actual response data if the request was successful. */
+    data: OffsetPaginationCallbackHistoryRead;
+    /** The error details if the request was not successful. */
+    error?: ApiResponseOffsetPaginationCallbackHistoryReadError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationCallbackHistoryReadMeta;
+}
+
+/**
+ * The error details if the request was not successful.
+ */
+export type ApiResponseOffsetPaginationCallbackMappingReadError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationCallbackMappingReadMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationCallbackMappingRead {
+    /** Indicates whether the request was successful. */
+    success?: boolean;
+    /** The actual response data if the request was successful. */
+    data: OffsetPaginationCallbackMappingRead;
+    /** The error details if the request was not successful. */
+    error?: ApiResponseOffsetPaginationCallbackMappingReadError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationCallbackMappingReadMeta;
+}
+
+/**
+ * Incoming headers
+ */
+export type CallbackHistoryReadRequestHeaders = { [key: string]: unknown };
+
+/**
+ * Incoming query params
+ */
+export type CallbackHistoryReadRequestParams = { [key: string]: unknown };
+
+/**
+ * Incoming body
+ */
+export type CallbackHistoryReadRequestBody = string | null;
+
+/**
+ * HTTP status code returned by destination
+ */
+export type CallbackHistoryReadResponseStatus = number | null;
+
+export type CallbackHistoryReadResponseHeadersAnyOf = { [key: string]: unknown };
+
+/**
+ * Response headers
+ */
+export type CallbackHistoryReadResponseHeaders = CallbackHistoryReadResponseHeadersAnyOf | null;
+
+/**
+ * Response body
+ */
+export type CallbackHistoryReadResponseBody = string | null;
+
+/**
+ * Actual delivery time
+ */
+export type CallbackHistoryReadDeliveredAt = string | null;
+
+/**
+ * Planned time for next retry
+ */
+export type CallbackHistoryReadNextRetryAt = string | null;
+
+/**
+ * Error explanation if failed
+ */
+export type CallbackHistoryReadErrorMessage = string | null;
+
+export interface CallbackHistoryRead {
+    /** HTTP method */
+    request_method: string;
+    /** Full callback URL */
+    request_url: string;
+    /** Incoming headers */
+    request_headers: CallbackHistoryReadRequestHeaders;
+    /** Incoming query params */
+    request_params: CallbackHistoryReadRequestParams;
+    /** Incoming body */
+    request_body?: CallbackHistoryReadRequestBody;
+    /** HTTP status code returned by destination */
+    response_status?: CallbackHistoryReadResponseStatus;
+    /** Response headers */
+    response_headers?: CallbackHistoryReadResponseHeaders;
+    /** Response body */
+    response_body?: CallbackHistoryReadResponseBody;
+    /** Actual delivery time */
+    delivered_at?: CallbackHistoryReadDeliveredAt;
+    /** Processing status */
+    status: CallbackStatusEnum;
+    /** What triggered this delivery */
+    trigger_type: CallbackTriggerType;
+    /** How many times attempted */
+    attempts?: number;
+    /** Planned time for next retry */
+    next_retry_at?: CallbackHistoryReadNextRetryAt;
+    /** Error explanation if failed */
+    error_message?: CallbackHistoryReadErrorMessage;
+    /** Identifier of the callback history */
+    id: string;
+    /** Linked mapping if matched */
+    mapping_id: string;
+    /** Identifier of the callback attempt flow */
+    callback_id: string;
+    created_at: string;
+    updated_at: string;
+}
+
+/**
+ * Retry behavior configuration for delivery attempts
+ */
+export type CallbackMappingCreateRetryPolicy = RetryPolicyConfig | null;
+
+/**
+ * Security policy including IP filtering and rate limiting
+ */
+export type CallbackMappingCreateSecurityPolicy = SecurityPolicyConfig | null;
+
+export interface CallbackMappingCreate {
+    /** Full external path exposed to clients */
+    external_path: string;
+    /** Full internal URL path to route the request to */
+    internal_path: string;
+    /** Retry behavior configuration for delivery attempts */
+    retry_policy?: CallbackMappingCreateRetryPolicy;
+    /** Security policy including IP filtering and rate limiting */
+    security_policy?: CallbackMappingCreateSecurityPolicy;
+}
+
+/**
+ * Retry behavior configuration for delivery attempts
+ */
+export type CallbackMappingReadRetryPolicy = RetryPolicyConfig | null;
+
+/**
+ * Security policy including IP filtering and rate limiting
+ */
+export type CallbackMappingReadSecurityPolicy = SecurityPolicyConfig | null;
+
+export interface CallbackMappingRead {
+    /** Full external path exposed to clients */
+    external_path: string;
+    /** Full internal URL path to route the request to */
+    internal_path: string;
+    /** Retry behavior configuration for delivery attempts */
+    retry_policy?: CallbackMappingReadRetryPolicy;
+    /** Security policy including IP filtering and rate limiting */
+    security_policy?: CallbackMappingReadSecurityPolicy;
+    id: string;
+    created_at: string;
+    updated_at: string;
+}
+
+/**
+ * New external path
+ */
+export type CallbackMappingUpdateExternalPath = string | null;
+
+/**
+ * New internal delivery path
+ */
+export type CallbackMappingUpdateInternalPath = string | null;
+
+/**
+ * Updated retry policy
+ */
+export type CallbackMappingUpdateRetryPolicy = RetryPolicyConfig | null;
+
+/**
+ * Updated security policy
+ */
+export type CallbackMappingUpdateSecurityPolicy = SecurityPolicyConfig | null;
+
+export interface CallbackMappingUpdate {
+    /** New external path */
+    external_path?: CallbackMappingUpdateExternalPath;
+    /** New internal delivery path */
+    internal_path?: CallbackMappingUpdateInternalPath;
+    /** Updated retry policy */
+    retry_policy?: CallbackMappingUpdateRetryPolicy;
+    /** Updated security policy */
+    security_policy?: CallbackMappingUpdateSecurityPolicy;
+}
+
+export type CallbackStatusEnum = (typeof CallbackStatusEnum)[keyof typeof CallbackStatusEnum];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CallbackStatusEnum = {
+    processing: "processing",
+    success: "success",
+    error: "error",
+    not_safe: "not_safe"
+} as const;
+
+export type CallbackTriggerType = (typeof CallbackTriggerType)[keyof typeof CallbackTriggerType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CallbackTriggerType = {
+    system: "system",
+    retry: "retry",
+    manual: "manual",
+    unknown: "unknown"
+} as const;
+
+export interface OffsetPaginationCallbackHistoryRead {
+    /** A list of items in the current page. */
+    items: CallbackHistoryRead[];
+    /** The maximum number of items returned in a single page. */
+    limit: number;
+    /** The starting index for the current page. */
+    offset: number;
+    /** The total number of available items. */
+    total: number;
+}
+
+export interface OffsetPaginationCallbackMappingRead {
+    /** A list of items in the current page. */
+    items: CallbackMappingRead[];
+    /** The maximum number of items returned in a single page. */
+    limit: number;
+    /** The starting index for the current page. */
+    offset: number;
+    /** The total number of available items. */
+    total: number;
+}
+
+export interface RetryPolicyConfig {
+    /** Enable retries for this mapping */
+    enabled?: boolean;
+    /** Maximum number of retry attempts */
+    max_attempts?: number;
+    /** Base delay (in seconds) between retries */
+    base_delay?: number;
+    /** Backoff strategy to use */
+    strategy?: RetryStrategy;
+}
+
+export type RetryStrategy = (typeof RetryStrategy)[keyof typeof RetryStrategy];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RetryStrategy = {
+    fixed: "fixed",
+    exponential: "exponential"
+} as const;
+
+export type SecurityPolicyConfigAllowedIpsItem = string | string;
+
+export type SecurityPolicyConfigBlockedIpsItem = string | string;
+
+/**
+ * Maximum number of requests per minute per source IP
+ */
+export type SecurityPolicyConfigRateLimit = number | null;
+
+/**
+ * Number of requests allowed to exceed the rate limit in bursts
+ */
+export type SecurityPolicyConfigBurstLimit = number | null;
+
+/**
+ * Mode of policy enforcement: 'log' only logs violations, 'strict' blocks them
+ */
+export type SecurityPolicyConfigEnforcementMode =
+    (typeof SecurityPolicyConfigEnforcementMode)[keyof typeof SecurityPolicyConfigEnforcementMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SecurityPolicyConfigEnforcementMode = {
+    log: "log",
+    strict: "strict"
+} as const;
+
+export interface SecurityPolicyConfig {
+    /** List of allowed IPs or networks (CIDR) that can access the route */
+    allowed_ips?: SecurityPolicyConfigAllowedIpsItem[];
+    /** IPs or networks to explicitly deny (takes precedence over allowed) */
+    blocked_ips?: SecurityPolicyConfigBlockedIpsItem[];
+    /** Maximum number of requests per minute per source IP */
+    rate_limit?: SecurityPolicyConfigRateLimit;
+    /** Number of requests allowed to exceed the rate limit in bursts */
+    burst_limit?: SecurityPolicyConfigBurstLimit;
+    /** Whether authentication is required (token/header/etc) */
+    auth_required?: boolean;
+    /** Entire route is blocked and should not process any callbacks */
+    blocked?: boolean;
+    /** Mode of policy enforcement: 'log' only logs violations, 'strict' blocks them */
+    enforcement_mode?: SecurityPolicyConfigEnforcementMode;
+}
+
+export type CallbackMappingEndpointsListMappingsCallbridgeV1MappingGetParams = {
+    /**
+     * List of identifiers for filtering
+     */
+    ids?: string[] | null;
+    /**
+     * Upper bound for creation date filter
+     */
+    createdBefore?: string | null;
+    /**
+     * Lower bound for creation date filter
+     */
+    createdAfter?: string | null;
+    /**
+     * Upper bound for update date filter
+     */
+    updatedBefore?: string | null;
+    /**
+     * Lower bound for update date filter
+     */
+    updatedAfter?: string | null;
+    /**
+     * Current page number (starting from 1)
+     */
+    currentPage?: number;
+    /**
+     * Number of records per page
+     */
+    pageSize?: number;
+    /**
+     * List of fields to perform the search on
+     */
+    searchField?: string[] | null;
+    /**
+     * List of values to search for in corresponding fields
+     */
+    searchString?: string[] | null;
+    /**
+     * Determines if the search should be case insensitive
+     */
+    searchIgnoreCase?: boolean;
+    /**
+     * Field to sort the results by
+     */
+    orderBy?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: CallbackMappingEndpointsListMappingsCallbridgeV1MappingGetSortOrder;
+};
+
+export type CallbackMappingEndpointsListMappingsCallbridgeV1MappingGetSortOrder =
+    (typeof CallbackMappingEndpointsListMappingsCallbridgeV1MappingGetSortOrder)[keyof typeof CallbackMappingEndpointsListMappingsCallbridgeV1MappingGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CallbackMappingEndpointsListMappingsCallbridgeV1MappingGetSortOrder = {
+    asc: "asc",
+    desc: "desc"
+} as const;
+
+export type CallbackHistoryEndpointsListHistoryCallbridgeV1HistoryGetParams = {
+    /**
+     * List of identifiers for filtering
+     */
+    ids?: string[] | null;
+    /**
+     * Upper bound for creation date filter
+     */
+    createdBefore?: string | null;
+    /**
+     * Lower bound for creation date filter
+     */
+    createdAfter?: string | null;
+    /**
+     * Upper bound for update date filter
+     */
+    updatedBefore?: string | null;
+    /**
+     * Lower bound for update date filter
+     */
+    updatedAfter?: string | null;
+    /**
+     * Current page number (starting from 1)
+     */
+    currentPage?: number;
+    /**
+     * Number of records per page
+     */
+    pageSize?: number;
+    /**
+     * List of fields to perform the search on
+     */
+    searchField?: string[] | null;
+    /**
+     * List of values to search for in corresponding fields
+     */
+    searchString?: string[] | null;
+    /**
+     * Determines if the search should be case insensitive
+     */
+    searchIgnoreCase?: boolean;
+    /**
+     * Field to sort the results by
+     */
+    orderBy?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: CallbackHistoryEndpointsListHistoryCallbridgeV1HistoryGetSortOrder;
+};
+
+export type CallbackHistoryEndpointsListHistoryCallbridgeV1HistoryGetSortOrder =
+    (typeof CallbackHistoryEndpointsListHistoryCallbridgeV1HistoryGetSortOrder)[keyof typeof CallbackHistoryEndpointsListHistoryCallbridgeV1HistoryGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CallbackHistoryEndpointsListHistoryCallbridgeV1HistoryGetSortOrder = {
+    asc: "asc",
+    desc: "desc"
+} as const;
+
+export type CallbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGetParams = {
+    /**
+     * List of identifiers for filtering
+     */
+    ids?: string[] | null;
+    /**
+     * Upper bound for creation date filter
+     */
+    createdBefore?: string | null;
+    /**
+     * Lower bound for creation date filter
+     */
+    createdAfter?: string | null;
+    /**
+     * Upper bound for update date filter
+     */
+    updatedBefore?: string | null;
+    /**
+     * Lower bound for update date filter
+     */
+    updatedAfter?: string | null;
+    /**
+     * Current page number (starting from 1)
+     */
+    currentPage?: number;
+    /**
+     * Number of records per page
+     */
+    pageSize?: number;
+    /**
+     * List of fields to perform the search on
+     */
+    searchField?: string[] | null;
+    /**
+     * List of values to search for in corresponding fields
+     */
+    searchString?: string[] | null;
+    /**
+     * Determines if the search should be case insensitive
+     */
+    searchIgnoreCase?: boolean;
+    /**
+     * Field to sort the results by
+     */
+    orderBy?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: CallbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGetSortOrder;
+};
+
+export type CallbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGetSortOrder =
+    (typeof CallbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGetSortOrder)[keyof typeof CallbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CallbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGetSortOrder = {
+    asc: "asc",
+    desc: "desc"
+} as const;
+
 export type CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetParams = {
     /**
      * List of identifiers for filtering

@@ -663,6 +663,27 @@ const ru: TranslationMessages = {
                     currency: "Валюта"
                 }
             }
+        },
+        callbridge: {
+            name: "Коллбеки",
+            mapping: {
+                name: "Маппинги",
+                fields: {
+                    verbose_name: "Наименование",
+                    ext_path: "Внешний путь",
+                    int_path: "Внутренний путь"
+                }
+            },
+            history: {
+                name: "История",
+                fields: {
+                    request_url: "Выходной url",
+                    original_url: "Исходный url",
+                    mapping_id: "ID маппинга",
+                    created_at: "Дата создания",
+                    status: "Статус"
+                }
+            }
         }
     },
     app: {
@@ -1613,6 +1634,27 @@ const en: TranslationMessages = {
                     type: "Type",
                     amount: "Amount",
                     currency: "Currency"
+                }
+            }
+        },
+        callbridge: {
+            name: "Callbacks",
+            mapping: {
+                name: "Mappings",
+                fields: {
+                    ext_path: "External url",
+                    int_path: "Internal url",
+                    verbose_name: "Verbose name"
+                }
+            },
+            history: {
+                name: "History",
+                fields: {
+                    request_url: "Request url",
+                    original_url: "Original url",
+                    mapping_id: "Mapping ID ",
+                    created_at: "Created at",
+                    status: "Status"
                 }
             }
         }
