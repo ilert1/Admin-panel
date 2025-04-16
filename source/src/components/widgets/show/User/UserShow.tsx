@@ -1,10 +1,11 @@
 import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useCallback, useState } from "react";
-import { useShowController, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 import { Button } from "@/components/ui/Button";
 import { EditUserDialog } from "./EditUserDialog";
 import { DeleteUserDialog } from "./DeleteUserDialog";
+import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 
 // const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
 // const translations = ["active", "frozen", "blocked", "deleted"];
@@ -15,17 +16,7 @@ interface UserShowProps {
 }
 
 export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
-    // оставить так, пока не будет отдельной ручки
-    // когда будет отдельная, перевести на useAbortableShowController()
-    const context = useShowController<Users.User>({
-        resource: "users",
-        id,
-        queryOptions: {
-            onError: e => {
-                console.log(e);
-            }
-        }
-    });
+    const context = useAbortableShowController<Users.User>({ resource: "users", id });
     const translate = useTranslate();
 
     const [dialogOpen, setDialogOpen] = useState(false);
