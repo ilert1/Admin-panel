@@ -76,7 +76,7 @@ export const useGetMerchantColumns = () => {
         {
             id: "fees",
             header: () => {
-                return <div className="flex text-center">{translate("resources.merchant.fields.feePay")}</div>;
+                return <div className="flex justify-start">{translate("resources.merchant.fields.feePay")}</div>;
             },
             cell: ({ row }) => {
                 const entries = Object.entries(row.original.fees ?? {});

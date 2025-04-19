@@ -19,12 +19,7 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
     // когда будет отдельная, перевести на useAbortableShowController()
     const context = useShowController<Users.User>({
         resource: "users",
-        id,
-        queryOptions: {
-            onError: e => {
-                console.log(e);
-            }
-        }
+        id
     });
     const translate = useTranslate();
 

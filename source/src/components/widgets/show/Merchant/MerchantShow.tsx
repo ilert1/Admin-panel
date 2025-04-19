@@ -61,7 +61,8 @@ export const MerchantShow = (props: MerchantShowProps) => {
                             {
                                 currentPage: 1,
                                 pageSize: 1000,
-                                orderBy: "weight"
+                                orderBy: "weight",
+                                sortOrder: "desc"
                             },
                             {
                                 headers: {

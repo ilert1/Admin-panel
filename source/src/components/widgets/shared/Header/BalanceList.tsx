@@ -16,7 +16,6 @@ export const BalanceList = ({ totalAmount, isMerchant, totalLoading }: IBalanceL
     const translate = useTranslate();
 
     const { currencies, isLoadingCurrencies } = useGetCurrencies();
-    console.log(currencies);
 
     const getFixedValue = (value: number, currencyStr: string) => {
         const currency = currencies?.find(el => currencyStr === el.code);
@@ -25,7 +24,7 @@ export const BalanceList = ({ totalAmount, isMerchant, totalLoading }: IBalanceL
             return value.toFixed(2);
         }
 
-        return value.toFixed(currency?.accuracy ?? 2);
+        return value;
     };
 
     if (isLoadingCurrencies) {
@@ -69,7 +68,7 @@ export const BalanceList = ({ totalAmount, isMerchant, totalLoading }: IBalanceL
                                         <SnowFlakeIcon className="h-5 w-5 text-extra-7" />
                                         <NumericFormat
                                             className="whitespace-nowrap !text-title-1 text-extra-7"
-                                            value={getFixedValue(el.value.quantity / el.value.accuracy, el.currency)}
+                                            value={getFixedValue(el.holds.quantity / el.holds.accuracy, el.currency)}
                                             displayType={"text"}
                                             thousandSeparator=" "
                                             decimalSeparator="."

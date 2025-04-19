@@ -50,7 +50,6 @@ export const FeeCard = memo((props: FeeCardProps) => {
     const appToast = useAppToast();
     const [directionText, setDirectionText] = useState("");
     const data = fetchDictionaries();
-    console.log(data);
 
     const feeDataProvider = feesDataProvider({ resource, id, providerName: providerName });
 
@@ -116,14 +115,12 @@ export const FeeCard = memo((props: FeeCardProps) => {
                         />
 
                         {description && (
-                            <div className="col-span-2">
-                                <TextField
-                                    text={description}
-                                    label={translate("resources.direction.fees.descr")}
-                                    linesCount={5}
-                                    lineClamp
-                                />
-                            </div>
+                            <TextField
+                                text={description}
+                                label={translate("resources.direction.fees.descr")}
+                                linesCount={5}
+                                lineClamp
+                            />
                         )}
                     </div>
                     {addFee && (
