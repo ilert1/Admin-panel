@@ -123,6 +123,7 @@ export const AuthDataEditSheet = ({
                         <MonacoEditor
                             height="144px"
                             width="100%"
+                            disabled
                             onMountEditor={() => setMonacoEditorMounted(true)}
                             onErrorsChange={setHasErrors}
                             onValidChange={setIsValid}
