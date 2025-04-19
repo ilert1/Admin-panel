@@ -53,7 +53,11 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
                         <TextField
                             text={item.value}
                             type={!originalAuthData?.[item.key] ? "text" : "secret"}
+                            wrap
                             copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
                         />
                     </div>
 
