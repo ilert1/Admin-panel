@@ -51,10 +51,13 @@ export const AuthDataEditSheet = ({
         }
     };
 
-    const cancelHandler = () => {
-        setAuthData(() => originalAuthData);
-        setStringAuthData(() => JSON.stringify(originalAuthData, null, 2));
-        onOpenChange(false);
+    const onOpenChangeHandler = (state: boolean) => {
+        if (!state) {
+            setAuthData(() => originalAuthData);
+            setStringAuthData(() => JSON.stringify(originalAuthData, null, 2));
+        }
+
+        onOpenChange(state);
     };
 
     useEffect(() => {
@@ -95,7 +98,7 @@ export const AuthDataEditSheet = ({
     };
 
     return (
-        <Sheet open={open} onOpenChange={onOpenChange}>
+        <Sheet open={open} onOpenChange={onOpenChangeHandler}>
             <SheetContent
                 className="bottom-auto top-[84px] m-0 flex h-auto w-full flex-col gap-0 border-0 p-0 sm:max-w-[1015px]"
                 tabIndex={-1}
@@ -150,7 +153,7 @@ export const AuthDataEditSheet = ({
                             type="button"
                             variant="outline_gray"
                             className="mt-4 w-full flex-1 sm:mt-0 sm:w-1/2"
-                            onClick={cancelHandler}>
+                            onClick={() => onOpenChangeHandler(false)}>
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>
