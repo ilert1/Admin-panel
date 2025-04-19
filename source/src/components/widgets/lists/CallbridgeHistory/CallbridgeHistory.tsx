@@ -7,7 +7,10 @@ import { CallbackHistoryRead } from "@/api/enigma/blowFishEnigmaAPIService.schem
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const CallbackHistoryList = () => {
-    const listContext = useAbortableListController<CallbackHistoryRead>({ resource: "callbridge/v1/history" });
+    const listContext = useAbortableListController<CallbackHistoryRead>({
+        resource: "callbridge/v1/history",
+        sort: { field: "created_at", order: "ASC" }
+    });
 
     const { columns } = useGetCallbridgeHistory();
 

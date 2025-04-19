@@ -7,7 +7,9 @@ import { CallbackMappingRead } from "@/api/enigma/blowFishEnigmaAPIService.schem
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const MappingsList = () => {
-    const listContext = useAbortableListController<CallbackMappingRead>({ resource: "callbridge/v1/mapping" });
+    const listContext = useAbortableListController<CallbackMappingRead>({
+        resource: "callbridge/v1/mapping"
+    });
 
     const { columns } = useGetMappingsColumns();
 
@@ -19,10 +21,6 @@ export const MappingsList = () => {
             <ListContextProvider value={listContext}>
                 {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>
-
-            {/* <DeleteMerchantDialog id={chosenId} open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} /> */}
-
-            {/* <EditMerchantDialog id={chosenId} open={editDialogOpen} onOpenChange={setEditDialogOpen} /> */}
         </>
     );
 };
