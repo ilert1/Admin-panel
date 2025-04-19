@@ -52,6 +52,8 @@ export const AuthDataEditSheet = ({
     };
 
     const cancelHandler = () => {
+        setAuthData(() => originalAuthData);
+        setStringAuthData(() => JSON.stringify(originalAuthData, null, 2));
         onOpenChange(false);
     };
 
