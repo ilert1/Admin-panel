@@ -34,7 +34,7 @@ export const AuthDataEditSheet = ({
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [authData, setAuthData] = useState(() => originalAuthData);
     const [stringAuthData, setStringAuthData] = useState(() => JSON.stringify(originalAuthData, null, 2));
-    const [showJson, setShowJson] = useState(true);
+    const [showJson, setShowJson] = useState(false);
     const [disabledBtn, setDisabledBtn] = useState(false);
 
     const toggleJsonHandler = (state: SetStateAction<boolean>) => {
