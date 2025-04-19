@@ -5,6 +5,7 @@ import { TextField } from "@/components/ui/text-field";
 import clsx from "clsx";
 import { PlusCircle } from "lucide-react";
 import { useMemo, useState } from "react";
+import { useTranslate } from "react-admin";
 
 interface IAuthDataEditTable {
     loading: boolean;
@@ -14,8 +15,11 @@ interface IAuthDataEditTable {
 }
 
 export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData, loading }: IAuthDataEditTable) => {
+    const translate = useTranslate();
+
     const [newKey, setNewKey] = useState("");
     const [newValue, setNewValue] = useState("");
+    const [errors, setErrors] = useState({ keyError: false, valueError: false });
 
     const parseAuthData = useMemo(
         () => (authData ? Object.keys(authData).map(key => ({ key, value: authData[key] as string })) : []),
@@ -26,6 +30,40 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
         const tempAuthData = { ...authData };
         delete tempAuthData[key];
         onChangeAuthData(tempAuthData);
+    };
+
+    const addAuthData = () => {
+        if (!newKey || !newValue) {
+            setErrors({ keyError: !newKey, valueError: !newValue });
+            return;
+        }
+        onChangeAuthData({ ...authData, [newKey]: newValue });
+        setNewKey("");
+        setNewValue("");
+    };
+
+    const onKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const key = e.target.value;
+
+        if (!!key && errors.keyError) {
+            setErrors({ ...errors, keyError: false });
+        } else if (!key && !errors.keyError) {
+            setErrors({ ...errors, keyError: true });
+        }
+
+        setNewKey(key);
+    };
+
+    const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        if (!!value && errors.valueError) {
+            setErrors({ ...errors, valueError: false });
+        } else if (!value && !errors.valueError) {
+            setErrors({ ...errors, valueError: true });
+        }
+
+        setNewValue(value);
     };
 
     return (
@@ -69,27 +107,32 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
 
             <div
                 className={clsx(
-                    "grid w-full grid-cols-[1fr,1fr,100px] bg-green-50",
+                    "grid w-full grid-cols-[1fr,1fr,100px] items-start bg-green-50",
                     parseAuthData.length % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
                 )}>
                 <div className="flex items-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
-                    <Input disabled={loading} value={newKey} onChange={e => setNewKey(e.target.value)} />
+                    <Input
+                        error={errors.keyError}
+                        errorMessage={translate("resources.terminals.errors.key_error")}
+                        disabled={loading}
+                        value={newKey}
+                        onChange={onKeyChange}
+                    />
                 </div>
 
                 <div className="flex items-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
-                    <Input disabled={loading} value={newValue} onChange={e => setNewValue(e.target.value)} />
+                    <Input
+                        error={errors.valueError}
+                        errorMessage={translate("resources.terminals.errors.value_error")}
+                        disabled={loading}
+                        value={newValue}
+                        onChange={onValueChange}
+                    />
                 </div>
 
                 <div className="flex items-center justify-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
-                    <Button disabled={loading} className="px-2" variant="default">
-                        <PlusCircle
-                            onClick={() => {
-                                if (!newKey) return;
-                                onChangeAuthData({ ...authData, [newKey]: newValue });
-                                setNewKey("");
-                                setNewValue("");
-                            }}
-                        />
+                    <Button disabled={loading} className="h-9 px-2" variant="default">
+                        <PlusCircle onClick={addAuthData} />
                     </Button>
                 </div>
             </div>

@@ -527,7 +527,9 @@ const ru: TranslationMessages = {
             errors: {
                 verbose_name: "У терминала обязательно должно быть имя",
                 description: "У терминала обязательно должно быть описание",
-                auth_data_toggle: "Для переключения режима - исправьте ошибки"
+                auth_data_toggle: "Для переключения режима - исправьте ошибки",
+                key_error: "Поле key обязательное",
+                value_error: "Поле value обязательное"
             },
             success: {
                 create: "Терминал %{name} успешно создан."
@@ -1483,7 +1485,9 @@ const en: TranslationMessages = {
             errors: {
                 verbose_name: "The terminal must have a name",
                 description: "The terminal must have a description",
-                auth_data_toggle: "To switch the mode, fix the errors"
+                auth_data_toggle: "To switch the mode, fix the errors",
+                key_error: "The key field is required",
+                value_error: "The value field is required"
             },
             success: {
                 create: "Terminal %{name} has been successfully created."
