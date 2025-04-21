@@ -819,7 +819,13 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -856,7 +862,13 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -867,7 +879,13 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -916,14 +934,20 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Currency__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Currency__"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -935,19 +959,33 @@
                 "operationId": "CurrencyEndpoints_create_currency_enigma_v1_currency_post",
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CurrencyCreate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CurrencyCreate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Currency_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Currency_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -977,13 +1015,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Currency_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Currency_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1009,19 +1055,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CurrencyUpdate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CurrencyUpdate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Currency_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Currency_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1049,13 +1109,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_NoneType_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_NoneType_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1073,7 +1141,13 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -1110,7 +1184,13 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -1121,7 +1201,13 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -1170,14 +1256,20 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Merchant__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Merchant__"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1189,19 +1281,33 @@
                 "operationId": "MerchantEndpoints_create_merchant_enigma_v1_merchant_post",
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MerchantCreate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MerchantCreate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1231,13 +1337,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1263,19 +1377,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MerchantUpdate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MerchantUpdate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1303,13 +1431,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_NoneType_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_NoneType_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1337,19 +1473,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeCreate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FeeCreate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1390,19 +1540,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeUpdate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FeeUpdate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1443,13 +1607,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1467,7 +1639,13 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -1504,7 +1682,13 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -1515,7 +1699,13 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -1564,14 +1754,20 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Provider__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Provider__"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1583,19 +1779,33 @@
                 "operationId": "ProviderEndpoints_create_provider_enigma_v1_provider_post",
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProviderCreate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProviderCreate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Provider_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Provider_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1618,20 +1828,28 @@
                             "title": "Provider Name"
                         },
                         "description": "The unique name of the provider.",
-                        "example": "ProviderA"
+                        "example": "Pay4U"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Provider_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Provider_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1652,24 +1870,38 @@
                             "title": "Provider Name"
                         },
                         "description": "The unique name of the provider.",
-                        "example": "ProviderA"
+                        "example": "Pay4U"
                     }
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProviderUpdate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProviderUpdate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Provider_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Provider_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1690,20 +1922,28 @@
                             "title": "Provider Name"
                         },
                         "description": "The unique name of the provider.",
-                        "example": "ProviderA"
+                        "example": "Pay4U"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_NoneType_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_NoneType_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1726,7 +1966,7 @@
                             "title": "Provider Name"
                         },
                         "description": "The unique name of the provider.",
-                        "example": "ProviderA"
+                        "example": "Pay4U"
                     },
                     {
                         "name": "key_size",
@@ -1762,44 +2002,44 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_ProviderAddKeypair_" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_ProviderAddKeypair_"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
             }
         },
-        "/enigma/v1/provider/{provider_name}/terminal": {
+        "/enigma/v1/terminal": {
             "get": {
                 "tags": ["Terminal"],
                 "summary": "Get a paginated list of terminals",
-                "description": "Returns a paginated list of terminals associated with a provider",
-                "operationId": "TerminalEndpoints_list_terminals_enigma_v1_provider__provider_name__terminal_get",
+                "description": "Returns a paginated list of terminals",
+                "operationId": "PoolTerminalEndpoints_all_terminals_enigma_v1_terminal_get",
                 "parameters": [
-                    {
-                        "name": "provider_name",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "description": "The unique name of the provider.",
-                            "title": "Provider Name"
-                        },
-                        "description": "The unique name of the provider.",
-                        "example": "ProviderA"
-                    },
                     {
                         "name": "ids",
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -1836,7 +2076,13 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -1847,7 +2093,13 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -1896,557 +2148,56 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Terminal__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Terminal__"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": ["Terminal"],
-                "summary": "Create a new terminal",
-                "description": "Registers a new terminal under the specified provider.",
-                "operationId": "TerminalEndpoints_create_terminal_enigma_v1_provider__provider_name__terminal_post",
-                "parameters": [
-                    {
-                        "name": "provider_name",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "description": "The unique name of the provider.",
-                            "title": "Provider Name"
-                        },
-                        "description": "The unique name of the provider.",
-                        "example": "ProviderA"
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TerminalCreate" } } }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
-                        }
-                    }
-                }
-            }
-        },
-        "/enigma/v1/provider/{provider_name}/terminal/{terminal_id}": {
-            "get": {
-                "tags": ["Terminal"],
-                "summary": "Retrieve terminal details",
-                "description": "Fetches the details of a terminal associated with the specified provider.",
-                "operationId": "TerminalEndpoints_get_terminal_enigma_v1_provider__provider_name__terminal__terminal_id__get",
-                "parameters": [
-                    {
-                        "name": "provider_name",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "description": "The unique name of the provider.",
-                            "title": "Provider Name"
-                        },
-                        "description": "The unique name of the provider.",
-                        "example": "ProviderA"
-                    },
-                    {
-                        "name": "terminal_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid",
-                            "description": "The unique identifier of the terminal.",
-                            "title": "Terminal Id"
-                        },
-                        "description": "The unique identifier of the terminal.",
-                        "example": "123e4567-e89b-12d3-a456-426614174000"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "tags": ["Terminal"],
-                "summary": "Update terminal information",
-                "description": "Modifies the attributes of an existing terminal under a specific provider.",
-                "operationId": "TerminalEndpoints_update_terminal_enigma_v1_provider__provider_name__terminal__terminal_id__put",
-                "parameters": [
-                    {
-                        "name": "provider_name",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "description": "The unique name of the provider.",
-                            "title": "Provider Name"
-                        },
-                        "description": "The unique name of the provider.",
-                        "example": "ProviderA"
-                    },
-                    {
-                        "name": "terminal_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid",
-                            "description": "The unique identifier of the terminal.",
-                            "title": "Terminal Id"
-                        },
-                        "description": "The unique identifier of the terminal.",
-                        "example": "123e4567-e89b-12d3-a456-426614174000"
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TerminalUpdate" } } }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "tags": ["Terminal"],
-                "summary": "Remove a terminal",
-                "description": "Deletes a terminal associated with the given provider.",
-                "operationId": "TerminalEndpoints_delete_terminal_enigma_v1_provider__provider_name__terminal__terminal_id__delete",
-                "parameters": [
-                    {
-                        "name": "provider_name",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "description": "The unique name of the provider.",
-                            "title": "Provider Name"
-                        },
-                        "description": "The unique name of the provider.",
-                        "example": "ProviderA"
-                    },
-                    {
-                        "name": "terminal_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid",
-                            "description": "The unique identifier of the terminal.",
-                            "title": "Terminal Id"
-                        },
-                        "description": "The unique identifier of the terminal.",
-                        "example": "123e4567-e89b-12d3-a456-426614174000"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_NoneType_" } }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
-                        }
-                    }
-                }
-            }
-        },
-        "/enigma/v1/provider/{provider_name}/terminal/{terminal_id}/add_auth": {
-            "patch": {
-                "tags": ["Terminal"],
-                "summary": "Add terminal authentication data",
-                "description": "Adds additional authentication settings by merging new data with existing settings.",
-                "operationId": "TerminalEndpoints_add_terminal_auth_enigma_v1_provider__provider_name__terminal__terminal_id__add_auth_patch",
-                "parameters": [
-                    {
-                        "name": "provider_name",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "description": "The unique name of the provider.",
-                            "title": "Provider Name"
-                        },
-                        "description": "The unique name of the provider.",
-                        "example": "ProviderA"
-                    },
-                    {
-                        "name": "terminal_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid",
-                            "description": "The unique identifier of the terminal.",
-                            "title": "Terminal Id"
-                        },
-                        "description": "The unique identifier of the terminal.",
-                        "example": "123e4567-e89b-12d3-a456-426614174000"
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": { "schema": { "$ref": "#/components/schemas/TerminalUpdateAuth" } }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
-                        }
-                    }
-                }
-            }
-        },
-        "/enigma/v1/provider/{provider_name}/terminal/{terminal_id}/set_auth": {
-            "put": {
-                "tags": ["Terminal"],
-                "summary": "Set terminal authentication data",
-                "description": "Overwrites terminal authentication settings with new data.",
-                "operationId": "TerminalEndpoints_set_terminal_auth_enigma_v1_provider__provider_name__terminal__terminal_id__set_auth_put",
-                "parameters": [
-                    {
-                        "name": "provider_name",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "description": "The unique name of the provider.",
-                            "title": "Provider Name"
-                        },
-                        "description": "The unique name of the provider.",
-                        "example": "ProviderA"
-                    },
-                    {
-                        "name": "terminal_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid",
-                            "description": "The unique identifier of the terminal.",
-                            "title": "Terminal Id"
-                        },
-                        "description": "The unique identifier of the terminal.",
-                        "example": "123e4567-e89b-12d3-a456-426614174000"
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": { "schema": { "$ref": "#/components/schemas/TerminalUpdateAuth" } }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
-                        }
-                    }
-                }
-            }
-        },
-        "/enigma/v1/provider/{provider_name}/terminal/{terminal_id}/init_accounts": {
-            "post": {
-                "tags": ["Terminal"],
-                "summary": "Initialize provider account",
-                "description": "Initializes the provider account for a terminal by setting its authentication token. Returns the updated terminal data.",
-                "operationId": "TerminalEndpoints_init_provider_accounts_enigma_v1_provider__provider_name__terminal__terminal_id__init_accounts_post",
-                "parameters": [
-                    {
-                        "name": "provider_name",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "description": "The unique name of the provider.",
-                            "title": "Provider Name"
-                        },
-                        "description": "The unique name of the provider.",
-                        "example": "ProviderA"
-                    },
-                    {
-                        "name": "terminal_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid",
-                            "description": "The unique identifier of the terminal.",
-                            "title": "Terminal Id"
-                        },
-                        "description": "The unique identifier of the terminal.",
-                        "example": "123e4567-e89b-12d3-a456-426614174000"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_list_AccountInfo__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
                             }
                         }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
-                        }
                     }
                 }
             }
         },
-        "/enigma/v1/provider/{provider_name}/terminal/{terminal_id}/fee": {
-            "patch": {
-                "tags": ["Terminal"],
-                "summary": "Add fee to terminal",
-                "description": "Adds a new fee to the terminal.",
-                "operationId": "TerminalEndpoints_add_fee_enigma_v1_provider__provider_name__terminal__terminal_id__fee_patch",
-                "parameters": [
-                    {
-                        "name": "provider_name",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "description": "The unique name of the provider.",
-                            "title": "Provider Name"
-                        },
-                        "description": "The unique name of the provider.",
-                        "example": "ProviderA"
-                    },
-                    {
-                        "name": "terminal_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid",
-                            "description": "The unique identifier of the terminal.",
-                            "title": "Terminal Id"
-                        },
-                        "description": "The unique identifier of the terminal.",
-                        "example": "123e4567-e89b-12d3-a456-426614174000"
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeCreate" } } }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
-                        }
-                    }
-                }
-            }
-        },
-        "/enigma/v1/provider/{provider_name}/terminal/{terminal_id}/fee/{fee_id}": {
-            "patch": {
-                "tags": ["Terminal"],
-                "summary": "Update fee",
-                "description": "Updates an existing fee for the terminal.",
-                "operationId": "TerminalEndpoints_update_fee_enigma_v1_provider__provider_name__terminal__terminal_id__fee__fee_id__patch",
-                "parameters": [
-                    {
-                        "name": "provider_name",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "description": "The unique name of the provider.",
-                            "title": "Provider Name"
-                        },
-                        "description": "The unique name of the provider.",
-                        "example": "ProviderA"
-                    },
-                    {
-                        "name": "terminal_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid",
-                            "description": "The unique identifier of the terminal.",
-                            "title": "Terminal Id"
-                        },
-                        "description": "The unique identifier of the terminal.",
-                        "example": "123e4567-e89b-12d3-a456-426614174000"
-                    },
-                    {
-                        "name": "fee_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid",
-                            "description": "The unique identifier for the fee.",
-                            "title": "Fee Id"
-                        },
-                        "description": "The unique identifier for the fee.",
-                        "example": "456e7890-a123-b456-c789-123456789012"
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeUpdate" } } }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "tags": ["Terminal"],
-                "summary": "Delete fee",
-                "description": "Deletes a fee from the terminal.",
-                "operationId": "TerminalEndpoints_delete_fee_enigma_v1_provider__provider_name__terminal__terminal_id__fee__fee_id__delete",
-                "parameters": [
-                    {
-                        "name": "provider_name",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "description": "The unique name of the provider.",
-                            "title": "Provider Name"
-                        },
-                        "description": "The unique name of the provider.",
-                        "example": "ProviderA"
-                    },
-                    {
-                        "name": "terminal_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid",
-                            "description": "The unique identifier of the terminal.",
-                            "title": "Terminal Id"
-                        },
-                        "description": "The unique identifier of the terminal.",
-                        "example": "123e4567-e89b-12d3-a456-426614174000"
-                    },
-                    {
-                        "name": "fee_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid",
-                            "description": "The unique identifier for the fee.",
-                            "title": "Fee Id"
-                        },
-                        "description": "The unique identifier for the fee.",
-                        "example": "456e7890-a123-b456-c789-123456789012"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
-                        }
-                    }
-                }
-            }
-        },
-        "/enigma/v1/direction": {
+        "/enigma/v1/provider/{provider_name}/terminal": {
             "get": {
-                "tags": ["Direction"],
-                "summary": "Get a paginated list of directions",
-                "description": "Returns a paginated list of directions. Supports filtering and pagination.",
-                "operationId": "DirectionEndpoints_list_directions_enigma_v1_direction_get",
+                "tags": ["Terminal"],
+                "summary": "Get a paginated list of terminals via provider",
+                "description": "Returns a paginated list of terminals associated with a provider",
+                "operationId": "TerminalEndpoints_list_terminals_enigma_v1_provider__provider_name__terminal_get",
                 "parameters": [
+                    {
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The unique name of the provider.",
+                            "title": "Provider Name"
+                        },
+                        "description": "The unique name of the provider.",
+                        "example": "Pay4U"
+                    },
                     {
                         "name": "ids",
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -2483,7 +2234,13 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -2494,7 +2251,1056 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
+                            "title": "Search strings",
+                            "description": "List of values to search for in corresponding fields"
+                        },
+                        "description": "List of values to search for in corresponding fields"
+                    },
+                    {
+                        "name": "searchIgnoreCase",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean",
+                            "title": "Case sensitivity",
+                            "description": "Determines if the search should be case insensitive",
+                            "default": true
+                        },
+                        "description": "Determines if the search should be case insensitive"
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "title": "Sorting field",
+                            "description": "Field to sort the results by",
+                            "default": "verbose_name"
+                        },
+                        "description": "Field to sort the results by"
+                    },
+                    {
+                        "name": "sortOrder",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "enum": ["asc", "desc"],
+                            "type": "string",
+                            "title": "Sorting order",
+                            "description": "Sort order: 'asc' or 'desc'",
+                            "default": "asc"
+                        },
+                        "description": "Sort order: 'asc' or 'desc'"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Terminal__"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Terminal"],
+                "summary": "Create a new terminal",
+                "description": "Registers a new terminal under the specified provider.",
+                "operationId": "TerminalEndpoints_create_terminal_enigma_v1_provider__provider_name__terminal_post",
+                "parameters": [
+                    {
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The unique name of the provider.",
+                            "title": "Provider Name"
+                        },
+                        "description": "The unique name of the provider.",
+                        "example": "Pay4U"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TerminalCreate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/enigma/v1/provider/{provider_name}/terminal/{terminal_id}": {
+            "get": {
+                "tags": ["Terminal"],
+                "summary": "Retrieve terminal details",
+                "description": "Fetches the details of a terminal associated with the specified provider.",
+                "operationId": "TerminalEndpoints_get_terminal_enigma_v1_provider__provider_name__terminal__terminal_id__get",
+                "parameters": [
+                    {
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The unique name of the provider.",
+                            "title": "Provider Name"
+                        },
+                        "description": "The unique name of the provider.",
+                        "example": "Pay4U"
+                    },
+                    {
+                        "name": "terminal_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the terminal.",
+                            "title": "Terminal Id"
+                        },
+                        "description": "The unique identifier of the terminal.",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Terminal"],
+                "summary": "Update terminal information",
+                "description": "Modifies the attributes of an existing terminal under a specific provider.",
+                "operationId": "TerminalEndpoints_update_terminal_enigma_v1_provider__provider_name__terminal__terminal_id__put",
+                "parameters": [
+                    {
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The unique name of the provider.",
+                            "title": "Provider Name"
+                        },
+                        "description": "The unique name of the provider.",
+                        "example": "Pay4U"
+                    },
+                    {
+                        "name": "terminal_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the terminal.",
+                            "title": "Terminal Id"
+                        },
+                        "description": "The unique identifier of the terminal.",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TerminalUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Terminal"],
+                "summary": "Remove a terminal",
+                "description": "Deletes a terminal associated with the given provider.",
+                "operationId": "TerminalEndpoints_delete_terminal_enigma_v1_provider__provider_name__terminal__terminal_id__delete",
+                "parameters": [
+                    {
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The unique name of the provider.",
+                            "title": "Provider Name"
+                        },
+                        "description": "The unique name of the provider.",
+                        "example": "Pay4U"
+                    },
+                    {
+                        "name": "terminal_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the terminal.",
+                            "title": "Terminal Id"
+                        },
+                        "description": "The unique identifier of the terminal.",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_NoneType_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/enigma/v1/provider/{provider_name}/terminal/{terminal_id}/set_auth": {
+            "put": {
+                "tags": ["Terminal"],
+                "summary": "Set terminal authentication data",
+                "description": "Overwrites terminal authentication settings with new data",
+                "operationId": "TerminalEndpoints_set_terminal_auth_enigma_v1_provider__provider_name__terminal__terminal_id__set_auth_put",
+                "deprecated": true,
+                "parameters": [
+                    {
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The unique name of the provider.",
+                            "title": "Provider Name"
+                        },
+                        "description": "The unique name of the provider.",
+                        "example": "Pay4U"
+                    },
+                    {
+                        "name": "terminal_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the terminal.",
+                            "title": "Terminal Id"
+                        },
+                        "description": "The unique identifier of the terminal.",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TerminalUpdateAuth"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/enigma/v1/provider/{provider_name}/terminal/{terminal_id}/add_auth": {
+            "patch": {
+                "tags": ["Terminal"],
+                "summary": "Add terminal authentication data",
+                "description": "Adds additional authentication settings by merging new data with existing settings.",
+                "operationId": "TerminalEndpoints_add_terminal_auth_enigma_v1_provider__provider_name__terminal__terminal_id__add_auth_patch",
+                "deprecated": true,
+                "parameters": [
+                    {
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The unique name of the provider.",
+                            "title": "Provider Name"
+                        },
+                        "description": "The unique name of the provider.",
+                        "example": "Pay4U"
+                    },
+                    {
+                        "name": "terminal_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the terminal.",
+                            "title": "Terminal Id"
+                        },
+                        "description": "The unique identifier of the terminal.",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TerminalUpdateAuth"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/enigma/v1/provider/{provider_name}/terminal/{terminal_id}/auth": {
+            "put": {
+                "tags": ["Terminal"],
+                "summary": "Replace terminal authentication data",
+                "description": "Replaces the authentication data of the terminal with the new set. Encrypts values as needed.",
+                "operationId": "TerminalEndpoints_replace_terminal_auth_enigma_v1_provider__provider_name__terminal__terminal_id__auth_put",
+                "parameters": [
+                    {
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The unique name of the provider.",
+                            "title": "Provider Name"
+                        },
+                        "description": "The unique name of the provider.",
+                        "example": "Pay4U"
+                    },
+                    {
+                        "name": "terminal_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the terminal.",
+                            "title": "Terminal Id"
+                        },
+                        "description": "The unique identifier of the terminal.",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TerminalUpdateAuth"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["Terminal"],
+                "summary": "Patch terminal authentication data",
+                "description": "Updates part of the authentication data. New or changed values are encrypted.",
+                "operationId": "TerminalEndpoints_patch_terminal_auth_enigma_v1_provider__provider_name__terminal__terminal_id__auth_patch",
+                "parameters": [
+                    {
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The unique name of the provider.",
+                            "title": "Provider Name"
+                        },
+                        "description": "The unique name of the provider.",
+                        "example": "Pay4U"
+                    },
+                    {
+                        "name": "terminal_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the terminal.",
+                            "title": "Terminal Id"
+                        },
+                        "description": "The unique identifier of the terminal.",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TerminalUpdateAuth"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/enigma/v1/provider/{provider_name}/terminal/{terminal_id}/auth/keys": {
+            "delete": {
+                "tags": ["Terminal"],
+                "summary": "Delete specific auth keys",
+                "description": "Deletes specific authentication keys from the terminal.",
+                "operationId": "TerminalEndpoints_delete_auth_keys_enigma_v1_provider__provider_name__terminal__terminal_id__auth_keys_delete",
+                "parameters": [
+                    {
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The unique name of the provider.",
+                            "title": "Provider Name"
+                        },
+                        "description": "The unique name of the provider.",
+                        "example": "Pay4U"
+                    },
+                    {
+                        "name": "terminal_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the terminal.",
+                            "title": "Terminal Id"
+                        },
+                        "description": "The unique identifier of the terminal.",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TerminalDeleteAuth"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/enigma/v1/provider/{provider_name}/terminal/{terminal_id}/init_accounts": {
+            "post": {
+                "tags": ["Terminal"],
+                "summary": "Initialize provider account",
+                "description": "Initializes the provider account for a terminal by setting its authentication token. Returns the updated terminal data.",
+                "operationId": "TerminalEndpoints_init_provider_accounts_enigma_v1_provider__provider_name__terminal__terminal_id__init_accounts_post",
+                "parameters": [
+                    {
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The unique name of the provider.",
+                            "title": "Provider Name"
+                        },
+                        "description": "The unique name of the provider.",
+                        "example": "Pay4U"
+                    },
+                    {
+                        "name": "terminal_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the terminal.",
+                            "title": "Terminal Id"
+                        },
+                        "description": "The unique identifier of the terminal.",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_list_AccountInfo__"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/enigma/v1/provider/{provider_name}/terminal/{terminal_id}/fee": {
+            "patch": {
+                "tags": ["Terminal"],
+                "summary": "Add fee to terminal",
+                "description": "Adds a new fee to the terminal.",
+                "operationId": "TerminalEndpoints_add_fee_enigma_v1_provider__provider_name__terminal__terminal_id__fee_patch",
+                "parameters": [
+                    {
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The unique name of the provider.",
+                            "title": "Provider Name"
+                        },
+                        "description": "The unique name of the provider.",
+                        "example": "Pay4U"
+                    },
+                    {
+                        "name": "terminal_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the terminal.",
+                            "title": "Terminal Id"
+                        },
+                        "description": "The unique identifier of the terminal.",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FeeCreate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/enigma/v1/provider/{provider_name}/terminal/{terminal_id}/fee/{fee_id}": {
+            "patch": {
+                "tags": ["Terminal"],
+                "summary": "Update fee",
+                "description": "Updates an existing fee for the terminal.",
+                "operationId": "TerminalEndpoints_update_fee_enigma_v1_provider__provider_name__terminal__terminal_id__fee__fee_id__patch",
+                "parameters": [
+                    {
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The unique name of the provider.",
+                            "title": "Provider Name"
+                        },
+                        "description": "The unique name of the provider.",
+                        "example": "Pay4U"
+                    },
+                    {
+                        "name": "terminal_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the terminal.",
+                            "title": "Terminal Id"
+                        },
+                        "description": "The unique identifier of the terminal.",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    {
+                        "name": "fee_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier for the fee.",
+                            "title": "Fee Id"
+                        },
+                        "description": "The unique identifier for the fee.",
+                        "example": "456e7890-a123-b456-c789-123456789012"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FeeUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Terminal"],
+                "summary": "Delete fee",
+                "description": "Deletes a fee from the terminal.",
+                "operationId": "TerminalEndpoints_delete_fee_enigma_v1_provider__provider_name__terminal__terminal_id__fee__fee_id__delete",
+                "parameters": [
+                    {
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The unique name of the provider.",
+                            "title": "Provider Name"
+                        },
+                        "description": "The unique name of the provider.",
+                        "example": "Pay4U"
+                    },
+                    {
+                        "name": "terminal_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the terminal.",
+                            "title": "Terminal Id"
+                        },
+                        "description": "The unique identifier of the terminal.",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    {
+                        "name": "fee_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier for the fee.",
+                            "title": "Fee Id"
+                        },
+                        "description": "The unique identifier for the fee.",
+                        "example": "456e7890-a123-b456-c789-123456789012"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/enigma/v1/provider/{provider_name}/terminal/{terminal_id}/callback": {
+            "post": {
+                "tags": ["Terminal"],
+                "summary": "Register callback for terminal",
+                "description": "Generates mapping in external service and stores external callback URL inside terminal.",
+                "operationId": "TerminalEndpoints_create_callback_enigma_v1_provider__provider_name__terminal__terminal_id__callback_post",
+                "parameters": [
+                    {
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "title": "Provider Name" }
+                    },
+                    {
+                        "name": "terminal_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the terminal.",
+                            "title": "Terminal Id"
+                        },
+                        "description": "The unique identifier of the terminal.",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TerminalUpdateCallbackUrl"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/enigma/v1/direction": {
+            "get": {
+                "tags": ["Direction"],
+                "summary": "Get a paginated list of directions",
+                "description": "Returns a paginated list of directions. Supports filtering and pagination.",
+                "operationId": "DirectionEndpoints_list_directions_enigma_v1_direction_get",
+                "parameters": [
+                    {
+                        "name": "ids",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
+                            "description": "List of identifiers for filtering",
+                            "title": "Ids"
+                        },
+                        "description": "List of identifiers for filtering"
+                    },
+                    {
+                        "name": "currentPage",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Current page number (starting from 1)",
+                            "default": 1,
+                            "title": "Currentpage"
+                        },
+                        "description": "Current page number (starting from 1)"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Number of records per page",
+                            "default": 20,
+                            "title": "Pagesize"
+                        },
+                        "description": "Number of records per page"
+                    },
+                    {
+                        "name": "searchField",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
+                            "title": "Search fields",
+                            "description": "List of fields to perform the search on"
+                        },
+                        "description": "List of fields to perform the search on"
+                    },
+                    {
+                        "name": "searchString",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -2543,14 +3349,20 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2562,19 +3374,33 @@
                 "operationId": "DirectionEndpoints_create_direction_enigma_v1_direction_post",
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DirectionCreate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DirectionCreate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2604,7 +3430,13 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -2641,7 +3473,13 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -2652,7 +3490,13 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": { "type": "string" }
+                                },
+                                { "type": "null" }
+                            ],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -2701,14 +3545,20 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2739,13 +3589,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2772,19 +3630,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DirectionUpdate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DirectionUpdate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2813,13 +3685,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_NoneType_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_NoneType_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2835,7 +3715,9 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "items": { "$ref": "#/components/schemas/DirectionUpdateBulkItem" },
+                                "items": {
+                                    "$ref": "#/components/schemas/DirectionUpdateBulkItem"
+                                },
                                 "type": "array",
                                 "title": "Updates"
                             }
@@ -2848,14 +3730,20 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2885,20 +3773,32 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": { "schema": { "$ref": "#/components/schemas/DirectionUpdateState" } }
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DirectionUpdateState"
+                            }
+                        }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2928,20 +3828,32 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": { "schema": { "$ref": "#/components/schemas/DirectionUpdateType" } }
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DirectionUpdateType"
+                            }
+                        }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2970,19 +3882,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeCreate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FeeCreate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -3024,19 +3950,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeUpdate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FeeUpdate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -3078,13 +4018,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -3114,20 +4062,32 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": { "schema": { "$ref": "#/components/schemas/DirectionUpdateLimits" } }
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DirectionUpdateLimits"
+                            }
+                        }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -3156,13 +4116,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -3208,13 +4176,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_KeyPair_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_KeyPair_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -3231,7 +4207,9 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_list_FeeTypeItem__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_list_FeeTypeItem__"
+                                }
                             }
                         }
                     }
@@ -3264,7 +4242,11 @@
                 "required": ["account_id", "type"],
                 "title": "AccountInfo"
             },
-            "AccountType": { "type": "integer", "enum": [1, 2], "title": "AccountType" },
+            "AccountType": {
+                "type": "integer",
+                "enum": [1, 2],
+                "title": "AccountType"
+            },
             "ApiResponse_Currency_": {
                 "properties": {
                     "success": {
@@ -3755,7 +4737,11 @@
                 "required": ["code"],
                 "title": "CurrencyCreate"
             },
-            "CurrencyPosition": { "type": "string", "enum": ["before", "after"], "title": "CurrencyPosition" },
+            "CurrencyPosition": {
+                "type": "string",
+                "enum": ["before", "after"],
+                "title": "CurrencyPosition"
+            },
             "CurrencyUpdate": {
                 "properties": {
                     "symbol": {
@@ -3777,7 +4763,14 @@
                         "examples": [false]
                     },
                     "accuracy": {
-                        "anyOf": [{ "type": "integer", "maximum": 16.0, "minimum": 1.0 }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "integer",
+                                "maximum": 16.0,
+                                "minimum": 1.0
+                            },
+                            { "type": "null" }
+                        ],
                         "title": "Accuracy",
                         "description": "Accuracy of the currency (number of decimal places)",
                         "examples": [2]
@@ -3849,13 +4842,18 @@
                         "description": "Authentication data for the direction",
                         "examples": [{ "api_key": "secret" }]
                     },
-                    "src_currency": { "$ref": "#/components/schemas/Currency", "description": "Source currency code" },
+                    "src_currency": {
+                        "$ref": "#/components/schemas/Currency",
+                        "description": "Source currency code"
+                    },
                     "dst_currency": {
                         "$ref": "#/components/schemas/Currency",
                         "description": "Destination currency code"
                     },
                     "fees": {
-                        "additionalProperties": { "$ref": "#/components/schemas/Fee" },
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/Fee"
+                        },
                         "propertyNames": { "format": "uuid" },
                         "type": "object",
                         "title": "Fees",
@@ -3943,7 +4941,7 @@
                         "type": "string",
                         "title": "Provider",
                         "description": "Provider name associated with the direction",
-                        "examples": ["ProviderA"]
+                        "examples": ["Pay4U"]
                     },
                     "terminal": {
                         "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }],
@@ -3956,7 +4954,11 @@
                 "required": ["name", "src_currency", "dst_currency", "merchant", "provider"],
                 "title": "DirectionCreate"
             },
-            "DirectionState": { "type": "string", "enum": ["active", "inactive"], "title": "DirectionState" },
+            "DirectionState": {
+                "type": "string",
+                "enum": ["active", "inactive"],
+                "title": "DirectionState"
+            },
             "DirectionType": {
                 "type": "string",
                 "enum": ["universal", "deposit", "withdraw"],
@@ -4020,18 +5022,13 @@
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Provider",
                         "description": "Provider name associated with the direction",
-                        "examples": ["ProviderA"]
+                        "examples": ["Pay4U"]
                     },
                     "terminal": {
                         "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }],
                         "title": "Terminal",
                         "description": "Terminal ID associated with the direction",
                         "examples": ["123e4567-e89b-12d3-a456-426614174000"]
-                    },
-                    "auth_data": {
-                        "anyOf": [{ "type": "object" }, { "type": "null" }],
-                        "title": "Auth Data",
-                        "description": "Deprecated. Authentication data for the direction"
                     }
                 },
                 "type": "object",
@@ -4095,18 +5092,13 @@
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Provider",
                         "description": "Provider name associated with the direction",
-                        "examples": ["ProviderA"]
+                        "examples": ["Pay4U"]
                     },
                     "terminal": {
                         "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }],
                         "title": "Terminal",
                         "description": "Terminal ID associated with the direction",
                         "examples": ["123e4567-e89b-12d3-a456-426614174000"]
-                    },
-                    "auth_data": {
-                        "anyOf": [{ "type": "object" }, { "type": "null" }],
-                        "title": "Auth Data",
-                        "description": "Deprecated. Authentication data for the direction"
                     },
                     "id": {
                         "type": "string",
@@ -4173,6 +5165,66 @@
                 "required": ["error_type", "error_message"],
                 "title": "ErrorBody"
             },
+            "ExecutionMethod-Input": {
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "title": "Type",
+                        "description": "The type of the method.",
+                        "examples": ["deposit"]
+                    },
+                    "execution_name": {
+                        "type": "string",
+                        "title": "Execution Name",
+                        "description": "The name of the workflow or activity to be executed.",
+                        "examples": ["PayIn_h2h_sync"]
+                    },
+                    "task_queue": {
+                        "type": "string",
+                        "title": "Task Queue",
+                        "description": "The queue (task_queue) where the execution will be dispatched.",
+                        "examples": ["pay4u-workflows"]
+                    }
+                },
+                "type": "object",
+                "required": ["type", "execution_name", "task_queue"],
+                "title": "ExecutionMethod"
+            },
+            "ExecutionMethod-Output": {
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "title": "Type",
+                        "description": "The type of the method.",
+                        "examples": ["deposit"]
+                    },
+                    "execution_name": {
+                        "type": "string",
+                        "title": "Execution Name",
+                        "description": "The name of the workflow or activity to be executed.",
+                        "examples": ["PayIn_h2h_sync"]
+                    },
+                    "task_queue": {
+                        "type": "string",
+                        "title": "Task Queue",
+                        "description": "The queue (task_queue) where the execution will be dispatched.",
+                        "examples": ["pay4u-workflows"]
+                    },
+                    "workflow_name": {
+                        "type": "string",
+                        "title": "Workflow Name",
+                        "readOnly": true
+                    },
+                    "workflow_queue": {
+                        "type": "string",
+                        "title": "Workflow Queue",
+                        "readOnly": true
+                    }
+                },
+                "type": "object",
+                "required": ["type", "execution_name", "task_queue", "workflow_name", "workflow_queue"],
+                "title": "ExecutionMethod"
+            },
             "Fee": {
                 "properties": {
                     "id": {
@@ -4199,7 +5251,10 @@
                         "description": "Currency code for the fee",
                         "examples": ["USD"]
                     },
-                    "value": { "$ref": "#/components/schemas/RateValue", "description": "Rate value for the fee" },
+                    "value": {
+                        "$ref": "#/components/schemas/RateValue",
+                        "description": "Rate value for the fee"
+                    },
                     "direction": {
                         "anyOf": [{ "$ref": "#/components/schemas/TransactionType" }, { "type": "null" }],
                         "description": "Fee direction if applicable",
@@ -4263,7 +5318,11 @@
                 "required": ["recipient", "type", "value"],
                 "title": "FeeCreate"
             },
-            "FeeType": { "type": "integer", "enum": [1, 2, 3], "title": "FeeType" },
+            "FeeType": {
+                "type": "integer",
+                "enum": [1, 2, 3],
+                "title": "FeeType"
+            },
             "FeeTypeItem": {
                 "properties": {
                     "name": {
@@ -4333,7 +5392,9 @@
             "HTTPValidationError": {
                 "properties": {
                     "detail": {
-                        "items": { "$ref": "#/components/schemas/ValidationError" },
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
                         "type": "array",
                         "title": "Detail"
                     }
@@ -4402,17 +5463,32 @@
             },
             "LimitValues-Output": {
                 "properties": {
-                    "min": { "$ref": "#/components/schemas/RateValue", "description": "Minimum limit value" },
-                    "max": { "$ref": "#/components/schemas/RateValue", "description": "Maximum limit value" }
+                    "min": {
+                        "$ref": "#/components/schemas/RateValue",
+                        "description": "Minimum limit value"
+                    },
+                    "max": {
+                        "$ref": "#/components/schemas/RateValue",
+                        "description": "Maximum limit value"
+                    }
                 },
                 "type": "object",
                 "title": "LimitValues"
             },
             "Limits": {
                 "properties": {
-                    "payin": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for payin" },
-                    "payout": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for payout" },
-                    "reward": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for reward" }
+                    "payin": {
+                        "$ref": "#/components/schemas/LimitValues-Output",
+                        "description": "Limits for payin"
+                    },
+                    "payout": {
+                        "$ref": "#/components/schemas/LimitValues-Output",
+                        "description": "Limits for payout"
+                    },
+                    "reward": {
+                        "$ref": "#/components/schemas/LimitValues-Output",
+                        "description": "Limits for reward"
+                    }
                 },
                 "type": "object",
                 "required": ["payin", "payout", "reward"],
@@ -4421,15 +5497,30 @@
             "LimitsUpdate": {
                 "properties": {
                     "payin": {
-                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/LimitValues-Input"
+                            },
+                            { "type": "null" }
+                        ],
                         "description": "Limits for payin"
                     },
                     "payout": {
-                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/LimitValues-Input"
+                            },
+                            { "type": "null" }
+                        ],
                         "description": "Limits for payout"
                     },
                     "reward": {
-                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/LimitValues-Input"
+                            },
+                            { "type": "null" }
+                        ],
                         "description": "Limits for reward"
                     }
                 },
@@ -4463,7 +5554,9 @@
                         "examples": ["keycloak_123"]
                     },
                     "fees": {
-                        "additionalProperties": { "$ref": "#/components/schemas/Fee" },
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/Fee"
+                        },
                         "propertyNames": { "format": "uuid" },
                         "type": "object",
                         "title": "Fees",
@@ -4477,7 +5570,10 @@
                                     "id": "123e4567-e89b-12d3-a456-426614174000",
                                     "recipient": "recipient@example.com",
                                     "type": 3,
-                                    "value": { "accuracy": 100, "quantity": 1234 }
+                                    "value": {
+                                        "accuracy": 100,
+                                        "quantity": 1234
+                                    }
                                 }
                             }
                         ]
@@ -4541,31 +5637,6 @@
                 },
                 "type": "object",
                 "title": "MerchantUpdate"
-            },
-            "Method": {
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "title": "Type",
-                        "description": "The type of the method.",
-                        "examples": ["deposit"]
-                    },
-                    "workflow_name": {
-                        "type": "string",
-                        "title": "Workflow Name",
-                        "description": "The name of the workflow to be executed.",
-                        "examples": ["Pay4U_PayIn_h2h_sync"]
-                    },
-                    "workflow_queue": {
-                        "type": "string",
-                        "title": "Workflow Queue",
-                        "description": "The queue where the workflow will be dispatched.",
-                        "examples": ["pay4u-workflows"]
-                    }
-                },
-                "type": "object",
-                "required": ["type", "workflow_name", "workflow_queue"],
-                "title": "Method"
             },
             "OffsetPagination_Currency_": {
                 "properties": {
@@ -4744,27 +5815,38 @@
                         "examples": ["GfH2hQvQmHzo1Lj6j6Wnq3X6dFiD1kLQ6Jz37vZ5p9np"]
                     },
                     "methods": {
-                        "additionalProperties": { "$ref": "#/components/schemas/Method" },
-                        "propertyNames": { "$ref": "#/components/schemas/WorkflowCategory" },
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/ExecutionMethod-Output"
+                        },
                         "type": "object",
                         "title": "Methods",
-                        "description": "Provider methods configuration",
+                        "description": "Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases.",
                         "examples": [
                             {
+                                "get_trade_methods_payin": {
+                                    "execution_name": "api_get_trade_methods",
+                                    "task_queue": "pay4u-activities",
+                                    "type": "trade_methods_payin"
+                                },
+                                "get_trade_methods_payout": {
+                                    "execution_name": "api_get_trade_methods_payout",
+                                    "task_queue": "pay4u-activities",
+                                    "type": "trade_methods_payout"
+                                },
                                 "h2h_async": {
-                                    "type": "withdraw",
-                                    "workflow_name": "Pay4U_PayOut_h2h_async",
-                                    "workflow_queue": "pay4u-async-queue"
+                                    "execution_name": "PayIn_h2h_async",
+                                    "task_queue": "pay4u-workflows",
+                                    "type": "withdraw"
                                 },
                                 "h2h_sync": {
-                                    "type": "deposit",
-                                    "workflow_name": "Pay4U_PayIn_h2h_sync",
-                                    "workflow_queue": "pay4u-workflows"
+                                    "execution_name": "PayIn_h2h_sync",
+                                    "task_queue": "pay4u-workflows",
+                                    "type": "deposit"
                                 },
                                 "h2h_sync_out": {
-                                    "type": "transfer",
-                                    "workflow_name": "Pay4U_Transfer_h2h_sync_out",
-                                    "workflow_queue": "pay4u-sync-out-queue"
+                                    "execution_name": "PayOut_h2h",
+                                    "task_queue": "pay4u-workflows",
+                                    "type": "transfer"
                                 }
                             }
                         ]
@@ -4795,7 +5877,7 @@
                         "type": "string",
                         "title": "Name",
                         "description": "Provider name",
-                        "examples": ["ProviderA"]
+                        "examples": ["Pay4U"]
                     },
                     "fields_json_schema": {
                         "type": "string",
@@ -4803,34 +5885,39 @@
                         "description": "JSON schema for provider fields",
                         "examples": ["string"]
                     },
-                    "public_key": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
-                        "title": "Public Key",
-                        "description": "The public key encoded in base58, corresponding to the private key.",
-                        "examples": ["GfH2hQvQmHzo1Lj6j6Wnq3X6dFiD1kLQ6Jz37vZ5p9np"]
-                    },
                     "methods": {
-                        "additionalProperties": { "$ref": "#/components/schemas/Method" },
-                        "propertyNames": { "$ref": "#/components/schemas/WorkflowCategory" },
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/ExecutionMethod-Input"
+                        },
                         "type": "object",
                         "title": "Methods",
                         "description": "Provider methods configuration",
                         "examples": [
                             {
+                                "get_trade_methods_payin": {
+                                    "execution_name": "api_get_trade_methods",
+                                    "task_queue": "pay4u-activities",
+                                    "type": "trade_methods_payin"
+                                },
+                                "get_trade_methods_payout": {
+                                    "execution_name": "api_get_trade_methods_payout",
+                                    "task_queue": "pay4u-activities",
+                                    "type": "trade_methods_payout"
+                                },
                                 "h2h_async": {
-                                    "type": "withdraw",
-                                    "workflow_name": "Pay4U_PayOut_h2h_async",
-                                    "workflow_queue": "pay4u-async-queue"
+                                    "execution_name": "PayIn_h2h_async",
+                                    "task_queue": "pay4u-workflows",
+                                    "type": "withdraw"
                                 },
                                 "h2h_sync": {
-                                    "type": "deposit",
-                                    "workflow_name": "Pay4U_PayIn_h2h_sync",
-                                    "workflow_queue": "pay4u-workflows"
+                                    "execution_name": "PayIn_h2h_sync",
+                                    "task_queue": "pay4u-workflows",
+                                    "type": "deposit"
                                 },
                                 "h2h_sync_out": {
-                                    "type": "transfer",
-                                    "workflow_name": "Pay4U_Transfer_h2h_sync_out",
-                                    "workflow_queue": "pay4u-sync-out-queue"
+                                    "execution_name": "PayOut_h2h",
+                                    "task_queue": "pay4u-workflows",
+                                    "type": "transfer"
                                 }
                             }
                         ]
@@ -4848,17 +5935,12 @@
                         "description": "JSON schema for provider fields",
                         "examples": ["string"]
                     },
-                    "public_key": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
-                        "title": "Public Key",
-                        "description": "The public key encoded in base58, corresponding to the private key.",
-                        "examples": ["GfH2hQvQmHzo1Lj6j6Wnq3X6dFiD1kLQ6Jz37vZ5p9np"]
-                    },
                     "methods": {
                         "anyOf": [
                             {
-                                "additionalProperties": { "$ref": "#/components/schemas/Method" },
-                                "propertyNames": { "$ref": "#/components/schemas/WorkflowCategory" },
+                                "additionalProperties": {
+                                    "$ref": "#/components/schemas/ExecutionMethod-Input"
+                                },
                                 "type": "object"
                             },
                             { "type": "null" }
@@ -4867,20 +5949,30 @@
                         "description": "Provider methods configuration",
                         "examples": [
                             {
+                                "get_trade_methods_payin": {
+                                    "execution_name": "api_get_trade_methods",
+                                    "task_queue": "pay4u-activities",
+                                    "type": "trade_methods_payin"
+                                },
+                                "get_trade_methods_payout": {
+                                    "execution_name": "api_get_trade_methods_payout",
+                                    "task_queue": "pay4u-activities",
+                                    "type": "trade_methods_payout"
+                                },
                                 "h2h_async": {
-                                    "type": "withdraw",
-                                    "workflow_name": "Pay4U_PayOut_h2h_async",
-                                    "workflow_queue": "pay4u-async-queue"
+                                    "execution_name": "PayIn_h2h_async",
+                                    "task_queue": "pay4u-workflows",
+                                    "type": "withdraw"
                                 },
                                 "h2h_sync": {
-                                    "type": "deposit",
-                                    "workflow_name": "Pay4U_PayIn_h2h_sync",
-                                    "workflow_queue": "pay4u-workflows"
+                                    "execution_name": "PayIn_h2h_sync",
+                                    "task_queue": "pay4u-workflows",
+                                    "type": "deposit"
                                 },
                                 "h2h_sync_out": {
-                                    "type": "transfer",
-                                    "workflow_name": "Pay4U_Transfer_h2h_sync_out",
-                                    "workflow_queue": "pay4u-sync-out-queue"
+                                    "execution_name": "PayOut_h2h",
+                                    "task_queue": "pay4u-workflows",
+                                    "type": "transfer"
                                 }
                             }
                         ]
@@ -4934,7 +6026,9 @@
                         "examples": ["This is the main terminal"]
                     },
                     "fees": {
-                        "additionalProperties": { "$ref": "#/components/schemas/Fee" },
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/Fee"
+                        },
                         "propertyNames": { "format": "uuid" },
                         "type": "object",
                         "title": "Fees",
@@ -4948,7 +6042,10 @@
                                     "id": "123e4567-e89b-12d3-a456-426614174000",
                                     "recipient": "recipient@example.com",
                                     "type": 3,
-                                    "value": { "accuracy": 100, "quantity": 1234 }
+                                    "value": {
+                                        "accuracy": 100,
+                                        "quantity": 1234
+                                    }
                                 }
                             }
                         ]
@@ -4971,6 +6068,11 @@
                         "description": "Indicates if the account is created",
                         "default": false,
                         "examples": [false]
+                    },
+                    "callback_url": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Callback Url",
+                        "description": "Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration."
                     }
                 },
                 "type": "object",
@@ -5003,6 +6105,20 @@
                 "required": ["verbose_name"],
                 "title": "TerminalCreate"
             },
+            "TerminalDeleteAuth": {
+                "properties": {
+                    "keys": {
+                        "items": { "type": "string" },
+                        "type": "array",
+                        "title": "Keys",
+                        "description": "Authentication data for the terminal",
+                        "examples": [["api_key", "merchant_id"]]
+                    }
+                },
+                "type": "object",
+                "required": ["keys"],
+                "title": "TerminalDeleteAuth"
+            },
             "TerminalUpdate": {
                 "properties": {
                     "verbose_name": {
@@ -5034,11 +6150,33 @@
                 "required": ["auth"],
                 "title": "TerminalUpdateAuth"
             },
-            "TransactionType": { "type": "integer", "enum": [1, 2, 3, 4], "title": "TransactionType" },
+            "TerminalUpdateCallbackUrl": {
+                "properties": {
+                    "callback_url": {
+                        "type": "string",
+                        "title": "Callback Url",
+                        "description": "New callback URL template or final URL. Placeholders in the form {key} will be replaced with values from terminal.auth.",
+                        "examples": [
+                            "http://callback_service:8000/{api_key}",
+                            "https://example.com/webhook/{secret_key}/notify"
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": ["callback_url"],
+                "title": "TerminalUpdateCallbackUrl"
+            },
+            "TransactionType": {
+                "type": "integer",
+                "enum": [1, 2, 3, 4],
+                "title": "TransactionType"
+            },
             "ValidationError": {
                 "properties": {
                     "loc": {
-                        "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+                        "items": {
+                            "anyOf": [{ "type": "string" }, { "type": "integer" }]
+                        },
                         "type": "array",
                         "title": "Location"
                     },
@@ -5048,11 +6186,6 @@
                 "type": "object",
                 "required": ["loc", "msg", "type"],
                 "title": "ValidationError"
-            },
-            "WorkflowCategory": {
-                "type": "string",
-                "enum": ["h2h_sync", "h2h_async", "h2h_sync_out"],
-                "title": "WorkflowCategory"
             },
             "ApiResponse_CallbackMappingRead_": {
                 "properties": {
@@ -5137,6 +6270,12 @@
             },
             "CallbackHistoryRead": {
                 "properties": {
+                    "original_url": {
+                        "type": "string",
+                        "title": "Original Url",
+                        "description": "Full original callback URL",
+                        "examples": ["https://..."]
+                    },
                     "request_method": {
                         "type": "string",
                         "title": "Request Method",
@@ -5239,6 +6378,7 @@
                 },
                 "type": "object",
                 "required": [
+                    "original_url",
                     "request_method",
                     "request_url",
                     "request_headers",
@@ -5255,6 +6395,18 @@
             },
             "CallbackMappingCreate": {
                 "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name",
+                        "description": "Name of the CallbackMapping",
+                        "examples": ["adapter.status"]
+                    },
+                    "description": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Description",
+                        "description": "Description of the CallbackMapping",
+                        "examples": ["This CallbackMapping is used for adapter callback"]
+                    },
                     "external_path": {
                         "type": "string",
                         "title": "External Path",
@@ -5287,11 +6439,23 @@
                     }
                 },
                 "type": "object",
-                "required": ["external_path", "internal_path"],
+                "required": ["name", "external_path", "internal_path"],
                 "title": "CallbackMappingCreate"
             },
             "CallbackMappingRead": {
                 "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name",
+                        "description": "Name of the CallbackMapping",
+                        "examples": ["adapter.status"]
+                    },
+                    "description": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Description",
+                        "description": "Description of the CallbackMapping",
+                        "examples": ["This CallbackMapping is used for adapter callback"]
+                    },
                     "external_path": {
                         "type": "string",
                         "title": "External Path",
@@ -5335,7 +6499,7 @@
                     }
                 },
                 "type": "object",
-                "required": ["external_path", "internal_path", "id", "created_at", "updated_at"],
+                "required": ["name", "external_path", "internal_path", "id", "created_at", "updated_at"],
                 "title": "CallbackMappingRead"
             },
             "CallbackMappingUpdate": {

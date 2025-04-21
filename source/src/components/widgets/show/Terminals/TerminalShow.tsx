@@ -10,6 +10,7 @@ import { EditTerminalDialog } from "../../lists/Terminals/EditTerminalDialog";
 import { DeleteTerminalDialog } from "../../lists/Terminals/DeleteTerminalDialog";
 import { useState } from "react";
 import { AuthDataViewer } from "../../edit/Terminals/AuthDataViewer";
+import { GenerateCallbackDialog } from "./GenerateCallbackDialog";
 
 interface TerminalShowProps {
     id: string;
@@ -20,6 +21,7 @@ export const TerminalShow = (props: TerminalShowProps) => {
     const { id, provider, onOpenChange } = props;
 
     const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [generateCallbackDialogOpen, setGenerateCallbackDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const dataProvider = useDataProvider();
     const translate = useTranslate();
@@ -64,10 +66,19 @@ export const TerminalShow = (props: TerminalShowProps) => {
                                 text={data.description ?? ""}
                                 label={translate("resources.terminals.fields.description")}
                             />
+                            <TextField
+                                text={data.callback_url ?? "-"}
+                                type={data.callback_url ? "link" : "text"}
+                                label={translate("resources.callbridge.mapping.fields.callback_url")}
+                            />
                         </div>
 
                         <div className="mt-3 flex justify-end">
                             <div className="flex gap-3 md:gap-4">
+                                <Button className="" onClick={() => setGenerateCallbackDialogOpen(true)}>
+                                    {translate("app.ui.actions.generateCallback")}
+                                </Button>
+
                                 <Button className="" onClick={() => setEditDialogOpen(true)}>
                                     {translate("app.ui.actions.edit")}
                                 </Button>
@@ -108,6 +119,12 @@ export const TerminalShow = (props: TerminalShowProps) => {
                     padding={false}
                 />
             </div>
+            <GenerateCallbackDialog
+                open={generateCallbackDialogOpen}
+                onOpenChange={setGenerateCallbackDialogOpen}
+                terminalId={id}
+                providerName={provider}
+            />
             <EditTerminalDialog provider={provider} id={id} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
 
             <DeleteTerminalDialog

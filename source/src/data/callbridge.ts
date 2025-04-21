@@ -37,7 +37,7 @@ export class CallbridgeDataProvider {
             signal: params.signal || params.filter?.signal
         });
         return {
-            data: json.data || [],
+            data: json.data.items || [],
             total: json?.total || 0
         };
     }

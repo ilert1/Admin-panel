@@ -530,6 +530,9 @@ const ru: TranslationMessages = {
             success: {
                 create: "Терминал %{name} успешно создан."
             },
+            callbackCreating: "Создание callback",
+            callbackCreatedSuccessfully: "Callback успешно создан",
+            urlTemplate: "Шаблон URL",
             create: "Создать терминал",
             selectHeader: "Провайдер",
             selectPlaceholder: "Выберите провайдера",
@@ -668,14 +671,49 @@ const ru: TranslationMessages = {
             name: "Коллбеки",
             mapping: {
                 name: "Маппинги",
+                mapping: "Маппинг",
                 fields: {
-                    verbose_name: "Наименование",
+                    name: "Название",
                     ext_path: "Внешний путь",
-                    int_path: "Внутренний путь"
-                }
+                    int_path: "Внутренний путь",
+                    description: "Описание",
+
+                    callback_url: "URL обратного вызова",
+                    created_at: "Дата создания",
+                    external_path: "Внешний путь",
+                    internal_path: "Внутренний путь",
+                    retry_policy: "Политика повторов",
+                    base_delay: "Базовая задержка",
+                    state: "Состояние",
+                    active: "Активно",
+                    disabled: "Выключено",
+                    max_attempts: "Максимальное число попыток",
+                    strategy: "Стратегия",
+
+                    security_policy: "Политика безопасности",
+                    allowed_ips: "Разрешённые IP-адреса",
+                    auth: "Авторизация",
+                    auth_required: "Требуется авторизация",
+                    auth_not_required: "Не требуется авторизация",
+                    blocked: "Заблокировано",
+                    permitted: "Разрешено",
+                    blocked_ips: "Заблокированные IP-адреса",
+                    burst_limit: "Порог частоты запросов",
+                    enforcement_mode: "Режим принудительного контроля",
+                    updated_at: "Дата обновления"
+                },
+                errors: {
+                    cantBeEmpty: "Поле не может быть пустым",
+                    invalidUrl: "Неправильный формат URL",
+                    errorWhenCreating: "Произошла ошибка при создании"
+                },
+                create: "Добавить маппинг",
+                createSuccess: "Маппинг успешно создан",
+                creatingMapping: "Создание маппинга"
             },
             history: {
-                name: "История",
+                name: "Истории",
+                history: "История",
                 fields: {
                     request_url: "Выходной url",
                     original_url: "Исходный url",
@@ -733,7 +771,8 @@ const ru: TranslationMessages = {
                 confirm: "Потвердить",
                 search: "Поиск...",
                 refresh: "Обновить",
-                details: "Подробнее"
+                details: "Подробнее",
+                generateCallback: "Создать callback"
             },
             pagination: {
                 next: "Далее",
@@ -1505,6 +1544,9 @@ const en: TranslationMessages = {
             success: {
                 create: "Terminal %{name} has been successfully created."
             },
+            callbackCreating: "Creating callback",
+            callbackCreatedSuccessfully: "Callback created successfully",
+            urlTemplate: "URL template",
             create: "Create terminal",
             selectHeader: "Provider",
             selectPlaceholder: "Select provider",
@@ -1641,14 +1683,48 @@ const en: TranslationMessages = {
             name: "Callbacks",
             mapping: {
                 name: "Mappings",
+                mapping: "Mapping",
                 fields: {
+                    name: "Name",
                     ext_path: "External url",
                     int_path: "Internal url",
-                    verbose_name: "Verbose name"
-                }
+                    description: "Description",
+                    created_at: "Created at",
+                    callback_url: "Callback URL",
+
+                    retry_policy: "Retry policy",
+                    base_delay: "Base delay",
+                    state: "State",
+                    active: "Active",
+                    disabled: "Active",
+                    max_attempts: "Max attempts",
+                    strategy: "Strategy",
+
+                    security_policy: "Security policy",
+                    allowed_ips: "Allowed IPs",
+                    auth: "Authorization",
+                    auth_required: "Auth required",
+                    auth_not_required: "No authorization required",
+
+                    blocked: "Blocked",
+                    permitted: "Permitted",
+                    blocked_ips: "Blocked IPs",
+                    burst_limit: "Burst limit",
+                    enforcement_mode: "Enforcement mode",
+                    updated_at: "Updated at"
+                },
+                errors: {
+                    cantBeEmpty: "Field can't be empty",
+                    invalidUrl: "Wrong URL format",
+                    errorWhenCreating: "An error occurred while creating mapping"
+                },
+                create: "Add mapping",
+                createSuccess: "Mapping created successfully",
+                creatingMapping: "Creating mapping"
             },
             history: {
                 name: "History",
+                history: "History",
                 fields: {
                     request_url: "Request url",
                     original_url: "Original url",
@@ -1706,7 +1782,8 @@ const en: TranslationMessages = {
                 confirm: "Confirm",
                 search: "Search...",
                 refresh: "Refresh",
-                details: "More detailed"
+                details: "More detailed",
+                generateCallback: "Generate callback"
             },
             pagination: {
                 next: "Next",
