@@ -47,10 +47,8 @@ export const CreateMapping = (props: CreateWalletProps) => {
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty")),
-        external_path: z
-            .string()
-            .min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty"))
-            .url(translate("resources.callbridge.mapping.errors.invalidUrl")),
+        external_path: z.string().min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty")),
+        // .url(translate("resources.callbridge.mapping.errors.invalidUrl")),
         internal_path: z
             .string()
             .min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty"))
