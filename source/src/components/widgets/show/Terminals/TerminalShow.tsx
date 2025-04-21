@@ -70,6 +70,10 @@ export const TerminalShow = (props: TerminalShowProps) => {
                             />
                             <TextField
                                 text={data.callback_url ?? "-"}
+                                lineClamp
+                                linesCount={1}
+                                copyValue
+                                minWidth="50px"
                                 type={data.callback_url ? "link" : "text"}
                                 label={translate("resources.callbridge.mapping.fields.callback_url")}
                             />
