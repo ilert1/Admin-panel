@@ -1,0 +1,200 @@
+import fetchDictionaries from "@/helpers/get-dictionaries";
+import { useTranslate } from "react-admin";
+import { Loading } from "@/components/ui/loading";
+import { TextField } from "@/components/ui/text-field";
+import {
+    CallbackMappingRead,
+    SecurityPolicyConfigAllowedIpsItem,
+    SecurityPolicyConfigBlockedIpsItem
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { useAbortableShowController } from "@/hooks/useAbortableShowController";
+import { SimpleTable } from "../../shared";
+import { TableTypes } from "../../shared/SimpleTable";
+import { ColumnDef } from "@tanstack/react-table";
+
+interface MappingShowProps {
+    id: string;
+    onOpenChange: (state: boolean) => void;
+}
+
+export const MappingShow = (props: MappingShowProps) => {
+    const { id, onOpenChange } = props;
+    const translate = useTranslate();
+    const data = fetchDictionaries();
+    const appToast = useAppToast();
+
+    const allowedIPColumn: ColumnDef<SecurityPolicyConfigAllowedIpsItem>[] = [
+        {
+            id: "createdAt",
+            accessorKey: "created_at",
+            header: () => (
+                <div className="flex items-center justify-center">
+                    {translate("resources.callbridge.mapping.fields.allowed_ips")}
+                </div>
+            ),
+            cell: ({ row }) => {
+                return <div className="text-center">{row.original}</div>;
+            }
+        }
+    ];
+
+    const blockedIPColumn: ColumnDef<SecurityPolicyConfigBlockedIpsItem>[] = [
+        {
+            id: "createdAt",
+            accessorKey: "created_at",
+            header: () => (
+                <div className="flex items-center justify-center">
+                    {translate("resources.callbridge.mapping.fields.blocked_ips")}
+                </div>
+            ),
+            cell: ({ row }) => {
+                return <div className="text-center">{row.original}</div>;
+            }
+        }
+    ];
+
+    const context = useAbortableShowController<CallbackMappingRead>({
+        resource: "callbridge/v1/mapping",
+        id,
+        queryOptions: {
+            onError: () => {
+                appToast("error", translate("resources.merchant.errors.notFound"));
+                onOpenChange(false);
+            }
+        }
+    });
+
+    if (context.isLoading || !context.record || !data) {
+        return <Loading />;
+    }
+
+    return (
+        <>
+            <div className="flex h-full min-h-[300px] flex-col overflow-auto pt-0">
+                <div className="px-4 md:px-[42px]">
+                    <div className="flex flex-col gap-1 md:gap-4">
+                        <div className="grid grid-cols-2">
+                            <TextField
+                                label="ID"
+                                text={context.record.id}
+                                copyValue
+                                className="text-neutral-70 dark:text-neutral-30"
+                            />
+                            <TextField
+                                label={translate("resources.callbridge.mapping.fields.name")}
+                                text={context.record.name}
+                                className="text-neutral-70 dark:text-neutral-30"
+                            />
+                            <TextField
+                                label={translate("resources.callbridge.mapping.fields.ext_path")}
+                                text={context.record.external_path}
+                                copyValue
+                                className="text-neutral-70 dark:text-neutral-30"
+                            />
+                            <TextField
+                                label={translate("resources.callbridge.mapping.fields.int_path")}
+                                text={context.record.external_path}
+                                copyValue
+                                className="text-neutral-70 dark:text-neutral-30"
+                            />
+                            <TextField
+                                label={translate("resources.callbridge.mapping.fields.created_at")}
+                                text={new Date(context.record.created_at).toLocaleDateString()}
+                                className="text-neutral-70 dark:text-neutral-30"
+                            />
+                            <TextField
+                                label={translate("resources.callbridge.mapping.fields.description")}
+                                text={context.record.description ?? ""}
+                                className="text-neutral-70 dark:text-neutral-30"
+                            />
+                            <TextField
+                                label={translate("resources.callbridge.mapping.fields.updated_at")}
+                                text={new Date(context.record.updated_at).toLocaleDateString()}
+                                className="text-neutral-70 dark:text-neutral-30"
+                            />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <h3 className="text-display-3">
+                                {translate("resources.callbridge.mapping.fields.retry_policy")}
+                            </h3>
+                            <div className="grid grid-cols-2">
+                                <TextField
+                                    label={translate("resources.callbridge.mapping.fields.state")}
+                                    text={
+                                        context.record.retry_policy?.enabled
+                                            ? translate("resources.callbridge.mapping.fields.active")
+                                            : translate("resources.callbridge.mapping.fields.disabled")
+                                    }
+                                />
+                                <TextField
+                                    label={translate("resources.callbridge.mapping.fields.base_delay")}
+                                    text={String(context.record.retry_policy?.base_delay)}
+                                />
+                                <TextField
+                                    label={translate("resources.callbridge.mapping.fields.max_attempts")}
+                                    text={String(context.record.retry_policy?.max_attempts)}
+                                />
+                                <TextField
+                                    label={translate("resources.callbridge.mapping.fields.strategy")}
+                                    text={context.record.retry_policy?.strategy ?? ""}
+                                />
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <h3 className="text-display-3">
+                                {translate("resources.callbridge.mapping.fields.security_policy")}
+                            </h3>
+                            <div className="grid grid-cols-2">
+                                <TextField
+                                    label={translate("resources.callbridge.mapping.fields.state")}
+                                    text={
+                                        context.record.security_policy?.blocked
+                                            ? translate("resources.callbridge.mapping.fields.blocked")
+                                            : translate("resources.callbridge.mapping.fields.permitted")
+                                    }
+                                />
+                                <TextField
+                                    label={translate("resources.callbridge.mapping.fields.auth")}
+                                    text={
+                                        context.record.security_policy?.auth_required
+                                            ? translate("resources.callbridge.mapping.fields.auth_required")
+                                            : translate("resources.callbridge.mapping.fields.auth_not_required")
+                                    }
+                                />
+                                <TextField
+                                    label={translate("resources.callbridge.mapping.fields.burst_limit")}
+                                    text={String(context.record.security_policy?.burst_limit ?? "")}
+                                />
+                                <TextField
+                                    label={translate("resources.callbridge.mapping.fields.strategy")}
+                                    text={context.record.security_policy?.enforcement_mode ?? ""}
+                                />
+                            </div>
+                            <div className="flex w-full flex-col gap-2 sm:flex-row md:w-1/2">
+                                <div className="w-full">
+                                    <SimpleTable
+                                        data={["1.1.1.1", "1.1.1.1"]}
+                                        columns={blockedIPColumn}
+                                        tableType={TableTypes.COLORED}
+                                    />
+                                </div>
+
+                                <div className="w-full">
+                                    <SimpleTable
+                                        data={context.record.security_policy?.allowed_ips ?? []}
+                                        columns={allowedIPColumn}
+                                        tableType={TableTypes.COLORED}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+};
+
+// allowed_ips: Array []
+// blocked_ips: Array []

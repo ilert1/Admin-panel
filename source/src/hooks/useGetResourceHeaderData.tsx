@@ -41,6 +41,8 @@ export const useGetResourceHeaderData = () => {
                 } else {
                     return getResLabel(`wallet.manage`, permissions);
                 }
+            } else if (resourceName[0] === "callbridge") {
+                return getResLabel(`callbridge.${resourceName[1]}`);
             }
 
             return getResLabel(resourceName[0], permissions);
