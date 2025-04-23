@@ -13,6 +13,39 @@ const keycloakLoginUrl = import.meta.env.VITE_KEYCLOAK_LOGIN_URL;
 // const keycloakUrl = import.meta.env.VITE_KEYCLOAK_URL;
 const clientId = import.meta.env.VITE_KEYCLOAK_CLIENT_ID;
 
+const updateToken = async () => {
+    try {
+        const bodyObject = {
+            client_id: clientId,
+            grant_type: "refresh_token",
+            refresh_token: `${localStorage.getItem("refresh-token")}`
+        };
+
+        const body = new URLSearchParams(bodyObject);
+
+        // console.log("try to update token");
+
+        const response = await fetchUtils.fetchJson(keycloakLoginUrl, {
+            method: "POST",
+            body: body.toString(),
+            headers: new Headers({
+                "Content-Type": "application/x-www-form-urlencoded"
+            })
+        });
+
+        // console.log(response);
+
+        const { access_token, refresh_token } = response.json;
+        localStorage.setItem("access-token", access_token);
+        localStorage.setItem("refresh-token", refresh_token);
+
+        const decodedToken: JWT.Payload = jwtDecode(access_token);
+        localStorage.setItem("user", JSON.stringify(decodedToken));
+    } catch (error) {
+        return Promise.reject(error);
+    }
+};
+
 export const authProvider: AuthProvider = {
     login: async ({ username, password, totpCode, totpRequestCode }) => {
         if (totpRequestCode) {
@@ -74,17 +107,47 @@ export const authProvider: AuthProvider = {
         }
     },
 
-    logout: () => {
-        localStorage.removeItem("access-token");
-        localStorage.removeItem("refresh-token");
-        localStorage.removeItem("user");
-        return Promise.resolve();
+    logout: async () => {
+        try {
+            const bodyObject = {
+                client_id: clientId,
+                token: `${localStorage.getItem("refresh-token")}`,
+                token_type_hint: "refresh_token"
+            };
+
+            const body = new URLSearchParams(bodyObject);
+
+            const kk = keycloakLoginUrl;
+            const response = await fetchUtils.fetchJson(`${kk.slice(0, kk.lastIndexOf("token"))}revoke`, {
+                method: "POST",
+                body: body.toString(),
+                headers: new Headers({
+                    "Content-Type": "application/x-www-form-urlencoded"
+                })
+            });
+
+            // console.log(response);
+        } catch (error) {
+            // return Promise.reject(error);
+            console.log(error);
+        } finally {
+            localStorage.removeItem("access-token");
+            localStorage.removeItem("refresh-token");
+            localStorage.removeItem("user");
+            return Promise.resolve();
+        }
     },
 
     checkAuth: () => {
         if (isTokenStillFresh(String(localStorage.getItem("access-token")))) return Promise.resolve();
         else {
-            return Promise.reject();
+            // console.log("access token needs to update");
+            if (isTokenStillFresh(String(localStorage.getItem("refresh-token")))) {
+                // console.log("refresh token is alive");
+                return updateToken();
+            } else {
+                return Promise.reject();
+            }
         }
     },
 
