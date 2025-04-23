@@ -709,10 +709,13 @@ const ru: TranslationMessages = {
                 },
                 create: "Добавить маппинг",
                 createSuccess: "Маппинг успешно создан",
-                creatingMapping: "Создание маппинга"
+                updateSuccess: "Маппинг успешно обновлён",
+                creatingMapping: "Создание маппинга",
+                deleteMapping: "Удалить маппинг?",
+                editingMapping: "Изменить маппинг"
             },
             history: {
-                name: "Истории",
+                name: "История",
                 history: "История",
                 fields: {
                     request_url: "Выходной url",
@@ -1720,7 +1723,10 @@ const en: TranslationMessages = {
                 },
                 create: "Add mapping",
                 createSuccess: "Mapping created successfully",
-                creatingMapping: "Creating mapping"
+                updateSuccess: "Mapping updated successfully",
+                creatingMapping: "Creating mapping",
+                deleteMapping: "Delete the mapping?",
+                editingMapping: "Edit mapping"
             },
             history: {
                 name: "History",

@@ -2,9 +2,12 @@ import { BeforeMount, Editor, OnChange, OnMount, OnValidate } from "@monaco-edit
 import { LoadingBlock } from "./loading";
 import { useCallback } from "react";
 import { useTheme } from "../providers";
+import { cn } from "@/lib/utils";
+
+type EditorSize = "h-48" | "h-96" | "h-full";
 
 interface MonacoEditorProps {
-    height?: string;
+    height?: EditorSize;
     width?: string;
     code: string;
     disabled?: boolean;
@@ -15,7 +18,15 @@ interface MonacoEditorProps {
 }
 
 export const MonacoEditor = (props: MonacoEditorProps) => {
-    const { code, disabled = false, setCode, onErrorsChange, onValidChange, onMountEditor = () => {} } = props;
+    const {
+        code,
+        disabled = false,
+        height = "h-48",
+        setCode,
+        onErrorsChange,
+        onValidChange,
+        onMountEditor = () => {}
+    } = props;
     const { theme } = useTheme();
 
     const isDark = theme === "dark";
@@ -91,7 +102,11 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
     );
 
     return (
-        <div className="h-48 w-full overflow-hidden rounded-[4px] border border-neutral-50 bg-white py-2 dark:bg-muted">
+        <div
+            className={cn(
+                "w-full overflow-hidden rounded-[4px] border border-neutral-50 bg-white py-2 dark:bg-muted",
+                height
+            )}>
             <Editor
                 width={"99%"}
                 defaultLanguage="json"

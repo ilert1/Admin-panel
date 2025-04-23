@@ -1,6 +1,6 @@
-import { CallbackMappingRead } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { CallbackMappingRead } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { ShowButton } from "@/components/ui/Button";
+import { ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
@@ -10,6 +10,14 @@ export const useGetMappingsColumns = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
     const [createMappingClicked, setCreateMappingClicked] = useState(false);
+
+    const [chosenId, setChosenId] = useState("");
+    const [deleteMappingClicked, setDeleteMappingClicked] = useState(false);
+
+    const handleDeleteClicked = (id: string) => {
+        setChosenId(id);
+        setDeleteMappingClicked(true);
+    };
 
     const columns: ColumnDef<CallbackMappingRead>[] = [
         {
@@ -22,7 +30,9 @@ export const useGetMappingsColumns = () => {
             accessorKey: "external_path",
             header: translate("resources.callbridge.mapping.fields.ext_path"),
             cell: ({ row }) => {
-                return <TextField text={row.original.external_path} copyValue />;
+                return (
+                    <TextField text={row.original.external_path} copyValue lineClamp linesCount={1} maxWidth="100%" />
+                );
             }
         },
         {
@@ -30,7 +40,9 @@ export const useGetMappingsColumns = () => {
             accessorKey: "internal_path",
             header: translate("resources.callbridge.mapping.fields.int_path"),
             cell: ({ row }) => {
-                return <TextField text={row.original.internal_path} copyValue />;
+                return (
+                    <TextField text={row.original.internal_path} copyValue lineClamp linesCount={1} maxWidth="100%" />
+                );
             }
         },
         {
@@ -44,12 +56,21 @@ export const useGetMappingsColumns = () => {
                     />
                 );
             }
+        },
+        {
+            id: "delete",
+            cell: ({ row }) => {
+                return <TrashButton onClick={() => handleDeleteClicked(row.original.id)} />;
+            }
         }
     ];
 
     return {
         columns,
+        chosenId,
         createMappingClicked,
+        deleteMappingClicked,
+        setDeleteMappingClicked,
         setCreateMappingClicked
     };
 };

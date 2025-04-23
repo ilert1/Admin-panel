@@ -2,16 +2,20 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
-import {
-    CallbackMappingRead,
-    SecurityPolicyConfigAllowedIpsItem,
-    SecurityPolicyConfigBlockedIpsItem
-} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { SimpleTable } from "../../shared";
 import { TableTypes } from "../../shared/SimpleTable";
 import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "@/components/ui/Button";
+import { EditMappingDialog } from "./EditMappingDialog";
+import { useState } from "react";
+import {
+    SecurityPolicyConfigAllowedIpsItem,
+    SecurityPolicyConfigBlockedIpsItem,
+    CallbackMappingRead
+} from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 
 interface MappingShowProps {
     id: string;
@@ -23,6 +27,7 @@ export const MappingShow = (props: MappingShowProps) => {
     const translate = useTranslate();
     const data = fetchDictionaries();
     const appToast = useAppToast();
+    const [editMappingClicked, setEditMappingClicked] = useState(false);
 
     const allowedIPColumn: ColumnDef<SecurityPolicyConfigAllowedIpsItem>[] = [
         {
@@ -74,6 +79,11 @@ export const MappingShow = (props: MappingShowProps) => {
             <div className="flex h-full min-h-[300px] flex-col overflow-auto pt-0">
                 <div className="px-4 md:px-[42px]">
                     <div className="flex flex-col gap-1 md:gap-4">
+                        <div className="flex justify-end">
+                            <Button onClick={() => setEditMappingClicked(true)}>
+                                {translate("app.ui.actions.edit")}
+                            </Button>
+                        </div>
                         <div className="grid grid-cols-2">
                             <TextField
                                 label="ID"
@@ -94,7 +104,7 @@ export const MappingShow = (props: MappingShowProps) => {
                             />
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.int_path")}
-                                text={context.record.external_path}
+                                text={context.record.internal_path}
                                 copyValue
                                 className="text-neutral-70 dark:text-neutral-30"
                             />
@@ -192,9 +202,7 @@ export const MappingShow = (props: MappingShowProps) => {
                     </div>
                 </div>
             </div>
+            <EditMappingDialog id={id} open={editMappingClicked} onOpenChange={setEditMappingClicked} />
         </>
     );
 };
-
-// allowed_ips: Array []
-// blocked_ips: Array []

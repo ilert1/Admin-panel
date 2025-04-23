@@ -23,790 +23,6 @@
                 "responses": { "200": { "description": "Successful Response" } }
             }
         },
-        "/callbridge/v1/mapping": {
-            "get": {
-                "tags": ["Callback mapping"],
-                "summary": "List callback mappings",
-                "operationId": "CallbackMappingEndpoints_list_mappings_callbridge_v1_mapping_get",
-                "parameters": [
-                    {
-                        "name": "ids",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
-                            "description": "List of identifiers for filtering",
-                            "title": "Ids"
-                        },
-                        "description": "List of identifiers for filtering"
-                    },
-                    {
-                        "name": "createdBefore",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
-                            "description": "Upper bound for creation date filter",
-                            "title": "Createdbefore"
-                        },
-                        "description": "Upper bound for creation date filter"
-                    },
-                    {
-                        "name": "createdAfter",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
-                            "description": "Lower bound for creation date filter",
-                            "title": "Createdafter"
-                        },
-                        "description": "Lower bound for creation date filter"
-                    },
-                    {
-                        "name": "updatedBefore",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
-                            "description": "Upper bound for update date filter",
-                            "title": "Updatedbefore"
-                        },
-                        "description": "Upper bound for update date filter"
-                    },
-                    {
-                        "name": "updatedAfter",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
-                            "description": "Lower bound for update date filter",
-                            "title": "Updatedafter"
-                        },
-                        "description": "Lower bound for update date filter"
-                    },
-                    {
-                        "name": "currentPage",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "minimum": 1,
-                            "description": "Current page number (starting from 1)",
-                            "default": 1,
-                            "title": "Currentpage"
-                        },
-                        "description": "Current page number (starting from 1)"
-                    },
-                    {
-                        "name": "pageSize",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "minimum": 1,
-                            "description": "Number of records per page",
-                            "default": 20,
-                            "title": "Pagesize"
-                        },
-                        "description": "Number of records per page"
-                    },
-                    {
-                        "name": "searchField",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
-                            "title": "Search fields",
-                            "description": "List of fields to perform the search on"
-                        },
-                        "description": "List of fields to perform the search on"
-                    },
-                    {
-                        "name": "searchString",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
-                            "title": "Search strings",
-                            "description": "List of values to search for in corresponding fields"
-                        },
-                        "description": "List of values to search for in corresponding fields"
-                    },
-                    {
-                        "name": "searchIgnoreCase",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "boolean",
-                            "title": "Case sensitivity",
-                            "description": "Determines if the search should be case insensitive",
-                            "default": true
-                        },
-                        "description": "Determines if the search should be case insensitive"
-                    },
-                    {
-                        "name": "orderBy",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
-                            "title": "Sorting field",
-                            "description": "Field to sort the results by",
-                            "default": "created_at"
-                        },
-                        "description": "Field to sort the results by"
-                    },
-                    {
-                        "name": "sortOrder",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "enum": ["asc", "desc"],
-                            "type": "string",
-                            "title": "Sorting order",
-                            "description": "Sort order: 'asc' or 'desc'",
-                            "default": "asc"
-                        },
-                        "description": "Sort order: 'asc' or 'desc'"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_CallbackMappingRead__"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": ["Callback mapping"],
-                "summary": "Create callback mapping",
-                "operationId": "CallbackMappingEndpoints_create_mapping_callbridge_v1_mapping_post",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CallbackMappingCreate"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_CallbackMappingRead_"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/callbridge/v1/mapping/{mapping_id}": {
-            "get": {
-                "tags": ["Callback mapping"],
-                "summary": "Get callback mapping by ID",
-                "operationId": "CallbackMappingEndpoints_get_mapping_callbridge_v1_mapping__mapping_id__get",
-                "parameters": [
-                    {
-                        "name": "mapping_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid",
-                            "title": "Mapping Id"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_CallbackMappingRead_"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "tags": ["Callback mapping"],
-                "summary": "Update callback mapping",
-                "operationId": "CallbackMappingEndpoints_update_mapping_callbridge_v1_mapping__mapping_id__put",
-                "parameters": [
-                    {
-                        "name": "mapping_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid",
-                            "title": "Mapping Id"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CallbackMappingUpdate"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_CallbackMappingRead_"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "tags": ["Callback mapping"],
-                "summary": "Delete callback mapping",
-                "operationId": "CallbackMappingEndpoints_delete_mapping_callbridge_v1_mapping__mapping_id__delete",
-                "parameters": [
-                    {
-                        "name": "mapping_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid",
-                            "title": "Mapping Id"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_NoneType_"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/callbridge/v1/history": {
-            "get": {
-                "tags": ["Callback history"],
-                "summary": "List callback history records",
-                "operationId": "CallbackHistoryEndpoints_list_history_callbridge_v1_history_get",
-                "parameters": [
-                    {
-                        "name": "ids",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
-                            "description": "List of identifiers for filtering",
-                            "title": "Ids"
-                        },
-                        "description": "List of identifiers for filtering"
-                    },
-                    {
-                        "name": "createdBefore",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
-                            "description": "Upper bound for creation date filter",
-                            "title": "Createdbefore"
-                        },
-                        "description": "Upper bound for creation date filter"
-                    },
-                    {
-                        "name": "createdAfter",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
-                            "description": "Lower bound for creation date filter",
-                            "title": "Createdafter"
-                        },
-                        "description": "Lower bound for creation date filter"
-                    },
-                    {
-                        "name": "updatedBefore",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
-                            "description": "Upper bound for update date filter",
-                            "title": "Updatedbefore"
-                        },
-                        "description": "Upper bound for update date filter"
-                    },
-                    {
-                        "name": "updatedAfter",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
-                            "description": "Lower bound for update date filter",
-                            "title": "Updatedafter"
-                        },
-                        "description": "Lower bound for update date filter"
-                    },
-                    {
-                        "name": "currentPage",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "minimum": 1,
-                            "description": "Current page number (starting from 1)",
-                            "default": 1,
-                            "title": "Currentpage"
-                        },
-                        "description": "Current page number (starting from 1)"
-                    },
-                    {
-                        "name": "pageSize",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "minimum": 1,
-                            "description": "Number of records per page",
-                            "default": 20,
-                            "title": "Pagesize"
-                        },
-                        "description": "Number of records per page"
-                    },
-                    {
-                        "name": "searchField",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
-                            "title": "Search fields",
-                            "description": "List of fields to perform the search on"
-                        },
-                        "description": "List of fields to perform the search on"
-                    },
-                    {
-                        "name": "searchString",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
-                            "title": "Search strings",
-                            "description": "List of values to search for in corresponding fields"
-                        },
-                        "description": "List of values to search for in corresponding fields"
-                    },
-                    {
-                        "name": "searchIgnoreCase",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "boolean",
-                            "title": "Case sensitivity",
-                            "description": "Determines if the search should be case insensitive",
-                            "default": true
-                        },
-                        "description": "Determines if the search should be case insensitive"
-                    },
-                    {
-                        "name": "orderBy",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
-                            "title": "Sorting field",
-                            "description": "Field to sort the results by",
-                            "default": "created_at"
-                        },
-                        "description": "Field to sort the results by"
-                    },
-                    {
-                        "name": "sortOrder",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "enum": ["asc", "desc"],
-                            "type": "string",
-                            "title": "Sorting order",
-                            "description": "Sort order: 'asc' or 'desc'",
-                            "default": "asc"
-                        },
-                        "description": "Sort order: 'asc' or 'desc'"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_CallbackHistoryRead__"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/callbridge/v1/history/{callback_id}": {
-            "get": {
-                "tags": ["Callback history"],
-                "summary": "Get callback record by ID",
-                "operationId": "CallbackHistoryEndpoints_get_callback_callbridge_v1_history__callback_id__get",
-                "parameters": [
-                    {
-                        "name": "callback_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid",
-                            "title": "Callback Id"
-                        }
-                    },
-                    {
-                        "name": "ids",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
-                            "description": "List of identifiers for filtering",
-                            "title": "Ids"
-                        },
-                        "description": "List of identifiers for filtering"
-                    },
-                    {
-                        "name": "createdBefore",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
-                            "description": "Upper bound for creation date filter",
-                            "title": "Createdbefore"
-                        },
-                        "description": "Upper bound for creation date filter"
-                    },
-                    {
-                        "name": "createdAfter",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
-                            "description": "Lower bound for creation date filter",
-                            "title": "Createdafter"
-                        },
-                        "description": "Lower bound for creation date filter"
-                    },
-                    {
-                        "name": "updatedBefore",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
-                            "description": "Upper bound for update date filter",
-                            "title": "Updatedbefore"
-                        },
-                        "description": "Upper bound for update date filter"
-                    },
-                    {
-                        "name": "updatedAfter",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
-                            "description": "Lower bound for update date filter",
-                            "title": "Updatedafter"
-                        },
-                        "description": "Lower bound for update date filter"
-                    },
-                    {
-                        "name": "currentPage",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "minimum": 1,
-                            "description": "Current page number (starting from 1)",
-                            "default": 1,
-                            "title": "Currentpage"
-                        },
-                        "description": "Current page number (starting from 1)"
-                    },
-                    {
-                        "name": "pageSize",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "minimum": 1,
-                            "description": "Number of records per page",
-                            "default": 20,
-                            "title": "Pagesize"
-                        },
-                        "description": "Number of records per page"
-                    },
-                    {
-                        "name": "searchField",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
-                            "title": "Search fields",
-                            "description": "List of fields to perform the search on"
-                        },
-                        "description": "List of fields to perform the search on"
-                    },
-                    {
-                        "name": "searchString",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
-                            "title": "Search strings",
-                            "description": "List of values to search for in corresponding fields"
-                        },
-                        "description": "List of values to search for in corresponding fields"
-                    },
-                    {
-                        "name": "searchIgnoreCase",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "boolean",
-                            "title": "Case sensitivity",
-                            "description": "Determines if the search should be case insensitive",
-                            "default": true
-                        },
-                        "description": "Determines if the search should be case insensitive"
-                    },
-                    {
-                        "name": "orderBy",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
-                            "title": "Sorting field",
-                            "description": "Field to sort the results by",
-                            "default": "created_at"
-                        },
-                        "description": "Field to sort the results by"
-                    },
-                    {
-                        "name": "sortOrder",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "enum": ["asc", "desc"],
-                            "type": "string",
-                            "title": "Sorting order",
-                            "description": "Sort order: 'asc' or 'desc'",
-                            "default": "asc"
-                        },
-                        "description": "Sort order: 'asc' or 'desc'"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_CallbackHistoryRead__"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/callbridge/v1/history/history/{history_id}/retry": {
-            "post": {
-                "tags": ["Callback history"],
-                "summary": "Retry callback by history ID",
-                "operationId": "CallbackHistoryEndpoints_retry_by_history_callbridge_v1_history_history__history_id__retry_post",
-                "parameters": [
-                    {
-                        "name": "history_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid",
-                            "title": "History Id"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_NoneType_"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/enigma/v1/currency": {
             "get": {
                 "tags": ["Currency"],
@@ -819,13 +35,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -862,13 +72,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -879,13 +83,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -934,20 +132,14 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Currency__"
-                                }
+                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Currency__" }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -959,33 +151,19 @@
                 "operationId": "CurrencyEndpoints_create_currency_enigma_v1_currency_post",
                 "requestBody": {
                     "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CurrencyCreate"
-                            }
-                        }
-                    }
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CurrencyCreate" } } }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Currency_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Currency_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -1015,21 +193,13 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Currency_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Currency_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -1055,33 +225,19 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CurrencyUpdate"
-                            }
-                        }
-                    }
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CurrencyUpdate" } } }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Currency_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Currency_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -1109,21 +265,13 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_NoneType_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_NoneType_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -1141,13 +289,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -1184,13 +326,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -1201,13 +337,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -1256,20 +386,14 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Merchant__"
-                                }
+                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Merchant__" }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -1281,33 +405,19 @@
                 "operationId": "MerchantEndpoints_create_merchant_enigma_v1_merchant_post",
                 "requestBody": {
                     "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/MerchantCreate"
-                            }
-                        }
-                    }
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MerchantCreate" } } }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -1337,21 +447,13 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -1377,33 +479,19 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/MerchantUpdate"
-                            }
-                        }
-                    }
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MerchantUpdate" } } }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -1431,21 +519,13 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_NoneType_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_NoneType_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -1473,33 +553,19 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/FeeCreate"
-                            }
-                        }
-                    }
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeCreate" } } }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -1540,33 +606,19 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/FeeUpdate"
-                            }
-                        }
-                    }
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeUpdate" } } }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -1607,21 +659,13 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -1639,13 +683,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -1682,13 +720,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -1699,13 +731,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -1754,20 +780,14 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Provider__"
-                                }
+                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Provider__" }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -1779,33 +799,19 @@
                 "operationId": "ProviderEndpoints_create_provider_enigma_v1_provider_post",
                 "requestBody": {
                     "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ProviderCreate"
-                            }
-                        }
-                    }
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProviderCreate" } } }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Provider_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Provider_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -1835,21 +841,13 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Provider_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Provider_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -1875,33 +873,19 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ProviderUpdate"
-                            }
-                        }
-                    }
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProviderUpdate" } } }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Provider_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Provider_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -1929,21 +913,13 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_NoneType_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_NoneType_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -2002,20 +978,14 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_ProviderAddKeypair_"
-                                }
+                                "schema": { "$ref": "#/components/schemas/ApiResponse_ProviderAddKeypair_" }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -2033,13 +1003,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -2076,13 +1040,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -2093,13 +1051,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -2148,20 +1100,14 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Terminal__"
-                                }
+                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Terminal__" }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -2191,13 +1137,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -2234,13 +1174,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -2251,13 +1185,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -2306,20 +1234,14 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Terminal__"
-                                }
+                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Terminal__" }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -2345,33 +1267,19 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/TerminalCreate"
-                            }
-                        }
-                    }
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TerminalCreate" } } }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -2414,21 +1322,13 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -2467,33 +1367,19 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/TerminalUpdate"
-                            }
-                        }
-                    }
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TerminalUpdate" } } }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -2534,21 +1420,13 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_NoneType_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_NoneType_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -2591,32 +1469,20 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/TerminalUpdateAuth"
-                            }
-                        }
+                        "application/json": { "schema": { "$ref": "#/components/schemas/TerminalUpdateAuth" } }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -2659,32 +1525,20 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/TerminalUpdateAuth"
-                            }
-                        }
+                        "application/json": { "schema": { "$ref": "#/components/schemas/TerminalUpdateAuth" } }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -2726,32 +1580,20 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/TerminalUpdateAuth"
-                            }
-                        }
+                        "application/json": { "schema": { "$ref": "#/components/schemas/TerminalUpdateAuth" } }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -2791,32 +1633,20 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/TerminalUpdateAuth"
-                            }
-                        }
+                        "application/json": { "schema": { "$ref": "#/components/schemas/TerminalUpdateAuth" } }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -2858,32 +1688,20 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/TerminalDeleteAuth"
-                            }
-                        }
+                        "application/json": { "schema": { "$ref": "#/components/schemas/TerminalDeleteAuth" } }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -2927,20 +1745,14 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_list_AccountInfo__"
-                                }
+                                "schema": { "$ref": "#/components/schemas/ApiResponse_list_AccountInfo__" }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -2981,33 +1793,19 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/FeeCreate"
-                            }
-                        }
-                    }
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeCreate" } } }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -3061,33 +1859,19 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/FeeUpdate"
-                            }
-                        }
-                    }
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeUpdate" } } }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -3141,21 +1925,13 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -3191,32 +1967,20 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/TerminalUpdateCallbackUrl"
-                            }
-                        }
+                        "application/json": { "schema": { "$ref": "#/components/schemas/TerminalUpdateCallbackUrl" } }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -3234,13 +1998,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -3277,13 +2035,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -3294,13 +2046,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -3349,20 +2095,14 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__"
-                                }
+                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__" }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -3374,33 +2114,19 @@
                 "operationId": "DirectionEndpoints_create_direction_enigma_v1_direction_post",
                 "requestBody": {
                     "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/DirectionCreate"
-                            }
-                        }
-                    }
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DirectionCreate" } } }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -3430,13 +2156,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -3473,13 +2193,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -3490,13 +2204,7 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": { "type": "string" }
-                                },
-                                { "type": "null" }
-                            ],
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -3545,20 +2253,14 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__"
-                                }
+                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__" }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -3589,21 +2291,13 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -3630,33 +2324,19 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/DirectionUpdate"
-                            }
-                        }
-                    }
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DirectionUpdate" } } }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -3685,21 +2365,13 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_NoneType_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_NoneType_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -3715,9 +2387,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "items": {
-                                    "$ref": "#/components/schemas/DirectionUpdateBulkItem"
-                                },
+                                "items": { "$ref": "#/components/schemas/DirectionUpdateBulkItem" },
                                 "type": "array",
                                 "title": "Updates"
                             }
@@ -3730,20 +2400,14 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__"
-                                }
+                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__" }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -3773,32 +2437,20 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/DirectionUpdateState"
-                            }
-                        }
+                        "application/json": { "schema": { "$ref": "#/components/schemas/DirectionUpdateState" } }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -3828,32 +2480,20 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/DirectionUpdateType"
-                            }
-                        }
+                        "application/json": { "schema": { "$ref": "#/components/schemas/DirectionUpdateType" } }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -3882,33 +2522,19 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/FeeCreate"
-                            }
-                        }
-                    }
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeCreate" } } }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -3950,33 +2576,19 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/FeeUpdate"
-                            }
-                        }
-                    }
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeUpdate" } } }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -4018,21 +2630,13 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -4062,32 +2666,20 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/DirectionUpdateLimits"
-                            }
-                        }
+                        "application/json": { "schema": { "$ref": "#/components/schemas/DirectionUpdateLimits" } }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -4116,21 +2708,13 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -4176,21 +2760,13 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_KeyPair_"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_KeyPair_" } }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
                         }
                     }
                 }
@@ -4207,9 +2783,7 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_list_FeeTypeItem__"
-                                }
+                                "schema": { "$ref": "#/components/schemas/ApiResponse_list_FeeTypeItem__" }
                             }
                         }
                     }
@@ -4242,11 +2816,7 @@
                 "required": ["account_id", "type"],
                 "title": "AccountInfo"
             },
-            "AccountType": {
-                "type": "integer",
-                "enum": [1, 2],
-                "title": "AccountType"
-            },
+            "AccountType": { "type": "integer", "enum": [1, 2], "title": "AccountType" },
             "ApiResponse_Currency_": {
                 "properties": {
                     "success": {
@@ -4737,11 +3307,7 @@
                 "required": ["code"],
                 "title": "CurrencyCreate"
             },
-            "CurrencyPosition": {
-                "type": "string",
-                "enum": ["before", "after"],
-                "title": "CurrencyPosition"
-            },
+            "CurrencyPosition": { "type": "string", "enum": ["before", "after"], "title": "CurrencyPosition" },
             "CurrencyUpdate": {
                 "properties": {
                     "symbol": {
@@ -4763,14 +3329,7 @@
                         "examples": [false]
                     },
                     "accuracy": {
-                        "anyOf": [
-                            {
-                                "type": "integer",
-                                "maximum": 16.0,
-                                "minimum": 1.0
-                            },
-                            { "type": "null" }
-                        ],
+                        "anyOf": [{ "type": "integer", "maximum": 16.0, "minimum": 1.0 }, { "type": "null" }],
                         "title": "Accuracy",
                         "description": "Accuracy of the currency (number of decimal places)",
                         "examples": [2]
@@ -4842,18 +3401,13 @@
                         "description": "Authentication data for the direction",
                         "examples": [{ "api_key": "secret" }]
                     },
-                    "src_currency": {
-                        "$ref": "#/components/schemas/Currency",
-                        "description": "Source currency code"
-                    },
+                    "src_currency": { "$ref": "#/components/schemas/Currency", "description": "Source currency code" },
                     "dst_currency": {
                         "$ref": "#/components/schemas/Currency",
                         "description": "Destination currency code"
                     },
                     "fees": {
-                        "additionalProperties": {
-                            "$ref": "#/components/schemas/Fee"
-                        },
+                        "additionalProperties": { "$ref": "#/components/schemas/Fee" },
                         "propertyNames": { "format": "uuid" },
                         "type": "object",
                         "title": "Fees",
@@ -4954,11 +3508,7 @@
                 "required": ["name", "src_currency", "dst_currency", "merchant", "provider"],
                 "title": "DirectionCreate"
             },
-            "DirectionState": {
-                "type": "string",
-                "enum": ["active", "inactive"],
-                "title": "DirectionState"
-            },
+            "DirectionState": { "type": "string", "enum": ["active", "inactive"], "title": "DirectionState" },
             "DirectionType": {
                 "type": "string",
                 "enum": ["universal", "deposit", "withdraw"],
@@ -5210,16 +3760,8 @@
                         "description": "The queue (task_queue) where the execution will be dispatched.",
                         "examples": ["pay4u-workflows"]
                     },
-                    "workflow_name": {
-                        "type": "string",
-                        "title": "Workflow Name",
-                        "readOnly": true
-                    },
-                    "workflow_queue": {
-                        "type": "string",
-                        "title": "Workflow Queue",
-                        "readOnly": true
-                    }
+                    "workflow_name": { "type": "string", "title": "Workflow Name", "readOnly": true },
+                    "workflow_queue": { "type": "string", "title": "Workflow Queue", "readOnly": true }
                 },
                 "type": "object",
                 "required": ["type", "execution_name", "task_queue", "workflow_name", "workflow_queue"],
@@ -5251,10 +3793,7 @@
                         "description": "Currency code for the fee",
                         "examples": ["USD"]
                     },
-                    "value": {
-                        "$ref": "#/components/schemas/RateValue",
-                        "description": "Rate value for the fee"
-                    },
+                    "value": { "$ref": "#/components/schemas/RateValue", "description": "Rate value for the fee" },
                     "direction": {
                         "anyOf": [{ "$ref": "#/components/schemas/TransactionType" }, { "type": "null" }],
                         "description": "Fee direction if applicable",
@@ -5318,11 +3857,7 @@
                 "required": ["recipient", "type", "value"],
                 "title": "FeeCreate"
             },
-            "FeeType": {
-                "type": "integer",
-                "enum": [1, 2, 3],
-                "title": "FeeType"
-            },
+            "FeeType": { "type": "integer", "enum": [1, 2, 3], "title": "FeeType" },
             "FeeTypeItem": {
                 "properties": {
                     "name": {
@@ -5392,9 +3927,7 @@
             "HTTPValidationError": {
                 "properties": {
                     "detail": {
-                        "items": {
-                            "$ref": "#/components/schemas/ValidationError"
-                        },
+                        "items": { "$ref": "#/components/schemas/ValidationError" },
                         "type": "array",
                         "title": "Detail"
                     }
@@ -5463,32 +3996,17 @@
             },
             "LimitValues-Output": {
                 "properties": {
-                    "min": {
-                        "$ref": "#/components/schemas/RateValue",
-                        "description": "Minimum limit value"
-                    },
-                    "max": {
-                        "$ref": "#/components/schemas/RateValue",
-                        "description": "Maximum limit value"
-                    }
+                    "min": { "$ref": "#/components/schemas/RateValue", "description": "Minimum limit value" },
+                    "max": { "$ref": "#/components/schemas/RateValue", "description": "Maximum limit value" }
                 },
                 "type": "object",
                 "title": "LimitValues"
             },
             "Limits": {
                 "properties": {
-                    "payin": {
-                        "$ref": "#/components/schemas/LimitValues-Output",
-                        "description": "Limits for payin"
-                    },
-                    "payout": {
-                        "$ref": "#/components/schemas/LimitValues-Output",
-                        "description": "Limits for payout"
-                    },
-                    "reward": {
-                        "$ref": "#/components/schemas/LimitValues-Output",
-                        "description": "Limits for reward"
-                    }
+                    "payin": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for payin" },
+                    "payout": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for payout" },
+                    "reward": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for reward" }
                 },
                 "type": "object",
                 "required": ["payin", "payout", "reward"],
@@ -5497,30 +4015,15 @@
             "LimitsUpdate": {
                 "properties": {
                     "payin": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/LimitValues-Input"
-                            },
-                            { "type": "null" }
-                        ],
+                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
                         "description": "Limits for payin"
                     },
                     "payout": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/LimitValues-Input"
-                            },
-                            { "type": "null" }
-                        ],
+                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
                         "description": "Limits for payout"
                     },
                     "reward": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/LimitValues-Input"
-                            },
-                            { "type": "null" }
-                        ],
+                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
                         "description": "Limits for reward"
                     }
                 },
@@ -5554,9 +4057,7 @@
                         "examples": ["keycloak_123"]
                     },
                     "fees": {
-                        "additionalProperties": {
-                            "$ref": "#/components/schemas/Fee"
-                        },
+                        "additionalProperties": { "$ref": "#/components/schemas/Fee" },
                         "propertyNames": { "format": "uuid" },
                         "type": "object",
                         "title": "Fees",
@@ -5570,10 +4071,7 @@
                                     "id": "123e4567-e89b-12d3-a456-426614174000",
                                     "recipient": "recipient@example.com",
                                     "type": 3,
-                                    "value": {
-                                        "accuracy": 100,
-                                        "quantity": 1234
-                                    }
+                                    "value": { "accuracy": 100, "quantity": 1234 }
                                 }
                             }
                         ]
@@ -5815,9 +4313,7 @@
                         "examples": ["GfH2hQvQmHzo1Lj6j6Wnq3X6dFiD1kLQ6Jz37vZ5p9np"]
                     },
                     "methods": {
-                        "additionalProperties": {
-                            "$ref": "#/components/schemas/ExecutionMethod-Output"
-                        },
+                        "additionalProperties": { "$ref": "#/components/schemas/ExecutionMethod-Output" },
                         "type": "object",
                         "title": "Methods",
                         "description": "Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases.",
@@ -5886,9 +4382,7 @@
                         "examples": ["string"]
                     },
                     "methods": {
-                        "additionalProperties": {
-                            "$ref": "#/components/schemas/ExecutionMethod-Input"
-                        },
+                        "additionalProperties": { "$ref": "#/components/schemas/ExecutionMethod-Input" },
                         "type": "object",
                         "title": "Methods",
                         "description": "Provider methods configuration",
@@ -5938,9 +4432,7 @@
                     "methods": {
                         "anyOf": [
                             {
-                                "additionalProperties": {
-                                    "$ref": "#/components/schemas/ExecutionMethod-Input"
-                                },
+                                "additionalProperties": { "$ref": "#/components/schemas/ExecutionMethod-Input" },
                                 "type": "object"
                             },
                             { "type": "null" }
@@ -6026,9 +4518,7 @@
                         "examples": ["This is the main terminal"]
                     },
                     "fees": {
-                        "additionalProperties": {
-                            "$ref": "#/components/schemas/Fee"
-                        },
+                        "additionalProperties": { "$ref": "#/components/schemas/Fee" },
                         "propertyNames": { "format": "uuid" },
                         "type": "object",
                         "title": "Fees",
@@ -6042,10 +4532,7 @@
                                     "id": "123e4567-e89b-12d3-a456-426614174000",
                                     "recipient": "recipient@example.com",
                                     "type": 3,
-                                    "value": {
-                                        "accuracy": 100,
-                                        "quantity": 1234
-                                    }
+                                    "value": { "accuracy": 100, "quantity": 1234 }
                                 }
                             }
                         ]
@@ -6166,17 +4653,11 @@
                 "required": ["callback_url"],
                 "title": "TerminalUpdateCallbackUrl"
             },
-            "TransactionType": {
-                "type": "integer",
-                "enum": [1, 2, 3, 4],
-                "title": "TransactionType"
-            },
+            "TransactionType": { "type": "integer", "enum": [1, 2, 3, 4], "title": "TransactionType" },
             "ValidationError": {
                 "properties": {
                     "loc": {
-                        "items": {
-                            "anyOf": [{ "type": "string" }, { "type": "integer" }]
-                        },
+                        "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
                         "type": "array",
                         "title": "Location"
                     },
@@ -6186,535 +4667,6 @@
                 "type": "object",
                 "required": ["loc", "msg", "type"],
                 "title": "ValidationError"
-            },
-            "ApiResponse_CallbackMappingRead_": {
-                "properties": {
-                    "success": {
-                        "type": "boolean",
-                        "title": "Success",
-                        "description": "Indicates whether the request was successful.",
-                        "default": true
-                    },
-                    "data": {
-                        "$ref": "#/components/schemas/CallbackMappingRead",
-                        "description": "The actual response data if the request was successful."
-                    },
-                    "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
-                        "description": "The error details if the request was not successful."
-                    },
-                    "meta": {
-                        "anyOf": [{}, { "type": "null" }],
-                        "title": "Meta",
-                        "description": "The meta details if the request. DEPRECATED",
-                        "deprecated": true
-                    }
-                },
-                "type": "object",
-                "required": ["data"],
-                "title": "ApiResponse[CallbackMappingRead]"
-            },
-            "ApiResponse_OffsetPagination_CallbackHistoryRead__": {
-                "properties": {
-                    "success": {
-                        "type": "boolean",
-                        "title": "Success",
-                        "description": "Indicates whether the request was successful.",
-                        "default": true
-                    },
-                    "data": {
-                        "$ref": "#/components/schemas/OffsetPagination_CallbackHistoryRead_",
-                        "description": "The actual response data if the request was successful."
-                    },
-                    "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
-                        "description": "The error details if the request was not successful."
-                    },
-                    "meta": {
-                        "anyOf": [{}, { "type": "null" }],
-                        "title": "Meta",
-                        "description": "The meta details if the request. DEPRECATED",
-                        "deprecated": true
-                    }
-                },
-                "type": "object",
-                "required": ["data"],
-                "title": "ApiResponse[OffsetPagination[CallbackHistoryRead]]"
-            },
-            "ApiResponse_OffsetPagination_CallbackMappingRead__": {
-                "properties": {
-                    "success": {
-                        "type": "boolean",
-                        "title": "Success",
-                        "description": "Indicates whether the request was successful.",
-                        "default": true
-                    },
-                    "data": {
-                        "$ref": "#/components/schemas/OffsetPagination_CallbackMappingRead_",
-                        "description": "The actual response data if the request was successful."
-                    },
-                    "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
-                        "description": "The error details if the request was not successful."
-                    },
-                    "meta": {
-                        "anyOf": [{}, { "type": "null" }],
-                        "title": "Meta",
-                        "description": "The meta details if the request. DEPRECATED",
-                        "deprecated": true
-                    }
-                },
-                "type": "object",
-                "required": ["data"],
-                "title": "ApiResponse[OffsetPagination[CallbackMappingRead]]"
-            },
-            "CallbackHistoryRead": {
-                "properties": {
-                    "original_url": {
-                        "type": "string",
-                        "title": "Original Url",
-                        "description": "Full original callback URL",
-                        "examples": ["https://..."]
-                    },
-                    "request_method": {
-                        "type": "string",
-                        "title": "Request Method",
-                        "description": "HTTP method",
-                        "examples": ["POST"]
-                    },
-                    "request_url": {
-                        "type": "string",
-                        "title": "Request Url",
-                        "description": "Full callback URL",
-                        "examples": ["https://..."]
-                    },
-                    "request_headers": {
-                        "type": "object",
-                        "title": "Request Headers",
-                        "description": "Incoming headers"
-                    },
-                    "request_params": {
-                        "type": "object",
-                        "title": "Request Params",
-                        "description": "Incoming query params"
-                    },
-                    "request_body": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
-                        "title": "Request Body",
-                        "description": "Incoming body"
-                    },
-                    "response_status": {
-                        "anyOf": [{ "type": "integer" }, { "type": "null" }],
-                        "title": "Response Status",
-                        "description": "HTTP status code returned by destination"
-                    },
-                    "response_headers": {
-                        "anyOf": [{ "type": "object" }, { "type": "null" }],
-                        "title": "Response Headers",
-                        "description": "Response headers"
-                    },
-                    "response_body": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
-                        "title": "Response Body",
-                        "description": "Response body"
-                    },
-                    "delivered_at": {
-                        "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
-                        "title": "Delivered At",
-                        "description": "Actual delivery time"
-                    },
-                    "status": {
-                        "$ref": "#/components/schemas/CallbackStatusEnum",
-                        "description": "Processing status"
-                    },
-                    "trigger_type": {
-                        "$ref": "#/components/schemas/CallbackTriggerType",
-                        "description": "What triggered this delivery"
-                    },
-                    "attempts": {
-                        "type": "integer",
-                        "title": "Attempts",
-                        "description": "How many times attempted",
-                        "default": 1
-                    },
-                    "next_retry_at": {
-                        "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
-                        "title": "Next Retry At",
-                        "description": "Planned time for next retry"
-                    },
-                    "error_message": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
-                        "title": "Error Message",
-                        "description": "Error explanation if failed"
-                    },
-                    "id": {
-                        "type": "string",
-                        "format": "uuid",
-                        "title": "Id",
-                        "description": "Identifier of the callback history"
-                    },
-                    "mapping_id": {
-                        "type": "string",
-                        "format": "uuid",
-                        "title": "Mapping Id",
-                        "description": "Linked mapping if matched"
-                    },
-                    "callback_id": {
-                        "type": "string",
-                        "format": "uuid",
-                        "title": "Callback Id",
-                        "description": "Identifier of the callback attempt flow"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "title": "Created At"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "title": "Updated At"
-                    }
-                },
-                "type": "object",
-                "required": [
-                    "original_url",
-                    "request_method",
-                    "request_url",
-                    "request_headers",
-                    "request_params",
-                    "status",
-                    "trigger_type",
-                    "id",
-                    "mapping_id",
-                    "callback_id",
-                    "created_at",
-                    "updated_at"
-                ],
-                "title": "CallbackHistoryRead"
-            },
-            "CallbackMappingCreate": {
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "title": "Name",
-                        "description": "Name of the CallbackMapping",
-                        "examples": ["adapter.status"]
-                    },
-                    "description": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
-                        "title": "Description",
-                        "description": "Description of the CallbackMapping",
-                        "examples": ["This CallbackMapping is used for adapter callback"]
-                    },
-                    "external_path": {
-                        "type": "string",
-                        "title": "External Path",
-                        "description": "Full external path exposed to clients",
-                        "examples": ["/api/health"]
-                    },
-                    "internal_path": {
-                        "type": "string",
-                        "title": "Internal Path",
-                        "description": "Full internal URL path to route the request to",
-                        "examples": ["http://callbridge_api:8000/health"]
-                    },
-                    "retry_policy": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/RetryPolicyConfig"
-                            },
-                            { "type": "null" }
-                        ],
-                        "description": "Retry behavior configuration for delivery attempts"
-                    },
-                    "security_policy": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/SecurityPolicyConfig"
-                            },
-                            { "type": "null" }
-                        ],
-                        "description": "Security policy including IP filtering and rate limiting"
-                    }
-                },
-                "type": "object",
-                "required": ["name", "external_path", "internal_path"],
-                "title": "CallbackMappingCreate"
-            },
-            "CallbackMappingRead": {
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "title": "Name",
-                        "description": "Name of the CallbackMapping",
-                        "examples": ["adapter.status"]
-                    },
-                    "description": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
-                        "title": "Description",
-                        "description": "Description of the CallbackMapping",
-                        "examples": ["This CallbackMapping is used for adapter callback"]
-                    },
-                    "external_path": {
-                        "type": "string",
-                        "title": "External Path",
-                        "description": "Full external path exposed to clients",
-                        "examples": ["/api/health"]
-                    },
-                    "internal_path": {
-                        "type": "string",
-                        "title": "Internal Path",
-                        "description": "Full internal URL path to route the request to",
-                        "examples": ["http://callbridge_api:8000/health"]
-                    },
-                    "retry_policy": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/RetryPolicyConfig"
-                            },
-                            { "type": "null" }
-                        ],
-                        "description": "Retry behavior configuration for delivery attempts"
-                    },
-                    "security_policy": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/SecurityPolicyConfig"
-                            },
-                            { "type": "null" }
-                        ],
-                        "description": "Security policy including IP filtering and rate limiting"
-                    },
-                    "id": { "type": "string", "format": "uuid", "title": "Id" },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "title": "Created At"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "title": "Updated At"
-                    }
-                },
-                "type": "object",
-                "required": ["name", "external_path", "internal_path", "id", "created_at", "updated_at"],
-                "title": "CallbackMappingRead"
-            },
-            "CallbackMappingUpdate": {
-                "properties": {
-                    "external_path": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
-                        "title": "External Path",
-                        "description": "New external path",
-                        "examples": ["/adapter/v1/callback/new"]
-                    },
-                    "internal_path": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
-                        "title": "Internal Path",
-                        "description": "New internal delivery path",
-                        "examples": ["http://adapter_callback:8000/new/target"]
-                    },
-                    "retry_policy": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/RetryPolicyConfig"
-                            },
-                            { "type": "null" }
-                        ],
-                        "description": "Updated retry policy"
-                    },
-                    "security_policy": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/SecurityPolicyConfig"
-                            },
-                            { "type": "null" }
-                        ],
-                        "description": "Updated security policy"
-                    }
-                },
-                "type": "object",
-                "title": "CallbackMappingUpdate"
-            },
-            "CallbackStatusEnum": {
-                "type": "string",
-                "enum": ["processing", "success", "error", "not_safe"],
-                "title": "CallbackStatusEnum"
-            },
-            "CallbackTriggerType": {
-                "type": "string",
-                "enum": ["system", "retry", "manual", "unknown"],
-                "title": "CallbackTriggerType"
-            },
-            "OffsetPagination_CallbackHistoryRead_": {
-                "properties": {
-                    "items": {
-                        "items": {
-                            "$ref": "#/components/schemas/CallbackHistoryRead"
-                        },
-                        "type": "array",
-                        "title": "Items",
-                        "description": "A list of items in the current page."
-                    },
-                    "limit": {
-                        "type": "integer",
-                        "title": "Limit",
-                        "description": "The maximum number of items returned in a single page.",
-                        "examples": [10]
-                    },
-                    "offset": {
-                        "type": "integer",
-                        "title": "Offset",
-                        "description": "The starting index for the current page.",
-                        "examples": [0]
-                    },
-                    "total": {
-                        "type": "integer",
-                        "title": "Total",
-                        "description": "The total number of available items.",
-                        "examples": [100]
-                    }
-                },
-                "type": "object",
-                "required": ["items", "limit", "offset", "total"],
-                "title": "OffsetPagination[CallbackHistoryRead]"
-            },
-            "OffsetPagination_CallbackMappingRead_": {
-                "properties": {
-                    "items": {
-                        "items": {
-                            "$ref": "#/components/schemas/CallbackMappingRead"
-                        },
-                        "type": "array",
-                        "title": "Items",
-                        "description": "A list of items in the current page."
-                    },
-                    "limit": {
-                        "type": "integer",
-                        "title": "Limit",
-                        "description": "The maximum number of items returned in a single page.",
-                        "examples": [10]
-                    },
-                    "offset": {
-                        "type": "integer",
-                        "title": "Offset",
-                        "description": "The starting index for the current page.",
-                        "examples": [0]
-                    },
-                    "total": {
-                        "type": "integer",
-                        "title": "Total",
-                        "description": "The total number of available items.",
-                        "examples": [100]
-                    }
-                },
-                "type": "object",
-                "required": ["items", "limit", "offset", "total"],
-                "title": "OffsetPagination[CallbackMappingRead]"
-            },
-            "RetryPolicyConfig": {
-                "properties": {
-                    "enabled": {
-                        "type": "boolean",
-                        "title": "Enabled",
-                        "description": "Enable retries for this mapping",
-                        "default": true,
-                        "examples": [true]
-                    },
-                    "max_attempts": {
-                        "type": "integer",
-                        "title": "Max Attempts",
-                        "description": "Maximum number of retry attempts",
-                        "default": 5,
-                        "examples": [3]
-                    },
-                    "base_delay": {
-                        "type": "integer",
-                        "title": "Base Delay",
-                        "description": "Base delay (in seconds) between retries",
-                        "default": 10,
-                        "examples": [30]
-                    },
-                    "strategy": {
-                        "$ref": "#/components/schemas/RetryStrategy",
-                        "description": "Backoff strategy to use",
-                        "default": "exponential",
-                        "examples": ["fixed"]
-                    }
-                },
-                "type": "object",
-                "title": "RetryPolicyConfig"
-            },
-            "RetryStrategy": {
-                "type": "string",
-                "enum": ["fixed", "exponential"],
-                "title": "RetryStrategy"
-            },
-            "SecurityPolicyConfig": {
-                "properties": {
-                    "allowed_ips": {
-                        "items": {
-                            "anyOf": [
-                                { "type": "string", "format": "ipvanyaddress" },
-                                { "type": "string", "format": "ipvanynetwork" }
-                            ]
-                        },
-                        "type": "array",
-                        "title": "Allowed Ips",
-                        "description": "List of allowed IPs or networks (CIDR) that can access the route",
-                        "examples": [["192.168.1.10", "10.0.0.0/24"]]
-                    },
-                    "blocked_ips": {
-                        "items": {
-                            "anyOf": [
-                                { "type": "string", "format": "ipvanyaddress" },
-                                { "type": "string", "format": "ipvanynetwork" }
-                            ]
-                        },
-                        "type": "array",
-                        "title": "Blocked Ips",
-                        "description": "IPs or networks to explicitly deny (takes precedence over allowed)",
-                        "examples": [["0.0.0.0/0"]]
-                    },
-                    "rate_limit": {
-                        "anyOf": [{ "type": "integer" }, { "type": "null" }],
-                        "title": "Rate Limit",
-                        "description": "Maximum number of requests per minute per source IP",
-                        "examples": [100]
-                    },
-                    "burst_limit": {
-                        "anyOf": [{ "type": "integer" }, { "type": "null" }],
-                        "title": "Burst Limit",
-                        "description": "Number of requests allowed to exceed the rate limit in bursts",
-                        "examples": [20]
-                    },
-                    "auth_required": {
-                        "type": "boolean",
-                        "title": "Auth Required",
-                        "description": "Whether authentication is required (token/header/etc)",
-                        "default": false,
-                        "examples": [true]
-                    },
-                    "blocked": {
-                        "type": "boolean",
-                        "title": "Blocked",
-                        "description": "Entire route is blocked and should not process any callbacks",
-                        "default": false,
-                        "examples": [false]
-                    },
-                    "enforcement_mode": {
-                        "type": "string",
-                        "enum": ["log", "strict"],
-                        "title": "Enforcement Mode",
-                        "description": "Mode of policy enforcement: 'log' only logs violations, 'strict' blocks them",
-                        "default": "strict",
-                        "examples": ["strict"]
-                    }
-                },
-                "type": "object",
-                "title": "SecurityPolicyConfig"
             }
         }
     }
