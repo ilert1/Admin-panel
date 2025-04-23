@@ -130,7 +130,9 @@ export const Sidebar = (props: SidebarProps) => {
                         );
                     }
                 })}
-                {CALLBRIDGE_ENABLED && <AdminCallbridgeResources showCaptions={showCaptions && !isMobile} />}
+                {permissions === "admin" && CALLBRIDGE_ENABLED && (
+                    <AdminCallbridgeResources showCaptions={showCaptions && !isMobile} />
+                )}
                 {WALLET_ENABLED && <AdminCryptoStoreResources showCaptions={showCaptions && !isMobile} />}
             </nav>
 
