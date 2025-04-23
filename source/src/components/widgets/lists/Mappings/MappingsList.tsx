@@ -3,16 +3,24 @@ import { DataTable } from "@/components/widgets/shared";
 import { LoadingBlock } from "@/components/ui/loading";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { useGetMappingsColumns } from "./Columns";
-import { CallbackMappingRead } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { MappingsHeader } from "./MappingsHeader";
 import { CreateMappingDialog } from "./CreateMappingDialog";
+import { DeleteMappingDialog } from "./DeleteMappingDialog";
+import { CallbackMappingRead } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 
 export const MappingsList = () => {
     const listContext = useAbortableListController<CallbackMappingRead>({
         resource: "callbridge/v1/mapping"
     });
 
-    const { columns, createMappingClicked, setCreateMappingClicked } = useGetMappingsColumns();
+    const {
+        columns,
+        chosenId,
+        createMappingClicked,
+        deleteMappingClicked,
+        setDeleteMappingClicked,
+        setCreateMappingClicked
+    } = useGetMappingsColumns();
 
     return (
         <>
@@ -23,6 +31,11 @@ export const MappingsList = () => {
                 {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>
             <CreateMappingDialog open={createMappingClicked} onOpenChange={setCreateMappingClicked} />
+            <DeleteMappingDialog
+                deleteId={chosenId}
+                open={deleteMappingClicked}
+                onOpenChange={setDeleteMappingClicked}
+            />
         </>
     );
 };

@@ -130,7 +130,7 @@ export const AdminCallbridgeResources = ({ showCaptions }: { showCaptions: boole
                                     }
                                     sideOffset={12}
                                     side="right">
-                                    {translate(`resources.wallet.${customRoute.name}.name`)}
+                                    {translate(`resources.callbridge.${customRoute.name}.name`)}
                                     <ChevronLeft
                                         className="absolute -left-[13px] top-1.5 text-green-40"
                                         width={20}
