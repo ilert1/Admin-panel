@@ -121,7 +121,7 @@ export const AuthDataEditSheet = ({
 
                     {showJson ? (
                         <MonacoEditor
-                            height="144px"
+                            height="h-48"
                             width="100%"
                             disabled
                             onMountEditor={() => setMonacoEditorMounted(true)}
