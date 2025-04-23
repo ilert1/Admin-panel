@@ -3,8 +3,8 @@ import { DataTable } from "@/components/widgets/shared";
 import { LoadingBlock } from "@/components/ui/loading";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { useGetCallbridgeHistory } from "./Columns";
-import { CallbackHistoryRead } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { CallbackHistoryRead } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 
 export const CallbackHistoryList = () => {
     const listContext = useAbortableListController<CallbackHistoryRead>({

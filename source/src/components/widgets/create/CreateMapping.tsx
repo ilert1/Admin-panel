@@ -4,11 +4,11 @@ import { Input, InputTypes } from "@/components/ui/Input/input";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { HttpError, useDataProvider, useRefresh, useTranslate } from "react-admin";
+import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { CallbackMappingCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { CallbackMappingCreate } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 
 interface CreateWalletProps {
     onOpenChange: (state: boolean) => void;
@@ -39,7 +39,7 @@ export const CreateMapping = (props: CreateWalletProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
-            if (error instanceof HttpError) appToast("error", error.message);
+            if (error instanceof Error) appToast("error", error.message);
             else appToast("error", translate("resources.callbridge.mapping.errors.errorWhenCreating"));
             setButtonDisabled(false);
         }
@@ -47,10 +47,8 @@ export const CreateMapping = (props: CreateWalletProps) => {
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty")),
-        external_path: z
-            .string()
-            .min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty"))
-            .url(translate("resources.callbridge.mapping.errors.invalidUrl")),
+        external_path: z.string().min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty")),
+        // .url(translate("resources.callbridge.mapping.errors.invalidUrl")),
         internal_path: z
             .string()
             .min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty"))
