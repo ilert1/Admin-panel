@@ -32,6 +32,31 @@ export interface ApiResponseCallbackMappingRead {
 /**
  * The error details if the request was not successful.
  */
+export type ApiResponseDeliveryRequestMessageError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseDeliveryRequestMessageMeta = unknown | null;
+
+export interface ApiResponseDeliveryRequestMessage {
+    /** Indicates whether the request was successful. */
+    success?: boolean;
+    /** The actual response data if the request was successful. */
+    data: DeliveryRequestMessage;
+    /** The error details if the request was not successful. */
+    error?: ApiResponseDeliveryRequestMessageError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseDeliveryRequestMessageMeta;
+}
+
+/**
+ * The error details if the request was not successful.
+ */
 export type ApiResponseNoneTypeError = ErrorBody | null;
 
 /**
@@ -197,16 +222,6 @@ export interface CallbackHistoryRead {
  */
 export type CallbackMappingCreateDescription = string | null;
 
-/**
- * Retry behavior configuration for delivery attempts
- */
-export type CallbackMappingCreateRetryPolicy = RetryPolicyConfig | null;
-
-/**
- * Security policy including IP filtering and rate limiting
- */
-export type CallbackMappingCreateSecurityPolicy = SecurityPolicyConfig | null;
-
 export interface CallbackMappingCreate {
     /** Name of the CallbackMapping */
     name: string;
@@ -217,25 +232,15 @@ export interface CallbackMappingCreate {
     /** Full internal URL path to route the request to */
     internal_path: string;
     /** Retry behavior configuration for delivery attempts */
-    retry_policy?: CallbackMappingCreateRetryPolicy;
+    retry_policy?: RetryPolicyConfig;
     /** Security policy including IP filtering and rate limiting */
-    security_policy?: CallbackMappingCreateSecurityPolicy;
+    security_policy?: SecurityPolicyConfig;
 }
 
 /**
  * Description of the CallbackMapping
  */
 export type CallbackMappingReadDescription = string | null;
-
-/**
- * Retry behavior configuration for delivery attempts
- */
-export type CallbackMappingReadRetryPolicy = RetryPolicyConfig | null;
-
-/**
- * Security policy including IP filtering and rate limiting
- */
-export type CallbackMappingReadSecurityPolicy = SecurityPolicyConfig | null;
 
 export interface CallbackMappingRead {
     /** Name of the CallbackMapping */
@@ -247,13 +252,25 @@ export interface CallbackMappingRead {
     /** Full internal URL path to route the request to */
     internal_path: string;
     /** Retry behavior configuration for delivery attempts */
-    retry_policy?: CallbackMappingReadRetryPolicy;
+    retry_policy?: RetryPolicyConfig;
     /** Security policy including IP filtering and rate limiting */
-    security_policy?: CallbackMappingReadSecurityPolicy;
+    security_policy?: SecurityPolicyConfig;
     id: string;
     created_at: string;
     updated_at: string;
+    /** Full callback_url path exposed to internal service */
+    readonly callback_url: string;
 }
+
+/**
+ * Name of the CallbackMapping
+ */
+export type CallbackMappingUpdateName = string | null;
+
+/**
+ * Description of the CallbackMapping
+ */
+export type CallbackMappingUpdateDescription = string | null;
 
 /**
  * New external path
@@ -276,6 +293,10 @@ export type CallbackMappingUpdateRetryPolicy = RetryPolicyConfig | null;
 export type CallbackMappingUpdateSecurityPolicy = SecurityPolicyConfig | null;
 
 export interface CallbackMappingUpdate {
+    /** Name of the CallbackMapping */
+    name?: CallbackMappingUpdateName;
+    /** Description of the CallbackMapping */
+    description?: CallbackMappingUpdateDescription;
     /** New external path */
     external_path?: CallbackMappingUpdateExternalPath;
     /** New internal delivery path */
@@ -290,10 +311,11 @@ export type CallbackStatusEnum = (typeof CallbackStatusEnum)[keyof typeof Callba
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CallbackStatusEnum = {
+    queued: "queued",
     processing: "processing",
     success: "success",
     error: "error",
-    not_safe: "not_safe"
+    sync: "sync"
 } as const;
 
 export type CallbackTriggerType = (typeof CallbackTriggerType)[keyof typeof CallbackTriggerType];
@@ -305,6 +327,53 @@ export const CallbackTriggerType = {
     manual: "manual",
     unknown: "unknown"
 } as const;
+
+/**
+ * Query parameters
+ */
+export type DeliveryRequestMessageParams = { [key: string]: unknown };
+
+/**
+ * Request headers
+ */
+export type DeliveryRequestMessageHeaders = { [key: string]: string };
+
+/**
+ * Raw request body
+ */
+export type DeliveryRequestMessageBody = string | null;
+
+/**
+ * Planned time for next retry
+ */
+export type DeliveryRequestMessageNextRetryAt = string | null;
+
+export interface DeliveryRequestMessage {
+    /** Callback tracking ID */
+    callback_id: string;
+    /** Associated mapping ID */
+    mapping_id: string;
+    /** Target internal URL */
+    original_url: string;
+    /** Target internal URL */
+    url: string;
+    /** HTTP method */
+    method: string;
+    /** Query parameters */
+    params?: DeliveryRequestMessageParams;
+    /** Request headers */
+    headers?: DeliveryRequestMessageHeaders;
+    /** Raw request body */
+    body?: DeliveryRequestMessageBody;
+    /** Current attempt count */
+    attempt?: number;
+    /** Planned time for next retry */
+    next_retry_at?: DeliveryRequestMessageNextRetryAt;
+    /** Retry configuration */
+    retry_policy?: RetryPolicyConfig;
+    /** Security and access rules */
+    security_policy?: SecurityPolicyConfig;
+}
 
 export interface ErrorBody {
     /** A string identifier for the error type. */
@@ -346,6 +415,8 @@ export interface RetryPolicyConfig {
     max_attempts?: number;
     /** Base delay (in seconds) between retries */
     base_delay?: number;
+    /** List of HTTP status codes that should trigger a retry. Empty list disables retry based on status code. */
+    retry_on_status?: number[];
     /** Backoff strategy to use */
     strategy?: RetryStrategy;
 }

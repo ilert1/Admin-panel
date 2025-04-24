@@ -33,7 +33,9 @@ export const useGetCallbridgeHistory = () => {
             accessorKey: "external_path",
             header: translate("resources.callbridge.history.fields.request_url"),
             cell: ({ row }) => {
-                return <TextField text={row.original.request_url} maxWidth="100%" lineClamp linesCount={1} copyValue />;
+                return (
+                    <TextField text={row.original.request_url} maxWidth="500px" lineClamp linesCount={1} copyValue />
+                );
             }
         },
         {

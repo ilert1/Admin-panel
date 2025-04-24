@@ -79,23 +79,20 @@ export const MappingShow = (props: MappingShowProps) => {
             <div className="flex h-full min-h-[300px] flex-col overflow-auto pt-0">
                 <div className="px-4 md:px-[42px]">
                     <div className="flex flex-col gap-1 md:gap-4">
-                        <div className="flex justify-end">
+                        <div className="flex justify-between">
+                            <div>
+                                <TextField text={context.record.name} className="!text-display-2" />
+                                <TextField
+                                    text={context.record.id}
+                                    copyValue
+                                    className="text-neutral-70 dark:text-neutral-30"
+                                />
+                            </div>
                             <Button onClick={() => setEditMappingClicked(true)}>
                                 {translate("app.ui.actions.edit")}
                             </Button>
                         </div>
                         <div className="grid grid-cols-2">
-                            <TextField
-                                label="ID"
-                                text={context.record.id}
-                                copyValue
-                                className="text-neutral-70 dark:text-neutral-30"
-                            />
-                            <TextField
-                                label={translate("resources.callbridge.mapping.fields.name")}
-                                text={context.record.name}
-                                className="text-neutral-70 dark:text-neutral-30"
-                            />
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.ext_path")}
                                 text={context.record.external_path}

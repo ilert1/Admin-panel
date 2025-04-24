@@ -10,7 +10,11 @@ import { CallbackMappingRead } from "@/api/callbridge/blowFishCallBridgeAPIServi
 
 export const MappingsList = () => {
     const listContext = useAbortableListController<CallbackMappingRead>({
-        resource: "callbridge/v1/mapping"
+        resource: "callbridge/v1/mapping",
+        sort: {
+            field: "created_at",
+            order: "DESC"
+        }
     });
 
     const {

@@ -125,6 +125,61 @@ export const callbackMappingEndpointsCreateMappingCallbridgeV1MappingPost = asyn
 };
 
 /**
+ * @summary Create or update callback mapping by internal path
+ */
+export type callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostResponse200 =
+    {
+        data: ApiResponseCallbackMappingRead;
+        status: 200;
+    };
+
+export type callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostResponseComposite =
+
+        | callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostResponse200
+        | callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostResponse422;
+
+export type callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostResponse =
+    callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostResponseComposite & {
+        headers: Headers;
+    };
+
+export const getCallbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostUrl =
+    () => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/mapping/by-external-path`;
+    };
+
+export const callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPost = async (
+    callbackMappingCreate: CallbackMappingCreate,
+    options?: RequestInit
+): Promise<callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostResponse> => {
+    const res = await fetch(
+        getCallbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostUrl(),
+        {
+            ...options,
+            method: "POST",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(callbackMappingCreate)
+        }
+    );
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    const data: callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostResponse["data"] =
+        body ? JSON.parse(body) : {};
+
+    return {
+        data,
+        status: res.status,
+        headers: res.headers
+    } as callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostResponse;
+};
+
+/**
  * @summary Get callback mapping by ID
  */
 export type callbackMappingEndpointsGetMappingCallbridgeV1MappingMappingIdGetResponse200 = {

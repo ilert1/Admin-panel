@@ -670,7 +670,7 @@ const ru: TranslationMessages = {
             }
         },
         callbridge: {
-            name: "Коллбеки",
+            name: "Входящие коллбеки",
             mapping: {
                 name: "Маппинги",
                 mapping: "Маппинг",
@@ -680,7 +680,7 @@ const ru: TranslationMessages = {
                     int_path: "Внутренний путь",
                     description: "Описание",
 
-                    callback_url: "URL обратного вызова",
+                    callback_url: "Callback URL",
                     created_at: "Дата создания",
                     external_path: "Внешний путь",
                     internal_path: "Внутренний путь",
@@ -1687,7 +1687,7 @@ const en: TranslationMessages = {
             }
         },
         callbridge: {
-            name: "Callbacks",
+            name: "Incoming Callbacks",
             mapping: {
                 name: "Mappings",
                 mapping: "Mapping",

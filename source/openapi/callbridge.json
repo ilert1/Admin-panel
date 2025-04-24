@@ -217,6 +217,35 @@
                 }
             }
         },
+        "/callbridge/v1/mapping/by-external-path": {
+            "post": {
+                "tags": ["Callback mapping"],
+                "summary": "Create or update callback mapping by internal path",
+                "operationId": "CallbackMappingEndpoints_create_or_update_mapping_via_internal_path_callbridge_v1_mapping_by_external_path_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": { "schema": { "$ref": "#/components/schemas/CallbackMappingCreate" } }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": { "$ref": "#/components/schemas/ApiResponse_CallbackMappingRead_" }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                        }
+                    }
+                }
+            }
+        },
         "/callbridge/v1/mapping/{mapping_id}": {
             "get": {
                 "tags": ["Callback mapping"],
@@ -227,7 +256,14 @@
                         "name": "mapping_id",
                         "in": "path",
                         "required": true,
-                        "schema": { "type": "string", "format": "uuid", "title": "Mapping Id" }
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the callback mapping.",
+                            "title": "Mapping Id"
+                        },
+                        "description": "The unique identifier of the callback mapping.",
+                        "example": "123e4567-e89b-12d3-a456-426614174abc"
                     }
                 ],
                 "responses": {
@@ -256,7 +292,14 @@
                         "name": "mapping_id",
                         "in": "path",
                         "required": true,
-                        "schema": { "type": "string", "format": "uuid", "title": "Mapping Id" }
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the callback mapping.",
+                            "title": "Mapping Id"
+                        },
+                        "description": "The unique identifier of the callback mapping.",
+                        "example": "123e4567-e89b-12d3-a456-426614174abc"
                     }
                 ],
                 "requestBody": {
@@ -291,7 +334,14 @@
                         "name": "mapping_id",
                         "in": "path",
                         "required": true,
-                        "schema": { "type": "string", "format": "uuid", "title": "Mapping Id" }
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the callback mapping.",
+                            "title": "Mapping Id"
+                        },
+                        "description": "The unique identifier of the callback mapping.",
+                        "example": "123e4567-e89b-12d3-a456-426614174abc"
                     }
                 ],
                 "responses": {
@@ -487,7 +537,14 @@
                         "name": "callback_id",
                         "in": "path",
                         "required": true,
-                        "schema": { "type": "string", "format": "uuid", "title": "Callback Id" }
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the callback.",
+                            "title": "Callback Id"
+                        },
+                        "description": "The unique identifier of the callback.",
+                        "example": "123e4567-e89b-12d3-a456-426614174999"
                     },
                     {
                         "name": "ids",
@@ -650,24 +707,33 @@
                 }
             }
         },
-        "/callbridge/v1/history/history/{history_id}/retry": {
-            "post": {
+        "/callbridge/v1/history/history/{callback_id}/retry": {
+            "get": {
                 "tags": ["Callback history"],
                 "summary": "Retry callback by history ID",
-                "operationId": "CallbackHistoryEndpoints_retry_by_history_callbridge_v1_history_history__history_id__retry_post",
+                "operationId": "CallbackHistoryEndpoints_retry_by_callback_id_callbridge_v1_history_history__callback_id__retry_get",
                 "parameters": [
                     {
-                        "name": "history_id",
+                        "name": "callback_id",
                         "in": "path",
                         "required": true,
-                        "schema": { "type": "string", "format": "uuid", "title": "History Id" }
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the callback.",
+                            "title": "Callback Id"
+                        },
+                        "description": "The unique identifier of the callback.",
+                        "example": "123e4567-e89b-12d3-a456-426614174999"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_NoneType_" } }
+                            "application/json": {
+                                "schema": { "$ref": "#/components/schemas/ApiResponse_DeliveryRequestMessage_" }
+                            }
                         }
                     },
                     "422": {
@@ -708,6 +774,33 @@
                 "type": "object",
                 "required": ["data"],
                 "title": "ApiResponse[CallbackMappingRead]"
+            },
+            "ApiResponse_DeliveryRequestMessage_": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success",
+                        "description": "Indicates whether the request was successful.",
+                        "default": true
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/DeliveryRequestMessage",
+                        "description": "The actual response data if the request was successful."
+                    },
+                    "error": {
+                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
+                        "description": "The error details if the request was not successful."
+                    },
+                    "meta": {
+                        "anyOf": [{}, { "type": "null" }],
+                        "title": "Meta",
+                        "description": "The meta details if the request. DEPRECATED",
+                        "deprecated": true
+                    }
+                },
+                "type": "object",
+                "required": ["data"],
+                "title": "ApiResponse[DeliveryRequestMessage]"
             },
             "ApiResponse_NoneType_": {
                 "properties": {
@@ -932,11 +1025,11 @@
                         "examples": ["http://callbridge_api:8000/health"]
                     },
                     "retry_policy": {
-                        "anyOf": [{ "$ref": "#/components/schemas/RetryPolicyConfig" }, { "type": "null" }],
+                        "$ref": "#/components/schemas/RetryPolicyConfig",
                         "description": "Retry behavior configuration for delivery attempts"
                     },
                     "security_policy": {
-                        "anyOf": [{ "$ref": "#/components/schemas/SecurityPolicyConfig" }, { "type": "null" }],
+                        "$ref": "#/components/schemas/SecurityPolicyConfig",
                         "description": "Security policy including IP filtering and rate limiting"
                     }
                 },
@@ -971,23 +1064,50 @@
                         "examples": ["http://callbridge_api:8000/health"]
                     },
                     "retry_policy": {
-                        "anyOf": [{ "$ref": "#/components/schemas/RetryPolicyConfig" }, { "type": "null" }],
+                        "$ref": "#/components/schemas/RetryPolicyConfig",
                         "description": "Retry behavior configuration for delivery attempts"
                     },
                     "security_policy": {
-                        "anyOf": [{ "$ref": "#/components/schemas/SecurityPolicyConfig" }, { "type": "null" }],
+                        "$ref": "#/components/schemas/SecurityPolicyConfig",
                         "description": "Security policy including IP filtering and rate limiting"
                     },
                     "id": { "type": "string", "format": "uuid", "title": "Id" },
                     "created_at": { "type": "string", "format": "date-time", "title": "Created At" },
-                    "updated_at": { "type": "string", "format": "date-time", "title": "Updated At" }
+                    "updated_at": { "type": "string", "format": "date-time", "title": "Updated At" },
+                    "callback_url": {
+                        "type": "string",
+                        "title": "Callback Url",
+                        "description": "Full callback_url path exposed to internal service",
+                        "readOnly": true,
+                        "examples": ["https://my.service.com/api/health"]
+                    }
                 },
                 "type": "object",
-                "required": ["name", "external_path", "internal_path", "id", "created_at", "updated_at"],
+                "required": [
+                    "name",
+                    "external_path",
+                    "internal_path",
+                    "id",
+                    "created_at",
+                    "updated_at",
+                    "callback_url"
+                ],
                 "title": "CallbackMappingRead"
             },
             "CallbackMappingUpdate": {
                 "properties": {
+                    "name": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Name",
+                        "description": "Name of the CallbackMapping",
+                        "examples": ["adapter.status"]
+                    },
+                    "description": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Description",
+                        "description": "Description of the CallbackMapping",
+                        "examples": ["This CallbackMapping is used for adapter callback"]
+                    },
                     "external_path": {
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "External Path",
@@ -1014,13 +1134,66 @@
             },
             "CallbackStatusEnum": {
                 "type": "string",
-                "enum": ["processing", "success", "error", "not_safe"],
+                "enum": ["queued", "processing", "success", "error", "sync"],
                 "title": "CallbackStatusEnum"
             },
             "CallbackTriggerType": {
                 "type": "string",
                 "enum": ["system", "retry", "manual", "unknown"],
                 "title": "CallbackTriggerType"
+            },
+            "DeliveryRequestMessage": {
+                "properties": {
+                    "callback_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Callback Id",
+                        "description": "Callback tracking ID"
+                    },
+                    "mapping_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Mapping Id",
+                        "description": "Associated mapping ID"
+                    },
+                    "original_url": { "type": "string", "title": "Original Url", "description": "Target internal URL" },
+                    "url": { "type": "string", "title": "Url", "description": "Target internal URL" },
+                    "method": { "type": "string", "title": "Method", "description": "HTTP method" },
+                    "params": { "type": "object", "title": "Params", "description": "Query parameters" },
+                    "headers": {
+                        "additionalProperties": { "type": "string" },
+                        "type": "object",
+                        "title": "Headers",
+                        "description": "Request headers"
+                    },
+                    "body": {
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "title": "Body",
+                        "description": "Raw request body"
+                    },
+                    "attempt": {
+                        "type": "integer",
+                        "title": "Attempt",
+                        "description": "Current attempt count",
+                        "default": 1
+                    },
+                    "next_retry_at": {
+                        "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
+                        "title": "Next Retry At",
+                        "description": "Planned time for next retry"
+                    },
+                    "retry_policy": {
+                        "$ref": "#/components/schemas/RetryPolicyConfig",
+                        "description": "Retry configuration"
+                    },
+                    "security_policy": {
+                        "$ref": "#/components/schemas/SecurityPolicyConfig",
+                        "description": "Security and access rules"
+                    }
+                },
+                "type": "object",
+                "required": ["callback_id", "mapping_id", "original_url", "url", "method"],
+                "title": "DeliveryRequestMessage"
             },
             "ErrorBody": {
                 "properties": {
@@ -1148,6 +1321,13 @@
                         "description": "Base delay (in seconds) between retries",
                         "default": 10,
                         "examples": [30]
+                    },
+                    "retry_on_status": {
+                        "items": { "type": "integer" },
+                        "type": "array",
+                        "title": "Retry On Status",
+                        "description": "List of HTTP status codes that should trigger a retry. Empty list disables retry based on status code.",
+                        "examples": [[400, 500]]
                     },
                     "strategy": {
                         "$ref": "#/components/schemas/RetryStrategy",

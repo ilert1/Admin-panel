@@ -25,10 +25,7 @@ export const TerminalShow = (props: TerminalShowProps) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const dataProvider = useDataProvider();
     const translate = useTranslate();
-
     const [editAuthDataDialogOpen, setEditAuthDataDialogOpen] = useState(false);
-    const [editDialogOpen, setEditDialogOpen] = useState(false);
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const { data, isLoading } = useQuery({
         queryKey: ["terminal-fees", provider, id],
@@ -58,7 +55,7 @@ export const TerminalShow = (props: TerminalShowProps) => {
                     <div className="flex flex-col">
                         <TextField text={id} copyValue className="text-display-4" />
 
-                        <div className="flex gap-4 md:gap-6">
+                        <div className="flex flex-wrap gap-4 md:gap-6">
                             <TextField
                                 text={data.verbose_name}
                                 label={translate("resources.terminals.fields.verbose_name")}
@@ -72,7 +69,11 @@ export const TerminalShow = (props: TerminalShowProps) => {
                             />
                             <TextField
                                 text={data.callback_url ?? "-"}
-                                type={data.callback_url ? "link" : "text"}
+                                type={"text"}
+                                copyValue={data.callback_url ? true : false}
+                                lineClamp
+                                linesCount={1}
+                                maxWidth="400px"
                                 label={translate("resources.callbridge.mapping.fields.callback_url")}
                             />
                         </div>
