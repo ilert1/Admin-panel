@@ -220,17 +220,6 @@ export const TransactionListFilter = () => {
                     <RefreshCw className={clsx(loading && "animate-spin")} width={16} height={16} />
                     <span>{translate("app.ui.actions.refresh")}</span>
                 </Button>
-
-                {/* <div className="flex items-center gap-1">
-                    <Button onClick={() => debounced(prev => !prev)} variant={"clearBtn"} className="flex gap-1">
-                        {translate("resources.transactions.chart")}
-                        <img
-                            src="/Chart-Icon.svg"
-                            alt=""
-                            className={`${chartOpen ? "bg-green-50 rounded-[4px] transition-all duration-300" : ""}`}
-                        />
-                    </Button>
-                </div> */}
             </div>
         </>
     );
