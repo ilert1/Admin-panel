@@ -490,7 +490,6 @@ const ru: TranslationMessages = {
             provider: "Провайдер",
             weight: "Вес",
             description: "Описание",
-            authInfo: "Информация об аутинтификации",
             changeAuthDataHeader: "Измениту аутентификационную информацию",
             writeSecretPhrase: "Напишите информацию об аутентификации и нажмите сохранить",
             secretHelper: "Ожидается валидный JSON объект",
@@ -527,7 +526,9 @@ const ru: TranslationMessages = {
             errors: {
                 verbose_name: "У терминала обязательно должно быть имя",
                 description: "У терминала обязательно должно быть описание",
-                auth_data_toggle: "Для переключения режима - исправьте ошибки"
+                auth_data_toggle: "Для переключения режима - исправьте ошибки",
+                key_error: "Поле key обязательное",
+                value_error: "Поле value обязательное"
             },
             success: {
                 create: "Терминал %{name} успешно создан."
@@ -767,8 +768,6 @@ const ru: TranslationMessages = {
                 edit: "Изменить",
                 delete: "Удалить",
                 save: "Сохранить",
-                addSecretKey: "Добавить аутентификационную инфорамцию",
-                changeSecretKey: "Изменить аутентификационную инфорамцию",
                 cancel: "Отменить",
                 areYouSure: "Вы точно хотите удалить элемент?",
                 chatWithSupport: "Чат с поддержкой",
@@ -1508,7 +1507,6 @@ const en: TranslationMessages = {
             weight: "Weight",
             provider: "Provider",
             description: "Description",
-            authInfo: "Authentication data",
             changeAuthDataHeader: "Editing authentication data",
             writeSecretPhrase: "Write auth data for direction and click save.",
             secretHelper: "Expected valid JSON object",
@@ -1546,7 +1544,9 @@ const en: TranslationMessages = {
             errors: {
                 verbose_name: "The terminal must have a name",
                 description: "The terminal must have a description",
-                auth_data_toggle: "To switch the mode, fix the errors"
+                auth_data_toggle: "To switch the mode, fix the errors",
+                key_error: "The key field is required",
+                value_error: "The value field is required"
             },
             success: {
                 create: "Terminal %{name} has been successfully created."
@@ -1783,8 +1783,6 @@ const en: TranslationMessages = {
                 edit: "Edit",
                 delete: "Delete",
                 save: "Save",
-                addSecretKey: "Add auth data",
-                changeSecretKey: "Change auth data",
                 cancel: "Cancel",
                 areYouSure: "Are you sure you want delete this element?",
                 chatWithSupport: "Chat with support",

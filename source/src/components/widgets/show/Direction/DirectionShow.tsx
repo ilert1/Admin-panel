@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/Button";
 import { FeesResource } from "@/data";
 import { DeleteDirectionDialog } from "./DeleteDirectionDialog";
 import { EditDirectionDialog } from "./EditDirectionDialog";
-import { EditAuthData } from "./EditAuthData";
 import { Fees } from "../../components/Fees";
 import { Direction, MerchantFees } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { LimitsList } from "../../components/Limits/ui/LimitsList";
@@ -27,7 +26,6 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
-    const [changeAuthDataClicked, setChangeAuthDataClicked] = useState(false);
 
     const [fees, setFees] = useState<MerchantFees>();
 
@@ -37,10 +35,6 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
 
     const handleEditClicked = useCallback(() => {
         setEditDialogOpen(prev => !prev);
-    }, []);
-
-    const handleChangeAuthDataClicked = useCallback(() => {
-        setChangeAuthDataClicked(prev => !prev);
     }, []);
 
     useEffect(() => {
@@ -105,12 +99,6 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                         ) : (
                             <TextField label={translate("resources.direction.fields.terminal")} text="" />
                         )}
-                        <TextField
-                            label={translate("resources.direction.fields.accountNumber")}
-                            text={context.record.account_id || ""}
-                            wrap
-                            copyValue
-                        />
                     </div>
 
                     <div className="ml-2 flex flex-col gap-2 md:ml-[32px] md:gap-[24px]">
@@ -131,14 +119,15 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                         />
 
                         <TextField
-                            label={translate("resources.direction.authInfo")}
-                            text={JSON.stringify(context.record.auth_data)}
-                            copyValue={JSON.stringify(context.record.auth_data).length === 0 ? false : true}
+                            label={translate("resources.direction.types.type")}
+                            text={context.record.type ?? ""}
                         />
 
                         <TextField
-                            label={translate("resources.direction.types.type")}
-                            text={context.record.type ?? ""}
+                            label={translate("resources.direction.fields.accountNumber")}
+                            text={context.record.account_id || ""}
+                            wrap
+                            copyValue
                         />
                     </div>
                 </div>
@@ -146,10 +135,6 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
                     <Button className="" onClick={handleEditClicked}>
                         {translate("app.ui.actions.edit")}
-                    </Button>
-
-                    <Button className="dark:bg-muted" variant={"outline"} onClick={handleChangeAuthDataClicked}>
-                        {translate("app.ui.actions.changeSecretKey")}
                     </Button>
 
                     <Button className="" onClick={handleDeleteClicked} variant={"outline_gray"}>
@@ -176,8 +161,6 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
             />
 
             <EditDirectionDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} id={id} />
-
-            <EditAuthData open={changeAuthDataClicked} onOpenChange={setChangeAuthDataClicked} id={id} />
         </div>
     );
 };

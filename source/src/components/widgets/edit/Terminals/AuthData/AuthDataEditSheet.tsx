@@ -2,16 +2,13 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { useRefresh, useTranslate } from "react-admin";
 import { CloseSheetXButton } from "../../../components/CloseSheetXButton";
 import { AuthDataJsonToggle } from "./AuthDataJsonToggle";
-import { SetStateAction, useMemo, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/Button";
 import { TerminalAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPut } from "@/api/enigma/terminal/terminal";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { ColumnDef } from "@tanstack/react-table";
-import { TextField } from "@/components/ui/text-field";
-import { SimpleTable } from "@/components/widgets/shared";
-import { TableTypes } from "@/components/widgets/shared/SimpleTable";
+import { AuthDataEditTable } from "./AuthDataEditTable";
 
 interface IAuthDataEditSheet {
     open: boolean;
@@ -37,32 +34,8 @@ export const AuthDataEditSheet = ({
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [authData, setAuthData] = useState(() => originalAuthData);
     const [stringAuthData, setStringAuthData] = useState(() => JSON.stringify(originalAuthData, null, 2));
-    const [showJson, setShowJson] = useState(true);
+    const [showJson, setShowJson] = useState(false);
     const [disabledBtn, setDisabledBtn] = useState(false);
-
-    const parseAuthData = useMemo(
-        () => (authData ? Object.keys(authData).map(key => ({ key, value: authData[key] as string })) : []),
-        [authData]
-    );
-
-    const authDataColumns: ColumnDef<{ [key: string]: string }>[] = [
-        {
-            id: "key",
-            accessorKey: "key",
-            header: "Key",
-            cell: ({ row }) => {
-                return <TextField text={row.original.key} wrap lineClamp />;
-            }
-        },
-        {
-            id: "value",
-            accessorKey: "value",
-            header: "Value",
-            cell: ({ row }) => {
-                return <TextField text={row.original.value} type="secret" copyValue />;
-            }
-        }
-    ];
 
     const toggleJsonHandler = (state: SetStateAction<boolean>) => {
         try {
@@ -78,11 +51,19 @@ export const AuthDataEditSheet = ({
         }
     };
 
-    const cancelHandler = () => {
-        setAuthData(originalAuthData);
-        setStringAuthData(JSON.stringify(originalAuthData, null, 2));
-        onOpenChange(false);
+    const onOpenChangeHandler = (state: boolean) => {
+        if (!state) {
+            setAuthData(() => originalAuthData);
+            setStringAuthData(() => JSON.stringify(originalAuthData, null, 2));
+        }
+
+        onOpenChange(state);
     };
+
+    useEffect(() => {
+        setAuthData(() => originalAuthData);
+        setStringAuthData(() => JSON.stringify(originalAuthData, null, 2));
+    }, [originalAuthData]);
 
     const submitHandler = async () => {
         try {
@@ -92,7 +73,7 @@ export const AuthDataEditSheet = ({
                 provider,
                 terminalId,
                 {
-                    auth: authData || {}
+                    auth: showJson ? JSON.parse(stringAuthData) : authData
                 },
                 {
                     headers: {
@@ -117,7 +98,7 @@ export const AuthDataEditSheet = ({
     };
 
     return (
-        <Sheet open={open} onOpenChange={onOpenChange}>
+        <Sheet open={open} onOpenChange={onOpenChangeHandler}>
             <SheetContent
                 className="bottom-auto top-[84px] m-0 flex h-auto w-full flex-col gap-0 border-0 p-0 sm:max-w-[1015px]"
                 tabIndex={-1}
@@ -142,6 +123,7 @@ export const AuthDataEditSheet = ({
                         <MonacoEditor
                             height="144px"
                             width="100%"
+                            disabled
                             onMountEditor={() => setMonacoEditorMounted(true)}
                             onErrorsChange={setHasErrors}
                             onValidChange={setIsValid}
@@ -149,7 +131,12 @@ export const AuthDataEditSheet = ({
                             setCode={setStringAuthData}
                         />
                     ) : (
-                        <SimpleTable columns={authDataColumns} data={parseAuthData} tableType={TableTypes.COLORED} />
+                        <AuthDataEditTable
+                            loading={disabledBtn}
+                            authData={authData}
+                            originalAuthData={originalAuthData}
+                            onChangeAuthData={setAuthData}
+                        />
                     )}
 
                     <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
@@ -167,7 +154,7 @@ export const AuthDataEditSheet = ({
                             type="button"
                             variant="outline_gray"
                             className="mt-4 w-full flex-1 sm:mt-0 sm:w-1/2"
-                            onClick={cancelHandler}>
+                            onClick={() => onOpenChangeHandler(false)}>
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>
