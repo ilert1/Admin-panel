@@ -11,21 +11,28 @@ interface MonacoEditorProps {
     width?: string;
     code: string;
     disabled?: boolean;
-    setCode: (value: string) => void;
-    onErrorsChange: (hasErrors: boolean) => void;
-    onValidChange: (isValid: boolean) => void;
+    setCode?: (value: string) => void;
+    onErrorsChange?: (hasErrors: boolean) => void;
+    onValidChange?: (isValid: boolean) => void;
     onMountEditor?: OnMount;
 }
 
 export const MonacoEditor = (props: MonacoEditorProps) => {
     const {
+       
         code,
+       
         disabled = false,
         height = "h-48",
-        setCode,
+       
+        setCode = () => {},
+       
         onErrorsChange,
+       
         onValidChange,
+       
         onMountEditor = () => {}
+   
     } = props;
     const { theme } = useTheme();
 
@@ -33,15 +40,17 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
 
     const validateCode = useCallback(
         (value: string) => {
-            try {
-                const parsed = JSON.parse(value || "{}");
-                if (value.trim() === "" || Object.keys(parsed).length === 0) {
+            if (onValidChange) {
+                try {
+                    const parsed = JSON.parse(value || "{}");
+                    if (value.trim() === "" || Object.keys(parsed).length === 0) {
+                        onValidChange(false);
+                    } else {
+                        onValidChange(true);
+                    }
+                } catch (error) {
                     onValidChange(false);
-                } else {
-                    onValidChange(true);
                 }
-            } catch (error) {
-                onValidChange(false);
             }
         },
         [onValidChange]
@@ -59,7 +68,9 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
 
     const handleValidation = useCallback<OnValidate>(
         markers => {
-            onErrorsChange(markers.length > 0);
+            if (onErrorsChange) {
+                onErrorsChange(markers.length > 0);
+            }
         },
         [onErrorsChange]
     );

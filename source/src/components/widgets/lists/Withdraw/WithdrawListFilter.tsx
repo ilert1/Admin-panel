@@ -20,6 +20,7 @@ export const WithdrawListFilter = () => {
     const {
         dictionaries,
         operationId,
+        operationTrc20,
         startDate,
         endDate,
         merchantId,
@@ -28,6 +29,7 @@ export const WithdrawListFilter = () => {
         typeTabActive,
         translate,
         onOperationIdChanged,
+        onOperationTrc20Changed,
         changeDate,
         handleDownloadReport,
         clearFilters,
@@ -38,7 +40,8 @@ export const WithdrawListFilter = () => {
     } = useWithdrawFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
-    const clearDisabled = !operationId && !startDate && !typeTabActive && !merchantId && !statusFilter;
+    const clearDisabled =
+        !operationId && !operationTrc20 && !startDate && !typeTabActive && !merchantId && !statusFilter;
 
     return (
         <div>
@@ -50,7 +53,7 @@ export const WithdrawListFilter = () => {
                         open={openFiltersClicked}
                         onOpenChange={setOpenFiltersClicked}
                         clearButtonDisabled={clearDisabled}
-                        filterList={[operationId, startDate, merchantId, statusFilter, typeTabActive]}
+                        filterList={[operationId, operationTrc20, startDate, merchantId, statusFilter, typeTabActive]}
                         onClearFilters={clearFilters}
                     />
                 </div>
@@ -67,6 +70,17 @@ export const WithdrawListFilter = () => {
                             />
                         </div>
 
+                        <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
+                            <Input
+                                className="flex-1 text-sm placeholder:text-neutral-70"
+                                placeholder={translate("resources.withdraw.filter.filterByIdPlaceholder")}
+                                value={operationTrc20}
+                                label={translate("resources.withdraw.filter.filterByTrc20")}
+                                labelSize="title-2"
+                                onChange={onOperationTrc20Changed}
+                            />
+                        </div>
+
                         <DateRangePicker
                             title={translate("resources.withdraw.filter.filterByDate")}
                             placeholder={translate("resources.withdraw.filter.filterByDatePlaceholder")}
@@ -74,7 +88,7 @@ export const WithdrawListFilter = () => {
                             onChange={changeDate}
                         />
 
-                        <div className="flex min-w-36 flex-1 flex-col gap-1 md:max-w-80">
+                        <div className="flex min-w-36 flex-1 flex-col gap-1 lg:max-w-80">
                             <Label variant="title-2" className="mb-0">
                                 {translate("resources.transactions.filter.filterByOrderStatus")}
                             </Label>

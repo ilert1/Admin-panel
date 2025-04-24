@@ -5,7 +5,6 @@ import { PlusCircle } from "lucide-react";
 import { CreateTerminalDialog } from "./CreateTerminalDialog";
 
 import { DeleteTerminalDialog } from "./DeleteTerminalDialog";
-import { EditTerminalDialog } from "./EditTerminalDialog";
 import { TerminalsListFilter } from "./TerminalsListFilter/TerminalsListFilter";
 import { TerminalListTable } from "./TerminalsListTable";
 import { useGetTerminalColumns } from "./Columns";
@@ -19,8 +18,7 @@ export const TerminalsList = () => {
     const [provider, setProvider] = useState("");
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
-    const { columns, chosenId, editDialogOpen, deleteDialogOpen, setEditDialogOpen, setDeleteDialogOpen } =
-        useGetTerminalColumns();
+    const { columns, chosenId, deleteDialogOpen, setDeleteDialogOpen } = useGetTerminalColumns();
 
     return (
         <>
@@ -52,13 +50,6 @@ export const TerminalsList = () => {
                         provider={provider}
                         open={createDialogOpen}
                         onOpenChange={setCreateDialogOpen}
-                    />
-
-                    <EditTerminalDialog
-                        provider={provider}
-                        id={chosenId}
-                        open={editDialogOpen}
-                        onOpenChange={setEditDialogOpen}
                     />
 
                     <DeleteTerminalDialog

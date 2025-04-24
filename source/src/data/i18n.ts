@@ -309,6 +309,7 @@ const ru: TranslationMessages = {
             },
             filter: {
                 filterById: "Поиск по ID",
+                filterByTrc20: "Поиск по адресу TRC20",
                 filterByIdPlaceholder: "ID",
                 filterByDate: "Дата",
                 filterByDatePlaceholder: "Выберите дату",
@@ -525,7 +526,8 @@ const ru: TranslationMessages = {
             },
             errors: {
                 verbose_name: "У терминала обязательно должно быть имя",
-                description: "У терминала обязательно должно быть описание"
+                description: "У терминала обязательно должно быть описание",
+                auth_data_toggle: "Для переключения режима - исправьте ошибки"
             },
             success: {
                 create: "Терминал %{name} успешно создан."
@@ -1326,6 +1328,7 @@ const en: TranslationMessages = {
             },
             filter: {
                 filterById: "Search by ID",
+                filterByTrc20: "Search by TRC20 address",
                 filterByIdPlaceholder: "ID",
                 filterByDate: "Date",
                 filterByDatePlaceholder: "Select period",
@@ -1542,7 +1545,8 @@ const en: TranslationMessages = {
             },
             errors: {
                 verbose_name: "The terminal must have a name",
-                description: "The terminal must have a description"
+                description: "The terminal must have a description",
+                auth_data_toggle: "To switch the mode, fix the errors"
             },
             success: {
                 create: "Terminal %{name} has been successfully created."
