@@ -12,7 +12,7 @@ import { directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMe
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import clsx from "clsx";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
-import { useQuery } from "@tanstack/react-query";
+import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 
 interface MerchantShowProps {
     id: string;
@@ -46,7 +46,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
         data: merchantDirections,
         isLoading: isMerchantDirectionsLoading,
         isFetching: isMerchantDirectionsFetching
-    } = useQuery({
+    } = useQueryWithAuth({
         queryKey: ["merchantDirections", "MerchantShow", context.record?.id],
         queryFn: async () => {
             if (context.record?.id) {

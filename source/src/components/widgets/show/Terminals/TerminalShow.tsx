@@ -2,7 +2,7 @@ import { useDataProvider, useTranslate } from "react-admin";
 import { Fees } from "../../components/Fees";
 import { FeesResource } from "@/data";
 import { TextField } from "@/components/ui/text-field";
-import { useQuery } from "@tanstack/react-query";
+import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import { LoadingBlock } from "@/components/ui/loading";
 import { Button } from "@/components/ui/Button";
 import { TerminalWithId } from "@/data/terminals";
@@ -28,7 +28,7 @@ export const TerminalShow = (props: TerminalShowProps) => {
 
     const [editAuthDataDialogOpen, setEditAuthDataDialogOpen] = useState(false);
 
-    const { data, isLoading } = useQuery({
+    const { data, isLoading } = useQueryWithAuth({
         queryKey: ["terminal-fees", provider, id],
         queryFn: async ({ signal }) => {
             try {

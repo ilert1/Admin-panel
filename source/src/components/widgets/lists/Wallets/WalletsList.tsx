@@ -7,7 +7,7 @@ import { CreateWalletDialog } from "./CreateWalletDialog";
 import { useEffect, useState } from "react";
 import { DataTable } from "../../shared";
 import { VaultDataProvider, WalletsDataProvider } from "@/data";
-import { useQuery } from "@tanstack/react-query";
+import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 
@@ -21,7 +21,7 @@ export const WalletsList = () => {
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const dataProvider = useDataProvider<VaultDataProvider & WalletsDataProvider>();
-    const { data: storageState } = useQuery({
+    const { data: storageState } = useQueryWithAuth({
         queryKey: ["walletStorage"],
         queryFn: ({ signal }) => dataProvider.getVaultState("vault", signal),
         enabled: permissions === "admin"
