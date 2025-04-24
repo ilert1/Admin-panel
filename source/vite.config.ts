@@ -20,7 +20,16 @@ export default defineConfig({
         host: true
     },
     base: "/",
-    optimizeDeps: {
-        include: ["chart.js"]
+    build: {
+        rollupOptions: {
+            output: {
+                // Хеши для entry-файлов (main.js, app.js и т. д.)
+                entryFileNames: "assets/[name].[hash].js",
+                // Хеши для чанков (динамически подгружаемых модулей)
+                chunkFileNames: "assets/[name].[hash].js",
+                // Хеши для ассетов (CSS, изображения, шрифты)
+                assetFileNames: "assets/[name].[hash].[ext]"
+            }
+        }
     }
 });
