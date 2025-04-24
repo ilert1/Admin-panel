@@ -1,6 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 
 export function isTokenStillFresh(tokenString: string): boolean {
+    if (!tokenString) return false;
     const jwtPayload = parseJWT(tokenString);
     if (jwtPayload) {
         return Math.floor(Date.now() / 1000) < new Date(jwtPayload.exp).getTime();
