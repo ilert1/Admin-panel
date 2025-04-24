@@ -37,7 +37,10 @@ export const useGetMappingsColumns = () => {
         {
             id: "id",
             accessorKey: "id",
-            header: "ID"
+            header: "ID",
+            cell: ({ row }) => {
+                return <TextField text={row.original.id} copyValue />;
+            }
         },
         {
             id: "callback_url",

@@ -4,13 +4,12 @@
  * BlowFish - Enigma API Service
  * OpenAPI spec version: develop
  */
-import type {
-    ApiResponseNoneType,
+import {
     ApiResponseOffsetPaginationCallbackHistoryRead,
-    CallbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGetParams,
     CallbackHistoryEndpointsListHistoryCallbridgeV1HistoryGetParams,
-    HTTPValidationError
-} from "../blowFishEnigmaAPIService.schemas";
+    CallbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGetParams
+} from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
+import type { ApiResponseNoneType, HTTPValidationError } from "../blowFishEnigmaAPIService.schemas";
 
 /**
  * @summary List callback history records

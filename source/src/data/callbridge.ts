@@ -16,7 +16,14 @@ import { CallbackMappingCreate } from "@/api/callbridge/blowFishCallBridgeAPISer
 
 export class CallbridgeDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams) {
-        const fieldsForSearch = Object.keys(params.filter).filter(item => item === "id");
+        const fieldsForSearch = Object.keys(params.filter).filter(
+            item =>
+                item === "name" ||
+                item === "description" ||
+                item === "internal_path" ||
+                item === "external_path" ||
+                item === "status"
+        );
 
         const fn = resource.includes("mapping")
             ? callbackMappingEndpointsListMappingsCallbridgeV1MappingGet

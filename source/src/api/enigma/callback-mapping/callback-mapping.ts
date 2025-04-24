@@ -4,15 +4,14 @@
  * BlowFish - Enigma API Service
  * OpenAPI spec version: develop
  */
-import type {
-    ApiResponseCallbackMappingRead,
-    ApiResponseNoneType,
+import {
     ApiResponseOffsetPaginationCallbackMappingRead,
-    CallbackMappingCreate,
     CallbackMappingEndpointsListMappingsCallbridgeV1MappingGetParams,
-    CallbackMappingUpdate,
-    HTTPValidationError
-} from "../blowFishEnigmaAPIService.schemas";
+    ApiResponseCallbackMappingRead,
+    CallbackMappingCreate,
+    CallbackMappingUpdate
+} from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
+import type { ApiResponseNoneType, HTTPValidationError } from "../blowFishEnigmaAPIService.schemas";
 
 /**
  * @summary List callback mappings

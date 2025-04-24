@@ -2,7 +2,6 @@ import { CallbackHistoryRead } from "@/api/callbridge/blowFishCallBridgeAPIServi
 import { useSheets } from "@/components/providers/SheetProvider";
 import { ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import { ColumnDef } from "@tanstack/react-table";
 import { useLocaleState, useTranslate } from "react-admin";
 
@@ -11,9 +10,6 @@ export const useGetCallbridgeHistory = () => {
     const { openSheet } = useSheets();
 
     const [locale] = useLocaleState();
-
-    const data = fetchDictionaries();
-    console.log(data);
 
     const columns: ColumnDef<CallbackHistoryRead>[] = [
         {

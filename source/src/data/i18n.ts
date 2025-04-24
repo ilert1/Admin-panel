@@ -725,6 +725,13 @@ const ru: TranslationMessages = {
                     mapping_id: "ID маппинга",
                     created_at: "Дата создания",
                     status: "Статус"
+                },
+                callbacksStatus: {
+                    queued: "В очереди",
+                    processing: "Обрабатывается",
+                    success: "Успех",
+                    error: "Ошибка",
+                    sync: "Синхронизация"
                 }
             }
         }
@@ -1741,6 +1748,13 @@ const en: TranslationMessages = {
                     mapping_id: "Mapping ID ",
                     created_at: "Created at",
                     status: "Status"
+                },
+                callbacksStatus: {
+                    queued: "Queued",
+                    processing: "Processing",
+                    success: "Success",
+                    error: "Error",
+                    sync: "Sync"
                 }
             }
         }
