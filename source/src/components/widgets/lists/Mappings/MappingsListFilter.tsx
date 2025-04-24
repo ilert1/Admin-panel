@@ -42,7 +42,6 @@ export const MappingsListFilter = (props: MappingsListFilterProps) => {
         descriptionValue ? (filtersObj.description = descriptionValue) : "";
         intPathValue ? (filtersObj.internal_path = intPathValue) : "";
         extPathValue ? (filtersObj.external_path = extPathValue) : "";
-        console.log(filtersObj);
 
         setFilters(filtersObj, filtersObj, true);
         // eslint-disable-next-line react-hooks/exhaustive-deps

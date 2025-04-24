@@ -68,7 +68,12 @@ export const useGetCallbridgeHistory = () => {
             accessorKey: "status",
             header: translate("resources.callbridge.history.fields.status"),
             cell: ({ row }) => {
-                return <TextField text={row.original.status} maxWidth="100%" />;
+                return (
+                    <TextField
+                        text={translate(`resources.callbridge.history.callbacksStatus.${row.original.status}`)}
+                        maxWidth="100%"
+                    />
+                );
             }
         },
         {
