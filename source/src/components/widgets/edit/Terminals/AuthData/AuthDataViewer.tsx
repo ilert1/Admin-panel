@@ -65,7 +65,7 @@ export const AuthDataViewer = ({ authData, showAuthDataEditSheet }: IAuthDataVie
                 </div>
 
                 {showJson ? (
-                    <MonacoEditor disabled={true} height="h-48" width="100%" code={JSON.stringify(authData, null, 2)} />
+                    <MonacoEditor disabled height="h-48" width="100%" code={JSON.stringify(authData, null, 2)} />
                 ) : (
                     <SimpleTable
                         columns={authDataColumns}
