@@ -141,7 +141,7 @@ export const AuthDataEditSheet = ({
                     <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                         <Button
                             onClick={submitHandler}
-                            disabled={(hasErrors && !isValid) || !monacoEditorMounted || disabledBtn}
+                            disabled={(hasErrors && !isValid) || (showJson && !monacoEditorMounted) || disabledBtn}
                             type="submit"
                             variant="default"
                             className="flex-1">
