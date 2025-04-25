@@ -33,7 +33,7 @@ export const AuthDataEditSheet = ({
     const appToast = useAppToast();
 
     const [hasErrors, setHasErrors] = useState(false);
-    const [isValid, setIsValid] = useState(false);
+    const [isValid, setIsValid] = useState(true);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [authData, setAuthData] = useState(() => originalAuthData);
     const [stringAuthData, setStringAuthData] = useState(() => JSON.stringify(originalAuthData, null, 2));
@@ -45,6 +45,9 @@ export const AuthDataEditSheet = ({
             if (state) {
                 setStringAuthData(JSON.stringify(authData, null, 2));
             } else {
+                if (hasErrors || !isValid || !monacoEditorMounted) {
+                    throw new Error();
+                }
                 setAuthData(JSON.parse(stringAuthData));
             }
 
@@ -68,12 +71,16 @@ export const AuthDataEditSheet = ({
         setStringAuthData(() => JSON.stringify(originalAuthData, null, 2));
     }, [originalAuthData]);
 
+    console.log(hasErrors, !isValid);
+
     const buttonSaveDisabled = useMemo(
         () =>
-            hasErrors ||
-            !isValid ||
             (!showJson && JSON.stringify(originalAuthData, null, 2) === JSON.stringify(authData, null, 2)) ||
-            (showJson && (!monacoEditorMounted || JSON.stringify(originalAuthData, null, 2) === stringAuthData)) ||
+            (showJson &&
+                (hasErrors ||
+                    !isValid ||
+                    !monacoEditorMounted ||
+                    JSON.stringify(originalAuthData, null, 2) === stringAuthData)) ||
             disabledBtn,
         [authData, disabledBtn, hasErrors, isValid, monacoEditorMounted, originalAuthData, showJson, stringAuthData]
     );
