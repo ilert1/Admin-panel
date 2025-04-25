@@ -9,10 +9,11 @@ import {
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { feesDataProvider, FeesResource } from "@/data";
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { HttpError, useRefresh, useTranslate } from "react-admin";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Trash2 } from "lucide-react";
+import fetchDictionaries from "@/helpers/get-dictionaries";
 
 interface FeeCardProps {
     account: string;
@@ -26,6 +27,7 @@ interface FeeCardProps {
     providerName?: string;
     isInner?: boolean;
     deleteFn?: (innerId: number) => void;
+    direction: number;
 }
 export const FeeCard = memo((props: FeeCardProps) => {
     const {
@@ -39,12 +41,15 @@ export const FeeCard = memo((props: FeeCardProps) => {
         description = "",
         isInner = false,
         deleteFn,
-        providerName
+        providerName,
+        direction
     } = props;
     const feeTypesMap = { 1: "FeeFromSender", 2: "FeeFromTransaction", 3: "FeeFixWithdraw" };
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
+    const [directionText, setDirectionText] = useState("");
+    const data = fetchDictionaries();
 
     const feeDataProvider = feesDataProvider({ resource, id, providerName: providerName });
 
@@ -69,6 +74,13 @@ export const FeeCard = memo((props: FeeCardProps) => {
             if (error instanceof HttpError) appToast("error", error.message);
         }
     };
+
+    useEffect(() => {
+        if (data) {
+            const directionText = Object.entries(data.transactionTypes).find(el => el[1].type === direction);
+            if (directionText) setDirectionText(directionText[1].type_descr);
+        }
+    }, [data, direction]);
 
     return (
         <>
@@ -96,16 +108,19 @@ export const FeeCard = memo((props: FeeCardProps) => {
                             label={translate("resources.direction.fees.currency")}
                             labelSize="text-xs"
                         />
+                        <TextField
+                            text={directionText}
+                            label={translate("resources.direction.fees.direction")}
+                            labelSize="text-xs"
+                        />
 
                         {description && (
-                            <div className="col-span-2">
-                                <TextField
-                                    text={description}
-                                    label={translate("resources.direction.fees.descr")}
-                                    linesCount={5}
-                                    lineClamp
-                                />
-                            </div>
+                            <TextField
+                                text={description}
+                                label={translate("resources.direction.fees.descr")}
+                                linesCount={5}
+                                lineClamp
+                            />
                         )}
                     </div>
                     {addFee && (

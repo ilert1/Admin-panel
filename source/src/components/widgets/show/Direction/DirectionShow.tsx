@@ -99,6 +99,17 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                         ) : (
                             <TextField label={translate("resources.direction.fields.terminal")} text="" />
                         )}
+                        <TextField
+                            label={translate("resources.direction.fields.accountNumber")}
+                            text={context.record.account_id || ""}
+                            wrap
+                            copyValue
+                        />
+                        <TextField
+                            label={translate("resources.direction.weight")}
+                            text={String(context.record.weight)}
+                            wrap
+                        />
                     </div>
 
                     <div className="ml-2 flex flex-col gap-2 md:ml-[32px] md:gap-[24px]">
@@ -128,6 +139,10 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                             text={context.record.account_id || ""}
                             wrap
                             copyValue
+                        />
+                        <TextField
+                            label={translate("resources.direction.fields.description")}
+                            text={context.record.description ?? ""}
                         />
                     </div>
                 </div>

@@ -6,11 +6,14 @@ import { useGetDirectionsColumns } from "./Columns";
 import { DirectionListFilter } from "./DirectionListFilter";
 import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
+import { DeleteDirectionDialog } from "../../show/Direction/DeleteDirectionDialog";
 
 export const DirectionsList = () => {
     const listContext = useAbortableListController<Direction>();
 
-    const { columns } = useGetDirectionsColumns({ isFetching: listContext.isFetching });
+    const { columns, deleteDialogOpen, chosenId, setDeleteDialogOpen, onCloseSheet } = useGetDirectionsColumns({
+        isFetching: listContext.isFetching
+    });
 
     return (
         <>
@@ -18,6 +21,12 @@ export const DirectionsList = () => {
                 <DirectionListFilter />
                 {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>
+            <DeleteDirectionDialog
+                open={deleteDialogOpen}
+                onOpenChange={setDeleteDialogOpen}
+                onQuickShowOpenChange={onCloseSheet}
+                id={chosenId}
+            />
         </>
     );
 };

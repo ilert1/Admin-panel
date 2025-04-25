@@ -89,7 +89,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                                         <div>
                                             <span className="text-title-3 mx-2 flex items-center gap-[7px] self-start text-extra-7">
                                                 <SnowFlakeIcon className="h-5 w-5" />
-                                                {translate("resources.accounts.held")}:{currentHold}
+                                                {translate("resources.accounts.held")}: {currentHold}
                                             </span>
                                         </div>
                                     )}

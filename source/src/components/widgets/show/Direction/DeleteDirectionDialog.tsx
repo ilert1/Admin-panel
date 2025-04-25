@@ -31,6 +31,7 @@ export const DeleteDirectionDialog = (props: DeleteDirectionDialogProps) => {
                     id
                 });
                 refresh();
+                onOpenChange(false);
                 onQuickShowOpenChange(false);
             } catch (error) {
                 if (error instanceof Error) appToast("error", error.message);

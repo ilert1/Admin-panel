@@ -8,9 +8,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import fetchDictionaries from "@/helpers/get-dictionaries";
-import { FeesResource } from "@/data";
 import { usePreventFocus } from "@/hooks";
-import { Fees } from "../components/Fees";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 
@@ -70,7 +68,6 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
     const onSubmit = async (data: Merchant) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
-        data.fees = record?.fees;
 
         try {
             await dataProvider.update("merchant", {
@@ -89,7 +86,6 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
     usePreventFocus({ dependencies: [record] });
 
     if (isLoading || !record || !data) return <Loading />;
-    const fees = record.fees;
     return (
         <>
             <Form {...form}>
@@ -170,7 +166,6 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                     </div>
                 </form>
             </Form>
-            <Fees id={id} fees={fees} feesResource={FeesResource.MERCHANT} className="max-h-[45dvh]" />
 
             <div className="ml-auto flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:w-2/5">
                 <Button

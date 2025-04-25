@@ -117,7 +117,7 @@ export const useGetTerminalColumns = () => {
             id: "fees",
             header: () => {
                 return (
-                    <div className="flex flex-col text-center">
+                    <div className="flex flex-col justify-start">
                         <span className="text-[16px]">{translate("resources.terminals.fields.fees")}</span>
                         <span className="text-[16px]">{translate("resources.terminals.fields.pays")}</span>
                     </div>
@@ -131,7 +131,7 @@ export const useGetTerminalColumns = () => {
                 const payOutValue = d2 && `${String((d2[1].value.quantity ?? 0) / (d2[1].value.accuracy ?? 1))}`;
 
                 return (
-                    <div className="flex justify-center gap-1">
+                    <div className="flex justify-start gap-1">
                         {d1 ? (
                             <span className="">
                                 <span className="mr-[1px]">{payInValue}</span>

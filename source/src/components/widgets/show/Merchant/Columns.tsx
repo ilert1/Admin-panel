@@ -72,6 +72,14 @@ export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?:
             }
         },
         {
+            id: "weight",
+            accessorKey: "weight",
+            header: translate("resources.direction.weight"),
+            cell: ({ row }) => {
+                return <TextField text={String(row.original.weight)} wrap />;
+            }
+        },
+        {
             id: "active",
             accessorKey: "active",
             header: () => {

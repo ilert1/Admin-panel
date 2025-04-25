@@ -13,6 +13,9 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import clsx from "clsx";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
+import { Button } from "@/components/ui/Button";
+import { EditMerchantDialog } from "../../lists/Merchants/EditMerchantDialog";
+import { useState } from "react";
 
 interface MerchantShowProps {
     id: string;
@@ -25,6 +28,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
     const translate = useTranslate();
     const data = fetchDictionaries();
     const appToast = useAppToast();
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
 
     if (!id) {
         appToast("error", translate("resources.merchant.errors.notFound", { name: merchantName }));
@@ -56,7 +60,9 @@ export const MerchantShow = (props: MerchantShowProps) => {
                             context.record.id,
                             {
                                 currentPage: 1,
-                                pageSize: 1000
+                                pageSize: 1000,
+                                orderBy: "weight",
+                                sortOrder: "desc"
                             },
                             {
                                 headers: {
@@ -84,6 +90,10 @@ export const MerchantShow = (props: MerchantShowProps) => {
 
     const { columns } = useGetMerchantShowColumns({ isFetching: isMerchantDirectionsFetching });
 
+    const handleEditClicked = () => {
+        setEditDialogOpen(true);
+    };
+
     if (context.isLoading || !context.record || !data) {
         return <Loading />;
     }
@@ -106,7 +116,12 @@ export const MerchantShow = (props: MerchantShowProps) => {
                             label={translate("resources.merchant.fields.descr")}
                             text={context.record.description || ""}
                         />
-                        <TextField label="Keycloak ID" text={context.record.keycloak_id || ""} />
+                        <TextField label="Keycloak ID" copyValue text={context.record.keycloak_id || ""} />
+                    </div>
+                    <div className="self-end px-[42px]">
+                        <Button className="" onClick={handleEditClicked}>
+                            {translate("app.ui.actions.edit")}
+                        </Button>
                     </div>
                 </div>
                 <div className="mt-1 w-full flex-1 px-4 md:mt-4 md:px-[42px]">
@@ -139,6 +154,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                     </div>
                 </div>
             </div>
+            <EditMerchantDialog id={id} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
         </>
     );
 };

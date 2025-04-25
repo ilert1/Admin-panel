@@ -1,6 +1,6 @@
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { Button, EditButton, TrashButton } from "@/components/ui/Button";
+import { Button, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
@@ -13,13 +13,7 @@ export const useGetMerchantColumns = () => {
     const [chosenId, setChosenId] = useState("");
     const { openSheet } = useSheets();
 
-    const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-
-    const handleEditClicked = (id: string) => {
-        setChosenId(id);
-        setEditDialogOpen(true);
-    };
 
     const handleDeleteClicked = (id: string) => {
         setChosenId(id);
@@ -67,7 +61,7 @@ export const useGetMerchantColumns = () => {
             id: "fees",
             header: () => {
                 return (
-                    <div className="flex flex-col text-center">
+                    <div className="flex flex-col justify-start">
                         <span className="text-[16px]">{translate("resources.merchant.fields.fees")}</span>
                         <span className="text-[16px]">{translate("resources.merchant.fields.pays")}</span>
                     </div>
@@ -81,7 +75,7 @@ export const useGetMerchantColumns = () => {
                 const payOutValue = d2 && `${String((d2[1].value.quantity ?? 0) / (d2[1].value.accuracy ?? 1))}`;
 
                 return (
-                    <div className="flex justify-center gap-1">
+                    <div className="flex justify-start gap-1">
                         {d1 ? (
                             <span className="">
                                 <span className="mr-[1px]">{payInValue}</span>
@@ -105,15 +99,6 @@ export const useGetMerchantColumns = () => {
                         )}
                     </div>
                 );
-            }
-        },
-        {
-            id: "update_field",
-            header: () => {
-                return <div className="text-center">{translate("app.ui.actions.edit")}</div>;
-            },
-            cell: ({ row }) => {
-                return <EditButton onClick={() => handleEditClicked(row.original.id)} />;
             }
         },
         {
@@ -144,9 +129,7 @@ export const useGetMerchantColumns = () => {
     return {
         columns,
         chosenId,
-        editDialogOpen,
         deleteDialogOpen,
-        setEditDialogOpen,
         setDeleteDialogOpen
     };
 };

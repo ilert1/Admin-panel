@@ -93,6 +93,7 @@ export const Fees = (props: FeesProps) => {
                                       addFee={addFee}
                                       providerName={providerName}
                                       currency={fee.currency}
+                                      direction={fee.direction}
                                   />
                               );
                           })
