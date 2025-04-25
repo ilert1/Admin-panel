@@ -70,7 +70,8 @@ export const AuthDataEditSheet = ({
 
     const buttonSaveDisabled = useMemo(
         () =>
-            (hasErrors && !isValid) ||
+            hasErrors ||
+            !isValid ||
             (!showJson && JSON.stringify(originalAuthData, null, 2) === JSON.stringify(authData, null, 2)) ||
             (showJson && (!monacoEditorMounted || JSON.stringify(originalAuthData, null, 2) === stringAuthData)) ||
             disabledBtn,
