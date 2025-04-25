@@ -62,7 +62,6 @@ import { MappingsList } from "./components/widgets/lists/Mappings/MappingsList";
 import { CallbackHistoryList } from "./components/widgets/lists/CallbridgeHistory/CallbridgeHistory";
 import { authCheckDataProviderWrapper } from "./components/providers/authCheckDataProviderWrapper";
 
-const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
 const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
 
 const dataProvider = combineDataProviders((resource: string) => {
@@ -127,20 +126,16 @@ export const App = () => {
                                     <Resource name="accounts" list={AccountList} icon={WalletMinimalIcon} />
                                     <Resource name="transactions" list={TransactionList} icon={HistoryIcon} />
                                     <Resource name="withdraw" list={WithdrawList} icon={BitcoinIcon} />
-                                    {WALLET_ENABLED && (
-                                        <Resource name="wallet" list={WalletsList} icon={WalletsLogo}>
-                                            {permissions === "admin" && (
-                                                <Route path="storage" element={<WalletStore />} />
-                                            )}
-                                            {permissions === "admin" && (
-                                                <Route
-                                                    path="linkedTransactions"
-                                                    element={<WalletLinkedTransactionsList />}
-                                                />
-                                            )}
-                                            <Route path="transactions" element={<WalletTransactionsList />} />
-                                        </Resource>
-                                    )}
+                                    <Resource name="wallet" list={WalletsList} icon={WalletsLogo}>
+                                        {permissions === "admin" && <Route path="storage" element={<WalletStore />} />}
+                                        {permissions === "admin" && (
+                                            <Route
+                                                path="linkedTransactions"
+                                                element={<WalletLinkedTransactionsList />}
+                                            />
+                                        )}
+                                        <Route path="transactions" element={<WalletTransactionsList />} />
+                                    </Resource>
 
                                     {permissions === "admin" && (
                                         <>

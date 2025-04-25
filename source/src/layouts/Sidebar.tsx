@@ -11,7 +11,6 @@ import { useMediaQuery } from "react-responsive";
 import clsx from "clsx";
 import { AdminCallbridgeResources } from "@/components/widgets/shared/AdminCallbridgeResources";
 
-const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
 const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
 
 export interface SidebarProps {
@@ -133,7 +132,7 @@ export const Sidebar = (props: SidebarProps) => {
                 {permissions === "admin" && CALLBRIDGE_ENABLED && (
                     <AdminCallbridgeResources showCaptions={showCaptions && !isMobile} />
                 )}
-                {WALLET_ENABLED && <AdminCryptoStoreResources showCaptions={showCaptions && !isMobile} />}
+                <AdminCryptoStoreResources showCaptions={showCaptions && !isMobile} />
             </nav>
 
             {permissions === "admin" && (
