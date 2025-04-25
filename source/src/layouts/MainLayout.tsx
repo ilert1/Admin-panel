@@ -6,6 +6,7 @@ import { Header } from "@/components/widgets/shared/Header/Header";
 import { Sidebar } from "./Sidebar";
 import { useGetResourceHeaderData } from "@/hooks/useGetResourceHeaderData";
 import { TestEnvPopup } from "./TestEnvPopup";
+import { TestEnvText } from "@/components/widgets/components/ResourceHeaderTitle";
 
 export const MainLayout = ({ children }: CoreLayoutProps) => {
     const location = useLocation();
@@ -34,7 +35,10 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
                             className={`container flex h-full flex-col p-6 pr-4 ${
                                 resourceName[0] == "error" ? "h-full" : ""
                             }`}>
-                            {children}
+                            <>
+                                <TestEnvText />
+                                {children}
+                            </>
                         </main>
                     </div>
                 </div>
