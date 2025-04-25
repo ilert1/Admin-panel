@@ -4,7 +4,7 @@ import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from "@
 import { ErrorBadge } from "@/components/ui/Input/ErrorBadge";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { useQuery } from "@tanstack/react-query";
+import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import { Check, ChevronDown } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useDataProvider, useTranslate } from "react-admin";
@@ -37,7 +37,7 @@ export const MerchantSelectFilter = ({
         data: merchantData,
         isFetching,
         isFetched
-    } = useQuery({
+    } = useQueryWithAuth({
         queryKey: [resource, "getList", "MerchantSelectFilter"],
         queryFn: async ({ signal }) =>
             await dataProvider.getList<ResourceData<typeof resource>>(resource, {

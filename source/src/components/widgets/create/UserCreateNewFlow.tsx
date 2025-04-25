@@ -23,7 +23,7 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
-import { useQuery } from "@tanstack/react-query";
+import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import clsx from "clsx";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
@@ -58,7 +58,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
 
     const isFirefox = useMemo(() => navigator.userAgent.match(/firefox|fxios/i), []);
 
-    const { data: userRoles } = useQuery({
+    const { data: userRoles } = useQueryWithAuth({
         queryKey: ["userRoles"],
         queryFn: async ({ signal }) => {
             const res = await fetchUtils.fetchJson(`${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles`, {

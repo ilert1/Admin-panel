@@ -3,7 +3,7 @@ import { useRefresh, useTranslate } from "react-admin";
 import { BF_MANAGER_URL, API_URL } from "@/data/base";
 import { CryptoTransferForm } from "@/components/widgets/forms";
 import { parseJWT } from "@/helpers/jwt";
-import { useQuery } from "@tanstack/react-query";
+import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import { TextField } from "@/components/ui/text-field";
 
 interface CryptoTransferProps {
@@ -27,7 +27,7 @@ export const CryptoTransfer = ({ repeatData, cryptoTransferState, setCryptoTrans
         }
     }, []);
 
-    const { isLoading: balanceLoading, data: balance } = useQuery({
+    const { isLoading: balanceLoading, data: balance } = useQueryWithAuth({
         queryKey: ["accounts", merchantId],
         queryFn: ({ signal }) =>
             fetch(`${API_URL}/accounts/${merchantId}`, {

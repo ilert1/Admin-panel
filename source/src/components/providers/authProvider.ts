@@ -3,6 +3,8 @@ import { AuthProvider, fetchUtils } from "react-admin";
 
 import { isTokenStillFresh } from "@/helpers/jwt";
 
+import { QueryClient } from "@tanstack/react-query";
+
 interface KeycloakJwtPayload extends JwtPayload {
     realm_access: {
         roles: string[];
@@ -12,6 +14,12 @@ interface KeycloakJwtPayload extends JwtPayload {
 const keycloakLoginUrl = import.meta.env.VITE_KEYCLOAK_LOGIN_URL;
 // const keycloakUrl = import.meta.env.VITE_KEYCLOAK_URL;
 const clientId = import.meta.env.VITE_KEYCLOAK_CLIENT_ID;
+
+const clearUserData = () => {
+    localStorage.removeItem("access-token");
+    localStorage.removeItem("refresh-token");
+    localStorage.removeItem("user");
+};
 
 const updateToken = async () => {
     const refreshToken = localStorage.getItem("refresh-token");
@@ -39,7 +47,8 @@ const updateToken = async () => {
         const { access_token, refresh_token } = response.json;
 
         if (!access_token || !refresh_token) {
-            throw new Error("Invalid token response");
+            // throw new Error("Invalid token response");
+            return Promise.reject(new Error("Invalid token response"));
         }
 
         localStorage.setItem("access-token", access_token);
@@ -122,9 +131,14 @@ export const authProvider: AuthProvider = {
 
     logout: async () => {
         try {
+            const refreshToken = localStorage.getItem("refresh-token");
+            if (!refreshToken) {
+                clearUserData();
+                return Promise.resolve();
+            }
             const bodyObject = {
                 client_id: clientId,
-                token: `${localStorage.getItem("refresh-token")}`,
+                token: refreshToken,
                 token_type_hint: "refresh_token"
             };
 
@@ -138,19 +152,12 @@ export const authProvider: AuthProvider = {
                     "Content-Type": "application/x-www-form-urlencoded"
                 })
             });
-
-            // console.log(response);
-            localStorage.removeItem("access-token");
-            localStorage.removeItem("refresh-token");
-            localStorage.removeItem("user");
-            return Promise.resolve();
         } catch (error) {
-            // return Promise.reject(error);
-            localStorage.removeItem("access-token");
-            localStorage.removeItem("refresh-token");
-            localStorage.removeItem("user");
-            console.log(error);
+            clearUserData();
             return Promise.reject(error);
+        } finally {
+            clearUserData();
+            return Promise.resolve();
         }
     },
 
@@ -194,7 +201,7 @@ export const authProvider: AuthProvider = {
                 return Promise.reject(updateError); // Вызываем logout
             }
         }
-        return Promise.resolve();
+        return Promise.resolve(error);
     },
 
     getPermissions: () => {

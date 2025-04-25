@@ -1,4 +1,5 @@
-import { CustomRoutes, Resource, combineDataProviders, CoreAdminContext, CoreAdminUI } from "react-admin";
+import { CustomRoutes, Resource, combineDataProviders, CoreAdminContext, CoreAdminUI, useCheckAuth } from "react-admin";
+import { QueryClient } from "@tanstack/react-query";
 import { BrowserRouter } from "react-router-dom";
 import {
     TransactionDataProvider,
@@ -59,6 +60,7 @@ import { SheetProvider } from "./components/providers/SheetProvider";
 import { SheetManager } from "./components/providers/SheetManager";
 import { MappingsList } from "./components/widgets/lists/Mappings/MappingsList";
 import { CallbackHistoryList } from "./components/widgets/lists/CallbridgeHistory/CallbridgeHistory";
+import { authCheckDataProviderWrapper } from "./components/providers/authCheckDataProviderWrapper";
 
 const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
 const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
@@ -98,6 +100,7 @@ const dataProvider = combineDataProviders((resource: string) => {
     }
 });
 dataProvider.supportAbortSignal = true;
+const dataProviderWithAuth = authCheckDataProviderWrapper(dataProvider, authProvider);
 
 export const App = () => {
     return (
@@ -107,7 +110,10 @@ export const App = () => {
                     v7_startTransition: true,
                     v7_relativeSplatPath: true
                 }}>
-                <CoreAdminContext i18nProvider={i18nProvider} dataProvider={dataProvider} authProvider={authProvider}>
+                <CoreAdminContext
+                    i18nProvider={i18nProvider}
+                    dataProvider={dataProviderWithAuth}
+                    authProvider={authProvider}>
                     <SheetProvider>
                         <CoreAdminUI
                             catchAll={NotFound}

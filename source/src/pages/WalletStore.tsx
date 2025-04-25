@@ -9,7 +9,7 @@ import { CirclePlus, KeyRound, LockKeyhole, LockKeyholeOpen, TriangleAlert } fro
 import { ChangeEvent, useState } from "react";
 import { useDataProvider, useTranslate } from "react-admin";
 import { ControllerRenderProps, useForm } from "react-hook-form";
-import { useQuery } from "@tanstack/react-query";
+import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import { z } from "zod";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { ResourceHeaderTitle } from "@/components/widgets/components/ResourceHeaderTitle";
@@ -48,7 +48,7 @@ export const WalletStore = () => {
         data: storageState,
         refetch: refetchStorageState,
         isLoading: storageStateLoading
-    } = useQuery({
+    } = useQueryWithAuth({
         queryKey: ["walletStorage"],
         queryFn: ({ signal }) => dataProvider.getVaultState("vault", signal)
     });
