@@ -86,7 +86,7 @@ export const AuthDataEditSheet = ({
 
             // Проверка какие ключи нужно добавить или изменить
             Object.keys(currentAuthData).forEach(key => {
-                if (!originalAuthData?.[key]) {
+                if (!originalAuthData?.[key] || originalAuthData[key] !== currentAuthData[key]) {
                     authDataToUpdate[key] = currentAuthData[key];
                 }
             });
