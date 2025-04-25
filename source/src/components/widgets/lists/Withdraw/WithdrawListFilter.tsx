@@ -11,7 +11,7 @@ import useWithdrawFilter from "@/hooks/useWithdrawFilter";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { useState } from "react";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
-import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { ResourceHeaderTitle, TestEnvText } from "../../components/ResourceHeaderTitle";
 import { Label } from "@/components/ui/label";
 import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -45,6 +45,8 @@ export const WithdrawListFilter = () => {
 
     return (
         <div>
+            <TestEnvText />
+
             <div className="flex flex-col">
                 <div className="mb-6 flex flex-wrap justify-between gap-4">
                     <ResourceHeaderTitle />

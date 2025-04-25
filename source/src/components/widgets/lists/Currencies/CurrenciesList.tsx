@@ -8,7 +8,7 @@ import { CreateCurrencyDialog } from "./CreateCurrencyDialog";
 import { EditCurrencyDialog } from "./EditCurrencyDialog";
 import { DeleteCurrencyDialog } from "./DeleteCurrencyDialog";
 import { CurrencyWithId } from "@/data/currencies";
-import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { ResourceHeaderTitle, TestEnvText } from "../../components/ResourceHeaderTitle";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const CurrenciesList = () => {
@@ -31,6 +31,8 @@ export const CurrenciesList = () => {
     } else {
         return (
             <>
+                <TestEnvText />
+
                 <div className="mb-6 flex flex-wrap justify-between gap-2">
                     <ResourceHeaderTitle />
                     <Button

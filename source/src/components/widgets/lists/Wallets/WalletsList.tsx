@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { DataTable } from "../../shared";
 import { VaultDataProvider, WalletsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
-import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { ResourceHeaderTitle, TestEnvText } from "../../components/ResourceHeaderTitle";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const WalletsList = () => {
@@ -71,6 +71,8 @@ export const WalletsList = () => {
     } else {
         return (
             <>
+                <TestEnvText />
+
                 <div className="mb-6 flex flex-wrap justify-between gap-2">
                     <ResourceHeaderTitle />
 

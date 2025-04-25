@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
-import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { ResourceHeaderTitle, TestEnvText } from "../../components/ResourceHeaderTitle";
 import { RefreshCw } from "lucide-react";
 import { useLoading, useRefresh } from "react-admin";
 import clsx from "clsx";
@@ -53,6 +53,7 @@ export const TransactionListFilter = () => {
 
     return (
         <>
+            <TestEnvText />
             <div className="flex w-full flex-col gap-2">
                 <div className="mb-4 flex flex-wrap justify-between gap-4 md:mb-6">
                     <ResourceHeaderTitle />

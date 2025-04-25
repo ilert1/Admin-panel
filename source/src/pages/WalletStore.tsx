@@ -12,7 +12,7 @@ import { ControllerRenderProps, useForm } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { ResourceHeaderTitle } from "@/components/widgets/components/ResourceHeaderTitle";
+import { ResourceHeaderTitle, TestEnvText } from "@/components/widgets/components/ResourceHeaderTitle";
 
 export const WalletStore = () => {
     const translate = useTranslate();
@@ -122,6 +122,8 @@ export const WalletStore = () => {
 
     return (
         <>
+            <TestEnvText />
+
             <ResourceHeaderTitle marginBottom />
 
             <div className="absolute bottom-[-90px] right-[-48px] p-4">

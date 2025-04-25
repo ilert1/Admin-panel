@@ -8,7 +8,7 @@ import { DeleteTerminalDialog } from "./DeleteTerminalDialog";
 import { TerminalsListFilter } from "./TerminalsListFilter/TerminalsListFilter";
 import { TerminalListTable } from "./TerminalsListTable";
 import { useGetTerminalColumns } from "./Columns";
-import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { ResourceHeaderTitle, TestEnvText } from "../../components/ResourceHeaderTitle";
 import { EmptyTable } from "../../shared/EmptyTable";
 
 export const TerminalsList = () => {
@@ -22,6 +22,7 @@ export const TerminalsList = () => {
 
     return (
         <>
+            <TestEnvText />
             <div className="mb-4 flex flex-wrap justify-between gap-2 md:mb-6">
                 <ResourceHeaderTitle />
                 <Button

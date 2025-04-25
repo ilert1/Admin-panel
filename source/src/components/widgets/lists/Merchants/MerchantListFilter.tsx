@@ -7,7 +7,7 @@ import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 import { Label } from "@/components/ui/label";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
-import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { ResourceHeaderTitle, TestEnvText } from "../../components/ResourceHeaderTitle";
 import { CreateMerchantDialogNewFlow } from "./CreateMerchantDialogNewFlow";
 
 export const MerchantListFilter = () => {
@@ -44,6 +44,8 @@ export const MerchantListFilter = () => {
 
     return (
         <>
+            <TestEnvText />
+
             <div className="flex w-full flex-col">
                 <div className="mb-4 flex flex-wrap justify-between gap-x-52 gap-y-3 sm:gap-3 md:mb-6">
                     <ResourceHeaderTitle />
