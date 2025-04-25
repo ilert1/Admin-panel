@@ -41,7 +41,12 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
             if (onValidChange) {
                 try {
                     const parsed = JSON.parse(value || "{}");
-                    if (value.trim() === "" || Object.keys(parsed).length === 0) {
+                    if (
+                        value.trim() === "" ||
+                        Object.keys(parsed).length === 0 ||
+                        Object.keys(parsed).includes("") ||
+                        Object.values(parsed).includes("")
+                    ) {
                         onValidChange(false);
                     } else {
                         onValidChange(true);
