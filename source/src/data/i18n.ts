@@ -691,6 +691,14 @@ const ru: TranslationMessages = {
                     disabled: "Выключено",
                     max_attempts: "Максимальное число попыток",
                     strategy: "Стратегия",
+                    retryOn: "Повторная попытка при статусах",
+                    retryStatusChange: "Изменить статусы для повторов",
+                    newStatus: "Новые статусы",
+                    enterSepWithCommas: "Введите новые статусы разделив их запятой",
+
+                    wrongFormat: "Неправильные данные",
+                    allowedSymbols: "Можно использовать только пробелы, цифры и запятые",
+                    allowedVariant: "Ввод должен быть вида 400, 404,500 без лишних символов",
 
                     security_policy: "Политика безопасности",
                     allowed_ips: "Разрешённые IP-адреса",
@@ -727,6 +735,7 @@ const ru: TranslationMessages = {
                     status: "Статус"
                 },
                 callbacksStatus: {
+                    retryCallback: "Повторить",
                     queued: "В очереди",
                     processing: "Обрабатывается",
                     success: "Успех",
@@ -1713,6 +1722,14 @@ const en: TranslationMessages = {
                     disabled: "Active",
                     max_attempts: "Max attempts",
                     strategy: "Strategy",
+                    retryOn: "Retrying on status",
+                    retryStatusChange: "Edit retry status",
+                    newStatus: "New status",
+                    enterSepWithCommas: "Enter new statuses separated by commas",
+
+                    wrongFormat: "Invalid data",
+                    allowedSymbols: "Only spaces, digits, and commas are allowed",
+                    allowedVariant: "Input must be in the format like 400, 404, 500 without extra symbols",
 
                     security_policy: "Security policy",
                     allowed_ips: "Allowed IPs",
@@ -1750,6 +1767,7 @@ const en: TranslationMessages = {
                     status: "Status"
                 },
                 callbacksStatus: {
+                    retryCallback: "Retry",
                     queued: "Queued",
                     processing: "Processing",
                     success: "Success",

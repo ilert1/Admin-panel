@@ -707,7 +707,7 @@
                 }
             }
         },
-        "/callbridge/v1/history/history/{callback_id}/retry": {
+        "/callbridge/v1/history/{callback_id}/retry": {
             "get": {
                 "tags": ["Callback history"],
                 "summary": "Retry callback by history ID",

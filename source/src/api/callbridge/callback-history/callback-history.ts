@@ -164,7 +164,7 @@ export type callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryC
 export const getCallbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetUrl = (
     callbackId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/history/history/${callbackId}/retry`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/history/${callbackId}/retry`;
 };
 
 export const callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGet = async (

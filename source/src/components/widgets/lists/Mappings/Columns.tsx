@@ -61,6 +61,7 @@ export const useGetMappingsColumns = () => {
                 );
             }
         },
+
         {
             id: "delete",
             cell: ({ row }) => {
