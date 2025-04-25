@@ -90,7 +90,11 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
                     <div className="flex items-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                         <TextField
                             text={item.value}
-                            type={!originalAuthData?.[item.key] ? "text" : "secret"}
+                            type={
+                                !originalAuthData?.[item.key] || originalAuthData[item.key] !== item.value
+                                    ? "text"
+                                    : "secret"
+                            }
                             wrap
                             copyValue
                             lineClamp
