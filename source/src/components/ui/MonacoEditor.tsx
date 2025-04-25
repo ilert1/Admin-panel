@@ -20,11 +20,16 @@ interface MonacoEditorProps {
 export const MonacoEditor = (props: MonacoEditorProps) => {
     const {
         code,
+
         disabled = false,
-        setCode = () => {},
         height = "h-48",
+
+        setCode = () => {},
+
         onErrorsChange,
+
         onValidChange,
+
         onMountEditor = () => {}
     } = props;
     const { theme } = useTheme();

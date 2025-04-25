@@ -5,7 +5,7 @@
  * OpenAPI spec version: local
  */
 import type {
-    ApiResponseNoneType,
+    ApiResponseDeliveryRequestMessage,
     ApiResponseOffsetPaginationCallbackHistoryRead,
     CallbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGetParams,
     CallbackHistoryEndpointsListHistoryCallbridgeV1HistoryGetParams,
@@ -142,50 +142,50 @@ export const callbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGet
 /**
  * @summary Retry callback by history ID
  */
-export type callbackHistoryEndpointsRetryByHistoryCallbridgeV1HistoryHistoryHistoryIdRetryPostResponse200 = {
-    data: ApiResponseNoneType;
+export type callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetResponse200 = {
+    data: ApiResponseDeliveryRequestMessage;
     status: 200;
 };
 
-export type callbackHistoryEndpointsRetryByHistoryCallbridgeV1HistoryHistoryHistoryIdRetryPostResponse422 = {
+export type callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type callbackHistoryEndpointsRetryByHistoryCallbridgeV1HistoryHistoryHistoryIdRetryPostResponseComposite =
-    | callbackHistoryEndpointsRetryByHistoryCallbridgeV1HistoryHistoryHistoryIdRetryPostResponse200
-    | callbackHistoryEndpointsRetryByHistoryCallbridgeV1HistoryHistoryHistoryIdRetryPostResponse422;
+export type callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetResponseComposite =
+    | callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetResponse200
+    | callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetResponse422;
 
-export type callbackHistoryEndpointsRetryByHistoryCallbridgeV1HistoryHistoryHistoryIdRetryPostResponse =
-    callbackHistoryEndpointsRetryByHistoryCallbridgeV1HistoryHistoryHistoryIdRetryPostResponseComposite & {
+export type callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetResponse =
+    callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetResponseComposite & {
         headers: Headers;
     };
 
-export const getCallbackHistoryEndpointsRetryByHistoryCallbridgeV1HistoryHistoryHistoryIdRetryPostUrl = (
-    historyId: string
+export const getCallbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetUrl = (
+    callbackId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/history/history/${historyId}/retry`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/history/${callbackId}/retry`;
 };
 
-export const callbackHistoryEndpointsRetryByHistoryCallbridgeV1HistoryHistoryHistoryIdRetryPost = async (
-    historyId: string,
+export const callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGet = async (
+    callbackId: string,
     options?: RequestInit
-): Promise<callbackHistoryEndpointsRetryByHistoryCallbridgeV1HistoryHistoryHistoryIdRetryPostResponse> => {
+): Promise<callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetResponse> => {
     const res = await fetch(
-        getCallbackHistoryEndpointsRetryByHistoryCallbridgeV1HistoryHistoryHistoryIdRetryPostUrl(historyId),
+        getCallbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetUrl(callbackId),
         {
             ...options,
-            method: "POST"
+            method: "GET"
         }
     );
 
     const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: callbackHistoryEndpointsRetryByHistoryCallbridgeV1HistoryHistoryHistoryIdRetryPostResponse["data"] =
+    const data: callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetResponse["data"] =
         body ? JSON.parse(body) : {};
 
     return {
         data,
         status: res.status,
         headers: res.headers
-    } as callbackHistoryEndpointsRetryByHistoryCallbridgeV1HistoryHistoryHistoryIdRetryPostResponse;
+    } as callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetResponse;
 };

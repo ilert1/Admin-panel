@@ -1,19 +1,36 @@
 import { CallbackHistoryRead } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { ShowButton } from "@/components/ui/Button";
+import { Button, ShowButton } from "@/components/ui/Button";
+import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
-import fetchDictionaries from "@/helpers/get-dictionaries";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { CallbridgeDataProvider } from "@/data";
 import { ColumnDef } from "@tanstack/react-table";
+import { useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
 
 export const useGetCallbridgeHistory = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
-
     const [locale] = useLocaleState();
+    const appToast = useAppToast();
 
-    const data = fetchDictionaries();
-    console.log(data);
+    const dataProvider = new CallbridgeDataProvider();
+    const [retryButtonClicked, setRetryButtonClicked] = useState(false);
+
+    const handleRetryClicked = async (id: string) => {
+        if (retryButtonClicked) return;
+        setRetryButtonClicked(true);
+        try {
+            await dataProvider.retryHistory({ id });
+            appToast("success", translate("app.ui.toast.success"), "");
+        } catch (error) {
+            if (error instanceof Error) appToast("error", "", error.message);
+            else appToast("error", translate("app.ui.edit.editError"));
+        } finally {
+            setRetryButtonClicked(false);
+        }
+    };
 
     const columns: ColumnDef<CallbackHistoryRead>[] = [
         {
@@ -33,7 +50,9 @@ export const useGetCallbridgeHistory = () => {
             accessorKey: "external_path",
             header: translate("resources.callbridge.history.fields.request_url"),
             cell: ({ row }) => {
-                return <TextField text={row.original.request_url} maxWidth="100%" lineClamp linesCount={1} copyValue />;
+                return (
+                    <TextField text={row.original.request_url} maxWidth="500px" lineClamp linesCount={1} copyValue />
+                );
             }
         },
         {
@@ -70,7 +89,32 @@ export const useGetCallbridgeHistory = () => {
             accessorKey: "status",
             header: translate("resources.callbridge.history.fields.status"),
             cell: ({ row }) => {
-                return <TextField text={row.original.status} maxWidth="100%" />;
+                return (
+                    <TextField
+                        text={translate(`resources.callbridge.history.callbacksStatus.${row.original.status}`)}
+                        maxWidth="100%"
+                    />
+                );
+            }
+        },
+        {
+            id: "state",
+            cell: ({ row }) => {
+                return (
+                    <>
+                        <Button
+                            onClick={() => handleRetryClicked(row.original.callback_id)}
+                            disabled={retryButtonClicked}>
+                            {retryButtonClicked ? (
+                                <div className="overflow-hidden px-4">
+                                    <LoadingBlock className="!h-4 !w-4" />
+                                </div>
+                            ) : (
+                                translate("resources.callbridge.history.callbacksStatus.retryCallback")
+                            )}
+                        </Button>
+                    </>
+                );
             }
         },
         {

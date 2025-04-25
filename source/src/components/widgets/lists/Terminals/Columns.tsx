@@ -5,7 +5,7 @@ import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { TerminalWithId } from "@/data/terminals";
 import { ColumnDef } from "@tanstack/react-table";
-import { PlusCircle } from "lucide-react";
+import { Copy, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { useRefresh, useTranslate } from "react-admin";
 
@@ -154,6 +154,27 @@ export const useGetTerminalColumns = () => {
                             </span>
                         )}
                     </div>
+                );
+            }
+        },
+        {
+            id: "copy_field",
+            header: () => {
+                return <div className="text-center">{"Callback"}</div>;
+            },
+            cell: ({ row }) => {
+                return row.original.callback_url ? (
+                    <Button
+                        variant={"text_btn"}
+                        className="flex w-full items-center justify-center"
+                        onClick={() => {
+                            navigator.clipboard.writeText(row.original.callback_url ?? "");
+                            appToast("success", "", translate("app.ui.textField.copied"));
+                        }}>
+                        <Copy className="text-green-50" />
+                    </Button>
+                ) : (
+                    ""
                 );
             }
         },

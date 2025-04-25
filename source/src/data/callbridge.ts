@@ -1,22 +1,31 @@
 import { DeleteParams, DeleteResult, GetListParams, GetOneParams, UpdateParams } from "react-admin";
 import { BaseDataProvider } from "./base";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import {
-    callbackMappingEndpointsCreateMappingCallbridgeV1MappingPost,
-    callbackMappingEndpointsDeleteMappingCallbridgeV1MappingMappingIdDelete,
-    callbackMappingEndpointsGetMappingCallbridgeV1MappingMappingIdGet,
-    callbackMappingEndpointsListMappingsCallbridgeV1MappingGet,
-    callbackMappingEndpointsUpdateMappingCallbridgeV1MappingMappingIdPut
-} from "@/api/enigma/callback-mapping/callback-mapping";
-import {
-    callbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGet,
-    callbackHistoryEndpointsListHistoryCallbridgeV1HistoryGet
-} from "@/api/enigma/callback-history/callback-history";
-import { CallbackMappingCreate } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 
+import { CallbackMappingCreate } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
+import {
+    callbackHistoryEndpointsListHistoryCallbridgeV1HistoryGet,
+    callbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGet,
+    callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGet
+} from "@/api/callbridge/callback-history/callback-history";
+import {
+    callbackMappingEndpointsListMappingsCallbridgeV1MappingGet,
+    callbackMappingEndpointsGetMappingCallbridgeV1MappingMappingIdGet,
+    callbackMappingEndpointsCreateMappingCallbridgeV1MappingPost,
+    callbackMappingEndpointsUpdateMappingCallbridgeV1MappingMappingIdPut,
+    callbackMappingEndpointsDeleteMappingCallbridgeV1MappingMappingIdDelete
+} from "@/api/callbridge/callback-mapping/callback-mapping";
+// /history/{history_id}/retry
 export class CallbridgeDataProvider extends BaseDataProvider {
     async getList(resource: string, params: GetListParams) {
-        const fieldsForSearch = Object.keys(params.filter).filter(item => item === "id");
+        const fieldsForSearch = Object.keys(params.filter).filter(
+            item =>
+                item === "name" ||
+                item === "description" ||
+                item === "internal_path" ||
+                item === "external_path" ||
+                item === "status"
+        );
 
         const fn = resource.includes("mapping")
             ? callbackMappingEndpointsListMappingsCallbridgeV1MappingGet
@@ -178,6 +187,29 @@ export class CallbridgeDataProvider extends BaseDataProvider {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
         });
+
+        if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return {
+            data: {
+                id: params.id
+            }
+        };
+    }
+
+    async retryHistory(params: GetOneParams) {
+        const res = await callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGet(
+            params.id,
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }
+        );
 
         if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);

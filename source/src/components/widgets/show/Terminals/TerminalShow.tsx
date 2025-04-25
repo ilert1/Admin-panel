@@ -25,7 +25,6 @@ export const TerminalShow = (props: TerminalShowProps) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const dataProvider = useDataProvider();
     const translate = useTranslate();
-
     const [editAuthDataDialogOpen, setEditAuthDataDialogOpen] = useState(false);
 
     const { data, isLoading } = useQuery({
@@ -56,7 +55,7 @@ export const TerminalShow = (props: TerminalShowProps) => {
                     <div className="flex flex-col">
                         <TextField text={id} copyValue className="text-display-4" />
 
-                        <div className="flex gap-4 md:gap-6">
+                        <div className="flex flex-wrap gap-4 md:gap-6">
                             <TextField
                                 text={data.verbose_name}
                                 label={translate("resources.terminals.fields.verbose_name")}
@@ -70,11 +69,11 @@ export const TerminalShow = (props: TerminalShowProps) => {
                             />
                             <TextField
                                 text={data.callback_url ?? "-"}
+                                type={"text"}
+                                copyValue={data.callback_url ? true : false}
                                 lineClamp
                                 linesCount={1}
-                                copyValue
-                                minWidth="50px"
-                                type={data.callback_url ? "link" : "text"}
+                                maxWidth="400px"
                                 label={translate("resources.callbridge.mapping.fields.callback_url")}
                             />
                         </div>
@@ -124,6 +123,12 @@ export const TerminalShow = (props: TerminalShowProps) => {
                     padding={false}
                 />
             </div>
+            <GenerateCallbackDialog
+                open={generateCallbackDialogOpen}
+                onOpenChange={setGenerateCallbackDialogOpen}
+                terminalId={id}
+                providerName={provider}
+            />
 
             <AuthDataEditSheet
                 terminalId={id}
@@ -133,12 +138,6 @@ export const TerminalShow = (props: TerminalShowProps) => {
                 originalAuthData={data.auth}
             />
 
-            <GenerateCallbackDialog
-                open={generateCallbackDialogOpen}
-                onOpenChange={setGenerateCallbackDialogOpen}
-                terminalId={id}
-                providerName={provider}
-            />
             <EditTerminalDialog provider={provider} id={id} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
 
             <DeleteTerminalDialog

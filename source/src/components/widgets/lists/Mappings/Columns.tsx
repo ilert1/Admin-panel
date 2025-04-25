@@ -4,11 +4,13 @@ import { ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
-import { useTranslate } from "react-admin";
+import { useLocaleState, useTranslate } from "react-admin";
 
 export const useGetMappingsColumns = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
+    const [locale] = useLocaleState();
+
     const [createMappingClicked, setCreateMappingClicked] = useState(false);
 
     const [chosenId, setChosenId] = useState("");
@@ -21,17 +23,31 @@ export const useGetMappingsColumns = () => {
 
     const columns: ColumnDef<CallbackMappingRead>[] = [
         {
-            id: "id",
-            accessorKey: "name",
-            header: translate("resources.callbridge.mapping.fields.name")
+            accessorKey: "created_at",
+            header: translate("resources.transactions.fields.createdAt"),
+            cell: ({ row }) => (
+                <>
+                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
+                    <p className="text-nowrap text-neutral-70">
+                        {new Date(row.original.created_at).toLocaleTimeString(locale)}
+                    </p>
+                </>
+            )
         },
         {
-            id: "external_path",
-            accessorKey: "external_path",
-            header: translate("resources.callbridge.mapping.fields.ext_path"),
+            id: "id",
+            accessorKey: "id",
+            header: "ID",
+            cell: ({ row }) => {
+                return <TextField text={row.original.id} copyValue />;
+            }
+        },
+        {
+            id: "callback_url",
+            header: "Callback URL",
             cell: ({ row }) => {
                 return (
-                    <TextField text={row.original.external_path} copyValue lineClamp linesCount={1} maxWidth="100%" />
+                    <TextField text={row.original.callback_url} copyValue lineClamp linesCount={1} maxWidth="100%" />
                 );
             }
         },
@@ -41,8 +57,15 @@ export const useGetMappingsColumns = () => {
             header: translate("resources.callbridge.mapping.fields.int_path"),
             cell: ({ row }) => {
                 return (
-                    <TextField text={row.original.internal_path} copyValue lineClamp linesCount={1} maxWidth="100%" />
+                    <TextField text={row.original.internal_path} copyValue lineClamp linesCount={1} maxWidth="350px" />
                 );
+            }
+        },
+
+        {
+            id: "delete",
+            cell: ({ row }) => {
+                return <TrashButton onClick={() => handleDeleteClicked(row.original.id)} />;
             }
         },
         {
@@ -55,12 +78,6 @@ export const useGetMappingsColumns = () => {
                         }}
                     />
                 );
-            }
-        },
-        {
-            id: "delete",
-            cell: ({ row }) => {
-                return <TrashButton onClick={() => handleDeleteClicked(row.original.id)} />;
             }
         }
     ];
