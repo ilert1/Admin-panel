@@ -3,6 +3,8 @@ import { AuthProvider, fetchUtils } from "react-admin";
 
 import { isTokenStillFresh } from "@/helpers/jwt";
 
+import { QueryClient } from "@tanstack/react-query";
+
 interface KeycloakJwtPayload extends JwtPayload {
     realm_access: {
         roles: string[];
@@ -45,7 +47,8 @@ const updateToken = async () => {
         const { access_token, refresh_token } = response.json;
 
         if (!access_token || !refresh_token) {
-            throw new Error("Invalid token response");
+            // throw new Error("Invalid token response");
+            return Promise.reject(new Error("Invalid token response"));
         }
 
         localStorage.setItem("access-token", access_token);
