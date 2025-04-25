@@ -139,7 +139,7 @@ export const authProvider: AuthProvider = {
                 })
             });
 
-            // console.log(response);
+            sessionStorage.removeItem("testEnvShown");
             localStorage.removeItem("access-token");
             localStorage.removeItem("refresh-token");
             localStorage.removeItem("user");

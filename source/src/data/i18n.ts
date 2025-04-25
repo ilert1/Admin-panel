@@ -800,6 +800,11 @@ const ru: TranslationMessages = {
                 editSuccess: "Элемент успешно изменен",
                 editError: "Что-то пошло не так, повторите попытку позднее"
             },
+            testPopup: {
+                attention: "Внимание!",
+                youReInTestEnv: "Вы находитесь в тестовой среде.",
+                allActionsSimulated: "Все действия являются пробными."
+            },
             timePickerShow: "Добавить диапазон времени",
             timePickerErrorTitle: "Введите корректный интервал времени",
             timePickerErrorDescription: "Отображены данные за сутки",
@@ -1814,6 +1819,11 @@ const en: TranslationMessages = {
             edit: {
                 editSuccess: "Edited successfully",
                 editError: "Something went wrong, please try again later"
+            },
+            testPopup: {
+                attention: "Attention!",
+                youReInTestEnv: "You are in a test environment.",
+                allActionsSimulated: "All actions are simulated."
             },
             timePickerShow: "Add a time range",
             timePickerErrorTitle: "Enter the correct time interval",
