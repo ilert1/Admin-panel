@@ -24,8 +24,9 @@ export const TestEnvText = () => {
                 !showTestEnvText && "hidden"
             )}>
             <TestTubeDiagonal className="h-6 w-6" />
-            <span>{translate("app.ui.testPopup.youReInTestEnv")} </span>
-            <span>{translate("app.ui.testPopup.allActionsSimulated")}</span>
+            <span>
+                {translate("app.ui.testPopup.youReInTestEnv")} {translate("app.ui.testPopup.allActionsSimulated")}
+            </span>
         </div>
     );
 };
