@@ -71,8 +71,6 @@ export const AuthDataEditSheet = ({
         setStringAuthData(() => JSON.stringify(originalAuthData, null, 2));
     }, [originalAuthData]);
 
-    console.log(hasErrors, !isValid);
-
     const buttonSaveDisabled = useMemo(
         () =>
             (!showJson && JSON.stringify(originalAuthData, null, 2) === JSON.stringify(authData, null, 2)) ||
