@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQueryWithAuthWithAuth } from "@tanstack/react-query";
 import { fetchUtils, HttpError, useDataProvider, useTranslate } from "react-admin";
 import { BF_MANAGER_URL } from "@/data/base";
 import { PayOutForm } from "@/components/widgets/forms";
@@ -18,7 +18,7 @@ export const PayOutPage = () => {
     const appToast = useAppToast();
     const dataProvider = useDataProvider();
 
-    const { data: accounts, isLoading: isAccountsLoading } = useQuery({
+    const { data: accounts, isLoading: isAccountsLoading } = useQueryWithAuth({
         queryKey: ["accounts", "getList", "PayOutPage"],
         queryFn: async ({ signal }) =>
             await dataProvider.getList<Account>("accounts", {
@@ -37,7 +37,7 @@ export const PayOutPage = () => {
         isFetching,
         data: payMethods,
         refetch: refetchPayMethods
-    } = useQuery<PayOut.Response, unknown, PayOut.PayMethod[] | []>({
+    } = useQueryWithAuth<PayOut.Response, unknown, PayOut.PayMethod[] | []>({
         queryKey: ["paymethods", "PayOutPage", currency],
         queryFn: async ({ signal }) => {
             if (currency) {

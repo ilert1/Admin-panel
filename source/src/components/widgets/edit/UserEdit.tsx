@@ -18,7 +18,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useQuery } from "@tanstack/react-query";
+import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface UserEditProps {
@@ -51,7 +51,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [disabledMerchantField, setDisabledMerchantField] = useState(false);
 
-    const { data: userRoles } = useQuery({
+    const { data: userRoles } = useQueryWithAuth({
         queryKey: ["userRoles"],
         queryFn: async ({ signal }) => {
             const res = await fetchUtils.fetchJson(`${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles`, {

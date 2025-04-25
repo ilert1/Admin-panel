@@ -1,9 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 
 import { API_URL } from "@/data/base";
 
 export const useFetchCurrencies = () => {
-    const { isLoading, data } = useQuery<{ data: Dictionaries.Currency[] }>({
+    const { isLoading, data } = useQueryWithAuth<{ data: Dictionaries.Currency[] }>({
         queryKey: ["currencies", "useFetchCurrencies"],
         queryFn: ({ signal }) =>
             fetch(`${API_URL}/dictionaries/curr`, {
