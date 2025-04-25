@@ -44,7 +44,7 @@ export class UsersDataProvider extends BaseDataProvider {
     }
 
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
-        const { json } = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/${resource}/${params.id}`, {
+        const { json } = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/${resource}/info/${params.id}`, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
             signal: params.signal || params.meta?.signal
         });
