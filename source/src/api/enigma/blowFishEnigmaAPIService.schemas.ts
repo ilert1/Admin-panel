@@ -656,13 +656,6 @@ export type DirectionUpdateProvider = string | null;
  */
 export type DirectionUpdateTerminal = string | null;
 
-export type DirectionUpdateAuthDataAnyOf = { [key: string]: unknown };
-
-/**
- * Deprecated. Authentication data for the direction
- */
-export type DirectionUpdateAuthData = DirectionUpdateAuthDataAnyOf | null;
-
 export interface DirectionUpdate {
     /** Name of the direction */
     name?: DirectionUpdateName;
@@ -686,8 +679,6 @@ export interface DirectionUpdate {
     provider?: DirectionUpdateProvider;
     /** Terminal ID associated with the direction */
     terminal?: DirectionUpdateTerminal;
-    /** Deprecated. Authentication data for the direction */
-    auth_data?: DirectionUpdateAuthData;
 }
 
 /**
@@ -745,13 +736,6 @@ export type DirectionUpdateBulkItemProvider = string | null;
  */
 export type DirectionUpdateBulkItemTerminal = string | null;
 
-export type DirectionUpdateBulkItemAuthDataAnyOf = { [key: string]: unknown };
-
-/**
- * Deprecated. Authentication data for the direction
- */
-export type DirectionUpdateBulkItemAuthData = DirectionUpdateBulkItemAuthDataAnyOf | null;
-
 export interface DirectionUpdateBulkItem {
     /** Name of the direction */
     name?: DirectionUpdateBulkItemName;
@@ -775,8 +759,6 @@ export interface DirectionUpdateBulkItem {
     provider?: DirectionUpdateBulkItemProvider;
     /** Terminal ID associated with the direction */
     terminal?: DirectionUpdateBulkItemTerminal;
-    /** Deprecated. Authentication data for the direction */
-    auth_data?: DirectionUpdateBulkItemAuthData;
     /** Unique identifier of the direction to update */
     id: string;
 }
@@ -801,6 +783,26 @@ export interface ErrorBody {
     error_type: string;
     /** A human-readable error message describing the issue. */
     error_message: string;
+}
+
+export interface ExecutionMethodInput {
+    /** The type of the method. */
+    type: string;
+    /** The name of the workflow or activity to be executed. */
+    execution_name: string;
+    /** The queue (task_queue) where the execution will be dispatched. */
+    task_queue: string;
+}
+
+export interface ExecutionMethodOutput {
+    /** The type of the method. */
+    type: string;
+    /** The name of the workflow or activity to be executed. */
+    execution_name: string;
+    /** The queue (task_queue) where the execution will be dispatched. */
+    task_queue: string;
+    readonly workflow_name: string;
+    readonly workflow_queue: string;
 }
 
 /**
@@ -1072,15 +1074,6 @@ export interface MerchantUpdate {
     keycloak_id?: MerchantUpdateKeycloakId;
 }
 
-export interface Method {
-    /** The type of the method. */
-    type: string;
-    /** The name of the workflow to be executed. */
-    workflow_name: string;
-    /** The queue where the workflow will be dispatched. */
-    workflow_queue: string;
-}
-
 export interface OffsetPaginationCurrency {
     /** A list of items in the current page. */
     items: Currency[];
@@ -1142,9 +1135,9 @@ export interface OffsetPaginationTerminal {
 export type ProviderPublicKey = string | null;
 
 /**
- * Provider methods configuration
+ * Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases.
  */
-export type ProviderMethods = { [key: string]: Method };
+export type ProviderMethods = { [key: string]: ExecutionMethodOutput };
 
 export interface Provider {
     /**
@@ -1156,7 +1149,7 @@ export interface Provider {
     fields_json_schema: string;
     /** The public key encoded in base58, corresponding to the private key. */
     public_key?: ProviderPublicKey;
-    /** Provider methods configuration */
+    /** Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases. */
     methods: ProviderMethods;
 }
 
@@ -1168,22 +1161,15 @@ export interface ProviderAddKeypair {
 }
 
 /**
- * The public key encoded in base58, corresponding to the private key.
- */
-export type ProviderCreatePublicKey = string | null;
-
-/**
  * Provider methods configuration
  */
-export type ProviderCreateMethods = { [key: string]: Method };
+export type ProviderCreateMethods = { [key: string]: ExecutionMethodInput };
 
 export interface ProviderCreate {
     /** Provider name */
     name: string;
     /** JSON schema for provider fields */
     fields_json_schema: string;
-    /** The public key encoded in base58, corresponding to the private key. */
-    public_key?: ProviderCreatePublicKey;
     /** Provider methods configuration */
     methods?: ProviderCreateMethods;
 }
@@ -1193,12 +1179,7 @@ export interface ProviderCreate {
  */
 export type ProviderUpdateFieldsJsonSchema = string | null;
 
-/**
- * The public key encoded in base58, corresponding to the private key.
- */
-export type ProviderUpdatePublicKey = string | null;
-
-export type ProviderUpdateMethodsAnyOf = { [key: string]: Method };
+export type ProviderUpdateMethodsAnyOf = { [key: string]: ExecutionMethodInput };
 
 /**
  * Provider methods configuration
@@ -1208,8 +1189,6 @@ export type ProviderUpdateMethods = ProviderUpdateMethodsAnyOf | null;
 export interface ProviderUpdate {
     /** JSON schema for provider fields */
     fields_json_schema?: ProviderUpdateFieldsJsonSchema;
-    /** The public key encoded in base58, corresponding to the private key. */
-    public_key?: ProviderUpdatePublicKey;
     /** Provider methods configuration */
     methods?: ProviderUpdateMethods;
 }
@@ -1249,6 +1228,11 @@ export type TerminalFees = { [key: string]: Fee };
  */
 export type TerminalAuth = { [key: string]: unknown };
 
+/**
+ * Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration.
+ */
+export type TerminalCallbackUrl = string | null;
+
 export interface Terminal {
     /** Unique identifier of the terminal */
     terminal_id: string;
@@ -1264,6 +1248,8 @@ export interface Terminal {
     auth?: TerminalAuth;
     /** Indicates if the account is created */
     account_created?: boolean;
+    /** Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration. */
+    callback_url?: TerminalCallbackUrl;
 }
 
 /**
@@ -1278,6 +1264,11 @@ export interface TerminalCreate {
     description?: TerminalCreateDescription;
     /** Indicates if the account is created */
     account_created?: boolean;
+}
+
+export interface TerminalDeleteAuth {
+    /** Authentication data for the terminal */
+    keys: string[];
 }
 
 /**
@@ -1307,6 +1298,11 @@ export interface TerminalUpdateAuth {
     auth: TerminalUpdateAuthAuth;
 }
 
+export interface TerminalUpdateCallbackUrl {
+    /** New callback URL template or final URL. Placeholders in the form {key} will be replaced with values from terminal.auth. */
+    callback_url: string;
+}
+
 export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -1324,15 +1320,6 @@ export interface ValidationError {
     msg: string;
     type: string;
 }
-
-export type WorkflowCategory = (typeof WorkflowCategory)[keyof typeof WorkflowCategory];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const WorkflowCategory = {
-    h2h_sync: "h2h_sync",
-    h2h_async: "h2h_async",
-    h2h_sync_out: "h2h_sync_out"
-} as const;
 
 export type CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetParams = {
     /**
@@ -1476,6 +1463,50 @@ export type ProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPat
      */
     public_exponent?: number;
 };
+
+export type PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams = {
+    /**
+     * List of identifiers for filtering
+     */
+    ids?: string[] | null;
+    /**
+     * Current page number (starting from 1)
+     */
+    currentPage?: number;
+    /**
+     * Number of records per page
+     */
+    pageSize?: number;
+    /**
+     * List of fields to perform the search on
+     */
+    searchField?: string[] | null;
+    /**
+     * List of values to search for in corresponding fields
+     */
+    searchString?: string[] | null;
+    /**
+     * Determines if the search should be case insensitive
+     */
+    searchIgnoreCase?: boolean;
+    /**
+     * Field to sort the results by
+     */
+    orderBy?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder;
+};
+
+export type PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder =
+    (typeof PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder)[keyof typeof PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder = {
+    asc: "asc",
+    desc: "desc"
+} as const;
 
 export type TerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetParams = {
     /**

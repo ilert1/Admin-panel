@@ -12,13 +12,14 @@ import {
 } from "react-admin";
 import { BaseDataProvider } from "./base";
 import {
+    terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPost,
     terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPost,
     terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDelete,
     terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGet,
     terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGet,
     terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPut
 } from "@/api/enigma/terminal/terminal";
-import { Terminal, TerminalCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Terminal, TerminalCreate, TerminalUpdateCallbackUrl } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export type TerminalWithId = Terminal & { id: string };
 
@@ -167,6 +168,33 @@ export class TerminalsDataProvider extends BaseDataProvider {
         const res = await terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDelete(
             providerName,
             params.id,
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }
+        );
+
+        if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return {
+            data: {
+                id: params.id
+            }
+        };
+    }
+
+    async createCallback(resource: string, params: { id: string; data: TerminalUpdateCallbackUrl }) {
+        const providerName = resource.split("/")[0];
+
+        const res = await terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPost(
+            providerName,
+            params.id,
+            params.data,
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`

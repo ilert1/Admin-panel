@@ -13,6 +13,52 @@ const keycloakLoginUrl = import.meta.env.VITE_KEYCLOAK_LOGIN_URL;
 // const keycloakUrl = import.meta.env.VITE_KEYCLOAK_URL;
 const clientId = import.meta.env.VITE_KEYCLOAK_CLIENT_ID;
 
+const updateToken = async () => {
+    const refreshToken = localStorage.getItem("refresh-token");
+    if (!refreshToken) {
+        return Promise.reject("No refresh token available");
+    }
+
+    try {
+        const bodyObject = {
+            client_id: clientId,
+            grant_type: "refresh_token",
+            refresh_token: refreshToken
+        };
+
+        const body = new URLSearchParams(bodyObject);
+
+        const response = await fetchUtils.fetchJson(keycloakLoginUrl, {
+            method: "POST",
+            body: body.toString(),
+            headers: new Headers({
+                "Content-Type": "application/x-www-form-urlencoded"
+            })
+        });
+
+        const { access_token, refresh_token } = response.json;
+
+        if (!access_token || !refresh_token) {
+            throw new Error("Invalid token response");
+        }
+
+        localStorage.setItem("access-token", access_token);
+        localStorage.setItem("refresh-token", refresh_token);
+
+        const decodedToken = jwtDecode(access_token);
+        localStorage.setItem("user", JSON.stringify(decodedToken));
+
+        return Promise.resolve();
+    } catch (error) {
+        console.error("Token update error:", error);
+        // Очищаем невалидные токены при ошибке
+        localStorage.removeItem("access-token");
+        localStorage.removeItem("refresh-token");
+        localStorage.removeItem("user");
+        // return Promise.reject(error);
+    }
+};
+
 export const authProvider: AuthProvider = {
     login: async ({ username, password, totpCode, totpRequestCode }) => {
         if (totpRequestCode) {
@@ -74,25 +120,79 @@ export const authProvider: AuthProvider = {
         }
     },
 
-    logout: () => {
-        localStorage.removeItem("access-token");
-        localStorage.removeItem("refresh-token");
-        localStorage.removeItem("user");
-        return Promise.resolve();
-    },
+    logout: async () => {
+        try {
+            const bodyObject = {
+                client_id: clientId,
+                token: `${localStorage.getItem("refresh-token")}`,
+                token_type_hint: "refresh_token"
+            };
 
-    checkAuth: () => {
-        if (isTokenStillFresh(String(localStorage.getItem("access-token")))) return Promise.resolve();
-        else {
-            return Promise.reject();
+            const body = new URLSearchParams(bodyObject);
+
+            const kk = keycloakLoginUrl;
+            const response = await fetchUtils.fetchJson(`${kk.slice(0, kk.lastIndexOf("token"))}revoke`, {
+                method: "POST",
+                body: body.toString(),
+                headers: new Headers({
+                    "Content-Type": "application/x-www-form-urlencoded"
+                })
+            });
+
+            // console.log(response);
+            localStorage.removeItem("access-token");
+            localStorage.removeItem("refresh-token");
+            localStorage.removeItem("user");
+            return Promise.resolve();
+        } catch (error) {
+            // return Promise.reject(error);
+            localStorage.removeItem("access-token");
+            localStorage.removeItem("refresh-token");
+            localStorage.removeItem("user");
+            console.log(error);
+            return Promise.reject(error);
         }
     },
 
-    checkError: error => {
+    checkAuth: async () => {
+        const accessToken = localStorage.getItem("access-token");
+        const refreshToken = localStorage.getItem("refresh-token");
+
+        // Если есть валидный access-token
+        if (accessToken && isTokenStillFresh(accessToken)) {
+            return Promise.resolve();
+        }
+
+        // Если access-token истёк, но есть валидный refresh-token
+        if (refreshToken && isTokenStillFresh(refreshToken)) {
+            return updateToken().catch(error => {
+                console.error("Token update failed:", error);
+                // Очищаем хранилище при неудачном обновлении
+                localStorage.removeItem("access-token");
+                localStorage.removeItem("refresh-token");
+                localStorage.removeItem("user");
+                return Promise.reject();
+            });
+        }
+
+        // Если оба токена невалидны
+        return Promise.reject();
+    },
+
+    checkError: async error => {
         if (!error) return Promise.resolve();
         if (error.status === 401 || error.status === 403) {
             localStorage.removeItem("access-token");
-            return Promise.reject();
+            try {
+                // Пытаемся обновить токен и ждём результата
+                await updateToken();
+                return Promise.resolve(); // Токен обновлён, продолжаем работу
+            } catch (updateError) {
+                // Если обновление не удалось - очищаем всё
+                localStorage.removeItem("refresh-token");
+                localStorage.removeItem("user");
+                return Promise.reject(updateError); // Вызываем logout
+            }
         }
         return Promise.resolve();
     },

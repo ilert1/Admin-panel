@@ -9,8 +9,10 @@ import { useGetResLabel } from "@/hooks/useGetResLabel";
 import { Button } from "@/components/ui/Button";
 import { useMediaQuery } from "react-responsive";
 import clsx from "clsx";
+import { AdminCallbridgeResources } from "@/components/widgets/shared/AdminCallbridgeResources";
 
 const WALLET_ENABLED = import.meta.env.VITE_WALLET_ENABLED === "true" ? true : false;
+const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
 
 export interface SidebarProps {
     resourceName: string[];
@@ -87,7 +89,7 @@ export const Sidebar = (props: SidebarProps) => {
 
             <nav className={clsx("flex flex-col items-baseline gap-4 text-base", !isMobile && "mt-6")}>
                 {Object.keys(resources).map(resource => {
-                    if (!resource.includes("wallet")) {
+                    if (!resource.includes("wallet") && !resource.includes("callbridge")) {
                         return (
                             <TooltipProvider key={resource} delayDuration={100}>
                                 <Tooltip>
@@ -128,6 +130,9 @@ export const Sidebar = (props: SidebarProps) => {
                         );
                     }
                 })}
+                {permissions === "admin" && CALLBRIDGE_ENABLED && (
+                    <AdminCallbridgeResources showCaptions={showCaptions && !isMobile} />
+                )}
                 {WALLET_ENABLED && <AdminCryptoStoreResources showCaptions={showCaptions && !isMobile} />}
             </nav>
 

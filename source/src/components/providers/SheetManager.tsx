@@ -1,5 +1,7 @@
 import { ShowAccountSheet } from "../widgets/lists/Accounts/ShowAccountSheet";
+import { ShowCallbridgeHistorySheet } from "../widgets/lists/CallbridgeHistory/ShowCallbridgeHistorySheet";
 import { ShowDirectionSheet } from "../widgets/lists/Directions/ShowDirectionSheet";
+import { ShowMappingSheet } from "../widgets/lists/Mappings/ShowMappingSheet";
 import { ShowMerchantSheet } from "../widgets/lists/Merchants/ShowMerchantSheet";
 import { TerminalShowDialog } from "../widgets/lists/Terminals/TerminalShowDialog";
 import { ShowTransactionSheet } from "../widgets/lists/Transactions/ShowTransactionSheet";
@@ -18,7 +20,9 @@ export const SHEETS_COMPONENTS = {
     terminal: TerminalShowDialog,
     wallet: ShowWalletDialog,
     walletLinked: ShowWalletLinkedTransactionsSheet,
-    walletTransactions: ShowWalletTransactionsSheet
+    walletTransactions: ShowWalletTransactionsSheet,
+    callbridgeMappings: ShowMappingSheet,
+    callbridgeHistory: ShowCallbridgeHistorySheet
 };
 
 export const SheetManager = () => {

@@ -12,15 +12,78 @@ import type {
     FeeCreate,
     FeeUpdate,
     HTTPValidationError,
+    PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams,
     TerminalCreate,
+    TerminalDeleteAuth,
     TerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetParams,
     TerminalUpdate,
-    TerminalUpdateAuth
+    TerminalUpdateAuth,
+    TerminalUpdateCallbackUrl
 } from "../blowFishEnigmaAPIService.schemas";
 
 /**
- * Returns a paginated list of terminals associated with a provider
+ * Returns a paginated list of terminals
  * @summary Get a paginated list of terminals
+ */
+export type poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse200 = {
+    data: ApiResponseOffsetPaginationTerminal;
+    status: 200;
+};
+
+export type poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponseComposite =
+    | poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse200
+    | poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse422;
+
+export type poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse =
+    poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getPoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetUrl = (
+    params?: PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams
+) => {
+    const normalizedParams = new URLSearchParams();
+
+    Object.entries(params || {}).forEach(([key, value]) => {
+        if (value !== undefined) {
+            normalizedParams.append(key, value === null ? "null" : value.toString());
+        }
+    });
+
+    const stringifiedParams = normalizedParams.toString();
+
+    return stringifiedParams.length > 0
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal`;
+};
+
+export const poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGet = async (
+    params?: PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams,
+    options?: RequestInit
+): Promise<poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse> => {
+    const res = await fetch(getPoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetUrl(params), {
+        ...options,
+        method: "GET"
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    const data: poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse["data"] = body ? JSON.parse(body) : {};
+
+    return {
+        data,
+        status: res.status,
+        headers: res.headers
+    } as poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse;
+};
+
+/**
+ * Returns a paginated list of terminals associated with a provider
+ * @summary Get a paginated list of terminals via provider
  */
 export type terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetResponse200 = {
     data: ApiResponseOffsetPaginationTerminal;
@@ -313,7 +376,69 @@ export const terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminal
 };
 
 /**
+ * Overwrites terminal authentication settings with new data
+ * @deprecated
+ * @summary Set terminal authentication data
+ */
+export type terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse200 = {
+    data: ApiResponseTerminal;
+    status: 200;
+};
+
+export type terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponseComposite =
+    | terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse200
+    | terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse422;
+
+export type terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse =
+    terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutUrl = (
+    providerName: string,
+    terminalId: string
+) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/set_auth`;
+};
+
+export const terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPut = async (
+    providerName: string,
+    terminalId: string,
+    terminalUpdateAuth: TerminalUpdateAuth,
+    options?: RequestInit
+): Promise<terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse> => {
+    const res = await fetch(
+        getTerminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutUrl(
+            providerName,
+            terminalId
+        ),
+        {
+            ...options,
+            method: "PUT",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(terminalUpdateAuth)
+        }
+    );
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    const data: terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse["data"] =
+        body ? JSON.parse(body) : {};
+
+    return {
+        data,
+        status: res.status,
+        headers: res.headers
+    } as terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse;
+};
+
+/**
  * Adds additional authentication settings by merging new data with existing settings.
+ * @deprecated
  * @summary Add terminal authentication data
  */
 export type terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchResponse200 = {
@@ -374,43 +499,44 @@ export const terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTermina
 };
 
 /**
- * Overwrites terminal authentication settings with new data.
- * @summary Set terminal authentication data
+ * Replaces the authentication data of the terminal with the new set. Encrypts values as needed.
+ * @summary Replace terminal authentication data
  */
-export type terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse200 = {
+export type terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse200 = {
     data: ApiResponseTerminal;
     status: 200;
 };
 
-export type terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse422 = {
+export type terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponseComposite =
-    | terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse200
-    | terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse422;
+export type terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponseComposite =
 
-export type terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse =
-    terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponseComposite & {
+        | terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse200
+        | terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse422;
+
+export type terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse =
+    terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutUrl = (
+export const getTerminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutUrl = (
     providerName: string,
     terminalId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/set_auth`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/auth`;
 };
 
-export const terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPut = async (
+export const terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPut = async (
     providerName: string,
     terminalId: string,
     terminalUpdateAuth: TerminalUpdateAuth,
     options?: RequestInit
-): Promise<terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse> => {
+): Promise<terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse> => {
     const res = await fetch(
-        getTerminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutUrl(
+        getTerminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutUrl(
             providerName,
             terminalId
         ),
@@ -423,14 +549,136 @@ export const terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTermina
     );
 
     const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse["data"] =
+    const data: terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse["data"] =
         body ? JSON.parse(body) : {};
 
     return {
         data,
         status: res.status,
         headers: res.headers
-    } as terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse;
+    } as terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse;
+};
+
+/**
+ * Updates part of the authentication data. New or changed values are encrypted.
+ * @summary Patch terminal authentication data
+ */
+export type terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse200 = {
+    data: ApiResponseTerminal;
+    status: 200;
+};
+
+export type terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponseComposite =
+
+        | terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse200
+        | terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse422;
+
+export type terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse =
+    terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchUrl = (
+    providerName: string,
+    terminalId: string
+) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/auth`;
+};
+
+export const terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatch = async (
+    providerName: string,
+    terminalId: string,
+    terminalUpdateAuth: TerminalUpdateAuth,
+    options?: RequestInit
+): Promise<terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse> => {
+    const res = await fetch(
+        getTerminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchUrl(
+            providerName,
+            terminalId
+        ),
+        {
+            ...options,
+            method: "PATCH",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(terminalUpdateAuth)
+        }
+    );
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    const data: terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse["data"] =
+        body ? JSON.parse(body) : {};
+
+    return {
+        data,
+        status: res.status,
+        headers: res.headers
+    } as terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse;
+};
+
+/**
+ * Deletes specific authentication keys from the terminal.
+ * @summary Delete specific auth keys
+ */
+export type terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse200 = {
+    data: ApiResponseTerminal;
+    status: 200;
+};
+
+export type terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponseComposite =
+
+        | terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse200
+        | terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse422;
+
+export type terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse =
+    terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteUrl = (
+    providerName: string,
+    terminalId: string
+) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/auth/keys`;
+};
+
+export const terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDelete = async (
+    providerName: string,
+    terminalId: string,
+    terminalDeleteAuth: TerminalDeleteAuth,
+    options?: RequestInit
+): Promise<terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse> => {
+    const res = await fetch(
+        getTerminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteUrl(
+            providerName,
+            terminalId
+        ),
+        {
+            ...options,
+            method: "DELETE",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(terminalDeleteAuth)
+        }
+    );
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    const data: terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse["data"] =
+        body ? JSON.parse(body) : {};
+
+    return {
+        data,
+        status: res.status,
+        headers: res.headers
+    } as terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse;
 };
 
 /**
@@ -671,4 +919,65 @@ export const terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTermi
         status: res.status,
         headers: res.headers
     } as terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteResponse;
+};
+
+/**
+ * Generates mapping in external service and stores external callback URL inside terminal.
+ * @summary Register callback for terminal
+ */
+export type terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse200 = {
+    data: ApiResponseTerminal;
+    status: 200;
+};
+
+export type terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponseComposite =
+
+        | terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse200
+        | terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse422;
+
+export type terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse =
+    terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostUrl = (
+    providerName: string,
+    terminalId: string
+) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/callback`;
+};
+
+export const terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPost = async (
+    providerName: string,
+    terminalId: string,
+    terminalUpdateCallbackUrl: TerminalUpdateCallbackUrl,
+    options?: RequestInit
+): Promise<terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse> => {
+    const res = await fetch(
+        getTerminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostUrl(
+            providerName,
+            terminalId
+        ),
+        {
+            ...options,
+            method: "POST",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(terminalUpdateCallbackUrl)
+        }
+    );
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    const data: terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse["data"] =
+        body ? JSON.parse(body) : {};
+
+    return {
+        data,
+        status: res.status,
+        headers: res.headers
+    } as terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse;
 };

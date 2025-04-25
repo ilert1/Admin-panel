@@ -490,7 +490,6 @@ const ru: TranslationMessages = {
             provider: "Провайдер",
             weight: "Вес",
             description: "Описание",
-            authInfo: "Информация об аутинтификации",
             changeAuthDataHeader: "Измениту аутентификационную информацию",
             writeSecretPhrase: "Напишите информацию об аутентификации и нажмите сохранить",
             secretHelper: "Ожидается валидный JSON объект",
@@ -527,11 +526,16 @@ const ru: TranslationMessages = {
             errors: {
                 verbose_name: "У терминала обязательно должно быть имя",
                 description: "У терминала обязательно должно быть описание",
-                auth_data_toggle: "Для переключения режима - исправьте ошибки"
+                auth_data_toggle: "Для переключения режима - исправьте ошибки",
+                key_error: "Поле key обязательное",
+                value_error: "Поле value обязательное"
             },
             success: {
                 create: "Терминал %{name} успешно создан."
             },
+            callbackCreating: "Создание callback",
+            callbackCreatedSuccessfully: "Callback успешно создан",
+            urlTemplate: "Шаблон URL",
             create: "Создать терминал",
             selectHeader: "Провайдер",
             selectPlaceholder: "Выберите провайдера",
@@ -665,6 +669,65 @@ const ru: TranslationMessages = {
                     currency: "Валюта"
                 }
             }
+        },
+        callbridge: {
+            name: "Коллбеки",
+            mapping: {
+                name: "Маппинги",
+                mapping: "Маппинг",
+                fields: {
+                    name: "Название",
+                    ext_path: "Внешний путь",
+                    int_path: "Внутренний путь",
+                    description: "Описание",
+
+                    callback_url: "URL обратного вызова",
+                    created_at: "Дата создания",
+                    external_path: "Внешний путь",
+                    internal_path: "Внутренний путь",
+                    retry_policy: "Политика повторов",
+                    base_delay: "Базовая задержка",
+                    state: "Состояние",
+                    active: "Активно",
+                    disabled: "Выключено",
+                    max_attempts: "Максимальное число попыток",
+                    strategy: "Стратегия",
+
+                    security_policy: "Политика безопасности",
+                    allowed_ips: "Разрешённые IP-адреса",
+                    auth: "Авторизация",
+                    auth_required: "Требуется авторизация",
+                    auth_not_required: "Не требуется авторизация",
+                    blocked: "Заблокировано",
+                    permitted: "Разрешено",
+                    blocked_ips: "Заблокированные IP-адреса",
+                    burst_limit: "Порог частоты запросов",
+                    enforcement_mode: "Режим принудительного контроля",
+                    updated_at: "Дата обновления"
+                },
+                errors: {
+                    cantBeEmpty: "Поле не может быть пустым",
+                    invalidUrl: "Неправильный формат URL",
+                    errorWhenCreating: "Произошла ошибка при создании"
+                },
+                create: "Добавить маппинг",
+                createSuccess: "Маппинг успешно создан",
+                updateSuccess: "Маппинг успешно обновлён",
+                creatingMapping: "Создание маппинга",
+                deleteMapping: "Удалить маппинг?",
+                editingMapping: "Изменить маппинг"
+            },
+            history: {
+                name: "История",
+                history: "История",
+                fields: {
+                    request_url: "Выходной url",
+                    original_url: "Исходный url",
+                    mapping_id: "ID маппинга",
+                    created_at: "Дата создания",
+                    status: "Статус"
+                }
+            }
         }
     },
     app: {
@@ -705,8 +768,6 @@ const ru: TranslationMessages = {
                 edit: "Изменить",
                 delete: "Удалить",
                 save: "Сохранить",
-                addSecretKey: "Добавить аутентификационную инфорамцию",
-                changeSecretKey: "Изменить аутентификационную инфорамцию",
                 cancel: "Отменить",
                 areYouSure: "Вы точно хотите удалить элемент?",
                 chatWithSupport: "Чат с поддержкой",
@@ -714,7 +775,8 @@ const ru: TranslationMessages = {
                 confirm: "Потвердить",
                 search: "Поиск...",
                 refresh: "Обновить",
-                details: "Подробнее"
+                details: "Подробнее",
+                generateCallback: "Создать callback"
             },
             pagination: {
                 next: "Далее",
@@ -1445,7 +1507,6 @@ const en: TranslationMessages = {
             weight: "Weight",
             provider: "Provider",
             description: "Description",
-            authInfo: "Authentication data",
             changeAuthDataHeader: "Editing authentication data",
             writeSecretPhrase: "Write auth data for direction and click save.",
             secretHelper: "Expected valid JSON object",
@@ -1483,11 +1544,16 @@ const en: TranslationMessages = {
             errors: {
                 verbose_name: "The terminal must have a name",
                 description: "The terminal must have a description",
-                auth_data_toggle: "To switch the mode, fix the errors"
+                auth_data_toggle: "To switch the mode, fix the errors",
+                key_error: "The key field is required",
+                value_error: "The value field is required"
             },
             success: {
                 create: "Terminal %{name} has been successfully created."
             },
+            callbackCreating: "Creating callback",
+            callbackCreatedSuccessfully: "Callback created successfully",
+            urlTemplate: "URL template",
             create: "Create terminal",
             selectHeader: "Provider",
             selectPlaceholder: "Select provider",
@@ -1619,6 +1685,64 @@ const en: TranslationMessages = {
                     currency: "Currency"
                 }
             }
+        },
+        callbridge: {
+            name: "Callbacks",
+            mapping: {
+                name: "Mappings",
+                mapping: "Mapping",
+                fields: {
+                    name: "Name",
+                    ext_path: "External url",
+                    int_path: "Internal url",
+                    description: "Description",
+                    created_at: "Created at",
+                    callback_url: "Callback URL",
+
+                    retry_policy: "Retry policy",
+                    base_delay: "Base delay",
+                    state: "State",
+                    active: "Active",
+                    disabled: "Active",
+                    max_attempts: "Max attempts",
+                    strategy: "Strategy",
+
+                    security_policy: "Security policy",
+                    allowed_ips: "Allowed IPs",
+                    auth: "Authorization",
+                    auth_required: "Auth required",
+                    auth_not_required: "No authorization required",
+
+                    blocked: "Blocked",
+                    permitted: "Permitted",
+                    blocked_ips: "Blocked IPs",
+                    burst_limit: "Burst limit",
+                    enforcement_mode: "Enforcement mode",
+                    updated_at: "Updated at"
+                },
+                errors: {
+                    cantBeEmpty: "Field can't be empty",
+                    invalidUrl: "Wrong URL format",
+                    errorWhenCreating: "An error occurred while creating mapping"
+                },
+                create: "Add mapping",
+                createSuccess: "Mapping created successfully",
+                updateSuccess: "Mapping updated successfully",
+                creatingMapping: "Creating mapping",
+                deleteMapping: "Delete the mapping?",
+                editingMapping: "Edit mapping"
+            },
+            history: {
+                name: "History",
+                history: "History",
+                fields: {
+                    request_url: "Request url",
+                    original_url: "Original url",
+                    mapping_id: "Mapping ID ",
+                    created_at: "Created at",
+                    status: "Status"
+                }
+            }
         }
     },
     app: {
@@ -1659,8 +1783,6 @@ const en: TranslationMessages = {
                 edit: "Edit",
                 delete: "Delete",
                 save: "Save",
-                addSecretKey: "Add auth data",
-                changeSecretKey: "Change auth data",
                 cancel: "Cancel",
                 areYouSure: "Are you sure you want delete this element?",
                 chatWithSupport: "Chat with support",
@@ -1668,7 +1790,8 @@ const en: TranslationMessages = {
                 confirm: "Confirm",
                 search: "Search...",
                 refresh: "Refresh",
-                details: "More detailed"
+                details: "More detailed",
+                generateCallback: "Generate callback"
             },
             pagination: {
                 next: "Next",

@@ -11,4 +11,6 @@ export { TerminalsDataProvider } from "./terminals";
 export { MerchantsDataProvider } from "./merchants";
 export { WalletsDataProvider } from "./wallet";
 export { VaultDataProvider } from "./vault";
+export { CallbridgeDataProvider } from "./callbridge";
+export { OperationsDataProvider } from "./operations";
 export { feesDataProvider, FeesResource };

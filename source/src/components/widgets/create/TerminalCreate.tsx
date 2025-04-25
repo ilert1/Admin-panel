@@ -2,7 +2,7 @@ import { useCreateController, useRefresh, CreateContextProvider, useTranslate, u
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -74,6 +74,15 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
             setSubmitButtonDisabled(false);
         }
     };
+
+    useEffect(() => {
+        if (controllerProps.record) {
+            form.reset({
+                description: "",
+                verbose_name: ""
+            });
+        }
+    }, [form, controllerProps.record]);
 
     if (controllerProps.isLoading || theme.length === 0) return <LoadingBlock />;
 
