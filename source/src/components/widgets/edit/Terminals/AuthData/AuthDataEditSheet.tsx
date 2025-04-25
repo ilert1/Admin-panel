@@ -6,7 +6,10 @@ import { SetStateAction, useEffect, useMemo, useState } from "react";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/Button";
 import { TerminalAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPut } from "@/api/enigma/terminal/terminal";
+import {
+    terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDelete,
+    terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatch
+} from "@/api/enigma/terminal/terminal";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { AuthDataEditTable } from "./AuthDataEditTable";
 
@@ -78,23 +81,61 @@ export const AuthDataEditSheet = ({
         try {
             setDisabledBtn(true);
 
-            const res = await terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPut(
-                provider,
-                terminalId,
-                {
-                    auth: showJson ? JSON.parse(stringAuthData) : authData
-                },
-                {
-                    headers: {
-                        authorization: `Bearer ${localStorage.getItem("access-token")}`
-                    }
-                }
-            );
+            const currentAuthData = showJson ? JSON.parse(stringAuthData) : authData;
+            const authDataToUpdate: TerminalAuth = {};
 
-            if ("data" in res.data && !res.data.success) {
-                throw new Error(res.data.error?.error_message);
-            } else if ("detail" in res.data) {
-                throw new Error(res.data.detail?.[0].msg);
+            // Проверка какие ключи нужно добавить или изменить
+            Object.keys(currentAuthData).forEach(key => {
+                if (!originalAuthData || (originalAuthData && !originalAuthData[key])) {
+                    authDataToUpdate[key] = currentAuthData[key];
+                }
+            });
+
+            // Проверка какие ключи нужно удалить
+            const authDataKeysToRemove = Object.keys(originalAuthData || {}).filter(key => !currentAuthData[key]);
+
+            if (Object.keys(authDataToUpdate).length > 0) {
+                const res =
+                    await terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatch(
+                        provider,
+                        terminalId,
+                        {
+                            auth: authDataToUpdate
+                        },
+                        {
+                            headers: {
+                                authorization: `Bearer ${localStorage.getItem("access-token")}`
+                            }
+                        }
+                    );
+
+                if ("data" in res.data && !res.data.success) {
+                    throw new Error(res.data.error?.error_message);
+                } else if ("detail" in res.data) {
+                    throw new Error(res.data.detail?.[0].msg);
+                }
+            }
+
+            if (authDataKeysToRemove.length > 0) {
+                const res =
+                    await terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDelete(
+                        provider,
+                        terminalId,
+                        {
+                            keys: authDataKeysToRemove
+                        },
+                        {
+                            headers: {
+                                authorization: `Bearer ${localStorage.getItem("access-token")}`
+                            }
+                        }
+                    );
+
+                if ("data" in res.data && !res.data.success) {
+                    throw new Error(res.data.error?.error_message);
+                } else if ("detail" in res.data) {
+                    throw new Error(res.data.detail?.[0].msg);
+                }
             }
 
             refresh();
