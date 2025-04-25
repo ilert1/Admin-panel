@@ -108,7 +108,7 @@ export const AuthDataEditSheet = ({
                         <SheetTitle className="!text-display-1">
                             {translate("resources.terminals.fields.auth")}
                         </SheetTitle>
-                        <CloseSheetXButton onOpenChange={onOpenChange} />
+                        <CloseSheetXButton onOpenChange={onOpenChangeHandler} />
                     </div>
                 </div>
 
