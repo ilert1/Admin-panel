@@ -33,8 +33,8 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
     };
 
     const addAuthData = () => {
-        if (!newKey || !newValue) {
-            setErrors({ keyError: !newKey, valueError: !newValue });
+        if (!newKey || !newValue || !!authData?.[newKey]) {
+            setErrors({ keyError: !newKey || !!authData?.[newKey], valueError: !newValue });
             return;
         }
         onChangeAuthData({ ...authData, [newKey]: newValue });
