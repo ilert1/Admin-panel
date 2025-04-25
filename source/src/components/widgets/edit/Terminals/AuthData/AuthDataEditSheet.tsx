@@ -2,7 +2,7 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { useRefresh, useTranslate } from "react-admin";
 import { CloseSheetXButton } from "../../../components/CloseSheetXButton";
 import { AuthDataJsonToggle } from "./AuthDataJsonToggle";
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useEffect, useMemo, useState } from "react";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/Button";
 import { TerminalAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
@@ -65,6 +65,15 @@ export const AuthDataEditSheet = ({
         setStringAuthData(() => JSON.stringify(originalAuthData, null, 2));
     }, [originalAuthData]);
 
+    const buttonSaveDisabled = useMemo(
+        () =>
+            (hasErrors && !isValid) ||
+            (!showJson && JSON.stringify(originalAuthData, null, 2) === JSON.stringify(authData, null, 2)) ||
+            (showJson && (!monacoEditorMounted || JSON.stringify(originalAuthData, null, 2) === stringAuthData)) ||
+            disabledBtn,
+        [authData, disabledBtn, hasErrors, isValid, monacoEditorMounted, originalAuthData, showJson, stringAuthData]
+    );
+
     const submitHandler = async () => {
         try {
             setDisabledBtn(true);
@@ -108,7 +117,7 @@ export const AuthDataEditSheet = ({
                         <SheetTitle className="!text-display-1">
                             {translate("resources.terminals.fields.auth")}
                         </SheetTitle>
-                        <CloseSheetXButton onOpenChange={onOpenChange} />
+                        <CloseSheetXButton onOpenChange={onOpenChangeHandler} />
                     </div>
                 </div>
 
@@ -141,7 +150,7 @@ export const AuthDataEditSheet = ({
                     <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                         <Button
                             onClick={submitHandler}
-                            disabled={(hasErrors && !isValid) || (showJson && !monacoEditorMounted) || disabledBtn}
+                            disabled={buttonSaveDisabled}
                             type="submit"
                             variant="default"
                             className="flex-1">
