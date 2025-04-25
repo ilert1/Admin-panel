@@ -156,6 +156,7 @@ export const authProvider: AuthProvider = {
             clearUserData();
             return Promise.reject(error);
         } finally {
+            clearUserData();
             return Promise.resolve();
         }
     },
@@ -200,7 +201,7 @@ export const authProvider: AuthProvider = {
                 return Promise.reject(updateError); // Вызываем logout
             }
         }
-        return Promise.reject(error);
+        return Promise.resolve(error);
     },
 
     getPermissions: () => {
