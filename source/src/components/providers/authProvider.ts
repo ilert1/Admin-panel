@@ -19,6 +19,7 @@ const clearUserData = () => {
     localStorage.removeItem("access-token");
     localStorage.removeItem("refresh-token");
     localStorage.removeItem("user");
+    sessionStorage.removeItem("testEnvShown");
 };
 
 const updateToken = async () => {
