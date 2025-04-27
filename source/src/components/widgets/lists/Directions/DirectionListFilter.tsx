@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { CreateDirectionDialog } from "./CreateDirectionDialog";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
-import { ResourceHeaderTitle, TestEnvText } from "../../components/ResourceHeaderTitle";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const DirectionListFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
@@ -48,8 +48,6 @@ export const DirectionListFilter = () => {
 
     return (
         <>
-            <TestEnvText />
-
             <div className="flex w-full flex-col">
                 <div className="mb-4 flex flex-wrap justify-between gap-x-52 gap-y-3 sm:gap-3 md:mb-6">
                     <ResourceHeaderTitle />

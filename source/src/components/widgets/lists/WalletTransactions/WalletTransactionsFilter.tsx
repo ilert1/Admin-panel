@@ -11,7 +11,7 @@ import { useListContext, useTranslate } from "react-admin";
 import { DateRange } from "react-day-picker";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
-import { ResourceHeaderTitle, TestEnvText } from "../../components/ResourceHeaderTitle";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const WalletTransactionsFilter = () => {
     const data = fetchDictionaries();
@@ -105,7 +105,6 @@ export const WalletTransactionsFilter = () => {
 
     return (
         <div className="">
-            <TestEnvText />
             <div className="flex flex-col">
                 <div className="mb-4 flex flex-wrap justify-between gap-2 md:mb-6">
                     <ResourceHeaderTitle />

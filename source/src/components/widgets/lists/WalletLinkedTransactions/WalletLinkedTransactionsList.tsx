@@ -3,7 +3,7 @@ import { Loading } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
 import { WalletManualReconciliationBar } from "./WalletManualReconciliationBar";
 import { useGetWalletLinkedTransactionColumns } from "./Columns";
-import { ResourceHeaderTitle, TestEnvText } from "../../components/ResourceHeaderTitle";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const WalletLinkedTransactionsList = () => {
@@ -19,8 +19,6 @@ export const WalletLinkedTransactionsList = () => {
     } else {
         return (
             <>
-                <TestEnvText />
-
                 <div className="mb-6 flex flex-wrap justify-between gap-2">
                     <ResourceHeaderTitle />
 

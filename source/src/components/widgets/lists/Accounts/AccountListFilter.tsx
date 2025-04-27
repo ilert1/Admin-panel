@@ -1,7 +1,7 @@
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { useState } from "react";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
-import { ResourceHeaderTitle, TestEnvText } from "../../components/ResourceHeaderTitle";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { Label } from "@/components/ui/label";
 import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 import useAccountFilter from "@/hooks/useAccountFilter";
@@ -14,7 +14,6 @@ export const AccountListFilter = () => {
 
     return (
         <div>
-            <TestEnvText />
             <div className="flex flex-col">
                 <div className="mb-6 flex flex-wrap justify-between gap-4">
                     <ResourceHeaderTitle />

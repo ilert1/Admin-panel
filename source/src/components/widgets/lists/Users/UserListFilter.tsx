@@ -8,7 +8,7 @@ import { debounce } from "lodash";
 import { CreateUserDialogNewFlow } from "./CreateUserDialogNewFlow";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
-import { ResourceHeaderTitle, TestEnvText } from "../../components/ResourceHeaderTitle";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const UserListFilter = () => {
     const translate = useTranslate();
@@ -61,7 +61,6 @@ export const UserListFilter = () => {
 
     return (
         <>
-            <TestEnvText />
             <div className="flex flex-col gap-4">
                 <div className="flex flex-col">
                     <div className="flex flex-col justify-end gap-6 sm:flex-row">

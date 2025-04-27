@@ -3,7 +3,7 @@ import { DataTable } from "@/components/widgets/shared";
 import { LoadingBlock } from "@/components/ui/loading";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { useGetCallbridgeHistory } from "./Columns";
-import { ResourceHeaderTitle, TestEnvText } from "../../components/ResourceHeaderTitle";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { CallbackHistoryRead } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 
 export const CallbackHistoryList = () => {
@@ -16,7 +16,6 @@ export const CallbackHistoryList = () => {
 
     return (
         <>
-            <TestEnvText />
             <div className="mb-6 flex flex-wrap justify-between gap-2">
                 <ResourceHeaderTitle />
             </div>

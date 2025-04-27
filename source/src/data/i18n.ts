@@ -803,7 +803,8 @@ const ru: TranslationMessages = {
             testPopup: {
                 attention: "Внимание!",
                 youReInTestEnv: "Вы находитесь в тестовой среде.",
-                allActionsSimulated: "Все действия являются пробными."
+                allActionsSimulated: "Все действия являются пробными.",
+                ok: "Принято!"
             },
             timePickerShow: "Добавить диапазон времени",
             timePickerErrorTitle: "Введите корректный интервал времени",
@@ -1823,7 +1824,8 @@ const en: TranslationMessages = {
             testPopup: {
                 attention: "Attention!",
                 youReInTestEnv: "You are in a test environment.",
-                allActionsSimulated: "All actions are simulated."
+                allActionsSimulated: "All actions are simulated.",
+                ok: "Ok!"
             },
             timePickerShow: "Add a time range",
             timePickerErrorTitle: "Enter the correct time interval",

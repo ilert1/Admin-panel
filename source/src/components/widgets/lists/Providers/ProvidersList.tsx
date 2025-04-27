@@ -11,7 +11,7 @@ import { CirclePlus } from "lucide-react";
 import { CreateProviderDialog } from "./CreateProviderDialog";
 import { ConfirmCreatingDialog } from "./ConfirmCreatingDialog";
 import { ProviderWithId } from "@/data/providers";
-import { ResourceHeaderTitle, TestEnvText } from "../../components/ResourceHeaderTitle";
+import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const ProvidersList = () => {
@@ -46,7 +46,6 @@ export const ProvidersList = () => {
     } else {
         return (
             <>
-                <TestEnvText />
                 <div>
                     <div className="flex justify-between">
                         <div className="mb-6 flex w-full flex-wrap justify-between gap-2">

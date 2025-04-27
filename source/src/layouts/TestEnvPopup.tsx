@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/Button";
 import {
     DialogHeader,
     DialogFooter,
@@ -33,12 +34,15 @@ export const TestEnvPopup = () => {
                     <DialogTitle className="mb-4 text-center" />
                     <DialogDescription />
                     <div className="flex flex-col gap-4">
-                        <TestEnvIcon className="w-[390px]" />
+                        <TestEnvIcon className="w-full min-w-[120px] max-w-[390px]" />
                         <div className="flex flex-col items-center">
                             <h1 className="text-display-1">{translate("app.ui.testPopup.attention")}</h1>
                             <span>{translate("app.ui.testPopup.youReInTestEnv")}</span>
                             <span>{translate("app.ui.testPopup.allActionsSimulated")}</span>
                         </div>
+                        <Button className="w-full max-w-[260px] self-center" onClick={() => onOpenChange(false)}>
+                            {translate("app.ui.testPopup.ok")}
+                        </Button>
                     </div>
                 </DialogHeader>
                 <DialogFooter></DialogFooter>
