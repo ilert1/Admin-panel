@@ -6,7 +6,7 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { useDataProvider, useTranslate } from "react-admin";
+import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { Input } from "@/components/ui/Input/input";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
@@ -19,6 +19,8 @@ export interface EditRetryStatusDialogProps {
 }
 export const EditRetryStatusDialog = (props: EditRetryStatusDialogProps) => {
     const { open, id, onOpenChange } = props;
+    const refresh = useRefresh();
+
     const appToast = useAppToast();
     const dataProvider = useDataProvider();
 
@@ -62,9 +64,13 @@ export const EditRetryStatusDialog = (props: EditRetryStatusDialogProps) => {
                 },
                 previousData: undefined
             });
+            refresh();
+            appToast("success", "app.ui.toast.success");
         } catch (error) {
             if (error instanceof Error) appToast("error", error.message);
             else appToast("error", translate("app.ui.edit.editError"));
+        } finally {
+            onOpenChange(false);
         }
     };
 

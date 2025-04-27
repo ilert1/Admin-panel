@@ -8,7 +8,7 @@ import { useEffect } from "react";
 interface FilterButtonProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
-    filterList: any[];
+    filterList: unknown[];
     onClearFilters: () => void;
     clearButtonDisabled: boolean;
     className?: string;

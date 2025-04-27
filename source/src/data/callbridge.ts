@@ -24,6 +24,10 @@ export class CallbridgeDataProvider extends BaseDataProvider {
                 item === "description" ||
                 item === "internal_path" ||
                 item === "external_path" ||
+                item === "mapping_id" ||
+                item === "callback_id" ||
+                item === "original_url" ||
+                item === "trigger_type" ||
                 item === "status"
         );
 
