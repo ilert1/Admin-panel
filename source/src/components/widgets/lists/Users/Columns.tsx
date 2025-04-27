@@ -12,7 +12,7 @@ import { useTranslate } from "react-admin";
 export const useGetUserColumns = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
-    const { getMerchantId, isLoadingMerchants } = useGetMerchantIdByName();
+    const { getMerchantIdAndName, isLoadingMerchants } = useGetMerchantIdByName();
 
     // const [locale] = useLocaleState();
 
@@ -92,13 +92,14 @@ export const useGetUserColumns = () => {
             // cell: ({ row }) => <TextField text={row.original.merchant_id} copyValue wrap />
 
             cell: ({ row }) => {
-                const merchId = getMerchantId(row.original.merchant_id);
+                const { id: merchId, name } = getMerchantIdAndName(row.original.merchant_id);
+                console.log(row.original);
 
                 return (
                     <div>
                         {merchId && (
                             <TextField
-                                text={row.original.merchant_name ?? ""}
+                                text={name ?? ""}
                                 onClick={
                                     merchId
                                         ? () => {
