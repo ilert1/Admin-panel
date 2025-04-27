@@ -13,9 +13,10 @@ interface DeleteMerchantDialogProps {
     id: string;
     open: boolean;
     onOpenChange: (state: boolean) => void;
+    onCloseSheet?: (state: boolean) => void;
 }
 
-export const DeleteMerchantDialog = ({ id, open, onOpenChange }: DeleteMerchantDialogProps) => {
+export const DeleteMerchantDialog = ({ id, open, onOpenChange, onCloseSheet }: DeleteMerchantDialogProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
     const [deleteOne] = useDelete();
@@ -27,15 +28,18 @@ export const DeleteMerchantDialog = ({ id, open, onOpenChange }: DeleteMerchantD
             { id },
             {
                 onSuccess: () => {
+                    onOpenChange(false);
+                    onCloseSheet ? onCloseSheet(false) : "";
                     appToast("success", translate("app.ui.delete.deletedSuccessfully"));
                 },
                 onError: error => {
+                    onOpenChange(false);
                     if (error instanceof Error) appToast("error", error.message);
+                    onCloseSheet ? onCloseSheet(false) : "";
                 }
             }
         );
         refresh();
-        onOpenChange(false);
     };
 
     return (
