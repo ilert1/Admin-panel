@@ -16,6 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/Button";
 import { EditMerchantDialog } from "../../lists/Merchants/EditMerchantDialog";
 import { useState } from "react";
+import { DeleteMerchantDialog } from "../../lists/Merchants/DeleteMerchantDialog";
 
 interface MerchantShowProps {
     id: string;
@@ -29,6 +30,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
     const data = fetchDictionaries();
     const appToast = useAppToast();
     const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     if (!id) {
         appToast("error", translate("resources.merchant.errors.notFound", { name: merchantName }));
@@ -119,9 +121,14 @@ export const MerchantShow = (props: MerchantShowProps) => {
                         <TextField label="Keycloak ID" text={context.record.keycloak_id || ""} />
                     </div>
                     <div className="self-end px-[42px]">
-                        <Button className="" onClick={handleEditClicked}>
-                            {translate("app.ui.actions.edit")}
-                        </Button>
+                        <div className="flex gap-2">
+                            <Button className="" onClick={handleEditClicked}>
+                                {translate("app.ui.actions.edit")}
+                            </Button>
+                            <Button className="" variant={"outline_gray"} onClick={() => setDeleteDialogOpen(true)}>
+                                {translate("app.ui.actions.delete")}
+                            </Button>
+                        </div>
                     </div>
                 </div>
                 <div className="mt-1 w-full flex-1 px-4 md:mt-4 md:px-[42px]">
@@ -155,6 +162,12 @@ export const MerchantShow = (props: MerchantShowProps) => {
                 </div>
             </div>
             <EditMerchantDialog id={id} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
+            <DeleteMerchantDialog
+                id={id}
+                open={deleteDialogOpen}
+                onOpenChange={setDeleteDialogOpen}
+                onCloseSheet={onOpenChange}
+            />
         </>
     );
 };
