@@ -733,7 +733,8 @@ const ru: TranslationMessages = {
                     original_url: "Исходный url",
                     mapping_id: "ID маппинга",
                     created_at: "Дата создания",
-                    status: "Статус"
+                    status: "Статус",
+                    trigger_type: "Тип триггера"
                 },
                 callbacksStatus: {
                     retryCallback: "Повторить",
@@ -1764,7 +1765,8 @@ const en: TranslationMessages = {
                     original_url: "Original url",
                     mapping_id: "Mapping ID ",
                     created_at: "Created at",
-                    status: "Status"
+                    status: "Status",
+                    trigger_type: "Trigger type"
                 },
                 callbacksStatus: {
                     retryCallback: "Retry",

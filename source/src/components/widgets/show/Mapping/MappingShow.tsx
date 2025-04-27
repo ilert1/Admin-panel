@@ -75,6 +75,10 @@ export const MappingShow = (props: MappingShowProps) => {
     if (context.isLoading || !context.record || !data) {
         return <Loading />;
     }
+    const burst_limit = context.record.security_policy?.burst_limit;
+
+    const base_delay = context.record.retry_policy?.base_delay;
+    const max_attempts = context.record.retry_policy?.max_attempts;
 
     return (
         <>
@@ -146,11 +150,11 @@ export const MappingShow = (props: MappingShowProps) => {
                                 />
                                 <TextField
                                     label={translate("resources.callbridge.mapping.fields.base_delay")}
-                                    text={String(context.record.retry_policy?.base_delay)}
+                                    text={base_delay ? String(context.record.retry_policy?.base_delay) : ""}
                                 />
                                 <TextField
                                     label={translate("resources.callbridge.mapping.fields.max_attempts")}
-                                    text={String(context.record.retry_policy?.max_attempts)}
+                                    text={max_attempts ? String(context.record.retry_policy?.max_attempts) : ""}
                                 />
                                 <TextField
                                     label={translate("resources.callbridge.mapping.fields.strategy")}
@@ -185,7 +189,7 @@ export const MappingShow = (props: MappingShowProps) => {
                                 />
                                 <TextField
                                     label={translate("resources.callbridge.mapping.fields.burst_limit")}
-                                    text={String(context.record.security_policy?.burst_limit ?? "")}
+                                    text={burst_limit ? String(burst_limit) : ""}
                                 />
                                 <TextField
                                     label={translate("resources.callbridge.mapping.fields.strategy")}

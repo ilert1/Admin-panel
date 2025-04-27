@@ -29,13 +29,7 @@ export const AdminCallbridgeResources = ({ showCaptions }: { showCaptions: boole
         if (permissions === "admin") {
             setCustomViewRoutes({
                 name: "callbridge",
-                icon: (
-                    <Split
-                        style={{
-                            transform: "rotatey(180deg)"
-                        }}
-                    />
-                ),
+                icon: <Split rotate={180} className="rotate-180" />,
                 childrens: [
                     {
                         name: "mapping",

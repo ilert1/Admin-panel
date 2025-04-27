@@ -55,7 +55,7 @@ export const MappingsListFilter = (props: MappingsListFilterProps) => {
             <div className="mb-4">
                 <div className="mb-6 flex flex-wrap justify-between gap-2">
                     <ResourceHeaderTitle />
-                    <div className="flex gap-4">
+                    <div className="flex flex-col gap-4 sm:flex-row">
                         <Button
                             className="flex gap-1"
                             onClick={() => {
@@ -76,7 +76,7 @@ export const MappingsListFilter = (props: MappingsListFilterProps) => {
                 <div className="w mb-2 flex gap-2"></div>
 
                 <AnimatedContainer open={openFiltersClicked}>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2 md:flex-nowrap">
                         <Input
                             value={nameValue}
                             onChange={e => setNameValue(e.target.value)}

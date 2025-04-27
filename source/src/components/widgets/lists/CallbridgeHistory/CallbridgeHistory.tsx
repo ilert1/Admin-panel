@@ -9,7 +9,7 @@ import { CallbridgeHistoryListFilter } from "./CallbridgeHistoryListFilter";
 export const CallbackHistoryList = () => {
     const listContext = useAbortableListController<CallbackHistoryRead>({
         resource: "callbridge/v1/history",
-        sort: { field: "created_at", order: "ASC" }
+        sort: { field: "created_at", order: "DESC" }
     });
 
     const { columns } = useGetCallbridgeHistory();

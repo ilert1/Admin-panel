@@ -8,5 +8,10 @@ export const useGetMerchantIdByName = () => {
         return merch?.id ?? "";
     };
 
-    return { isLoadingMerchants, getMerchantId };
+    const getMerchantIdAndName = (id: string) => {
+        const merch = merchantsList.find(el => el.id === id);
+        return { id: merch?.id, name: merch?.name };
+    };
+
+    return { isLoadingMerchants, getMerchantId, getMerchantIdAndName };
 };
