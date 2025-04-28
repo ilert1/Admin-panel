@@ -15,16 +15,17 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 export interface EditRetryStatusDialogProps {
     open: boolean;
     id: string;
+    oldStatuses?: number[];
     onOpenChange: (state: boolean) => void;
 }
 export const EditRetryStatusDialog = (props: EditRetryStatusDialogProps) => {
-    const { open, id, onOpenChange } = props;
+    const { open, id, oldStatuses, onOpenChange } = props;
     const refresh = useRefresh();
 
     const appToast = useAppToast();
     const dataProvider = useDataProvider();
 
-    const [retryStatus, setRetryStatus] = useState("");
+    const [retryStatus, setRetryStatus] = useState(oldStatuses ? oldStatuses?.join(", ") : "");
 
     const translate = useTranslate();
 
@@ -65,7 +66,7 @@ export const EditRetryStatusDialog = (props: EditRetryStatusDialogProps) => {
                 previousData: undefined
             });
             refresh();
-            appToast("success", "app.ui.toast.success");
+            appToast("success", translate("app.ui.toast.success"));
         } catch (error) {
             if (error instanceof Error) appToast("error", error.message);
             else appToast("error", translate("app.ui.edit.editError"));

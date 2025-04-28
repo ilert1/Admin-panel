@@ -199,7 +199,7 @@ export const MappingShow = (props: MappingShowProps) => {
                             <div className="flex w-full flex-col gap-2 sm:flex-row md:w-1/2">
                                 <div className="w-full">
                                     <SimpleTable
-                                        data={["1.1.1.1", "1.1.1.1"]}
+                                        data={context.record.security_policy?.allowed_ips ?? []}
                                         columns={blockedIPColumn}
                                         tableType={TableTypes.COLORED}
                                     />
@@ -218,7 +218,12 @@ export const MappingShow = (props: MappingShowProps) => {
                 </div>
             </div>
             <EditMappingDialog id={id} open={editMappingClicked} onOpenChange={setEditMappingClicked} />
-            <EditRetryStatusDialog id={id} open={editRetryStatusClicked} onOpenChange={setEditRetryStatusClicked} />
+            <EditRetryStatusDialog
+                id={id}
+                open={editRetryStatusClicked}
+                onOpenChange={setEditRetryStatusClicked}
+                oldStatuses={context.record.retry_policy?.retry_on_status}
+            />
         </>
     );
 };

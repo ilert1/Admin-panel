@@ -89,7 +89,7 @@ export const CallbridgeHistoryListFilter = (props: MappingsListFilterProps) => {
                             onChange={e => setMappingId(e.target.value)}
                         />
                         <Input
-                            label={"Callback ID"}
+                            label={translate("resources.callbridge.history.callback_id")}
                             labelSize="title-2"
                             value={callbackId}
                             onChange={e => setCallbackId(e.target.value)}

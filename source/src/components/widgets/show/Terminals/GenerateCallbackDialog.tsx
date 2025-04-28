@@ -49,13 +49,13 @@ export const GenerateCallbackDialog = (props: GenerateCallbackDialogProps) => {
                 data,
                 id: terminalId
             });
-            refresh();
             appToast("success", translate("resources.terminals.callbackCreatedSuccessfully"));
             onOpenChange(false);
         } catch (error) {
             if (error instanceof Error) appToast("error", error.message);
         } finally {
             setButtonDisabled(false);
+            refresh();
         }
     };
 
