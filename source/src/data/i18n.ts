@@ -681,7 +681,7 @@ const ru: TranslationMessages = {
                     int_path: "Внутренний путь",
                     description: "Описание",
 
-                    callback_url: "Callback URL",
+                    callback_url: "URL коллбека",
                     created_at: "Дата создания",
                     external_path: "Внешний путь",
                     internal_path: "Внутренний путь",
@@ -728,6 +728,7 @@ const ru: TranslationMessages = {
             history: {
                 name: "История",
                 history: "История",
+                callback_id: "ID коллбека",
                 fields: {
                     request_url: "Выходной url",
                     original_url: "Исходный url",
@@ -1766,6 +1767,7 @@ const en: TranslationMessages = {
             history: {
                 name: "History",
                 history: "History",
+                callback_id: "Callback ID",
                 fields: {
                     request_url: "Request url",
                     original_url: "Original url",

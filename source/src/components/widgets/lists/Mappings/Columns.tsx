@@ -44,7 +44,7 @@ export const useGetMappingsColumns = () => {
         },
         {
             id: "callback_url",
-            header: "Callback URL",
+            header: translate("resources.callbridge.mapping.fields.callback_url"),
             cell: ({ row }) => {
                 return (
                     <TextField text={row.original.callback_url} copyValue lineClamp linesCount={1} maxWidth="250px" />
