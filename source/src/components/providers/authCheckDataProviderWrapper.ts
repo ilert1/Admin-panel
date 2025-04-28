@@ -7,10 +7,9 @@ export const authCheckDataProviderWrapper = (dataProvider: DataProvider, authPro
                 try {
                     return await target[methodName](...args);
                 } catch (error) {
-                    // console.log(error);
                     if (error instanceof HttpError) {
                         if (error?.status === 401) {
-                            await authProvider.checkAuth();
+                            await authProvider.checkAuth({});
                             return target[methodName](...args); // Повторяем запрос
                         }
                     }

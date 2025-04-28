@@ -93,8 +93,6 @@ export const useGetUserColumns = () => {
 
             cell: ({ row }) => {
                 const { id: merchId, name } = getMerchantIdAndName(row.original.merchant_id);
-                console.log(row.original);
-
                 return (
                     <div>
                         {merchId && (
