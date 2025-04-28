@@ -3,14 +3,14 @@ import { TestTubeDiagonal } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTranslate } from "react-admin";
 
-const PopupState: string = import.meta.env.VITE_TEST_POPUP;
+const PopupState = import.meta.env.VITE_TEST_POPUP;
 
 export const TestEnvText = () => {
     const [showTestEnvText, setShowTextEnvText] = useState(false);
     const translate = useTranslate();
 
     useEffect(() => {
-        const shouldShow = PopupState === "true";
+        const shouldShow = PopupState === "true" || PopupState === true;
 
         if (shouldShow) {
             setShowTextEnvText(true);

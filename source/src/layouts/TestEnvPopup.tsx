@@ -11,7 +11,7 @@ import TestEnvIcon from "@/lib/icons/TestEnvIcon.svg?react";
 import { useState, useEffect } from "react";
 import { useTranslate } from "react-admin";
 
-const PopupState: string = import.meta.env.VITE_TEST_POPUP;
+const PopupState = import.meta.env.VITE_TEST_POPUP;
 
 export const TestEnvPopup = () => {
     const [open, onOpenChange] = useState(false);
