@@ -17,18 +17,11 @@ interface FilterObjectType {
     mapping_id?: string;
     callback_id?: string;
     original_url?: string;
-    trigger_type?: string;
+    // trigger_type?: string;
 }
 
 const selectValues = ["queued", "processing", "success", "error", "sync"];
-const triggerTypeValues = ["system", "retry", "manual", "unknown"];
-
-export const CallbackTriggerType = {
-    system: "system",
-    retry: "retry",
-    manual: "manual",
-    unknown: "unknown"
-} as const;
+// const triggerTypeValues = ["system", "retry", "manual", "unknown"];
 
 export const CallbridgeHistoryListFilter = (props: MappingsListFilterProps) => {
     const { setFilters } = props;
@@ -38,31 +31,38 @@ export const CallbridgeHistoryListFilter = (props: MappingsListFilterProps) => {
     const [mappingId, setMappingId] = useState("");
     const [callbackId, setCallbackId] = useState("");
     const [originalUrl, setOriginalUrl] = useState("");
-    const [triggerType, setTriggerType] = useState("");
+    // const [triggerType, setTriggerType] = useState("");
 
     const onClearFilters = () => {
         setFilterValue("");
         setMappingId("");
         setCallbackId("");
         setOriginalUrl("");
-        setTriggerType("");
+        // setTriggerType("");
     };
 
     useEffect(() => {
         const filtersObj: FilterObjectType = {};
 
         filterValue ? (filtersObj.status = filterValue) : "";
-        triggerType ? (filtersObj.trigger_type = triggerType) : "";
+        // triggerType ? (filtersObj.trigger_type = triggerType) : "";
         mappingId ? (filtersObj.mapping_id = mappingId) : "";
         callbackId ? (filtersObj.callback_id = callbackId) : "";
         originalUrl ? (filtersObj.original_url = originalUrl) : "";
 
         setFilters(filtersObj, filtersObj);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [callbackId, filterValue, mappingId, originalUrl, triggerType]);
+    }, [
+        callbackId,
+        filterValue,
+        mappingId,
+        originalUrl
+        // triggerType
+    ]);
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
-    const clearDisabled = !filterValue && !mappingId && !callbackId && !originalUrl && !triggerType;
+    const clearDisabled = !filterValue && !mappingId && !callbackId && !originalUrl;
+    //  && !triggerType;
 
     return (
         <div className="mb-4">
@@ -70,7 +70,13 @@ export const CallbridgeHistoryListFilter = (props: MappingsListFilterProps) => {
                 <ResourceHeaderTitle />
                 <div className="flex flex-col gap-4 sm:flex-row">
                     <FilterButtonGroup
-                        filterList={[filterValue, mappingId, callbackId, originalUrl, triggerType]}
+                        filterList={[
+                            filterValue,
+                            mappingId,
+                            callbackId,
+                            originalUrl
+                            // triggerType
+                        ]}
                         onClearFilters={onClearFilters}
                         open={openFiltersClicked}
                         onOpenChange={setOpenFiltersClicked}
@@ -134,7 +140,7 @@ export const CallbridgeHistoryListFilter = (props: MappingsListFilterProps) => {
                                 </SelectContent>
                             </Select>
                         </div>
-                        <div className="flex min-w-[50%] max-w-full flex-1 flex-col gap-1 sm:min-w-44 sm:max-w-[25%]">
+                        {/* <div className="flex min-w-[50%] max-w-full flex-1 flex-col gap-1 sm:min-w-44 sm:max-w-[25%]">
                             <Label variant="title-2" className="mb-0">
                                 {translate("resources.callbridge.history.fields.trigger_type")}
                             </Label>
@@ -162,7 +168,7 @@ export const CallbridgeHistoryListFilter = (props: MappingsListFilterProps) => {
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </AnimatedContainer>
