@@ -1,7 +1,7 @@
 import { defineConfig } from "orval";
 import dotenv from "dotenv";
 
-dotenv.config(); // Загружаем переменные окружения из .env
+dotenv.config();
 
 export default defineConfig({
     enigma: {
@@ -23,7 +23,13 @@ export default defineConfig({
             client: "fetch",
             headers: true,
             prettier: true,
-            urlEncodeParameters: true
+            urlEncodeParameters: true,
+            override: {
+                mutator: {
+                    path: "./src/helpers/orvalAuthFetchMiddleware.ts",
+                    name: "authFetch"
+                }
+            }
         }
     },
     callbridge: {
@@ -45,7 +51,13 @@ export default defineConfig({
             client: "fetch",
             headers: true,
             prettier: true,
-            urlEncodeParameters: true
+            urlEncodeParameters: true,
+            override: {
+                mutator: {
+                    path: "./src/helpers/orvalAuthFetchMiddleware.ts",
+                    name: "authFetch"
+                }
+            }
         }
     }
 });

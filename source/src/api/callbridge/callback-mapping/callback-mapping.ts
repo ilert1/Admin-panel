@@ -14,6 +14,8 @@ import type {
     HTTPValidationError
 } from "../blowFishCallBridgeAPIService.schemas";
 
+import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
+
 /**
  * @summary List callback mappings
  */
@@ -58,21 +60,13 @@ export const callbackMappingEndpointsListMappingsCallbridgeV1MappingGet = async 
     params?: CallbackMappingEndpointsListMappingsCallbridgeV1MappingGetParams,
     options?: RequestInit
 ): Promise<callbackMappingEndpointsListMappingsCallbridgeV1MappingGetResponse> => {
-    const res = await fetch(getCallbackMappingEndpointsListMappingsCallbridgeV1MappingGetUrl(params), {
-        ...options,
-        method: "GET"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: callbackMappingEndpointsListMappingsCallbridgeV1MappingGetResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as callbackMappingEndpointsListMappingsCallbridgeV1MappingGetResponse;
+    return authFetch<callbackMappingEndpointsListMappingsCallbridgeV1MappingGetResponse>(
+        getCallbackMappingEndpointsListMappingsCallbridgeV1MappingGetUrl(params),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
 };
 
 /**
@@ -105,23 +99,15 @@ export const callbackMappingEndpointsCreateMappingCallbridgeV1MappingPost = asyn
     callbackMappingCreate: CallbackMappingCreate,
     options?: RequestInit
 ): Promise<callbackMappingEndpointsCreateMappingCallbridgeV1MappingPostResponse> => {
-    const res = await fetch(getCallbackMappingEndpointsCreateMappingCallbridgeV1MappingPostUrl(), {
-        ...options,
-        method: "POST",
-        headers: { "Content-Type": "application/json", ...options?.headers },
-        body: JSON.stringify(callbackMappingCreate)
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: callbackMappingEndpointsCreateMappingCallbridgeV1MappingPostResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as callbackMappingEndpointsCreateMappingCallbridgeV1MappingPostResponse;
+    return authFetch<callbackMappingEndpointsCreateMappingCallbridgeV1MappingPostResponse>(
+        getCallbackMappingEndpointsCreateMappingCallbridgeV1MappingPostUrl(),
+        {
+            ...options,
+            method: "POST",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(callbackMappingCreate)
+        }
+    );
 };
 
 /**
@@ -158,7 +144,7 @@ export const callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbri
     callbackMappingCreate: CallbackMappingCreate,
     options?: RequestInit
 ): Promise<callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostResponse> => {
-    const res = await fetch(
+    return authFetch<callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostResponse>(
         getCallbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostUrl(),
         {
             ...options,
@@ -167,16 +153,6 @@ export const callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbri
             body: JSON.stringify(callbackMappingCreate)
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostResponse["data"] =
-        body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostResponse;
 };
 
 /**
@@ -209,21 +185,13 @@ export const callbackMappingEndpointsGetMappingCallbridgeV1MappingMappingIdGet =
     mappingId: string,
     options?: RequestInit
 ): Promise<callbackMappingEndpointsGetMappingCallbridgeV1MappingMappingIdGetResponse> => {
-    const res = await fetch(getCallbackMappingEndpointsGetMappingCallbridgeV1MappingMappingIdGetUrl(mappingId), {
-        ...options,
-        method: "GET"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: callbackMappingEndpointsGetMappingCallbridgeV1MappingMappingIdGetResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as callbackMappingEndpointsGetMappingCallbridgeV1MappingMappingIdGetResponse;
+    return authFetch<callbackMappingEndpointsGetMappingCallbridgeV1MappingMappingIdGetResponse>(
+        getCallbackMappingEndpointsGetMappingCallbridgeV1MappingMappingIdGetUrl(mappingId),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
 };
 
 /**
@@ -257,23 +225,15 @@ export const callbackMappingEndpointsUpdateMappingCallbridgeV1MappingMappingIdPu
     callbackMappingUpdate: CallbackMappingUpdate,
     options?: RequestInit
 ): Promise<callbackMappingEndpointsUpdateMappingCallbridgeV1MappingMappingIdPutResponse> => {
-    const res = await fetch(getCallbackMappingEndpointsUpdateMappingCallbridgeV1MappingMappingIdPutUrl(mappingId), {
-        ...options,
-        method: "PUT",
-        headers: { "Content-Type": "application/json", ...options?.headers },
-        body: JSON.stringify(callbackMappingUpdate)
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: callbackMappingEndpointsUpdateMappingCallbridgeV1MappingMappingIdPutResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as callbackMappingEndpointsUpdateMappingCallbridgeV1MappingMappingIdPutResponse;
+    return authFetch<callbackMappingEndpointsUpdateMappingCallbridgeV1MappingMappingIdPutResponse>(
+        getCallbackMappingEndpointsUpdateMappingCallbridgeV1MappingMappingIdPutUrl(mappingId),
+        {
+            ...options,
+            method: "PUT",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(callbackMappingUpdate)
+        }
+    );
 };
 
 /**
@@ -306,19 +266,11 @@ export const callbackMappingEndpointsDeleteMappingCallbridgeV1MappingMappingIdDe
     mappingId: string,
     options?: RequestInit
 ): Promise<callbackMappingEndpointsDeleteMappingCallbridgeV1MappingMappingIdDeleteResponse> => {
-    const res = await fetch(getCallbackMappingEndpointsDeleteMappingCallbridgeV1MappingMappingIdDeleteUrl(mappingId), {
-        ...options,
-        method: "DELETE"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: callbackMappingEndpointsDeleteMappingCallbridgeV1MappingMappingIdDeleteResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as callbackMappingEndpointsDeleteMappingCallbridgeV1MappingMappingIdDeleteResponse;
+    return authFetch<callbackMappingEndpointsDeleteMappingCallbridgeV1MappingMappingIdDeleteResponse>(
+        getCallbackMappingEndpointsDeleteMappingCallbridgeV1MappingMappingIdDeleteUrl(mappingId),
+        {
+            ...options,
+            method: "DELETE"
+        }
+    );
 };

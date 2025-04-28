@@ -19,6 +19,9 @@ export default defineConfig({
     server: {
         host: true
     },
+    define: {
+        "process.env": {}
+    },
     base: "/",
     build: {
         rollupOptions: {

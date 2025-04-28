@@ -12,6 +12,8 @@ import type {
     HTTPValidationError
 } from "../blowFishCallBridgeAPIService.schemas";
 
+import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
+
 /**
  * @summary List callback history records
  */
@@ -56,21 +58,13 @@ export const callbackHistoryEndpointsListHistoryCallbridgeV1HistoryGet = async (
     params?: CallbackHistoryEndpointsListHistoryCallbridgeV1HistoryGetParams,
     options?: RequestInit
 ): Promise<callbackHistoryEndpointsListHistoryCallbridgeV1HistoryGetResponse> => {
-    const res = await fetch(getCallbackHistoryEndpointsListHistoryCallbridgeV1HistoryGetUrl(params), {
-        ...options,
-        method: "GET"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: callbackHistoryEndpointsListHistoryCallbridgeV1HistoryGetResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as callbackHistoryEndpointsListHistoryCallbridgeV1HistoryGetResponse;
+    return authFetch<callbackHistoryEndpointsListHistoryCallbridgeV1HistoryGetResponse>(
+        getCallbackHistoryEndpointsListHistoryCallbridgeV1HistoryGetUrl(params),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
 };
 
 /**
@@ -119,24 +113,13 @@ export const callbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGet
     params?: CallbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGetParams,
     options?: RequestInit
 ): Promise<callbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGetResponse> => {
-    const res = await fetch(
+    return authFetch<callbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGetResponse>(
         getCallbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGetUrl(callbackId, params),
         {
             ...options,
             method: "GET"
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: callbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGetResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as callbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGetResponse;
 };
 
 /**
@@ -171,21 +154,11 @@ export const callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistory
     callbackId: string,
     options?: RequestInit
 ): Promise<callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetResponse> => {
-    const res = await fetch(
+    return authFetch<callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetResponse>(
         getCallbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetUrl(callbackId),
         {
             ...options,
             method: "GET"
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetResponse["data"] =
-        body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGetResponse;
 };

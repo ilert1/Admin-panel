@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "ES6",
         "types": ["vite/client", "./src/types.d.ts", "vite-plugin-svgr/client"],
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,

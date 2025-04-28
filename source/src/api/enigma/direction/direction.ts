@@ -21,6 +21,8 @@ import type {
     HTTPValidationError
 } from "../blowFishEnigmaAPIService.schemas";
 
+import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
+
 /**
  * Returns a paginated list of directions. Supports filtering and pagination.
  * @summary Get a paginated list of directions
@@ -66,19 +68,13 @@ export const directionEndpointsListDirectionsEnigmaV1DirectionGet = async (
     params?: DirectionEndpointsListDirectionsEnigmaV1DirectionGetParams,
     options?: RequestInit
 ): Promise<directionEndpointsListDirectionsEnigmaV1DirectionGetResponse> => {
-    const res = await fetch(getDirectionEndpointsListDirectionsEnigmaV1DirectionGetUrl(params), {
-        ...options,
-        method: "GET"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: directionEndpointsListDirectionsEnigmaV1DirectionGetResponse["data"] = body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as directionEndpointsListDirectionsEnigmaV1DirectionGetResponse;
+    return authFetch<directionEndpointsListDirectionsEnigmaV1DirectionGetResponse>(
+        getDirectionEndpointsListDirectionsEnigmaV1DirectionGetUrl(params),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
 };
 
 /**
@@ -112,21 +108,15 @@ export const directionEndpointsCreateDirectionEnigmaV1DirectionPost = async (
     directionCreate: DirectionCreate,
     options?: RequestInit
 ): Promise<directionEndpointsCreateDirectionEnigmaV1DirectionPostResponse> => {
-    const res = await fetch(getDirectionEndpointsCreateDirectionEnigmaV1DirectionPostUrl(), {
-        ...options,
-        method: "POST",
-        headers: { "Content-Type": "application/json", ...options?.headers },
-        body: JSON.stringify(directionCreate)
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: directionEndpointsCreateDirectionEnigmaV1DirectionPostResponse["data"] = body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as directionEndpointsCreateDirectionEnigmaV1DirectionPostResponse;
+    return authFetch<directionEndpointsCreateDirectionEnigmaV1DirectionPostResponse>(
+        getDirectionEndpointsCreateDirectionEnigmaV1DirectionPostUrl(),
+        {
+            ...options,
+            method: "POST",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(directionCreate)
+        }
+    );
 };
 
 /**
@@ -176,23 +166,13 @@ export const directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMercha
     params?: DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetParams,
     options?: RequestInit
 ): Promise<directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetResponse> => {
-    const res = await fetch(
+    return authFetch<directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetResponse>(
         getDirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetUrl(merchantId, params),
         {
             ...options,
             method: "GET"
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetResponse["data"] =
-        body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetResponse;
 };
 
 /**
@@ -226,21 +206,13 @@ export const directionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGet = asy
     directionId: string,
     options?: RequestInit
 ): Promise<directionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGetResponse> => {
-    const res = await fetch(getDirectionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGetUrl(directionId), {
-        ...options,
-        method: "GET"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: directionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGetResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as directionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGetResponse;
+    return authFetch<directionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGetResponse>(
+        getDirectionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGetUrl(directionId),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
 };
 
 /**
@@ -275,23 +247,15 @@ export const directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPut = 
     directionUpdate: DirectionUpdate,
     options?: RequestInit
 ): Promise<directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPutResponse> => {
-    const res = await fetch(getDirectionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPutUrl(directionId), {
-        ...options,
-        method: "PUT",
-        headers: { "Content-Type": "application/json", ...options?.headers },
-        body: JSON.stringify(directionUpdate)
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPutResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPutResponse;
+    return authFetch<directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPutResponse>(
+        getDirectionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPutUrl(directionId),
+        {
+            ...options,
+            method: "PUT",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(directionUpdate)
+        }
+    );
 };
 
 /**
@@ -325,21 +289,13 @@ export const directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDelete
     directionId: string,
     options?: RequestInit
 ): Promise<directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDeleteResponse> => {
-    const res = await fetch(getDirectionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDeleteUrl(directionId), {
-        ...options,
-        method: "DELETE"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDeleteResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDeleteResponse;
+    return authFetch<directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDeleteResponse>(
+        getDirectionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDeleteUrl(directionId),
+        {
+            ...options,
+            method: "DELETE"
+        }
+    );
 };
 
 /**
@@ -373,23 +329,15 @@ export const directionEndpointsBulkUpdateDirectionsEnigmaV1DirectionBatchPatch =
     directionUpdateBulkItem: DirectionUpdateBulkItem[],
     options?: RequestInit
 ): Promise<directionEndpointsBulkUpdateDirectionsEnigmaV1DirectionBatchPatchResponse> => {
-    const res = await fetch(getDirectionEndpointsBulkUpdateDirectionsEnigmaV1DirectionBatchPatchUrl(), {
-        ...options,
-        method: "PATCH",
-        headers: { "Content-Type": "application/json", ...options?.headers },
-        body: JSON.stringify(directionUpdateBulkItem)
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: directionEndpointsBulkUpdateDirectionsEnigmaV1DirectionBatchPatchResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as directionEndpointsBulkUpdateDirectionsEnigmaV1DirectionBatchPatchResponse;
+    return authFetch<directionEndpointsBulkUpdateDirectionsEnigmaV1DirectionBatchPatchResponse>(
+        getDirectionEndpointsBulkUpdateDirectionsEnigmaV1DirectionBatchPatchUrl(),
+        {
+            ...options,
+            method: "PATCH",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(directionUpdateBulkItem)
+        }
+    );
 };
 
 /**
@@ -424,23 +372,15 @@ export const directionEndpointsUpdateStateEnigmaV1DirectionDirectionIdStatePatch
     directionUpdateState: DirectionUpdateState,
     options?: RequestInit
 ): Promise<directionEndpointsUpdateStateEnigmaV1DirectionDirectionIdStatePatchResponse> => {
-    const res = await fetch(getDirectionEndpointsUpdateStateEnigmaV1DirectionDirectionIdStatePatchUrl(directionId), {
-        ...options,
-        method: "PATCH",
-        headers: { "Content-Type": "application/json", ...options?.headers },
-        body: JSON.stringify(directionUpdateState)
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: directionEndpointsUpdateStateEnigmaV1DirectionDirectionIdStatePatchResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as directionEndpointsUpdateStateEnigmaV1DirectionDirectionIdStatePatchResponse;
+    return authFetch<directionEndpointsUpdateStateEnigmaV1DirectionDirectionIdStatePatchResponse>(
+        getDirectionEndpointsUpdateStateEnigmaV1DirectionDirectionIdStatePatchUrl(directionId),
+        {
+            ...options,
+            method: "PATCH",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(directionUpdateState)
+        }
+    );
 };
 
 /**
@@ -475,23 +415,15 @@ export const directionEndpointsUpdateTypeEnigmaV1DirectionDirectionIdTypePatch =
     directionUpdateType: DirectionUpdateType,
     options?: RequestInit
 ): Promise<directionEndpointsUpdateTypeEnigmaV1DirectionDirectionIdTypePatchResponse> => {
-    const res = await fetch(getDirectionEndpointsUpdateTypeEnigmaV1DirectionDirectionIdTypePatchUrl(directionId), {
-        ...options,
-        method: "PATCH",
-        headers: { "Content-Type": "application/json", ...options?.headers },
-        body: JSON.stringify(directionUpdateType)
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: directionEndpointsUpdateTypeEnigmaV1DirectionDirectionIdTypePatchResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as directionEndpointsUpdateTypeEnigmaV1DirectionDirectionIdTypePatchResponse;
+    return authFetch<directionEndpointsUpdateTypeEnigmaV1DirectionDirectionIdTypePatchResponse>(
+        getDirectionEndpointsUpdateTypeEnigmaV1DirectionDirectionIdTypePatchUrl(directionId),
+        {
+            ...options,
+            method: "PATCH",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(directionUpdateType)
+        }
+    );
 };
 
 /**
@@ -526,23 +458,15 @@ export const directionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatch = asyn
     feeCreate: FeeCreate,
     options?: RequestInit
 ): Promise<directionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatchResponse> => {
-    const res = await fetch(getDirectionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatchUrl(directionId), {
-        ...options,
-        method: "PATCH",
-        headers: { "Content-Type": "application/json", ...options?.headers },
-        body: JSON.stringify(feeCreate)
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: directionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatchResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as directionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatchResponse;
+    return authFetch<directionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatchResponse>(
+        getDirectionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatchUrl(directionId),
+        {
+            ...options,
+            method: "PATCH",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(feeCreate)
+        }
+    );
 };
 
 /**
@@ -581,7 +505,7 @@ export const directionEndpointsUpdateFeeEnigmaV1DirectionDirectionIdFeeFeeIdPatc
     feeUpdate: FeeUpdate,
     options?: RequestInit
 ): Promise<directionEndpointsUpdateFeeEnigmaV1DirectionDirectionIdFeeFeeIdPatchResponse> => {
-    const res = await fetch(
+    return authFetch<directionEndpointsUpdateFeeEnigmaV1DirectionDirectionIdFeeFeeIdPatchResponse>(
         getDirectionEndpointsUpdateFeeEnigmaV1DirectionDirectionIdFeeFeeIdPatchUrl(directionId, feeId),
         {
             ...options,
@@ -590,17 +514,6 @@ export const directionEndpointsUpdateFeeEnigmaV1DirectionDirectionIdFeeFeeIdPatc
             body: JSON.stringify(feeUpdate)
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: directionEndpointsUpdateFeeEnigmaV1DirectionDirectionIdFeeFeeIdPatchResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as directionEndpointsUpdateFeeEnigmaV1DirectionDirectionIdFeeFeeIdPatchResponse;
 };
 
 /**
@@ -638,24 +551,13 @@ export const directionEndpointsDeleteFeeEnigmaV1DirectionDirectionIdFeeFeeIdDele
     feeId: string,
     options?: RequestInit
 ): Promise<directionEndpointsDeleteFeeEnigmaV1DirectionDirectionIdFeeFeeIdDeleteResponse> => {
-    const res = await fetch(
+    return authFetch<directionEndpointsDeleteFeeEnigmaV1DirectionDirectionIdFeeFeeIdDeleteResponse>(
         getDirectionEndpointsDeleteFeeEnigmaV1DirectionDirectionIdFeeFeeIdDeleteUrl(directionId, feeId),
         {
             ...options,
             method: "DELETE"
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: directionEndpointsDeleteFeeEnigmaV1DirectionDirectionIdFeeFeeIdDeleteResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as directionEndpointsDeleteFeeEnigmaV1DirectionDirectionIdFeeFeeIdDeleteResponse;
 };
 
 /**
@@ -690,23 +592,15 @@ export const directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPat
     directionUpdateLimits: DirectionUpdateLimits,
     options?: RequestInit
 ): Promise<directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatchResponse> => {
-    const res = await fetch(getDirectionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatchUrl(directionId), {
-        ...options,
-        method: "PATCH",
-        headers: { "Content-Type": "application/json", ...options?.headers },
-        body: JSON.stringify(directionUpdateLimits)
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatchResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatchResponse;
+    return authFetch<directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatchResponse>(
+        getDirectionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatchUrl(directionId),
+        {
+            ...options,
+            method: "PATCH",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(directionUpdateLimits)
+        }
+    );
 };
 
 /**
@@ -740,19 +634,11 @@ export const directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDel
     directionId: string,
     options?: RequestInit
 ): Promise<directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDeleteResponse> => {
-    const res = await fetch(getDirectionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDeleteUrl(directionId), {
-        ...options,
-        method: "DELETE"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDeleteResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDeleteResponse;
+    return authFetch<directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDeleteResponse>(
+        getDirectionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDeleteUrl(directionId),
+        {
+            ...options,
+            method: "DELETE"
+        }
+    );
 };
