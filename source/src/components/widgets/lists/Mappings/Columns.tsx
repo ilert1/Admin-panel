@@ -39,7 +39,7 @@ export const useGetMappingsColumns = () => {
             accessorKey: "id",
             header: "ID",
             cell: ({ row }) => {
-                return <TextField text={row.original.id} copyValue />;
+                return <TextField text={row.original.id} copyValue lineClamp linesCount={1} maxWidth="100%" />;
             }
         },
         {
@@ -47,7 +47,7 @@ export const useGetMappingsColumns = () => {
             header: "Callback URL",
             cell: ({ row }) => {
                 return (
-                    <TextField text={row.original.callback_url} copyValue lineClamp linesCount={1} maxWidth="100%" />
+                    <TextField text={row.original.callback_url} copyValue lineClamp linesCount={1} maxWidth="250px" />
                 );
             }
         },
@@ -57,7 +57,7 @@ export const useGetMappingsColumns = () => {
             header: translate("resources.callbridge.mapping.fields.int_path"),
             cell: ({ row }) => {
                 return (
-                    <TextField text={row.original.internal_path} copyValue lineClamp linesCount={1} maxWidth="350px" />
+                    <TextField text={row.original.internal_path} copyValue lineClamp linesCount={1} maxWidth="250px" />
                 );
             }
         },
