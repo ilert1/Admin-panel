@@ -11,17 +11,16 @@ import TestEnvIcon from "@/lib/icons/TestEnvIcon.svg?react";
 import { useState, useEffect } from "react";
 import { useTranslate } from "react-admin";
 
-const PopupState = import.meta.env.VITE_TEST_POPUP;
+const POPUP_STATE = import.meta.env.VITE_TEST_POPUP === "true" ? true : false;
 
 export const TestEnvPopup = () => {
     const [open, onOpenChange] = useState(false);
     const translate = useTranslate();
 
     useEffect(() => {
-        const shouldShow = PopupState === "true";
         const alreadyShown = sessionStorage.getItem("testEnvShown") === "true";
 
-        if (shouldShow && !alreadyShown) {
+        if (POPUP_STATE && !alreadyShown) {
             onOpenChange(true);
             sessionStorage.setItem("testEnvShown", "true");
         }
