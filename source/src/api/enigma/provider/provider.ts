@@ -16,6 +16,8 @@ import type {
     ProviderUpdate
 } from "../blowFishEnigmaAPIService.schemas";
 
+import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
+
 /**
  * Fetches a paginated list of providers. Supports filtering and pagination parameters.
  * @summary Retrieve a paginated list of providers
@@ -61,19 +63,13 @@ export const providerEndpointsListProvidersEnigmaV1ProviderGet = async (
     params?: ProviderEndpointsListProvidersEnigmaV1ProviderGetParams,
     options?: RequestInit
 ): Promise<providerEndpointsListProvidersEnigmaV1ProviderGetResponse> => {
-    const res = await fetch(getProviderEndpointsListProvidersEnigmaV1ProviderGetUrl(params), {
-        ...options,
-        method: "GET"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: providerEndpointsListProvidersEnigmaV1ProviderGetResponse["data"] = body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as providerEndpointsListProvidersEnigmaV1ProviderGetResponse;
+    return authFetch<providerEndpointsListProvidersEnigmaV1ProviderGetResponse>(
+        getProviderEndpointsListProvidersEnigmaV1ProviderGetUrl(params),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
 };
 
 /**
@@ -107,21 +103,15 @@ export const providerEndpointsCreateProviderEnigmaV1ProviderPost = async (
     providerCreate: ProviderCreate,
     options?: RequestInit
 ): Promise<providerEndpointsCreateProviderEnigmaV1ProviderPostResponse> => {
-    const res = await fetch(getProviderEndpointsCreateProviderEnigmaV1ProviderPostUrl(), {
-        ...options,
-        method: "POST",
-        headers: { "Content-Type": "application/json", ...options?.headers },
-        body: JSON.stringify(providerCreate)
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: providerEndpointsCreateProviderEnigmaV1ProviderPostResponse["data"] = body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as providerEndpointsCreateProviderEnigmaV1ProviderPostResponse;
+    return authFetch<providerEndpointsCreateProviderEnigmaV1ProviderPostResponse>(
+        getProviderEndpointsCreateProviderEnigmaV1ProviderPostUrl(),
+        {
+            ...options,
+            method: "POST",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(providerCreate)
+        }
+    );
 };
 
 /**
@@ -155,21 +145,13 @@ export const providerEndpointsGetProviderEnigmaV1ProviderProviderNameGet = async
     providerName: string,
     options?: RequestInit
 ): Promise<providerEndpointsGetProviderEnigmaV1ProviderProviderNameGetResponse> => {
-    const res = await fetch(getProviderEndpointsGetProviderEnigmaV1ProviderProviderNameGetUrl(providerName), {
-        ...options,
-        method: "GET"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: providerEndpointsGetProviderEnigmaV1ProviderProviderNameGetResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as providerEndpointsGetProviderEnigmaV1ProviderProviderNameGetResponse;
+    return authFetch<providerEndpointsGetProviderEnigmaV1ProviderProviderNameGetResponse>(
+        getProviderEndpointsGetProviderEnigmaV1ProviderProviderNameGetUrl(providerName),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
 };
 
 /**
@@ -204,23 +186,15 @@ export const providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePut = as
     providerUpdate: ProviderUpdate,
     options?: RequestInit
 ): Promise<providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutResponse> => {
-    const res = await fetch(getProviderEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutUrl(providerName), {
-        ...options,
-        method: "PUT",
-        headers: { "Content-Type": "application/json", ...options?.headers },
-        body: JSON.stringify(providerUpdate)
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutResponse;
+    return authFetch<providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutResponse>(
+        getProviderEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutUrl(providerName),
+        {
+            ...options,
+            method: "PUT",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(providerUpdate)
+        }
+    );
 };
 
 /**
@@ -254,21 +228,13 @@ export const providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDelete =
     providerName: string,
     options?: RequestInit
 ): Promise<providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteResponse> => {
-    const res = await fetch(getProviderEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteUrl(providerName), {
-        ...options,
-        method: "DELETE"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteResponse;
+    return authFetch<providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteResponse>(
+        getProviderEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteUrl(providerName),
+        {
+            ...options,
+            method: "DELETE"
+        }
+    );
 };
 
 /**
@@ -318,22 +284,11 @@ export const providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPa
     params?: ProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchParams,
     options?: RequestInit
 ): Promise<providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchResponse> => {
-    const res = await fetch(
+    return authFetch<providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchResponse>(
         getProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchUrl(providerName, params),
         {
             ...options,
             method: "PATCH"
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchResponse;
 };

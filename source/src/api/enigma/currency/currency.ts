@@ -14,6 +14,8 @@ import type {
     HTTPValidationError
 } from "../blowFishEnigmaAPIService.schemas";
 
+import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
+
 /**
  * Returns a paginated list of available currencies. Supports filtering based on query parameters.
  * @summary Get a list of currencies with filtering and pagination
@@ -59,19 +61,13 @@ export const currencyEndpointsListCurrenciesEnigmaV1CurrencyGet = async (
     params?: CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetParams,
     options?: RequestInit
 ): Promise<currencyEndpointsListCurrenciesEnigmaV1CurrencyGetResponse> => {
-    const res = await fetch(getCurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetUrl(params), {
-        ...options,
-        method: "GET"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: currencyEndpointsListCurrenciesEnigmaV1CurrencyGetResponse["data"] = body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as currencyEndpointsListCurrenciesEnigmaV1CurrencyGetResponse;
+    return authFetch<currencyEndpointsListCurrenciesEnigmaV1CurrencyGetResponse>(
+        getCurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetUrl(params),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
 };
 
 /**
@@ -105,21 +101,15 @@ export const currencyEndpointsCreateCurrencyEnigmaV1CurrencyPost = async (
     currencyCreate: CurrencyCreate,
     options?: RequestInit
 ): Promise<currencyEndpointsCreateCurrencyEnigmaV1CurrencyPostResponse> => {
-    const res = await fetch(getCurrencyEndpointsCreateCurrencyEnigmaV1CurrencyPostUrl(), {
-        ...options,
-        method: "POST",
-        headers: { "Content-Type": "application/json", ...options?.headers },
-        body: JSON.stringify(currencyCreate)
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: currencyEndpointsCreateCurrencyEnigmaV1CurrencyPostResponse["data"] = body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as currencyEndpointsCreateCurrencyEnigmaV1CurrencyPostResponse;
+    return authFetch<currencyEndpointsCreateCurrencyEnigmaV1CurrencyPostResponse>(
+        getCurrencyEndpointsCreateCurrencyEnigmaV1CurrencyPostUrl(),
+        {
+            ...options,
+            method: "POST",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(currencyCreate)
+        }
+    );
 };
 
 /**
@@ -153,21 +143,13 @@ export const currencyEndpointsGetCurrencyEnigmaV1CurrencyCurrencyCodeGet = async
     currencyCode: string,
     options?: RequestInit
 ): Promise<currencyEndpointsGetCurrencyEnigmaV1CurrencyCurrencyCodeGetResponse> => {
-    const res = await fetch(getCurrencyEndpointsGetCurrencyEnigmaV1CurrencyCurrencyCodeGetUrl(currencyCode), {
-        ...options,
-        method: "GET"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: currencyEndpointsGetCurrencyEnigmaV1CurrencyCurrencyCodeGetResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as currencyEndpointsGetCurrencyEnigmaV1CurrencyCurrencyCodeGetResponse;
+    return authFetch<currencyEndpointsGetCurrencyEnigmaV1CurrencyCurrencyCodeGetResponse>(
+        getCurrencyEndpointsGetCurrencyEnigmaV1CurrencyCurrencyCodeGetUrl(currencyCode),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
 };
 
 /**
@@ -202,23 +184,15 @@ export const currencyEndpointsUpdateCurrencyEnigmaV1CurrencyCurrencyCodePut = as
     currencyUpdate: CurrencyUpdate,
     options?: RequestInit
 ): Promise<currencyEndpointsUpdateCurrencyEnigmaV1CurrencyCurrencyCodePutResponse> => {
-    const res = await fetch(getCurrencyEndpointsUpdateCurrencyEnigmaV1CurrencyCurrencyCodePutUrl(currencyCode), {
-        ...options,
-        method: "PUT",
-        headers: { "Content-Type": "application/json", ...options?.headers },
-        body: JSON.stringify(currencyUpdate)
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: currencyEndpointsUpdateCurrencyEnigmaV1CurrencyCurrencyCodePutResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as currencyEndpointsUpdateCurrencyEnigmaV1CurrencyCurrencyCodePutResponse;
+    return authFetch<currencyEndpointsUpdateCurrencyEnigmaV1CurrencyCurrencyCodePutResponse>(
+        getCurrencyEndpointsUpdateCurrencyEnigmaV1CurrencyCurrencyCodePutUrl(currencyCode),
+        {
+            ...options,
+            method: "PUT",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(currencyUpdate)
+        }
+    );
 };
 
 /**
@@ -252,19 +226,11 @@ export const currencyEndpointsDeleteCurrencyEnigmaV1CurrencyCurrencyCodeDelete =
     currencyCode: string,
     options?: RequestInit
 ): Promise<currencyEndpointsDeleteCurrencyEnigmaV1CurrencyCurrencyCodeDeleteResponse> => {
-    const res = await fetch(getCurrencyEndpointsDeleteCurrencyEnigmaV1CurrencyCurrencyCodeDeleteUrl(currencyCode), {
-        ...options,
-        method: "DELETE"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: currencyEndpointsDeleteCurrencyEnigmaV1CurrencyCurrencyCodeDeleteResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as currencyEndpointsDeleteCurrencyEnigmaV1CurrencyCurrencyCodeDeleteResponse;
+    return authFetch<currencyEndpointsDeleteCurrencyEnigmaV1CurrencyCurrencyCodeDeleteResponse>(
+        getCurrencyEndpointsDeleteCurrencyEnigmaV1CurrencyCurrencyCodeDeleteUrl(currencyCode),
+        {
+            ...options,
+            method: "DELETE"
+        }
+    );
 };

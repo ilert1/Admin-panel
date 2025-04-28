@@ -16,6 +16,8 @@ import type {
     MerchantUpdate
 } from "../blowFishEnigmaAPIService.schemas";
 
+import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
+
 /**
  * Returns a paginated list of merchants. Supports filtering based on query parameters.
  * @summary Get a list of merchants with filtering and pagination
@@ -61,19 +63,13 @@ export const merchantEndpointsListMerchantsEnigmaV1MerchantGet = async (
     params?: MerchantEndpointsListMerchantsEnigmaV1MerchantGetParams,
     options?: RequestInit
 ): Promise<merchantEndpointsListMerchantsEnigmaV1MerchantGetResponse> => {
-    const res = await fetch(getMerchantEndpointsListMerchantsEnigmaV1MerchantGetUrl(params), {
-        ...options,
-        method: "GET"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: merchantEndpointsListMerchantsEnigmaV1MerchantGetResponse["data"] = body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as merchantEndpointsListMerchantsEnigmaV1MerchantGetResponse;
+    return authFetch<merchantEndpointsListMerchantsEnigmaV1MerchantGetResponse>(
+        getMerchantEndpointsListMerchantsEnigmaV1MerchantGetUrl(params),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
 };
 
 /**
@@ -107,21 +103,15 @@ export const merchantEndpointsCreateMerchantEnigmaV1MerchantPost = async (
     merchantCreate: MerchantCreate,
     options?: RequestInit
 ): Promise<merchantEndpointsCreateMerchantEnigmaV1MerchantPostResponse> => {
-    const res = await fetch(getMerchantEndpointsCreateMerchantEnigmaV1MerchantPostUrl(), {
-        ...options,
-        method: "POST",
-        headers: { "Content-Type": "application/json", ...options?.headers },
-        body: JSON.stringify(merchantCreate)
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: merchantEndpointsCreateMerchantEnigmaV1MerchantPostResponse["data"] = body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as merchantEndpointsCreateMerchantEnigmaV1MerchantPostResponse;
+    return authFetch<merchantEndpointsCreateMerchantEnigmaV1MerchantPostResponse>(
+        getMerchantEndpointsCreateMerchantEnigmaV1MerchantPostUrl(),
+        {
+            ...options,
+            method: "POST",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(merchantCreate)
+        }
+    );
 };
 
 /**
@@ -155,21 +145,13 @@ export const merchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGet = async (
     merchantId: string,
     options?: RequestInit
 ): Promise<merchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGetResponse> => {
-    const res = await fetch(getMerchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGetUrl(merchantId), {
-        ...options,
-        method: "GET"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: merchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGetResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as merchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGetResponse;
+    return authFetch<merchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGetResponse>(
+        getMerchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGetUrl(merchantId),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
 };
 
 /**
@@ -204,23 +186,15 @@ export const merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPut = asyn
     merchantUpdate: MerchantUpdate,
     options?: RequestInit
 ): Promise<merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPutResponse> => {
-    const res = await fetch(getMerchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPutUrl(merchantId), {
-        ...options,
-        method: "PUT",
-        headers: { "Content-Type": "application/json", ...options?.headers },
-        body: JSON.stringify(merchantUpdate)
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPutResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPutResponse;
+    return authFetch<merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPutResponse>(
+        getMerchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPutUrl(merchantId),
+        {
+            ...options,
+            method: "PUT",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(merchantUpdate)
+        }
+    );
 };
 
 /**
@@ -254,21 +228,13 @@ export const merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDelete = a
     merchantId: string,
     options?: RequestInit
 ): Promise<merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDeleteResponse> => {
-    const res = await fetch(getMerchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDeleteUrl(merchantId), {
-        ...options,
-        method: "DELETE"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDeleteResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDeleteResponse;
+    return authFetch<merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDeleteResponse>(
+        getMerchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDeleteUrl(merchantId),
+        {
+            ...options,
+            method: "DELETE"
+        }
+    );
 };
 
 /**
@@ -303,23 +269,15 @@ export const merchantEndpointsAddFeeEnigmaV1MerchantMerchantIdFeePatch = async (
     feeCreate: FeeCreate,
     options?: RequestInit
 ): Promise<merchantEndpointsAddFeeEnigmaV1MerchantMerchantIdFeePatchResponse> => {
-    const res = await fetch(getMerchantEndpointsAddFeeEnigmaV1MerchantMerchantIdFeePatchUrl(merchantId), {
-        ...options,
-        method: "PATCH",
-        headers: { "Content-Type": "application/json", ...options?.headers },
-        body: JSON.stringify(feeCreate)
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: merchantEndpointsAddFeeEnigmaV1MerchantMerchantIdFeePatchResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as merchantEndpointsAddFeeEnigmaV1MerchantMerchantIdFeePatchResponse;
+    return authFetch<merchantEndpointsAddFeeEnigmaV1MerchantMerchantIdFeePatchResponse>(
+        getMerchantEndpointsAddFeeEnigmaV1MerchantMerchantIdFeePatchUrl(merchantId),
+        {
+            ...options,
+            method: "PATCH",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(feeCreate)
+        }
+    );
 };
 
 /**
@@ -358,7 +316,7 @@ export const merchantEndpointsUpdateFeeEnigmaV1MerchantMerchantIdFeeFeeIdPatch =
     feeUpdate: FeeUpdate,
     options?: RequestInit
 ): Promise<merchantEndpointsUpdateFeeEnigmaV1MerchantMerchantIdFeeFeeIdPatchResponse> => {
-    const res = await fetch(
+    return authFetch<merchantEndpointsUpdateFeeEnigmaV1MerchantMerchantIdFeeFeeIdPatchResponse>(
         getMerchantEndpointsUpdateFeeEnigmaV1MerchantMerchantIdFeeFeeIdPatchUrl(merchantId, feeId),
         {
             ...options,
@@ -367,17 +325,6 @@ export const merchantEndpointsUpdateFeeEnigmaV1MerchantMerchantIdFeeFeeIdPatch =
             body: JSON.stringify(feeUpdate)
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: merchantEndpointsUpdateFeeEnigmaV1MerchantMerchantIdFeeFeeIdPatchResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as merchantEndpointsUpdateFeeEnigmaV1MerchantMerchantIdFeeFeeIdPatchResponse;
 };
 
 /**
@@ -415,22 +362,11 @@ export const merchantEndpointsDeleteFeeEnigmaV1MerchantMerchantIdFeeFeeIdDelete 
     feeId: string,
     options?: RequestInit
 ): Promise<merchantEndpointsDeleteFeeEnigmaV1MerchantMerchantIdFeeFeeIdDeleteResponse> => {
-    const res = await fetch(
+    return authFetch<merchantEndpointsDeleteFeeEnigmaV1MerchantMerchantIdFeeFeeIdDeleteResponse>(
         getMerchantEndpointsDeleteFeeEnigmaV1MerchantMerchantIdFeeFeeIdDeleteUrl(merchantId, feeId),
         {
             ...options,
             method: "DELETE"
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: merchantEndpointsDeleteFeeEnigmaV1MerchantMerchantIdFeeFeeIdDeleteResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as merchantEndpointsDeleteFeeEnigmaV1MerchantMerchantIdFeeFeeIdDeleteResponse;
 };

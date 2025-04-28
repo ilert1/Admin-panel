@@ -6,6 +6,8 @@
  */
 import type { ApiResponseListFeeTypeItem } from "../blowFishEnigmaAPIService.schemas";
 
+import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
+
 /**
  * Returns a list of fee types in a name:value format.
  * @summary Retrieve fee types
@@ -30,13 +32,11 @@ export const getFeesEndpointsGetFeeTypesEnigmaV1FeeTypesGetUrl = () => {
 export const feesEndpointsGetFeeTypesEnigmaV1FeeTypesGet = async (
     options?: RequestInit
 ): Promise<feesEndpointsGetFeeTypesEnigmaV1FeeTypesGetResponse> => {
-    const res = await fetch(getFeesEndpointsGetFeeTypesEnigmaV1FeeTypesGetUrl(), {
-        ...options,
-        method: "GET"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: feesEndpointsGetFeeTypesEnigmaV1FeeTypesGetResponse["data"] = body ? JSON.parse(body) : {};
-
-    return { data, status: res.status, headers: res.headers } as feesEndpointsGetFeeTypesEnigmaV1FeeTypesGetResponse;
+    return authFetch<feesEndpointsGetFeeTypesEnigmaV1FeeTypesGetResponse>(
+        getFeesEndpointsGetFeeTypesEnigmaV1FeeTypesGetUrl(),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
 };

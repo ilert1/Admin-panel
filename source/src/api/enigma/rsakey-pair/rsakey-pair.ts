@@ -10,6 +10,8 @@ import type {
     KeyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetParams
 } from "../blowFishEnigmaAPIService.schemas";
 
+import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
+
 /**
  * Generates a new RSA key pair and returns keys in base58 encoded format.
  * @summary Generate RSA key pair
@@ -55,17 +57,11 @@ export const keyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGet = async (
     params?: KeyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetParams,
     options?: RequestInit
 ): Promise<keyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetResponse> => {
-    const res = await fetch(getKeyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetUrl(params), {
-        ...options,
-        method: "GET"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: keyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetResponse["data"] = body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as keyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetResponse;
+    return authFetch<keyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetResponse>(
+        getKeyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetUrl(params),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
 };

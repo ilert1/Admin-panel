@@ -21,6 +21,8 @@ import type {
     TerminalUpdateCallbackUrl
 } from "../blowFishEnigmaAPIService.schemas";
 
+import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
+
 /**
  * Returns a paginated list of terminals
  * @summary Get a paginated list of terminals
@@ -66,19 +68,13 @@ export const poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGet = async (
     params?: PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams,
     options?: RequestInit
 ): Promise<poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse> => {
-    const res = await fetch(getPoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetUrl(params), {
-        ...options,
-        method: "GET"
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse["data"] = body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse;
+    return authFetch<poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse>(
+        getPoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetUrl(params),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
 };
 
 /**
@@ -128,24 +124,13 @@ export const terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalG
     params?: TerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetParams,
     options?: RequestInit
 ): Promise<terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetResponse> => {
-    const res = await fetch(
+    return authFetch<terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetResponse>(
         getTerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetUrl(providerName, params),
         {
             ...options,
             method: "GET"
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetResponse;
 };
 
 /**
@@ -180,7 +165,7 @@ export const terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminal
     terminalCreate: TerminalCreate,
     options?: RequestInit
 ): Promise<terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostResponse> => {
-    const res = await fetch(
+    return authFetch<terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostResponse>(
         getTerminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostUrl(providerName),
         {
             ...options,
@@ -189,17 +174,6 @@ export const terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminal
             body: JSON.stringify(terminalCreate)
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostResponse;
 };
 
 /**
@@ -237,24 +211,13 @@ export const terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTer
     terminalId: string,
     options?: RequestInit
 ): Promise<terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetResponse> => {
-    const res = await fetch(
+    return authFetch<terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetResponse>(
         getTerminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetUrl(providerName, terminalId),
         {
             ...options,
             method: "GET"
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetResponse;
 };
 
 /**
@@ -293,7 +256,7 @@ export const terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminal
     terminalUpdate: TerminalUpdate,
     options?: RequestInit
 ): Promise<terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutResponse> => {
-    const res = await fetch(
+    return authFetch<terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutResponse>(
         getTerminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutUrl(
             providerName,
             terminalId
@@ -305,17 +268,6 @@ export const terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminal
             body: JSON.stringify(terminalUpdate)
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutResponse;
 };
 
 /**
@@ -353,7 +305,7 @@ export const terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminal
     terminalId: string,
     options?: RequestInit
 ): Promise<terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteResponse> => {
-    const res = await fetch(
+    return authFetch<terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteResponse>(
         getTerminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteUrl(
             providerName,
             terminalId
@@ -363,16 +315,6 @@ export const terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminal
             method: "DELETE"
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteResponse["data"] =
-        body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteResponse;
 };
 
 /**
@@ -412,7 +354,7 @@ export const terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTermina
     terminalUpdateAuth: TerminalUpdateAuth,
     options?: RequestInit
 ): Promise<terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse> => {
-    const res = await fetch(
+    return authFetch<terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse>(
         getTerminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutUrl(
             providerName,
             terminalId
@@ -424,16 +366,6 @@ export const terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTermina
             body: JSON.stringify(terminalUpdateAuth)
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse["data"] =
-        body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse;
 };
 
 /**
@@ -474,7 +406,7 @@ export const terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTermina
     terminalUpdateAuth: TerminalUpdateAuth,
     options?: RequestInit
 ): Promise<terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchResponse> => {
-    const res = await fetch(
+    return authFetch<terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchResponse>(
         getTerminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchUrl(
             providerName,
             terminalId
@@ -486,16 +418,6 @@ export const terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTermina
             body: JSON.stringify(terminalUpdateAuth)
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchResponse["data"] =
-        body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchResponse;
 };
 
 /**
@@ -535,7 +457,7 @@ export const terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTer
     terminalUpdateAuth: TerminalUpdateAuth,
     options?: RequestInit
 ): Promise<terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse> => {
-    const res = await fetch(
+    return authFetch<terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse>(
         getTerminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutUrl(
             providerName,
             terminalId
@@ -547,16 +469,6 @@ export const terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTer
             body: JSON.stringify(terminalUpdateAuth)
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse["data"] =
-        body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse;
 };
 
 /**
@@ -596,7 +508,7 @@ export const terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTermi
     terminalUpdateAuth: TerminalUpdateAuth,
     options?: RequestInit
 ): Promise<terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse> => {
-    const res = await fetch(
+    return authFetch<terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse>(
         getTerminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchUrl(
             providerName,
             terminalId
@@ -608,16 +520,6 @@ export const terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTermi
             body: JSON.stringify(terminalUpdateAuth)
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse["data"] =
-        body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse;
 };
 
 /**
@@ -657,7 +559,7 @@ export const terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminal
     terminalDeleteAuth: TerminalDeleteAuth,
     options?: RequestInit
 ): Promise<terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse> => {
-    const res = await fetch(
+    return authFetch<terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse>(
         getTerminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteUrl(
             providerName,
             terminalId
@@ -669,16 +571,6 @@ export const terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminal
             body: JSON.stringify(terminalDeleteAuth)
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse["data"] =
-        body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse;
 };
 
 /**
@@ -718,7 +610,7 @@ export const terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTe
         terminalId: string,
         options?: RequestInit
     ): Promise<terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostResponse> => {
-        const res = await fetch(
+        return authFetch<terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostResponse>(
             getTerminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostUrl(
                 providerName,
                 terminalId
@@ -728,16 +620,6 @@ export const terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTe
                 method: "POST"
             }
         );
-
-        const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-        const data: terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostResponse["data"] =
-            body ? JSON.parse(body) : {};
-
-        return {
-            data,
-            status: res.status,
-            headers: res.headers
-        } as terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostResponse;
     };
 
 /**
@@ -776,7 +658,7 @@ export const terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminal
     feeCreate: FeeCreate,
     options?: RequestInit
 ): Promise<terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchResponse> => {
-    const res = await fetch(
+    return authFetch<terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchResponse>(
         getTerminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchUrl(providerName, terminalId),
         {
             ...options,
@@ -785,17 +667,6 @@ export const terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminal
             body: JSON.stringify(feeCreate)
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchResponse["data"] = body
-        ? JSON.parse(body)
-        : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchResponse;
 };
 
 /**
@@ -836,7 +707,7 @@ export const terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTermi
     feeUpdate: FeeUpdate,
     options?: RequestInit
 ): Promise<terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchResponse> => {
-    const res = await fetch(
+    return authFetch<terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchResponse>(
         getTerminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchUrl(
             providerName,
             terminalId,
@@ -849,16 +720,6 @@ export const terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTermi
             body: JSON.stringify(feeUpdate)
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchResponse["data"] =
-        body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchResponse;
 };
 
 /**
@@ -898,7 +759,7 @@ export const terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTermi
     feeId: string,
     options?: RequestInit
 ): Promise<terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteResponse> => {
-    const res = await fetch(
+    return authFetch<terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteResponse>(
         getTerminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteUrl(
             providerName,
             terminalId,
@@ -909,16 +770,6 @@ export const terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTermi
             method: "DELETE"
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteResponse["data"] =
-        body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteResponse;
 };
 
 /**
@@ -958,7 +809,7 @@ export const terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminal
     terminalUpdateCallbackUrl: TerminalUpdateCallbackUrl,
     options?: RequestInit
 ): Promise<terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse> => {
-    const res = await fetch(
+    return authFetch<terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse>(
         getTerminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostUrl(
             providerName,
             terminalId
@@ -970,14 +821,4 @@ export const terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminal
             body: JSON.stringify(terminalUpdateCallbackUrl)
         }
     );
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    const data: terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse["data"] =
-        body ? JSON.parse(body) : {};
-
-    return {
-        data,
-        status: res.status,
-        headers: res.headers
-    } as terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse;
 };
