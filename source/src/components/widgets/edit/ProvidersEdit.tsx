@@ -131,7 +131,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                                     <Label className="!mb-0">{translate("resources.provider.fields.code")}</Label>
                                     <FormControl>
                                         <MonacoEditor
-                                            height="144px"
                                             width="100%"
                                             onErrorsChange={setHasErrors}
                                             onValidChange={setIsValid}
