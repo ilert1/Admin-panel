@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useQueryWithAuthWithAuth } from "@tanstack/react-query";
+import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import { fetchUtils, HttpError, useDataProvider, useTranslate } from "react-admin";
 import { BF_MANAGER_URL } from "@/data/base";
 import { PayOutForm } from "@/components/widgets/forms";
