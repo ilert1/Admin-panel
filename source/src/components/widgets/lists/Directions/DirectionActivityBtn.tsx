@@ -1,9 +1,9 @@
-import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { DirectionsDataProvider } from "@/data";
 import clsx from "clsx";
 import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
 import { useState } from "react";
-import { useDataProvider, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 
 interface IDirectionActivityBtn {
     id: string;
@@ -13,12 +13,12 @@ interface IDirectionActivityBtn {
 }
 
 export const DirectionActivityBtn = ({ id, directionName, activityState, isFetching }: IDirectionActivityBtn) => {
-    const dataProvider = useDataProvider();
     const appToast = useAppToast();
     const translate = useTranslate();
 
     const [currentState, setCurrentState] = useState(() => activityState);
     const [btnDisabled, setBtnDisabled] = useState(false);
+    const dataProvider = new DirectionsDataProvider();
 
     const changeActivity = async () => {
         const tempStateActivity = currentState;
@@ -27,7 +27,7 @@ export const DirectionActivityBtn = ({ id, directionName, activityState, isFetch
             setCurrentState(!tempStateActivity);
             setBtnDisabled(true);
 
-            await dataProvider.update<Direction>("direction", {
+            await dataProvider.updateStatus("direction", {
                 id,
                 data: { state: tempStateActivity ? "inactive" : "active" },
                 previousData: undefined

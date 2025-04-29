@@ -16,7 +16,8 @@ import {
     directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDelete,
     directionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGet,
     directionEndpointsListDirectionsEnigmaV1DirectionGet,
-    directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPut
+    directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPut,
+    directionEndpointsUpdateStateEnigmaV1DirectionDirectionIdStatePatch
 } from "@/api/enigma/direction/direction";
 import { Direction, DirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
@@ -101,6 +102,26 @@ export class DirectionsDataProvider extends BaseDataProvider {
 
     async update(resource: string, params: UpdateParams): Promise<UpdateResult<Direction>> {
         const res = await directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPut(params.id, params.data, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        });
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async updateStatus(resource: string, params: UpdateParams): Promise<UpdateResult<Direction>> {
+        const res = await directionEndpointsUpdateStateEnigmaV1DirectionDirectionIdStatePatch(params.id, params.data, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
