@@ -58,7 +58,7 @@ export const AccountListFilter = () => {
             const url = new URL(`${API_URL}/transactions/balance_report`);
             url.searchParams.set("start_date", formattedDate(startDate));
             url.searchParams.set("end_date", formattedDate(endDate));
-            url.searchParams.set("merchant_id", merchantId);
+            url.searchParams.set("merchantId", merchantId);
 
             const response = await fetch(url, {
                 method: "GET",
