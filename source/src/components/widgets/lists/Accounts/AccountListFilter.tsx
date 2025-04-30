@@ -97,7 +97,10 @@ export const AccountListFilter = () => {
             if (date.from && date.to) {
                 setStartDate(date.from);
                 setEndDate(date.to);
-                setFilters({ start_date: startDate, end_date: endDate }, { start_date: startDate, end_date: endDate });
+                setFilters(
+                    { start_date: startDate, end_date: endDate, ...[merchantId ? { merchant_id: merchantId } : {}] },
+                    { start_date: startDate, end_date: endDate, ...[merchantId ? { merchant_id: merchantId } : {}] }
+                );
             }
         } else {
             setStartDate(undefined);
