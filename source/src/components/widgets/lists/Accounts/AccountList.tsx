@@ -18,7 +18,9 @@ export const AccountList = () => {
         <>
             <ListContextProvider value={{ ...listContext }}>
                 <div className="mb-4 mt-5">
-                    <AccountListFilter setFilters={listContext.setFilters} />
+                    <AccountListFilter
+                    // setFilters={listContext.setFilters}
+                    />
                 </div>
 
                 {listContext.isLoading || !listContext.data || isLoadingCurrencies || isLoadingMerchants ? (

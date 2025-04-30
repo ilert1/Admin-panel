@@ -1,5 +1,5 @@
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { Label } from "@/components/ui/label";
@@ -7,7 +7,6 @@ import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 import useAccountFilter from "@/hooks/useAccountFilter";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { useListContext } from "react-admin";
-import { Input } from "@/components/ui/Input/input";
 import { DateRange } from "react-day-picker";
 import { Button } from "@/components/ui/Button";
 import {
@@ -20,21 +19,16 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { API_URL } from "@/data/base";
 import moment from "moment";
 
-interface AccountListFilterProps {
-    setFilters: (filters: unknown, displayedFilters?: unknown, debounce?: boolean | undefined) => void;
-}
-interface FilterObjectType {
-    id?: string;
+// interface AccountListFilterProps {
+//     setFilters: (filters: unknown, displayedFilters?: unknown, debounce?: boolean | undefined) => void;
+// }
 
-    // trigger_type?: string;
-}
-
-export const AccountListFilter = (props: AccountListFilterProps) => {
-    const { setFilters } = props;
+export const AccountListFilter = () => {
+    // const { setFilters } = props;
     const { filterValues } = useListContext();
     const appToast = useAppToast();
     const { merchantId, onMerchantChanged, translate, clearFilters, adminOnly } = useAccountFilter();
-    const [accountId, setAccountId] = useState(filterValues.id ?? "");
+    // const [accountId, setAccountId] = useState(filterValues.id ?? "");
 
     const [startDate, setStartDate] = useState<Date | undefined>(
         filterValues?.start_date ? new Date(filterValues?.start_date) : undefined
@@ -44,7 +38,7 @@ export const AccountListFilter = (props: AccountListFilterProps) => {
     );
 
     const clear = () => {
-        setAccountId("");
+        // setAccountId("");
         setStartDate(undefined);
         setEndDate(undefined);
         clearFilters();
@@ -55,7 +49,7 @@ export const AccountListFilter = (props: AccountListFilterProps) => {
     const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
     const handleDownloadReport = async (type: "pdf" | "csv") => {
-        if (!startDate || !endDate) {
+        if (!startDate || !endDate || !merchantId) {
             appToast("error", translate("resources.transactions.download.bothError"));
             return;
         }
@@ -65,6 +59,7 @@ export const AccountListFilter = (props: AccountListFilterProps) => {
             Object.keys(filterValues).map(item => url.searchParams.set(item, filterValues[item]));
             url.searchParams.set("start_date", formattedDate(startDate));
             url.searchParams.set("end_date", formattedDate(endDate));
+            url.searchParams.set("merchant_id", merchantId);
 
             const response = await fetch(url, {
                 method: "GET",
@@ -108,15 +103,15 @@ export const AccountListFilter = (props: AccountListFilterProps) => {
         }
     };
 
-    useEffect(() => {
-        const filters: FilterObjectType = {};
-        accountId ? (filters.id = accountId) : "";
+    // useEffect(() => {
+    //     const filters: FilterObjectType = {};
+    //     // accountId ? (filters.id = accountId) : "";
 
-        setFilters(filters);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [accountId]);
+    //     setFilters(filters);
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [accountId]);
 
-    const clearDisabled = !merchantId && !accountId;
+    const clearDisabled = !merchantId;
     return (
         <div>
             <div className="flex flex-col">
@@ -128,7 +123,7 @@ export const AccountListFilter = (props: AccountListFilterProps) => {
                             open={openFiltersClicked}
                             onOpenChange={setOpenFiltersClicked}
                             clearButtonDisabled={clearDisabled}
-                            filterList={[merchantId, startDate, merchantId]}
+                            filterList={[merchantId, startDate]}
                             onClearFilters={clear}
                         />
                     )}
@@ -148,15 +143,6 @@ export const AccountListFilter = (props: AccountListFilterProps) => {
                                         resource="merchant"
                                     />
                                 </div>
-                                <div className="w-full sm:w-auto sm:min-w-[20%] sm:max-w-[40%]">
-                                    <Input
-                                        value={accountId}
-                                        onChange={e => setAccountId(e.target.value)}
-                                        label="ID"
-                                        labelSize="title-2"
-                                        className="w-full"
-                                    />
-                                </div>
                                 <DateRangePicker
                                     title={translate("resources.transactions.download.dateTitle")}
                                     placeholder={translate("resources.transactions.filter.filterByDate")}
@@ -166,7 +152,7 @@ export const AccountListFilter = (props: AccountListFilterProps) => {
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild className="sm:self-end">
                                         <Button
-                                            disabled={!startDate && adminOnly}
+                                            disabled={(!startDate && adminOnly) || !merchantId}
                                             className="mt-1 sm:mt-0 md:ml-auto"
                                             variant="default"
                                             size="sm">
