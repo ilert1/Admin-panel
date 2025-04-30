@@ -1,6 +1,6 @@
 import { ListContextProvider } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
-import { LoadingBlock } from "@/components/ui/loading";
+import { Loading, LoadingBlock } from "@/components/ui/loading";
 import { useGetAccountsColumns } from "./Columns";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { AccountListFilter } from "./AccountListFilter";
@@ -12,11 +12,13 @@ export const AccountList = () => {
     const { columns, showEditDialog, setShowEditDialog, showAccountId, isLoadingCurrencies, isLoadingMerchants } =
         useGetAccountsColumns();
 
+    if (listContext.isLoading) return <Loading />;
+
     return (
         <>
             <ListContextProvider value={{ ...listContext }}>
                 <div className="mb-4 mt-5">
-                    <AccountListFilter />
+                    <AccountListFilter setFilters={listContext.setFilters} />
                 </div>
 
                 {listContext.isLoading || !listContext.data || isLoadingCurrencies || isLoadingMerchants ? (
