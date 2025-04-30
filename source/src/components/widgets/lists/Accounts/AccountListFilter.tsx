@@ -91,15 +91,22 @@ export const AccountListFilter = () => {
     };
 
     const changeDate = (date: DateRange | undefined) => {
-        console.log("Date");
-
         if (date) {
             if (date.from && date.to) {
                 setStartDate(date.from);
                 setEndDate(date.to);
+
                 setFilters(
-                    { start_date: startDate, end_date: endDate, ...[merchantId ? { merchant_id: merchantId } : {}] },
-                    { start_date: startDate, end_date: endDate, ...[merchantId ? { merchant_id: merchantId } : {}] }
+                    {
+                        start_date: startDate,
+                        end_date: endDate,
+                        merchantId: filterValues.merchantId ?? undefined
+                    },
+                    {
+                        start_date: startDate,
+                        end_date: endDate,
+                        merchantId: filterValues.merchantId ?? undefined
+                    }
                 );
             }
         } else {
