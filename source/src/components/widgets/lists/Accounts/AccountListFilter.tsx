@@ -42,8 +42,15 @@ export const AccountListFilter = (props: AccountListFilterProps) => {
     const [endDate, setEndDate] = useState<Date | undefined>(
         filterValues?.end_date ? new Date(filterValues?.end_date) : undefined
     );
+
+    const clear = () => {
+        setAccountId("");
+        setStartDate(undefined);
+        setEndDate(undefined);
+        clearFilters();
+    };
+
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
-    console.log(startDate, endDate);
 
     const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
@@ -121,8 +128,8 @@ export const AccountListFilter = (props: AccountListFilterProps) => {
                             open={openFiltersClicked}
                             onOpenChange={setOpenFiltersClicked}
                             clearButtonDisabled={clearDisabled}
-                            filterList={[merchantId]}
-                            onClearFilters={clearFilters}
+                            filterList={[merchantId, startDate, merchantId]}
+                            onClearFilters={clear}
                         />
                     )}
                 </div>
