@@ -161,7 +161,12 @@ export const AccountListFilter = () => {
                                     dateRange={{ from: startDate, to: endDate }}
                                     onChange={changeDate}
                                 />
-                                <DropdownMenu>
+                                <Button
+                                    onClick={() => handleDownloadReport("csv")}
+                                    className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
+                                    <span>{translate("resources.transactions.download.downloadReportButtonText")}</span>
+                                </Button>
+                                {/* <DropdownMenu>
                                     <DropdownMenuTrigger asChild className="sm:self-end">
                                         <Button
                                             disabled={(!startDate && adminOnly) || !merchantId}
@@ -183,7 +188,7 @@ export const AccountListFilter = () => {
                                             PDF
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
-                                </DropdownMenu>
+                                </DropdownMenu> */}
                             </div>
                         </div>
                     </AnimatedContainer>
