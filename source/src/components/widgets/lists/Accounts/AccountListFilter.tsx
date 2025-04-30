@@ -25,7 +25,7 @@ import moment from "moment";
 
 export const AccountListFilter = () => {
     // const { setFilters } = props;
-    const { filterValues } = useListContext();
+    const { filterValues, setFilters } = useListContext();
     const appToast = useAppToast();
     const { merchantId, onMerchantChanged, translate, clearFilters, adminOnly } = useAccountFilter();
     // const [accountId, setAccountId] = useState(filterValues.id ?? "");
@@ -38,7 +38,7 @@ export const AccountListFilter = () => {
     );
 
     const clear = () => {
-        // setAccountId("");
+        setFilters({}, {});
         setStartDate(undefined);
         setEndDate(undefined);
         clearFilters();
@@ -56,7 +56,6 @@ export const AccountListFilter = () => {
 
         try {
             const url = new URL(`${API_URL}/transactions/balance_report`);
-            Object.keys(filterValues).map(item => url.searchParams.set(item, filterValues[item]));
             url.searchParams.set("start_date", formattedDate(startDate));
             url.searchParams.set("end_date", formattedDate(endDate));
             url.searchParams.set("merchant_id", merchantId);
@@ -92,10 +91,13 @@ export const AccountListFilter = () => {
     };
 
     const changeDate = (date: DateRange | undefined) => {
+        console.log("Date");
+
         if (date) {
             if (date.from && date.to) {
                 setStartDate(date.from);
                 setEndDate(date.to);
+                setFilters({ start_date: startDate, end_date: endDate }, { start_date: startDate, end_date: endDate });
             }
         } else {
             setStartDate(undefined);
