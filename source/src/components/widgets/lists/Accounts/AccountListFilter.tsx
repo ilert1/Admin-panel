@@ -37,6 +37,8 @@ export const AccountListFilter = () => {
         filterValues?.end_date ? new Date(filterValues?.end_date) : undefined
     );
 
+    const [reportLoading, setReportLoading] = useState(false);
+
     const clear = () => {
         setFilters({}, {});
         setStartDate(undefined);
@@ -53,6 +55,8 @@ export const AccountListFilter = () => {
             appToast("error", translate("resources.transactions.download.bothError"));
             return;
         }
+
+        setReportLoading(true);
 
         try {
             const url = new URL(`${API_URL}/transactions/balance_report`);
@@ -87,6 +91,8 @@ export const AccountListFilter = () => {
             window.URL.revokeObjectURL(fileUrl);
         } catch (error) {
             console.error("There was an error downloading the file:", error);
+        } finally {
+            setReportLoading(false);
         }
     };
 
@@ -163,7 +169,8 @@ export const AccountListFilter = () => {
                                 />
                                 <Button
                                     onClick={() => handleDownloadReport("csv")}
-                                    className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
+                                    className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end"
+                                    disabled={reportLoading}>
                                     <span>{translate("resources.transactions.download.downloadReportButtonText")}</span>
                                 </Button>
                                 {/* <DropdownMenu>
