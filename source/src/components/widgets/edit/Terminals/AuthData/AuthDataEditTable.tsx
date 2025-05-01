@@ -1,13 +1,12 @@
-import { TerminalAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button, TrashButton } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input/input";
-import { TextField } from "@/components/ui/text-field";
 import clsx from "clsx";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
 type ParseAuthData = {
+    id: number;
     key: string;
     value: string;
 }[];
@@ -15,10 +14,9 @@ interface IAuthDataEditTable {
     loading: boolean;
     authData: ParseAuthData;
     onChangeAuthData: (val: ParseAuthData) => void;
-    originalAuthData: TerminalAuth | undefined;
 }
 
-export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData, loading }: IAuthDataEditTable) => {
+export const AuthDataEditTable = ({ authData, onChangeAuthData, loading }: IAuthDataEditTable) => {
     const translate = useTranslate();
 
     const [newKey, setNewKey] = useState("");
@@ -34,7 +32,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
             setErrors({ keyError: !newKey || !!authData.find(item => item.key === newKey), valueError: !newValue });
             return;
         }
-        onChangeAuthData([...authData, { key: newKey, value: newValue }]);
+        onChangeAuthData([...authData, { id: authData.length, key: newKey, value: newValue }]);
         setNewKey("");
         setNewValue("");
     };
@@ -65,7 +63,16 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
 
     const onValueChange = (e: React.ChangeEvent<HTMLInputElement>, authDataKey: string) => {
         const value = e.target.value;
-        onChangeAuthData(authData.map(item => (item.key === authDataKey ? { key: item.key, value } : item)));
+        onChangeAuthData(
+            authData.map(item => (item.key === authDataKey ? { id: item.id, key: item.key, value } : item))
+        );
+    };
+
+    const onKeyChange = (e: React.ChangeEvent<HTMLInputElement>, authDataKey: string) => {
+        const value = e.target.value;
+        onChangeAuthData(
+            authData.map(item => (item.key === authDataKey ? { id: item.id, key: value, value: item.value } : item))
+        );
     };
 
     return (
@@ -80,13 +87,19 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
 
             {authData.map((item, index) => (
                 <div
-                    key={item.key}
+                    key={item.id}
                     className={clsx(
                         "grid w-full grid-cols-[1fr,1fr,100px] bg-green-50",
                         index % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
                     )}>
                     <div className="flex items-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
-                        <TextField text={item.key} wrap lineClamp />
+                        <Input
+                            value={item.key}
+                            onChange={e => onKeyChange(e, item.key)}
+                            error={item.key.length === 0}
+                            errorMessage={translate("resources.terminals.errors.value_error")}
+                            type="text"
+                        />
                     </div>
 
                     <div className="flex items-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
@@ -95,11 +108,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
                             onChange={e => onValueChange(e, item.key)}
                             error={item.value.length === 0}
                             errorMessage={translate("resources.terminals.errors.value_error")}
-                            type={
-                                !originalAuthData?.[item.key] || originalAuthData[item.key] !== item.value
-                                    ? "text"
-                                    : "password_masked"
-                            }
+                            type="password_masked"
                         />
                     </div>
 

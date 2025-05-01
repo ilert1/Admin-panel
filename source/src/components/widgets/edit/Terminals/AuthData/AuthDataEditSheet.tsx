@@ -33,7 +33,7 @@ export const AuthDataEditSheet = ({
     const appToast = useAppToast();
 
     const parseAuthData = (data: TerminalAuth | undefined) =>
-        data ? Object.keys(data).map(key => ({ key, value: data[key] as string })) : [];
+        data ? Object.keys(data).map((key, index) => ({ id: index, key, value: data[key] as string })) : [];
 
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(true);
@@ -209,12 +209,7 @@ export const AuthDataEditSheet = ({
                             setCode={setStringAuthData}
                         />
                     ) : (
-                        <AuthDataEditTable
-                            loading={disabledBtn}
-                            authData={authData}
-                            originalAuthData={originalAuthData}
-                            onChangeAuthData={setAuthData}
-                        />
+                        <AuthDataEditTable loading={disabledBtn} authData={authData} onChangeAuthData={setAuthData} />
                     )}
 
                     <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
