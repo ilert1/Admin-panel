@@ -2,7 +2,7 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { useRefresh, useTranslate } from "react-admin";
 import { CloseSheetXButton } from "../../../components/CloseSheetXButton";
 import { AuthDataJsonToggle } from "./AuthDataJsonToggle";
-import { SetStateAction, useEffect, useMemo, useState } from "react";
+import { SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/Button";
 import { TerminalAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
@@ -32,26 +32,34 @@ export const AuthDataEditSheet = ({
     const refresh = useRefresh();
     const appToast = useAppToast();
 
+    const parseAuthData = (data: TerminalAuth | undefined) =>
+        data ? Object.keys(data).map(key => ({ key, value: data[key] as string })) : [];
+
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(true);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
-    const [authData, setAuthData] = useState(() => originalAuthData);
+    const [authData, setAuthData] = useState(() => parseAuthData(originalAuthData));
     const [stringAuthData, setStringAuthData] = useState(() => JSON.stringify(originalAuthData || {}, null, 2));
     const [showJson, setShowJson] = useState(false);
     const [disabledBtn, setDisabledBtn] = useState(false);
 
+    const arrayAuthDataToObject = useCallback(
+        () => Object.fromEntries(authData.map(item => [item.key, item.value])),
+        [authData]
+    );
+
     const toggleJsonHandler = (state: SetStateAction<boolean>) => {
         try {
             if (state) {
-                if (authData && (Object.keys(authData).includes("") || Object.values(authData).includes(""))) {
+                if (authData.find(item => item.key === "" || item.value === "")) {
                     throw new Error();
                 }
-                setStringAuthData(JSON.stringify(authData || {}, null, 2));
+                setStringAuthData(JSON.stringify(arrayAuthDataToObject(), null, 2));
             } else {
                 if (hasErrors || !isValid || !monacoEditorMounted) {
                     throw new Error();
                 }
-                setAuthData(JSON.parse(stringAuthData));
+                setAuthData(() => parseAuthData(JSON.parse(stringAuthData)));
             }
 
             setShowJson(state);
@@ -62,7 +70,7 @@ export const AuthDataEditSheet = ({
 
     const onOpenChangeHandler = (state: boolean) => {
         if (!state) {
-            setAuthData(() => originalAuthData);
+            setAuthData(() => parseAuthData(originalAuthData));
             setStringAuthData(() => JSON.stringify(originalAuthData || {}, null, 2));
         }
 
@@ -70,30 +78,39 @@ export const AuthDataEditSheet = ({
     };
 
     useEffect(() => {
-        setAuthData(() => originalAuthData);
+        setAuthData(() => parseAuthData(originalAuthData));
         setStringAuthData(() => JSON.stringify(originalAuthData || {}, null, 2));
     }, [originalAuthData]);
 
     const buttonSaveDisabled = useMemo(() => {
         const stringifyOriginalAuthData = JSON.stringify(originalAuthData || {}, null, 2);
-        const stringifyAuthData = JSON.stringify(authData || {}, null, 2);
+        const stringifyAuthData = JSON.stringify(arrayAuthDataToObject(), null, 2);
 
         return (
             (!showJson &&
-                (Object.keys(authData || {}).includes("") ||
-                    Object.values(authData || {}).includes("") ||
+                (!!authData.find(item => item.key === "" || item.value === "") ||
                     stringifyOriginalAuthData === stringifyAuthData)) ||
             (showJson &&
                 (hasErrors || !isValid || !monacoEditorMounted || stringifyOriginalAuthData === stringAuthData)) ||
             disabledBtn
         );
-    }, [authData, disabledBtn, hasErrors, isValid, monacoEditorMounted, originalAuthData, showJson, stringAuthData]);
+    }, [
+        arrayAuthDataToObject,
+        authData,
+        disabledBtn,
+        hasErrors,
+        isValid,
+        monacoEditorMounted,
+        originalAuthData,
+        showJson,
+        stringAuthData
+    ]);
 
     const submitHandler = async () => {
         try {
             setDisabledBtn(true);
 
-            const currentAuthData = showJson ? JSON.parse(stringAuthData) : authData;
+            const currentAuthData = showJson ? JSON.parse(stringAuthData) : arrayAuthDataToObject();
             const authDataToUpdate: TerminalAuth = {};
 
             // Проверка какие ключи нужно добавить или изменить

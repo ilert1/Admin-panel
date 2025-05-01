@@ -4,13 +4,17 @@ import { Input } from "@/components/ui/Input/input";
 import { TextField } from "@/components/ui/text-field";
 import clsx from "clsx";
 import { PlusCircle } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useTranslate } from "react-admin";
 
+type ParseAuthData = {
+    key: string;
+    value: string;
+}[];
 interface IAuthDataEditTable {
     loading: boolean;
-    authData: TerminalAuth | undefined;
-    onChangeAuthData: (val: TerminalAuth) => void;
+    authData: ParseAuthData;
+    onChangeAuthData: (val: ParseAuthData) => void;
     originalAuthData: TerminalAuth | undefined;
 }
 
@@ -21,23 +25,16 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
     const [newValue, setNewValue] = useState("");
     const [errors, setErrors] = useState({ keyError: false, valueError: false });
 
-    const parseAuthData = useMemo(
-        () => (authData ? Object.keys(authData).map(key => ({ key, value: authData[key] as string })) : []),
-        [authData]
-    );
-
     const handleDelete = (key: string) => {
-        const tempAuthData = { ...authData };
-        delete tempAuthData[key];
-        onChangeAuthData(tempAuthData);
+        onChangeAuthData(authData.filter(item => item.key !== key));
     };
 
     const addAuthData = () => {
-        if (!newKey || !newValue || !!authData?.[newKey]) {
-            setErrors({ keyError: !newKey || !!authData?.[newKey], valueError: !newValue });
+        if (!newKey || !newValue || !!authData.find(item => item.key === newKey)) {
+            setErrors({ keyError: !newKey || !!authData.find(item => item.key === newKey), valueError: !newValue });
             return;
         }
-        onChangeAuthData({ ...authData, [newKey]: newValue });
+        onChangeAuthData([...authData, { key: newKey, value: newValue }]);
         setNewKey("");
         setNewValue("");
     };
@@ -68,7 +65,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
 
     const onValueChange = (e: React.ChangeEvent<HTMLInputElement>, authDataKey: string) => {
         const value = e.target.value;
-        onChangeAuthData({ ...authData, [authDataKey]: value });
+        onChangeAuthData(authData.map(item => (item.key === authDataKey ? { key: item.key, value } : item)));
     };
 
     return (
@@ -81,7 +78,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
                 <p className="bg-green-50 px-4 py-[11px] text-base text-neutral-0">Value</p>
             </div>
 
-            {parseAuthData.map((item, index) => (
+            {authData.map((item, index) => (
                 <div
                     key={item.key}
                     className={clsx(
@@ -115,7 +112,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
             <div
                 className={clsx(
                     "grid w-full grid-cols-[1fr,1fr,100px] items-start bg-green-50",
-                    parseAuthData.length % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
+                    authData.length % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
                 )}>
                 <div className="flex items-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                     <Input
