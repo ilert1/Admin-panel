@@ -42,7 +42,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
         setNewValue("");
     };
 
-    const onKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onNewKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.value;
 
         if (!!key && errors.keyError) {
@@ -54,7 +54,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
         setNewKey(key);
     };
 
-    const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onNewValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
 
         if (!!value && errors.valueError) {
@@ -64,6 +64,11 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
         }
 
         setNewValue(value);
+    };
+
+    const onValueChange = (e: React.ChangeEvent<HTMLInputElement>, authDataKey: string) => {
+        const value = e.target.value;
+        onChangeAuthData({ ...authData, [authDataKey]: value });
     };
 
     return (
@@ -88,18 +93,16 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
                     </div>
 
                     <div className="flex items-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
-                        <TextField
-                            text={item.value}
+                        <Input
+                            value={item.value}
+                            onChange={e => onValueChange(e, item.key)}
+                            error={item.value.length === 0}
+                            errorMessage={translate("resources.terminals.errors.value_error")}
                             type={
                                 !originalAuthData?.[item.key] || originalAuthData[item.key] !== item.value
                                     ? "text"
-                                    : "secret"
+                                    : "password_masked"
                             }
-                            wrap
-                            copyValue
-                            lineClamp
-                            linesCount={1}
-                            minWidth="50px"
                         />
                     </div>
 
@@ -120,7 +123,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
                         errorMessage={translate("resources.terminals.errors.key_error")}
                         disabled={loading}
                         value={newKey}
-                        onChange={onKeyChange}
+                        onChange={onNewKeyChange}
                     />
                 </div>
 
@@ -130,7 +133,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, originalAuthData
                         errorMessage={translate("resources.terminals.errors.value_error")}
                         disabled={loading}
                         value={newValue}
-                        onChange={onValueChange}
+                        onChange={onNewValueChange}
                     />
                 </div>
 

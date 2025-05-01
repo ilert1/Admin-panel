@@ -36,14 +36,17 @@ export const AuthDataEditSheet = ({
     const [isValid, setIsValid] = useState(true);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [authData, setAuthData] = useState(() => originalAuthData);
-    const [stringAuthData, setStringAuthData] = useState(() => JSON.stringify(originalAuthData, null, 2));
+    const [stringAuthData, setStringAuthData] = useState(() => JSON.stringify(originalAuthData || {}, null, 2));
     const [showJson, setShowJson] = useState(false);
     const [disabledBtn, setDisabledBtn] = useState(false);
 
     const toggleJsonHandler = (state: SetStateAction<boolean>) => {
         try {
             if (state) {
-                setStringAuthData(JSON.stringify(authData, null, 2));
+                if (authData && (Object.keys(authData).includes("") || Object.values(authData).includes(""))) {
+                    throw new Error();
+                }
+                setStringAuthData(JSON.stringify(authData || {}, null, 2));
             } else {
                 if (hasErrors || !isValid || !monacoEditorMounted) {
                     throw new Error();
@@ -60,7 +63,7 @@ export const AuthDataEditSheet = ({
     const onOpenChangeHandler = (state: boolean) => {
         if (!state) {
             setAuthData(() => originalAuthData);
-            setStringAuthData(() => JSON.stringify(originalAuthData, null, 2));
+            setStringAuthData(() => JSON.stringify(originalAuthData || {}, null, 2));
         }
 
         onOpenChange(state);
@@ -68,20 +71,23 @@ export const AuthDataEditSheet = ({
 
     useEffect(() => {
         setAuthData(() => originalAuthData);
-        setStringAuthData(() => JSON.stringify(originalAuthData, null, 2));
+        setStringAuthData(() => JSON.stringify(originalAuthData || {}, null, 2));
     }, [originalAuthData]);
 
-    const buttonSaveDisabled = useMemo(
-        () =>
-            (!showJson && JSON.stringify(originalAuthData, null, 2) === JSON.stringify(authData, null, 2)) ||
+    const buttonSaveDisabled = useMemo(() => {
+        const stringifyOriginalAuthData = JSON.stringify(originalAuthData || {}, null, 2);
+        const stringifyAuthData = JSON.stringify(authData || {}, null, 2);
+
+        return (
+            (!showJson &&
+                (Object.keys(authData || {}).includes("") ||
+                    Object.values(authData || {}).includes("") ||
+                    stringifyOriginalAuthData === stringifyAuthData)) ||
             (showJson &&
-                (hasErrors ||
-                    !isValid ||
-                    !monacoEditorMounted ||
-                    JSON.stringify(originalAuthData, null, 2) === stringAuthData)) ||
-            disabledBtn,
-        [authData, disabledBtn, hasErrors, isValid, monacoEditorMounted, originalAuthData, showJson, stringAuthData]
-    );
+                (hasErrors || !isValid || !monacoEditorMounted || stringifyOriginalAuthData === stringAuthData)) ||
+            disabledBtn
+        );
+    }, [authData, disabledBtn, hasErrors, isValid, monacoEditorMounted, originalAuthData, showJson, stringAuthData]);
 
     const submitHandler = async () => {
         try {
