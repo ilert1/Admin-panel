@@ -4,6 +4,9 @@ import { cn } from "@/lib/utils";
 import { ErrorBadge } from "./ErrorBadge";
 import { EyeButton } from "./EyeButton";
 import { ClearButton } from "./ClearButton";
+import { Copy } from "lucide-react";
+import { useTranslate } from "react-admin";
+import { useAppToast } from "../toast/useAppToast";
 
 export type BasicInputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
@@ -17,6 +20,7 @@ export type BorderColor = "border-neutral-40" | "border-neutral-60";
 
 interface InputProps extends BasicInputProps {
     variant?: InputTypes;
+    copyValue?: boolean;
     label?: string;
     shadow?: boolean;
     error?: boolean | string;
@@ -36,6 +40,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             onContextMenu,
             disabled,
             variant = InputTypes.DEFAULT,
+            copyValue = false,
             error = false,
             errorMessage = "",
             label,
@@ -50,6 +55,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         const [inputValue, setInputValue] = React.useState<string | number | readonly string[] | undefined>(
             propValue || ""
         );
+
+        const translate = useTranslate();
+        const appToast = useAppToast();
 
         const [showPassword, setShowPassword] = React.useState(false);
         const [isFocused, setIsFocused] = React.useState(false);
@@ -97,6 +105,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 }
             }, 0);
         };
+
+        const copy = React.useCallback(() => {
+            navigator.clipboard.writeText(String(propValue !== undefined ? propValue : inputValue));
+
+            appToast("success", "", translate("app.ui.textField.copied"));
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [inputValue, propValue]);
 
         const showClearButton = React.useMemo(
             () => inputValue?.toString() && isFocused && !disabled,
@@ -159,6 +174,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         disabled &&
                             "pointer-events-none bg-neutral-20 !text-neutral-80 dark:bg-neutral-90 dark:!text-neutral-60"
                     )}>
+                    {copyValue &&
+                        ((propValue && propValue.toString().length > 0) ||
+                            (inputValue && inputValue.toString().length > 0)) && (
+                            <span className="pl-2">
+                                <Copy className="h-4 w-4 cursor-pointer dark:text-neutral-60" onClick={copy} />
+                            </span>
+                        )}
                     <input
                         type={type === "password" && showPassword ? "text" : type}
                         tabIndex={0}

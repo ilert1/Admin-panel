@@ -104,6 +104,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading }: IAuth
 
                     <div className="flex items-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                         <Input
+                            copyValue
                             value={item.value}
                             onChange={e => onValueChange(e, item.key)}
                             error={item.value.length === 0}
