@@ -2,7 +2,7 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ToggleActiveUser } from "@/components/ui/toggle-active-user";
-import { useGetMerchantIdByName } from "@/hooks/useGetMerchantName";
+import { useGetMerchantData } from "@/hooks/useGetMerchantData";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslate } from "react-admin";
 
@@ -12,7 +12,7 @@ import { useTranslate } from "react-admin";
 export const useGetUserColumns = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
-    const { getMerchantIdAndName, isLoadingMerchants } = useGetMerchantIdByName();
+    const { getMerchantIdAndName, isLoadingMerchants } = useGetMerchantData();
 
     // const [locale] = useLocaleState();
 
