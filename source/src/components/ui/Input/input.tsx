@@ -177,7 +177,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     {copyValue &&
                         ((propValue && propValue.toString().length > 0) ||
                             (inputValue && inputValue.toString().length > 0)) && (
-                            <span className="pl-2">
+                            <span className="select-none pl-2">
                                 <Copy className="h-4 w-4 cursor-pointer dark:text-neutral-60" onClick={copy} />
                             </span>
                         )}
@@ -210,7 +210,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         {error && <ErrorBadge errorMessage={errorMessage} disableErrorMessage={disableErrorMessage} />}
                         {(type === "password" || type === "password_masked") && (
                             <EyeButton
-                                inputVariant={variant}
                                 disabled={disabled ?? false}
                                 inputValue={inputValue}
                                 showPassword={showPassword}
