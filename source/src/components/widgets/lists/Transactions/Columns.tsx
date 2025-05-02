@@ -1,7 +1,7 @@
 import { useSheets } from "@/components/providers/SheetProvider";
 import { ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
-import { useGetMerchantIdByName } from "@/hooks/useGetMerchantName";
+import { useGetMerchantData } from "@/hooks/useGetMerchantData";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useLocaleState, usePermissions, useTranslate } from "react-admin";
 
@@ -10,7 +10,7 @@ export type MerchantTypeToShow = "fees" | "directions" | undefined;
 export const useGetTransactionColumns = () => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
-    const { getMerchantId, isLoadingMerchants } = useGetMerchantIdByName();
+    const { getMerchantId, isLoadingMerchants } = useGetMerchantData();
     const { permissions } = usePermissions();
     const { openSheet } = useSheets();
 

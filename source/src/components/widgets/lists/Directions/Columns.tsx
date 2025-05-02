@@ -4,7 +4,7 @@ import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
 import { ProviderWithId } from "@/data/providers";
-import { useGetMerchantIdByName } from "@/hooks/useGetMerchantName";
+import { useGetMerchantData } from "@/hooks/useGetMerchantData";
 import { ColumnDef } from "@tanstack/react-table";
 import { useCallback, useState } from "react";
 import { useTranslate } from "react-admin";
@@ -13,7 +13,7 @@ import { DirectionActivityBtn } from "./DirectionActivityBtn";
 export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
     const { openSheet, closeSheet } = useSheets();
-    const { getMerchantId, isLoadingMerchants } = useGetMerchantIdByName();
+    const { getMerchantId, isLoadingMerchants } = useGetMerchantData();
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [chosenId, setChosenId] = useState("");

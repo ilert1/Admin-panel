@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/Button";
 import { EditUserDialog } from "./EditUserDialog";
 import { DeleteUserDialog } from "./DeleteUserDialog";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
+import { useSheets } from "@/components/providers/SheetProvider";
+import { useGetMerchantData } from "@/hooks/useGetMerchantData";
 
 // const styles = ["bg-green-50", "bg-red-50", "bg-extra-2", "bg-extra-8"];
 // const translations = ["active", "frozen", "blocked", "deleted"];
@@ -18,6 +20,8 @@ interface UserShowProps {
 export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
     const context = useAbortableShowController<Users.User>({ resource: "users", id });
     const translate = useTranslate();
+    const { openSheet } = useSheets();
+    const { getMerchantIdAndName, isLoadingMerchants } = useGetMerchantData();
 
     const [dialogOpen, setDialogOpen] = useState(false);
     const [showEditUser, setShowEditUser] = useState(false);
@@ -26,9 +30,10 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
         setShowEditUser(prev => !prev);
     }, []);
 
-    if (context.isLoading || context.isFetching || !context.record) {
+    if (context.isLoading || context.isFetching || !context.record || isLoadingMerchants) {
         return <LoadingBlock />;
     }
+    const merch = getMerchantIdAndName(context.record.merchant_id);
     const userName = `${context.record.first_name || ""} ${context.record.last_name || ""}`.trimEnd();
 
     return (
@@ -70,8 +75,15 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
                     <span className="text-sm text-neutral-60">{translate("resources.users.fields.merchant")}</span>
 
                     {context.record.merchant_name && <TextField text={context.record.merchant_name} />}
-
-                    <TextField text={context.record.merchant_id} copyValue />
+                    <TextField
+                        text={merch.id ? (merch.name ?? "") : (context.record.merchant_id ?? "")}
+                        copyValue
+                        onClick={
+                            merch.id
+                                ? () => openSheet("merchant", { id: merch.id, merchantName: merch.name })
+                                : undefined
+                        }
+                    />
                 </div>
             </div>
 

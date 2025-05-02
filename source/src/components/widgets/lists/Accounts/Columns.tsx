@@ -3,7 +3,7 @@ import { EditButton, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useGetCurrencies } from "@/hooks/useGetCurrencies";
-import { useGetMerchantIdByName } from "@/hooks/useGetMerchantName";
+import { useGetMerchantData } from "@/hooks/useGetMerchantData";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import React, { useState } from "react";
 import { RecordContextProvider, usePermissions, useTranslate } from "react-admin";
@@ -25,7 +25,7 @@ export const useGetAccountsColumns = () => {
     const handleOpenSheet = (id: string) => {
         openSheet("account", { id });
     };
-    const { getMerchantId, isLoadingMerchants } = useGetMerchantIdByName();
+    const { getMerchantId, isLoadingMerchants } = useGetMerchantData();
 
     const columns: ColumnDef<Account>[] = [
         {

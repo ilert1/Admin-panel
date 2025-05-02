@@ -1,6 +1,6 @@
 import { useFetchMerchants } from "./useFetchMerchants";
 
-export const useGetMerchantIdByName = () => {
+export const useGetMerchantData = () => {
     const { isLoading: isLoadingMerchants, merchantsList } = useFetchMerchants();
 
     const getMerchantId = (id: string) => {

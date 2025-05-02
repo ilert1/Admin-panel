@@ -8,7 +8,7 @@ import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { useBalances } from "@/hooks/useBalances";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { useGetMerchantIdByName } from "@/hooks/useGetMerchantName";
+import { useGetMerchantData } from "@/hooks/useGetMerchantData";
 import SnowFlakeIcon from "@/lib/icons/snowflake.svg?react";
 
 interface AccountShowProps {
@@ -22,7 +22,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
     const { permissions } = usePermissions();
-    const { getMerchantId, isLoadingMerchants } = useGetMerchantIdByName();
+    const { getMerchantId, isLoadingMerchants } = useGetMerchantData();
 
     const context = useAbortableShowController<Account>({ resource: "accounts", id });
 
