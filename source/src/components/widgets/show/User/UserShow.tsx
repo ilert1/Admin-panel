@@ -76,7 +76,7 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
 
                     {context.record.merchant_name && <TextField text={context.record.merchant_name} />}
                     <TextField
-                        text={context.record.merchant_id}
+                        text={merch.id ? (merch.name ?? "") : (context.record.merchant_name ?? "")}
                         copyValue
                         onClick={
                             merch.id
