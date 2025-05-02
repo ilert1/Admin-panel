@@ -101,7 +101,12 @@ const ru: TranslationMessages = {
             create: {
                 successMessage: "Пользователь %{name} успешно создан.",
                 errorMessage: "Не удалось создать пользователя",
-                deleteError: "Не удалось создать пользователя"
+                deleteError: "Не удалось создать пользователя",
+                merhchantDoesntExist: "Выбранный мерчант не найден",
+                usernameInUse: "Выбранный логин уже занят, выберите другой",
+                emailInUse: "Выбранный адрес электронной почты уже используется",
+                wrongRole: "Выбранная роль не существует",
+                wrongNames: "Неправильный формат имени и/или фамилии"
             },
             deleteMessages: {
                 deleteSuccess: "Успешно удален",
@@ -1143,7 +1148,12 @@ const en: TranslationMessages = {
             editSuccessMessage: "The user has been successfully edited",
             create: {
                 successMessage: "User %{name} has been successfully created.",
-                errorMessage: "Failed to create user"
+                errorMessage: "Failed to create user",
+                merhchantDoesntExist: "The selected merchant was not found",
+                usernameInUse: "The chosen username is already taken, please choose another one",
+                emailInUse: "The selected email address is already in use",
+                wrongRole: "The selected user role does not exist",
+                wrongNames: "Invalid format for first name and/or last name"
             },
             deleteMessages: {
                 deleteSuccess: "Deleted successfully",

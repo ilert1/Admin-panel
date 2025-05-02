@@ -62,13 +62,17 @@ export class UsersDataProvider extends BaseDataProvider {
     }
 
     async create(resource: string, params: CreateParams): Promise<CreateResult> {
-        const { json } = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/${resource}`, {
+        const json = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/${resource}`, {
             method: "POST",
             body: JSON.stringify(params.data),
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
 
-        return { data: json.data };
+        if (!json.json.success) {
+            throw new Error(json.json.error);
+        }
+
+        return { data: json.json.data };
     }
 
     async update(resource: string, params: UpdateParams) {

@@ -161,7 +161,24 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
-            appToast("error", translate("resources.users.create.errorMessage"));
+            let message = "";
+            if (error instanceof Error) {
+                if (error.message.indexOf("failed get account") >= 0) {
+                    message = translate("resources.users.create.merhchantDoesntExist");
+                } else if (error.message.indexOf("409 Conflict") >= 0) {
+                    if (error.message.indexOf("username") >= 0) {
+                        message = translate("resources.users.create.usernameInUse");
+                    } else {
+                        message = translate("resources.users.create.emailInUse");
+                    }
+                } else if (error.message.indexOf("404 Not Found") >= 0) {
+                    message = translate("resources.users.create.wrongRole");
+                } else if (error.message.indexOf("400 Bad Request") >= 0) {
+                    message = translate("resources.users.create.wrongNames");
+                }
+            }
+
+            appToast("error", message, translate("resources.users.create.errorMessage"));
         } finally {
             setSubmitButtonDisabled(false);
         }
