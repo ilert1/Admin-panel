@@ -35,7 +35,6 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
     }
     const merch = getMerchantIdAndName(context.record.merchant_id);
     const userName = `${context.record.first_name || ""} ${context.record.last_name || ""}`.trimEnd();
-    console.log(merch);
 
     return (
         <div className="relative">
