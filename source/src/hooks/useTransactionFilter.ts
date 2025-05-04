@@ -17,6 +17,7 @@ const useTransactionFilter = () => {
     const [endDate, setEndDate] = useState<Date | undefined>(
         filterValues?.end_date ? new Date(filterValues?.end_date) : undefined
     );
+
     const [operationId, setOperationId] = useState(filterValues?.id || "");
     const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
     const [account, setAccount] = useState(filterValues?.accountId || "");

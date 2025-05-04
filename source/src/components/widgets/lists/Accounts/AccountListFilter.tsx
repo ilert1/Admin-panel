@@ -13,8 +13,6 @@ import { Button } from "@/components/ui/Button";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { API_URL } from "@/data/base";
 import moment from "moment";
-import { RefreshCw } from "lucide-react";
-import clsx from "clsx";
 
 // interface AccountListFilterProps {
 //     setFilters: (filters: unknown, displayedFilters?: unknown, debounce?: boolean | undefined) => void;
@@ -22,7 +20,7 @@ import clsx from "clsx";
 
 export const AccountListFilter = () => {
     // const { setFilters } = props;
-    const { filterValues, setFilters } = useListContext();
+    const { filterValues, setFilters, displayedFilters } = useListContext();
     const appToast = useAppToast();
     const { merchantId, onMerchantChanged, translate, clearFilters, adminOnly } = useAccountFilter();
     // const [accountId, setAccountId] = useState(filterValues.id ?? "");
@@ -103,30 +101,45 @@ export const AccountListFilter = () => {
 
     const changeDate = (date: DateRange | undefined) => {
         if (date) {
-            if (date.from && date.to) {
-                setStartDate(date.from);
-                setEndDate(date.to);
+            if (date.from) {
+                const end_date = date.to ?? undefined;
+                const start_date = date.from;
+
+                setStartDate(start_date);
+                setEndDate(end_date);
 
                 setFilters(
                     {
-                        start_date: startDate,
-                        end_date: endDate,
-                        merchantId: filterValues.merchantId ?? undefined
+                        ...filterValues,
+                        start_date: start_date,
+                        end_date: end_date
                     },
                     {
-                        start_date: startDate,
-                        end_date: endDate,
-                        merchantId: filterValues.merchantId ?? undefined
+                        ...displayedFilters,
+                        start_date: start_date,
+                        end_date: end_date
                     }
                 );
             }
         } else {
             setStartDate(undefined);
             setEndDate(undefined);
+            setFilters(
+                {
+                    ...filterValues,
+                    start_date: undefined,
+                    end_date: undefined
+                },
+                {
+                    ...displayedFilters,
+                    start_date: undefined,
+                    end_date: undefined
+                }
+            );
         }
     };
 
-    const clearDisabled = !merchantId;
+    const clearDisabled = !merchantId && !startDate;
     return (
         <div>
             <div className="flex flex-col">

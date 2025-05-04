@@ -42,6 +42,7 @@ export function DateRangePicker({
             ? true
             : false
     );
+
     const [openPopover, setOpenPopover] = useState(false);
     const [startTime, setStartTime] = useState(dateRange?.from ? timeFormat(dateRange?.from) : "00:00");
     const [endTime, setEndTime] = useState(dateRange?.to ? timeFormat(dateRange?.to) : "00:00");
