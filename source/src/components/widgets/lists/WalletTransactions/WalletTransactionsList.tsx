@@ -5,6 +5,7 @@ import { DataTable } from "../../shared";
 import { WalletTransactionsFilter } from "./WalletTransactionsFilter";
 import { ConfirmDialog } from "./ConfirmDialog";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
+import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 
 export const WalletTransactionsList = () => {
     const { permissions } = usePermissions();
@@ -21,7 +22,10 @@ export const WalletTransactionsList = () => {
     return (
         <>
             <ListContextProvider value={listContext}>
+                <SyncDisplayedFilters />
+
                 <WalletTransactionsFilter />
+
                 {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>
             <ConfirmDialog open={confirmOpen} onOpenChange={setConfirmOpen} id={chosenId} />

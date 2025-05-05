@@ -5,6 +5,7 @@ import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { useGetCallbridgeHistory } from "./Columns";
 import { CallbackHistoryRead } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { CallbridgeHistoryListFilter } from "./CallbridgeHistoryListFilter";
+import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 
 export const CallbackHistoryList = () => {
     const listContext = useAbortableListController<CallbackHistoryRead>({
@@ -20,6 +21,8 @@ export const CallbackHistoryList = () => {
         <>
             <CallbridgeHistoryListFilter setFilters={listContext.setFilters} />
             <ListContextProvider value={listContext}>
+                <SyncDisplayedFilters />
+
                 {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>
         </>

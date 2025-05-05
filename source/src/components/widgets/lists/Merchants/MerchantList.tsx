@@ -6,6 +6,7 @@ import { DeleteMerchantDialog } from "./DeleteMerchantDialog";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { MerchantListFilter } from "./MerchantListFilter";
+import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 
 export const MerchantList = () => {
     const listContext = useAbortableListController<Merchant>();
@@ -15,7 +16,10 @@ export const MerchantList = () => {
     return (
         <>
             <ListContextProvider value={listContext}>
+                <SyncDisplayedFilters />
+
                 <MerchantListFilter />
+
                 {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>
 

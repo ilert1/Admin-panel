@@ -5,6 +5,7 @@ import { CryptoTransfer } from "../../components/CryptoTransfer";
 import { WithdrawListFilter } from "./WithdrawListFilter";
 import { useGetWithdrawColumns } from "./Columns";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
+import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 
 export const WithdrawList = () => {
     const listContext = useAbortableListController<Transaction.Transaction>();
@@ -15,6 +16,8 @@ export const WithdrawList = () => {
     return (
         <>
             <ListContextProvider value={listContext}>
+                <SyncDisplayedFilters />
+
                 <div
                     className={
                         merchantOnly

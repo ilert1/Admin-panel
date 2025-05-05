@@ -5,6 +5,7 @@ import { useGetAccountsColumns } from "./Columns";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { AccountListFilter } from "./AccountListFilter";
 import { EditAccountDialog } from "./EditAccountDialog";
+import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 
 export const AccountList = () => {
     const listContext = useAbortableListController<Account>();
@@ -15,6 +16,8 @@ export const AccountList = () => {
     return (
         <>
             <ListContextProvider value={{ ...listContext }}>
+                <SyncDisplayedFilters />
+
                 <div className="mb-4 mt-5">
                     <AccountListFilter />
                 </div>

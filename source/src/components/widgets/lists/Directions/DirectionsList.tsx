@@ -7,6 +7,7 @@ import { DirectionListFilter } from "./DirectionListFilter";
 import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { DeleteDirectionDialog } from "../../show/Direction/DeleteDirectionDialog";
+import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 
 export const DirectionsList = () => {
     const listContext = useAbortableListController<Direction>();
@@ -18,7 +19,10 @@ export const DirectionsList = () => {
     return (
         <>
             <ListContextProvider value={listContext}>
+                <SyncDisplayedFilters />
+
                 <DirectionListFilter />
+
                 {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>
             <DeleteDirectionDialog

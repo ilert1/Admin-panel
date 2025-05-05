@@ -4,6 +4,7 @@ import { LoadingBlock } from "@/components/ui/loading";
 import { TransactionListFilter } from "./TransactionListFilter";
 import { useGetTransactionColumns } from "./Columns";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
+import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 
 export const TransactionList = () => {
     const listContext = useAbortableListController<Transaction.TransactionView>({ resource: "transactions/view" });
@@ -12,6 +13,8 @@ export const TransactionList = () => {
     return (
         <>
             <ListContextProvider value={listContext}>
+                <SyncDisplayedFilters />
+
                 <div className="mb-4 mt-5">
                     <TransactionListFilter
                     // setChartOpen={setChartOpen}

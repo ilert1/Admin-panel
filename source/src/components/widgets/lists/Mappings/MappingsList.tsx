@@ -7,6 +7,7 @@ import { CreateMappingDialog } from "./CreateMappingDialog";
 import { DeleteMappingDialog } from "./DeleteMappingDialog";
 import { CallbackMappingRead } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { MappingsListFilter } from "./MappingsListFilter";
+import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 
 export const MappingsList = () => {
     const listContext = useAbortableListController<CallbackMappingRead>({
@@ -35,6 +36,8 @@ export const MappingsList = () => {
             <MappingsListFilter setCreateMappingClicked={setCreateMappingClicked} setFilters={listContext.setFilters} />
 
             <ListContextProvider value={listContext}>
+                <SyncDisplayedFilters />
+
                 {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>
             <CreateMappingDialog open={createMappingClicked} onOpenChange={setCreateMappingClicked} />
