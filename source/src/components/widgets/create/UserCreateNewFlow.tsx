@@ -83,7 +83,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
         // last_name: z.string().max(255, translate("app.widgets.forms.userCreate.maxSymbols")).trim(),
         login: z
             .string()
-            .regex(/^[a-zA-Z-_.@]{3,255}$/, translate("app.widgets.forms.userCreate.loginMessage"))
+            .regex(/^[a-zA-Z\-_.@1-9]{3,255}$/, translate("app.widgets.forms.userCreate.loginMessage"))
             .trim(),
         email: z
             .union([
