@@ -199,7 +199,8 @@ const ru: TranslationMessages = {
                 disputeClosed: "Диспут закрыт",
                 commitTransaction: "Зафиксировать операцию?",
                 sendWebhook: "Отправить вебхук",
-                sendWebhookSuccessMsg: "Вебхук для ордера %{id} успешно отправлен"
+                sendWebhookSuccessMsg: "Вебхук для ордера %{id} успешно отправлен",
+                notFound: "Транзакция не найдена"
             },
             list: {
                 filter: {
@@ -1246,7 +1247,8 @@ const en: TranslationMessages = {
                 disputeClosed: "Disput closed",
                 commitTransaction: "Commit the transaction?",
                 sendWebhook: "Send a webhook",
-                sendWebhookSuccessMsg: "The webhook for the order %{id} has been successfully sent"
+                sendWebhookSuccessMsg: "The webhook for the order %{id} has been successfully sent",
+                notFound: "Transaction not found"
             },
             list: {
                 filter: {

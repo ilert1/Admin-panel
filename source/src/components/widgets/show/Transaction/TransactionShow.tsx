@@ -22,6 +22,7 @@ import clsx from "clsx";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface TransactionShowProps {
     id: string;
@@ -30,9 +31,21 @@ interface TransactionShowProps {
 export const TransactionShow = ({ id }: TransactionShowProps) => {
     const data = fetchDictionaries();
     const translate = useTranslate();
-    const { openSheet } = useSheets();
+    const { openSheet, closeSheet } = useSheets();
     const { permissions } = usePermissions();
-    const context = useAbortableShowController<Transaction.Transaction>({ resource: "transactions", id });
+
+    const appToast = useAppToast();
+
+    const context = useAbortableShowController<Transaction.Transaction>({
+        resource: "transactions",
+        id,
+        queryOptions: {
+            onError: () => {
+                appToast("error", translate("resources.transactions.show.notFound"));
+                closeSheet("transaction");
+            }
+        }
+    });
 
     const [newState, setNewState] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);

@@ -5,7 +5,10 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 const MONEYGATE_URL = import.meta.env.VITE_MONEYGATE_URL;
 
-export const useTransactionActions = (data: Dictionaries.DataObject, record: Transaction.Transaction | undefined) => {
+export const useTransactionActions = (
+    data: Dictionaries.DataObject | undefined,
+    record: Transaction.Transaction | undefined
+) => {
     const translate = useTranslate();
     const { permissions } = usePermissions();
     const refresh = useRefresh();
