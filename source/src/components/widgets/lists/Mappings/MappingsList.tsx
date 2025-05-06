@@ -33,14 +33,16 @@ export const MappingsList = () => {
 
     return (
         <>
-            <MappingsListFilter setCreateMappingClicked={setCreateMappingClicked} setFilters={listContext.setFilters} />
-
             <ListContextProvider value={listContext}>
+                <MappingsListFilter setCreateMappingClicked={setCreateMappingClicked} />
+
                 <SyncDisplayedFilters />
 
                 {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>
+
             <CreateMappingDialog open={createMappingClicked} onOpenChange={setCreateMappingClicked} />
+
             <DeleteMappingDialog
                 deleteId={chosenId}
                 open={deleteMappingClicked}

@@ -1,51 +1,29 @@
 import { Input } from "@/components/ui/Input/input";
-import { useTranslate } from "react-admin";
-import { useEffect, useState } from "react";
 import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import useMappingFilter from "@/hooks/useMappingFilter";
+import { useState } from "react";
 
 interface MappingsListFilterProps {
     setCreateMappingClicked: (state: boolean) => void;
-    setFilters: (filters: unknown, displayedFilters?: unknown, debounce?: boolean) => void;
 }
 
-interface FilterObjectType {
-    name?: string;
-    description?: string;
-    internal_path?: string;
-    external_path?: string;
-}
-
-export const MappingsListFilter = (props: MappingsListFilterProps) => {
-    const { setCreateMappingClicked, setFilters } = props;
-    const translate = useTranslate();
-
-    const [nameValue, setNameValue] = useState("");
-    const [descriptionValue, setDescriptionValue] = useState("");
-    const [extPathValue, setExtPathValue] = useState("");
-    const [intPathValue, setIntPathValue] = useState("");
-
-    const onClearFilters = () => {
-        setNameValue("");
-        setDescriptionValue("");
-        setExtPathValue("");
-        setIntPathValue("");
-    };
-
-    useEffect(() => {
-        const filtersObj: FilterObjectType = {};
-
-        nameValue ? (filtersObj.name = nameValue) : "";
-        descriptionValue ? (filtersObj.description = descriptionValue) : "";
-        intPathValue ? (filtersObj.internal_path = intPathValue) : "";
-        extPathValue ? (filtersObj.external_path = extPathValue) : "";
-
-        setFilters(filtersObj, filtersObj, true);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [descriptionValue, extPathValue, intPathValue, nameValue]);
+export const MappingsListFilter = ({ setCreateMappingClicked }: MappingsListFilterProps) => {
+    const {
+        translate,
+        nameValue,
+        descriptionValue,
+        extPathValue,
+        intPathValue,
+        onNameValueChanged,
+        onDescriptionValueChanged,
+        onExtPathValueChanged,
+        onIntPathValueChanged,
+        onClearFilters
+    } = useMappingFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
     const clearDisabled = !nameValue && !descriptionValue && !extPathValue && !intPathValue;
@@ -79,25 +57,25 @@ export const MappingsListFilter = (props: MappingsListFilterProps) => {
                     <div className="flex flex-wrap gap-2 md:flex-nowrap">
                         <Input
                             value={nameValue}
-                            onChange={e => setNameValue(e.target.value)}
+                            onChange={onNameValueChanged}
                             label={translate("resources.callbridge.mapping.fields.name")}
                             labelSize="title-2"
                         />
                         <Input
                             value={descriptionValue}
-                            onChange={e => setDescriptionValue(e.target.value)}
+                            onChange={onDescriptionValueChanged}
                             label={translate("resources.callbridge.mapping.fields.description")}
                             labelSize="title-2"
                         />
                         <Input
                             value={extPathValue}
-                            onChange={e => setExtPathValue(e.target.value)}
+                            onChange={onExtPathValueChanged}
                             label={translate("resources.callbridge.mapping.fields.ext_path")}
                             labelSize="title-2"
                         />
                         <Input
                             value={intPathValue}
-                            onChange={e => setIntPathValue(e.target.value)}
+                            onChange={onIntPathValueChanged}
                             label={translate("resources.callbridge.mapping.fields.int_path")}
                             labelSize="title-2"
                         />
