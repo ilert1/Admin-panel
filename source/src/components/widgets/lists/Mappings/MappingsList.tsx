@@ -1,6 +1,6 @@
 import { ListContextProvider } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
-import { Loading, LoadingBlock } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { useGetMappingsColumns } from "./Columns";
 import { CreateMappingDialog } from "./CreateMappingDialog";
@@ -26,10 +26,6 @@ export const MappingsList = () => {
         setDeleteMappingClicked,
         setCreateMappingClicked
     } = useGetMappingsColumns();
-
-    if (listContext.isLoading) {
-        return <Loading />;
-    }
 
     return (
         <>

@@ -1,6 +1,6 @@
 import { ListContextProvider } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
-import { Loading, LoadingBlock } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { useGetCallbridgeHistory } from "./Columns";
 import { CallbackHistoryRead } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
@@ -14,8 +14,6 @@ export const CallbackHistoryList = () => {
     });
 
     const { columns } = useGetCallbridgeHistory();
-
-    if (listContext.isLoading) return <Loading />;
 
     return (
         <ListContextProvider value={listContext}>
