@@ -10,7 +10,7 @@ import {
     UpdateParams,
     UpdateResult
 } from "react-admin";
-import { BaseDataProvider } from "./base";
+import { IBaseDataProvider } from "./base";
 import {
     merchantEndpointsCreateMerchantEnigmaV1MerchantPost,
     merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDelete,
@@ -19,8 +19,9 @@ import {
     merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPut
 } from "@/api/enigma/merchant/merchant";
 import { Merchant, MerchantCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet } from "@/api/enigma/direction/direction";
 
-export class MerchantsDataProvider extends BaseDataProvider {
+export class MerchantsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<Merchant>> {
         const fieldsForSearch = Object.keys(params.filter).filter(item => item === "id");
 
@@ -167,5 +168,30 @@ export class MerchantsDataProvider extends BaseDataProvider {
                 id: params.id
             }
         };
+    }
+
+    async getMerchantDirections(id: string) {
+        const res = await directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet(
+            id,
+            {
+                currentPage: 1,
+                pageSize: 1000,
+                orderBy: "weight",
+                sortOrder: "desc"
+            },
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }
+        );
+
+        if ("data" in res.data && res.data.success) {
+            return res.data.data.items;
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
     }
 }

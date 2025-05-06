@@ -415,3 +415,12 @@ interface ICombinedBalances {
     currency: string;
     type: "balance" | "hold";
 }
+
+interface KecloakRoles {
+    clientRole: boolean;
+    composite: boolean;
+    containerId: string;
+    description: string;
+    id: string;
+    name: string;
+}

@@ -1,7 +1,6 @@
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import { AuthProvider, fetchUtils } from "react-admin";
-
-import { isTokenStillFresh } from "@/helpers/jwt";
+import { updateTokenHelper } from "@/helpers/updateTokenHelper";
 
 import { QueryClient } from "@tanstack/react-query";
 
@@ -12,7 +11,6 @@ interface KeycloakJwtPayload extends JwtPayload {
 }
 
 const keycloakLoginUrl = import.meta.env.VITE_KEYCLOAK_LOGIN_URL;
-// const keycloakUrl = import.meta.env.VITE_KEYCLOAK_URL;
 const clientId = import.meta.env.VITE_KEYCLOAK_CLIENT_ID;
 
 const clearUserData = () => {
@@ -20,53 +18,6 @@ const clearUserData = () => {
     localStorage.removeItem("refresh-token");
     localStorage.removeItem("user");
     sessionStorage.removeItem("testEnvShown");
-};
-
-const updateToken = async () => {
-    const refreshToken = localStorage.getItem("refresh-token");
-    if (!refreshToken) {
-        return Promise.reject("No refresh token available");
-    }
-
-    try {
-        const bodyObject = {
-            client_id: clientId,
-            grant_type: "refresh_token",
-            refresh_token: refreshToken
-        };
-
-        const body = new URLSearchParams(bodyObject);
-
-        const response = await fetchUtils.fetchJson(keycloakLoginUrl, {
-            method: "POST",
-            body: body.toString(),
-            headers: new Headers({
-                "Content-Type": "application/x-www-form-urlencoded"
-            })
-        });
-
-        const { access_token, refresh_token } = response.json;
-
-        if (!access_token || !refresh_token) {
-            // throw new Error("Invalid token response");
-            return Promise.reject(new Error("Invalid token response"));
-        }
-
-        localStorage.setItem("access-token", access_token);
-        localStorage.setItem("refresh-token", refresh_token);
-
-        const decodedToken = jwtDecode(access_token);
-        localStorage.setItem("user", JSON.stringify(decodedToken));
-
-        return Promise.resolve();
-    } catch (error) {
-        console.error("Token update error:", error);
-        // Очищаем невалидные токены при ошибке
-        localStorage.removeItem("access-token");
-        localStorage.removeItem("refresh-token");
-        localStorage.removeItem("user");
-        // return Promise.reject(error);
-    }
 };
 
 export const authProvider: AuthProvider = {
@@ -163,28 +114,7 @@ export const authProvider: AuthProvider = {
     },
 
     checkAuth: async () => {
-        const accessToken = localStorage.getItem("access-token");
-        const refreshToken = localStorage.getItem("refresh-token");
-
-        // Если есть валидный access-token
-        if (accessToken && isTokenStillFresh(accessToken)) {
-            return Promise.resolve();
-        }
-
-        // Если access-token истёк, но есть валидный refresh-token
-        if (refreshToken && isTokenStillFresh(refreshToken)) {
-            return updateToken().catch(error => {
-                console.error("Token update failed:", error);
-                // Очищаем хранилище при неудачном обновлении
-                localStorage.removeItem("access-token");
-                localStorage.removeItem("refresh-token");
-                localStorage.removeItem("user");
-                return Promise.reject();
-            });
-        }
-
-        // Если оба токена невалидны
-        return Promise.reject();
+        updateTokenHelper();
     },
 
     checkError: async error => {
@@ -193,7 +123,8 @@ export const authProvider: AuthProvider = {
             localStorage.removeItem("access-token");
             try {
                 // Пытаемся обновить токен и ждём результата
-                await updateToken();
+                // await updateToken();
+                updateTokenHelper();
                 return Promise.resolve(); // Токен обновлён, продолжаем работу
             } catch (updateError) {
                 // Если обновление не удалось - очищаем всё

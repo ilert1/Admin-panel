@@ -1,11 +1,12 @@
-import { GetListParams, GetListResult, GetOneParams, GetOneResult } from "react-admin";
+import { addRefreshAuthToDataProvider, GetListParams, GetListResult, GetOneParams, GetOneResult } from "react-admin";
 import { fetchUtils } from "react-admin";
 
-import { BaseDataProvider } from "./base";
+import { IBaseDataProvider } from "./base";
+import { updateTokenHelper } from "@/helpers/updateTokenHelper";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export class TransactionDataProvider extends BaseDataProvider {
+export class ITransactionDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
         const data: { [key: string]: string } = {
             limit: params.pagination ? params.pagination.perPage.toString() : "10",
@@ -47,3 +48,5 @@ export class TransactionDataProvider extends BaseDataProvider {
         };
     }
 }
+
+export const TransactionDataProvider = addRefreshAuthToDataProvider(new ITransactionDataProvider(), updateTokenHelper);

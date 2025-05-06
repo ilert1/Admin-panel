@@ -1,3 +1,4 @@
+import { updateTokenHelper } from "@/helpers/updateTokenHelper";
 import {
     CreateParams,
     CreateResult,
@@ -12,14 +13,15 @@ import {
     GetOneResult,
     UpdateManyResult,
     UpdateParams,
-    GetManyReferenceParams
+    GetManyReferenceParams,
+    addRefreshAuthToDataProvider
 } from "react-admin";
 import { fetchUtils } from "react-admin";
 
 export const API_URL = import.meta.env.VITE_API_URL;
 export const BF_MANAGER_URL = import.meta.env.VITE_BF_MANAGER_URL;
 
-export class BaseDataProvider {
+export class IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
         const data: { [key: string]: string } = {
             limit: params.pagination ? params.pagination.perPage.toString() : "10",
@@ -116,3 +118,5 @@ export class BaseDataProvider {
         return json?.data;
     }
 }
+
+export const BaseDataProvider = addRefreshAuthToDataProvider(new IBaseDataProvider(), updateTokenHelper);

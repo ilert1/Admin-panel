@@ -11,11 +11,11 @@ import { Icon } from "../shared/Icon";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectType } from "@/components/ui/select";
 import { CreateWalletDialog } from "../lists/Wallets";
 import { LoadingBlock, LoadingBalance } from "@/components/ui/loading";
-import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import BlowFishCross from "@/lib/icons/BlowFishCross.svg?react";
 import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useAbortableInfiniteGetList } from "@/hooks/useAbortableInfiniteGetList";
+import { useQuery } from "@tanstack/react-query";
 
 export const CryptoTransferForm = (props: {
     loading: boolean;
@@ -174,7 +174,7 @@ export const CryptoTransferForm = (props: {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [shouldTrigger]);
 
-    const { data: withdrawList } = useQueryWithAuth({
+    const { data: withdrawList } = useQuery({
         queryKey: ["withdrawList", "CryptoTransferForm"],
         queryFn: async ({ signal }) =>
             await dataProvider.getList<Transaction.Transaction>("withdraw", {

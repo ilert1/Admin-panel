@@ -1,11 +1,4 @@
-import {
-    CreateContextProvider,
-    fetchUtils,
-    useCreateController,
-    useDataProvider,
-    useRefresh,
-    useTranslate
-} from "react-admin";
+import { CreateContextProvider, useCreateController, useRefresh, useTranslate } from "react-admin";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,27 +20,16 @@ import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import clsx from "clsx";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { UsersDataProvider } from "@/data";
 
 interface UserCreateProps {
     onOpenChange: (state: boolean) => void;
 }
 
-interface KecloakRoles {
-    clientRole: boolean;
-    composite: boolean;
-    containerId: string;
-    description: string;
-    id: string;
-    name: string;
-}
-
-const KEYCLOAK_URL = import.meta.env.VITE_KEYCLOAK_URL;
-const KEYCLOAK_REALM = import.meta.env.VITE_KEYCLOAK_REALM;
-
 export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
-    const dataProvider = useDataProvider();
+    const dataProvider = UsersDataProvider;
     const contrProps = useCreateController();
 
     const { openSheet } = useSheets();
@@ -61,12 +43,7 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
     const { data: userRoles } = useQueryWithAuth({
         queryKey: ["userRoles"],
         queryFn: async ({ signal }) => {
-            const res = await fetchUtils.fetchJson(`${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles`, {
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
-                signal
-            });
-
-            return res.json as KecloakRoles[];
+            return await dataProvider.getRoles({ signal });
         }
     });
 

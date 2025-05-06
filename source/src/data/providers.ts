@@ -10,7 +10,7 @@ import {
     UpdateParams,
     UpdateResult
 } from "react-admin";
-import { BaseDataProvider } from "./base";
+import { IBaseDataProvider } from "./base";
 import {
     providerEndpointsCreateProviderEnigmaV1ProviderPost,
     providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDelete,
@@ -22,7 +22,7 @@ import { Provider, ProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.
 
 export type ProviderWithId = Provider & { id: string };
 
-export class ProvidersDataProvider extends BaseDataProvider {
+export class ProvidersDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<ProviderWithId>> {
         const res = await providerEndpointsListProvidersEnigmaV1ProviderGet(
             {

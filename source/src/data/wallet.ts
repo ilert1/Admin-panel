@@ -1,4 +1,5 @@
 import {
+    addRefreshAuthToDataProvider,
     CreateParams,
     CreateResult,
     DeleteParams,
@@ -11,11 +12,12 @@ import {
 } from "react-admin";
 import { fetchUtils } from "react-admin";
 
-import { BaseDataProvider } from "./base";
+import { IBaseDataProvider } from "./base";
+import { updateTokenHelper } from "@/helpers/updateTokenHelper";
 
 const API_URL = import.meta.env.VITE_WALLET_URL;
 
-export class WalletsDataProvider extends BaseDataProvider {
+export class IWalletsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
         const data: { [key: string]: string } = {
             limit: params.pagination ? params.pagination.perPage.toString() : "10",
@@ -170,3 +172,5 @@ export class WalletsDataProvider extends BaseDataProvider {
         return { data: { id: params.id } };
     }
 }
+
+export const WalletsDataProvider = addRefreshAuthToDataProvider(new IWalletsDataProvider(), updateTokenHelper);

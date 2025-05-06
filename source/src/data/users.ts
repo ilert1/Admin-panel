@@ -8,12 +8,17 @@ import {
     GetListResult,
     GetOneParams,
     GetOneResult,
-    UpdateParams
+    UpdateParams,
+    addRefreshAuthToDataProvider
 } from "react-admin";
 
-import { BaseDataProvider, BF_MANAGER_URL } from "./base";
+import { IBaseDataProvider, BF_MANAGER_URL } from "./base";
+import { updateTokenHelper } from "@/helpers/updateTokenHelper";
 
-export class UsersDataProvider extends BaseDataProvider {
+const KEYCLOAK_URL = import.meta.env.VITE_KEYCLOAK_URL;
+const KEYCLOAK_REALM = import.meta.env.VITE_KEYCLOAK_REALM;
+
+class IUsersDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
         const data: { [key: string]: string } = {
             limit: params.pagination ? params.pagination.perPage.toString() : "10",
@@ -116,4 +121,18 @@ export class UsersDataProvider extends BaseDataProvider {
 
         return { data: { id: params.id } };
     }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async getRoles(params: GetListParams) {
+        const { json } = await fetchUtils.fetchJson(`${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles`, {
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        });
+        if (!json.success) {
+            throw new Error(json.error);
+        }
+
+        return json as KecloakRoles[];
+    }
 }
+
+export const UsersDataProvider = addRefreshAuthToDataProvider(new IUsersDataProvider(), updateTokenHelper);

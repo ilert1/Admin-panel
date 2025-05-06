@@ -1,4 +1,4 @@
-import { useTranslate, useDataProvider, useRefresh, fetchUtils } from "react-admin";
+import { useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
@@ -18,26 +18,15 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { UsersDataProvider } from "@/data";
+import { useQuery } from "@tanstack/react-query";
 
 interface UserEditProps {
     id: string;
     record: Omit<Users.User, "created_at" | "deleted_at" | "id">;
     onOpenChange: (state: boolean) => void;
 }
-
-interface KecloakRoles {
-    clientRole: boolean;
-    composite: boolean;
-    containerId: string;
-    description: string;
-    id: string;
-    name: string;
-}
-
-const KEYCLOAK_URL = import.meta.env.VITE_KEYCLOAK_URL;
-const KEYCLOAK_REALM = import.meta.env.VITE_KEYCLOAK_REALM;
 
 export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
     const dataProvider = useDataProvider();
@@ -50,44 +39,6 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [disabledMerchantField, setDisabledMerchantField] = useState(false);
-
-    const { data: userRoles } = useQueryWithAuth({
-        queryKey: ["userRoles"],
-        queryFn: async ({ signal }) => {
-            const res = await fetchUtils.fetchJson(`${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles`, {
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
-                signal
-            });
-
-            return res.json as KecloakRoles[];
-        }
-    });
-
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        if (submitButtonDisabled) return;
-        setSubmitButtonDisabled(true);
-
-        const tempData = { ...data };
-
-        if (disabledMerchantField) {
-            delete tempData.merchant_id;
-        }
-
-        try {
-            await dataProvider.update("users", {
-                id,
-                data: tempData,
-                previousData: undefined
-            });
-
-            appToast("success", translate("resources.users.editSuccessMessage"));
-            refresh();
-            onOpenChange(false);
-        } catch (error) {
-            appToast("error", translate("resources.currency.errors.alreadyInUse"));
-            setSubmitButtonDisabled(false);
-        }
-    };
 
     const formSchema = z.object({
         first_name: z.string().min(3, translate("app.widgets.forms.userCreate.firstNameMessage")).trim(),
@@ -121,6 +72,39 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
             merchant_id: record?.merchant_id || ""
         }
     });
+
+    const { data: userRoles } = useQuery({
+        queryKey: ["userRoles"],
+        queryFn: async ({ signal }) => {
+            return await UsersDataProvider.getRoles({ signal });
+        }
+    });
+
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        if (submitButtonDisabled) return;
+        setSubmitButtonDisabled(true);
+
+        const tempData = { ...data };
+
+        if (disabledMerchantField) {
+            delete tempData.merchant_id;
+        }
+
+        try {
+            await dataProvider.update("users", {
+                id,
+                data: tempData,
+                previousData: undefined
+            });
+
+            appToast("success", translate("resources.users.editSuccessMessage"));
+            refresh();
+            onOpenChange(false);
+        } catch (error) {
+            appToast("error", translate("resources.currency.errors.alreadyInUse"));
+            setSubmitButtonDisabled(false);
+        }
+    };
 
     useEffect(() => {
         if (record) {

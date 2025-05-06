@@ -1,5 +1,5 @@
 import { DeleteParams, DeleteResult, GetListParams, GetOneParams, UpdateParams } from "react-admin";
-import { BaseDataProvider } from "./base";
+import { IBaseDataProvider } from "./base";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 import { CallbackMappingCreate } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
@@ -16,7 +16,7 @@ import {
     callbackMappingEndpointsDeleteMappingCallbridgeV1MappingMappingIdDelete
 } from "@/api/callbridge/callback-mapping/callback-mapping";
 // /history/{history_id}/retry
-export class CallbridgeDataProvider extends BaseDataProvider {
+export class CallbridgeDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams) {
         const fieldsForSearch = Object.keys(params.filter).filter(
             item =>

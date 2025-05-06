@@ -10,7 +10,7 @@ import {
     UpdateParams,
     UpdateResult
 } from "react-admin";
-import { BaseDataProvider } from "./base";
+import { IBaseDataProvider } from "./base";
 import {
     terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPost,
     terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPost,
@@ -23,7 +23,7 @@ import { Terminal, TerminalCreate, TerminalUpdateCallbackUrl } from "@/api/enigm
 
 export type TerminalWithId = Terminal & { id: string };
 
-export class TerminalsDataProvider extends BaseDataProvider {
+export class TerminalsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<TerminalWithId>> {
         // resource === "${providerName}/terminal"
         const providerName = resource.split("/")[0];
