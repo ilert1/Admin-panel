@@ -12,7 +12,6 @@ const useCallbridgeHistoryFilter = () => {
     const [mappingId, setMappingId] = useState(filterValues?.mapping_id || "");
     const [callbackId, setCallbackId] = useState(filterValues?.callback_id || "");
     const [originalUrl, setOriginalUrl] = useState(filterValues?.original_url || "");
-    // const [triggerType, setTriggerType] = useState("");
 
     const onPropertySelected = debounce(
         (value: string, type: "status" | "mapping_id" | "callback_id" | "original_url") => {
@@ -54,7 +53,6 @@ const useCallbridgeHistoryFilter = () => {
         setOriginalUrl("");
         setFilters({}, displayedFilters, true);
         setPage(1);
-        // setTriggerType("");
     };
 
     return {
