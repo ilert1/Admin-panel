@@ -18,13 +18,12 @@ export const CallbackHistoryList = () => {
     if (listContext.isLoading) return <Loading />;
 
     return (
-        <>
-            <CallbridgeHistoryListFilter setFilters={listContext.setFilters} />
-            <ListContextProvider value={listContext}>
-                <SyncDisplayedFilters />
+        <ListContextProvider value={listContext}>
+            <SyncDisplayedFilters />
 
-                {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
-            </ListContextProvider>
-        </>
+            <CallbridgeHistoryListFilter />
+
+            {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
+        </ListContextProvider>
     );
 };

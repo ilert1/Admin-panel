@@ -1,5 +1,4 @@
-import { useTranslate } from "react-admin";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
@@ -7,62 +6,24 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { CallbackStatusEnum } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/Input/input";
+import useCallbridgeHistoryFilter from "@/hooks/useCallbridgeHistoryFilter";
 
-interface MappingsListFilterProps {
-    setFilters: (filters: unknown, displayedFilters?: unknown, debounce?: boolean) => void;
-}
-
-interface FilterObjectType {
-    status?: string;
-    mapping_id?: string;
-    callback_id?: string;
-    original_url?: string;
-    // trigger_type?: string;
-}
-
-const selectValues = ["queued", "processing", "success", "error", "sync"];
-// const triggerTypeValues = ["system", "retry", "manual", "unknown"];
-
-export const CallbridgeHistoryListFilter = (props: MappingsListFilterProps) => {
-    const { setFilters } = props;
-    const translate = useTranslate();
-
-    const [filterValue, setFilterValue] = useState("");
-    const [mappingId, setMappingId] = useState("");
-    const [callbackId, setCallbackId] = useState("");
-    const [originalUrl, setOriginalUrl] = useState("");
-    // const [triggerType, setTriggerType] = useState("");
-
-    const onClearFilters = () => {
-        setFilterValue("");
-        setMappingId("");
-        setCallbackId("");
-        setOriginalUrl("");
-        // setTriggerType("");
-    };
-
-    useEffect(() => {
-        const filtersObj: FilterObjectType = {};
-
-        filterValue ? (filtersObj.status = filterValue) : "";
-        // triggerType ? (filtersObj.trigger_type = triggerType) : "";
-        mappingId ? (filtersObj.mapping_id = mappingId) : "";
-        callbackId ? (filtersObj.callback_id = callbackId) : "";
-        originalUrl ? (filtersObj.original_url = originalUrl) : "";
-
-        setFilters(filtersObj, filtersObj);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [
-        callbackId,
-        filterValue,
+export const CallbridgeHistoryListFilter = () => {
+    const {
+        translate,
+        status,
         mappingId,
-        originalUrl
-        // triggerType
-    ]);
+        callbackId,
+        originalUrl,
+        onMappingIdChanged,
+        onCallbackIdChanged,
+        onOriginalUrlChanged,
+        onStatusChanged,
+        onClearFilters
+    } = useCallbridgeHistoryFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
-    const clearDisabled = !filterValue && !mappingId && !callbackId && !originalUrl;
-    //  && !triggerType;
+    const clearDisabled = !status && !mappingId && !callbackId && !originalUrl;
 
     return (
         <div className="mb-4">
@@ -70,13 +31,7 @@ export const CallbridgeHistoryListFilter = (props: MappingsListFilterProps) => {
                 <ResourceHeaderTitle />
                 <div className="flex flex-col gap-4 sm:flex-row">
                     <FilterButtonGroup
-                        filterList={[
-                            filterValue,
-                            mappingId,
-                            callbackId,
-                            originalUrl
-                            // triggerType
-                        ]}
+                        filterList={[status, mappingId, callbackId, originalUrl]}
                         onClearFilters={onClearFilters}
                         open={openFiltersClicked}
                         onOpenChange={setOpenFiltersClicked}
@@ -92,13 +47,13 @@ export const CallbridgeHistoryListFilter = (props: MappingsListFilterProps) => {
                             labelSize="title-2"
                             className="max-w-6C min-w-40"
                             value={mappingId}
-                            onChange={e => setMappingId(e.target.value)}
+                            onChange={onMappingIdChanged}
                         />
                         <Input
                             label={translate("resources.callbridge.history.callback_id")}
                             labelSize="title-2"
                             value={callbackId}
-                            onChange={e => setCallbackId(e.target.value)}
+                            onChange={onCallbackIdChanged}
                             className="max-w-6C min-w-40"
                         />
                         <Input
@@ -106,7 +61,7 @@ export const CallbridgeHistoryListFilter = (props: MappingsListFilterProps) => {
                             labelSize="title-2"
                             value={originalUrl}
                             className="max-w-6C min-w-40"
-                            onChange={e => setOriginalUrl(e.target.value)}
+                            onChange={onOriginalUrlChanged}
                         />
                     </div>
 
@@ -117,10 +72,12 @@ export const CallbridgeHistoryListFilter = (props: MappingsListFilterProps) => {
                             </Label>
 
                             <Select
-                                value={filterValue?.toString()}
-                                onValueChange={val => {
-                                    val === "null" ? setFilterValue("null") : setFilterValue(val as CallbackStatusEnum);
-                                }}>
+                                value={status?.toString()}
+                                onValueChange={value =>
+                                    value === "null"
+                                        ? onStatusChanged("")
+                                        : onStatusChanged(value as CallbackStatusEnum)
+                                }>
                                 <SelectTrigger className="h-[38px] text-ellipsis">
                                     <SelectValue
                                         placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
@@ -129,7 +86,11 @@ export const CallbridgeHistoryListFilter = (props: MappingsListFilterProps) => {
 
                                 <SelectContent>
                                     <SelectGroup>
-                                        {selectValues.map(el => {
+                                        <SelectItem value="null">
+                                            {translate("resources.transactions.filter.showAll")}
+                                        </SelectItem>
+
+                                        {Object.values(CallbackStatusEnum).map(el => {
                                             return (
                                                 <SelectItem key={el} value={el}>
                                                     {translate(`resources.callbridge.history.callbacksStatus.${el}`)}
@@ -140,35 +101,6 @@ export const CallbridgeHistoryListFilter = (props: MappingsListFilterProps) => {
                                 </SelectContent>
                             </Select>
                         </div>
-                        {/* <div className="flex min-w-[50%] max-w-full flex-1 flex-col gap-1 sm:min-w-44 sm:max-w-[25%]">
-                            <Label variant="title-2" className="mb-0">
-                                {translate("resources.callbridge.history.fields.trigger_type")}
-                            </Label>
-
-                            <Select
-                                value={filterValue?.toString()}
-                                onValueChange={val => {
-                                    val === "null" ? setFilterValue("null") : setFilterValue(val as CallbackStatusEnum);
-                                }}>
-                                <SelectTrigger className="h-[38px] text-ellipsis">
-                                    <SelectValue
-                                        placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
-                                    />
-                                </SelectTrigger>
-
-                                <SelectContent>
-                                    <SelectGroup>
-                                        {triggerTypeValues.map(el => {
-                                            return (
-                                                <SelectItem key={el} value={el}>
-                                                    {el}
-                                                </SelectItem>
-                                            );
-                                        })}
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                        </div> */}
                     </div>
                 </div>
             </AnimatedContainer>
