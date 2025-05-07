@@ -712,12 +712,32 @@ const ru: TranslationMessages = {
                     auth: "Авторизация",
                     auth_required: "Требуется авторизация",
                     auth_not_required: "Не требуется авторизация",
+                    whiteListEdit: "Изменить разрешенные IP адреса",
+                    blackListEdit: "Изменить заблокированные IP адреса",
+                    actDeactButton: "Активировать/деактивировать политику",
+
                     blocked: "Заблокировано",
                     permitted: "Разрешено",
                     blocked_ips: "Заблокированные IP-адреса",
                     burst_limit: "Порог частоты запросов",
                     enforcement_mode: "Режим принудительного контроля",
                     updated_at: "Дата обновления"
+                },
+                sec_policy_edit: {
+                    editingAllowedPolicy: "Редактирование списка разрешенных адресов",
+                    editingBlockedPolicy: "Редактирование списка запрещенных адресов",
+                    noIps: "IP-адресов нет",
+                    addIp: "Добавить IP адрес",
+                    deleteIp: "Удалить IP адрес",
+                    errors: {
+                        wrongFormatOfIp: "Неправильный формат IPv4 адреса",
+                        alreadyExists: "Введенный IP адрес уже добавлен",
+                        notExist: "Данного IP адреса нету в списке"
+                    },
+                    addedSuccessfully: "IP адрес добавлен",
+                    deletedSuccessfully: "IP адрес удален",
+                    activatePolicy: "Активировать политику?",
+                    deactivatePolicy: "Деактивировать политику?"
                 },
                 errors: {
                     cantBeEmpty: "Поле не может быть пустым",
@@ -1756,6 +1776,9 @@ const en: TranslationMessages = {
                     auth: "Authorization",
                     auth_required: "Auth required",
                     auth_not_required: "No authorization required",
+                    whiteListEdit: "Edit allowed IPs",
+                    blackListEdit: "Edit blocked IPs",
+                    actDeactButton: "Activate/Deactivate policy",
 
                     blocked: "Blocked",
                     permitted: "Permitted",
@@ -1763,6 +1786,22 @@ const en: TranslationMessages = {
                     burst_limit: "Burst limit",
                     enforcement_mode: "Enforcement mode",
                     updated_at: "Updated at"
+                },
+                sec_policy_edit: {
+                    editingAllowedPolicy: "Editing the list of allowed addresses",
+                    editingBlockedPolicy: "Editing the list of blocked addresses",
+                    noIps: "No IP addresses",
+                    addIp: "Add IP address",
+                    deleteIp: "Delete IP address",
+                    errors: {
+                        wrongFormatOfIp: "Invalid IPv4 address format",
+                        alreadyExists: "The entered IP address is already added",
+                        notExist: "This IP address is not listed"
+                    },
+                    addedSuccessfully: "IP address added",
+                    deletedSuccessfully: "IP address deleted",
+                    activatePolicy: "Activate policy?",
+                    deactivatePolicy: "Deactivate policy?"
                 },
                 errors: {
                     cantBeEmpty: "Field can't be empty",

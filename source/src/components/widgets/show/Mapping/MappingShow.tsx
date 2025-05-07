@@ -17,6 +17,8 @@ import {
     CallbackMappingRead
 } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { EditRetryStatusDialog } from "./EditRetryStatusDialog";
+import { EditIPsDialog } from "./EditIPsDialog";
+import { ActivatePolicyDialog } from "./ActivatePolicyDialog";
 
 interface MappingShowProps {
     id: string;
@@ -28,8 +30,12 @@ export const MappingShow = (props: MappingShowProps) => {
     const translate = useTranslate();
     const data = fetchDictionaries();
     const appToast = useAppToast();
+
     const [editMappingClicked, setEditMappingClicked] = useState(false);
     const [editRetryStatusClicked, setEditRetryStatusClicked] = useState(false);
+    const [editAllowedIPsClicked, setEditAllowedIPsClicked] = useState(false);
+    const [editBlockedIPsClicked, setEditBlockedIPsClicked] = useState(false);
+    const [activatePolicyClicked, setActivatePolicyClicked] = useState(false);
 
     const allowedIPColumn: ColumnDef<SecurityPolicyConfigAllowedIpsItem>[] = [
         {
@@ -66,7 +72,7 @@ export const MappingShow = (props: MappingShowProps) => {
         id,
         queryOptions: {
             onError: () => {
-                appToast("error", translate("resources.merchant.errors.notFound"));
+                appToast("error", translate("Mapping not found"));
                 onOpenChange(false);
             }
         }
@@ -85,7 +91,7 @@ export const MappingShow = (props: MappingShowProps) => {
             <div className="flex h-full min-h-[300px] flex-col overflow-auto pt-0">
                 <div className="px-4 md:px-[42px]">
                     <div className="flex flex-col gap-1 md:gap-4">
-                        <div className="flex justify-between">
+                        <div className="flex flex-col justify-between sm:flex-row">
                             <div>
                                 <TextField text={context.record.name} className="!text-display-2" />
                                 <TextField
@@ -98,7 +104,7 @@ export const MappingShow = (props: MappingShowProps) => {
                                 {translate("app.ui.actions.edit")}
                             </Button>
                         </div>
-                        <div className="grid grid-cols-2">
+                        <div className="grid grid-cols-1 sm:grid-cols-2">
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.ext_path")}
                                 text={context.record.external_path}
@@ -128,7 +134,7 @@ export const MappingShow = (props: MappingShowProps) => {
                             />
                         </div>
                         <div className="flex flex-col gap-2">
-                            <div className="flex justify-between">
+                            <div className="flex flex-col justify-between sm:flex-row">
                                 <h3 className="text-display-3">
                                     {translate("resources.callbridge.mapping.fields.retry_policy")}
                                 </h3>
@@ -139,7 +145,7 @@ export const MappingShow = (props: MappingShowProps) => {
                                     {translate("resources.callbridge.mapping.fields.retryStatusChange")}
                                 </Button>
                             </div>
-                            <div className="grid grid-cols-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-2">
                                 <TextField
                                     label={translate("resources.callbridge.mapping.fields.state")}
                                     text={
@@ -167,9 +173,32 @@ export const MappingShow = (props: MappingShowProps) => {
                             </div>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <h3 className="text-display-3">
-                                {translate("resources.callbridge.mapping.fields.security_policy")}
-                            </h3>
+                            <div className="flex flex-col justify-between sm:flex-row">
+                                <h3 className="flex-2 !min-w-72 flex-grow text-display-3">
+                                    {translate("resources.callbridge.mapping.fields.security_policy")}
+                                </h3>
+
+                                <div className="flex flex-col flex-wrap gap-2 md:flex-row">
+                                    <Button
+                                        onClick={() => {
+                                            setEditAllowedIPsClicked(true);
+                                        }}>
+                                        {translate("resources.callbridge.mapping.fields.whiteListEdit")}
+                                    </Button>
+                                    <Button
+                                        onClick={() => {
+                                            setEditBlockedIPsClicked(true);
+                                        }}>
+                                        {translate("resources.callbridge.mapping.fields.blackListEdit")}
+                                    </Button>
+                                    <Button
+                                        onClick={() => {
+                                            setActivatePolicyClicked(true);
+                                        }}>
+                                        {translate("resources.callbridge.mapping.fields.actDeactButton")}
+                                    </Button>
+                                </div>
+                            </div>
                             <div className="grid grid-cols-2">
                                 <TextField
                                     label={translate("resources.callbridge.mapping.fields.state")}
@@ -199,9 +228,10 @@ export const MappingShow = (props: MappingShowProps) => {
                             <div className="flex w-full flex-col gap-2 sm:flex-row md:w-1/2">
                                 <div className="w-full">
                                     <SimpleTable
-                                        data={context.record.security_policy?.allowed_ips ?? []}
+                                        data={context.record.security_policy?.blocked_ips ?? []}
                                         columns={blockedIPColumn}
                                         tableType={TableTypes.COLORED}
+                                        className="max-h-96 overflow-auto overflow-x-hidden"
                                     />
                                 </div>
 
@@ -210,6 +240,7 @@ export const MappingShow = (props: MappingShowProps) => {
                                         data={context.record.security_policy?.allowed_ips ?? []}
                                         columns={allowedIPColumn}
                                         tableType={TableTypes.COLORED}
+                                        className="max-h-96 overflow-auto overflow-x-hidden"
                                     />
                                 </div>
                             </div>
@@ -223,6 +254,28 @@ export const MappingShow = (props: MappingShowProps) => {
                 open={editRetryStatusClicked}
                 onOpenChange={setEditRetryStatusClicked}
                 oldStatuses={context.record.retry_policy?.retry_on_status}
+            />
+
+            <EditIPsDialog
+                IpList={context.record.security_policy?.blocked_ips}
+                id={context.record.id}
+                onOpenChange={setEditBlockedIPsClicked}
+                open={editBlockedIPsClicked}
+                variant="Blocked"
+            />
+
+            <EditIPsDialog
+                IpList={context.record.security_policy?.allowed_ips}
+                id={context.record.id}
+                onOpenChange={setEditAllowedIPsClicked}
+                open={editAllowedIPsClicked}
+                variant="Allowed"
+            />
+            <ActivatePolicyDialog
+                id={context.record.id}
+                open={activatePolicyClicked}
+                onOpenChange={setActivatePolicyClicked}
+                prevState={context.record.security_policy?.blocked ?? true}
             />
         </>
     );
