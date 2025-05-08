@@ -5,6 +5,7 @@ import { IBaseDataProvider } from "./base";
 import { updateTokenHelper } from "@/helpers/updateTokenHelper";
 
 const API_URL = import.meta.env.VITE_API_URL;
+const MONEYGATE_URL = import.meta.env.VITE_MONEYGATE_URL;
 
 export class ITransactionDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
@@ -46,6 +47,48 @@ export class ITransactionDataProvider extends IBaseDataProvider {
                 ...json.data
             }
         };
+    }
+
+    async switchDispute(record: Transaction.Transaction) {
+        return fetch(`${API_URL}/trn/dispute`, {
+            method: "POST",
+            body: JSON.stringify({ id: record?.id, dispute: !record?.dispute }),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }).then(resp => resp.json());
+    }
+
+    async switchState(state: number, record: Transaction.Transaction) {
+        return fetch(`${API_URL}/trn/man_set_state`, {
+            method: "POST",
+            body: JSON.stringify({ id: record?.id, state }),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }).then(resp => resp.json());
+    }
+
+    async commitTransaction(record: Transaction.Transaction) {
+        return fetch(`${API_URL}/trn/commit`, {
+            method: "POST",
+            body: JSON.stringify({ id: record?.id }),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }).then(resp => resp.json());
+    }
+
+    async sendWebhookHandler(record: Transaction.Transaction) {
+        return fetch(`${MONEYGATE_URL}/send-callback?id=${record?.id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(resp => resp.json());
     }
 }
 

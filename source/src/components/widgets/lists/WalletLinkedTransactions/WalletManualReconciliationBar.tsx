@@ -3,10 +3,9 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Input } from "@/components/ui/Input/input";
 import { LoadingBalance } from "@/components/ui/loading";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { WalletsDataProvider } from "@/data";
 import { useState } from "react";
-import { fetchUtils, useRefresh, useTranslate } from "react-admin";
-
-const WALLET_URL = import.meta.env.VITE_WALLET_URL;
+import { useRefresh, useTranslate } from "react-admin";
 
 function isValidTxIDFormat(txID: string) {
     const txIDRegex = /^[a-f0-9]{64}$/i;
@@ -26,27 +25,15 @@ export const WalletManualReconciliationBar = () => {
 
     const handleCheckCLicked = async () => {
         if (isLoading) return;
-
         setIsLoading(true);
-
         try {
-            const { json } = await fetchUtils.fetchJson(`${WALLET_URL}/reconciliation/${inputVal}`, {
-                method: "POST",
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-            });
-
-            if (!json.success) {
-                appToast(
-                    "error",
-                    json.error.error_message ?? translate("resources.wallet.linkedTransactions.notFound")
-                );
-            } else {
-                appToast("success", translate("resources.wallet.linkedTransactions.successFound"));
-                refresh();
-                setManualClicked(false);
-            }
+            await WalletsDataProvider.manualReconcillation(inputVal);
+            appToast("success", translate("resources.wallet.linkedTransactions.successFound"));
+            refresh();
+            setManualClicked(false);
         } catch (error) {
-            appToast("error", translate("resources.wallet.linkedTransactions.notFound"));
+            if (error instanceof Error)
+                appToast("error", error.message ?? translate("resources.wallet.linkedTransactions.notFound"));
         } finally {
             setIsLoading(false);
         }

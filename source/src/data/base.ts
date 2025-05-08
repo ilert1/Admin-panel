@@ -56,11 +56,13 @@ export class IBaseDataProvider {
     async update(resource: string, params: UpdateParams) {
         delete params.data.generatedAt;
         delete params.data.loadedAt;
+
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}`, {
             method: "PUT",
             body: JSON.stringify(params.data),
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
+
         if (!json.success) {
             throw new Error(json.error);
         }
