@@ -3,6 +3,7 @@ import {
     CreateResult,
     DeleteParams,
     DeleteResult,
+    fetchUtils,
     GetListParams,
     GetListResult,
     GetOneParams,
@@ -10,7 +11,7 @@ import {
     UpdateParams,
     UpdateResult
 } from "react-admin";
-import { IBaseDataProvider } from "./base";
+import { API_URL, IBaseDataProvider } from "./base";
 import {
     currencyEndpointsCreateCurrencyEnigmaV1CurrencyPost,
     currencyEndpointsDeleteCurrencyEnigmaV1CurrencyCurrencyCodeDelete,
@@ -182,5 +183,16 @@ export class CurrenciesDataProvider extends IBaseDataProvider {
                 id: params.id
             }
         };
+    }
+
+    async fetchDicCurrencies(signal: AbortSignal | null | undefined) {
+        const res = await fetchUtils.fetchJson(`${API_URL}/dictionaries/curr`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            },
+            signal
+        });
+
+        return res.json;
     }
 }

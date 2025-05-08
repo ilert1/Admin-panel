@@ -114,7 +114,7 @@ export const authProvider: AuthProvider = {
     },
 
     checkAuth: async () => {
-        updateTokenHelper();
+        await updateTokenHelper();
     },
 
     checkError: async error => {
@@ -124,7 +124,7 @@ export const authProvider: AuthProvider = {
             try {
                 // Пытаемся обновить токен и ждём результата
                 // await updateToken();
-                updateTokenHelper();
+                await updateTokenHelper();
                 return Promise.resolve(); // Токен обновлён, продолжаем работу
             } catch (updateError) {
                 // Если обновление не удалось - очищаем всё

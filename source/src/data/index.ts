@@ -14,3 +14,5 @@ export { VaultDataProvider } from "./vault";
 export { CallbridgeDataProvider } from "./callbridge";
 export { OperationsDataProvider } from "./operations";
 export { feesDataProvider, FeesResource };
+export { PayoutDataProvider } from "./payout";
+export { AccountsDataProvider } from "./accounts";

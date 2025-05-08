@@ -1,7 +1,5 @@
 import { useMemo, useState } from "react";
-import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
-import { fetchUtils, HttpError, useDataProvider, useTranslate } from "react-admin";
-import { BF_MANAGER_URL } from "@/data/base";
+import { HttpError, useDataProvider, useTranslate } from "react-admin";
 import { PayOutForm } from "@/components/widgets/forms";
 
 import { NavLink } from "react-router-dom";
@@ -9,6 +7,8 @@ import { useFetchCurrencies } from "@/hooks/useFetchCurrencies";
 import { PayOutTgBanner } from "@/components/widgets/forms/PayOutTgBanner";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { LoadingBlock } from "@/components/ui/loading";
+import { useQuery } from "@tanstack/react-query";
+import { PayoutDataProvider } from "@/data";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
@@ -18,7 +18,7 @@ export const PayOutPage = () => {
     const appToast = useAppToast();
     const dataProvider = useDataProvider();
 
-    const { data: accounts, isLoading: isAccountsLoading } = useQueryWithAuth({
+    const { data: accounts, isLoading: isAccountsLoading } = useQuery({
         queryKey: ["accounts", "getList", "PayOutPage"],
         queryFn: async ({ signal }) =>
             await dataProvider.getList<Account>("accounts", {
@@ -37,17 +37,17 @@ export const PayOutPage = () => {
         isFetching,
         data: payMethods,
         refetch: refetchPayMethods
-    } = useQueryWithAuth<PayOut.Response, unknown, PayOut.PayMethod[] | []>({
+    } = useQuery<PayOut.Response, unknown, PayOut.PayMethod[] | []>({
         queryKey: ["paymethods", "PayOutPage", currency],
         queryFn: async ({ signal }) => {
             if (currency) {
-                const response = await fetch(`${BF_MANAGER_URL}/v1/payout/paymethods?currency=${currency}`, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                    },
-                    signal
-                });
-                return await response.json();
+                try {
+                    return await PayoutDataProvider.fetchPayMethods({ currency, signal });
+                } catch (error) {
+                    if (error instanceof Error) {
+                        appToast("error", error.message);
+                    }
+                }
             }
         },
         enabled: !!currency,
@@ -58,41 +58,12 @@ export const PayOutPage = () => {
     const [localLoading, setLocalLoading] = useState(false);
 
     const createPayOut = async (data: { payMethod: PayOut.PayMethod; [key: string]: string | PayOut.PayMethod }) => {
+        setLocalLoading(true);
         try {
-            const { payMethod, ...rest } = data;
-            setLocalLoading(true);
+            const res = await PayoutDataProvider.createPayout(data);
 
-            const json = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/v1/payout/create`, {
-                method: "POST",
-                body: JSON.stringify({
-                    destination: {
-                        amount: {
-                            currency: payMethod.fiatCurrency,
-                            value: {
-                                quantity: +rest.value * 100,
-                                accuracy: 100
-                            }
-                        },
-                        requisites: [
-                            {
-                                bank_name: payMethod.bank,
-                                ...Object.fromEntries(Object.entries(rest).filter(([key]) => key !== "value"))
-                            }
-                        ]
-                    },
-                    meta: {
-                        payment_type: payMethod.paymentType
-                    }
-                }),
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-            });
-
-            const jsonData = json.json;
-
-            if (!jsonData.success) throw new HttpError(jsonData.error, json.status);
-
-            if (jsonData.data?.meta?.payment_url) {
-                setPayoutTgUrl(jsonData.data?.meta?.payment_url);
+            if (res.data?.meta?.payment_url) {
+                setPayoutTgUrl(res.data?.meta?.payment_url);
             } else {
                 appToast(
                     "success",

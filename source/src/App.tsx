@@ -14,7 +14,8 @@ import {
     TerminalsDataProvider,
     OperationsDataProvider,
     CallbridgeDataProvider,
-    BaseDataProvider
+    BaseDataProvider,
+    PayoutDataProvider
 } from "@/data";
 import {
     AccountList,
@@ -93,6 +94,8 @@ const dataProvider = combineDataProviders((resource: string) => {
         return new OperationsDataProvider();
     } else if (resource.includes("callbridge")) {
         return new CallbridgeDataProvider();
+    } else if (resource.includes("payout")) {
+        return PayoutDataProvider;
     } else {
         return BaseDataProvider;
     }
