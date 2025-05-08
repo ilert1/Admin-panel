@@ -19,7 +19,6 @@ import {
 } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { EditRetryStatusDialog } from "./EditRetryStatusDialog";
 import { EditIPsDialog } from "./EditIPsDialog";
-import { ActivatePolicyDialog } from "./ActivatePolicyDialog";
 import clsx from "clsx";
 import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
 
@@ -42,7 +41,6 @@ export const MappingShow = (props: MappingShowProps) => {
     const [editRetryStatusClicked, setEditRetryStatusClicked] = useState(false);
     const [editAllowedIPsClicked, setEditAllowedIPsClicked] = useState(false);
     const [editBlockedIPsClicked, setEditBlockedIPsClicked] = useState(false);
-    const [activatePolicyClicked, setActivatePolicyClicked] = useState(false);
 
     const allowedIPColumn: ColumnDef<SecurityPolicyConfigAllowedIpsItem>[] = [
         {
@@ -317,12 +315,6 @@ export const MappingShow = (props: MappingShowProps) => {
                 onOpenChange={setEditAllowedIPsClicked}
                 open={editAllowedIPsClicked}
                 variant="Allowed"
-            />
-            <ActivatePolicyDialog
-                id={context.record.id}
-                open={activatePolicyClicked}
-                onOpenChange={setActivatePolicyClicked}
-                prevState={context.record.security_policy?.blocked ?? true}
             />
         </>
     );
