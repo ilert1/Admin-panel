@@ -4,9 +4,9 @@ import { useMemo, useState } from "react";
 import { useDataProvider, usePermissions, useTranslate } from "react-admin";
 import { DeleteWalletDialog } from "./DeleteWalletDialog";
 import { EditWalletDialog } from "./EditWalletDialog";
-import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import { Loading, LoadingBalance } from "@/components/ui/loading";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
+import { useQuery } from "@tanstack/react-query";
 
 interface WalletShowProps {
     id: string;
@@ -22,7 +22,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const translate = useTranslate();
     const dataProvider = useDataProvider();
 
-    const { data: accountsData, isLoading: isAccountsLoading } = useQueryWithAuth({
+    const { data: accountsData, isLoading: isAccountsLoading } = useQuery({
         queryKey: ["accounts", "getList", "WalletShow", id],
         queryFn: async ({ signal }) =>
             await dataProvider.getList<Account>("accounts", {
@@ -41,7 +41,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
 
-    const { data: walletBalance, isFetching: walletBalanceFetching } = useQueryWithAuth<Wallets.WalletBalance>({
+    const { data: walletBalance, isFetching: walletBalanceFetching } = useQuery<Wallets.WalletBalance>({
         queryKey: ["walletBalance"],
         queryFn: ({ signal }) =>
             dataProvider.getWalletBalance(permissions === "admin" ? "wallet" : "merchant/wallet", id, signal),

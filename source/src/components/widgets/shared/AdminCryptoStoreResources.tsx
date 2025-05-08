@@ -11,8 +11,8 @@ import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronLeft, CirclePlus, LockKeyhole, LockKeyholeOpen, Vault, WalletCards } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDataProvider, usePermissions, useTranslate } from "react-admin";
-import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import { NavLink, useLocation } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 interface ICustomViewRoute {
     name: string;
@@ -32,7 +32,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
     const { permissions } = usePermissions();
 
     const [openAccordion, setOpenAccordion] = useState(true);
-    const { data: storageState, isLoading: storageStateLoading } = useQueryWithAuth({
+    const { data: storageState, isLoading: storageStateLoading } = useQuery({
         queryKey: ["walletStorage"],
         queryFn: ({ signal }) => dataProvider.getVaultState("vault", signal),
         enabled: permissions === "admin"

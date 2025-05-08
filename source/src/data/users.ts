@@ -127,9 +127,6 @@ class IUsersDataProvider extends IBaseDataProvider {
         const { json } = await fetchUtils.fetchJson(`${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles`, {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
-        if (!json.success) {
-            throw new Error(json.error);
-        }
 
         return json as KecloakRoles[];
     }

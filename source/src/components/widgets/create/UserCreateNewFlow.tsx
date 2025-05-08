@@ -16,11 +16,11 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
-import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import clsx from "clsx";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { UsersDataProvider } from "@/data";
+import { useQuery } from "@tanstack/react-query";
 
 interface UserCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -40,12 +40,20 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
 
     const isFirefox = useMemo(() => navigator.userAgent.match(/firefox|fxios/i), []);
 
-    const { data: userRoles } = useQueryWithAuth({
+    const { data: userRoles } = useQuery({
         queryKey: ["userRoles"],
         queryFn: async ({ signal }) => {
-            return await dataProvider.getRoles({ signal });
+            try {
+                const d = await dataProvider.getRoles({ signal });
+                return d;
+            } catch (error) {
+                if (error instanceof Error) {
+                    appToast("error", error.message);
+                }
+            }
         }
     });
+    console.log(userRoles);
 
     const formSchema = z.object({
         first_name: z

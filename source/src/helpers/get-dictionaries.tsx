@@ -1,11 +1,11 @@
 import { useDataProvider } from "react-admin";
-import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
+import { useQuery } from "@tanstack/react-query";
 
 export default function fetchDictionaries(): Dictionaries.DataObject | undefined {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const dataProvider = useDataProvider();
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { data } = useQueryWithAuth<Dictionaries.DataObject>({
+    const { data } = useQuery<Dictionaries.DataObject>({
         queryKey: ["dictionaries"],
         queryFn: ({ signal }) =>
             dataProvider.getDictionaries("dictionaries", signal) as Promise<Dictionaries.DataObject>,
