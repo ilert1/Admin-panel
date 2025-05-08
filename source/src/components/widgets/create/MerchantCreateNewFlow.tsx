@@ -1,4 +1,4 @@
-import { useCreateController, CreateContextProvider, useTranslate, useRefresh, fetchUtils } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useRefresh } from "react-admin";
 import { ControllerRenderProps, SubmitHandler, useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
@@ -8,12 +8,11 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ChangeEvent, DragEvent, useState } from "react";
-import { feesDataProvider, FeesResource } from "@/data";
+import { feesDataProvider, FeesResource, MerchantsDataProvider } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { Fees } from "../components/Fees";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { BF_MANAGER_URL } from "@/data/base";
 import { FeeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
@@ -25,7 +24,7 @@ export const MerchantCreateNewFlow = ({ onOpenChange }: { onOpenChange: (state: 
     const controllerProps = useCreateController();
     const data = fetchDictionaries();
     const feeDataProvider = feesDataProvider({ id: "", resource: FeesResource.MERCHANT });
-
+    const merchantsDataProvider = new MerchantsDataProvider();
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
@@ -68,16 +67,7 @@ export const MerchantCreateNewFlow = ({ onOpenChange }: { onOpenChange: (state: 
         }
 
         try {
-            const { json } = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/merchants`, {
-                method: "POST",
-                body: JSON.stringify(data),
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
-            });
-
-            if (!json.success) {
-                throw new Error(json.error);
-            }
-
+            const json = await merchantsDataProvider.createNewFlow({ data });
             feeDataProvider.setId(json.data.id);
 
             await fees.reduce((accum, item) => {

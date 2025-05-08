@@ -3,6 +3,7 @@ import {
     CreateResult,
     DeleteParams,
     DeleteResult,
+    fetchUtils,
     GetListParams,
     GetListResult,
     GetOneParams,
@@ -10,7 +11,7 @@ import {
     UpdateParams,
     UpdateResult
 } from "react-admin";
-import { IBaseDataProvider } from "./base";
+import { BF_MANAGER_URL, IBaseDataProvider } from "./base";
 import {
     merchantEndpointsCreateMerchantEnigmaV1MerchantPost,
     merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDelete,
@@ -128,6 +129,20 @@ export class MerchantsDataProvider extends IBaseDataProvider {
         }
 
         return Promise.reject();
+    }
+
+    async createNewFlow(params: CreateParams) {
+        const { json } = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/merchants`, {
+            method: "POST",
+            body: JSON.stringify(params.data),
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        });
+
+        if (!json.success) {
+            throw new Error(json.error);
+        }
+
+        return json;
     }
 
     async update(resource: string, params: UpdateParams): Promise<UpdateResult<Merchant>> {

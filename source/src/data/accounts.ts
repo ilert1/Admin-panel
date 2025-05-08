@@ -67,6 +67,26 @@ export class IAccountsDataProvider extends IBaseDataProvider {
 
         return response;
     }
+
+    async downloadBalanceReport(url: URL | string) {
+        return fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/octet-stream",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        });
+    }
+
+    async downloadReport(url: URL | string) {
+        return fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/octet-stream",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        });
+    }
 }
 
 export const AccountsDataProvider = addRefreshAuthToDataProvider(new IAccountsDataProvider(), updateTokenHelper);

@@ -4,6 +4,7 @@ import { usePermissions, useTranslate } from "react-admin";
 
 import { API_URL } from "@/data/base";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { AccountsDataProvider } from "@/data";
 
 const useReportDownload = () => {
     const [startDate, setStartDate] = useState<Date>();
@@ -61,13 +62,7 @@ const useReportDownload = () => {
                 reqId ? "&accountId=" + reqId : ""
             }`;
 
-            const response = await fetch(url, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/octet-stream",
-                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
-            });
+            const response = await AccountsDataProvider.downloadReport(url);
 
             if (!response.ok) {
                 throw new Error("Network response was not ok");

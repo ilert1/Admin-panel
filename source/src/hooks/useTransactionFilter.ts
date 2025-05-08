@@ -6,6 +6,7 @@ import { API_URL } from "@/data/base";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import moment from "moment";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { AccountsDataProvider } from "@/data";
 
 const useTransactionFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
@@ -132,13 +133,14 @@ const useTransactionFilter = () => {
             const url = new URL(`${API_URL}/transactions/report?format=${type}`);
             Object.keys(filterValues).map(item => url.searchParams.set(item, filterValues[item]));
 
-            const response = await fetch(url, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/octet-stream",
-                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
-            });
+            // const response = await fetch(url, {
+            //     method: "GET",
+            //     headers: {
+            //         "Content-Type": "application/octet-stream",
+            //         Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            //     }
+            // });
+            const response = await AccountsDataProvider.downloadReport(url);
 
             if (!response.ok) {
                 throw new Error("Network response was not ok");
