@@ -53,7 +53,6 @@ export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
             }
         }
     });
-    console.log(userRoles);
 
     const formSchema = z.object({
         first_name: z

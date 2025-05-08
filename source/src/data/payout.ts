@@ -13,7 +13,6 @@ export class IPayoutDataProvider extends IBaseDataProvider {
             },
             signal
         });
-        console.log(response.json);
 
         return await response.json;
     }
@@ -44,8 +43,6 @@ export class IPayoutDataProvider extends IBaseDataProvider {
             }),
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
-
-        console.log(json.json);
 
         if (!json.json.success) throw new HttpError(json.json.error, json.status);
 

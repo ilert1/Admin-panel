@@ -13,8 +13,6 @@ export class IAccountsDataProvider extends IBaseDataProvider {
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
 
-        console.log(json);
-
         if (!json.success) {
             throw new Error(json.error);
         }
@@ -23,8 +21,6 @@ export class IAccountsDataProvider extends IBaseDataProvider {
     }
 
     async fetchBalance(merchantId: string, signal?: AbortSignal | undefined | null) {
-        console.log(merchantId);
-        console.log(`${API_URL}/accounts/${merchantId}`);
         const url = `${API_URL}/accounts/${merchantId}`;
 
         const res = await fetch(url, {
