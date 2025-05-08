@@ -1,5 +1,5 @@
 import fetchDictionaries from "@/helpers/get-dictionaries";
-import { useTranslate } from "react-admin";
+import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 
@@ -14,11 +14,14 @@ import { useState } from "react";
 import {
     SecurityPolicyConfigAllowedIpsItem,
     SecurityPolicyConfigBlockedIpsItem,
-    CallbackMappingRead
+    CallbackMappingRead,
+    CallbackMappingUpdate
 } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { EditRetryStatusDialog } from "./EditRetryStatusDialog";
 import { EditIPsDialog } from "./EditIPsDialog";
 import { ActivatePolicyDialog } from "./ActivatePolicyDialog";
+import clsx from "clsx";
+import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
 
 interface MappingShowProps {
     id: string;
@@ -30,6 +33,10 @@ export const MappingShow = (props: MappingShowProps) => {
     const translate = useTranslate();
     const data = fetchDictionaries();
     const appToast = useAppToast();
+    const dataProvider = useDataProvider();
+    const refresh = useRefresh();
+
+    const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
     const [editMappingClicked, setEditMappingClicked] = useState(false);
     const [editRetryStatusClicked, setEditRetryStatusClicked] = useState(false);
@@ -81,6 +88,30 @@ export const MappingShow = (props: MappingShowProps) => {
     if (context.isLoading || !context.record || !data) {
         return <Loading />;
     }
+
+    const currentStateReversed = !context.record.security_policy?.blocked;
+
+    const handleConfirmClicked = async () => {
+        if (buttonsDisabled) return;
+        setButtonsDisabled(true);
+
+        try {
+            const data: CallbackMappingUpdate = { security_policy: { blocked: currentStateReversed } };
+
+            await dataProvider.update("callbridge/v1/mapping", {
+                data,
+                id,
+                previousData: undefined
+            });
+            refresh();
+            appToast("success", translate("app.ui.toast.success"));
+            // onOpenChange(false);
+        } catch (error) {
+            if (error instanceof Error) appToast("error", error.message);
+        } finally {
+            setButtonsDisabled(false);
+        }
+    };
     const burst_limit = context.record.security_policy?.burst_limit;
 
     const base_delay = context.record.retry_policy?.base_delay;
@@ -191,12 +222,28 @@ export const MappingShow = (props: MappingShowProps) => {
                                         }}>
                                         {translate("resources.callbridge.mapping.fields.blackListEdit")}
                                     </Button>
-                                    <Button
-                                        onClick={() => {
-                                            setActivatePolicyClicked(true);
-                                        }}>
-                                        {translate("resources.callbridge.mapping.fields.actDeactButton")}
-                                    </Button>
+
+                                    <div className="flex items-center justify-center">
+                                        <button
+                                            disabled={buttonsDisabled}
+                                            onClick={handleConfirmClicked}
+                                            className={clsx(
+                                                "flex h-[27px] w-[50px] cursor-pointer items-center rounded-20 border-none p-0.5 outline-none transition-colors disabled:grayscale",
+                                                currentStateReversed ? "bg-green-50" : "bg-red-40"
+                                            )}>
+                                            <span
+                                                className={clsx(
+                                                    "flex h-[23px] w-[23px] items-center justify-center rounded-full bg-white p-1 transition-transform",
+                                                    currentStateReversed ? "translate-x-0" : "translate-x-full"
+                                                )}>
+                                                {currentStateReversed ? (
+                                                    <LockKeyholeOpen className="h-[15px] w-[15px] text-green-50" />
+                                                ) : (
+                                                    <LockKeyhole className="h-[15px] w-[15px] text-red-40" />
+                                                )}
+                                            </span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <div className="grid grid-cols-2">
