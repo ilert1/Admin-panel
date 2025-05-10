@@ -121,7 +121,7 @@ export const MappingShow = (props: MappingShowProps) => {
                 <div className="px-4 md:px-[42px]">
                     <div className="flex flex-col gap-1 md:gap-4">
                         <div className="flex flex-col justify-between sm:flex-row">
-                            <div>
+                            <div className="mb-2 md:mb-4">
                                 <TextField text={context.record.name} className="!text-display-2" />
                                 <TextField
                                     text={context.record.id}
@@ -133,7 +133,7 @@ export const MappingShow = (props: MappingShowProps) => {
                                 {translate("app.ui.actions.edit")}
                             </Button>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2">
+                        <div className="grid grid-cols-1 gap-y-2 sm:grid-cols-2">
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.ext_path")}
                                 text={context.record.external_path}
@@ -162,131 +162,139 @@ export const MappingShow = (props: MappingShowProps) => {
                                 className="text-neutral-70 dark:text-neutral-30"
                             />
                         </div>
-                        <div className="flex flex-col gap-2">
-                            <div className="flex flex-col justify-between sm:flex-row">
-                                <h3 className="text-display-3">
-                                    {translate("resources.callbridge.mapping.fields.retry_policy")}
-                                </h3>
-                                <Button
-                                    onClick={() => {
-                                        setEditRetryStatusClicked(true);
-                                    }}>
-                                    {translate("resources.callbridge.mapping.fields.retryStatusChange")}
-                                </Button>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2">
-                                <TextField
-                                    label={translate("resources.callbridge.mapping.fields.state")}
-                                    text={
-                                        context.record.retry_policy?.enabled
-                                            ? translate("resources.callbridge.mapping.fields.active")
-                                            : translate("resources.callbridge.mapping.fields.disabled")
-                                    }
-                                />
-                                <TextField
-                                    label={translate("resources.callbridge.mapping.fields.base_delay")}
-                                    text={base_delay ? String(context.record.retry_policy?.base_delay) : ""}
-                                />
-                                <TextField
-                                    label={translate("resources.callbridge.mapping.fields.max_attempts")}
-                                    text={max_attempts ? String(context.record.retry_policy?.max_attempts) : ""}
-                                />
-                                <TextField
-                                    label={translate("resources.callbridge.mapping.fields.strategy")}
-                                    text={context.record.retry_policy?.strategy ?? ""}
-                                />
-                                <TextField
-                                    label={translate("resources.callbridge.mapping.fields.retryOn")}
-                                    text={context.record.retry_policy?.retry_on_status?.join(", ") ?? ""}
-                                />
+                        <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 md:mt-10 md:pt-10">
+                            <div className="flex flex-col gap-2">
+                                <div className="flex flex-col justify-between sm:flex-row">
+                                    <h3 className="mb-2 text-display-3 md:mb-4">
+                                        {translate("resources.callbridge.mapping.fields.retry_policy")}
+                                    </h3>
+                                    <Button
+                                        onClick={() => {
+                                            setEditRetryStatusClicked(true);
+                                        }}>
+                                        {translate("resources.callbridge.mapping.fields.retryStatusChange")}
+                                    </Button>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2">
+                                    <TextField
+                                        label={translate("resources.callbridge.mapping.fields.state")}
+                                        text={
+                                            context.record.retry_policy?.enabled
+                                                ? translate("resources.callbridge.mapping.fields.active")
+                                                : translate("resources.callbridge.mapping.fields.disabled")
+                                        }
+                                    />
+                                    <TextField
+                                        label={translate("resources.callbridge.mapping.fields.base_delay")}
+                                        text={base_delay ? String(context.record.retry_policy?.base_delay) : ""}
+                                    />
+                                    <TextField
+                                        label={translate("resources.callbridge.mapping.fields.max_attempts")}
+                                        text={max_attempts ? String(context.record.retry_policy?.max_attempts) : ""}
+                                    />
+                                    <TextField
+                                        label={translate("resources.callbridge.mapping.fields.strategy")}
+                                        text={context.record.retry_policy?.strategy ?? ""}
+                                    />
+                                    <TextField
+                                        label={translate("resources.callbridge.mapping.fields.retryOn")}
+                                        text={context.record.retry_policy?.retry_on_status?.join(", ") ?? ""}
+                                    />
+                                </div>
                             </div>
                         </div>
-                        <div className="flex flex-col gap-2">
-                            <div className="flex flex-col justify-between sm:flex-row">
-                                <h3 className="flex-2 !min-w-72 flex-grow text-display-3">
-                                    {translate("resources.callbridge.mapping.fields.security_policy")}
-                                </h3>
+                        <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 md:mt-10 md:pt-10">
+                            <div className="flex flex-col gap-2">
+                                <div className="flex flex-col justify-between sm:flex-row">
+                                    <h3 className="flex-2 mb-2 !min-w-72 flex-grow text-display-3 md:mb-4">
+                                        {translate("resources.callbridge.mapping.fields.security_policy")}
+                                    </h3>
 
-                                <div className="flex flex-col flex-wrap gap-2 md:flex-row">
-                                    <Button
-                                        onClick={() => {
-                                            setEditAllowedIPsClicked(true);
-                                        }}>
-                                        {translate("resources.callbridge.mapping.fields.whiteListEdit")}
-                                    </Button>
-                                    <Button
-                                        onClick={() => {
-                                            setEditBlockedIPsClicked(true);
-                                        }}>
-                                        {translate("resources.callbridge.mapping.fields.blackListEdit")}
-                                    </Button>
-
-                                    <div className="flex items-center justify-center">
-                                        <button
-                                            disabled={buttonsDisabled}
-                                            onClick={handleConfirmClicked}
-                                            className={clsx(
-                                                "flex h-[27px] w-[50px] cursor-pointer items-center rounded-20 border-none p-0.5 outline-none transition-colors disabled:grayscale",
-                                                currentStateReversed ? "bg-green-50" : "bg-red-40"
-                                            )}>
-                                            <span
-                                                className={clsx(
-                                                    "flex h-[23px] w-[23px] items-center justify-center rounded-full bg-white p-1 transition-transform",
-                                                    currentStateReversed ? "translate-x-0" : "translate-x-full"
-                                                )}>
-                                                {currentStateReversed ? (
-                                                    <LockKeyholeOpen className="h-[15px] w-[15px] text-green-50" />
-                                                ) : (
-                                                    <LockKeyhole className="h-[15px] w-[15px] text-red-40" />
-                                                )}
-                                            </span>
-                                        </button>
+                                    <div className="flex flex-col flex-wrap gap-2 md:flex-row">
+                                        <Button
+                                            onClick={() => {
+                                                setEditAllowedIPsClicked(true);
+                                            }}>
+                                            {translate("resources.callbridge.mapping.fields.whiteListEdit")}
+                                        </Button>
+                                        <Button
+                                            onClick={() => {
+                                                setEditBlockedIPsClicked(true);
+                                            }}>
+                                            {translate("resources.callbridge.mapping.fields.blackListEdit")}
+                                        </Button>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="grid grid-cols-2">
-                                <TextField
-                                    label={translate("resources.callbridge.mapping.fields.state")}
-                                    text={
-                                        context.record.security_policy?.blocked
-                                            ? translate("resources.callbridge.mapping.fields.blocked")
-                                            : translate("resources.callbridge.mapping.fields.permitted")
-                                    }
-                                />
-                                <TextField
-                                    label={translate("resources.callbridge.mapping.fields.auth")}
-                                    text={
-                                        context.record.security_policy?.auth_required
-                                            ? translate("resources.callbridge.mapping.fields.auth_required")
-                                            : translate("resources.callbridge.mapping.fields.auth_not_required")
-                                    }
-                                />
-                                <TextField
-                                    label={translate("resources.callbridge.mapping.fields.burst_limit")}
-                                    text={burst_limit ? String(burst_limit) : ""}
-                                />
-                                <TextField
-                                    label={translate("resources.callbridge.mapping.fields.strategy")}
-                                    text={context.record.security_policy?.enforcement_mode ?? ""}
-                                />
-                            </div>
-                            <div className="flex w-full flex-col gap-2 sm:flex-row md:w-1/2">
-                                <div className="w-full">
-                                    <SimpleTable
-                                        data={context.record.security_policy?.blocked_ips ?? []}
-                                        columns={blockedIPColumn}
-                                        tableType={TableTypes.COLORED}
-                                        className="max-h-96 overflow-auto overflow-x-hidden"
+                                <div className="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <TextField
+                                            label={translate("resources.callbridge.mapping.fields.state")}
+                                            text=" "
+                                        />
+                                        <div className="flex items-center gap-2">
+                                            <button
+                                                disabled={buttonsDisabled}
+                                                onClick={handleConfirmClicked}
+                                                className={clsx(
+                                                    "flex h-[27px] w-[50px] cursor-pointer items-center rounded-20 border-none p-0.5 outline-none transition-colors disabled:grayscale",
+                                                    currentStateReversed ? "bg-green-50" : "bg-red-40"
+                                                )}>
+                                                <span
+                                                    className={clsx(
+                                                        "flex h-[23px] w-[23px] items-center justify-center rounded-full bg-white p-1 transition-transform",
+                                                        currentStateReversed ? "translate-x-0" : "translate-x-full"
+                                                    )}>
+                                                    {currentStateReversed ? (
+                                                        <LockKeyholeOpen className="h-[15px] w-[15px] text-green-50" />
+                                                    ) : (
+                                                        <LockKeyhole className="h-[15px] w-[15px] text-red-40" />
+                                                    )}
+                                                </span>
+                                            </button>
+                                            <TextField
+                                                text={
+                                                    context.record.security_policy?.blocked
+                                                        ? translate("resources.callbridge.mapping.fields.blocked")
+                                                        : translate("resources.callbridge.mapping.fields.permitted")
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                    <TextField
+                                        label={translate("resources.callbridge.mapping.fields.auth")}
+                                        text={
+                                            context.record.security_policy?.auth_required
+                                                ? translate("resources.callbridge.mapping.fields.auth_required")
+                                                : translate("resources.callbridge.mapping.fields.auth_not_required")
+                                        }
+                                    />
+                                    <TextField
+                                        label={translate("resources.callbridge.mapping.fields.burst_limit")}
+                                        text={burst_limit ? String(burst_limit) : ""}
+                                    />
+                                    <TextField
+                                        label={translate("resources.callbridge.mapping.fields.strategy")}
+                                        text={context.record.security_policy?.enforcement_mode ?? ""}
                                     />
                                 </div>
+                                <div className="flex w-full flex-col gap-2 sm:flex-row md:w-1/2">
+                                    <div className="w-full">
+                                        <SimpleTable
+                                            data={context.record.security_policy?.blocked_ips ?? []}
+                                            columns={blockedIPColumn}
+                                            tableType={TableTypes.COLORED}
+                                            className="max-h-96 overflow-auto overflow-x-hidden"
+                                        />
+                                    </div>
 
-                                <div className="w-full">
-                                    <SimpleTable
-                                        data={context.record.security_policy?.allowed_ips ?? []}
-                                        columns={allowedIPColumn}
-                                        tableType={TableTypes.COLORED}
-                                        className="max-h-96 overflow-auto overflow-x-hidden"
-                                    />
+                                    <div className="w-full">
+                                        <SimpleTable
+                                            data={context.record.security_policy?.allowed_ips ?? []}
+                                            columns={allowedIPColumn}
+                                            tableType={TableTypes.COLORED}
+                                            className="max-h-96 overflow-auto overflow-x-hidden"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
