@@ -1,11 +1,13 @@
-import { GetListParams, GetListResult, GetOneParams, GetOneResult } from "react-admin";
+import { addRefreshAuthToDataProvider, GetListParams, GetListResult, GetOneParams, GetOneResult } from "react-admin";
 import { fetchUtils } from "react-admin";
 
-import { BaseDataProvider } from "./base";
+import { IBaseDataProvider } from "./base";
+import { updateTokenHelper } from "@/helpers/updateTokenHelper";
 
 const API_URL = import.meta.env.VITE_API_URL;
+const MONEYGATE_URL = import.meta.env.VITE_MONEYGATE_URL;
 
-export class TransactionDataProvider extends BaseDataProvider {
+export class ITransactionDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
         const data: { [key: string]: string } = {
             limit: params.pagination ? params.pagination.perPage.toString() : "10",
@@ -46,4 +48,48 @@ export class TransactionDataProvider extends BaseDataProvider {
             }
         };
     }
+
+    async switchDispute(record: Transaction.Transaction) {
+        return fetch(`${API_URL}/trn/dispute`, {
+            method: "POST",
+            body: JSON.stringify({ id: record?.id, dispute: !record?.dispute }),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }).then(resp => resp.json());
+    }
+
+    async switchState(state: number, record: Transaction.Transaction) {
+        return fetch(`${API_URL}/trn/man_set_state`, {
+            method: "POST",
+            body: JSON.stringify({ id: record?.id, state }),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }).then(resp => resp.json());
+    }
+
+    async commitTransaction(record: Transaction.Transaction) {
+        return fetch(`${API_URL}/trn/commit`, {
+            method: "POST",
+            body: JSON.stringify({ id: record?.id }),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }).then(resp => resp.json());
+    }
+
+    async sendWebhookHandler(record: Transaction.Transaction) {
+        return fetch(`${MONEYGATE_URL}/send-callback?id=${record?.id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(resp => resp.json());
+    }
 }
+
+export const TransactionDataProvider = addRefreshAuthToDataProvider(new ITransactionDataProvider(), updateTokenHelper);

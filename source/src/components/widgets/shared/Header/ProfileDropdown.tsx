@@ -7,11 +7,11 @@ import Blowfish from "@/lib/icons/Blowfish";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router";
 import { HeaderButton } from "@/components/ui/Button";
-import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
-import { API_URL } from "@/data/base";
 import { BalanceDisplay } from "./BalanceDisplay";
 import { BalanceList } from "./BalanceList";
 import { ThemeSwitcher } from "./ThemeSwitcher";
+import { AccountsDataProvider } from "@/data";
+import { useQuery } from "@tanstack/react-query";
 
 export const ProfileDropdown = ({ handleLogout }: { handleLogout: () => void }) => {
     const { permissions } = usePermissions();
@@ -21,15 +21,10 @@ export const ProfileDropdown = ({ handleLogout }: { handleLogout: () => void }) 
     const isMerchant = useMemo(() => permissions === "merchant", [permissions]);
     const navigate = useNavigate();
 
-    const { isLoading: totalLoading, data: totalAmount } = useQueryWithAuth<AccountBalance[]>({
+    const { isLoading: totalLoading, data: totalAmount } = useQuery<AccountBalance[]>({
         queryKey: ["totalAmount"],
         queryFn: async ({ signal }) => {
-            const response = await fetch(`${API_URL}/accounts/balance/count`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                },
-                signal
-            });
+            const response = await AccountsDataProvider.balanceCount(signal);
 
             if (!response.ok) throw new Error(translate("app.ui.header.totalError"));
 

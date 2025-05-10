@@ -1,4 +1,4 @@
-import { FeesResource } from "@/data";
+import { FeesResource, MerchantsDataProvider } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useTranslate } from "react-admin";
 import { Loading, LoadingBlock } from "@/components/ui/loading";
@@ -8,15 +8,14 @@ import { SimpleTable } from "../../shared";
 import { TableTypes } from "../../shared/SimpleTable";
 import { Fees } from "../../components/Fees";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet } from "@/api/enigma/direction/direction";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import clsx from "clsx";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
-import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import { Button } from "@/components/ui/Button";
 import { EditMerchantDialog } from "../../lists/Merchants/EditMerchantDialog";
 import { useState } from "react";
 import { DeleteMerchantDialog } from "../../lists/Merchants/DeleteMerchantDialog";
+import { useQuery } from "@tanstack/react-query";
 
 interface MerchantShowProps {
     id: string;
@@ -28,6 +27,8 @@ export const MerchantShow = (props: MerchantShowProps) => {
     const { id, merchantName, onOpenChange } = props;
     const translate = useTranslate();
     const data = fetchDictionaries();
+    const dataProvider = new MerchantsDataProvider();
+
     const appToast = useAppToast();
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -52,34 +53,12 @@ export const MerchantShow = (props: MerchantShowProps) => {
         data: merchantDirections,
         isLoading: isMerchantDirectionsLoading,
         isFetching: isMerchantDirectionsFetching
-    } = useQueryWithAuth({
+    } = useQuery({
         queryKey: ["merchantDirections", "MerchantShow", context.record?.id],
         queryFn: async () => {
             if (context.record?.id) {
                 try {
-                    const res =
-                        await directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet(
-                            context.record.id,
-                            {
-                                currentPage: 1,
-                                pageSize: 1000,
-                                orderBy: "weight",
-                                sortOrder: "desc"
-                            },
-                            {
-                                headers: {
-                                    authorization: `Bearer ${localStorage.getItem("access-token")}`
-                                }
-                            }
-                        );
-
-                    if ("data" in res.data && res.data.success) {
-                        return res.data.data.items;
-                    } else if ("data" in res.data && !res.data.success) {
-                        throw new Error(res.data.error?.error_message);
-                    } else if ("detail" in res.data) {
-                        throw new Error(res.data.detail?.[0].msg);
-                    }
+                    return await dataProvider.getMerchantDirections(context.record.id);
                 } catch (error) {
                     if (error instanceof Error) {
                         appToast("error", error.message);

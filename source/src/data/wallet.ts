@@ -1,4 +1,5 @@
 import {
+    addRefreshAuthToDataProvider,
     CreateParams,
     CreateResult,
     DeleteParams,
@@ -11,11 +12,13 @@ import {
 } from "react-admin";
 import { fetchUtils } from "react-admin";
 
-import { BaseDataProvider } from "./base";
+import { IBaseDataProvider } from "./base";
+import { updateTokenHelper } from "@/helpers/updateTokenHelper";
 
 const API_URL = import.meta.env.VITE_WALLET_URL;
+const WALLET_URL = import.meta.env.VITE_WALLET_URL;
 
-export class WalletsDataProvider extends BaseDataProvider {
+export class IWalletsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
         const data: { [key: string]: string } = {
             limit: params.pagination ? params.pagination.perPage.toString() : "10",
@@ -169,4 +172,33 @@ export class WalletsDataProvider extends BaseDataProvider {
 
         return { data: { id: params.id } };
     }
+
+    async manualReconcillation(value: string) {
+        const { json } = await fetchUtils.fetchJson(`${WALLET_URL}/reconciliation/${value}`, {
+            method: "POST",
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+        });
+
+        if (!json.success) {
+            throw new Error(json.error.error_message);
+        }
+
+        return json;
+    }
+
+    async confirmWalletTransaction(id: string) {
+        const { json } = await fetchUtils.fetchJson(`${API_URL}/transaction/${id}/process`, {
+            method: "POST",
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+            body: undefined
+        });
+
+        if (!json.success) {
+            throw new Error(json.error.error_message);
+        }
+
+        return json;
+    }
 }
+
+export const WalletsDataProvider = addRefreshAuthToDataProvider(new IWalletsDataProvider(), updateTokenHelper);

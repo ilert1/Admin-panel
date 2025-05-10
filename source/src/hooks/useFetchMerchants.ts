@@ -1,5 +1,5 @@
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
+import { useQuery } from "@tanstack/react-query";
 import { useDataProvider, usePermissions } from "react-admin";
 
 export const useFetchMerchants = () => {
@@ -10,7 +10,7 @@ export const useFetchMerchants = () => {
         isLoading,
         data: merchantData,
         error
-    } = useQueryWithAuth({
+    } = useQuery({
         queryKey: ["merchant", "getList", "MerchantSelectFilter"],
         queryFn: async ({ signal }) =>
             await dataProvider.getList<Merchant>("merchant", {

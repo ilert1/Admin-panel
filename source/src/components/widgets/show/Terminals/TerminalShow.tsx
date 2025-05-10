@@ -2,7 +2,6 @@ import { useDataProvider, useTranslate } from "react-admin";
 import { Fees } from "../../components/Fees";
 import { FeesResource } from "@/data";
 import { TextField } from "@/components/ui/text-field";
-import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import { LoadingBlock } from "@/components/ui/loading";
 import { Button } from "@/components/ui/Button";
 import { TerminalWithId } from "@/data/terminals";
@@ -11,6 +10,8 @@ import { DeleteTerminalDialog } from "../../lists/Terminals/DeleteTerminalDialog
 import { useState } from "react";
 import { AuthDataViewer, AuthDataEditSheet } from "../../edit/Terminals/AuthData";
 import { GenerateCallbackDialog } from "./GenerateCallbackDialog";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { useQuery } from "@tanstack/react-query";
 
 interface TerminalShowProps {
     id: string;
@@ -26,22 +27,22 @@ export const TerminalShow = (props: TerminalShowProps) => {
     const dataProvider = useDataProvider();
     const translate = useTranslate();
     const [editAuthDataDialogOpen, setEditAuthDataDialogOpen] = useState(false);
+    const appToast = useAppToast();
 
-    const { data, isLoading } = useQueryWithAuth({
+    const { data, isLoading } = useQuery({
         queryKey: ["terminal-fees", provider, id],
         queryFn: async ({ signal }) => {
             try {
-                const { data } = await dataProvider.getOne<TerminalWithId>(`${provider}/terminal`, { id, signal });
-
-                if (!data) {
-                    throw new Error();
-                }
-
-                return data;
+                return await dataProvider.getOne<TerminalWithId>(`${provider}/terminal`, { id, signal });
             } catch (error) {
+                if (error instanceof Error) {
+                    appToast("error", error.message);
+                }
+            } finally {
                 onOpenChange(false);
             }
-        }
+        },
+        select: data => data?.data
     });
 
     if (isLoading || !data) {

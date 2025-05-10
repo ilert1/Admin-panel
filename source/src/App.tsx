@@ -4,7 +4,6 @@ import { BrowserRouter } from "react-router-dom";
 import {
     TransactionDataProvider,
     i18nProvider,
-    BaseDataProvider,
     UsersDataProvider,
     MerchantsDataProvider,
     CurrenciesDataProvider,
@@ -14,7 +13,10 @@ import {
     VaultDataProvider,
     TerminalsDataProvider,
     OperationsDataProvider,
-    CallbridgeDataProvider
+    CallbridgeDataProvider,
+    BaseDataProvider,
+    PayoutDataProvider,
+    AccountsDataProvider
 } from "@/data";
 import {
     AccountList,
@@ -60,15 +62,14 @@ import { SheetProvider } from "./components/providers/SheetProvider";
 import { SheetManager } from "./components/providers/SheetManager";
 import { MappingsList } from "./components/widgets/lists/Mappings/MappingsList";
 import { CallbackHistoryList } from "./components/widgets/lists/CallbridgeHistory/CallbridgeHistory";
-import { authCheckDataProviderWrapper } from "./components/providers/authCheckDataProviderWrapper";
 
 const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
 
 const dataProvider = combineDataProviders((resource: string) => {
     if (resource?.startsWith("transactions")) {
-        return new TransactionDataProvider();
+        return TransactionDataProvider;
     } else if (resource === "users") {
-        return new UsersDataProvider();
+        return UsersDataProvider;
     } else if (resource === "currency") {
         return new CurrenciesDataProvider();
     } else if (resource === "merchant") {
@@ -87,19 +88,22 @@ const dataProvider = combineDataProviders((resource: string) => {
         resource === "merchant/transaction" ||
         resource === "merchant/reconciliation"
     ) {
-        return new WalletsDataProvider();
+        return WalletsDataProvider;
     } else if (resource === "vault") {
         return new VaultDataProvider();
     } else if (resource === "operations") {
         return new OperationsDataProvider();
     } else if (resource.includes("callbridge")) {
         return new CallbridgeDataProvider();
+    } else if (resource.includes("payout")) {
+        return PayoutDataProvider;
+    } else if (resource.includes("account")) {
+        return AccountsDataProvider;
     } else {
-        return new BaseDataProvider();
+        return BaseDataProvider;
     }
 });
 dataProvider.supportAbortSignal = true;
-const dataProviderWithAuth = authCheckDataProviderWrapper(dataProvider, authProvider);
 
 export const App = () => {
     return (
@@ -109,10 +113,7 @@ export const App = () => {
                     v7_startTransition: true,
                     v7_relativeSplatPath: true
                 }}>
-                <CoreAdminContext
-                    i18nProvider={i18nProvider}
-                    dataProvider={dataProviderWithAuth}
-                    authProvider={authProvider}>
+                <CoreAdminContext i18nProvider={i18nProvider} dataProvider={dataProvider} authProvider={authProvider}>
                     <SheetProvider>
                         <CoreAdminUI
                             catchAll={NotFound}

@@ -10,7 +10,7 @@ import {
     UpdateParams,
     UpdateResult
 } from "react-admin";
-import { BaseDataProvider } from "./base";
+import { IBaseDataProvider } from "./base";
 import {
     directionEndpointsCreateDirectionEnigmaV1DirectionPost,
     directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDelete,
@@ -21,7 +21,7 @@ import {
 } from "@/api/enigma/direction/direction";
 import { Direction, DirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
-export class DirectionsDataProvider extends BaseDataProvider {
+export class DirectionsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<Direction>> {
         const fieldsForSearch = Object.keys(params.filter).filter(item => item === "merchant");
 

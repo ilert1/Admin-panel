@@ -3,6 +3,7 @@ import {
     CreateResult,
     DeleteParams,
     DeleteResult,
+    fetchUtils,
     GetListParams,
     GetListResult,
     GetOneParams,
@@ -10,7 +11,7 @@ import {
     UpdateParams,
     UpdateResult
 } from "react-admin";
-import { BaseDataProvider } from "./base";
+import { API_URL, IBaseDataProvider } from "./base";
 import {
     currencyEndpointsCreateCurrencyEnigmaV1CurrencyPost,
     currencyEndpointsDeleteCurrencyEnigmaV1CurrencyCurrencyCodeDelete,
@@ -22,7 +23,7 @@ import { Currency, CurrencyCreate } from "@/api/enigma/blowFishEnigmaAPIService.
 
 export type CurrencyWithId = Currency & { id: string };
 
-export class CurrenciesDataProvider extends BaseDataProvider {
+export class CurrenciesDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<CurrencyWithId>> {
         const res = await currencyEndpointsListCurrenciesEnigmaV1CurrencyGet(
             {
@@ -182,5 +183,16 @@ export class CurrenciesDataProvider extends BaseDataProvider {
                 id: params.id
             }
         };
+    }
+
+    async fetchDicCurrencies(signal: AbortSignal | null | undefined) {
+        const res = await fetchUtils.fetchJson(`${API_URL}/dictionaries/curr`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            },
+            signal
+        });
+
+        return res.json;
     }
 }

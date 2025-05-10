@@ -6,9 +6,11 @@ import { API_URL } from "@/data/base";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import moment from "moment";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { WithdrawDataProvider } from "@/data/withdraw";
 
 const useWithdrawFilter = () => {
     const dictionaries = fetchDictionaries();
+    const dataProvider = WithdrawDataProvider;
 
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
 
@@ -118,13 +120,7 @@ const useWithdrawFilter = () => {
             const url = new URL(`${API_URL}/withdraw/report?format=${type}&`);
             Object.keys(filterValues).map(item => url.searchParams.set(item, filterValues[item]));
 
-            const response = await fetch(url, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/octet-stream",
-                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
-            });
+            const response = await dataProvider.downloadReport(url);
 
             if (!response.ok) {
                 throw new Error("Network response was not ok");

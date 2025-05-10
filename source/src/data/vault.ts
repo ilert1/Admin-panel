@@ -1,10 +1,10 @@
 import { fetchUtils } from "react-admin";
 
-import { BaseDataProvider } from "./base";
+import { IBaseDataProvider } from "./base";
 
 const API_URL = import.meta.env.VITE_WALLET_URL;
 
-export class VaultDataProvider extends BaseDataProvider {
+export class VaultDataProvider extends IBaseDataProvider {
     async getVaultState(resource: "vault", signal?: AbortSignal): Promise<Wallets.WalletStorage> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/state`, {
             method: "GET",

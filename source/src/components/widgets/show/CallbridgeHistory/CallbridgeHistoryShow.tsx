@@ -1,7 +1,7 @@
 import { Loading } from "@/components/ui/loading";
-import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import { CallbridgeDataProvider } from "@/data";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
+import { useQuery } from "@tanstack/react-query";
 
 interface CallbridgeHistoryShowProps {
     id: string;
@@ -12,10 +12,10 @@ export const CallbridgeHistoryShow = (props: CallbridgeHistoryShowProps) => {
     const { id } = props;
     const dataProvider = new CallbridgeDataProvider();
 
-    const { data: queryData, isLoading } = useQueryWithAuth({
+    const { data: queryData, isLoading } = useQuery({
         queryKey: ["GetHistoryById"],
-        queryFn: async () => {
-            const res = await dataProvider.getHistoryById("callbridge/v1/history", { id });
+        queryFn: async ({ signal }) => {
+            const res = await dataProvider.getHistoryById("callbridge/v1/history", { id, signal });
             return res.data.items;
         }
     });

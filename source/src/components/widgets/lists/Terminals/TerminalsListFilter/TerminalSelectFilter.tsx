@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/Button";
 import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import { Check, ChevronDown } from "lucide-react";
 import { useDataProvider, useTranslate } from "react-admin";
 import { TerminalWithId } from "@/data/terminals";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 interface ITerminalSelectFilter {
     terminalFilterName: string;
@@ -33,7 +33,7 @@ export const TerminalSelectFilter = ({
         isRefetching,
         isLoading,
         isFetched
-    } = useQueryWithAuth({
+    } = useQuery({
         queryKey: ["terminals", "getList", "allTerminalsList", currentProvider],
         queryFn: async ({ signal }) =>
             await dataProvider.getList<TerminalWithId>(`${currentProvider}/terminal`, {

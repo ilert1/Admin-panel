@@ -1,10 +1,4 @@
-import { fetchUtils, useRefresh, useTranslate } from "react-admin";
-
-interface ConfirmDialogProps {
-    open: boolean;
-    id: string;
-    onOpenChange: (state: boolean) => void;
-}
+import { useRefresh, useTranslate } from "react-admin";
 
 import {
     Dialog,
@@ -17,8 +11,13 @@ import {
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { WalletsDataProvider } from "@/data";
 
-const API_URL = import.meta.env.VITE_WALLET_URL;
+interface ConfirmDialogProps {
+    open: boolean;
+    id: string;
+    onOpenChange: (state: boolean) => void;
+}
 
 export const ConfirmDialog = (props: ConfirmDialogProps) => {
     const translate = useTranslate();
@@ -35,15 +34,7 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
         setButtonDisabled(true);
         onOpenChange(false);
         try {
-            const { json } = await fetchUtils.fetchJson(`${API_URL}/transaction/${id}/process`, {
-                method: "POST",
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
-                body: undefined
-            });
-
-            if (!json.success) {
-                throw new Error("");
-            }
+            WalletsDataProvider.confirmWalletTransaction(id);
 
             appToast("success", translate("resources.wallet.transactions.successMessage"));
             refresh();
@@ -56,7 +47,7 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="h-auto max-h-56 w-[280px] overflow-hidden rounded-16 bg-muted xl:max-h-none">
+            <DialogContent className="h-auto max-h-56 !w-[280px] overflow-hidden rounded-16 bg-muted xl:max-h-none">
                 <DialogHeader>
                     <DialogTitle className="text-center">
                         {translate("resources.wallet.transactions.fields.confirmQuestion")}

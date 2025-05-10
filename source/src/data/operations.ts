@@ -1,11 +1,11 @@
 import { GetListParams, GetListResult } from "react-admin";
 import { fetchUtils } from "react-admin";
 
-import { BaseDataProvider } from "./base";
+import { IBaseDataProvider } from "./base";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export class OperationsDataProvider extends BaseDataProvider {
+export class OperationsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
         const paramsStr = new URLSearchParams({
             limit: params.pagination ? params.pagination.perPage.toString() : "10",

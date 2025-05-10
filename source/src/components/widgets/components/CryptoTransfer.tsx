@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
 import { useRefresh, useTranslate } from "react-admin";
-import { BF_MANAGER_URL, API_URL } from "@/data/base";
 import { CryptoTransferForm } from "@/components/widgets/forms";
 import { parseJWT } from "@/helpers/jwt";
-import { useQueryWithAuth } from "@/hooks/useQueryWithAuth";
 import { TextField } from "@/components/ui/text-field";
+import { AccountsDataProvider } from "@/data";
+import { useQuery } from "@tanstack/react-query";
 
 interface CryptoTransferProps {
     cryptoTransferState: "process" | "success" | "error";
@@ -27,15 +27,11 @@ export const CryptoTransfer = ({ repeatData, cryptoTransferState, setCryptoTrans
         }
     }, []);
 
-    const { isLoading: balanceLoading, data: balance } = useQueryWithAuth({
+    const { isLoading: balanceLoading, data: balance } = useQuery({
         queryKey: ["accounts", merchantId],
-        queryFn: ({ signal }) =>
-            fetch(`${API_URL}/accounts/${merchantId}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                },
-                signal
-            }).then(response => response.json()),
+        queryFn: async ({ signal }) => {
+            if (merchantId) return await AccountsDataProvider.fetchBalance(merchantId, signal);
+        },
         select(data) {
             const amounts = data.data.amounts;
 
@@ -57,23 +53,8 @@ export const CryptoTransfer = ({ repeatData, cryptoTransferState, setCryptoTrans
 
     const createTransfer = (data: { address: string; amount: number; accuracy: number }) => {
         setLocalLoading(true);
-        fetch(`${BF_MANAGER_URL}/v1/withdraw/create`, {
-            method: "POST",
-            body: JSON.stringify({
-                address: data.address,
-                amount: {
-                    currency: "USDT",
-                    value: {
-                        accuracy: data.accuracy,
-                        quantity: Math.round(data.amount * data.accuracy)
-                    }
-                }
-            }),
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
-        })
+
+        AccountsDataProvider.createTransfer(data)
             .then(response => response.json())
             .then(json => {
                 if (json.success) {

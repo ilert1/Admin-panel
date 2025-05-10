@@ -1,4 +1,11 @@
-import { useEditController, EditContextProvider, useTranslate, useRefresh, fetchUtils, HttpError } from "react-admin";
+import {
+    useEditController,
+    EditContextProvider,
+    useTranslate,
+    useRefresh,
+    HttpError,
+    useDataProvider
+} from "react-admin";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
@@ -23,8 +30,6 @@ import { Label } from "@/components/ui/label";
 import { isTRC20Address } from "@/helpers/isTRC20Address";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 
-const BF_MANAGER_URL = import.meta.env.VITE_BF_MANAGER_URL;
-
 interface AccountEditProps {
     id?: string;
     onClose: () => void;
@@ -34,6 +39,7 @@ export const AccountEdit = ({ id, onClose }: AccountEditProps) => {
     const controllerProps = useEditController({ resource: "accounts", id, mutationMode: "pessimistic" });
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+    const dataProvider = useDataProvider();
 
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -112,21 +118,18 @@ export const AccountEdit = ({ id, onClose }: AccountEditProps) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
         try {
-            const { json } = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/account`, {
-                method: "PUT",
-                body: JSON.stringify(data),
-                user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
+            await dataProvider.update(`account`, {
+                id: controllerProps.record.id,
+                previousData: undefined,
+                data: data
             });
-
-            if (!json.success) {
-                throw new Error(json.error);
-            }
 
             refresh();
             onClose();
         } catch (error) {
-            setSubmitButtonDisabled(false);
             if (error instanceof HttpError) appToast("error", error.message);
+        } finally {
+            setSubmitButtonDisabled(false);
         }
     };
 

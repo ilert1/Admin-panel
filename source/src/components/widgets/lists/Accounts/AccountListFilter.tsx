@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/Button";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { API_URL } from "@/data/base";
 import moment from "moment";
+import { AccountsDataProvider } from "@/data";
 
 // interface AccountListFilterProps {
 //     setFilters: (filters: unknown, displayedFilters?: unknown, debounce?: boolean | undefined) => void;
@@ -61,13 +62,7 @@ export const AccountListFilter = () => {
 
             let filename = `report_${merchantId && `merchantId_${merchantId}_`}${formattedDate(startDate)}_to_${formattedDate(endDate)}.${type}`;
 
-            fetch(url, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/octet-stream",
-                    Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
-            })
+            AccountsDataProvider.downloadBalanceReport(url)
                 .then(response => {
                     const contentDisposition = response?.headers?.get("Content-Disposition");
                     const matches = contentDisposition?.match(/filename\*?=["']?(.+?)["']?;?$/i);
