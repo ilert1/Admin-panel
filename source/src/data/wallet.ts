@@ -18,6 +18,13 @@ import { updateTokenHelper } from "@/helpers/updateTokenHelper";
 const API_URL = import.meta.env.VITE_WALLET_URL;
 const WALLET_URL = import.meta.env.VITE_WALLET_URL;
 
+interface IManualReconcillationData {
+    fiat: boolean;
+    merchant_id: string;
+    currency: string;
+    amount: string;
+}
+
 export class IWalletsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
         const data: { [key: string]: string } = {
@@ -173,9 +180,10 @@ export class IWalletsDataProvider extends IBaseDataProvider {
         return { data: { id: params.id } };
     }
 
-    async manualReconcillation(value: string) {
+    async manualReconcillation(value: string, data?: IManualReconcillationData) {
         const { json } = await fetchUtils.fetchJson(`${WALLET_URL}/reconciliation/${value}`, {
             method: "POST",
+            body: data ? JSON.stringify(data) : undefined,
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
         });
 

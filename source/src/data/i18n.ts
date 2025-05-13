@@ -664,6 +664,7 @@ const ru: TranslationMessages = {
                 check: "Проверить",
                 notFound: "Транзакция не найдена",
                 successFound: "Транзакция успешно добавлена",
+                notValidAmount: "Сумма не может быть больше баланса",
                 fields: {
                     scannedAt: "Время сканирования",
                     blockTimestamp: "Время генерации",
@@ -672,7 +673,10 @@ const ru: TranslationMessages = {
                     destinationAddress: "Адрес кошелька получателя",
                     type: "Тип операции",
                     amount: "Сумма прихода",
-                    currency: "Валюта"
+                    currency: "Валюта",
+                    fiatSwitcher: "Вывод через фиатную валюту",
+                    merchantBalance: "Баланс",
+                    merchantAmount: "Сумма"
                 }
             }
         },
@@ -1730,6 +1734,7 @@ const en: TranslationMessages = {
                 check: "Check",
                 notFound: "Transaction was not found",
                 successFound: "Transaction added successfullly",
+                notValidAmount: "The amount cannot be more than the balance",
                 fields: {
                     scannedAt: "Scanned at",
                     blockTimestamp: "Block timestamp",
@@ -1738,7 +1743,10 @@ const en: TranslationMessages = {
                     destinationAddress: "Destination address",
                     type: "Type",
                     amount: "Amount",
-                    currency: "Currency"
+                    currency: "Currency",
+                    fiatSwitcher: "Withdrawal via fiat currency",
+                    merchantBalance: "Balance",
+                    merchantAmount: "Amount"
                 }
             }
         },
