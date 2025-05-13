@@ -28,6 +28,8 @@ export const GenerateCallbackDialog = (props: GenerateCallbackDialogProps) => {
 
     const formSchema = z.object({
         callback_url: z.string().min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty"))
+        // callback_url: z.optional(z.string().min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty"))),
+        // adapter_nats_subject: z.optional(z.string().min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty")))
     });
 
     type FormSchemaType = z.infer<typeof formSchema>;
@@ -36,6 +38,7 @@ export const GenerateCallbackDialog = (props: GenerateCallbackDialogProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             callback_url: ""
+            // adapter_nats_subject: ""
         }
     });
     const onSubmit = async (data: FormSchemaType) => {

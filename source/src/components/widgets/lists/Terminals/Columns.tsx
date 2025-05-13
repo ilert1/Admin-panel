@@ -29,7 +29,7 @@ export const useGetTerminalColumns = () => {
 
     const handleOpenShowClicked = (id: string, provider: string) => {
         openSheet("terminal", {
-            id,
+            id, 
             provider
         });
     };
