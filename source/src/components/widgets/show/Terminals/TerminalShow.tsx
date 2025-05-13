@@ -19,7 +19,7 @@ interface TerminalShowProps {
     onOpenChange: (state: boolean) => void;
 }
 export const TerminalShow = (props: TerminalShowProps) => {
-    const { id, provider, onOpenChange } = props;
+    const { id, provider } = props;
 
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [generateCallbackDialogOpen, setGenerateCallbackDialogOpen] = useState(false);
@@ -38,9 +38,7 @@ export const TerminalShow = (props: TerminalShowProps) => {
                 if (error instanceof Error) {
                     appToast("error", error.message);
                 }
-            } finally {
-                onOpenChange(false);
-            }
+            } 
         },
         select: data => data?.data
     });
