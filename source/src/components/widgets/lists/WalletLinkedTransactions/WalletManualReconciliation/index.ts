@@ -1,1 +1,1 @@
-export { WalletManualReconciliationBar } from "./WalletManualReconciliationBar";
+export { WalletManualReconciliation } from "./WalletManualReconciliation";
