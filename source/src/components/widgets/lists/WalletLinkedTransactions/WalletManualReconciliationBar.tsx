@@ -64,7 +64,7 @@ export const WalletManualReconciliationBar = () => {
         enabled: fiatShow && !!merchantId && !!currencies
     });
 
-    const handleCheckCLicked = async () => {
+    const handleCheckClicked = async () => {
         if (isLoading) return;
 
         setIsLoading(true);
@@ -230,7 +230,7 @@ export const WalletManualReconciliationBar = () => {
 
                         <div className="flex flex-col items-center gap-4 sm:flex-row sm:self-end">
                             <Button
-                                onClick={handleCheckCLicked}
+                                onClick={handleCheckClicked}
                                 variant="default"
                                 className="w-full sm:w-auto"
                                 disabled={
