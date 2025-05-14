@@ -3,18 +3,18 @@ import { fetchUtils } from "react-admin";
 import { isTokenStillFresh } from "./jwt";
 
 const keycloakLoginUrl = import.meta.env.VITE_KEYCLOAK_LOGIN_URL;
-// const keycloakUrl = import.meta.env.VITE_KEYCLOAK_URL;
 const clientId = import.meta.env.VITE_KEYCLOAK_CLIENT_ID;
 
 const updateToken = async () => {
     const refreshToken = localStorage.getItem("refresh-token");
+
     if (!refreshToken) {
         return Promise.reject("No refresh token available");
     }
 
     try {
         const bodyObject = {
-            client_id: clientId,
+            client_id: clientId ?? "",
             grant_type: "refresh_token",
             refresh_token: refreshToken
         };

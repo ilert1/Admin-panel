@@ -3,13 +3,14 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
+import { Link, MessageCircle } from "lucide-react";
 import { useState } from "react";
-import { useLocaleState, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
+import NatsIcon from "@/lib/icons/nat-nat-gateway.svg?react";
 
 export const useGetMappingsColumns = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
-    const [locale] = useLocaleState();
 
     const [createMappingClicked, setCreateMappingClicked] = useState(false);
 
@@ -23,41 +24,76 @@ export const useGetMappingsColumns = () => {
 
     const columns: ColumnDef<CallbackMappingRead>[] = [
         {
-            accessorKey: "created_at",
-            header: translate("resources.transactions.fields.createdAt"),
-            cell: ({ row }) => (
-                <>
-                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
-                    <p className="text-nowrap text-neutral-70">
-                        {new Date(row.original.created_at).toLocaleTimeString(locale)}
-                    </p>
-                </>
-            )
-        },
-        {
             id: "id",
             accessorKey: "id",
             header: "ID",
             cell: ({ row }) => {
-                return <TextField text={row.original.id} copyValue lineClamp linesCount={1} maxWidth="100%" />;
-            }
-        },
-        {
-            id: "callback_url",
-            header: translate("resources.callbridge.mapping.fields.callback_url"),
-            cell: ({ row }) => {
                 return (
-                    <TextField text={row.original.callback_url} copyValue lineClamp linesCount={1} maxWidth="250px" />
+                    <div className="flex flex-col gap-2">
+                        <TextField
+                            text={row.original.name}
+                            lineClamp
+                            linesCount={1}
+                            maxWidth="100%"
+                            className="text-note-1 text-neutral-70"
+                        />
+                        <TextField text={row.original.id} copyValue lineClamp linesCount={1} maxWidth="100%" />
+                    </div>
                 );
             }
         },
         {
-            id: "internal_path",
-            accessorKey: "internal_path",
-            header: translate("resources.callbridge.mapping.fields.int_path"),
+            id: "Terminal name",
+            header: translate("resources.callbridge.mapping.fields.terminal"),
+            cell: ({ row }) => {
+                const term = row.original.terminal?.verbose_name;
+
+                return (
+                    <TextField
+                        text={term ?? ""}
+                        onClick={
+                            term
+                                ? () => {
+                                      openSheet("terminal", {
+                                          id: row.original.terminal?.terminal_id,
+                                          provider: row.original.terminal?.provider
+                                      });
+                                  }
+                                : undefined
+                        }
+                    />
+                );
+            }
+        },
+        {
+            id: "external_url",
+            header: translate("resources.callbridge.mapping.fields.ext_path"),
             cell: ({ row }) => {
                 return (
-                    <TextField text={row.original.internal_path} copyValue lineClamp linesCount={1} maxWidth="250px" />
+                    <TextField text={row.original.external_path} copyValue lineClamp linesCount={1} maxWidth="250px" />
+                );
+            }
+        },
+
+        {
+            id: "internal_path",
+            accessorKey: "internal_path",
+            header: translate("resources.callbridge.mapping.fields.target"),
+            cell: ({ row }) => {
+                const int_path = row.original.internal_path;
+                const natsQ = row.original.adapter_nats_subject;
+
+                return (
+                    <div className="flex flex-col gap-1">
+                        <div className="flex items-center gap-3.5">
+                            <Link className="h-4 w-4 min-w-5 text-green-50" />
+                            <TextField text={int_path ?? ""} copyValue lineClamp linesCount={1} maxWidth="250px" />
+                        </div>
+                        <div className="flex items-center gap-3.5">
+                            <NatsIcon className="h-5 w-5 min-w-5 text-green-50" />
+                            <TextField text={natsQ ?? ""} copyValue lineClamp linesCount={1} maxWidth="250px" />
+                        </div>
+                    </div>
                 );
             }
         },

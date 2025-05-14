@@ -27,7 +27,8 @@ export const GenerateCallbackDialog = (props: GenerateCallbackDialogProps) => {
     const appToast = useAppToast();
 
     const formSchema = z.object({
-        callback_url: z.string().min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty"))
+        callback_url: z.string().min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty")),
+        adapter_nats_subject: z.optional(z.string())
     });
 
     type FormSchemaType = z.infer<typeof formSchema>;
@@ -35,9 +36,11 @@ export const GenerateCallbackDialog = (props: GenerateCallbackDialogProps) => {
     const form = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            callback_url: ""
+            callback_url: "",
+            adapter_nats_subject: ""
         }
     });
+
     const onSubmit = async (data: FormSchemaType) => {
         if (buttonDisabled) {
             return;
@@ -61,14 +64,14 @@ export const GenerateCallbackDialog = (props: GenerateCallbackDialogProps) => {
 
     useEffect(() => {
         form.reset({
-            callback_url: ""
+            callback_url: "",
+            adapter_nats_subject: ""
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [form, open]);
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-h-[300px] max-w-[340px] overflow-auto bg-muted sm:max-h-[250px]">
+            <DialogContent className="max-h-[380px] max-w-[340px] overflow-auto bg-muted sm:max-h-[350px]">
                 <DialogHeader>
                     <DialogTitle className="text-center">
                         {translate("resources.terminals.callbackCreating")}
@@ -77,7 +80,7 @@ export const GenerateCallbackDialog = (props: GenerateCallbackDialogProps) => {
                 <DialogDescription className="hidden" />
                 <FormProvider {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col gap-6">
-                        <div>
+                        <div className="flex flex-col gap-2">
                             <FormField
                                 control={form.control}
                                 name="callback_url"
@@ -95,12 +98,30 @@ export const GenerateCallbackDialog = (props: GenerateCallbackDialogProps) => {
                                     </FormItem>
                                 )}
                             />
+                            <FormField
+                                control={form.control}
+                                name="adapter_nats_subject"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                label={translate("resources.terminals.adapter_nats_subject")}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
                         </div>
                         <div className="flex w-full flex-col justify-between gap-4 sm:flex-row">
                             <Button className="w-full" disabled={buttonDisabled} type="submit">
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button
+                                type="reset"
                                 className="w-full"
                                 variant={"outline"}
                                 onClick={() => {

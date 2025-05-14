@@ -38,7 +38,7 @@ export const TerminalShow = (props: TerminalShowProps) => {
                 if (error instanceof Error) {
                     appToast("error", error.message);
                 }
-            } 
+            }
         },
         select: data => data?.data
     });
