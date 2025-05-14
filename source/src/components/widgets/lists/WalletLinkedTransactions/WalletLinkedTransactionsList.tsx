@@ -1,7 +1,7 @@
 import { ListContextProvider, usePermissions } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
-import { WalletManualReconciliationBar } from "./WalletManualReconciliationBar";
+import { WalletManualReconciliation } from "./WalletManualReconciliation";
 import { useGetWalletLinkedTransactionColumns } from "./Columns";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
@@ -22,7 +22,7 @@ export const WalletLinkedTransactionsList = () => {
                 <div className="mb-6 flex flex-wrap justify-between gap-2">
                     <ResourceHeaderTitle />
 
-                    <WalletManualReconciliationBar />
+                    <WalletManualReconciliation />
                 </div>
 
                 <ListContextProvider value={listContext}>
