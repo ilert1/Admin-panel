@@ -493,16 +493,6 @@ export type DirectionAccountId = string | null;
 export type DirectionDescription = string | null;
 
 /**
- * Terminal ID associated with the direction
- */
-export type DirectionTerminal = Terminal | null;
-
-/**
- * Authentication data for the direction
- */
-export type DirectionAuthData = { [key: string]: unknown };
-
-/**
  * Mapping of fee configurations with fee.id as key
  */
 export type DirectionFees = { [key: string]: Fee };
@@ -527,9 +517,7 @@ export interface Direction {
     /** Provider name associated with the direction */
     provider: Provider;
     /** Terminal ID associated with the direction */
-    terminal?: DirectionTerminal;
-    /** Authentication data for the direction */
-    auth_data: DirectionAuthData;
+    terminal: Terminal;
     /** Source currency code */
     src_currency: Currency;
     /** Destination currency code */
@@ -549,11 +537,6 @@ export type DirectionCreateDescription = string | null;
  * Account identifier associated with the direction
  */
 export type DirectionCreateAccountId = string | null;
-
-/**
- * Terminal ID associated with the direction
- */
-export type DirectionCreateTerminal = string | null;
 
 export interface DirectionCreate {
     /** Name of the direction */
@@ -581,7 +564,7 @@ export interface DirectionCreate {
     /** Provider name associated with the direction */
     provider: string;
     /** Terminal ID associated with the direction */
-    terminal?: DirectionCreateTerminal;
+    terminal: string;
 }
 
 export type DirectionState = (typeof DirectionState)[keyof typeof DirectionState];
@@ -1298,9 +1281,21 @@ export interface TerminalUpdateAuth {
     auth: TerminalUpdateAuthAuth;
 }
 
+/**
+ * New callback URL template or final URL. Placeholders in the form {key} will be replaced with values from terminal.auth.
+ */
+export type TerminalUpdateCallbackUrlCallbackUrl = string | null;
+
+/**
+ * NATS subject for publishing terminal update intended for adapter consumption. If set, the updated terminal information will be sent to this NATS subject.
+ */
+export type TerminalUpdateCallbackUrlAdapterNatsSubject = string | null;
+
 export interface TerminalUpdateCallbackUrl {
     /** New callback URL template or final URL. Placeholders in the form {key} will be replaced with values from terminal.auth. */
-    callback_url: string;
+    callback_url: TerminalUpdateCallbackUrlCallbackUrl;
+    /** NATS subject for publishing terminal update intended for adapter consumption. If set, the updated terminal information will be sent to this NATS subject. */
+    adapter_nats_subject?: TerminalUpdateCallbackUrlAdapterNatsSubject;
 }
 
 export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType];

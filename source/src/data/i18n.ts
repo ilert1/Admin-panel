@@ -548,7 +548,8 @@ const ru: TranslationMessages = {
             creatingTerminal: "Создание терминала",
             deleteHeader: "Удалить терминал?",
             editingTerminal: "Изменить терминал",
-            accountCreatedSuccessfully: "Account created successfully"
+            accountCreatedSuccessfully: "Account created successfully",
+            adapter_nats_subject: "Адаптер Nats"
         },
         bankTransfer: {
             name: "Банковский перевод"
@@ -684,8 +685,10 @@ const ru: TranslationMessages = {
                 fields: {
                     name: "Название",
                     ext_path: "Внешний путь",
+                    target: "Цель",
                     int_path: "Внутренний путь",
                     description: "Описание",
+                    terminal: "Терминал",
 
                     callback_url: "URL коллбека",
                     created_at: "Дата создания",
@@ -1616,7 +1619,8 @@ const en: TranslationMessages = {
             creatingTerminal: "Creating terminal",
             deleteHeader: "Delete terminal?",
             editingTerminal: "Editing terminal",
-            accountCreatedSuccessfully: "Счёт успешно создан"
+            accountCreatedSuccessfully: "Счёт успешно создан",
+            adapter_nats_subject: "Adapter nats subject"
         },
         bankTransfer: {
             name: "Bank transfer"
@@ -1750,10 +1754,12 @@ const en: TranslationMessages = {
                 fields: {
                     name: "Name",
                     ext_path: "External url",
+                    target: "Target",
                     int_path: "Internal url",
                     description: "Description",
                     created_at: "Created at",
                     callback_url: "Callback URL",
+                    terminal: "Terminal",
 
                     retry_policy: "Retry policy",
                     base_delay: "Base delay",

@@ -141,8 +141,15 @@ export const MappingShow = (props: MappingShowProps) => {
                                 className="text-neutral-70 dark:text-neutral-30"
                             />
                             <TextField
+                                label={translate("resources.callbridge.mapping.fields.callback_url")}
+                                text={context.record.callback_url}
+                                copyValue
+                                className="text-neutral-70 dark:text-neutral-30"
+                            />
+
+                            <TextField
                                 label={translate("resources.callbridge.mapping.fields.int_path")}
-                                text={context.record.internal_path}
+                                text={context.record.internal_path ?? ""}
                                 copyValue
                                 className="text-neutral-70 dark:text-neutral-30"
                             />

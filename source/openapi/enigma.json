@@ -1,6 +1,9 @@
 {
     "openapi": "3.1.0",
-    "info": { "title": "BlowFish - Enigma API Service", "version": "develop" },
+    "info": {
+        "title": "BlowFish - Enigma API Service",
+        "version": "develop"
+    },
     "paths": {
         "/health": {
             "get": {
@@ -10,7 +13,13 @@
                 "responses": {
                     "200": {
                         "description": "Successful Response",
-                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HealthStatus" } } }
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HealthStatus"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -20,7 +29,11 @@
                 "tags": ["Metrics"],
                 "summary": "Get Metrics",
                 "operationId": "get_metrics_metrics_get",
-                "responses": { "200": { "description": "Successful Response" } }
+                "responses": {
+                    "200": {
+                        "description": "Successful Response"
+                    }
+                }
             }
         },
         "/enigma/v1/currency": {
@@ -35,7 +48,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -72,7 +95,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -83,7 +116,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -106,7 +149,14 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Sorting field",
                             "description": "Field to sort the results by",
                             "default": "code"
@@ -132,14 +182,20 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Currency__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Currency__"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -151,19 +207,33 @@
                 "operationId": "CurrencyEndpoints_create_currency_enigma_v1_currency_post",
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CurrencyCreate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CurrencyCreate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Currency_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Currency_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -193,13 +263,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Currency_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Currency_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -225,19 +303,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CurrencyUpdate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CurrencyUpdate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Currency_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Currency_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -265,13 +357,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_NoneType_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_NoneType_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -289,7 +389,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -326,7 +436,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -337,7 +457,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -360,7 +490,14 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Sorting field",
                             "description": "Field to sort the results by",
                             "default": "name"
@@ -386,14 +523,20 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Merchant__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Merchant__"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -405,19 +548,33 @@
                 "operationId": "MerchantEndpoints_create_merchant_enigma_v1_merchant_post",
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MerchantCreate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MerchantCreate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -447,13 +604,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -479,19 +644,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MerchantUpdate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MerchantUpdate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -519,13 +698,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_NoneType_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_NoneType_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -553,19 +740,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeCreate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FeeCreate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -606,19 +807,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeUpdate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FeeUpdate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -659,13 +874,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Merchant_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -683,7 +906,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -720,7 +953,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -731,7 +974,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -754,7 +1007,14 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Sorting field",
                             "description": "Field to sort the results by",
                             "default": "name"
@@ -780,14 +1040,20 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Provider__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Provider__"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -799,19 +1065,33 @@
                 "operationId": "ProviderEndpoints_create_provider_enigma_v1_provider_post",
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProviderCreate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProviderCreate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Provider_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Provider_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -841,13 +1121,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Provider_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Provider_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -873,19 +1161,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProviderUpdate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProviderUpdate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Provider_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Provider_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -913,13 +1215,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_NoneType_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_NoneType_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -978,14 +1288,20 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_ProviderAddKeypair_" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_ProviderAddKeypair_"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1003,7 +1319,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -1040,7 +1366,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -1051,7 +1387,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -1074,7 +1420,14 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Sorting field",
                             "description": "Field to sort the results by",
                             "default": "verbose_name"
@@ -1100,14 +1453,20 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Terminal__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Terminal__"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1137,7 +1496,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -1174,7 +1543,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -1185,7 +1564,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -1208,7 +1597,14 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Sorting field",
                             "description": "Field to sort the results by",
                             "default": "verbose_name"
@@ -1234,14 +1630,20 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Terminal__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Terminal__"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1267,19 +1669,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TerminalCreate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TerminalCreate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1322,13 +1738,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1367,19 +1791,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TerminalUpdate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TerminalUpdate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1420,13 +1858,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_NoneType_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_NoneType_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1469,20 +1915,32 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": { "schema": { "$ref": "#/components/schemas/TerminalUpdateAuth" } }
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TerminalUpdateAuth"
+                            }
+                        }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1525,20 +1983,32 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": { "schema": { "$ref": "#/components/schemas/TerminalUpdateAuth" } }
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TerminalUpdateAuth"
+                            }
+                        }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1580,20 +2050,32 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": { "schema": { "$ref": "#/components/schemas/TerminalUpdateAuth" } }
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TerminalUpdateAuth"
+                            }
+                        }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1633,20 +2115,32 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": { "schema": { "$ref": "#/components/schemas/TerminalUpdateAuth" } }
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TerminalUpdateAuth"
+                            }
+                        }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1688,20 +2182,32 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": { "schema": { "$ref": "#/components/schemas/TerminalDeleteAuth" } }
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TerminalDeleteAuth"
+                            }
+                        }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1745,14 +2251,20 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_list_AccountInfo__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_list_AccountInfo__"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1793,19 +2305,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeCreate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FeeCreate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1859,19 +2385,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeUpdate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FeeUpdate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1925,13 +2465,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1948,7 +2496,13 @@
                         "name": "provider_name",
                         "in": "path",
                         "required": true,
-                        "schema": { "type": "string", "title": "Provider Name" }
+                        "schema": {
+                            "type": "string",
+                            "description": "The unique name of the provider.",
+                            "title": "Provider Name"
+                        },
+                        "description": "The unique name of the provider.",
+                        "example": "Pay4U"
                     },
                     {
                         "name": "terminal_id",
@@ -1967,20 +2521,32 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": { "schema": { "$ref": "#/components/schemas/TerminalUpdateCallbackUrl" } }
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TerminalUpdateCallbackUrl"
+                            }
+                        }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Terminal_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -1998,7 +2564,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -2035,7 +2611,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -2046,7 +2632,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -2069,7 +2665,14 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Sorting field",
                             "description": "Field to sort the results by",
                             "default": "name"
@@ -2095,14 +2698,20 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2114,19 +2723,33 @@
                 "operationId": "DirectionEndpoints_create_direction_enigma_v1_direction_post",
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DirectionCreate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DirectionCreate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2156,7 +2779,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "description": "List of identifiers for filtering",
                             "title": "Ids"
                         },
@@ -2193,7 +2826,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Search fields",
                             "description": "List of fields to perform the search on"
                         },
@@ -2204,7 +2847,17 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Search strings",
                             "description": "List of values to search for in corresponding fields"
                         },
@@ -2227,7 +2880,14 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
                             "title": "Sorting field",
                             "description": "Field to sort the results by",
                             "default": "name"
@@ -2253,14 +2913,20 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2291,13 +2957,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2324,19 +2998,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DirectionUpdate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DirectionUpdate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2365,13 +3053,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_NoneType_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_NoneType_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2387,7 +3083,9 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "items": { "$ref": "#/components/schemas/DirectionUpdateBulkItem" },
+                                "items": {
+                                    "$ref": "#/components/schemas/DirectionUpdateBulkItem"
+                                },
                                 "type": "array",
                                 "title": "Updates"
                             }
@@ -2400,14 +3098,20 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__"
+                                }
                             }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2437,20 +3141,32 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": { "schema": { "$ref": "#/components/schemas/DirectionUpdateState" } }
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DirectionUpdateState"
+                            }
+                        }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2480,20 +3196,32 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": { "schema": { "$ref": "#/components/schemas/DirectionUpdateType" } }
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DirectionUpdateType"
+                            }
+                        }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2522,19 +3250,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeCreate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FeeCreate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2576,19 +3318,33 @@
                 ],
                 "requestBody": {
                     "required": true,
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeeUpdate" } } }
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FeeUpdate"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2630,13 +3386,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2666,20 +3430,32 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": { "schema": { "$ref": "#/components/schemas/DirectionUpdateLimits" } }
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DirectionUpdateLimits"
+                            }
+                        }
                     }
                 },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2708,13 +3484,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_Direction_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_Direction_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2760,13 +3544,21 @@
                     "200": {
                         "description": "Successful Response",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse_KeyPair_" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_KeyPair_"
+                                }
+                            }
                         }
                     },
                     "422": {
                         "description": "Validation Error",
                         "content": {
-                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
                         }
                     }
                 }
@@ -2783,7 +3575,9 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": { "$ref": "#/components/schemas/ApiResponse_list_FeeTypeItem__" }
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_list_FeeTypeItem__"
+                                }
                             }
                         }
                     }
@@ -2807,7 +3601,14 @@
                         "examples": [1, 2]
                     },
                     "meta": {
-                        "anyOf": [{ "type": "object" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Meta",
                         "description": "Additional metadata associated with the account."
                     }
@@ -2816,7 +3617,11 @@
                 "required": ["account_id", "type"],
                 "title": "AccountInfo"
             },
-            "AccountType": { "type": "integer", "enum": [1, 2], "title": "AccountType" },
+            "AccountType": {
+                "type": "integer",
+                "enum": [1, 2],
+                "title": "AccountType"
+            },
             "ApiResponse_Currency_": {
                 "properties": {
                     "success": {
@@ -2830,11 +3635,23 @@
                         "description": "The actual response data if the request was successful."
                     },
                     "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "The error details if the request was not successful."
                     },
                     "meta": {
-                        "anyOf": [{}, { "type": "null" }],
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Meta",
                         "description": "The meta details if the request. DEPRECATED",
                         "deprecated": true
@@ -2857,11 +3674,23 @@
                         "description": "The actual response data if the request was successful."
                     },
                     "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "The error details if the request was not successful."
                     },
                     "meta": {
-                        "anyOf": [{}, { "type": "null" }],
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Meta",
                         "description": "The meta details if the request. DEPRECATED",
                         "deprecated": true
@@ -2884,11 +3713,23 @@
                         "description": "The actual response data if the request was successful."
                     },
                     "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "The error details if the request was not successful."
                     },
                     "meta": {
-                        "anyOf": [{}, { "type": "null" }],
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Meta",
                         "description": "The meta details if the request. DEPRECATED",
                         "deprecated": true
@@ -2911,11 +3752,23 @@
                         "description": "The actual response data if the request was successful."
                     },
                     "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "The error details if the request was not successful."
                     },
                     "meta": {
-                        "anyOf": [{}, { "type": "null" }],
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Meta",
                         "description": "The meta details if the request. DEPRECATED",
                         "deprecated": true
@@ -2939,11 +3792,23 @@
                         "description": "The actual response data if the request was successful."
                     },
                     "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "The error details if the request was not successful."
                     },
                     "meta": {
-                        "anyOf": [{}, { "type": "null" }],
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Meta",
                         "description": "The meta details if the request. DEPRECATED",
                         "deprecated": true
@@ -2966,11 +3831,23 @@
                         "description": "The actual response data if the request was successful."
                     },
                     "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "The error details if the request was not successful."
                     },
                     "meta": {
-                        "anyOf": [{}, { "type": "null" }],
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Meta",
                         "description": "The meta details if the request. DEPRECATED",
                         "deprecated": true
@@ -2993,11 +3870,23 @@
                         "description": "The actual response data if the request was successful."
                     },
                     "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "The error details if the request was not successful."
                     },
                     "meta": {
-                        "anyOf": [{}, { "type": "null" }],
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Meta",
                         "description": "The meta details if the request. DEPRECATED",
                         "deprecated": true
@@ -3020,11 +3909,23 @@
                         "description": "The actual response data if the request was successful."
                     },
                     "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "The error details if the request was not successful."
                     },
                     "meta": {
-                        "anyOf": [{}, { "type": "null" }],
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Meta",
                         "description": "The meta details if the request. DEPRECATED",
                         "deprecated": true
@@ -3047,11 +3948,23 @@
                         "description": "The actual response data if the request was successful."
                     },
                     "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "The error details if the request was not successful."
                     },
                     "meta": {
-                        "anyOf": [{}, { "type": "null" }],
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Meta",
                         "description": "The meta details if the request. DEPRECATED",
                         "deprecated": true
@@ -3074,11 +3987,23 @@
                         "description": "The actual response data if the request was successful."
                     },
                     "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "The error details if the request was not successful."
                     },
                     "meta": {
-                        "anyOf": [{}, { "type": "null" }],
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Meta",
                         "description": "The meta details if the request. DEPRECATED",
                         "deprecated": true
@@ -3101,11 +4026,23 @@
                         "description": "The actual response data if the request was successful."
                     },
                     "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "The error details if the request was not successful."
                     },
                     "meta": {
-                        "anyOf": [{}, { "type": "null" }],
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Meta",
                         "description": "The meta details if the request. DEPRECATED",
                         "deprecated": true
@@ -3128,11 +4065,23 @@
                         "description": "The actual response data if the request was successful."
                     },
                     "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "The error details if the request was not successful."
                     },
                     "meta": {
-                        "anyOf": [{}, { "type": "null" }],
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Meta",
                         "description": "The meta details if the request. DEPRECATED",
                         "deprecated": true
@@ -3155,11 +4104,23 @@
                         "description": "The actual response data if the request was successful."
                     },
                     "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "The error details if the request was not successful."
                     },
                     "meta": {
-                        "anyOf": [{}, { "type": "null" }],
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Meta",
                         "description": "The meta details if the request. DEPRECATED",
                         "deprecated": true
@@ -3178,17 +4139,31 @@
                         "default": true
                     },
                     "data": {
-                        "items": { "$ref": "#/components/schemas/AccountInfo" },
+                        "items": {
+                            "$ref": "#/components/schemas/AccountInfo"
+                        },
                         "type": "array",
                         "title": "Data",
                         "description": "The actual response data if the request was successful."
                     },
                     "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "The error details if the request was not successful."
                     },
                     "meta": {
-                        "anyOf": [{}, { "type": "null" }],
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Meta",
                         "description": "The meta details if the request. DEPRECATED",
                         "deprecated": true
@@ -3207,17 +4182,31 @@
                         "default": true
                     },
                     "data": {
-                        "items": { "$ref": "#/components/schemas/FeeTypeItem" },
+                        "items": {
+                            "$ref": "#/components/schemas/FeeTypeItem"
+                        },
                         "type": "array",
                         "title": "Data",
                         "description": "The actual response data if the request was successful."
                     },
                     "error": {
-                        "anyOf": [{ "$ref": "#/components/schemas/ErrorBody" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "The error details if the request was not successful."
                     },
                     "meta": {
-                        "anyOf": [{}, { "type": "null" }],
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Meta",
                         "description": "The meta details if the request. DEPRECATED",
                         "deprecated": true
@@ -3236,7 +4225,14 @@
                         "examples": ["USD"]
                     },
                     "symbol": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Symbol",
                         "description": "Currency symbol",
                         "examples": ["$"]
@@ -3274,7 +4270,14 @@
                         "examples": ["USD"]
                     },
                     "symbol": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Symbol",
                         "description": "Currency symbol",
                         "examples": ["$"]
@@ -3295,8 +4298,8 @@
                     },
                     "accuracy": {
                         "type": "integer",
-                        "maximum": 16.0,
-                        "minimum": 1.0,
+                        "maximum": 16,
+                        "minimum": 1,
                         "title": "Accuracy",
                         "description": "Accuracy of the currency (number of decimal places)",
                         "default": 2,
@@ -3307,29 +4310,63 @@
                 "required": ["code"],
                 "title": "CurrencyCreate"
             },
-            "CurrencyPosition": { "type": "string", "enum": ["before", "after"], "title": "CurrencyPosition" },
+            "CurrencyPosition": {
+                "type": "string",
+                "enum": ["before", "after"],
+                "title": "CurrencyPosition"
+            },
             "CurrencyUpdate": {
                 "properties": {
                     "symbol": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Symbol",
                         "description": "Currency symbol",
                         "examples": ["$"]
                     },
                     "position": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Position",
                         "description": "Position of the currency symbol",
                         "examples": ["before"]
                     },
                     "is_coin": {
-                        "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Is Coin",
                         "description": "Indicates if the currency is a coin",
                         "examples": [false]
                     },
                     "accuracy": {
-                        "anyOf": [{ "type": "integer", "maximum": 16.0, "minimum": 1.0 }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "integer",
+                                "maximum": 16,
+                                "minimum": 1
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Accuracy",
                         "description": "Accuracy of the currency (number of decimal places)",
                         "examples": [2]
@@ -3354,7 +4391,14 @@
                         "examples": ["Direction A"]
                     },
                     "account_id": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Account Id",
                         "description": "Account identifier associated with the direction",
                         "examples": ["acc_123"]
@@ -3372,7 +4416,14 @@
                         "examples": ["universal"]
                     },
                     "description": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Description",
                         "description": "Description of the direction",
                         "examples": ["This direction is used for currency conversion"]
@@ -3392,23 +4443,24 @@
                         "description": "Provider name associated with the direction"
                     },
                     "terminal": {
-                        "anyOf": [{ "$ref": "#/components/schemas/Terminal" }, { "type": "null" }],
+                        "$ref": "#/components/schemas/Terminal",
                         "description": "Terminal ID associated with the direction"
                     },
-                    "auth_data": {
-                        "type": "object",
-                        "title": "Auth Data",
-                        "description": "Authentication data for the direction",
-                        "examples": [{ "api_key": "secret" }]
+                    "src_currency": {
+                        "$ref": "#/components/schemas/Currency",
+                        "description": "Source currency code"
                     },
-                    "src_currency": { "$ref": "#/components/schemas/Currency", "description": "Source currency code" },
                     "dst_currency": {
                         "$ref": "#/components/schemas/Currency",
                         "description": "Destination currency code"
                     },
                     "fees": {
-                        "additionalProperties": { "$ref": "#/components/schemas/Fee" },
-                        "propertyNames": { "format": "uuid" },
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/Fee"
+                        },
+                        "propertyNames": {
+                            "format": "uuid"
+                        },
                         "type": "object",
                         "title": "Fees",
                         "description": "Mapping of fee configurations with fee.id as key"
@@ -3425,7 +4477,7 @@
                     "weight",
                     "merchant",
                     "provider",
-                    "auth_data",
+                    "terminal",
                     "src_currency",
                     "dst_currency",
                     "limits"
@@ -3453,7 +4505,14 @@
                         "examples": ["universal"]
                     },
                     "description": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Description",
                         "description": "Description of the direction",
                         "examples": ["This direction is used for currency conversion"]
@@ -3472,15 +4531,22 @@
                     },
                     "weight": {
                         "type": "integer",
-                        "maximum": 1000.0,
-                        "minimum": 0.0,
+                        "maximum": 1000,
+                        "minimum": 0,
                         "title": "Weight",
                         "description": "Weight of the direction",
                         "default": 0,
                         "examples": [10]
                     },
                     "account_id": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Account Id",
                         "description": "Account identifier associated with the direction",
                         "examples": ["acc_123"]
@@ -3498,17 +4564,22 @@
                         "examples": ["Pay4U"]
                     },
                     "terminal": {
-                        "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }],
+                        "type": "string",
+                        "format": "uuid",
                         "title": "Terminal",
                         "description": "Terminal ID associated with the direction",
                         "examples": ["123e4567-e89b-12d3-a456-426614174000"]
                     }
                 },
                 "type": "object",
-                "required": ["name", "src_currency", "dst_currency", "merchant", "provider"],
+                "required": ["name", "src_currency", "dst_currency", "merchant", "provider", "terminal"],
                 "title": "DirectionCreate"
             },
-            "DirectionState": { "type": "string", "enum": ["active", "inactive"], "title": "DirectionState" },
+            "DirectionState": {
+                "type": "string",
+                "enum": ["active", "inactive"],
+                "title": "DirectionState"
+            },
             "DirectionType": {
                 "type": "string",
                 "enum": ["universal", "deposit", "withdraw"],
@@ -3517,65 +4588,143 @@
             "DirectionUpdate": {
                 "properties": {
                     "name": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Name",
                         "description": "Name of the direction",
                         "examples": ["Direction A"]
                     },
                     "state": {
-                        "anyOf": [{ "$ref": "#/components/schemas/DirectionState" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/DirectionState"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "State of the direction; can be 'active' or 'inactive'",
                         "examples": ["active"]
                     },
                     "type": {
-                        "anyOf": [{ "$ref": "#/components/schemas/DirectionType" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/DirectionType"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "Type of the direction; can be 'universal', 'deposit', or 'withdraw'",
                         "examples": ["universal"]
                     },
                     "description": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Description",
                         "description": "Description of the direction",
                         "examples": ["This direction is used for currency conversion"]
                     },
                     "src_currency": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Src Currency",
                         "description": "Source currency code",
                         "examples": ["USD"]
                     },
                     "dst_currency": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Dst Currency",
                         "description": "Destination currency code",
                         "examples": ["EUR"]
                     },
                     "weight": {
-                        "anyOf": [{ "type": "integer" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Weight",
                         "description": "Weight of the direction",
                         "examples": [10]
                     },
                     "account_id": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Account Id",
                         "description": "Account identifier associated with the direction",
                         "examples": ["acc_123"]
                     },
                     "merchant": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Merchant",
                         "description": "Merchant ID associated with the direction",
                         "examples": ["merchant_001"]
                     },
                     "provider": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Provider",
                         "description": "Provider name associated with the direction",
                         "examples": ["Pay4U"]
                     },
                     "terminal": {
-                        "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Terminal",
                         "description": "Terminal ID associated with the direction",
                         "examples": ["123e4567-e89b-12d3-a456-426614174000"]
@@ -3587,65 +4736,143 @@
             "DirectionUpdateBulkItem": {
                 "properties": {
                     "name": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Name",
                         "description": "Name of the direction",
                         "examples": ["Direction A"]
                     },
                     "state": {
-                        "anyOf": [{ "$ref": "#/components/schemas/DirectionState" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/DirectionState"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "State of the direction; can be 'active' or 'inactive'",
                         "examples": ["active"]
                     },
                     "type": {
-                        "anyOf": [{ "$ref": "#/components/schemas/DirectionType" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/DirectionType"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "Type of the direction; can be 'universal', 'deposit', or 'withdraw'",
                         "examples": ["universal"]
                     },
                     "description": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Description",
                         "description": "Description of the direction",
                         "examples": ["This direction is used for currency conversion"]
                     },
                     "src_currency": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Src Currency",
                         "description": "Source currency code",
                         "examples": ["USD"]
                     },
                     "dst_currency": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Dst Currency",
                         "description": "Destination currency code",
                         "examples": ["EUR"]
                     },
                     "weight": {
-                        "anyOf": [{ "type": "integer" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Weight",
                         "description": "Weight of the direction",
                         "examples": [10]
                     },
                     "account_id": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Account Id",
                         "description": "Account identifier associated with the direction",
                         "examples": ["acc_123"]
                     },
                     "merchant": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Merchant",
                         "description": "Merchant ID associated with the direction",
                         "examples": ["merchant_001"]
                     },
                     "provider": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Provider",
                         "description": "Provider name associated with the direction",
                         "examples": ["Pay4U"]
                     },
                     "terminal": {
-                        "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Terminal",
                         "description": "Terminal ID associated with the direction",
                         "examples": ["123e4567-e89b-12d3-a456-426614174000"]
@@ -3760,8 +4987,16 @@
                         "description": "The queue (task_queue) where the execution will be dispatched.",
                         "examples": ["pay4u-workflows"]
                     },
-                    "workflow_name": { "type": "string", "title": "Workflow Name", "readOnly": true },
-                    "workflow_queue": { "type": "string", "title": "Workflow Queue", "readOnly": true }
+                    "workflow_name": {
+                        "type": "string",
+                        "title": "Workflow Name",
+                        "readOnly": true
+                    },
+                    "workflow_queue": {
+                        "type": "string",
+                        "title": "Workflow Queue",
+                        "readOnly": true
+                    }
                 },
                 "type": "object",
                 "required": ["type", "execution_name", "task_queue", "workflow_name", "workflow_queue"],
@@ -3788,19 +5023,43 @@
                         "examples": [3]
                     },
                     "currency": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Currency",
                         "description": "Currency code for the fee",
                         "examples": ["USD"]
                     },
-                    "value": { "$ref": "#/components/schemas/RateValue", "description": "Rate value for the fee" },
+                    "value": {
+                        "$ref": "#/components/schemas/RateValue",
+                        "description": "Rate value for the fee"
+                    },
                     "direction": {
-                        "anyOf": [{ "$ref": "#/components/schemas/TransactionType" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/TransactionType"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "Fee direction if applicable",
                         "examples": [1]
                     },
                     "description": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Description",
                         "description": "Optional fee description",
                         "examples": ["Fee for service"]
@@ -3824,30 +5083,66 @@
                         "examples": [3]
                     },
                     "currency": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Currency",
                         "description": "Currency code for the fee",
                         "examples": ["USD"]
                     },
                     "value": {
                         "anyOf": [
-                            { "type": "integer" },
-                            { "type": "number" },
-                            { "type": "string" },
-                            { "$ref": "#/components/schemas/RateValue" }
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/components/schemas/RateValue"
+                            }
                         ],
                         "title": "Value",
                         "description": "Rate value for the fee",
-                        "examples": [12.3, "12.3", { "accuracy": 100, "quantity": 123 }]
+                        "examples": [
+                            12.3,
+                            "12.3",
+                            {
+                                "accuracy": 100,
+                                "quantity": 123
+                            }
+                        ]
                     },
                     "direction": {
-                        "anyOf": [{ "type": "integer" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Direction",
                         "description": "Fee direction if applicable",
                         "examples": [1]
                     },
                     "description": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Description",
                         "description": "Optional fee description",
                         "examples": ["Fee for service"]
@@ -3857,7 +5152,11 @@
                 "required": ["recipient", "type", "value"],
                 "title": "FeeCreate"
             },
-            "FeeType": { "type": "integer", "enum": [1, 2, 3], "title": "FeeType" },
+            "FeeType": {
+                "type": "integer",
+                "enum": [1, 2, 3],
+                "title": "FeeType"
+            },
             "FeeTypeItem": {
                 "properties": {
                     "name": {
@@ -3880,42 +5179,94 @@
             "FeeUpdate": {
                 "properties": {
                     "recipient": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Recipient",
                         "description": "Recipient for the fee",
                         "examples": ["recipient@example.com"]
                     },
                     "type": {
-                        "anyOf": [{ "$ref": "#/components/schemas/FeeType" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/FeeType"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "Type of the fee",
                         "examples": [1]
                     },
                     "currency": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Currency",
                         "description": "Currency code for the fee",
                         "examples": ["USD"]
                     },
                     "value": {
                         "anyOf": [
-                            { "type": "integer" },
-                            { "type": "number" },
-                            { "type": "string" },
-                            { "$ref": "#/components/schemas/RateValue" },
-                            { "type": "null" }
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/components/schemas/RateValue"
+                            },
+                            {
+                                "type": "null"
+                            }
                         ],
                         "title": "Value",
                         "description": "Rate value for the fee",
-                        "examples": [12.3, "12.3", { "accuracy": 100, "quantity": 123 }]
+                        "examples": [
+                            12.3,
+                            "12.3",
+                            {
+                                "accuracy": 100,
+                                "quantity": 123
+                            }
+                        ]
                     },
                     "direction": {
-                        "anyOf": [{ "type": "integer" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Direction",
                         "description": "Fee direction if applicable",
                         "examples": [1]
                     },
                     "description": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Description",
                         "description": "Optional fee description",
                         "examples": ["Fee for service"]
@@ -3927,7 +5278,9 @@
             "HTTPValidationError": {
                 "properties": {
                     "detail": {
-                        "items": { "$ref": "#/components/schemas/ValidationError" },
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
                         "type": "array",
                         "title": "Detail"
                     }
@@ -3970,22 +5323,42 @@
                 "properties": {
                     "min": {
                         "anyOf": [
-                            { "type": "integer" },
-                            { "type": "number" },
-                            { "type": "string" },
-                            { "$ref": "#/components/schemas/RateValue" },
-                            { "type": "null" }
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/components/schemas/RateValue"
+                            },
+                            {
+                                "type": "null"
+                            }
                         ],
                         "title": "Min",
                         "description": "Minimum limit value"
                     },
                     "max": {
                         "anyOf": [
-                            { "type": "integer" },
-                            { "type": "number" },
-                            { "type": "string" },
-                            { "$ref": "#/components/schemas/RateValue" },
-                            { "type": "null" }
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/components/schemas/RateValue"
+                            },
+                            {
+                                "type": "null"
+                            }
                         ],
                         "title": "Max",
                         "description": "Maximum limit value"
@@ -3996,17 +5369,32 @@
             },
             "LimitValues-Output": {
                 "properties": {
-                    "min": { "$ref": "#/components/schemas/RateValue", "description": "Minimum limit value" },
-                    "max": { "$ref": "#/components/schemas/RateValue", "description": "Maximum limit value" }
+                    "min": {
+                        "$ref": "#/components/schemas/RateValue",
+                        "description": "Minimum limit value"
+                    },
+                    "max": {
+                        "$ref": "#/components/schemas/RateValue",
+                        "description": "Maximum limit value"
+                    }
                 },
                 "type": "object",
                 "title": "LimitValues"
             },
             "Limits": {
                 "properties": {
-                    "payin": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for payin" },
-                    "payout": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for payout" },
-                    "reward": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for reward" }
+                    "payin": {
+                        "$ref": "#/components/schemas/LimitValues-Output",
+                        "description": "Limits for payin"
+                    },
+                    "payout": {
+                        "$ref": "#/components/schemas/LimitValues-Output",
+                        "description": "Limits for payout"
+                    },
+                    "reward": {
+                        "$ref": "#/components/schemas/LimitValues-Output",
+                        "description": "Limits for reward"
+                    }
                 },
                 "type": "object",
                 "required": ["payin", "payout", "reward"],
@@ -4015,15 +5403,36 @@
             "LimitsUpdate": {
                 "properties": {
                     "payin": {
-                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/LimitValues-Input"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "Limits for payin"
                     },
                     "payout": {
-                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/LimitValues-Input"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "Limits for payout"
                     },
                     "reward": {
-                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/LimitValues-Input"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "Limits for reward"
                     }
                 },
@@ -4045,20 +5454,38 @@
                         "examples": ["Merchant A"]
                     },
                     "description": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Description",
                         "description": "Description of the merchant",
                         "examples": ["Leading merchant in the region"]
                     },
                     "keycloak_id": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Keycloak Id",
                         "description": "Keycloak identifier for the merchant",
                         "examples": ["keycloak_123"]
                     },
                     "fees": {
-                        "additionalProperties": { "$ref": "#/components/schemas/Fee" },
-                        "propertyNames": { "format": "uuid" },
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/Fee"
+                        },
+                        "propertyNames": {
+                            "format": "uuid"
+                        },
                         "type": "object",
                         "title": "Fees",
                         "description": "Mapping of fee configurations with fee.id as key",
@@ -4071,7 +5498,10 @@
                                     "id": "123e4567-e89b-12d3-a456-426614174000",
                                     "recipient": "recipient@example.com",
                                     "type": 3,
-                                    "value": { "accuracy": 100, "quantity": 1234 }
+                                    "value": {
+                                        "accuracy": 100,
+                                        "quantity": 1234
+                                    }
                                 }
                             }
                         ]
@@ -4096,13 +5526,27 @@
                         "examples": ["Merchant A"]
                     },
                     "description": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Description",
                         "description": "Description of the merchant",
                         "examples": ["Leading merchant in the region"]
                     },
                     "keycloak_id": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Keycloak Id",
                         "description": "Keycloak identifier for the merchant",
                         "examples": ["keycloak_123"]
@@ -4115,19 +5559,40 @@
             "MerchantUpdate": {
                 "properties": {
                     "name": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Name",
                         "description": "Name of the merchant",
                         "examples": ["Merchant A"]
                     },
                     "description": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Description",
                         "description": "Description of the merchant",
                         "examples": ["Leading merchant in the region"]
                     },
                     "keycloak_id": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Keycloak Id",
                         "description": "Keycloak identifier for the merchant",
                         "examples": ["keycloak_123"]
@@ -4139,7 +5604,9 @@
             "OffsetPagination_Currency_": {
                 "properties": {
                     "items": {
-                        "items": { "$ref": "#/components/schemas/Currency" },
+                        "items": {
+                            "$ref": "#/components/schemas/Currency"
+                        },
                         "type": "array",
                         "title": "Items",
                         "description": "A list of items in the current page."
@@ -4170,7 +5637,9 @@
             "OffsetPagination_Direction_": {
                 "properties": {
                     "items": {
-                        "items": { "$ref": "#/components/schemas/Direction" },
+                        "items": {
+                            "$ref": "#/components/schemas/Direction"
+                        },
                         "type": "array",
                         "title": "Items",
                         "description": "A list of items in the current page."
@@ -4201,7 +5670,9 @@
             "OffsetPagination_Merchant_": {
                 "properties": {
                     "items": {
-                        "items": { "$ref": "#/components/schemas/Merchant" },
+                        "items": {
+                            "$ref": "#/components/schemas/Merchant"
+                        },
                         "type": "array",
                         "title": "Items",
                         "description": "A list of items in the current page."
@@ -4232,7 +5703,9 @@
             "OffsetPagination_Provider_": {
                 "properties": {
                     "items": {
-                        "items": { "$ref": "#/components/schemas/Provider" },
+                        "items": {
+                            "$ref": "#/components/schemas/Provider"
+                        },
                         "type": "array",
                         "title": "Items",
                         "description": "A list of items in the current page."
@@ -4263,7 +5736,9 @@
             "OffsetPagination_Terminal_": {
                 "properties": {
                     "items": {
-                        "items": { "$ref": "#/components/schemas/Terminal" },
+                        "items": {
+                            "$ref": "#/components/schemas/Terminal"
+                        },
                         "type": "array",
                         "title": "Items",
                         "description": "A list of items in the current page."
@@ -4307,13 +5782,22 @@
                         "examples": ["string"]
                     },
                     "public_key": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Public Key",
                         "description": "The public key encoded in base58, corresponding to the private key.",
                         "examples": ["GfH2hQvQmHzo1Lj6j6Wnq3X6dFiD1kLQ6Jz37vZ5p9np"]
                     },
                     "methods": {
-                        "additionalProperties": { "$ref": "#/components/schemas/ExecutionMethod-Output" },
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/ExecutionMethod-Output"
+                        },
                         "type": "object",
                         "title": "Methods",
                         "description": "Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases.",
@@ -4382,7 +5866,9 @@
                         "examples": ["string"]
                     },
                     "methods": {
-                        "additionalProperties": { "$ref": "#/components/schemas/ExecutionMethod-Input" },
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/ExecutionMethod-Input"
+                        },
                         "type": "object",
                         "title": "Methods",
                         "description": "Provider methods configuration",
@@ -4424,7 +5910,14 @@
             "ProviderUpdate": {
                 "properties": {
                     "fields_json_schema": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Fields Json Schema",
                         "description": "JSON schema for provider fields",
                         "examples": ["string"]
@@ -4432,10 +5925,14 @@
                     "methods": {
                         "anyOf": [
                             {
-                                "additionalProperties": { "$ref": "#/components/schemas/ExecutionMethod-Input" },
+                                "additionalProperties": {
+                                    "$ref": "#/components/schemas/ExecutionMethod-Input"
+                                },
                                 "type": "object"
                             },
-                            { "type": "null" }
+                            {
+                                "type": "null"
+                            }
                         ],
                         "title": "Methods",
                         "description": "Provider methods configuration",
@@ -4477,7 +5974,7 @@
                 "properties": {
                     "quantity": {
                         "type": "integer",
-                        "minimum": 0.0,
+                        "minimum": 0,
                         "title": "Quantity",
                         "description": "The quantity part of the rate value. It represents the numeric value without the decimal separator. For example, '12.34' is stored as 1234.",
                         "default": 0,
@@ -4485,7 +5982,7 @@
                     },
                     "accuracy": {
                         "type": "integer",
-                        "minimum": 0.0,
+                        "minimum": 0,
                         "title": "Accuracy",
                         "description": "The accuracy factor for the rate value. It must be a power of 10 (e.g., 1, 10, 100, 1000) corresponding to the number of decimal places.",
                         "default": 1,
@@ -4495,7 +5992,11 @@
                 "type": "object",
                 "title": "RateValue"
             },
-            "Status": { "type": "string", "enum": ["Ok"], "title": "Status" },
+            "Status": {
+                "type": "string",
+                "enum": ["Ok"],
+                "title": "Status"
+            },
             "Terminal": {
                 "properties": {
                     "terminal_id": {
@@ -4512,14 +6013,25 @@
                         "examples": ["Main Terminal"]
                     },
                     "description": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Description",
                         "description": "Description of the terminal",
                         "examples": ["This is the main terminal"]
                     },
                     "fees": {
-                        "additionalProperties": { "$ref": "#/components/schemas/Fee" },
-                        "propertyNames": { "format": "uuid" },
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/Fee"
+                        },
+                        "propertyNames": {
+                            "format": "uuid"
+                        },
                         "type": "object",
                         "title": "Fees",
                         "description": "Mapping of fee configurations with fee.id as key",
@@ -4532,7 +6044,10 @@
                                     "id": "123e4567-e89b-12d3-a456-426614174000",
                                     "recipient": "recipient@example.com",
                                     "type": 3,
-                                    "value": { "accuracy": 100, "quantity": 1234 }
+                                    "value": {
+                                        "accuracy": 100,
+                                        "quantity": 1234
+                                    }
                                 }
                             }
                         ]
@@ -4547,7 +6062,12 @@
                         "type": "object",
                         "title": "Auth",
                         "description": "Authentication data for the terminal",
-                        "examples": [{ "password": "pass", "username": "user" }]
+                        "examples": [
+                            {
+                                "password": "pass",
+                                "username": "user"
+                            }
+                        ]
                     },
                     "account_created": {
                         "type": "boolean",
@@ -4557,7 +6077,14 @@
                         "examples": [false]
                     },
                     "callback_url": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Callback Url",
                         "description": "Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration."
                     }
@@ -4575,7 +6102,14 @@
                         "examples": ["Main Terminal"]
                     },
                     "description": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Description",
                         "description": "Description of the terminal",
                         "examples": ["This is the main terminal"]
@@ -4595,7 +6129,9 @@
             "TerminalDeleteAuth": {
                 "properties": {
                     "keys": {
-                        "items": { "type": "string" },
+                        "items": {
+                            "type": "string"
+                        },
                         "type": "array",
                         "title": "Keys",
                         "description": "Authentication data for the terminal",
@@ -4609,13 +6145,27 @@
             "TerminalUpdate": {
                 "properties": {
                     "verbose_name": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Verbose Name",
                         "description": "Name of the terminal",
                         "examples": ["Main Terminal"]
                     },
                     "description": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Description",
                         "description": "Description of the terminal",
                         "examples": ["This is the main terminal"]
@@ -4630,7 +6180,12 @@
                         "type": "object",
                         "title": "Auth",
                         "description": "Authentication data for the terminal",
-                        "examples": [{ "password": "pass", "username": "user" }]
+                        "examples": [
+                            {
+                                "api_key": "test_api_key",
+                                "secret_key": "test_secret_key"
+                            }
+                        ]
                     }
                 },
                 "type": "object",
@@ -4640,29 +6195,68 @@
             "TerminalUpdateCallbackUrl": {
                 "properties": {
                     "callback_url": {
-                        "type": "string",
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Callback Url",
                         "description": "New callback URL template or final URL. Placeholders in the form {key} will be replaced with values from terminal.auth.",
                         "examples": [
                             "http://callback_service:8000/{api_key}",
-                            "https://example.com/webhook/{secret_key}/notify"
+                            "https://localhost/webhook/{secret_key}/notify"
                         ]
+                    },
+                    "adapter_nats_subject": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Adapter Nats Subject",
+                        "description": "NATS subject for publishing terminal update intended for adapter consumption. If set, the updated terminal information will be sent to this NATS subject.",
+                        "examples": ["adapters.pay4u.callback.status.update"]
                     }
                 },
                 "type": "object",
                 "required": ["callback_url"],
                 "title": "TerminalUpdateCallbackUrl"
             },
-            "TransactionType": { "type": "integer", "enum": [1, 2, 3, 4], "title": "TransactionType" },
+            "TransactionType": {
+                "type": "integer",
+                "enum": [1, 2, 3, 4],
+                "title": "TransactionType"
+            },
             "ValidationError": {
                 "properties": {
                     "loc": {
-                        "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
                         "type": "array",
                         "title": "Location"
                     },
-                    "msg": { "type": "string", "title": "Message" },
-                    "type": { "type": "string", "title": "Error Type" }
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
                 },
                 "type": "object",
                 "required": ["loc", "msg", "type"],

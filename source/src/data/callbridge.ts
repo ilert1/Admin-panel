@@ -6,7 +6,8 @@ import { CallbackMappingCreate } from "@/api/callbridge/blowFishCallBridgeAPISer
 import {
     callbackHistoryEndpointsListHistoryCallbridgeV1HistoryGet,
     callbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGet,
-    callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGet
+    // callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGet
+    callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryCallbackIdRetryGet
 } from "@/api/callbridge/callback-history/callback-history";
 import {
     callbackMappingEndpointsListMappingsCallbridgeV1MappingGet,
@@ -206,14 +207,11 @@ export class CallbridgeDataProvider extends IBaseDataProvider {
     }
 
     async retryHistory(params: GetOneParams) {
-        const res = await callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryHistoryCallbackIdRetryGet(
-            params.id,
-            {
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+        const res = await callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryCallbackIdRetryGet(params.id, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
-        );
+        });
 
         if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);
