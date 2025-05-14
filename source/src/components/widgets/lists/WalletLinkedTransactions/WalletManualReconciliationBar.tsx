@@ -78,14 +78,14 @@ export const WalletManualReconciliationBar = () => {
                     return;
                 }
 
-                await WalletsDataProvider.manualReconcillation(inputVal, {
+                await WalletsDataProvider.manualReconciliation(inputVal, {
                     fiat: true,
                     merchant_id: merchantId,
                     currency: currentBalance?.currency,
                     amount: merchantAmount
                 });
             } else {
-                await WalletsDataProvider.manualReconcillation(inputVal);
+                await WalletsDataProvider.manualReconciliation(inputVal);
             }
             appToast("success", translate("resources.wallet.linkedTransactions.successFound"));
             refresh();
