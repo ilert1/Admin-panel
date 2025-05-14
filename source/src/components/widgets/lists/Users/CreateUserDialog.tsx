@@ -1,12 +1,12 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useTranslate } from "react-admin";
-import { UserCreateNewFlow } from "../../create/UserCreateNewFlow";
+import { UserCreate } from "../../create/UserCreate";
 
 interface CreateCurrencyDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
-export const CreateUserDialogNewFlow = ({ open, onOpenChange }: CreateCurrencyDialogProps) => {
+export const CreateUserDialog = ({ open, onOpenChange }: CreateCurrencyDialogProps) => {
     const translate = useTranslate();
 
     return (
@@ -19,7 +19,7 @@ export const CreateUserDialogNewFlow = ({ open, onOpenChange }: CreateCurrencyDi
                 </DialogHeader>
                 <DialogDescription />
 
-                <UserCreateNewFlow onOpenChange={onOpenChange} />
+                <UserCreate onOpenChange={onOpenChange} />
             </DialogContent>
         </Dialog>
     );

@@ -5,7 +5,7 @@ import { ChangeEvent, useState } from "react";
 import { Input } from "@/components/ui/Input/input";
 import { debounce } from "lodash";
 // import { CreateUserDialog } from "./CreateUserDialog";
-import { CreateUserDialogNewFlow } from "./CreateUserDialogNewFlow";
+import { CreateUserDialog } from "./CreateUserDialog";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
@@ -17,7 +17,7 @@ export const UserListFilter = () => {
     const [userInputId, setUserInputId] = useState(filterValues?.id || "");
     const [username, setUsername] = useState(filterValues?.name || "");
     const [checkedActivity, setCheckedActivity] = useState(filterValues?.active || false);
-    const [showAddUserNewFlowDialog, setShowAddUserNewFlowDialog] = useState(false);
+    const [showAddUserDialog, setShowAddUserDialog] = useState(false);
 
     const onPropertySelected = debounce((value: string | number, type: "id" | "name" | "state") => {
         if (value) {
@@ -69,15 +69,12 @@ export const UserListFilter = () => {
 
                             <div className="flex flex-1 flex-row gap-3 sm:flex-none">
                                 <Button
-                                    onClick={() => setShowAddUserNewFlowDialog(true)}
+                                    onClick={() => setShowAddUserDialog(true)}
                                     className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none">
                                     <CirclePlus width={16} height={16} />
                                     <span>{translate("resources.users.createButton")}</span>
                                 </Button>
-                                <CreateUserDialogNewFlow
-                                    open={showAddUserNewFlowDialog}
-                                    onOpenChange={setShowAddUserNewFlowDialog}
-                                />
+                                <CreateUserDialog open={showAddUserDialog} onOpenChange={setShowAddUserDialog} />
                                 <FilterButtonGroup
                                     open={openFiltersClicked}
                                     onOpenChange={setOpenFiltersClicked}

@@ -26,7 +26,7 @@ interface UserCreateProps {
     onOpenChange: (state: boolean) => void;
 }
 
-export const UserCreateNewFlow = ({ onOpenChange }: UserCreateProps) => {
+export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
     const dataProvider = UsersDataProvider;

@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
-import { CreateMerchantDialogNewFlow } from "./CreateMerchantDialogNewFlow";
+import { CreateMerchantDialog } from "./CreateMerchantDialog";
 
 export const MerchantListFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
@@ -16,7 +16,7 @@ export const MerchantListFilter = () => {
     const translate = useTranslate();
 
     const [merchantId, setMerchantId] = useState(filterValues?.id || "");
-    const [createDialogNewFlowOpen, setCreateDialogNewFlowOpen] = useState(false);
+    const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const onPropertySelected = debounce((value: string, type: "id") => {
         if (value) {
@@ -50,7 +50,7 @@ export const MerchantListFilter = () => {
 
                     <div className="flex flex-1 flex-row justify-end gap-2 sm:flex-none sm:gap-6">
                         <Button
-                            onClick={() => setCreateDialogNewFlowOpen(true)}
+                            onClick={() => setCreateDialogOpen(true)}
                             variant="default"
                             className="flex flex-1 items-center gap-1 sm:flex-none">
                             <PlusCircle className="h-[16px] w-[16px]" />
@@ -82,7 +82,7 @@ export const MerchantListFilter = () => {
                 </AnimatedContainer>
             </div>
 
-            <CreateMerchantDialogNewFlow open={createDialogNewFlowOpen} onOpenChange={setCreateDialogNewFlowOpen} />
+            <CreateMerchantDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
         </>
     );
 };
