@@ -1,7 +1,7 @@
 import { ListContextProvider, usePermissions } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
-import { WalletManualReconciliationBar } from "./WalletManualReconciliationBar";
+import { WalletManualReconciliationBar } from "./WalletManualReconciliation";
 import { useGetWalletLinkedTransactionColumns } from "./Columns";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { useAbortableListController } from "@/hooks/useAbortableListController";

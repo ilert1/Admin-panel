@@ -7,7 +7,7 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { WalletsDataProvider } from "@/data";
 import { useState } from "react";
 import { useRefresh, useTranslate } from "react-admin";
-import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
+import { MerchantSelectFilter } from "../../../shared/MerchantSelectFilter";
 import { AccountsDataProvider } from "@/data";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useQuery } from "@tanstack/react-query";
