@@ -3,10 +3,10 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
-import { Link } from "lucide-react";
+import { Link, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
-import NatsIcon from "@/lib/icons/NATS.io.svg?react";
+import NatsIcon from "@/lib/icons/nat-nat-gateway.svg?react";
 
 export const useGetMappingsColumns = () => {
     const translate = useTranslate();
@@ -86,11 +86,11 @@ export const useGetMappingsColumns = () => {
                 return (
                     <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-3.5">
-                            <Link className="h-4 w-4 text-green-50" />
+                            <Link className="h-4 w-4 min-w-5 text-green-50" />
                             <TextField text={int_path ?? ""} copyValue lineClamp linesCount={1} maxWidth="250px" />
                         </div>
-                        <div className="flex items-center gap-2">
-                            <NatsIcon className="h-7 w-6" />
+                        <div className="flex items-center gap-3.5">
+                            <NatsIcon className="h-5 w-5 min-w-5 text-green-50" />
                             <TextField text={natsQ ?? ""} copyValue lineClamp linesCount={1} maxWidth="250px" />
                         </div>
                     </div>

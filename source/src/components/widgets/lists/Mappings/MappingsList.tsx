@@ -27,8 +27,6 @@ export const MappingsList = () => {
         setCreateMappingClicked
     } = useGetMappingsColumns();
 
-    console.log(listContext.data);
-
     return (
         <>
             <ListContextProvider value={listContext}>
