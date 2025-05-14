@@ -32,21 +32,23 @@ export const useWalletManualReconciliation = ({ onOpenChange }: { onOpenChange: 
             if (merchantId) return await AccountsDataProvider.fetchBalance(merchantId, signal);
         },
         select(data) {
-            const amounts = data.data.amounts;
+            const amounts = data?.data?.amounts;
 
-            if (!Array.isArray(amounts) || amounts.length === 0) {
+            if (!Array.isArray(amounts) || amounts?.length === 0) {
                 return [];
             }
 
             return amounts
                 .map(amount => {
-                    const currency = currencies?.find(currency => amount.currency === currency.code);
+                    const currency = currencies?.find(currency => amount?.currency === currency?.code);
 
-                    if (currency && !currency.is_coin) {
+                    if (currency && !currency?.is_coin) {
                         return {
-                            id: amount.id,
-                            balance: (+amount.value.quantity / +amount.value.accuracy).toFixed(currency?.accuracy || 2),
-                            currency: amount.currency
+                            id: amount?.id,
+                            balance: (+amount?.value?.quantity / +amount?.value?.accuracy).toFixed(
+                                currency?.accuracy || 2
+                            ),
+                            currency: amount?.currency
                         };
                     }
                 })
@@ -62,7 +64,7 @@ export const useWalletManualReconciliation = ({ onOpenChange }: { onOpenChange: 
 
         try {
             if (fiatShow) {
-                const currentBalance = merchantBalanceData?.find(balance => balance.id === merchantBalanceId);
+                const currentBalance = merchantBalanceData?.find(balance => balance?.id === merchantBalanceId);
 
                 if (Number(currentBalance?.balance) < Number(merchantAmount)) {
                     appToast("error", translate("resources.wallet.linkedTransactions.notValidAmount"));
@@ -83,7 +85,7 @@ export const useWalletManualReconciliation = ({ onOpenChange }: { onOpenChange: 
             onOpenChangeHandler(false);
         } catch (error) {
             if (error instanceof Error)
-                appToast("error", error.message ?? translate("resources.wallet.linkedTransactions.notFound"));
+                appToast("error", error?.message ?? translate("resources.wallet.linkedTransactions.notFound"));
         } finally {
             setIsLoading(false);
         }
