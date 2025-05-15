@@ -1216,6 +1216,11 @@ export type TerminalAuth = { [key: string]: unknown };
  */
 export type TerminalCallbackUrl = string | null;
 
+/**
+ * Additional details about the terminal
+ */
+export type TerminalDetails = { [key: string]: unknown };
+
 export interface Terminal {
     /** Unique identifier of the terminal */
     terminal_id: string;
@@ -1233,6 +1238,8 @@ export interface Terminal {
     account_created?: boolean;
     /** Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration. */
     callback_url?: TerminalCallbackUrl;
+    /** Additional details about the terminal */
+    details?: TerminalDetails;
 }
 
 /**
@@ -1240,11 +1247,18 @@ export interface Terminal {
  */
 export type TerminalCreateDescription = string | null;
 
+/**
+ * Additional details about the terminal
+ */
+export type TerminalCreateDetails = { [key: string]: unknown };
+
 export interface TerminalCreate {
     /** Name of the terminal */
     verbose_name: string;
     /** Description of the terminal */
     description?: TerminalCreateDescription;
+    /** Additional details about the terminal */
+    details?: TerminalCreateDetails;
     /** Indicates if the account is created */
     account_created?: boolean;
 }
@@ -1264,11 +1278,20 @@ export type TerminalUpdateVerboseName = string | null;
  */
 export type TerminalUpdateDescription = string | null;
 
+export type TerminalUpdateDetailsAnyOf = { [key: string]: unknown };
+
+/**
+ * Additional details about the terminal
+ */
+export type TerminalUpdateDetails = TerminalUpdateDetailsAnyOf | null;
+
 export interface TerminalUpdate {
     /** Name of the terminal */
     verbose_name?: TerminalUpdateVerboseName;
     /** Description of the terminal */
     description?: TerminalUpdateDescription;
+    /** Additional details about the terminal */
+    details?: TerminalUpdateDetails;
 }
 
 /**
