@@ -243,7 +243,7 @@ export const CryptoTransferForm = (props: {
                                                         variant={SelectType.DEFAULT}
                                                         isError={fieldState.invalid}
                                                         errorMessage={<FormMessage />}>
-                                                        <span className="truncate">{field.value}</span>
+                                                        <p className="truncate text-note-1">{field.value}</p>
                                                     </SelectTrigger>
                                                 </FormControl>
                                                 <SelectContent
@@ -259,7 +259,7 @@ export const CryptoTransferForm = (props: {
                                                                 <SelectItem
                                                                     value={lastUsedWallet}
                                                                     variant={SelectType.DEFAULT}>
-                                                                    <p className="max-w-[235px] truncate">
+                                                                    <p className="max-w-[235px] text-wrap break-all text-note-1">
                                                                         {lastUsedWallet}
                                                                     </p>
                                                                     <p
@@ -277,18 +277,20 @@ export const CryptoTransferForm = (props: {
                                                                         return (
                                                                             <div
                                                                                 key={wallet.id}
-                                                                                className="relative flex flex-col gap-2">
+                                                                                className="relative flex flex-col gap-2 divide-solid divide-neutral-40 border-t dark:border-muted">
                                                                                 <SelectItem
                                                                                     value={wallet.address}
                                                                                     variant={SelectType.DEFAULT}>
-                                                                                    <p className="max-w-[235px] truncate">
-                                                                                        {wallet.address}
-                                                                                    </p>
-                                                                                    <p
-                                                                                        className="max-w-[235px] truncate text-note-2 text-neutral-50"
-                                                                                        style={{ bottom: "-.5" }}>
-                                                                                        {wallet.description}
-                                                                                    </p>
+                                                                                    <div className="max-w-[235px]">
+                                                                                        <div className="text-wrap break-all text-note-1">
+                                                                                            {wallet.address}
+                                                                                        </div>
+                                                                                        <p
+                                                                                            className="truncate text-note-2 text-neutral-50"
+                                                                                            style={{ bottom: "-.5" }}>
+                                                                                            {wallet.description}
+                                                                                        </p>
+                                                                                    </div>
                                                                                 </SelectItem>
                                                                             </div>
                                                                         );
