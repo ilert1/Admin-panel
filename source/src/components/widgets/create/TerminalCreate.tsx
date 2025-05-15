@@ -13,13 +13,15 @@ import { Label } from "@/components/ui/label";
 import { TerminalWithId } from "@/data/terminals";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
+import { TerminalCreate as ITerminalCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
-export interface ProviderCreateProps {
+export interface TerminalCreateProps {
     provider: string;
     onClose: () => void;
 }
 
-export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
+export const TerminalCreate = ({ onClose, provider }: TerminalCreateProps) => {
     const refresh = useRefresh();
     const translate = useTranslate();
     const appToast = useAppToast();
@@ -27,28 +29,41 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController<TerminalWithId>();
     const { theme } = useTheme();
+
+    const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
+    const [hasErrors, setHasErrors] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const formSchema = z.object({
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
-        description: z.union([z.string().trim(), z.literal("")])
+        description: z.union([z.string().trim(), z.literal("")]),
+        details: z.string()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             verbose_name: "",
-            description: ""
+            description: "",
+            details: "{}"
         }
     });
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
 
-        try {
-            setSubmitButtonDisabled(true);
+        setSubmitButtonDisabled(true);
 
-            const res = await dataProvider.create<TerminalWithId>(`${provider}/terminal`, { data });
+        try {
+            const parseDetails = JSON.parse(data.details);
+
+            const res = await dataProvider.create<TerminalWithId>(`${provider}/terminal`, {
+                data: {
+                    verbose_name: data.verbose_name,
+                    description: data.description,
+                    ...(parseDetails && Object.keys(parseDetails).length !== 0 && { details: parseDetails })
+                } as ITerminalCreate
+            });
 
             appToast(
                 "success",
@@ -111,6 +126,7 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
                                 </FormItem>
                             )}
                         />
+
                         <FormField
                             control={form.control}
                             name="description"
@@ -128,12 +144,32 @@ export const TerminalCreate = ({ onClose, provider }: ProviderCreateProps) => {
                                 </FormItem>
                             )}
                         />
+
+                        <FormField
+                            control={form.control}
+                            name="details"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <Label className="!mb-0">{translate("resources.terminals.fields.details")}</Label>
+                                    <FormControl>
+                                        <MonacoEditor
+                                            width="100%"
+                                            onMountEditor={() => setMonacoEditorMounted(true)}
+                                            onErrorsChange={setHasErrors}
+                                            code={field.value}
+                                            setCode={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                             <Button
                                 type="submit"
                                 variant="default"
                                 className="w-full sm:w-1/2"
-                                disabled={submitButtonDisabled}>
+                                disabled={hasErrors || !monacoEditorMounted || submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button

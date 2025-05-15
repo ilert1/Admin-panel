@@ -1,6 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useTranslate } from "react-admin";
 import { TerminalCreate } from "../../create/TerminalCreate";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 interface CreateProviderDialogProps {
     provider: string;
@@ -19,6 +20,7 @@ export const CreateTerminalDialog = ({ open, onOpenChange = () => {}, provider }
                     <DialogTitle className="mb-4 text-center">
                         {translate("resources.terminals.creatingTerminal")}
                     </DialogTitle>
+                    <DialogDescription />
                     <TerminalCreate provider={provider} onClose={() => onOpenChange(false)} />
                 </DialogHeader>
             </DialogContent>
