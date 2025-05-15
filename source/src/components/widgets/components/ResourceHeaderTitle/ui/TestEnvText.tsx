@@ -20,7 +20,11 @@ export const TestEnvText = () => {
     }, []);
 
     return (
-        <div className={cn("mb-[24px] flex items-center gap-3 bg-red-50 px-4 py-2", !showTestEnvText && "hidden")}>
+        <div
+            className={cn(
+                "mb-[24px] flex items-center gap-3 bg-red-40 px-4 py-2 text-white dark:bg-red-50",
+                !showTestEnvText && "hidden"
+            )}>
             <TestTubeDiagonal className={cn("h-6 w-6", isMobile && "hidden")} />
             <span>
                 {translate("app.ui.testPopup.youReInTestEnv")} {translate("app.ui.testPopup.allActionsSimulated")}
