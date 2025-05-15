@@ -76,16 +76,6 @@ export const TerminalShow = (props: TerminalShowProps) => {
                                 maxWidth="400px"
                                 label={translate("resources.callbridge.mapping.fields.callback_url")}
                             />
-
-                            <div className="md:col-span-2">
-                                <TextField
-                                    copyValue
-                                    lineClamp
-                                    linesCount={1}
-                                    text={JSON.stringify(data.details)}
-                                    label={translate("resources.terminals.fields.details")}
-                                />
-                            </div>
                         </div>
 
                         <div className="mt-3 flex justify-end">
