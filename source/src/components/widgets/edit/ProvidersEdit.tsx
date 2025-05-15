@@ -29,8 +29,8 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
     const translate = useTranslate();
     const appToast = useAppToast();
 
+    const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
-    const [isValid, setIsValid] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const formSchema = z.object({
@@ -132,8 +132,8 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                                     <FormControl>
                                         <MonacoEditor
                                             width="100%"
+                                            onMountEditor={() => setMonacoEditorMounted(true)}
                                             onErrorsChange={setHasErrors}
-                                            onValidChange={setIsValid}
                                             code={field.value}
                                             setCode={field.onChange}
                                         />
@@ -145,7 +145,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
 
                         <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                             <Button
-                                disabled={hasErrors && isValid && submitButtonDisabled}
+                                disabled={hasErrors || !monacoEditorMounted || submitButtonDisabled}
                                 type="submit"
                                 variant="default"
                                 className="flex-1">

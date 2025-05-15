@@ -26,7 +26,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
 
     const translate = useTranslate();
     const [hasErrors, setHasErrors] = useState(false);
-    const [isValid, setIsValid] = useState(false);
+    const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const formSchema = z.object({
@@ -119,7 +119,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                                         <FormControl>
                                             <MonacoEditor
                                                 onErrorsChange={setHasErrors}
-                                                onValidChange={setIsValid}
+                                                onMountEditor={() => setMonacoEditorMounted(true)}
                                                 code={field.value || "{}"}
                                                 setCode={field.onChange}
                                             />
@@ -134,7 +134,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                                 type="submit"
                                 variant="default"
                                 className="w-full sm:w-1/2"
-                                disabled={hasErrors && isValid && submitButtonDisabled}>
+                                disabled={hasErrors || !monacoEditorMounted || submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button
