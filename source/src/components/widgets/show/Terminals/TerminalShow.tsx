@@ -54,7 +54,7 @@ export const TerminalShow = (props: TerminalShowProps) => {
                     <div className="flex flex-col">
                         <TextField text={id} copyValue className="text-display-4" />
 
-                        <div className="flex flex-wrap gap-4 md:gap-6">
+                        <div className="grid gap-4 md:grid-cols-2 md:gap-6">
                             <TextField
                                 text={data.verbose_name}
                                 label={translate("resources.terminals.fields.verbose_name")}
@@ -66,6 +66,7 @@ export const TerminalShow = (props: TerminalShowProps) => {
                                 text={data.description ?? ""}
                                 label={translate("resources.terminals.fields.description")}
                             />
+
                             <TextField
                                 text={data.callback_url ?? "-"}
                                 type={"text"}
@@ -74,6 +75,15 @@ export const TerminalShow = (props: TerminalShowProps) => {
                                 linesCount={1}
                                 maxWidth="400px"
                                 label={translate("resources.callbridge.mapping.fields.callback_url")}
+                            />
+
+                            <TextField
+                                copyValue
+                                lineClamp
+                                linesCount={3}
+                                className="md:col-span-2"
+                                text={JSON.stringify(data.details)}
+                                label={translate("resources.terminals.fields.details")}
                             />
                         </div>
 

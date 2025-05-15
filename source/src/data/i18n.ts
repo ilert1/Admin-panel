@@ -521,6 +521,7 @@ const ru: TranslationMessages = {
                 fees: "Комиссии",
                 createAccount: "Создать счёт",
                 account: "Счёт",
+                details: "Технические данные",
                 pays: "PayIn/PayOut"
             },
             filter: {
@@ -1596,6 +1597,7 @@ const en: TranslationMessages = {
                 fees: "Fees",
                 createAccount: "Create account",
                 account: "Account",
+                details: "Details",
                 pays: "PayIn/PayOut"
             },
             filter: {
