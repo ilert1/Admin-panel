@@ -12,6 +12,7 @@ import { TerminalWithId } from "@/data/terminals";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
 
 interface ProviderEditParams {
     provider: string;
@@ -25,6 +26,9 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
     const refresh = useRefresh();
     const appToast = useAppToast();
 
+    const [hasErrors, setHasErrors] = useState(false);
+    const [isValid, setIsValid] = useState(false);
+
     const controllerProps = useEditController<TerminalWithId>({
         resource: `${provider}/terminal`,
         id,
@@ -35,14 +39,16 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
 
     const formSchema = z.object({
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
-        description: z.union([z.string().trim(), z.literal("")])
+        description: z.union([z.string().trim(), z.literal("")]),
+        details: z.string()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             verbose_name: controllerProps.record?.verbose_name || "",
-            description: controllerProps.record?.description || ""
+            description: controllerProps.record?.description || "",
+            details: JSON.stringify(controllerProps.record?.details) || ""
         }
     });
 
@@ -50,23 +56,21 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         if (controllerProps.record) {
             form.reset({
                 verbose_name: controllerProps.record.verbose_name || "",
-                description: controllerProps.record.description || ""
+                description: controllerProps.record.description || "",
+                details: JSON.stringify(controllerProps.record.details, null, 2) || ""
             });
         }
     }, [form, controllerProps.record]);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
-
+        data.details = JSON.parse(data.details);
         try {
             setSubmitButtonDisabled(true);
 
             await dataProvider.update<TerminalWithId>(`${provider}/terminal`, {
                 id,
-                data: {
-                    verbose_name: data.verbose_name,
-                    description: data.description
-                },
+                data,
                 previousData: undefined
             });
 
@@ -108,6 +112,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                                 </FormItem>
                             )}
                         />
+
                         <FormField
                             control={form.control}
                             name="description"
@@ -126,8 +131,32 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                             )}
                         />
 
+                        <FormField
+                            control={form.control}
+                            name="details"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <Label className="!mb-0">{translate("resources.terminals.fields.details")}</Label>
+                                    <FormControl>
+                                        <MonacoEditor
+                                            width="100%"
+                                            onErrorsChange={setHasErrors}
+                                            onValidChange={setIsValid}
+                                            code={field.value}
+                                            setCode={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
                         <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
-                            <Button disabled={submitButtonDisabled} type="submit" variant="default" className="flex-1">
+                            <Button
+                                disabled={hasErrors && isValid && submitButtonDisabled}
+                                type="submit"
+                                variant="default"
+                                className="flex-1">
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button
