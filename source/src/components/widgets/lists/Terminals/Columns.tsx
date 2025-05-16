@@ -97,20 +97,21 @@ export const useGetTerminalColumns = () => {
                 );
             }
         },
-        {
-            id: "allocation_timeout_seconds",
-            accessorKey: "allocation_timeout_seconds",
-            header: translate("resources.terminals.fields.allocation_timeout_seconds"),
-            cell: ({ row }) => {
-                return <TextField text={row.original.allocation_timeout_seconds?.toString() ?? ""} wrap />;
-            }
-        },
+
         {
             id: "provider",
             accessorKey: "provider",
             header: translate("resources.terminals.fields.provider"),
             cell: ({ row }) => {
                 return <TextField text={row.original.provider} />;
+            }
+        },
+        {
+            id: "allocation_timeout_seconds",
+            accessorKey: "allocation_timeout_seconds",
+            header: translate("resources.terminals.fields.timeout"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.allocation_timeout_seconds?.toString() ?? ""} wrap />;
             }
         },
         {

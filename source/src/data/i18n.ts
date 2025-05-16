@@ -523,6 +523,7 @@ const ru: TranslationMessages = {
                 account: "Счёт",
                 details: "Технические данные",
                 allocation_timeout_seconds: "Таймаут ответа провайдера",
+                timeout: "Таймаут провайдера",
                 pays: "PayIn/PayOut"
             },
             filter: {
@@ -1603,6 +1604,7 @@ const en: TranslationMessages = {
                 account: "Account",
                 details: "Details",
                 allocation_timeout_seconds: "Provider response timeout",
+                timeout: "Provider timeout",
                 pays: "PayIn/PayOut"
             },
             filter: {
