@@ -63,13 +63,13 @@ export const TerminalShow = (props: TerminalShowProps) => {
                             <TextField text={data.provider} label={translate("resources.terminals.fields.provider")} />
 
                             <TextField
-                                text={data.description ?? ""}
-                                label={translate("resources.terminals.fields.description")}
+                                text={data.allocation_timeout_seconds?.toString() ?? ""}
+                                label={translate("resources.terminals.fields.allocation_timeout_seconds")}
                             />
 
                             <TextField
-                                text={data.allocation_timeout_seconds?.toString() ?? ""}
-                                label={translate("resources.terminals.fields.allocation_timeout_seconds")}
+                                text={data.description ?? ""}
+                                label={translate("resources.terminals.fields.description")}
                             />
 
                             <div className="md:col-span-2">
