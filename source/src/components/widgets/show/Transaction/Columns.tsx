@@ -80,8 +80,7 @@ export const useGetTransactionShowColumns = () => {
         },
         {
             id: "source_amount",
-            accessorKey: "source",
-            header: translate("resources.transactions.fields.source.amount.getAmount"),
+            header: translate("resources.transactions.fields.source.amount.sendAmount"),
             cell: ({ row }) => {
                 const val = row.original.source.amount.value.quantity / row.original.source.amount.value.accuracy;
                 return (
@@ -93,9 +92,7 @@ export const useGetTransactionShowColumns = () => {
         },
         {
             id: "destination_amount",
-            accessorKey: "source",
-            header: translate("resources.transactions.fields.destination.amount.sendAmount"),
-
+            header: translate("resources.transactions.fields.destination.amount.getAmount"),
             cell: ({ row }) => {
                 const val =
                     row.original.destination.amount.value.quantity / row.original.destination.amount.value.accuracy;
