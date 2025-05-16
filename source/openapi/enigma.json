@@ -3735,6 +3735,7 @@
           "meta": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -6545,6 +6546,15 @@
               "This is the main terminal"
             ]
           },
+          "allocation_timeout_seconds": {
+            "type": "integer",
+            "title": "Allocation Timeout Seconds",
+            "description": "Timeout for allocation in seconds",
+            "default": 2,
+            "examples": [
+              2
+            ]
+          },
           "fees": {
             "additionalProperties": {
               "$ref": "#/components/schemas/Fee"
@@ -6581,6 +6591,7 @@
             ]
           },
           "auth": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Auth",
             "description": "Authentication data for the terminal",
@@ -6613,6 +6624,7 @@
             "description": "Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration."
           },
           "details": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Details",
             "description": "Additional details about the terminal",
@@ -6657,6 +6669,7 @@
             ]
           },
           "details": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Details",
             "description": "Additional details about the terminal",
@@ -6664,6 +6677,17 @@
               {
                 "key": "value"
               }
+            ]
+          },
+          "allocation_timeout_seconds": {
+            "type": "integer",
+            "maximum": 120,
+            "minimum": 0,
+            "title": "Allocation Timeout Seconds",
+            "description": "Timeout for allocation in seconds (0 to 120)",
+            "default": 2,
+            "examples": [
+              2
             ]
           },
           "account_created": {
@@ -6740,6 +6764,7 @@
           "details": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -6753,6 +6778,23 @@
                 "key": "value"
               }
             ]
+          },
+          "allocation_timeout_seconds": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 120,
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Allocation Timeout Seconds",
+            "description": "Timeout for allocation in seconds (0 to 120)",
+            "examples": [
+              2
+            ]
           }
         },
         "type": "object",
@@ -6761,6 +6803,7 @@
       "TerminalUpdateAuth": {
         "properties": {
           "auth": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Auth",
             "description": "Authentication data for the terminal",

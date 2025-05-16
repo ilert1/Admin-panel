@@ -1228,6 +1228,8 @@ export interface Terminal {
     verbose_name: string;
     /** Description of the terminal */
     description?: TerminalDescription;
+    /** Timeout for allocation in seconds */
+    allocation_timeout_seconds?: number;
     /** Mapping of fee configurations with fee.id as key */
     fees?: TerminalFees;
     /** Provider name associated with the terminal */
@@ -1259,6 +1261,12 @@ export interface TerminalCreate {
     description?: TerminalCreateDescription;
     /** Additional details about the terminal */
     details?: TerminalCreateDetails;
+    /**
+     * Timeout for allocation in seconds (0 to 120)
+     * @minimum 0
+     * @maximum 120
+     */
+    allocation_timeout_seconds?: number;
     /** Indicates if the account is created */
     account_created?: boolean;
 }
@@ -1285,6 +1293,11 @@ export type TerminalUpdateDetailsAnyOf = { [key: string]: unknown };
  */
 export type TerminalUpdateDetails = TerminalUpdateDetailsAnyOf | null;
 
+/**
+ * Timeout for allocation in seconds (0 to 120)
+ */
+export type TerminalUpdateAllocationTimeoutSeconds = number | null;
+
 export interface TerminalUpdate {
     /** Name of the terminal */
     verbose_name?: TerminalUpdateVerboseName;
@@ -1292,6 +1305,8 @@ export interface TerminalUpdate {
     description?: TerminalUpdateDescription;
     /** Additional details about the terminal */
     details?: TerminalUpdateDetails;
+    /** Timeout for allocation in seconds (0 to 120) */
+    allocation_timeout_seconds?: TerminalUpdateAllocationTimeoutSeconds;
 }
 
 /**
