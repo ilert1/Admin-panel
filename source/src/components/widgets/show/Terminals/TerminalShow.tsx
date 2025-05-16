@@ -68,14 +68,20 @@ export const TerminalShow = (props: TerminalShowProps) => {
                             />
 
                             <TextField
-                                text={data.callback_url ?? "-"}
-                                type={"text"}
-                                copyValue={data.callback_url ? true : false}
-                                lineClamp
-                                linesCount={1}
-                                maxWidth="400px"
-                                label={translate("resources.callbridge.mapping.fields.callback_url")}
+                                text={data.allocation_timeout_seconds?.toString() ?? ""}
+                                label={translate("resources.terminals.fields.allocation_timeout_seconds")}
                             />
+
+                            <div className="md:col-span-2">
+                                <TextField
+                                    text={data.callback_url ?? "-"}
+                                    type={"text"}
+                                    copyValue={data.callback_url ? true : false}
+                                    lineClamp
+                                    linesCount={1}
+                                    label={translate("resources.callbridge.mapping.fields.callback_url")}
+                                />
+                            </div>
                         </div>
 
                         <div className="mt-3 flex justify-end">
