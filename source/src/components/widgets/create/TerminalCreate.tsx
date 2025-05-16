@@ -37,7 +37,18 @@ export const TerminalCreate = ({ onClose, provider }: TerminalCreateProps) => {
     const formSchema = z.object({
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
         description: z.union([z.string().trim(), z.literal("")]),
-        details: z.string()
+        details: z.string(),
+        allocation_timeout_seconds: z
+            .literal("")
+            .transform(() => undefined)
+            .or(
+                z.coerce
+                    .number({ message: translate("resources.terminals.errors.allocation_timeout_seconds") })
+                    .int({ message: translate("resources.terminals.errors.allocation_timeout_seconds") })
+                    .min(0, translate("resources.terminals.errors.allocation_timeout_seconds_min"))
+                    .max(120, translate("resources.terminals.errors.allocation_timeout_seconds_max"))
+            )
+            .optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -45,7 +56,8 @@ export const TerminalCreate = ({ onClose, provider }: TerminalCreateProps) => {
         defaultValues: {
             verbose_name: "",
             description: "",
-            details: "{}"
+            details: "{}",
+            allocation_timeout_seconds: 2
         }
     });
 
@@ -61,6 +73,9 @@ export const TerminalCreate = ({ onClose, provider }: TerminalCreateProps) => {
                 data: {
                     verbose_name: data.verbose_name,
                     description: data.description,
+                    ...(data.allocation_timeout_seconds !== undefined && {
+                        allocation_timeout_seconds: data.allocation_timeout_seconds
+                    }),
                     ...(parseDetails && Object.keys(parseDetails).length !== 0 && { details: parseDetails })
                 } as ITerminalCreate
             });
@@ -106,26 +121,55 @@ export const TerminalCreate = ({ onClose, provider }: TerminalCreateProps) => {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                     <div className="flex flex-wrap">
-                        <FormField
-                            control={form.control}
-                            name="verbose_name"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2">
-                                    <FormControl>
-                                        <Input
-                                            label={translate("resources.terminals.fields.verbose_name")}
-                                            autoCorrect="off"
-                                            autoCapitalize="none"
-                                            spellCheck="false"
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            variant={InputTypes.GRAY}
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                        <div className="grid w-full gap-2 md:grid-cols-2">
+                            <FormField
+                                control={form.control}
+                                name="verbose_name"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <FormControl>
+                                            <Input
+                                                label={translate("resources.terminals.fields.verbose_name")}
+                                                autoCorrect="off"
+                                                autoCapitalize="none"
+                                                spellCheck="false"
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                variant={InputTypes.GRAY}
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="allocation_timeout_seconds"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <FormControl>
+                                            <Input
+                                                label={translate(
+                                                    "resources.terminals.fields.allocation_timeout_seconds"
+                                                )}
+                                                autoCorrect="off"
+                                                autoCapitalize="none"
+                                                spellCheck="false"
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                variant={InputTypes.GRAY}
+                                                {...field}
+                                                onChange={e => {
+                                                    const value = e.target.value.replace(/\D/, "");
+                                                    field.onChange(value);
+                                                }}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
 
                         <FormField
                             control={form.control}

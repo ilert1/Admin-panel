@@ -522,6 +522,7 @@ const ru: TranslationMessages = {
                 createAccount: "Создать счёт",
                 account: "Счёт",
                 details: "Технические данные",
+                allocation_timeout_seconds: "Таймаут ответа провайдера",
                 pays: "PayIn/PayOut"
             },
             filter: {
@@ -535,7 +536,10 @@ const ru: TranslationMessages = {
                 description: "У терминала обязательно должно быть описание",
                 auth_data_toggle: "Для переключения режима - исправьте ошибки",
                 key_error: "Поле key обязательное",
-                value_error: "Поле value обязательное"
+                value_error: "Поле value обязательное",
+                allocation_timeout_seconds: "Только целочисленные значения",
+                allocation_timeout_seconds_min: "Минимальное значение 1",
+                allocation_timeout_seconds_max: "Максимальное значение 120"
             },
             success: {
                 create: "Терминал %{name} успешно создан."
@@ -1598,6 +1602,7 @@ const en: TranslationMessages = {
                 createAccount: "Create account",
                 account: "Account",
                 details: "Details",
+                allocation_timeout_seconds: "Provider response timeout",
                 pays: "PayIn/PayOut"
             },
             filter: {
@@ -1611,7 +1616,10 @@ const en: TranslationMessages = {
                 description: "The terminal must have a description",
                 auth_data_toggle: "To switch the mode, fix the errors",
                 key_error: "The key field is required",
-                value_error: "The value field is required"
+                value_error: "The value field is required",
+                allocation_timeout_seconds: "Integer values only",
+                allocation_timeout_seconds_min: "The minimum value is 1",
+                allocation_timeout_seconds_max: "The maximum value is 120"
             },
             success: {
                 create: "Terminal %{name} has been successfully created."
