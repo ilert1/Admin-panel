@@ -29,7 +29,7 @@ export const useGetTerminalColumns = () => {
 
     const handleOpenShowClicked = (id: string, provider: string) => {
         openSheet("terminal", {
-            id, 
+            id,
             provider
         });
     };
@@ -95,14 +95,6 @@ export const useGetTerminalColumns = () => {
                         {row.original.verbose_name ?? ""}
                     </Button>
                 );
-            }
-        },
-        {
-            id: "description",
-            accessorKey: "description",
-            header: translate("resources.terminals.fields.description"),
-            cell: ({ row }) => {
-                return <TextField text={row.original.description ? row.original?.description : ""} wrap />;
             }
         },
         {
