@@ -160,7 +160,7 @@ const ru: TranslationMessages = {
                     amount: {
                         currency: "Валюта",
                         value: "Сумма",
-                        getAmount: "Сумма зачисления"
+                        sendAmount: "Сумма отправления"
                     },
                     meta: {
                         caption: "Название"
@@ -172,7 +172,7 @@ const ru: TranslationMessages = {
                     amount: {
                         currency: "Валюта",
                         value: "Сумма",
-                        sendAmount: "Сумма отправления"
+                        getAmount: "Сумма зачисления"
                     },
                     meta: {
                         caption: "Название"
@@ -1241,7 +1241,7 @@ const en: TranslationMessages = {
                     amount: {
                         currency: "Currency",
                         value: "Value",
-                        getAmount: "Amount credited"
+                        sendAmount: "Amount send"
                     },
                     meta: {
                         caption: "Name"
@@ -1253,7 +1253,7 @@ const en: TranslationMessages = {
                     amount: {
                         currency: "Currency",
                         value: "Value",
-                        sendAmount: "Amount send"
+                        getAmount: "Amount credited"
                     },
                     meta: {
                         caption: "Name"
