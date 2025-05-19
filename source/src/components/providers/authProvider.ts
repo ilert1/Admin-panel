@@ -2,8 +2,6 @@ import { jwtDecode, JwtPayload } from "jwt-decode";
 import { AuthProvider, fetchUtils } from "react-admin";
 import { updateTokenHelper } from "@/helpers/updateTokenHelper";
 
-import { QueryClient } from "@tanstack/react-query";
-
 interface KeycloakJwtPayload extends JwtPayload {
     realm_access: {
         roles: string[];
@@ -105,8 +103,6 @@ export const authProvider: AuthProvider = {
                 })
             });
         } catch (error) {
-            clearUserData();
-            return Promise.reject(error);
         } finally {
             clearUserData();
             return Promise.resolve();

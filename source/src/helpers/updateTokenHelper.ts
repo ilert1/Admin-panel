@@ -33,7 +33,7 @@ const updateToken = async () => {
 
         if (!access_token || !refresh_token) {
             // throw new Error("Invalid token response");
-            return Promise.reject(new Error("Invalid token response"));
+            return Promise.reject("Invalid token response");
         }
 
         localStorage.setItem("access-token", access_token);
@@ -68,7 +68,7 @@ export const updateTokenHelper = async () => {
             localStorage.removeItem("access-token");
             localStorage.removeItem("refresh-token");
             localStorage.removeItem("user");
-            return Promise.reject();
+            return Promise.reject(error);
         });
     }
 

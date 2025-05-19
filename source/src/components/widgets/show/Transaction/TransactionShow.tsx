@@ -73,9 +73,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         id: trnId
     });
 
-    const { isLoading, merchantsList } =
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        permissions === "admin" ? useFetchMerchants() : { isLoading: false, merchantsList: [] };
+    const { isLoading, merchantsList = [] } = useFetchMerchants();
 
     const getNameAndIdByType = (type: number, sourceMerch: Merchant | undefined, destMerch: Merchant | undefined) => {
         switch (type) {
@@ -96,8 +94,8 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
 
     const getSourceAndDestMerch = useCallback(
         (source: string, destination: string) => {
-            const sourceMerch = merchantsList.find(el => el.id === source);
-            const destMerch = merchantsList.find(el => el.id === destination);
+            const sourceMerch = merchantsList?.find(el => el.id === source);
+            const destMerch = merchantsList?.find(el => el.id === destination);
 
             return { sourceMerch, destMerch };
         },

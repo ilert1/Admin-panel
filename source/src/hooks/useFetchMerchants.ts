@@ -19,7 +19,7 @@ export const useFetchMerchants = () => {
                 signal
             }),
         enabled: permissions === "admin",
-        select: data => data?.data
+        select: data => data?.data || []
     });
 
     return { merchantsList: merchantData || [], isLoading, error };
