@@ -247,7 +247,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
 
                 {permissions === "admin" && (
                     <>
-                        {merchantsInfo.length !== 0 ? (
+                        {merchantsInfo?.length !== 0 ? (
                             merchantsInfo.map(el => {
                                 return (
                                     <TextField
@@ -303,7 +303,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                         tableType={TableTypes.COLORED}
                         className={clsx(
                             "flex-shrink-1 auto h-auto min-h-20",
-                            context.record.fees.length > 1 && "min-h-44"
+                            context.record.fees?.length > 1 && "min-h-44"
                         )}
                     />
                 </div>

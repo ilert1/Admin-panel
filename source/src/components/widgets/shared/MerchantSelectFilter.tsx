@@ -93,7 +93,7 @@ export const MerchantSelectFilter = ({
                     variant="text_btn"
                     role="combobox"
                     aria-expanded={open}
-                    disabled={merchantData === undefined || !merchantData.length || disabled}
+                    disabled={merchantData === undefined || !merchantData?.length || disabled}
                     className={cn(
                         "!mt-0 flex h-9 w-full min-w-36 flex-1 items-center justify-between rounded-4 border border-neutral-40 bg-neutral-0 px-3 py-2 text-start text-sm font-normal ring-offset-background hover:!border-green-40 focus:outline-none active:border-green-50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-neutral-20 disabled:!text-neutral-80 dark:border-neutral-60 dark:bg-neutral-100 disabled:dark:bg-neutral-90 disabled:dark:!text-neutral-60 [&:is([data-state='open'])>#selectToggleIcon]:rotate-180 [&:is([data-state='open'])]:border-green-50 [&>span]:line-clamp-1 [&[data-placeholder]]:text-neutral-60 [&[data-placeholder]]:dark:text-neutral-70",
                         variant === "outline" && "bg-white dark:bg-muted",

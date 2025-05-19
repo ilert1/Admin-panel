@@ -166,7 +166,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
                     <div className="flex w-full flex-col gap-4">
                         <div className="flex flex-col gap-2">
                             <div className="max-h-52 overflow-auto">
-                                {newIpList.length > 0 ? (
+                                {newIpList?.length > 0 ? (
                                     newIpList.map((el, i) => {
                                         return (
                                             <div

@@ -70,11 +70,11 @@ export const AccountShow = ({ id }: AccountShowProps) => {
                     <TextField text={id} copyValue className="text-neutral-90 dark:text-neutral-30" />
                 </div>
                 <div className="flex flex-wrap content-end justify-end gap-2">
-                    {balances.length > 0 &&
+                    {balances?.length > 0 &&
                         balances.map(balance => {
                             let currentHold;
 
-                            if (holds.length > 0) {
+                            if (holds?.length > 0) {
                                 currentHold = holds.find(el => el.split(" ").at(-1) === balance.split(" ").at(-1));
                             }
 
