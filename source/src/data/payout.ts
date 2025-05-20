@@ -8,9 +8,7 @@ export class IPayoutDataProvider extends IBaseDataProvider {
         const { currency, signal } = params;
 
         const response = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/v1/payout/paymethods?currency=${currency}`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access-token")}`
-            },
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
             signal
         });
 
