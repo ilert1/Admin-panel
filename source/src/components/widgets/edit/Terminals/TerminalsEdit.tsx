@@ -62,8 +62,8 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
             description: controllerProps.record?.description || "",
             details: JSON.stringify(controllerProps.record?.details) || "",
             allocation_timeout_seconds:
-                controllerProps.record?.allocation_timeout_seconds &&
-                controllerProps.record.allocation_timeout_seconds !== undefined
+                (controllerProps.record?.allocation_timeout_seconds ||
+                controllerProps.record?.allocation_timeout_seconds === 0)
                     ? controllerProps.record.allocation_timeout_seconds
                     : 2
         }
@@ -76,10 +76,10 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 description: controllerProps.record.description || "",
                 details: JSON.stringify(controllerProps.record.details, null, 2) || "",
                 allocation_timeout_seconds:
-                    controllerProps.record?.allocation_timeout_seconds &&
-                    controllerProps.record.allocation_timeout_seconds !== undefined
-                        ? controllerProps.record.allocation_timeout_seconds
-                        : 2
+                    (controllerProps.record?.allocation_timeout_seconds ||
+                controllerProps.record?.allocation_timeout_seconds === 0)
+                    ? controllerProps.record.allocation_timeout_seconds
+                    : 2
             });
         }
     }, [form, controllerProps.record]);
