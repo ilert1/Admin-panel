@@ -38,7 +38,7 @@ const isValidIP = (ip: string) => {
 };
 
 export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
-    const { open, id, IpList, variant, onOpenChange } = props;
+    const { open, id, IpList, variant, secondaryList, onOpenChange } = props;
 
     const [newIpList, setNewIpList] = useState<string[]>([]);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -228,10 +228,10 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
             const data: CallbackMappingUpdate =
                 variant === "Blocked"
                     ? {
-                          security_policy: { blocked_ips: newIpList }
+                          security_policy: { blocked_ips: newIpList, allowed_ips: secondaryList }
                       }
                     : {
-                          security_policy: { allowed_ips: newIpList }
+                          security_policy: { allowed_ips: newIpList, allowed_ips: secondaryList }
                       };
 
             await dataProvider.update("callbridge/v1/mapping", {
