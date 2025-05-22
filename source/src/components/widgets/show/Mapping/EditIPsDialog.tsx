@@ -231,7 +231,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
                           security_policy: { blocked_ips: newIpList, allowed_ips: secondaryList }
                       }
                     : {
-                          security_policy: { allowed_ips: newIpList, allowed_ips: secondaryList }
+                          security_policy: { allowed_ips: newIpList, blocked_ips: secondaryList }
                       };
 
             await dataProvider.update("callbridge/v1/mapping", {
