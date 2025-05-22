@@ -78,7 +78,9 @@ export const useWalletManualReconciliation = ({ onOpenChange }: { onOpenChange: 
                     amount: merchantAmount
                 });
             } else {
-                await WalletsDataProvider.manualReconciliation(transactionId);
+                await WalletsDataProvider.manualReconciliation(transactionId, {
+                    fiat: false,
+                });
             }
             appToast("success", translate("resources.wallet.linkedTransactions.successFound"));
             refresh();

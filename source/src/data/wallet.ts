@@ -20,9 +20,9 @@ const WALLET_URL = import.meta.env.VITE_WALLET_URL;
 
 interface IManualReconciliationData {
     fiat: boolean;
-    merchant_id: string;
-    currency: string;
-    amount: string;
+    merchant_id?: string;
+    currency?: string;
+    amount?: string;
 }
 
 export class IWalletsDataProvider extends IBaseDataProvider {
