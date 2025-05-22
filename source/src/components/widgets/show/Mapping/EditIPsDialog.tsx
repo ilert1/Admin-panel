@@ -21,6 +21,7 @@ export interface EditBlockedIPsDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
     variant: "Blocked" | "Allowed";
+    secondaryList: string[] | undefined;
 }
 
 const isValidIP = (ip: string) => {
@@ -62,7 +63,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
         let shouldAddDot = false;
         let newCursorPosition = cursorPosition;
 
-        const validatedParts = parts.map((part, index) => {
+        const validatedParts = parts.map(part => {
             if (part.length > 3) {
                 part = part.substring(0, 3);
             }
@@ -89,6 +90,12 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
         if (shouldAddDot) {
             validatedValue += ".";
             newCursorPosition = validatedValue.length;
+        }
+
+        if (!shouldAddDot && newIpList.findIndex(el => el === validatedValue) >= 0) {
+            setDeleteButtonDisabled(false);
+        } else {
+            setDeleteButtonDisabled(true);
         }
 
         setNewIp(validatedValue);
@@ -138,6 +145,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
     const [saveClicked, setSaveClicked] = useState(false);
     const [somethingEdited, setSomethingEdited] = useState(false);
     const [saveButtonDisabled, setSaveButtonDisabled] = useState(false);
+    const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(true);
 
     const refresh = useRefresh();
 
@@ -162,6 +170,9 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
     useEffect(() => {
         if (IpList) setNewIpList(IpList);
         else setNewIpList([]);
+        () => {
+            setSaveClicked(false);
+        };
     }, [IpList]);
 
     const translate = useTranslate();
@@ -209,6 +220,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
 
         if (!somethingEdited) {
             onOpenChange(false);
+            setSaveButtonDisabled(false);
             return;
         }
 
@@ -229,7 +241,10 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
             });
 
             refresh();
-            appToast("success", translate("app.ui.toast.success"));
+            appToast(
+                "success",
+                translate("resources.callbridge.mapping.sec_policy_edit.ipAdressListUpdatedSuccessfully")
+            );
         } catch (error) {
             if (error instanceof Error) appToast("error", error.message);
             else appToast("error", translate("app.ui.edit.editError"));
@@ -245,12 +260,26 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
                 <DialogContent
                     onInteractOutside={e => {
                         e.preventDefault();
-                        if (!saveClicked && somethingEdited) onSave();
+                        console.log(saveClicked, somethingEdited);
+
+                        // console.log(!saveClicked && somethingEdited);
+                        if (!saveClicked && somethingEdited) {
+                            onSave();
+                            setSomethingEdited(false);
+                            setSaveClicked(false);
+                        }
                         onOpenChange(false);
                     }}
                     onCloseAutoFocus={e => {
                         e.preventDefault();
-                        if (!saveClicked && somethingEdited) onSave();
+                        console.log(saveClicked, somethingEdited);
+
+                        // console.log(!saveClicked && somethingEdited);
+                        if (!saveClicked && somethingEdited) {
+                            onSave();
+                            setSomethingEdited(false);
+                            setSaveClicked(false);
+                        }
                         onOpenChange(false);
                     }}
                     disableOutsideClick
@@ -308,10 +337,10 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
                                     {translate("resources.callbridge.mapping.sec_policy_edit.addIp")}
                                 </Button>
                                 <Button
-                                    disabled={saveButtonDisabled}
+                                    disabled={deleteButtonDisabled}
                                     className="flex w-full gap-2 sm:w-auto"
                                     onClick={() => deleteIp()}
-                                    variant={"alert"}>
+                                    variant={deleteButtonDisabled ? "default" : "alert"}>
                                     <MinusCircle className="h-4 w-4" />
                                     {translate("resources.callbridge.mapping.sec_policy_edit.deleteIp")}
                                 </Button>
