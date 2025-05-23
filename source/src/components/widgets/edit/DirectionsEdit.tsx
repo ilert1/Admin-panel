@@ -22,6 +22,8 @@ import { Direction, DirectionUpdate } from "@/api/enigma/blowFishEnigmaAPIServic
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
+import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
+import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 
 export interface DirectionEditProps {
     id?: string;
@@ -42,6 +44,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const refresh = useRefresh();
 
     const { directionTypes } = useGetDirectionTypes();
+    const { data: paymentTypes, isLoading: paymentTypesLoading } = useGetPaymentTypes();
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.direction.errors.name")).trim(),
@@ -59,7 +62,8 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
             .max(1000, translate("resources.direction.errors.weightError")),
         type: z.enum(["universal", "withdraw", "deposit"], {
             message: translate("resources.direction.errors.typeError")
-        })
+        }),
+        payment_types: z.array(z.string()).optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -74,7 +78,8 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
             provider: controllerProps.record?.provider.name || "",
             terminal: controllerProps.record?.terminal?.terminal_id || "",
             weight: controllerProps.record?.weight || 0,
-            type: controllerProps.record?.type || undefined
+            type: controllerProps.record?.type || undefined,
+            payment_types: controllerProps.record?.payment_types?.map(pt => pt.code) || []
         }
     });
 
@@ -90,7 +95,8 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                 provider: controllerProps.record?.provider.name || "",
                 terminal: controllerProps.record?.terminal?.terminal_id || "",
                 weight: controllerProps.record?.weight || 0,
-                type: controllerProps.record.type || undefined
+                type: controllerProps.record.type || undefined,
+                payment_types: controllerProps.record?.payment_types?.map(pt => pt.code) || []
             });
         }
     }, [form, controllerProps.record]);
@@ -125,7 +131,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
 
     const terminalsDisabled = !(terminals && Array.isArray(terminals) && terminals?.length > 0);
 
-    if (controllerProps.isLoading || !controllerProps.record || loadingData)
+    if (controllerProps.isLoading || !controllerProps.record || loadingData || paymentTypesLoading)
         return (
             <div className="h-[150px]">
                 <Loading />
@@ -412,6 +418,17 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                         />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="payment_types"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <PaymentTypeMultiSelect value={field.value} onChange={field.onChange} />
                                     </FormControl>
                                 </FormItem>
                             )}
