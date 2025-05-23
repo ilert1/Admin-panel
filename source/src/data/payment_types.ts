@@ -11,20 +11,20 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
+import { PaymentTypeCreate, PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
-    providerEndpointsCreateProviderEnigmaV1ProviderPost,
-    providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDelete,
-    providerEndpointsGetProviderEnigmaV1ProviderProviderNameGet,
-    providerEndpointsListProvidersEnigmaV1ProviderGet,
-    providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePut
-} from "@/api/enigma/provider/provider";
-import { Provider, ProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+    paymentTypeEndpointsCreatePaymentTypeEnigmaV1PaymentTypePost,
+    paymentTypeEndpointsDeletePaymentTypeEnigmaV1PaymentTypePaymentTypeCodeDelete,
+    paymentTypeEndpointsGetPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeGet,
+    paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet,
+    paymentTypeEndpointsUpdatePaymentTypeEnigmaV1PaymentTypePaymentTypeCodePut
+} from "@/api/enigma/payment-type/payment-type";
 
-export type ProviderWithId = Provider & { id: string };
+export type PaymentTypeWithId = PaymentTypeModel & { id: string };
 
-export class ProvidersDataProvider extends IBaseDataProvider {
-    async getList(resource: string, params: GetListParams): Promise<GetListResult<ProviderWithId>> {
-        const res = await providerEndpointsListProvidersEnigmaV1ProviderGet(
+export class PaymentTypesProvider extends IBaseDataProvider {
+    async getList(resource: string, params: GetListParams): Promise<GetListResult<PaymentTypeWithId>> {
+        const res = await paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet(
             {
                 currentPage: params?.pagination?.page,
                 pageSize: params?.pagination?.perPage
@@ -41,7 +41,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
             return {
                 data: res.data.data.items.map(elem => {
                     return {
-                        id: elem.name,
+                        id: elem.code,
                         ...elem
                     };
                 }),
@@ -59,8 +59,8 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination(): Promise<GetListResult<ProviderWithId>> {
-        const res = await providerEndpointsListProvidersEnigmaV1ProviderGet(
+    async getListWithoutPagination(): Promise<GetListResult<PaymentTypeWithId>> {
+        const res = await paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet(
             {
                 currentPage: 1,
                 pageSize: 1000
@@ -76,7 +76,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
             return {
                 data: res.data.data.items.map(elem => {
                     return {
-                        id: elem.name,
+                        id: elem.code,
                         ...elem
                     };
                 }),
@@ -94,8 +94,8 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         };
     }
 
-    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<ProviderWithId>> {
-        const res = await providerEndpointsGetProviderEnigmaV1ProviderProviderNameGet(params.id, {
+    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<PaymentTypeWithId>> {
+        const res = await paymentTypeEndpointsGetPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeGet(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             },
@@ -105,7 +105,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         if ("data" in res.data && res.data.success) {
             return {
                 data: {
-                    id: res.data.data.name,
+                    id: res.data.data.code,
                     ...res.data.data
                 }
             };
@@ -118,17 +118,20 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async create(resource: string, params: CreateParams): Promise<CreateResult<ProviderWithId>> {
-        const res = await providerEndpointsCreateProviderEnigmaV1ProviderPost(params.data as ProviderCreate, {
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("access-token")}`
+    async create(resource: string, params: CreateParams): Promise<CreateResult<PaymentTypeWithId>> {
+        const res = await paymentTypeEndpointsCreatePaymentTypeEnigmaV1PaymentTypePost(
+            params.data as PaymentTypeCreate,
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
             }
-        });
+        );
 
         if ("data" in res.data && res.data.success) {
             return {
                 data: {
-                    id: res.data.data.name,
+                    id: res.data.data.code,
                     ...res.data.data
                 }
             };
@@ -141,17 +144,21 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async update(resource: string, params: UpdateParams): Promise<UpdateResult<ProviderWithId>> {
-        const res = await providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePut(params.id, params.data, {
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("access-token")}`
+    async update(resource: string, params: UpdateParams): Promise<UpdateResult<PaymentTypeWithId>> {
+        const res = await paymentTypeEndpointsUpdatePaymentTypeEnigmaV1PaymentTypePaymentTypeCodePut(
+            params.id,
+            params.data,
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
             }
-        });
+        );
 
         if ("data" in res.data && res.data.success) {
             return {
                 data: {
-                    id: res.data.data.name,
+                    id: res.data.data.code,
                     ...res.data.data
                 }
             };
@@ -164,8 +171,8 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<ProviderWithId, "id">>> {
-        const res = await providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDelete(params.id, {
+    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<PaymentTypeWithId, "id">>> {
+        const res = await paymentTypeEndpointsDeletePaymentTypeEnigmaV1PaymentTypePaymentTypeCodeDelete(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             }

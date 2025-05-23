@@ -785,6 +785,21 @@ const ru: TranslationMessages = {
                     sync: "Синхронизация"
                 }
             }
+        },
+        payment_type: {
+            name: "Типы платежей",
+            admin: {
+                name: "Payment types"
+            },
+            fields: {
+                code: "Код",
+                title: "Название"
+            },
+            deletePaymentTypeQuestion: "Удалить тип платежа?",
+            creatingPaymentType: "Создание типа платежа",
+            editingPaymentType: "Изменение типа платежа",
+            createNew: "Добавить тип платежа",
+            duplicateCode: "Введенный код уже используется"
         }
     },
     app: {
@@ -1862,6 +1877,21 @@ const en: TranslationMessages = {
                     sync: "Sync"
                 }
             }
+        },
+        payment_type: {
+            admin: {
+                name: "Payment types"
+            },
+            name: "Payment types",
+            fields: {
+                code: "Code",
+                title: "Title"
+            },
+            deletePaymentTypeQuestion: "Delete payment type?",
+            creatingPaymentType: "Creating payment type",
+            editingPaymentType: "Editing payment type",
+            createNew: "Add payment type",
+            duplicateCode: "This code is already in use"
         }
     },
     app: {
@@ -2163,7 +2193,6 @@ const en: TranslationMessages = {
         }
     }
 };
-
 const translations = { ru, en };
 
 export const i18nProvider = polyglotI18nProvider(

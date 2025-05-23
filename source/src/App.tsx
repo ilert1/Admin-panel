@@ -1,5 +1,4 @@
 import { CustomRoutes, Resource, combineDataProviders, CoreAdminContext, CoreAdminUI, useCheckAuth } from "react-admin";
-import { QueryClient } from "@tanstack/react-query";
 import { BrowserRouter } from "react-router-dom";
 import {
     TransactionDataProvider,
@@ -47,7 +46,8 @@ import {
     SignpostIcon,
     CreditCardIcon,
     SquareTerminal,
-    Split
+    Split,
+    HandCoins
 } from "lucide-react";
 import { authProvider, ThemeProvider } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
@@ -62,6 +62,8 @@ import { SheetProvider } from "./components/providers/SheetProvider";
 import { SheetManager } from "./components/providers/SheetManager";
 import { MappingsList } from "./components/widgets/lists/Mappings/MappingsList";
 import { CallbackHistoryList } from "./components/widgets/lists/CallbridgeHistory/CallbridgeHistory";
+import { PaymentTypesProvider } from "./data/payment_types";
+import { PaymentTypesList } from "./components/widgets/lists/PaymentTypes/PaymentTypesList";
 
 const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
 
@@ -99,6 +101,8 @@ const dataProvider = combineDataProviders((resource: string) => {
         return PayoutDataProvider;
     } else if (resource.includes("account")) {
         return AccountsDataProvider;
+    } else if (resource === "payment_type") {
+        return new PaymentTypesProvider();
     } else {
         return BaseDataProvider;
     }
@@ -152,6 +156,7 @@ export const App = () => {
                                             <Resource name="provider" list={ProvidersList} icon={NetworkIcon} />
                                             <Resource name="terminals" list={TerminalsList} icon={SquareTerminal} />
                                             <Resource name="direction" list={DirectionsList} icon={SignpostIcon} />
+                                            <Resource name="payment_type" list={PaymentTypesList} icon={HandCoins} />
                                             {CALLBRIDGE_ENABLED && (
                                                 <Resource name="callbridge" icon={Split}>
                                                     <Route path="mapping" element={<MappingsList />} />
