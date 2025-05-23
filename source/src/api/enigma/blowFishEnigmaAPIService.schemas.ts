@@ -7,16 +7,16 @@
 export type AccountInfoMetaAnyOf = { [key: string]: unknown };
 
 /**
- * Additional metadata associated with the account.
+ * Additional metadata associated with the account
  */
 export type AccountInfoMeta = AccountInfoMetaAnyOf | null;
 
 export interface AccountInfo {
-    /** Unique identifier for the account. */
+    /** Unique identifier for the account */
     account_id: string;
-    /** Type of the account (1 for internal, 2 for external). */
+    /** Type of the account (1 for internal, 2 for external) */
     type: AccountType;
-    /** Additional metadata associated with the account. */
+    /** Additional metadata associated with the account */
     meta?: AccountInfoMeta;
 }
 
@@ -29,7 +29,7 @@ export const AccountType = {
 } as const;
 
 /**
- * The error details if the request was not successful.
+ * The error details if the request was not successful
  */
 export type ApiResponseCurrencyError = ErrorBody | null;
 
@@ -40,11 +40,11 @@ export type ApiResponseCurrencyError = ErrorBody | null;
 export type ApiResponseCurrencyMeta = unknown | null;
 
 export interface ApiResponseCurrency {
-    /** Indicates whether the request was successful. */
+    /** Indicates whether the request was successful */
     success?: boolean;
-    /** The actual response data if the request was successful. */
+    /** The actual response data if the request was successful */
     data: Currency;
-    /** The error details if the request was not successful. */
+    /** The error details if the request was not successful */
     error?: ApiResponseCurrencyError;
     /**
      * The meta details if the request. DEPRECATED
@@ -54,7 +54,7 @@ export interface ApiResponseCurrency {
 }
 
 /**
- * The error details if the request was not successful.
+ * The error details if the request was not successful
  */
 export type ApiResponseDirectionError = ErrorBody | null;
 
@@ -65,11 +65,11 @@ export type ApiResponseDirectionError = ErrorBody | null;
 export type ApiResponseDirectionMeta = unknown | null;
 
 export interface ApiResponseDirection {
-    /** Indicates whether the request was successful. */
+    /** Indicates whether the request was successful */
     success?: boolean;
-    /** The actual response data if the request was successful. */
+    /** The actual response data if the request was successful */
     data: Direction;
-    /** The error details if the request was not successful. */
+    /** The error details if the request was not successful */
     error?: ApiResponseDirectionError;
     /**
      * The meta details if the request. DEPRECATED
@@ -79,7 +79,7 @@ export interface ApiResponseDirection {
 }
 
 /**
- * The error details if the request was not successful.
+ * The error details if the request was not successful
  */
 export type ApiResponseKeyPairError = ErrorBody | null;
 
@@ -90,11 +90,11 @@ export type ApiResponseKeyPairError = ErrorBody | null;
 export type ApiResponseKeyPairMeta = unknown | null;
 
 export interface ApiResponseKeyPair {
-    /** Indicates whether the request was successful. */
+    /** Indicates whether the request was successful */
     success?: boolean;
-    /** The actual response data if the request was successful. */
+    /** The actual response data if the request was successful */
     data: KeyPair;
-    /** The error details if the request was not successful. */
+    /** The error details if the request was not successful */
     error?: ApiResponseKeyPairError;
     /**
      * The meta details if the request. DEPRECATED
@@ -104,7 +104,7 @@ export interface ApiResponseKeyPair {
 }
 
 /**
- * The error details if the request was not successful.
+ * The error details if the request was not successful
  */
 export type ApiResponseMerchantError = ErrorBody | null;
 
@@ -115,11 +115,11 @@ export type ApiResponseMerchantError = ErrorBody | null;
 export type ApiResponseMerchantMeta = unknown | null;
 
 export interface ApiResponseMerchant {
-    /** Indicates whether the request was successful. */
+    /** Indicates whether the request was successful */
     success?: boolean;
-    /** The actual response data if the request was successful. */
+    /** The actual response data if the request was successful */
     data: Merchant;
-    /** The error details if the request was not successful. */
+    /** The error details if the request was not successful */
     error?: ApiResponseMerchantError;
     /**
      * The meta details if the request. DEPRECATED
@@ -129,7 +129,7 @@ export interface ApiResponseMerchant {
 }
 
 /**
- * The error details if the request was not successful.
+ * The error details if the request was not successful
  */
 export type ApiResponseNoneTypeError = ErrorBody | null;
 
@@ -140,11 +140,11 @@ export type ApiResponseNoneTypeError = ErrorBody | null;
 export type ApiResponseNoneTypeMeta = unknown | null;
 
 export interface ApiResponseNoneType {
-    /** Indicates whether the request was successful. */
+    /** Indicates whether the request was successful */
     success?: boolean;
-    /** The actual response data if the request was successful. */
+    /** The actual response data if the request was successful */
     data: null;
-    /** The error details if the request was not successful. */
+    /** The error details if the request was not successful */
     error?: ApiResponseNoneTypeError;
     /**
      * The meta details if the request. DEPRECATED
@@ -154,7 +154,7 @@ export interface ApiResponseNoneType {
 }
 
 /**
- * The error details if the request was not successful.
+ * The error details if the request was not successful
  */
 export type ApiResponseOffsetPaginationCurrencyError = ErrorBody | null;
 
@@ -165,11 +165,11 @@ export type ApiResponseOffsetPaginationCurrencyError = ErrorBody | null;
 export type ApiResponseOffsetPaginationCurrencyMeta = unknown | null;
 
 export interface ApiResponseOffsetPaginationCurrency {
-    /** Indicates whether the request was successful. */
+    /** Indicates whether the request was successful */
     success?: boolean;
-    /** The actual response data if the request was successful. */
+    /** The actual response data if the request was successful */
     data: OffsetPaginationCurrency;
-    /** The error details if the request was not successful. */
+    /** The error details if the request was not successful */
     error?: ApiResponseOffsetPaginationCurrencyError;
     /**
      * The meta details if the request. DEPRECATED
@@ -179,7 +179,7 @@ export interface ApiResponseOffsetPaginationCurrency {
 }
 
 /**
- * The error details if the request was not successful.
+ * The error details if the request was not successful
  */
 export type ApiResponseOffsetPaginationDirectionError = ErrorBody | null;
 
@@ -190,11 +190,11 @@ export type ApiResponseOffsetPaginationDirectionError = ErrorBody | null;
 export type ApiResponseOffsetPaginationDirectionMeta = unknown | null;
 
 export interface ApiResponseOffsetPaginationDirection {
-    /** Indicates whether the request was successful. */
+    /** Indicates whether the request was successful */
     success?: boolean;
-    /** The actual response data if the request was successful. */
+    /** The actual response data if the request was successful */
     data: OffsetPaginationDirection;
-    /** The error details if the request was not successful. */
+    /** The error details if the request was not successful */
     error?: ApiResponseOffsetPaginationDirectionError;
     /**
      * The meta details if the request. DEPRECATED
@@ -204,7 +204,7 @@ export interface ApiResponseOffsetPaginationDirection {
 }
 
 /**
- * The error details if the request was not successful.
+ * The error details if the request was not successful
  */
 export type ApiResponseOffsetPaginationMerchantError = ErrorBody | null;
 
@@ -215,11 +215,11 @@ export type ApiResponseOffsetPaginationMerchantError = ErrorBody | null;
 export type ApiResponseOffsetPaginationMerchantMeta = unknown | null;
 
 export interface ApiResponseOffsetPaginationMerchant {
-    /** Indicates whether the request was successful. */
+    /** Indicates whether the request was successful */
     success?: boolean;
-    /** The actual response data if the request was successful. */
+    /** The actual response data if the request was successful */
     data: OffsetPaginationMerchant;
-    /** The error details if the request was not successful. */
+    /** The error details if the request was not successful */
     error?: ApiResponseOffsetPaginationMerchantError;
     /**
      * The meta details if the request. DEPRECATED
@@ -229,7 +229,32 @@ export interface ApiResponseOffsetPaginationMerchant {
 }
 
 /**
- * The error details if the request was not successful.
+ * The error details if the request was not successful
+ */
+export type ApiResponseOffsetPaginationPaymentTypeReadError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationPaymentTypeReadMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationPaymentTypeRead {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: OffsetPaginationPaymentTypeRead;
+    /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationPaymentTypeReadError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationPaymentTypeReadMeta;
+}
+
+/**
+ * The error details if the request was not successful
  */
 export type ApiResponseOffsetPaginationProviderError = ErrorBody | null;
 
@@ -240,11 +265,11 @@ export type ApiResponseOffsetPaginationProviderError = ErrorBody | null;
 export type ApiResponseOffsetPaginationProviderMeta = unknown | null;
 
 export interface ApiResponseOffsetPaginationProvider {
-    /** Indicates whether the request was successful. */
+    /** Indicates whether the request was successful */
     success?: boolean;
-    /** The actual response data if the request was successful. */
+    /** The actual response data if the request was successful */
     data: OffsetPaginationProvider;
-    /** The error details if the request was not successful. */
+    /** The error details if the request was not successful */
     error?: ApiResponseOffsetPaginationProviderError;
     /**
      * The meta details if the request. DEPRECATED
@@ -254,7 +279,7 @@ export interface ApiResponseOffsetPaginationProvider {
 }
 
 /**
- * The error details if the request was not successful.
+ * The error details if the request was not successful
  */
 export type ApiResponseOffsetPaginationTerminalError = ErrorBody | null;
 
@@ -265,11 +290,11 @@ export type ApiResponseOffsetPaginationTerminalError = ErrorBody | null;
 export type ApiResponseOffsetPaginationTerminalMeta = unknown | null;
 
 export interface ApiResponseOffsetPaginationTerminal {
-    /** Indicates whether the request was successful. */
+    /** Indicates whether the request was successful */
     success?: boolean;
-    /** The actual response data if the request was successful. */
+    /** The actual response data if the request was successful */
     data: OffsetPaginationTerminal;
-    /** The error details if the request was not successful. */
+    /** The error details if the request was not successful */
     error?: ApiResponseOffsetPaginationTerminalError;
     /**
      * The meta details if the request. DEPRECATED
@@ -279,7 +304,32 @@ export interface ApiResponseOffsetPaginationTerminal {
 }
 
 /**
- * The error details if the request was not successful.
+ * The error details if the request was not successful
+ */
+export type ApiResponsePaymentTypeReadError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponsePaymentTypeReadMeta = unknown | null;
+
+export interface ApiResponsePaymentTypeRead {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: PaymentTypeRead;
+    /** The error details if the request was not successful */
+    error?: ApiResponsePaymentTypeReadError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponsePaymentTypeReadMeta;
+}
+
+/**
+ * The error details if the request was not successful
  */
 export type ApiResponseProviderAddKeypairError = ErrorBody | null;
 
@@ -290,11 +340,11 @@ export type ApiResponseProviderAddKeypairError = ErrorBody | null;
 export type ApiResponseProviderAddKeypairMeta = unknown | null;
 
 export interface ApiResponseProviderAddKeypair {
-    /** Indicates whether the request was successful. */
+    /** Indicates whether the request was successful */
     success?: boolean;
-    /** The actual response data if the request was successful. */
+    /** The actual response data if the request was successful */
     data: ProviderAddKeypair;
-    /** The error details if the request was not successful. */
+    /** The error details if the request was not successful */
     error?: ApiResponseProviderAddKeypairError;
     /**
      * The meta details if the request. DEPRECATED
@@ -304,7 +354,7 @@ export interface ApiResponseProviderAddKeypair {
 }
 
 /**
- * The error details if the request was not successful.
+ * The error details if the request was not successful
  */
 export type ApiResponseProviderError = ErrorBody | null;
 
@@ -315,11 +365,11 @@ export type ApiResponseProviderError = ErrorBody | null;
 export type ApiResponseProviderMeta = unknown | null;
 
 export interface ApiResponseProvider {
-    /** Indicates whether the request was successful. */
+    /** Indicates whether the request was successful */
     success?: boolean;
-    /** The actual response data if the request was successful. */
+    /** The actual response data if the request was successful */
     data: Provider;
-    /** The error details if the request was not successful. */
+    /** The error details if the request was not successful */
     error?: ApiResponseProviderError;
     /**
      * The meta details if the request. DEPRECATED
@@ -329,7 +379,7 @@ export interface ApiResponseProvider {
 }
 
 /**
- * The error details if the request was not successful.
+ * The error details if the request was not successful
  */
 export type ApiResponseTerminalError = ErrorBody | null;
 
@@ -340,11 +390,11 @@ export type ApiResponseTerminalError = ErrorBody | null;
 export type ApiResponseTerminalMeta = unknown | null;
 
 export interface ApiResponseTerminal {
-    /** Indicates whether the request was successful. */
+    /** Indicates whether the request was successful */
     success?: boolean;
-    /** The actual response data if the request was successful. */
+    /** The actual response data if the request was successful */
     data: Terminal;
-    /** The error details if the request was not successful. */
+    /** The error details if the request was not successful */
     error?: ApiResponseTerminalError;
     /**
      * The meta details if the request. DEPRECATED
@@ -354,7 +404,7 @@ export interface ApiResponseTerminal {
 }
 
 /**
- * The error details if the request was not successful.
+ * The error details if the request was not successful
  */
 export type ApiResponseListAccountInfoError = ErrorBody | null;
 
@@ -365,11 +415,11 @@ export type ApiResponseListAccountInfoError = ErrorBody | null;
 export type ApiResponseListAccountInfoMeta = unknown | null;
 
 export interface ApiResponseListAccountInfo {
-    /** Indicates whether the request was successful. */
+    /** Indicates whether the request was successful */
     success?: boolean;
-    /** The actual response data if the request was successful. */
+    /** The actual response data if the request was successful */
     data: AccountInfo[];
-    /** The error details if the request was not successful. */
+    /** The error details if the request was not successful */
     error?: ApiResponseListAccountInfoError;
     /**
      * The meta details if the request. DEPRECATED
@@ -379,7 +429,7 @@ export interface ApiResponseListAccountInfo {
 }
 
 /**
- * The error details if the request was not successful.
+ * The error details if the request was not successful
  */
 export type ApiResponseListFeeTypeItemError = ErrorBody | null;
 
@@ -390,11 +440,11 @@ export type ApiResponseListFeeTypeItemError = ErrorBody | null;
 export type ApiResponseListFeeTypeItemMeta = unknown | null;
 
 export interface ApiResponseListFeeTypeItem {
-    /** Indicates whether the request was successful. */
+    /** Indicates whether the request was successful */
     success?: boolean;
-    /** The actual response data if the request was successful. */
+    /** The actual response data if the request was successful */
     data: FeeTypeItem[];
-    /** The error details if the request was not successful. */
+    /** The error details if the request was not successful */
     error?: ApiResponseListFeeTypeItemError;
     /**
      * The meta details if the request. DEPRECATED
@@ -526,6 +576,8 @@ export interface Direction {
     fees?: DirectionFees;
     /** Direction limits (payin, payout, reward) with min and max values */
     limits: Limits;
+    /** List of payment types associated with this direction */
+    payment_types?: PaymentTypeModel[];
 }
 
 /**
@@ -762,29 +814,39 @@ export interface DirectionUpdateType {
 }
 
 export interface ErrorBody {
-    /** A string identifier for the error type. */
+    /** A string identifier for the error type */
     error_type: string;
-    /** A human-readable error message describing the issue. */
+    /** A human-readable error message describing the issue */
     error_message: string;
 }
 
 export interface ExecutionMethodInput {
-    /** The type of the method. */
+    /** Type of the execution method. */
     type: string;
-    /** The name of the workflow or activity to be executed. */
+    /** Name of the workflow or activity to be executed. */
     execution_name: string;
-    /** The queue (task_queue) where the execution will be dispatched. */
+    /** The task queue where the execution will be dispatched. */
     task_queue: string;
+    /** Timeouts configuration, including execution and optional wait condition timeouts. */
+    timeouts?: TimeoutConfig;
+    /** Retry policy configuration. By default, maximum_attempts=1 (no retries), other fields as in Temporal defaults. */
+    retry_policy?: RetryPolicy;
 }
 
 export interface ExecutionMethodOutput {
-    /** The type of the method. */
+    /** Type of the execution method. */
     type: string;
-    /** The name of the workflow or activity to be executed. */
+    /** Name of the workflow or activity to be executed. */
     execution_name: string;
-    /** The queue (task_queue) where the execution will be dispatched. */
+    /** The task queue where the execution will be dispatched. */
     task_queue: string;
+    /** Timeouts configuration, including execution and optional wait condition timeouts. */
+    timeouts?: TimeoutConfig;
+    /** Retry policy configuration. By default, maximum_attempts=1 (no retries), other fields as in Temporal defaults. */
+    retry_policy?: RetryPolicy;
+    /** @deprecated */
     readonly workflow_name: string;
+    /** @deprecated */
     readonly workflow_queue: string;
 }
 
@@ -1006,6 +1068,8 @@ export interface Merchant {
     name: string;
     /** Description of the merchant */
     description?: MerchantDescription;
+    /** List of payment types associated with this merchant */
+    payment_types?: PaymentTypeModel[];
     /** Keycloak identifier for the merchant */
     keycloak_id?: MerchantKeycloakId;
     /** Mapping of fee configurations with fee.id as key */
@@ -1058,58 +1122,147 @@ export interface MerchantUpdate {
 }
 
 export interface OffsetPaginationCurrency {
-    /** A list of items in the current page. */
+    /** A list of items in the current page */
     items: Currency[];
-    /** The maximum number of items returned in a single page. */
+    /** The maximum number of items returned in a single page */
     limit: number;
-    /** The starting index for the current page. */
+    /** The starting index for the current page */
     offset: number;
-    /** The total number of available items. */
+    /** The total number of available items */
     total: number;
 }
 
 export interface OffsetPaginationDirection {
-    /** A list of items in the current page. */
+    /** A list of items in the current page */
     items: Direction[];
-    /** The maximum number of items returned in a single page. */
+    /** The maximum number of items returned in a single page */
     limit: number;
-    /** The starting index for the current page. */
+    /** The starting index for the current page */
     offset: number;
-    /** The total number of available items. */
+    /** The total number of available items */
     total: number;
 }
 
 export interface OffsetPaginationMerchant {
-    /** A list of items in the current page. */
+    /** A list of items in the current page */
     items: Merchant[];
-    /** The maximum number of items returned in a single page. */
+    /** The maximum number of items returned in a single page */
     limit: number;
-    /** The starting index for the current page. */
+    /** The starting index for the current page */
     offset: number;
-    /** The total number of available items. */
+    /** The total number of available items */
+    total: number;
+}
+
+export interface OffsetPaginationPaymentTypeRead {
+    /** A list of items in the current page */
+    items: PaymentTypeRead[];
+    /** The maximum number of items returned in a single page */
+    limit: number;
+    /** The starting index for the current page */
+    offset: number;
+    /** The total number of available items */
     total: number;
 }
 
 export interface OffsetPaginationProvider {
-    /** A list of items in the current page. */
+    /** A list of items in the current page */
     items: Provider[];
-    /** The maximum number of items returned in a single page. */
+    /** The maximum number of items returned in a single page */
     limit: number;
-    /** The starting index for the current page. */
+    /** The starting index for the current page */
     offset: number;
-    /** The total number of available items. */
+    /** The total number of available items */
     total: number;
 }
 
 export interface OffsetPaginationTerminal {
-    /** A list of items in the current page. */
+    /** A list of items in the current page */
     items: Terminal[];
-    /** The maximum number of items returned in a single page. */
+    /** The maximum number of items returned in a single page */
     limit: number;
-    /** The starting index for the current page. */
+    /** The starting index for the current page */
     offset: number;
-    /** The total number of available items. */
+    /** The total number of available items */
     total: number;
+}
+
+/**
+ * Arbitrary metadata for the payment type (JSON object)
+ */
+export type PaymentTypeCreateMeta = { [key: string]: unknown };
+
+export interface PaymentTypeCreate {
+    /**
+     * Unique payment type code
+     * @pattern ^[A-Za-z0-9_-]+$
+     */
+    code: string;
+    /** Human-readable payment type title */
+    title: string;
+    /** Arbitrary metadata for the payment type (JSON object) */
+    meta?: PaymentTypeCreateMeta;
+}
+
+export interface PaymentTypeLink {
+    /**
+     * Unique code of the payment type
+     * @pattern ^[A-Za-z0-9_-]+$
+     */
+    code: string;
+}
+
+/**
+ * Arbitrary metadata for the payment type (JSON object)
+ */
+export type PaymentTypeModelMeta = { [key: string]: unknown };
+
+export interface PaymentTypeModel {
+    /**
+     * Unique payment type code
+     * @pattern ^[A-Za-z0-9_-]+$
+     */
+    code: string;
+    /** Human-readable payment type title */
+    title: string;
+    /** Arbitrary metadata for the payment type (JSON object) */
+    meta: PaymentTypeModelMeta;
+}
+
+/**
+ * Arbitrary metadata for the payment type (JSON object)
+ */
+export type PaymentTypeReadMeta = { [key: string]: unknown };
+
+export interface PaymentTypeRead {
+    /**
+     * Unique payment type code
+     * @pattern ^[A-Za-z0-9_-]+$
+     */
+    code: string;
+    /** Human-readable payment type title */
+    title: string;
+    /** Arbitrary metadata for the payment type (JSON object) */
+    meta: PaymentTypeReadMeta;
+}
+
+/**
+ * New human-readable payment type title
+ */
+export type PaymentTypeUpdateTitle = string | null;
+
+export type PaymentTypeUpdateMetaAnyOf = { [key: string]: unknown };
+
+/**
+ * New metadata (will fully replace previous value)
+ */
+export type PaymentTypeUpdateMeta = PaymentTypeUpdateMetaAnyOf | null;
+
+export interface PaymentTypeUpdate {
+    /** New human-readable payment type title */
+    title?: PaymentTypeUpdateTitle;
+    /** New metadata (will fully replace previous value) */
+    meta?: PaymentTypeUpdateMeta;
 }
 
 /**
@@ -1132,6 +1285,8 @@ export interface Provider {
     fields_json_schema: string;
     /** The public key encoded in base58, corresponding to the private key. */
     public_key?: ProviderPublicKey;
+    /** List of payment types associated with this provider */
+    payment_types?: PaymentTypeModel[];
     /** Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases. */
     methods: ProviderMethods;
 }
@@ -1139,7 +1294,7 @@ export interface Provider {
 export interface ProviderAddKeypair {
     /** Detailed information about the provider */
     provider: Provider;
-    /** The key pair details (public and private keys) to be associated with the provider. */
+    /** The key pair details (public and private keys) to be associated with the provider */
     keypair: KeyPair;
 }
 
@@ -1187,6 +1342,31 @@ export interface RateValue {
      * @minimum 0
      */
     accuracy?: number;
+}
+
+/**
+ * Maximum interval between attempts, in seconds. If None, unlimited.
+ */
+export type RetryPolicyMaximumInterval = number | null;
+
+/**
+ * A list of error types that should not be retried.
+ */
+export type RetryPolicyNonRetryableErrorTypes = string[] | null;
+
+export interface RetryPolicy {
+    /** Initial interval between attempts, in seconds. */
+    initial_interval?: number;
+    /** Exponential backoff coefficient for retry interval. */
+    backoff_coefficient?: number;
+    /** Maximum interval between attempts, in seconds. If None, unlimited. */
+    maximum_interval?: RetryPolicyMaximumInterval;
+    /**
+     * Maximum number of attempts. 1 means no retries (only one attempt).
+     */
+    maximum_attempts?: number;
+    /** A list of error types that should not be retried. */
+    non_retryable_error_types?: RetryPolicyNonRetryableErrorTypes;
 }
 
 export type Status = (typeof Status)[keyof typeof Status];
@@ -1240,6 +1420,8 @@ export interface Terminal {
     account_created?: boolean;
     /** Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration. */
     callback_url?: TerminalCallbackUrl;
+    /** List of payment types associated with this terminal */
+    payment_types?: PaymentTypeModel[];
     /** Additional details about the terminal */
     details?: TerminalDetails;
 }
@@ -1320,20 +1502,27 @@ export interface TerminalUpdateAuth {
 }
 
 /**
- * New callback URL template or final URL. Placeholders in the form {key} will be replaced with values from terminal.auth.
+ * New callback URL template or final URL. Placeholders in the form {key} will be replaced with values from terminal.auth
  */
 export type TerminalUpdateCallbackUrlCallbackUrl = string | null;
 
 /**
- * NATS subject for publishing terminal update intended for adapter consumption. If set, the updated terminal information will be sent to this NATS subject.
+ * NATS subject for publishing terminal update intended for adapter consumption. If set, the updated terminal information will be sent to this NATS subject
  */
 export type TerminalUpdateCallbackUrlAdapterNatsSubject = string | null;
 
 export interface TerminalUpdateCallbackUrl {
-    /** New callback URL template or final URL. Placeholders in the form {key} will be replaced with values from terminal.auth. */
+    /** New callback URL template or final URL. Placeholders in the form {key} will be replaced with values from terminal.auth */
     callback_url: TerminalUpdateCallbackUrlCallbackUrl;
-    /** NATS subject for publishing terminal update intended for adapter consumption. If set, the updated terminal information will be sent to this NATS subject. */
+    /** NATS subject for publishing terminal update intended for adapter consumption. If set, the updated terminal information will be sent to this NATS subject */
     adapter_nats_subject?: TerminalUpdateCallbackUrlAdapterNatsSubject;
+}
+
+export interface TimeoutConfig {
+    /** Maximum execution time for the activity. */
+    start_to_close_timeout?: string;
+    /** Maximum wait time for an external condition, if applicable. */
+    wait_condition_timeout?: string;
 }
 
 export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType];
@@ -1488,7 +1677,7 @@ export const ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder = {
 
 export type ProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchParams = {
     /**
-     * RSA key size (must be between 1024 and 8192).
+     * RSA key size (must be between 1024 and 8192)
      */
     key_size?: number;
     /**
@@ -1673,9 +1862,53 @@ export const DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMercha
     desc: "desc"
 } as const;
 
+export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetParams = {
+    /**
+     * List of identifiers for filtering
+     */
+    ids?: string[] | null;
+    /**
+     * Current page number (starting from 1)
+     */
+    currentPage?: number;
+    /**
+     * Number of records per page
+     */
+    pageSize?: number;
+    /**
+     * List of fields to perform the search on
+     */
+    searchField?: string[] | null;
+    /**
+     * List of values to search for in corresponding fields
+     */
+    searchString?: string[] | null;
+    /**
+     * Determines if the search should be case insensitive
+     */
+    searchIgnoreCase?: boolean;
+    /**
+     * Field to sort the results by
+     */
+    orderBy?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSortOrder;
+};
+
+export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSortOrder =
+    (typeof PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSortOrder)[keyof typeof PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSortOrder = {
+    asc: "asc",
+    desc: "desc"
+} as const;
+
 export type KeyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetParams = {
     /**
-     * RSA key size (must be between 1024 and 8192).
+     * RSA key size (must be between 1024 and 8192)
      */
     key_size?: number;
     /**

@@ -13,13 +13,14 @@ import type {
     HTTPValidationError,
     MerchantCreate,
     MerchantEndpointsListMerchantsEnigmaV1MerchantGetParams,
-    MerchantUpdate
+    MerchantUpdate,
+    PaymentTypeLink
 } from "../blowFishEnigmaAPIService.schemas";
 
 import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
 
 /**
- * Returns a paginated list of merchants. Supports filtering based on query parameters.
+ * Returns a paginated list of merchants. Supports filtering based on query parameters
  * @summary Get a list of merchants with filtering and pagination
  */
 export type merchantEndpointsListMerchantsEnigmaV1MerchantGetResponse200 = {
@@ -73,7 +74,7 @@ export const merchantEndpointsListMerchantsEnigmaV1MerchantGet = async (
 };
 
 /**
- * Adds a new merchant to the database using the provided details.
+ * Adds a new merchant to the database using the provided details
  * @summary Create a new merchant entry
  */
 export type merchantEndpointsCreateMerchantEnigmaV1MerchantPostResponse200 = {
@@ -115,7 +116,7 @@ export const merchantEndpointsCreateMerchantEnigmaV1MerchantPost = async (
 };
 
 /**
- * Fetches details of a merchant identified by its unique merchant ID.
+ * Fetches details of a merchant identified by its unique merchant ID
  * @summary Get details of a specific merchant
  */
 export type merchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGetResponse200 = {
@@ -155,7 +156,7 @@ export const merchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGet = async (
 };
 
 /**
- * Modifies the details of a merchant identified by its merchant ID.
+ * Modifies the details of a merchant identified by its merchant ID
  * @summary Update an existing merchant
  */
 export type merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPutResponse200 = {
@@ -198,7 +199,7 @@ export const merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPut = asyn
 };
 
 /**
- * Removes a merchant from the database using its unique merchant ID.
+ * Removes a merchant from the database using its unique merchant ID
  * @summary Delete a merchant entry
  */
 export type merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDeleteResponse200 = {
@@ -238,7 +239,7 @@ export const merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDelete = a
 };
 
 /**
- * Associates a new fee with a specified merchant.
+ * Associates a new fee with a specified merchant
  * @summary Add a new fee to a merchant
  */
 export type merchantEndpointsAddFeeEnigmaV1MerchantMerchantIdFeePatchResponse200 = {
@@ -281,7 +282,7 @@ export const merchantEndpointsAddFeeEnigmaV1MerchantMerchantIdFeePatch = async (
 };
 
 /**
- * Modifies an existing fee associated with a specified merchant.
+ * Modifies an existing fee associated with a specified merchant
  * @summary Update an existing fee for a merchant
  */
 export type merchantEndpointsUpdateFeeEnigmaV1MerchantMerchantIdFeeFeeIdPatchResponse200 = {
@@ -328,7 +329,7 @@ export const merchantEndpointsUpdateFeeEnigmaV1MerchantMerchantIdFeeFeeIdPatch =
 };
 
 /**
- * Deletes a specific fee associated with a given merchant.
+ * Deletes a specific fee associated with a given merchant
  * @summary Remove a fee from a merchant
  */
 export type merchantEndpointsDeleteFeeEnigmaV1MerchantMerchantIdFeeFeeIdDeleteResponse200 = {
@@ -370,3 +371,97 @@ export const merchantEndpointsDeleteFeeEnigmaV1MerchantMerchantIdFeeFeeIdDelete 
         }
     );
 };
+
+/**
+ * Associates an existing payment type with a merchant
+ * @summary Add payment type to merchant
+ */
+export type merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponse200 = {
+    data: ApiResponseMerchant;
+    status: 200;
+};
+
+export type merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponseComposite =
+    | merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponse200
+    | merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponse422;
+
+export type merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponse =
+    merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponseComposite & {
+        headers: Headers;
+    };
+
+export const getMerchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchUrl = (
+    merchantId: string
+) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant/${merchantId}/add_payment_type`;
+};
+
+export const merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatch = async (
+    merchantId: string,
+    paymentTypeLink: PaymentTypeLink,
+    options?: RequestInit
+): Promise<merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponse> => {
+    return authFetch<merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponse>(
+        getMerchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchUrl(merchantId),
+        {
+            ...options,
+            method: "PATCH",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(paymentTypeLink)
+        }
+    );
+};
+
+/**
+ * Disassociates a payment type from a merchant by its code.
+ * @summary Remove payment type from merchant
+ */
+export type merchantEndpointsRemovePaymentTypeFromMerchantEnigmaV1MerchantMerchantIdRemovePaymentTypePaymentTypeCodeDeleteResponse200 =
+    {
+        data: ApiResponseMerchant;
+        status: 200;
+    };
+
+export type merchantEndpointsRemovePaymentTypeFromMerchantEnigmaV1MerchantMerchantIdRemovePaymentTypePaymentTypeCodeDeleteResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type merchantEndpointsRemovePaymentTypeFromMerchantEnigmaV1MerchantMerchantIdRemovePaymentTypePaymentTypeCodeDeleteResponseComposite =
+
+        | merchantEndpointsRemovePaymentTypeFromMerchantEnigmaV1MerchantMerchantIdRemovePaymentTypePaymentTypeCodeDeleteResponse200
+        | merchantEndpointsRemovePaymentTypeFromMerchantEnigmaV1MerchantMerchantIdRemovePaymentTypePaymentTypeCodeDeleteResponse422;
+
+export type merchantEndpointsRemovePaymentTypeFromMerchantEnigmaV1MerchantMerchantIdRemovePaymentTypePaymentTypeCodeDeleteResponse =
+    merchantEndpointsRemovePaymentTypeFromMerchantEnigmaV1MerchantMerchantIdRemovePaymentTypePaymentTypeCodeDeleteResponseComposite & {
+        headers: Headers;
+    };
+
+export const getMerchantEndpointsRemovePaymentTypeFromMerchantEnigmaV1MerchantMerchantIdRemovePaymentTypePaymentTypeCodeDeleteUrl =
+    (merchantId: string, paymentTypeCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant/${merchantId}/remove_payment_type/${paymentTypeCode}`;
+    };
+
+export const merchantEndpointsRemovePaymentTypeFromMerchantEnigmaV1MerchantMerchantIdRemovePaymentTypePaymentTypeCodeDelete =
+    async (
+        merchantId: string,
+        paymentTypeCode: string,
+        options?: RequestInit
+    ): Promise<merchantEndpointsRemovePaymentTypeFromMerchantEnigmaV1MerchantMerchantIdRemovePaymentTypePaymentTypeCodeDeleteResponse> => {
+        return authFetch<merchantEndpointsRemovePaymentTypeFromMerchantEnigmaV1MerchantMerchantIdRemovePaymentTypePaymentTypeCodeDeleteResponse>(
+            getMerchantEndpointsRemovePaymentTypeFromMerchantEnigmaV1MerchantMerchantIdRemovePaymentTypePaymentTypeCodeDeleteUrl(
+                merchantId,
+                paymentTypeCode
+            ),
+            {
+                ...options,
+                method: "DELETE"
+            }
+        );
+    };

@@ -17,7 +17,7 @@ import type {
 import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
 
 /**
- * Returns a paginated list of available currencies. Supports filtering based on query parameters.
+ * Returns a paginated list of available currencies. Supports filtering based on query parameters
  * @summary Get a list of currencies with filtering and pagination
  */
 export type currencyEndpointsListCurrenciesEnigmaV1CurrencyGetResponse200 = {
@@ -71,7 +71,7 @@ export const currencyEndpointsListCurrenciesEnigmaV1CurrencyGet = async (
 };
 
 /**
- * Adds a new currency to the database using the provided details.
+ * Adds a new currency to the database using the provided details
  * @summary Create a new currency entry
  */
 export type currencyEndpointsCreateCurrencyEnigmaV1CurrencyPostResponse200 = {
@@ -113,7 +113,7 @@ export const currencyEndpointsCreateCurrencyEnigmaV1CurrencyPost = async (
 };
 
 /**
- * Fetches details of a currency identified by its unique currency code.
+ * Fetches details of a currency identified by its unique currency code
  * @summary Get details of a specific currency
  */
 export type currencyEndpointsGetCurrencyEnigmaV1CurrencyCurrencyCodeGetResponse200 = {
@@ -153,7 +153,7 @@ export const currencyEndpointsGetCurrencyEnigmaV1CurrencyCurrencyCodeGet = async
 };
 
 /**
- * Modifies the details of a currency identified by its currency code.
+ * Modifies the details of a currency identified by its currency code
  * @summary Update an existing currency
  */
 export type currencyEndpointsUpdateCurrencyEnigmaV1CurrencyCurrencyCodePutResponse200 = {
@@ -196,7 +196,7 @@ export const currencyEndpointsUpdateCurrencyEnigmaV1CurrencyCurrencyCodePut = as
 };
 
 /**
- * Removes a currency from the database using its unique currency code.
+ * Removes a currency from the database using its unique currency code
  * @summary Delete a currency entry
  */
 export type currencyEndpointsDeleteCurrencyEnigmaV1CurrencyCurrencyCodeDeleteResponse200 = {

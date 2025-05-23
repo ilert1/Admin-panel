@@ -13,7 +13,7 @@ import type {
 import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
 
 /**
- * Generates a new RSA key pair and returns keys in base58 encoded format.
+ * Generates a new RSA key pair and returns keys in base58 encoded format
  * @summary Generate RSA key pair
  */
 export type keyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetResponse200 = {

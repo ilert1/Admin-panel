@@ -10,6 +10,7 @@ import type {
     ApiResponseProvider,
     ApiResponseProviderAddKeypair,
     HTTPValidationError,
+    PaymentTypeLink,
     ProviderCreate,
     ProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchParams,
     ProviderEndpointsListProvidersEnigmaV1ProviderGetParams,
@@ -19,7 +20,7 @@ import type {
 import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
 
 /**
- * Fetches a paginated list of providers. Supports filtering and pagination parameters.
+ * Fetches a paginated list of providers. Supports filtering and pagination parameters
  * @summary Retrieve a paginated list of providers
  */
 export type providerEndpointsListProvidersEnigmaV1ProviderGetResponse200 = {
@@ -73,7 +74,7 @@ export const providerEndpointsListProvidersEnigmaV1ProviderGet = async (
 };
 
 /**
- * Adds a new provider to the system with the specified details.
+ * Adds a new provider to the system with the specified details
  * @summary Create a new provider
  */
 export type providerEndpointsCreateProviderEnigmaV1ProviderPostResponse200 = {
@@ -115,7 +116,7 @@ export const providerEndpointsCreateProviderEnigmaV1ProviderPost = async (
 };
 
 /**
- * Retrieves details of a specific provider using its unique name.
+ * Retrieves details of a specific provider using its unique name
  * @summary Get provider details by name
  */
 export type providerEndpointsGetProviderEnigmaV1ProviderProviderNameGetResponse200 = {
@@ -155,7 +156,7 @@ export const providerEndpointsGetProviderEnigmaV1ProviderProviderNameGet = async
 };
 
 /**
- * Updates the details of an existing provider identified by its name.
+ * Updates the details of an existing provider identified by its name
  * @summary Update provider details
  */
 export type providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutResponse200 = {
@@ -198,7 +199,7 @@ export const providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePut = as
 };
 
 /**
- * Removes a provider from the system using its unique name.
+ * Removes a provider from the system using its unique name
  * @summary Delete a provider
  */
 export type providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteResponse200 = {
@@ -238,7 +239,7 @@ export const providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDelete =
 };
 
 /**
- * Generates an RSA key pair with specified parameters and associates its public key with the provider.
+ * Generates an RSA key pair with specified parameters and associates its public key with the provider
  * @summary Add RSA key pair to provider
  */
 export type providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchResponse200 = {
@@ -292,3 +293,97 @@ export const providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPa
         }
     );
 };
+
+/**
+ * Associates an existing payment type with a provider
+ * @summary Add payment type to provider
+ */
+export type providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponse200 = {
+    data: ApiResponseProvider;
+    status: 200;
+};
+
+export type providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponseComposite =
+    | providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponse200
+    | providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponse422;
+
+export type providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponse =
+    providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponseComposite & {
+        headers: Headers;
+    };
+
+export const getProviderEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchUrl = (
+    providerName: string
+) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/add_payment_type`;
+};
+
+export const providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatch = async (
+    providerName: string,
+    paymentTypeLink: PaymentTypeLink,
+    options?: RequestInit
+): Promise<providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponse> => {
+    return authFetch<providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponse>(
+        getProviderEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchUrl(providerName),
+        {
+            ...options,
+            method: "PATCH",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(paymentTypeLink)
+        }
+    );
+};
+
+/**
+ * Disassociates a payment type from a provider by its code.
+ * @summary Remove payment type from provider
+ */
+export type providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponse200 =
+    {
+        data: ApiResponseProvider;
+        status: 200;
+    };
+
+export type providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponseComposite =
+
+        | providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponse200
+        | providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponse422;
+
+export type providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponse =
+    providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponseComposite & {
+        headers: Headers;
+    };
+
+export const getProviderEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteUrl =
+    (providerName: string, paymentTypeCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/remove_payment_type/${paymentTypeCode}`;
+    };
+
+export const providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDelete =
+    async (
+        providerName: string,
+        paymentTypeCode: string,
+        options?: RequestInit
+    ): Promise<providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponse> => {
+        return authFetch<providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponse>(
+            getProviderEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteUrl(
+                providerName,
+                paymentTypeCode
+            ),
+            {
+                ...options,
+                method: "DELETE"
+            }
+        );
+    };

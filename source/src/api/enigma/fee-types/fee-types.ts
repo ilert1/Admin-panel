@@ -9,7 +9,7 @@ import type { ApiResponseListFeeTypeItem } from "../blowFishEnigmaAPIService.sch
 import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
 
 /**
- * Returns a list of fee types in a name:value format.
+ * Returns a list of fee types in a name:value format
  * @summary Retrieve fee types
  */
 export type feesEndpointsGetFeeTypesEnigmaV1FeeTypesGetResponse200 = {

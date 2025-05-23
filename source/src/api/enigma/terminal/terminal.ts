@@ -12,6 +12,7 @@ import type {
     FeeCreate,
     FeeUpdate,
     HTTPValidationError,
+    PaymentTypeLink,
     PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams,
     TerminalCreate,
     TerminalDeleteAuth,
@@ -134,7 +135,7 @@ export const terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalG
 };
 
 /**
- * Registers a new terminal under the specified provider.
+ * Registers a new terminal under the specified provider
  * @summary Create a new terminal
  */
 export type terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostResponse200 = {
@@ -177,7 +178,7 @@ export const terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminal
 };
 
 /**
- * Fetches the details of a terminal associated with the specified provider.
+ * Fetches the details of a terminal associated with the specified provider
  * @summary Retrieve terminal details
  */
 export type terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetResponse200 = {
@@ -221,7 +222,7 @@ export const terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTer
 };
 
 /**
- * Modifies the attributes of an existing terminal under a specific provider.
+ * Modifies the attributes of an existing terminal under a specific provider
  * @summary Update terminal information
  */
 export type terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutResponse200 = {
@@ -271,7 +272,7 @@ export const terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminal
 };
 
 /**
- * Deletes a terminal associated with the given provider.
+ * Deletes a terminal associated with the given provider
  * @summary Remove a terminal
  */
 export type terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteResponse200 = {
@@ -369,7 +370,7 @@ export const terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTermina
 };
 
 /**
- * Adds additional authentication settings by merging new data with existing settings.
+ * Adds additional authentication settings by merging new data with existing settings
  * @deprecated
  * @summary Add terminal authentication data
  */
@@ -421,7 +422,7 @@ export const terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTermina
 };
 
 /**
- * Replaces the authentication data of the terminal with the new set. Encrypts values as needed.
+ * Replaces the authentication data of the terminal with the new set. Encrypts values as needed
  * @summary Replace terminal authentication data
  */
 export type terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse200 = {
@@ -472,7 +473,7 @@ export const terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTer
 };
 
 /**
- * Updates part of the authentication data. New or changed values are encrypted.
+ * Updates part of the authentication data. New or changed values are encrypted
  * @summary Patch terminal authentication data
  */
 export type terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse200 = {
@@ -523,7 +524,7 @@ export const terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTermi
 };
 
 /**
- * Deletes specific authentication keys from the terminal.
+ * Deletes specific authentication keys from the terminal
  * @summary Delete specific auth keys
  */
 export type terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse200 = {
@@ -574,7 +575,7 @@ export const terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminal
 };
 
 /**
- * Initializes the provider account for a terminal by setting its authentication token. Returns the updated terminal data.
+ * Initializes the provider account for a terminal by setting its authentication token. Returns the updated terminal data
  * @summary Initialize provider account
  */
 export type terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostResponse200 =
@@ -623,7 +624,7 @@ export const terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTe
     };
 
 /**
- * Adds a new fee to the terminal.
+ * Adds a new fee to the terminal
  * @summary Add fee to terminal
  */
 export type terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchResponse200 = {
@@ -670,7 +671,7 @@ export const terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminal
 };
 
 /**
- * Updates an existing fee for the terminal.
+ * Updates an existing fee for the terminal
  * @summary Update fee
  */
 export type terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchResponse200 = {
@@ -723,7 +724,7 @@ export const terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTermi
 };
 
 /**
- * Deletes a fee from the terminal.
+ * Deletes a fee from the terminal
  * @summary Delete fee
  */
 export type terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteResponse200 = {
@@ -773,7 +774,7 @@ export const terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTermi
 };
 
 /**
- * Generates mapping in external service and stores external callback URL inside terminal.
+ * Generates mapping in external service and stores external callback URL inside terminal
  * @summary Register callback for terminal
  */
 export type terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse200 = {
@@ -822,3 +823,106 @@ export const terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminal
         }
     );
 };
+
+/**
+ * Associates an existing payment type with a terminal
+ * @summary Add payment type to terminal
+ */
+export type terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponse200 =
+    {
+        data: ApiResponseTerminal;
+        status: 200;
+    };
+
+export type terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponseComposite =
+
+        | terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponse200
+        | terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponse422;
+
+export type terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponse =
+    terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchUrl =
+    (providerName: string, terminalId: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/add_payment_type`;
+    };
+
+export const terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatch =
+    async (
+        providerName: string,
+        terminalId: string,
+        paymentTypeLink: PaymentTypeLink,
+        options?: RequestInit
+    ): Promise<terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponse> => {
+        return authFetch<terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponse>(
+            getTerminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchUrl(
+                providerName,
+                terminalId
+            ),
+            {
+                ...options,
+                method: "PATCH",
+                headers: { "Content-Type": "application/json", ...options?.headers },
+                body: JSON.stringify(paymentTypeLink)
+            }
+        );
+    };
+
+/**
+ * Disassociates a payment type from a terminal by its code.
+ * @summary Remove payment type from terminal
+ */
+export type terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse200 =
+    {
+        data: ApiResponseTerminal;
+        status: 200;
+    };
+
+export type terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponseComposite =
+
+        | terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse200
+        | terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse422;
+
+export type terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse =
+    terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteUrl =
+    (providerName: string, terminalId: string, paymentTypeCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/remove_payment_type/${paymentTypeCode}`;
+    };
+
+export const terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDelete =
+    async (
+        providerName: string,
+        terminalId: string,
+        paymentTypeCode: string,
+        options?: RequestInit
+    ): Promise<terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse> => {
+        return authFetch<terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse>(
+            getTerminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteUrl(
+                providerName,
+                terminalId,
+                paymentTypeCode
+            ),
+            {
+                ...options,
+                method: "DELETE"
+            }
+        );
+    };

@@ -18,13 +18,14 @@ import type {
     DirectionUpdateType,
     FeeCreate,
     FeeUpdate,
-    HTTPValidationError
+    HTTPValidationError,
+    PaymentTypeLink
 } from "../blowFishEnigmaAPIService.schemas";
 
 import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
 
 /**
- * Returns a paginated list of directions. Supports filtering and pagination.
+ * Returns a paginated list of directions. Supports filtering and pagination
  * @summary Get a paginated list of directions
  */
 export type directionEndpointsListDirectionsEnigmaV1DirectionGetResponse200 = {
@@ -78,7 +79,7 @@ export const directionEndpointsListDirectionsEnigmaV1DirectionGet = async (
 };
 
 /**
- * Registers a new direction in the system.
+ * Registers a new direction in the system
  * @summary Create a new direction
  */
 export type directionEndpointsCreateDirectionEnigmaV1DirectionPostResponse200 = {
@@ -120,7 +121,7 @@ export const directionEndpointsCreateDirectionEnigmaV1DirectionPost = async (
 };
 
 /**
- * Returns a paginated list of directions filtered by merchant unique ID.
+ * Returns a paginated list of directions filtered by merchant unique ID
  * @summary Get a paginated list of directions by merchant
  */
 export type directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetResponse200 = {
@@ -176,7 +177,7 @@ export const directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMercha
 };
 
 /**
- * Fetches the details of a direction identified by its unique ID.
+ * Fetches the details of a direction identified by its unique ID
  * @summary Retrieve direction details
  */
 export type directionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGetResponse200 = {
@@ -216,7 +217,7 @@ export const directionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGet = asy
 };
 
 /**
- * Modifies the attributes of an existing direction identified by its unique ID.
+ * Modifies the attributes of an existing direction identified by its unique ID
  * @summary Update direction details
  */
 export type directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPutResponse200 = {
@@ -259,7 +260,7 @@ export const directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPut = 
 };
 
 /**
- * Deletes a direction from the system using its unique ID.
+ * Deletes a direction from the system using its unique ID
  * @summary Remove a direction
  */
 export type directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDeleteResponse200 = {
@@ -299,7 +300,7 @@ export const directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDelete
 };
 
 /**
- * Updates multiple directions in one request using bulk update.
+ * Updates multiple directions in one request using bulk update
  * @summary Bulk update directions
  */
 export type directionEndpointsBulkUpdateDirectionsEnigmaV1DirectionBatchPatchResponse200 = {
@@ -341,7 +342,7 @@ export const directionEndpointsBulkUpdateDirectionsEnigmaV1DirectionBatchPatch =
 };
 
 /**
- * Updates the state (active/inactive) for the specified direction.
+ * Updates the state (active/inactive) for the specified direction
  * @summary Update state for a direction
  */
 export type directionEndpointsUpdateStateEnigmaV1DirectionDirectionIdStatePatchResponse200 = {
@@ -384,7 +385,7 @@ export const directionEndpointsUpdateStateEnigmaV1DirectionDirectionIdStatePatch
 };
 
 /**
- * Updates the type ('universal', 'deposit', 'withdraw') for the specified direction.
+ * Updates the type ('universal', 'deposit', 'withdraw') for the specified direction
  * @summary Update type for a direction
  */
 export type directionEndpointsUpdateTypeEnigmaV1DirectionDirectionIdTypePatchResponse200 = {
@@ -427,7 +428,7 @@ export const directionEndpointsUpdateTypeEnigmaV1DirectionDirectionIdTypePatch =
 };
 
 /**
- * Associates a new fee with a specified direction.
+ * Associates a new fee with a specified direction
  * @summary Add a new fee to a direction
  */
 export type directionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatchResponse200 = {
@@ -470,7 +471,7 @@ export const directionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatch = asyn
 };
 
 /**
- * Modifies an existing fee associated with a specified direction.
+ * Modifies an existing fee associated with a specified direction
  * @summary Update an existing fee for a direction
  */
 export type directionEndpointsUpdateFeeEnigmaV1DirectionDirectionIdFeeFeeIdPatchResponse200 = {
@@ -517,7 +518,7 @@ export const directionEndpointsUpdateFeeEnigmaV1DirectionDirectionIdFeeFeeIdPatc
 };
 
 /**
- * Deletes a specific fee associated with a given direction.
+ * Deletes a specific fee associated with a given direction
  * @summary Remove a fee from a direction
  */
 export type directionEndpointsDeleteFeeEnigmaV1DirectionDirectionIdFeeFeeIdDeleteResponse200 = {
@@ -561,7 +562,7 @@ export const directionEndpointsDeleteFeeEnigmaV1DirectionDirectionIdFeeFeeIdDele
 };
 
 /**
- * Updates all limits (payin, payout, reward) for the specified direction.
+ * Updates all limits (payin, payout, reward) for the specified direction
  * @summary Update limits for a direction
  */
 export type directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatchResponse200 = {
@@ -604,7 +605,7 @@ export const directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPat
 };
 
 /**
- * Resets all limits (payin, payout, reward) by setting quantity to 0 for both min and max.
+ * Resets all limits (payin, payout, reward) by setting quantity to 0 for both min and max
  * @summary Delete (reset) limits for a direction
  */
 export type directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDeleteResponse200 = {
@@ -642,3 +643,98 @@ export const directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDel
         }
     );
 };
+
+/**
+ * Associates an existing payment type with a direction
+ * @summary Add payment type to direction
+ */
+export type directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponse200 = {
+    data: ApiResponseDirection;
+    status: 200;
+};
+
+export type directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponseComposite =
+
+        | directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponse200
+        | directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponse422;
+
+export type directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponse =
+    directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponseComposite & {
+        headers: Headers;
+    };
+
+export const getDirectionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchUrl = (
+    directionId: string
+) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/${directionId}/add_payment_type`;
+};
+
+export const directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatch = async (
+    directionId: string,
+    paymentTypeLink: PaymentTypeLink,
+    options?: RequestInit
+): Promise<directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponse> => {
+    return authFetch<directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponse>(
+        getDirectionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchUrl(directionId),
+        {
+            ...options,
+            method: "PATCH",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(paymentTypeLink)
+        }
+    );
+};
+
+/**
+ * Disassociates a payment type from a direction by its code.
+ * @summary Remove payment type from direction
+ */
+export type directionEndpointsRemovePaymentTypeFromDirectionEnigmaV1DirectionDirectionIdRemovePaymentTypePaymentTypeCodeDeleteResponse200 =
+    {
+        data: ApiResponseDirection;
+        status: 200;
+    };
+
+export type directionEndpointsRemovePaymentTypeFromDirectionEnigmaV1DirectionDirectionIdRemovePaymentTypePaymentTypeCodeDeleteResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type directionEndpointsRemovePaymentTypeFromDirectionEnigmaV1DirectionDirectionIdRemovePaymentTypePaymentTypeCodeDeleteResponseComposite =
+
+        | directionEndpointsRemovePaymentTypeFromDirectionEnigmaV1DirectionDirectionIdRemovePaymentTypePaymentTypeCodeDeleteResponse200
+        | directionEndpointsRemovePaymentTypeFromDirectionEnigmaV1DirectionDirectionIdRemovePaymentTypePaymentTypeCodeDeleteResponse422;
+
+export type directionEndpointsRemovePaymentTypeFromDirectionEnigmaV1DirectionDirectionIdRemovePaymentTypePaymentTypeCodeDeleteResponse =
+    directionEndpointsRemovePaymentTypeFromDirectionEnigmaV1DirectionDirectionIdRemovePaymentTypePaymentTypeCodeDeleteResponseComposite & {
+        headers: Headers;
+    };
+
+export const getDirectionEndpointsRemovePaymentTypeFromDirectionEnigmaV1DirectionDirectionIdRemovePaymentTypePaymentTypeCodeDeleteUrl =
+    (directionId: string, paymentTypeCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/${directionId}/remove_payment_type/${paymentTypeCode}`;
+    };
+
+export const directionEndpointsRemovePaymentTypeFromDirectionEnigmaV1DirectionDirectionIdRemovePaymentTypePaymentTypeCodeDelete =
+    async (
+        directionId: string,
+        paymentTypeCode: string,
+        options?: RequestInit
+    ): Promise<directionEndpointsRemovePaymentTypeFromDirectionEnigmaV1DirectionDirectionIdRemovePaymentTypePaymentTypeCodeDeleteResponse> => {
+        return authFetch<directionEndpointsRemovePaymentTypeFromDirectionEnigmaV1DirectionDirectionIdRemovePaymentTypePaymentTypeCodeDeleteResponse>(
+            getDirectionEndpointsRemovePaymentTypeFromDirectionEnigmaV1DirectionDirectionIdRemovePaymentTypePaymentTypeCodeDeleteUrl(
+                directionId,
+                paymentTypeCode
+            ),
+            {
+                ...options,
+                method: "DELETE"
+            }
+        );
+    };
