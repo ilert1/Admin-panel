@@ -787,7 +787,7 @@ const ru: TranslationMessages = {
             }
         },
         payment_type: {
-            name: "Типы платежей",
+            name: "Платёжные типы",
             admin: {
                 name: "Payment types"
             },
