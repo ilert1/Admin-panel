@@ -23,7 +23,6 @@ import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
-import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 
 export interface DirectionEditProps {
     id?: string;
@@ -44,7 +43,11 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const refresh = useRefresh();
 
     const { directionTypes } = useGetDirectionTypes();
-    const { data: paymentTypes, isLoading: paymentTypesLoading } = useGetPaymentTypes();
+
+    // const { data: directionPaymentTypes } = useGetDirectionPaymentTypes({
+    //     provider: controllerProps.record?.provider.name || "",
+    //     merchant: controllerProps.record?.merchant.id || ""
+    // });
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.direction.errors.name")).trim(),
@@ -131,7 +134,12 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
 
     const terminalsDisabled = !(terminals && Array.isArray(terminals) && terminals?.length > 0);
 
-    if (controllerProps.isLoading || !controllerProps.record || loadingData || paymentTypesLoading)
+    if (
+        controllerProps.isLoading ||
+        !controllerProps.record ||
+        loadingData
+        // || paymentTypesLoading
+    )
         return (
             <div className="h-[150px]">
                 <Loading />

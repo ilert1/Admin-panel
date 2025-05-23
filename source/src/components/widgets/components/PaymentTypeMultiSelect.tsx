@@ -3,18 +3,17 @@ import { MultiSelect } from "@/components/ui/multi-select";
 interface PaymentTypeMultiSelectProps {
     value: string[] | undefined;
     onChange: (values: string[]) => void;
+    options?: string[];
 }
 
 export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
-    const { value, onChange } = props;
+    const { value, onChange, options } = props;
 
-    const options = [
-        { value: "crypto", label: "Crypto" },
-        { value: "bank_card", label: "Bank card" },
-        { value: "bank_transfer", label: "Bank transfer" }
-    ];
-
-    // const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+    const modifiedOptions =
+        options?.map(option => ({
+            label: option,
+            value: option
+        })) || [];
 
     const onValueChange = (values: string[]) => {
         onChange(values);
@@ -22,7 +21,7 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
 
     return (
         <MultiSelect
-            options={options}
+            options={modifiedOptions}
             onValueChange={onValueChange}
             defaultValue={value}
             placeholder="Select payment types"

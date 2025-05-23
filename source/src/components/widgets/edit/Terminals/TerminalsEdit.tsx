@@ -14,6 +14,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
+import { PaymentTypeMultiSelect } from "../../components/PaymentTypeMultiSelect";
 
 interface ProviderEditParams {
     provider: string;
@@ -35,6 +37,8 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         id,
         mutationMode: "pessimistic"
     });
+    const { providerPaymentTypes, isLoadingProviderPaymentTypes } = useGetPaymentTypes({ provider });
+    console.log(providerPaymentTypes);
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -52,7 +56,8 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                     .min(0, translate("resources.terminals.errors.allocation_timeout_seconds_min"))
                     .max(120, translate("resources.terminals.errors.allocation_timeout_seconds_max"))
             )
-            .optional()
+            .optional(),
+        payment_types: z.array(z.string()).optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -62,10 +67,11 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
             description: controllerProps.record?.description || "",
             details: JSON.stringify(controllerProps.record?.details) || "",
             allocation_timeout_seconds:
-                (controllerProps.record?.allocation_timeout_seconds ||
-                controllerProps.record?.allocation_timeout_seconds === 0)
+                controllerProps.record?.allocation_timeout_seconds ||
+                controllerProps.record?.allocation_timeout_seconds === 0
                     ? controllerProps.record.allocation_timeout_seconds
-                    : 2
+                    : 2,
+            payment_types: controllerProps.record?.payment_types?.map(pt => pt.code) || []
         }
     });
 
@@ -76,10 +82,11 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 description: controllerProps.record.description || "",
                 details: JSON.stringify(controllerProps.record.details, null, 2) || "",
                 allocation_timeout_seconds:
-                    (controllerProps.record?.allocation_timeout_seconds ||
-                controllerProps.record?.allocation_timeout_seconds === 0)
-                    ? controllerProps.record.allocation_timeout_seconds
-                    : 2
+                    controllerProps.record?.allocation_timeout_seconds ||
+                    controllerProps.record?.allocation_timeout_seconds === 0
+                        ? controllerProps.record.allocation_timeout_seconds
+                        : 2,
+                payment_types: controllerProps.record?.payment_types?.map(pt => pt.code) || []
             });
         }
     }, [form, controllerProps.record]);
@@ -207,6 +214,21 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                                         />
                                     </FormControl>
                                     <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="payment_types"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <PaymentTypeMultiSelect
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            options={providerPaymentTypes || []}
+                                        />
+                                    </FormControl>
                                 </FormItem>
                             )}
                         />
