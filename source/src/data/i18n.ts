@@ -791,6 +791,10 @@ const ru: TranslationMessages = {
             admin: {
                 name: "Payment types"
             },
+            errors: {
+                code: "Код не может быть пустым",
+                codeRegex: "Код может содержать только буквы, цифры, подчеркивание и тире"
+            },
             fields: {
                 code: "Код",
                 title: "Название"
@@ -1881,6 +1885,10 @@ const en: TranslationMessages = {
         payment_type: {
             admin: {
                 name: "Payment types"
+            },
+            errors: {
+                code: "Code is required",
+                codeRegex: "Code can only contain letters, numbers, underscores, and hyphens"
             },
             name: "Payment types",
             fields: {

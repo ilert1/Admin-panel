@@ -1,4 +1,4 @@
-import { useCreateController, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
@@ -19,6 +19,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController<IPaymentTypeCreate>();
     const { theme } = useTheme();
+    const refresh = useRefresh();
 
     const appToast = useAppToast();
 
@@ -26,7 +27,11 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const formSchema = z.object({
-        code: z.string().min(1, translate("resources.provider.errors.name")).trim(),
+        code: z
+            .string()
+            .min(1, translate("resources.payment_type.errors.code"))
+            .regex(/^[A-Za-z0-9_-]+$/, translate("resources.payment_type.errors.codeRegex"))
+            .trim(),
         title: z.string().optional().default("")
     });
 
@@ -46,6 +51,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
         try {
             await dataProvider.create("payment_type", { data });
             appToast("success", translate("app.ui.create.createSuccess"));
+            refresh();
             onClose();
         } catch (error) {
             // С бэка прилетает нечеловеческая ошибка, поэтому оставлю пока так

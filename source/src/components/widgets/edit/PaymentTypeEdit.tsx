@@ -10,6 +10,7 @@ import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { usePreventFocus } from "@/hooks";
+import { useRefresh } from "react-admin";
 
 export interface PaymentTypeEditProps {
     id: string;
@@ -20,13 +21,14 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
     const dataProvider = useDataProvider();
     const controllerProps = useEditController({ resource: "payment_type", id });
     const { theme } = useTheme();
+    const refresh = useRefresh();
     const appToast = useAppToast();
 
     const translate = useTranslate();
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const formSchema = z.object({
-        code: z.string().min(1, translate("resources.provider.errors.name")).trim(),
+        code: z.string().min(1, translate("resources.payment_type.errors.code")).trim(),
         title: z.string().optional().default("")
     });
 
@@ -51,6 +53,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             });
 
             appToast("success", translate("app.ui.edit.editSuccess"));
+            refresh();
             onClose();
         } catch (error) {
             // С бэка прилетает нечеловеческая ошибка, поэтому оставлю пока так
