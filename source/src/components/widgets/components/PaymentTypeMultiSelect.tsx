@@ -1,9 +1,10 @@
+import { PaymentTypeRead } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { MultiSelect } from "@/components/ui/multi-select";
 
 interface PaymentTypeMultiSelectProps {
     value: string[] | undefined;
     onChange: (values: string[]) => void;
-    options?: string[];
+    options?: PaymentTypeRead[];
 }
 
 export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
@@ -11,8 +12,8 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
 
     const modifiedOptions =
         options?.map(option => ({
-            label: option,
-            value: option
+            label: option.code,
+            value: option.code
         })) || [];
 
     const onValueChange = (values: string[]) => {

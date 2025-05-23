@@ -1,3 +1,4 @@
+import { PaymentTypeRead } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useQuery } from "@tanstack/react-query";
 import { useDataProvider } from "react-admin";
 
@@ -11,53 +12,54 @@ export const useGetPaymentTypes = (props: useGetPaymentTypesProps) => {
     const { provider, merchant, terminal } = props;
     const dataProvider = useDataProvider();
 
-    const { data: merchantPaymentTypes, isLoading: isLoadingMerchantPaymentTypes } = useQuery({
+    const { data: merchantPaymentTypes, isLoading: isLoadingMerchantPaymentTypes } = useQuery<PaymentTypeRead[]>({
         queryKey: ["merchant_payment_types", merchant],
         enabled: Boolean(merchant),
-        queryFn: async ({ signal }) => await dataProvider.getOne("merchant", { id: merchant, signal }),
-        select: data => data.data.payment_types
+        queryFn: async ({ signal }) => {
+            const res = await dataProvider.getOne("merchant", { id: merchant, signal });
+            return res.data.payment_types as PaymentTypeRead[];
+        }
     });
 
-    const { data: terminalPaymentTypes, isLoading: isLoadingTerminalPaymentTypes } = useQuery({
+    const { data: terminalPaymentTypes, isLoading: isLoadingTerminalPaymentTypes } = useQuery<PaymentTypeRead[]>({
         queryKey: ["terminal_payment_types", terminal],
         enabled: Boolean(terminal),
-        queryFn: async ({ signal }) => await dataProvider.getOne("terminal", { id: terminal, signal }),
-        select: data => data.data.payment_types
+        queryFn: async ({ signal }) => {
+            const res = await dataProvider.getOne("terminal", { id: terminal, signal });
+            return res.data.payment_types as PaymentTypeRead[];
+        }
     });
 
-    const { data: providerPaymentTypes, isLoading: isLoadingProviderPaymentTypes } = useQuery({
+    const { data: providerPaymentTypes, isLoading: isLoadingProviderPaymentTypes } = useQuery<PaymentTypeRead[]>({
         queryKey: ["payment_types", "provider", provider],
         enabled: Boolean(provider),
         queryFn: async ({ signal }) => {
-            await dataProvider.getOne("provider", { id: provider, signal }).then(async data => {
-                const types = data.data.payment_types;
+            const data = await dataProvider.getOne("provider", { id: provider, signal });
+            const types = data.data.payment_types as PaymentTypeRead[];
 
-                if (!types || types.length === 0) {
-                    // fallback
-                    const result = await dataProvider.getList("payment_type", {
-                        pagination: { perPage: 10000, page: 1 },
-                        filter: { sort: "code", asc: "ASC" },
-                        signal
-                    });
+            if (!types || types.length === 0) {
+                const result = await dataProvider.getList("payment_type", {
+                    pagination: { perPage: 10000, page: 1 },
+                    filter: { sort: "code", asc: "ASC" },
+                    signal
+                });
+                return result.data as PaymentTypeRead[];
+            }
 
-                    return result.data ?? [];
-                }
-
-                return types ?? [];
-            });
+            return types;
         }
     });
-    console.log(providerPaymentTypes);
 
-    const { data: allPaymentTypes, isLoading: isLoadingAllPaymentTypes } = useQuery({
+    const { data: allPaymentTypes, isLoading: isLoadingAllPaymentTypes } = useQuery<PaymentTypeRead[]>({
         queryKey: ["payment_types", "useGetPaymentTypes"],
         enabled: !provider && !merchant && !terminal,
         queryFn: async ({ signal }) => {
-            return await dataProvider.getList("payment_type", {
+            const result = await dataProvider.getList("payment_type", {
                 pagination: { perPage: 10000, page: 1 },
                 filter: { sort: "code", asc: "ASC" },
                 signal
             });
+            return result.data as PaymentTypeRead[];
         }
     });
 
