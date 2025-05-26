@@ -92,7 +92,12 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
 
     usePreventFocus({ dependencies: [record] });
 
-    if (isLoading || !record || !data || isLoadingAllPaymentTypes) return <Loading />;
+    if (isLoading || !record || !data || isLoadingAllPaymentTypes)
+        return (
+            <div className="h-[200px]">
+                <Loading />
+            </div>
+        );
     return (
         <>
             <Form {...form}>

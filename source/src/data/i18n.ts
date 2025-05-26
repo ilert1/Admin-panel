@@ -800,10 +800,10 @@ const ru: TranslationMessages = {
                 title: "Название",
                 payment_types: "Платёжные типы"
             },
-            deletePaymentTypeQuestion: "Удалить тип платежа?",
-            creatingPaymentType: "Создание типа платежа",
-            editingPaymentType: "Изменение типа платежа",
-            createNew: "Добавить тип платежа",
+            deletePaymentTypeQuestion: "Удалить платёжный тип?",
+            creatingPaymentType: "Создание платёжного типа",
+            editingPaymentType: "Изменение платёжного типа",
+            createNew: "Добавить платёжный тип",
             duplicateCode: "Введенный код уже используется"
         }
     },
@@ -1032,7 +1032,9 @@ const ru: TranslationMessages = {
             },
             multiSelect: {
                 selectAll: "Выбрать все",
-                noResultFound: "Нет результатов"
+                noResultFound: "Нет результатов",
+                selectPaymentTypes: "Выберите платёжные типы",
+                searchPlaceholder: "Поиск..."
             }
         },
 
@@ -2136,7 +2138,9 @@ const en: TranslationMessages = {
             },
             multiSelect: {
                 selectAll: "Select all",
-                noResultFound: "No results found."
+                noResultFound: "No results found.",
+                selectPaymentTypes: "Select payment types",
+                searchPlaceholder: "Search..."
             }
         },
 

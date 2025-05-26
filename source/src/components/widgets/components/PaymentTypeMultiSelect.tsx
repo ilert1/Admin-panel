@@ -31,7 +31,7 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
                 options={modifiedOptions}
                 onValueChange={onValueChange}
                 defaultValue={value}
-                placeholder="Select payment types"
+                placeholder={translate("app.widgets.multiSelect.selectPaymentTypes")}
                 animation={0}
                 maxCount={10}
             />

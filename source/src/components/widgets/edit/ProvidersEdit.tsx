@@ -89,7 +89,12 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
 
     usePreventFocus({ dependencies: [controllerProps.record] });
 
-    if (controllerProps.isLoading || !controllerProps.record || isLoadingAllPaymentTypes) return <Loading />;
+    if (controllerProps.isLoading || !controllerProps.record || isLoadingAllPaymentTypes)
+        return (
+            <div className="h-[400px]">
+                <Loading />
+            </div>
+        );
     return (
         <EditContextProvider value={controllerProps}>
             <Form {...form}>

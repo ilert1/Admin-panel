@@ -124,7 +124,12 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
 
     usePreventFocus({ dependencies: [controllerProps.record] });
 
-    if (controllerProps.isLoading || !controllerProps.record || isLoadingProviderPaymentTypes) return <Loading />;
+    if (controllerProps.isLoading || !controllerProps.record || isLoadingProviderPaymentTypes)
+        return (
+            <div className="h-[600px]">
+                <Loading />
+            </div>
+        );
     return (
         <EditContextProvider value={controllerProps}>
             <Form {...form}>
