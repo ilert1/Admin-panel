@@ -37,8 +37,8 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         id,
         mutationMode: "pessimistic"
     });
+
     const { providerPaymentTypes, isLoadingProviderPaymentTypes } = useGetPaymentTypes({ provider });
-    console.log(providerPaymentTypes);
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -124,7 +124,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
 
     usePreventFocus({ dependencies: [controllerProps.record] });
 
-    if (controllerProps.isLoading || !controllerProps.record) return <Loading />;
+    if (controllerProps.isLoading || !controllerProps.record || isLoadingProviderPaymentTypes) return <Loading />;
     return (
         <EditContextProvider value={controllerProps}>
             <Form {...form}>

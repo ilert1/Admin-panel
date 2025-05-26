@@ -11,6 +11,8 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 import { usePreventFocus } from "@/hooks";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
+import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 
 interface MerchantEditProps {
     id?: string;
@@ -30,6 +32,7 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
 
     const translate = useTranslate();
     const refresh = useRefresh();
+    const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -42,15 +45,18 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
             .nullable()
             .refine(value => value === null || !/\s/.test(value), {
                 message: translate("resources.merchant.errors.noSpaces")
-            })
+            }),
+        payment_types: z.array(z.string()).optional()
     });
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             id: record?.id || "",
             name: record?.name || "",
             description: record?.description || "",
-            keycloak_id: record?.keycloak_id || ""
+            keycloak_id: record?.keycloak_id || "",
+            payment_types: record?.payment_types?.map(pt => pt.code) || []
         }
     });
 
@@ -60,12 +66,13 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                 id: record?.id || "",
                 name: record?.name || "",
                 description: record?.description || "",
-                keycloak_id: record?.keycloak_id || ""
+                keycloak_id: record?.keycloak_id || "",
+                payment_types: record?.payment_types?.map(pt => pt.code) || []
             });
         }
     }, [form, record]);
 
-    const onSubmit = async (data: Merchant) => {
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
 
@@ -85,7 +92,7 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
 
     usePreventFocus({ dependencies: [record] });
 
-    if (isLoading || !record || !data) return <Loading />;
+    if (isLoading || !record || !data || isLoadingAllPaymentTypes) return <Loading />;
     return (
         <>
             <Form {...form}>
@@ -158,6 +165,21 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                                             label="Keycloak ID"
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="payment_types"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <PaymentTypeMultiSelect
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            options={allPaymentTypes || []}
                                         />
                                     </FormControl>
                                 </FormItem>

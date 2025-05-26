@@ -23,6 +23,7 @@ import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
+import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 
 export interface DirectionEditProps {
     id?: string;
@@ -44,10 +45,12 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
 
     const { directionTypes } = useGetDirectionTypes();
 
-    // const { data: directionPaymentTypes } = useGetDirectionPaymentTypes({
-    //     provider: controllerProps.record?.provider.name || "",
-    //     merchant: controllerProps.record?.merchant.id || ""
-    // });
+    const { providerPaymentTypes, merchantPaymentTypes, isLoadingProviderPaymentTypes, isLoadingMerchantPaymentTypes } =
+        useGetPaymentTypes({
+            provider: controllerProps.record?.provider.name || "",
+            merchant: controllerProps.record?.merchant.id || "",
+            disabled: !controllerProps.isLoading
+        });
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.direction.errors.name")).trim(),
@@ -137,14 +140,17 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     if (
         controllerProps.isLoading ||
         !controllerProps.record ||
-        loadingData
-        // || paymentTypesLoading
+        loadingData ||
+        isLoadingProviderPaymentTypes ||
+        isLoadingMerchantPaymentTypes
     )
         return (
             <div className="h-[150px]">
                 <Loading />
             </div>
         );
+
+    const mergedPaymentTypes = Array.from(new Set([...(merchantPaymentTypes ?? []), ...(providerPaymentTypes ?? [])]));
 
     return (
         <EditContextProvider value={controllerProps}>
@@ -436,7 +442,11 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
                                     <FormControl>
-                                        <PaymentTypeMultiSelect value={field.value} onChange={field.onChange} />
+                                        <PaymentTypeMultiSelect
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            options={mergedPaymentTypes}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}

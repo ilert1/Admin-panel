@@ -797,7 +797,8 @@ const ru: TranslationMessages = {
             },
             fields: {
                 code: "Код",
-                title: "Название"
+                title: "Название",
+                payment_types: "Платёжные типы"
             },
             deletePaymentTypeQuestion: "Удалить тип платежа?",
             creatingPaymentType: "Создание типа платежа",
@@ -852,7 +853,8 @@ const ru: TranslationMessages = {
                 search: "Поиск...",
                 refresh: "Обновить",
                 details: "Подробнее",
-                generateCallback: "Создать callback"
+                generateCallback: "Создать callback",
+                clear: "Очистить"
             },
             pagination: {
                 next: "Далее",
@@ -1027,6 +1029,10 @@ const ru: TranslationMessages = {
                     ofPayment: "выплаты",
                     ofReward: "вознаграждения"
                 }
+            },
+            multiSelect: {
+                selectAll: "Выбрать все",
+                noResultFound: "Нет результатов"
             }
         },
 
@@ -1893,7 +1899,8 @@ const en: TranslationMessages = {
             name: "Payment types",
             fields: {
                 code: "Code",
-                title: "Title"
+                title: "Title",
+                payment_types: "Payment types"
             },
             deletePaymentTypeQuestion: "Delete payment type?",
             creatingPaymentType: "Creating payment type",
@@ -1948,7 +1955,8 @@ const en: TranslationMessages = {
                 search: "Search...",
                 refresh: "Refresh",
                 details: "More detailed",
-                generateCallback: "Generate callback"
+                generateCallback: "Generate callback",
+                clear: "Clear"
             },
             pagination: {
                 next: "Next",
@@ -2125,6 +2133,10 @@ const en: TranslationMessages = {
                     ofPayment: "payment",
                     ofReward: "reward"
                 }
+            },
+            multiSelect: {
+                selectAll: "Select all",
+                noResultFound: "No results found."
             }
         },
 
