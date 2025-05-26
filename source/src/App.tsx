@@ -1,4 +1,4 @@
-import { CustomRoutes, Resource, combineDataProviders, CoreAdminContext, CoreAdminUI, useCheckAuth } from "react-admin";
+import { CustomRoutes, Resource, combineDataProviders, CoreAdminContext, CoreAdminUI } from "react-admin";
 import { BrowserRouter } from "react-router-dom";
 import {
     TransactionDataProvider,
@@ -120,6 +120,7 @@ export const App = () => {
                 <CoreAdminContext i18nProvider={i18nProvider} dataProvider={dataProvider} authProvider={authProvider}>
                     <SheetProvider>
                         <CoreAdminUI
+                            disableTelemetry
                             catchAll={NotFound}
                             layout={MainLayout}
                             loading={InitLoading}
