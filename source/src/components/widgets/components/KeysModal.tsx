@@ -12,7 +12,7 @@ import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateTestKeys } from "@/hooks/useCreateTestKeys";
-import { Copy } from "lucide-react";
+import { Copy, Download } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslate } from "react-admin";
 
@@ -22,13 +22,13 @@ export interface KeysModalProps {
     isTest?: boolean;
     name?: string;
     refresh?: () => void;
+    providerName?: string;
 }
 
 export const KeysModal = (props: KeysModalProps) => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const { open = false, onOpenChange = () => {}, refresh = () => {}, isTest = true, name = "" } = props;
+    const { open = false, onOpenChange = () => {}, refresh = () => {}, isTest = true, name = "", providerName } = props;
     const translate = useTranslate();
-
     const [copyPrivateClicked, setCopyPrivateClicked] = useState(false);
     const [copyPublicClicked, setCopyPublicClicked] = useState(false);
 
@@ -40,7 +40,37 @@ export const KeysModal = (props: KeysModalProps) => {
             setCopyPrivateClicked(false);
             setCopyPublicClicked(false);
         }
+        () => {
+            refresh();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open, setIsLoading]);
+
+    const handleDownloadPrivateKey = () => {
+        const blob = new Blob([privateKey], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        const fileName = isTest ? "testkey" : (providerName ?? "unknown");
+        a.download = `${fileName}_private.key`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+
+    const handleDownloadPublicKey = () => {
+        const blob = new Blob([publicKey], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        const fileName = isTest ? "testkey" : (providerName ?? "unknown");
+        a.download = `${fileName}_public.key`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
 
     const handlePrivateCopy = useCallback(() => {
         setCopyPrivateClicked(true);
@@ -86,12 +116,22 @@ export const KeysModal = (props: KeysModalProps) => {
                                             readOnly
                                             id="private"
                                         />
-                                        <Button
-                                            onClick={handlePrivateCopy}
-                                            variant={copyPrivateClicked ? "default" : "text_btn"}
-                                            className="ml-0 px-[10px] py-[16px] text-center">
-                                            <Copy className="h-4 w-4" />
-                                        </Button>
+                                        <div className="flex flex-col px-0">
+                                            <Button
+                                                onClick={handleDownloadPrivateKey}
+                                                // variant={copyPrivateClicked ? "default" : "text_btn"}
+                                                variant={"text_btn"}
+                                                className="ml-0 px-[10px] py-[16px] text-center">
+                                                <Download className="h-4 w-4" />
+                                            </Button>
+
+                                            <Button
+                                                onClick={handlePrivateCopy}
+                                                variant={copyPrivateClicked ? "default" : "text_btn"}
+                                                className="ml-0 px-[10px] py-[16px] text-center">
+                                                <Copy className="h-4 w-4" />
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="flex flex-col">
@@ -107,12 +147,21 @@ export const KeysModal = (props: KeysModalProps) => {
                                             readOnly
                                             id="public"
                                         />
-                                        <Button
-                                            onClick={handlePublicCopy}
-                                            variant={copyPublicClicked ? "default" : "text_btn"}
-                                            className="ml-0 px-[10px] py-[16px] text-center">
-                                            <Copy className="h-4 w-4" />
-                                        </Button>
+                                        <div className="flex flex-col">
+                                            <Button
+                                                onClick={handleDownloadPublicKey}
+                                                // variant={copyPrivateClicked ? "default" : "text_btn"}
+                                                variant={"text_btn"}
+                                                className="ml-0 px-[10px] py-[16px] text-center">
+                                                <Download className="h-4 w-4" />
+                                            </Button>
+                                            <Button
+                                                onClick={handlePublicCopy}
+                                                variant={copyPublicClicked ? "default" : "text_btn"}
+                                                className="ml-0 px-[10px] py-[16px] text-center">
+                                                <Copy className="h-4 w-4" />
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
                             </>
