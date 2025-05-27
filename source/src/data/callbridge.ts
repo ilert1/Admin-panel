@@ -12,7 +12,11 @@ import {
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { CallbackMappingCreate } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
+import {
+    CallbackMappingCreate,
+    CallbackMappingRead,
+    OffsetPaginationCallbackHistoryRead
+} from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import {
     callbackHistoryEndpointsListHistoryCallbridgeV1HistoryGet,
     callbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGet,
@@ -79,7 +83,10 @@ export class CallbridgeDataProvider extends IBaseDataProvider {
         };
     }
 
-    async getHistoryById(resource: string, params: GetOneParams): Promise<GetOneResult> {
+    async getHistoryById(
+        resource: string,
+        params: GetOneParams
+    ): Promise<{ data: OffsetPaginationCallbackHistoryRead }> {
         const res = await callbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGet(
             params.id,
             {},
@@ -104,7 +111,7 @@ export class CallbridgeDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
+    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<CallbackMappingRead>> {
         const res = await callbackMappingEndpointsGetMappingCallbridgeV1MappingMappingIdGet(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
