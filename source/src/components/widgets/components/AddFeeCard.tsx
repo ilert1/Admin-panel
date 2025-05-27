@@ -161,7 +161,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     </FormControl>
                                                     <SelectContent>
                                                         <SelectGroup>
-                                                            {Object.entries(data.transactionTypes).map(el => {
+                                                            {Object.entries(data?.transactionTypes || {}).map(el => {
                                                                 return (
                                                                     <SelectItem
                                                                         key={el[0]}
