@@ -25,6 +25,8 @@ import EcomVodafoneMobileMoneyIcon from "@/lib/icons/payment_types/ecom_vodafone
 import EcomWaveMobileMoneyIcon from "@/lib/icons/payment_types/ecom_wave_mobile_money.svg?react";
 import { cn } from "@/lib/utils";
 import { memo } from "react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/Button";
 
 const iconsRecord: Record<
     string,
@@ -64,11 +66,28 @@ const iconsRecord: Record<
     wave_mobile_money: EcomWaveMobileMoneyIcon
 };
 
-export const PaymentTypeIcon = memo(({ type, className }: { type: string; className?: string }) => {
-    const Icon = iconsRecord[type];
+export const PaymentTypeIcon = memo(
+    ({ type, className, tooltip = false }: { type: string; className?: string; tooltip?: boolean }) => {
+        const Icon = iconsRecord[type];
 
-    if (!Icon) return null;
-    return <Icon className={cn(className)} />;
-});
+        if (!Icon) return null;
+        return tooltip ? (
+            <TooltipProvider>
+                <Tooltip delayDuration={300}>
+                    <TooltipTrigger asChild>
+                        <Button variant="text_btn" className="cursor-default p-0">
+                            <Icon className={cn(className)} />
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent tabIndex={-1} sideOffset={5} align="center">
+                        <p>{type}</p>
+                    </TooltipContent>
+                </Tooltip>
+            </TooltipProvider>
+        ) : (
+            <Icon className={cn(className)} />
+        );
+    }
+);
 
 PaymentTypeIcon.displayName = "PaymentTypeIcon";

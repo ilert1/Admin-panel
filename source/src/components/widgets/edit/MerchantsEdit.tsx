@@ -13,6 +13,7 @@ import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
+import { MerchantsDataProvider } from "@/data";
 
 interface MerchantEditProps {
     id?: string;
@@ -22,6 +23,8 @@ interface MerchantEditProps {
 export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
     const data = fetchDictionaries();
     const dataProvider = useDataProvider();
+    const merchantsDataProvider = new MerchantsDataProvider();
+
     const appToast = useAppToast();
 
     const { record, isLoading } = useEditController<Merchant>({
@@ -76,17 +79,50 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
 
+        let payment_types: string[] = [];
+        let oldPaymentTypes: Set<string> = new Set();
+
+        if (record?.payment_types) {
+            oldPaymentTypes = new Set(record?.payment_types?.map(pt => pt.code));
+        }
+
+        if (data.payment_types) {
+            payment_types = [...data.payment_types];
+            delete data.payment_types;
+        }
+
+        const paymentsToDelete = oldPaymentTypes.difference(new Set(payment_types));
+
         try {
             await dataProvider.update("merchant", {
                 id,
                 data,
                 previousData: undefined
             });
-            refresh();
+
+            paymentsToDelete.forEach(async payment => {
+                await merchantsDataProvider.removePaymentType({
+                    id,
+                    data: { code: payment },
+                    previousData: undefined
+                });
+            });
+
+            await merchantsDataProvider.addPaymentTypes({
+                id,
+                data: {
+                    codes: payment_types
+                },
+                previousData: undefined
+            });
+
+            appToast("success", translate("app.ui.edit.editSuccess"));
             onOpenChange(false);
         } catch (error) {
             appToast("error", translate("resources.currency.errors.alreadyInUse"));
             setSubmitButtonDisabled(false);
+        } finally {
+            refresh();
         }
     };
 

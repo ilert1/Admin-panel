@@ -13,10 +13,12 @@ import {
 } from "react-admin";
 import { BF_MANAGER_URL, IBaseDataProvider } from "./base";
 import {
+    merchantEndpointsAddPaymentTypesToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypesPatch,
     merchantEndpointsCreateMerchantEnigmaV1MerchantPost,
     merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDelete,
     merchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGet,
     merchantEndpointsListMerchantsEnigmaV1MerchantGet,
+    merchantEndpointsRemovePaymentTypeFromMerchantEnigmaV1MerchantMerchantIdRemovePaymentTypePaymentTypeCodeDelete,
     merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPut
 } from "@/api/enigma/merchant/merchant";
 import { Merchant, MerchantCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
@@ -151,6 +153,55 @@ export class MerchantsDataProvider extends IBaseDataProvider {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
         });
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async addPaymentTypes(params: UpdateParams & { data: { codes: string[] } }): Promise<UpdateResult<Merchant>> {
+        const res = await merchantEndpointsAddPaymentTypesToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypesPatch(
+            params.id,
+            params.data,
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }
+        );
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async removePaymentType(params: UpdateParams & { data: { code: string } }): Promise<UpdateResult<Merchant>> {
+        const res =
+            await merchantEndpointsRemovePaymentTypeFromMerchantEnigmaV1MerchantMerchantIdRemovePaymentTypePaymentTypeCodeDelete(
+                params.id,
+                params.data.code,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
 
         if ("data" in res.data && res.data.success) {
             return {

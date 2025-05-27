@@ -8,7 +8,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { usePreventFocus } from "@/hooks";
-import { TerminalWithId } from "@/data/terminals";
+import { TerminalsDataProvider, TerminalWithId } from "@/data/terminals";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -28,7 +28,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
-
+    const terminalsDataProvider = new TerminalsDataProvider();
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
 
@@ -99,6 +99,20 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
 
             setSubmitButtonDisabled(true);
 
+            let payment_types: string[] = [];
+            let oldPaymentTypes: Set<string> = new Set();
+
+            if (controllerProps.record?.payment_types) {
+                oldPaymentTypes = new Set(controllerProps.record?.payment_types?.map(pt => pt.code));
+            }
+
+            if (data.payment_types) {
+                payment_types = [...data.payment_types];
+                delete data.payment_types;
+            }
+
+            const paymentsToDelete = oldPaymentTypes.difference(new Set(payment_types));
+
             await dataProvider.update<TerminalWithId>(`${provider}/terminal`, {
                 id,
                 data: {
@@ -112,10 +126,29 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 previousData: undefined
             });
 
-            refresh();
+            paymentsToDelete.forEach(async payment => {
+                await terminalsDataProvider.removePaymentType({
+                    id,
+                    providerName: provider,
+                    data: { code: payment },
+                    previousData: undefined
+                });
+            });
+
+            await terminalsDataProvider.addPaymentTypes({
+                id,
+                providerName: provider,
+                data: {
+                    codes: payment_types
+                },
+                previousData: undefined
+            });
+
+            appToast("success", translate("app.ui.edit.editSuccess"));
         } catch (error) {
             if (error instanceof Error) appToast("error", error.message);
         } finally {
+            refresh();
             form.reset();
             setSubmitButtonDisabled(false);
             onClose();

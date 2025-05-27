@@ -19,7 +19,7 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
         options?.map(option => ({
             label: option.code,
             value: option.code,
-            icon: (props: { className: string }) => <PaymentTypeIcon type={option.code} {...props} />
+            icon: (props: object) => <PaymentTypeIcon type={option.code} {...props} />
         })) || [];
 
     const onValueChange = (values: string[]) => {

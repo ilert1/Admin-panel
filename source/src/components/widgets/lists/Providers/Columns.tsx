@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useTranslate } from "react-admin";
 import ReloadRoundSvg from "@/lib/icons/reload_round.svg?react";
 import { ProviderWithId } from "@/data/providers";
+import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 
 export const useGetProvidersColumns = () => {
     const translate = useTranslate();
@@ -85,6 +86,19 @@ export const useGetProvidersColumns = () => {
                         <Button onClick={() => handleClickGenerate(row.original.id)} variant={"text_btn"}>
                             <ReloadRoundSvg className="stroke-green-50 hover:stroke-green-40" />
                         </Button>
+                    </div>
+                );
+            }
+        },
+        {
+            id: "payment_types",
+            header: translate("resources.payment_type.fields.payment_types"),
+            cell: ({ row }) => {
+                return (
+                    <div className="max-w-auto flex flex-wrap gap-2">
+                        {row.original.payment_types?.map(pt => {
+                            return <PaymentTypeIcon key={pt.code} type={pt.code} className="h-7 w-7" tooltip />;
+                        })}
                     </div>
                 );
             }

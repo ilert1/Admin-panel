@@ -1,5 +1,5 @@
 import { useEditController, EditContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
@@ -18,12 +18,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { useFetchDataForDirections, useGetTerminals, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
-import { Direction, DirectionUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
+import { DirectionsDataProvider } from "@/data";
+import { PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export interface DirectionEditProps {
     id?: string;
@@ -32,6 +34,8 @@ export interface DirectionEditProps {
 
 export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const dataProvider = useDataProvider();
+    const directionDataProvider = new DirectionsDataProvider();
+
     const { currencies, providers, isLoading: loadingData } = useFetchDataForDirections();
     const controllerProps = useEditController<Direction>({ resource: "direction", id, mutationMode: "pessimistic" });
     const appToast = useAppToast();
@@ -45,11 +49,29 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
 
     const { directionTypes } = useGetDirectionTypes();
 
-    const { providerPaymentTypes, merchantPaymentTypes, isLoadingProviderPaymentTypes, isLoadingMerchantPaymentTypes } =
+    function mergeByCode(
+        arr1: PaymentTypeModel[] | undefined,
+        arr2: PaymentTypeModel[] | undefined
+    ): PaymentTypeModel[] {
+        const map = new Map();
+        if (arr1)
+            for (const item of arr1) {
+                map.set(item.code, { ...item });
+            }
+        if (arr2)
+            for (const item of arr2) {
+                map.set(item.code, { ...map.get(item.code), ...item });
+            }
+        return Array.from(map.values());
+    }
+    console.log(controllerProps.record);
+
+    const { merchantPaymentTypes, terminalPaymentTypes, isLoadingMerchantPaymentTypes, isLoadingTerminalPaymentTypes } =
         useGetPaymentTypes({
-            provider: controllerProps.record?.provider.name || "",
             merchant: controllerProps.record?.merchant.id || "",
-            disabled: !controllerProps.isLoading
+            terminal: controllerProps.record?.terminal?.terminal_id || "",
+            provider: controllerProps.record?.provider.name || "",
+            disabled: controllerProps.isLoading
         });
 
     const formSchema = z.object({
@@ -107,14 +129,46 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         }
     }, [form, controllerProps.record]);
 
-    const onSubmit: SubmitHandler<DirectionUpdate> = async data => {
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
+
         if (!data.terminal) delete data.terminal;
+
+        let payment_types: string[] = [];
+        let oldPaymentTypes: Set<string> = new Set();
+
+        if (controllerProps.record?.payment_types) {
+            oldPaymentTypes = new Set(controllerProps.record?.payment_types?.map(pt => pt.code));
+        }
+
+        if (data.payment_types) {
+            payment_types = [...data.payment_types];
+            delete data.payment_types;
+        }
+
+        const paymentsToDelete = oldPaymentTypes.difference(new Set(payment_types));
+
         try {
             await dataProvider.update<Direction>("direction", {
                 id,
                 data,
+                previousData: undefined
+            });
+
+            paymentsToDelete.forEach(async payment => {
+                await directionDataProvider.removePaymentType({
+                    id,
+                    data: { code: payment },
+                    previousData: undefined
+                });
+            });
+
+            await directionDataProvider.addPaymentTypes({
+                id,
+                data: {
+                    codes: payment_types
+                },
                 previousData: undefined
             });
 
@@ -141,8 +195,8 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         controllerProps.isLoading ||
         !controllerProps.record ||
         loadingData ||
-        isLoadingProviderPaymentTypes ||
-        isLoadingMerchantPaymentTypes
+        isLoadingMerchantPaymentTypes ||
+        isLoadingTerminalPaymentTypes
     )
         return (
             <div className="h-[150px]">
@@ -150,7 +204,8 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
             </div>
         );
 
-    const mergedPaymentTypes = Array.from(new Set([...(merchantPaymentTypes ?? []), ...(providerPaymentTypes ?? [])]));
+    console.log(merchantPaymentTypes, terminalPaymentTypes);
+    const mergedPaymentTypes = mergeByCode(merchantPaymentTypes, terminalPaymentTypes);
 
     return (
         <EditContextProvider value={controllerProps}>

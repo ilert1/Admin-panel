@@ -10,7 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
-import { ProviderWithId } from "@/data/providers";
+import { ProvidersDataProvider, ProviderWithId } from "@/data/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
@@ -22,6 +22,8 @@ export interface ProviderEditParams {
 
 export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) => {
     const dataProvider = useDataProvider();
+    const providersDataProvider = new ProvidersDataProvider();
+
     const controllerProps = useEditController<ProviderWithId>({
         resource: "provider",
         id,
@@ -72,12 +74,45 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
         data.methods = JSON.parse(data.methods);
+
+        let payment_types: string[] = [];
+        let oldPaymentTypes: Set<string> = new Set();
+
+        if (controllerProps.record?.payment_types) {
+            oldPaymentTypes = new Set(controllerProps.record?.payment_types?.map(pt => pt.code));
+        }
+
+        if (data.payment_types) {
+            payment_types = [...data.payment_types];
+            delete data.payment_types;
+        }
+
+        const paymentsToDelete = oldPaymentTypes.difference(new Set(payment_types));
+
         try {
             await dataProvider.update<ProviderWithId>("provider", {
                 id,
                 data,
                 previousData: undefined
             });
+
+            paymentsToDelete.forEach(async payment => {
+                await providersDataProvider.removePaymentType({
+                    id,
+                    data: { code: payment },
+                    previousData: undefined
+                });
+            });
+
+            await providersDataProvider.addPaymentTypes({
+                id,
+                data: {
+                    codes: payment_types
+                },
+                previousData: undefined
+            });
+
+            appToast("success", translate("app.ui.edit.editSuccess"));
             onClose();
         } catch (error) {
             appToast("error", translate("resources.currency.errors.alreadyInUse"));
