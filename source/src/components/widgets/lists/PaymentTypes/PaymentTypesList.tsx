@@ -31,22 +31,28 @@ export const PaymentTypesList = () => {
 
     return (
         <>
-            <ListContextProvider value={{ ...listContext }}>
+            <ListContextProvider value={listContext}>
                 <div className="mb-4 flex justify-between">
                     <ResourceHeaderTitle />
+
                     <div className="flex justify-end">
                         <Button onClick={handleCreateClicked} variant="default" className="flex gap-[4px]">
                             <CirclePlus className="h-[16px] w-[16px]" />
+
                             <span className="text-title-1">
                                 {translate("resources.paymentTools.paymentType.createNew")}
                             </span>
                         </Button>
                     </div>
                 </div>
+
                 {listContext.isLoading || !listContext.data ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>
+
             <DeletePaymentTypeDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} deleteId={chosenId} />
+
             <CreatePaymentDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+
             <EditPaymentDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} id={chosenId} />
         </>
     );
