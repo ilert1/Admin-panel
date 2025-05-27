@@ -67,6 +67,8 @@ import { PaymentTypesList } from "./components/widgets/lists/PaymentTypes/Paymen
 import { FinancialEntitiesProvider } from "./data/financialEntities";
 import { FinancialEntitiesList } from "./components/widgets/lists/FinancialEntities/FinancialEntitiesList";
 import { SystemPaymentInstrumentsList } from "./components/widgets/lists/SystemPaymentInstruments/SystemPaymentInstrumentsList";
+import { TerminalInstrumentConfigurationsProvider } from "./data/terminalInstrumentConfigurations";
+import { SystemPaymentInstrumentsProvider } from "./data/systemPaymentInstruments";
 
 const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
 
@@ -108,6 +110,10 @@ const dataProvider = combineDataProviders(resource => {
         return new PaymentTypesProvider();
     } else if (resource === "financialEntities") {
         return new FinancialEntitiesProvider();
+    } else if (resource === "terminalInstrumentConfigurations") {
+        return new TerminalInstrumentConfigurationsProvider();
+    } else if (resource === "systemPaymentInstruments") {
+        return new SystemPaymentInstrumentsProvider();
     } else {
         return BaseDataProvider;
     }
@@ -166,6 +172,10 @@ export const App = () => {
                                             <Resource name="paymentTools" icon={Nfc}>
                                                 <Route path="paymentType" element={<PaymentTypesList />} />
                                                 <Route path="financialEntities" element={<FinancialEntitiesList />} />
+                                                <Route
+                                                    path="terminalInstrumentConfigurations"
+                                                    element={<FinancialEntitiesList />}
+                                                />
                                                 <Route
                                                     path="systemPaymentInstruments"
                                                     element={<SystemPaymentInstrumentsList />}

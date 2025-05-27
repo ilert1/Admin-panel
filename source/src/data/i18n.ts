@@ -812,6 +812,9 @@ const ru: TranslationMessages = {
             },
             systemPaymentInstruments: {
                 name: "Системные инструменты"
+            },
+            terminalInstrumentConfigurations: {
+                name: "Интеграции терминалов"
             }
         }
     },
@@ -1917,6 +1920,9 @@ const en: TranslationMessages = {
             },
             systemPaymentInstruments: {
                 name: "System tools"
+            },
+            terminalInstrumentConfigurations: {
+                name: "Terminal integrations"
             }
         }
     },
