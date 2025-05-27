@@ -47,7 +47,7 @@ import {
     CreditCardIcon,
     SquareTerminal,
     Split,
-    HandCoins
+    Nfc
 } from "lucide-react";
 import { authProvider, ThemeProvider } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
@@ -157,7 +157,11 @@ export const App = () => {
                                             <Resource name="provider" list={ProvidersList} icon={NetworkIcon} />
                                             <Resource name="terminals" list={TerminalsList} icon={SquareTerminal} />
                                             <Resource name="direction" list={DirectionsList} icon={SignpostIcon} />
-                                            <Resource name="payment_type" list={PaymentTypesList} icon={HandCoins} />
+
+                                            <Resource name="paymentTools" icon={Nfc}>
+                                                <Route path="paymentType" element={<PaymentTypesList />} />
+                                            </Resource>
+
                                             {CALLBRIDGE_ENABLED && (
                                                 <Resource name="callbridge" icon={Split}>
                                                     <Route path="mapping" element={<MappingsList />} />

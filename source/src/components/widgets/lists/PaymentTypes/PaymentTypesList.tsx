@@ -37,7 +37,9 @@ export const PaymentTypesList = () => {
                     <div className="flex justify-end">
                         <Button onClick={handleCreateClicked} variant="default" className="flex gap-[4px]">
                             <CirclePlus className="h-[16px] w-[16px]" />
-                            <span className="text-title-1">{translate("resources.payment_type.createNew")}</span>
+                            <span className="text-title-1">
+                                {translate("resources.paymentTools.paymentType.createNew")}
+                            </span>
                         </Button>
                     </div>
                 </div>

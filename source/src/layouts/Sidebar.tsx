@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { useMediaQuery } from "react-responsive";
 import clsx from "clsx";
 import { AdminCallbridgeResources } from "@/components/widgets/shared/AdminCallbridgeResources";
+import { AdminPaymentToolResources } from "@/components/widgets/shared/AdminPaymentToolResources";
 
 const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
 
@@ -88,7 +89,11 @@ export const Sidebar = (props: SidebarProps) => {
 
             <nav className={clsx("flex flex-col items-baseline gap-4 text-base", !isMobile && "mt-6")}>
                 {Object.keys(resources).map(resource => {
-                    if (!resource.includes("wallet") && !resource.includes("callbridge")) {
+                    if (
+                        !resource.includes("wallet") &&
+                        !resource.includes("callbridge") &&
+                        !resource.includes("paymentTools")
+                    ) {
                         return (
                             <TooltipProvider key={resource} delayDuration={100}>
                                 <Tooltip>
@@ -129,8 +134,11 @@ export const Sidebar = (props: SidebarProps) => {
                         );
                     }
                 })}
-                {permissions === "admin" && CALLBRIDGE_ENABLED && (
-                    <AdminCallbridgeResources showCaptions={showCaptions && !isMobile} />
+                {permissions === "admin" && (
+                    <>
+                        <AdminPaymentToolResources showCaptions={showCaptions && !isMobile} />
+                        {CALLBRIDGE_ENABLED && <AdminCallbridgeResources showCaptions={showCaptions && !isMobile} />}
+                    </>
                 )}
                 <AdminCryptoStoreResources showCaptions={showCaptions && !isMobile} />
             </nav>

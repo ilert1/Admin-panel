@@ -786,24 +786,27 @@ const ru: TranslationMessages = {
                 }
             }
         },
-        payment_type: {
-            name: "Платёжные типы",
-            admin: {
-                name: "Payment types"
-            },
-            errors: {
-                code: "Код не может быть пустым",
-                codeRegex: "Код может содержать только буквы, цифры, подчеркивание и тире"
-            },
-            fields: {
-                code: "Код",
-                title: "Название"
-            },
-            deletePaymentTypeQuestion: "Удалить тип платежа?",
-            creatingPaymentType: "Создание типа платежа",
-            editingPaymentType: "Изменение типа платежа",
-            createNew: "Добавить тип платежа",
-            duplicateCode: "Введенный код уже используется"
+        paymentTools: {
+            name: "Платёжные инструменты",
+            paymentType: {
+                name: "Платёжные типы",
+                admin: {
+                    name: "Payment types"
+                },
+                errors: {
+                    code: "Код не может быть пустым",
+                    codeRegex: "Код может содержать только буквы, цифры, подчеркивание и тире"
+                },
+                fields: {
+                    code: "Код",
+                    title: "Название"
+                },
+                deletePaymentTypeQuestion: "Удалить тип платежа?",
+                creatingPaymentType: "Создание типа платежа",
+                editingPaymentType: "Изменение типа платежа",
+                createNew: "Добавить тип платежа",
+                duplicateCode: "Введенный код уже используется"
+            }
         }
     },
     app: {
@@ -1882,24 +1885,27 @@ const en: TranslationMessages = {
                 }
             }
         },
-        payment_type: {
-            admin: {
-                name: "Payment types"
-            },
-            errors: {
-                code: "Code is required",
-                codeRegex: "Code can only contain letters, numbers, underscores, and hyphens"
-            },
-            name: "Payment types",
-            fields: {
-                code: "Code",
-                title: "Title"
-            },
-            deletePaymentTypeQuestion: "Delete payment type?",
-            creatingPaymentType: "Creating payment type",
-            editingPaymentType: "Editing payment type",
-            createNew: "Add payment type",
-            duplicateCode: "This code is already in use"
+        paymentTools: {
+            name: "Payment tools",
+            paymentType: {
+                admin: {
+                    name: "Payment types"
+                },
+                errors: {
+                    code: "Code is required",
+                    codeRegex: "Code can only contain letters, numbers, underscores, and hyphens"
+                },
+                name: "Payment types",
+                fields: {
+                    code: "Code",
+                    title: "Title"
+                },
+                deletePaymentTypeQuestion: "Delete payment type?",
+                creatingPaymentType: "Creating payment type",
+                editingPaymentType: "Editing payment type",
+                createNew: "Add payment type",
+                duplicateCode: "This code is already in use"
+            }
         }
     },
     app: {

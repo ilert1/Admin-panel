@@ -44,7 +44,7 @@ export const DeletePaymentTypeDialog = (props: DeletePaymentTypeDialogProps) => 
             <DialogContent className="max-h-[200px] max-w-[270px] overflow-auto bg-muted sm:max-h-[140px]">
                 <DialogHeader>
                     <DialogTitle className="text-center">
-                        {translate("resources.payment_type.deletePaymentTypeQuestion")}
+                        {translate("resources.paymentTools.paymentType.deletePaymentTypeQuestion")}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
                 </DialogHeader>

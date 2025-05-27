@@ -27,12 +27,12 @@ export const useGetPaymentTypesColumns = () => {
         {
             id: "code",
             accessorKey: "code",
-            header: translate("resources.payment_type.fields.code")
+            header: translate("resources.paymentTools.paymentType.fields.code")
         },
         {
             id: "title",
             accessorKey: "title",
-            header: translate("resources.payment_type.fields.title")
+            header: translate("resources.paymentTools.paymentType.fields.title")
         },
         {
             id: "update_field",
