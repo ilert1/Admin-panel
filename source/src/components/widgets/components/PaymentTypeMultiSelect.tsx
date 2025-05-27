@@ -1,12 +1,13 @@
-import { PaymentTypeRead } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { useTranslate } from "react-admin";
+import { PaymentTypeIcon } from "./PaymentTypeIcon";
 
 interface PaymentTypeMultiSelectProps {
     value: string[] | undefined;
     onChange: (values: string[]) => void;
-    options?: PaymentTypeRead[];
+    options?: PaymentTypeModel[];
     label?: boolean;
 }
 
@@ -17,7 +18,8 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
     const modifiedOptions =
         options?.map(option => ({
             label: option.code,
-            value: option.code
+            value: option.code,
+            icon: (props: { className: string }) => <PaymentTypeIcon type={option.code} {...props} />
         })) || [];
 
     const onValueChange = (values: string[]) => {

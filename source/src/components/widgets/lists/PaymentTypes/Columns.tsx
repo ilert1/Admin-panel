@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 import { PaymentTypeWithId } from "@/data/payment_types";
+import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 
 export const useGetPaymentTypesColumns = () => {
     const translate = useTranslate();
@@ -33,6 +34,22 @@ export const useGetPaymentTypesColumns = () => {
             id: "title",
             accessorKey: "title",
             header: translate("resources.payment_type.fields.title")
+        },
+        {
+            id: "category",
+            accessorKey: "category",
+            header: translate("resources.payment_type.fields.category")
+        },
+        {
+            id: "icon",
+            header: () => <div className="text-center">{translate("resources.payment_type.fields.icon")}</div>,
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center justify-center">
+                        <PaymentTypeIcon type={row.original.code} />
+                    </div>
+                );
+            }
         },
         {
             id: "update_field",

@@ -8,8 +8,21 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
-import { PaymentTypeCreate as IPaymentTypeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    PaymentTypeCreate as IPaymentTypeCreate,
+    PaymentCategory
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { Label } from "@/components/ui/label";
+import {
+    SelectContent,
+    SelectGroup,
+    SelectTrigger,
+    SelectValue,
+    Select,
+    SelectType,
+    SelectItem
+} from "@/components/ui/select";
 
 export interface PaymentTypeCreateProps {
     onClose?: () => void;
@@ -20,11 +33,11 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
     const controllerProps = useCreateController<IPaymentTypeCreate>();
     const { theme } = useTheme();
     const refresh = useRefresh();
-
     const appToast = useAppToast();
-
     const translate = useTranslate();
+
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+    const paymentTypeCategories = Object.keys(PaymentCategory);
 
     const formSchema = z.object({
         code: z
@@ -32,14 +45,16 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
             .min(1, translate("resources.payment_type.errors.code"))
             .regex(/^[A-Za-z0-9_-]+$/, translate("resources.payment_type.errors.codeRegex"))
             .trim(),
-        title: z.string().optional().default("")
+        title: z.string().optional().default(""),
+        category: z.enum(paymentTypeCategories as [string, ...string[]]).default("h2h")
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             code: "",
-            title: ""
+            title: "",
+            category: "h2h"
         }
     });
 
@@ -70,7 +85,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                     <div className="flex flex-col flex-wrap">
-                        <div className="flex w-full flex-col">
+                        <div className="grid grid-cols-1 sm:grid-cols-2">
                             <FormField
                                 control={form.control}
                                 name="code"
@@ -102,6 +117,37 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                                                 label={translate("resources.payment_type.fields.title")}
                                             />
                                         </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="category"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <Label>{translate("resources.payment_type.fields.category")}</Label>
+                                        <Select value={field.value} onValueChange={field.onChange}>
+                                            <FormControl>
+                                                <SelectTrigger
+                                                    variant={SelectType.GRAY}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}>
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    {paymentTypeCategories.map(category => (
+                                                        <SelectItem
+                                                            key={category}
+                                                            value={category}
+                                                            variant={SelectType.GRAY}>
+                                                            {category}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
                                     </FormItem>
                                 )}
                             />

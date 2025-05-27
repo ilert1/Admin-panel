@@ -57,7 +57,9 @@ interface MultiSelectProps
         /** The unique value associated with the option. */
         value: string;
         /** Optional icon component to display alongside the option. */
-        icon?: React.ComponentType<{ className?: string }>;
+        // icon?: React.ComponentType<{ className?: string }>;
+        icon?: React.FC<{ className?: string }>;
+        // icon?: React.ReactNode;
     }[];
 
     /**
@@ -201,7 +203,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                     "bg-muted font-normal"
                                                 )}
                                                 style={{ animationDuration: `${animation}s` }}>
-                                                {IconComponent && <IconComponent className="mr-2 h-4 w-4" />}
+                                                {IconComponent && <IconComponent className="mr-1 h-4 w-4" />}
                                                 {option?.label}
                                                 <XCircle
                                                     className="ml-2 h-4 w-4 cursor-pointer"

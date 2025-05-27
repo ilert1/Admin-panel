@@ -787,9 +787,9 @@ const ru: TranslationMessages = {
             }
         },
         payment_type: {
-            name: "Платёжные типы",
+            name: "Типы платежей",
             admin: {
-                name: "Payment types"
+                name: "Типы платежей"
             },
             errors: {
                 code: "Код не может быть пустым",
@@ -798,12 +798,14 @@ const ru: TranslationMessages = {
             fields: {
                 code: "Код",
                 title: "Название",
-                payment_types: "Платёжные типы"
+                payment_types: "Типы платежей",
+                category: "Категория",
+                icon: "Иконка"
             },
-            deletePaymentTypeQuestion: "Удалить платёжный тип?",
-            creatingPaymentType: "Создание платёжного типа",
-            editingPaymentType: "Изменение платёжного типа",
-            createNew: "Добавить платёжный тип",
+            deletePaymentTypeQuestion: "Удалить тип платежа?",
+            creatingPaymentType: "Создание типа платежа",
+            editingPaymentType: "Изменение типа платежа",
+            createNew: "Добавить тип платежа",
             duplicateCode: "Введенный код уже используется"
         }
     },
@@ -1033,7 +1035,7 @@ const ru: TranslationMessages = {
             multiSelect: {
                 selectAll: "Выбрать все",
                 noResultFound: "Нет результатов",
-                selectPaymentTypes: "Выберите платёжные типы",
+                selectPaymentTypes: "Выберите типы платежей",
                 searchPlaceholder: "Поиск..."
             }
         },
@@ -1902,7 +1904,9 @@ const en: TranslationMessages = {
             fields: {
                 code: "Code",
                 title: "Title",
-                payment_types: "Payment types"
+                payment_types: "Payment types",
+                category: "Category",
+                icon: "Icon"
             },
             deletePaymentTypeQuestion: "Delete payment type?",
             creatingPaymentType: "Creating payment type",

@@ -231,26 +231,26 @@ export interface ApiResponseOffsetPaginationMerchant {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseOffsetPaginationPaymentTypeReadError = ErrorBody | null;
+export type ApiResponseOffsetPaginationPaymentTypeModelError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseOffsetPaginationPaymentTypeReadMeta = unknown | null;
+export type ApiResponseOffsetPaginationPaymentTypeModelMeta = unknown | null;
 
-export interface ApiResponseOffsetPaginationPaymentTypeRead {
+export interface ApiResponseOffsetPaginationPaymentTypeModel {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: OffsetPaginationPaymentTypeRead;
+    data: OffsetPaginationPaymentTypeModel;
     /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationPaymentTypeReadError;
+    error?: ApiResponseOffsetPaginationPaymentTypeModelError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseOffsetPaginationPaymentTypeReadMeta;
+    meta?: ApiResponseOffsetPaginationPaymentTypeModelMeta;
 }
 
 /**
@@ -306,26 +306,26 @@ export interface ApiResponseOffsetPaginationTerminal {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponsePaymentTypeReadError = ErrorBody | null;
+export type ApiResponsePaymentTypeModelError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponsePaymentTypeReadMeta = unknown | null;
+export type ApiResponsePaymentTypeModelMeta = unknown | null;
 
-export interface ApiResponsePaymentTypeRead {
+export interface ApiResponsePaymentTypeModel {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: PaymentTypeRead;
+    data: PaymentTypeModel;
     /** The error details if the request was not successful */
-    error?: ApiResponsePaymentTypeReadError;
+    error?: ApiResponsePaymentTypeModelError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponsePaymentTypeReadMeta;
+    meta?: ApiResponsePaymentTypeModelMeta;
 }
 
 /**
@@ -451,6 +451,36 @@ export interface ApiResponseListFeeTypeItem {
      * @deprecated
      */
     meta?: ApiResponseListFeeTypeItemMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseListPaymentCategoryItemError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseListPaymentCategoryItemMeta = unknown | null;
+
+export interface ApiResponseListPaymentCategoryItem {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: PaymentCategoryItem[];
+    /** The error details if the request was not successful */
+    error?: ApiResponseListPaymentCategoryItemError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseListPaymentCategoryItemMeta;
+}
+
+export interface CurrenciesLink {
+    /** Unique codes of the currencies to link (ISO 4217) */
+    codes: string[];
 }
 
 /**
@@ -1154,9 +1184,9 @@ export interface OffsetPaginationMerchant {
     total: number;
 }
 
-export interface OffsetPaginationPaymentTypeRead {
+export interface OffsetPaginationPaymentTypeModel {
     /** A list of items in the current page */
-    items: PaymentTypeRead[];
+    items: PaymentTypeModel[];
     /** The maximum number of items returned in a single page */
     limit: number;
     /** The starting index for the current page */
@@ -1187,6 +1217,24 @@ export interface OffsetPaginationTerminal {
     total: number;
 }
 
+export type PaymentCategory = (typeof PaymentCategory)[keyof typeof PaymentCategory];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PaymentCategory = {
+    h2h: "h2h",
+    ecom: "ecom"
+} as const;
+
+export interface PaymentCategoryItem {
+    name: string;
+    value: string;
+}
+
+/**
+ * List of field names required to initiate a payment with this type
+ */
+export type PaymentTypeCreateRequiredFieldsForPayment = string[] | null;
+
 /**
  * Arbitrary metadata for the payment type (JSON object)
  */
@@ -1200,17 +1248,18 @@ export interface PaymentTypeCreate {
     code: string;
     /** Human-readable payment type title */
     title: string;
+    /** Category of the payment type (H2H or ECOM) */
+    category: PaymentCategory;
+    /** List of field names required to initiate a payment with this type */
+    required_fields_for_payment?: PaymentTypeCreateRequiredFieldsForPayment;
     /** Arbitrary metadata for the payment type (JSON object) */
     meta?: PaymentTypeCreateMeta;
 }
 
-export interface PaymentTypeLink {
-    /**
-     * Unique code of the payment type
-     * @pattern ^[A-Za-z0-9_-]+$
-     */
-    code: string;
-}
+/**
+ * List of field names required to initiate a payment with this type
+ */
+export type PaymentTypeModelRequiredFieldsForPayment = string[] | null;
 
 /**
  * Arbitrary metadata for the payment type (JSON object)
@@ -1225,31 +1274,30 @@ export interface PaymentTypeModel {
     code: string;
     /** Human-readable payment type title */
     title: string;
+    /** Category of the payment type */
+    category: PaymentCategory;
+    /** List of supported currency codes (ISO, e.g. RUB, USD, USDT) */
+    currencies?: Currency[];
+    /** List of field names required to initiate a payment with this type */
+    required_fields_for_payment?: PaymentTypeModelRequiredFieldsForPayment;
     /** Arbitrary metadata for the payment type (JSON object) */
     meta: PaymentTypeModelMeta;
-}
-
-/**
- * Arbitrary metadata for the payment type (JSON object)
- */
-export type PaymentTypeReadMeta = { [key: string]: unknown };
-
-export interface PaymentTypeRead {
-    /**
-     * Unique payment type code
-     * @pattern ^[A-Za-z0-9_-]+$
-     */
-    code: string;
-    /** Human-readable payment type title */
-    title: string;
-    /** Arbitrary metadata for the payment type (JSON object) */
-    meta: PaymentTypeReadMeta;
 }
 
 /**
  * New human-readable payment type title
  */
 export type PaymentTypeUpdateTitle = string | null;
+
+/**
+ * New category for the payment type. If not provided, current value remains.
+ */
+export type PaymentTypeUpdateCategory = PaymentCategory | null;
+
+/**
+ * New list of required field names (will fully replace previous value if provided). Provide an empty list to clear.
+ */
+export type PaymentTypeUpdateRequiredFieldsForPayment = string[] | null;
 
 export type PaymentTypeUpdateMetaAnyOf = { [key: string]: unknown };
 
@@ -1261,8 +1309,17 @@ export type PaymentTypeUpdateMeta = PaymentTypeUpdateMetaAnyOf | null;
 export interface PaymentTypeUpdate {
     /** New human-readable payment type title */
     title?: PaymentTypeUpdateTitle;
+    /** New category for the payment type. If not provided, current value remains. */
+    category?: PaymentTypeUpdateCategory;
+    /** New list of required field names (will fully replace previous value if provided). Provide an empty list to clear. */
+    required_fields_for_payment?: PaymentTypeUpdateRequiredFieldsForPayment;
     /** New metadata (will fully replace previous value) */
     meta?: PaymentTypeUpdateMeta;
+}
+
+export interface PaymentTypesLink {
+    /** Unique codes of the payment types to link */
+    codes: string[];
 }
 
 /**
@@ -1557,15 +1614,15 @@ export type CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetParams = {
      */
     pageSize?: number;
     /**
-     * List of fields to perform the search on
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
-     * List of values to search for in corresponding fields
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
-     * Determines if the search should be case insensitive
+     * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
     /**
@@ -1601,15 +1658,15 @@ export type MerchantEndpointsListMerchantsEnigmaV1MerchantGetParams = {
      */
     pageSize?: number;
     /**
-     * List of fields to perform the search on
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
-     * List of values to search for in corresponding fields
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
-     * Determines if the search should be case insensitive
+     * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
     /**
@@ -1645,15 +1702,15 @@ export type ProviderEndpointsListProvidersEnigmaV1ProviderGetParams = {
      */
     pageSize?: number;
     /**
-     * List of fields to perform the search on
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
-     * List of values to search for in corresponding fields
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
-     * Determines if the search should be case insensitive
+     * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
     /**
@@ -1700,15 +1757,15 @@ export type PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams = {
      */
     pageSize?: number;
     /**
-     * List of fields to perform the search on
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
-     * List of values to search for in corresponding fields
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
-     * Determines if the search should be case insensitive
+     * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
     /**
@@ -1744,15 +1801,15 @@ export type TerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGe
      */
     pageSize?: number;
     /**
-     * List of fields to perform the search on
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
-     * List of values to search for in corresponding fields
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
-     * Determines if the search should be case insensitive
+     * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
     /**
@@ -1788,15 +1845,15 @@ export type DirectionEndpointsListDirectionsEnigmaV1DirectionGetParams = {
      */
     pageSize?: number;
     /**
-     * List of fields to perform the search on
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
-     * List of values to search for in corresponding fields
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
-     * Determines if the search should be case insensitive
+     * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
     /**
@@ -1832,15 +1889,15 @@ export type DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchan
      */
     pageSize?: number;
     /**
-     * List of fields to perform the search on
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
-     * List of values to search for in corresponding fields
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
-     * Determines if the search should be case insensitive
+     * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
     /**
@@ -1876,15 +1933,15 @@ export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetParams = {
      */
     pageSize?: number;
     /**
-     * List of fields to perform the search on
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
-     * List of values to search for in corresponding fields
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
-     * Determines if the search should be case insensitive
+     * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
     /**

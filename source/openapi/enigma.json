@@ -107,9 +107,9 @@
                                 }
                             ],
                             "title": "Search fields",
-                            "description": "List of fields to perform the search on"
+                            "description": "Names of the fields to search (comma-separated or repeated)."
                         },
-                        "description": "List of fields to perform the search on"
+                        "description": "Names of the fields to search (comma-separated or repeated)."
                     },
                     {
                         "name": "searchString",
@@ -128,9 +128,9 @@
                                 }
                             ],
                             "title": "Search strings",
-                            "description": "List of values to search for in corresponding fields"
+                            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
                         },
-                        "description": "List of values to search for in corresponding fields"
+                        "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
                     },
                     {
                         "name": "searchIgnoreCase",
@@ -139,10 +139,10 @@
                         "schema": {
                             "type": "boolean",
                             "title": "Case sensitivity",
-                            "description": "Determines if the search should be case insensitive",
+                            "description": "If true, the search will be case-insensitive.",
                             "default": true
                         },
-                        "description": "Determines if the search should be case insensitive"
+                        "description": "If true, the search will be case-insensitive."
                     },
                     {
                         "name": "orderBy",
@@ -448,9 +448,9 @@
                                 }
                             ],
                             "title": "Search fields",
-                            "description": "List of fields to perform the search on"
+                            "description": "Names of the fields to search (comma-separated or repeated)."
                         },
-                        "description": "List of fields to perform the search on"
+                        "description": "Names of the fields to search (comma-separated or repeated)."
                     },
                     {
                         "name": "searchString",
@@ -469,9 +469,9 @@
                                 }
                             ],
                             "title": "Search strings",
-                            "description": "List of values to search for in corresponding fields"
+                            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
                         },
-                        "description": "List of values to search for in corresponding fields"
+                        "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
                     },
                     {
                         "name": "searchIgnoreCase",
@@ -480,10 +480,10 @@
                         "schema": {
                             "type": "boolean",
                             "title": "Case sensitivity",
-                            "description": "Determines if the search should be case insensitive",
+                            "description": "If true, the search will be case-insensitive.",
                             "default": true
                         },
-                        "description": "Determines if the search should be case insensitive"
+                        "description": "If true, the search will be case-insensitive."
                     },
                     {
                         "name": "orderBy",
@@ -894,12 +894,12 @@
                 }
             }
         },
-        "/enigma/v1/merchant/{merchant_id}/add_payment_type": {
+        "/enigma/v1/merchant/{merchant_id}/add_payment_types": {
             "patch": {
                 "tags": ["Merchant"],
-                "summary": "Add payment type to merchant",
-                "description": "Associates an existing payment type with a merchant",
-                "operationId": "MerchantEndpoints_add_payment_type_to_merchant_enigma_v1_merchant__merchant_id__add_payment_type_patch",
+                "summary": "Add payment types to merchant",
+                "description": "Associates existing payment types with a merchant. Skips already linked types.",
+                "operationId": "MerchantEndpoints_add_payment_types_to_merchant_enigma_v1_merchant__merchant_id__add_payment_types_patch",
                 "parameters": [
                     {
                         "name": "merchant_id",
@@ -919,7 +919,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/PaymentTypeLink"
+                                "$ref": "#/components/schemas/PaymentTypesLink"
                             }
                         }
                     }
@@ -1076,9 +1076,9 @@
                                 }
                             ],
                             "title": "Search fields",
-                            "description": "List of fields to perform the search on"
+                            "description": "Names of the fields to search (comma-separated or repeated)."
                         },
-                        "description": "List of fields to perform the search on"
+                        "description": "Names of the fields to search (comma-separated or repeated)."
                     },
                     {
                         "name": "searchString",
@@ -1097,9 +1097,9 @@
                                 }
                             ],
                             "title": "Search strings",
-                            "description": "List of values to search for in corresponding fields"
+                            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
                         },
-                        "description": "List of values to search for in corresponding fields"
+                        "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
                     },
                     {
                         "name": "searchIgnoreCase",
@@ -1108,10 +1108,10 @@
                         "schema": {
                             "type": "boolean",
                             "title": "Case sensitivity",
-                            "description": "Determines if the search should be case insensitive",
+                            "description": "If true, the search will be case-insensitive.",
                             "default": true
                         },
-                        "description": "Determines if the search should be case insensitive"
+                        "description": "If true, the search will be case-insensitive."
                     },
                     {
                         "name": "orderBy",
@@ -1418,12 +1418,12 @@
                 }
             }
         },
-        "/enigma/v1/provider/{provider_name}/add_payment_type": {
+        "/enigma/v1/provider/{provider_name}/add_payment_types": {
             "patch": {
                 "tags": ["Provider"],
-                "summary": "Add payment type to provider",
-                "description": "Associates an existing payment type with a provider",
-                "operationId": "ProviderEndpoints_add_payment_type_to_provider_enigma_v1_provider__provider_name__add_payment_type_patch",
+                "summary": "Add payment types to provider",
+                "description": "Associates existing payment types with a provider. Skips already linked types.",
+                "operationId": "ProviderEndpoints_add_payment_types_to_provider_enigma_v1_provider__provider_name__add_payment_types_patch",
                 "parameters": [
                     {
                         "name": "provider_name",
@@ -1443,7 +1443,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/PaymentTypeLink"
+                                "$ref": "#/components/schemas/PaymentTypesLink"
                             }
                         }
                     }
@@ -1600,9 +1600,9 @@
                                 }
                             ],
                             "title": "Search fields",
-                            "description": "List of fields to perform the search on"
+                            "description": "Names of the fields to search (comma-separated or repeated)."
                         },
-                        "description": "List of fields to perform the search on"
+                        "description": "Names of the fields to search (comma-separated or repeated)."
                     },
                     {
                         "name": "searchString",
@@ -1621,9 +1621,9 @@
                                 }
                             ],
                             "title": "Search strings",
-                            "description": "List of values to search for in corresponding fields"
+                            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
                         },
-                        "description": "List of values to search for in corresponding fields"
+                        "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
                     },
                     {
                         "name": "searchIgnoreCase",
@@ -1632,10 +1632,10 @@
                         "schema": {
                             "type": "boolean",
                             "title": "Case sensitivity",
-                            "description": "Determines if the search should be case insensitive",
+                            "description": "If true, the search will be case-insensitive.",
                             "default": true
                         },
-                        "description": "Determines if the search should be case insensitive"
+                        "description": "If true, the search will be case-insensitive."
                     },
                     {
                         "name": "orderBy",
@@ -1777,9 +1777,9 @@
                                 }
                             ],
                             "title": "Search fields",
-                            "description": "List of fields to perform the search on"
+                            "description": "Names of the fields to search (comma-separated or repeated)."
                         },
-                        "description": "List of fields to perform the search on"
+                        "description": "Names of the fields to search (comma-separated or repeated)."
                     },
                     {
                         "name": "searchString",
@@ -1798,9 +1798,9 @@
                                 }
                             ],
                             "title": "Search strings",
-                            "description": "List of values to search for in corresponding fields"
+                            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
                         },
-                        "description": "List of values to search for in corresponding fields"
+                        "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
                     },
                     {
                         "name": "searchIgnoreCase",
@@ -1809,10 +1809,10 @@
                         "schema": {
                             "type": "boolean",
                             "title": "Case sensitivity",
-                            "description": "Determines if the search should be case insensitive",
+                            "description": "If true, the search will be case-insensitive.",
                             "default": true
                         },
-                        "description": "Determines if the search should be case insensitive"
+                        "description": "If true, the search will be case-insensitive."
                     },
                     {
                         "name": "orderBy",
@@ -2774,12 +2774,12 @@
                 }
             }
         },
-        "/enigma/v1/provider/{provider_name}/terminal/{terminal_id}/add_payment_type": {
+        "/enigma/v1/provider/{provider_name}/terminal/{terminal_id}/add_payment_types": {
             "patch": {
                 "tags": ["Terminal"],
-                "summary": "Add payment type to terminal",
-                "description": "Associates an existing payment type with a terminal",
-                "operationId": "TerminalEndpoints_add_payment_type_to_terminal_enigma_v1_provider__provider_name__terminal__terminal_id__add_payment_type_patch",
+                "summary": "Add payment types to terminal",
+                "description": "Associates existing payment types with a terminal. Skips already linked types.",
+                "operationId": "TerminalEndpoints_add_payment_types_to_terminal_enigma_v1_provider__provider_name__terminal__terminal_id__add_payment_types_patch",
                 "parameters": [
                     {
                         "name": "provider_name",
@@ -2812,7 +2812,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/PaymentTypeLink"
+                                "$ref": "#/components/schemas/PaymentTypesLink"
                             }
                         }
                     }
@@ -2982,9 +2982,9 @@
                                 }
                             ],
                             "title": "Search fields",
-                            "description": "List of fields to perform the search on"
+                            "description": "Names of the fields to search (comma-separated or repeated)."
                         },
-                        "description": "List of fields to perform the search on"
+                        "description": "Names of the fields to search (comma-separated or repeated)."
                     },
                     {
                         "name": "searchString",
@@ -3003,9 +3003,9 @@
                                 }
                             ],
                             "title": "Search strings",
-                            "description": "List of values to search for in corresponding fields"
+                            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
                         },
-                        "description": "List of values to search for in corresponding fields"
+                        "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
                     },
                     {
                         "name": "searchIgnoreCase",
@@ -3014,10 +3014,10 @@
                         "schema": {
                             "type": "boolean",
                             "title": "Case sensitivity",
-                            "description": "Determines if the search should be case insensitive",
+                            "description": "If true, the search will be case-insensitive.",
                             "default": true
                         },
-                        "description": "Determines if the search should be case insensitive"
+                        "description": "If true, the search will be case-insensitive."
                     },
                     {
                         "name": "orderBy",
@@ -3197,9 +3197,9 @@
                                 }
                             ],
                             "title": "Search fields",
-                            "description": "List of fields to perform the search on"
+                            "description": "Names of the fields to search (comma-separated or repeated)."
                         },
-                        "description": "List of fields to perform the search on"
+                        "description": "Names of the fields to search (comma-separated or repeated)."
                     },
                     {
                         "name": "searchString",
@@ -3218,9 +3218,9 @@
                                 }
                             ],
                             "title": "Search strings",
-                            "description": "List of values to search for in corresponding fields"
+                            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
                         },
-                        "description": "List of values to search for in corresponding fields"
+                        "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
                     },
                     {
                         "name": "searchIgnoreCase",
@@ -3229,10 +3229,10 @@
                         "schema": {
                             "type": "boolean",
                             "title": "Case sensitivity",
-                            "description": "Determines if the search should be case insensitive",
+                            "description": "If true, the search will be case-insensitive.",
                             "default": true
                         },
-                        "description": "Determines if the search should be case insensitive"
+                        "description": "If true, the search will be case-insensitive."
                     },
                     {
                         "name": "orderBy",
@@ -3863,12 +3863,12 @@
                 }
             }
         },
-        "/enigma/v1/direction/{direction_id}/add_payment_type": {
+        "/enigma/v1/direction/{direction_id}/add_payment_types": {
             "patch": {
                 "tags": ["Direction"],
-                "summary": "Add payment type to direction",
-                "description": "Associates an existing payment type with a direction",
-                "operationId": "DirectionEndpoints_add_payment_type_to_direction_enigma_v1_direction__direction_id__add_payment_type_patch",
+                "summary": "Add payment types to direction",
+                "description": "Associates existing payment types with a direction. Skips already linked types.",
+                "operationId": "DirectionEndpoints_add_payment_types_to_direction_enigma_v1_direction__direction_id__add_payment_types_patch",
                 "parameters": [
                     {
                         "name": "direction_id",
@@ -3889,7 +3889,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/PaymentTypeLink"
+                                "$ref": "#/components/schemas/PaymentTypesLink"
                             }
                         }
                     }
@@ -3976,6 +3976,26 @@
                 }
             }
         },
+        "/enigma/v1/payment_type/categories": {
+            "get": {
+                "tags": ["Payment Type"],
+                "summary": "Retrieve payment type categories",
+                "description": "Returns a list of payment type categories in a name:value format",
+                "operationId": "PaymentTypeEndpoints_get_payment_type_categories_enigma_v1_payment_type_categories_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_list_PaymentCategoryItem__"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/enigma/v1/payment_type": {
             "get": {
                 "tags": ["Payment Type"],
@@ -4047,9 +4067,9 @@
                                 }
                             ],
                             "title": "Search fields",
-                            "description": "List of fields to perform the search on"
+                            "description": "Names of the fields to search (comma-separated or repeated)."
                         },
-                        "description": "List of fields to perform the search on"
+                        "description": "Names of the fields to search (comma-separated or repeated)."
                     },
                     {
                         "name": "searchString",
@@ -4068,9 +4088,9 @@
                                 }
                             ],
                             "title": "Search strings",
-                            "description": "List of values to search for in corresponding fields"
+                            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
                         },
-                        "description": "List of values to search for in corresponding fields"
+                        "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
                     },
                     {
                         "name": "searchIgnoreCase",
@@ -4079,10 +4099,10 @@
                         "schema": {
                             "type": "boolean",
                             "title": "Case sensitivity",
-                            "description": "Determines if the search should be case insensitive",
+                            "description": "If true, the search will be case-insensitive.",
                             "default": true
                         },
-                        "description": "Determines if the search should be case insensitive"
+                        "description": "If true, the search will be case-insensitive."
                     },
                     {
                         "name": "orderBy",
@@ -4123,7 +4143,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_PaymentTypeRead__"
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_PaymentTypeModel__"
                                 }
                             }
                         }
@@ -4161,7 +4181,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_PaymentTypeRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_PaymentTypeModel_"
                                 }
                             }
                         }
@@ -4206,7 +4226,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_PaymentTypeRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_PaymentTypeModel_"
                                 }
                             }
                         }
@@ -4259,7 +4279,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_PaymentTypeRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_PaymentTypeModel_"
                                 }
                             }
                         }
@@ -4303,6 +4323,118 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ApiResponse_NoneType_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/enigma/v1/payment_type/{payment_type_code}/add_currencies": {
+            "patch": {
+                "tags": ["Payment Type"],
+                "summary": "Add currencies to payment type",
+                "description": "Associates existing currencies with a payment type. Skips already linked currencies.",
+                "operationId": "PaymentTypeEndpoints_add_currencies_to_payment_type_enigma_v1_payment_type__payment_type_code__add_currencies_patch",
+                "parameters": [
+                    {
+                        "name": "payment_type_code",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z0-9_-]+$",
+                            "description": "The unique code of the PaymentType",
+                            "title": "Payment Type Code"
+                        },
+                        "description": "The unique code of the PaymentType",
+                        "example": "card2card"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CurrenciesLink"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_PaymentTypeModel_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/enigma/v1/payment_type/{payment_type_code}/remove_currency/{currency_code}": {
+            "delete": {
+                "tags": ["Payment Type"],
+                "summary": "Remove currency from payment type",
+                "description": "Disassociates a currency from a payment type by its code.",
+                "operationId": "PaymentTypeEndpoints_remove_currency_from_payment_type_enigma_v1_payment_type__payment_type_code__remove_currency__currency_code__delete",
+                "parameters": [
+                    {
+                        "name": "payment_type_code",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z0-9_-]+$",
+                            "description": "The unique code of the PaymentType",
+                            "title": "Payment Type Code"
+                        },
+                        "description": "The unique code of the PaymentType",
+                        "example": "card2card"
+                    },
+                    {
+                        "name": "currency_code",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The unique three-letter currency code, e.g., 'USD', 'EUR'",
+                            "title": "Currency Code"
+                        },
+                        "description": "The unique three-letter currency code, e.g., 'USD', 'EUR'",
+                        "example": "USD"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_PaymentTypeModel_"
                                 }
                             }
                         }
@@ -4752,7 +4884,7 @@
                 "required": ["data"],
                 "title": "ApiResponse[OffsetPagination[Merchant]]"
             },
-            "ApiResponse_OffsetPagination_PaymentTypeRead__": {
+            "ApiResponse_OffsetPagination_PaymentTypeModel__": {
                 "properties": {
                     "success": {
                         "type": "boolean",
@@ -4761,7 +4893,7 @@
                         "default": true
                     },
                     "data": {
-                        "$ref": "#/components/schemas/OffsetPagination_PaymentTypeRead_",
+                        "$ref": "#/components/schemas/OffsetPagination_PaymentTypeModel_",
                         "description": "The actual response data if the request was successful"
                     },
                     "error": {
@@ -4789,7 +4921,7 @@
                 },
                 "type": "object",
                 "required": ["data"],
-                "title": "ApiResponse[OffsetPagination[PaymentTypeRead]]"
+                "title": "ApiResponse[OffsetPagination[PaymentTypeModel]]"
             },
             "ApiResponse_OffsetPagination_Provider__": {
                 "properties": {
@@ -4869,7 +5001,7 @@
                 "required": ["data"],
                 "title": "ApiResponse[OffsetPagination[Terminal]]"
             },
-            "ApiResponse_PaymentTypeRead_": {
+            "ApiResponse_PaymentTypeModel_": {
                 "properties": {
                     "success": {
                         "type": "boolean",
@@ -4878,7 +5010,7 @@
                         "default": true
                     },
                     "data": {
-                        "$ref": "#/components/schemas/PaymentTypeRead",
+                        "$ref": "#/components/schemas/PaymentTypeModel",
                         "description": "The actual response data if the request was successful"
                     },
                     "error": {
@@ -4906,7 +5038,7 @@
                 },
                 "type": "object",
                 "required": ["data"],
-                "title": "ApiResponse[PaymentTypeRead]"
+                "title": "ApiResponse[PaymentTypeModel]"
             },
             "ApiResponse_ProviderAddKeypair_": {
                 "properties": {
@@ -5110,6 +5242,65 @@
                 "type": "object",
                 "required": ["data"],
                 "title": "ApiResponse[list[FeeTypeItem]]"
+            },
+            "ApiResponse_list_PaymentCategoryItem__": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success",
+                        "description": "Indicates whether the request was successful",
+                        "default": true
+                    },
+                    "data": {
+                        "items": {
+                            "$ref": "#/components/schemas/PaymentCategoryItem"
+                        },
+                        "type": "array",
+                        "title": "Data",
+                        "description": "The actual response data if the request was successful"
+                    },
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "The error details if the request was not successful"
+                    },
+                    "meta": {
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Meta",
+                        "description": "The meta details if the request. DEPRECATED",
+                        "deprecated": true
+                    }
+                },
+                "type": "object",
+                "required": ["data"],
+                "title": "ApiResponse[list[PaymentCategoryItem]]"
+            },
+            "CurrenciesLink": {
+                "properties": {
+                    "codes": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Codes",
+                        "description": "Unique codes of the currencies to link (ISO 4217)",
+                        "examples": [["USD", "EUR"]]
+                    }
+                },
+                "type": "object",
+                "required": ["codes"],
+                "title": "CurrenciesLink"
             },
             "Currency": {
                 "properties": {
@@ -6629,11 +6820,11 @@
                 "required": ["items", "limit", "offset", "total"],
                 "title": "OffsetPagination[Merchant]"
             },
-            "OffsetPagination_PaymentTypeRead_": {
+            "OffsetPagination_PaymentTypeModel_": {
                 "properties": {
                     "items": {
                         "items": {
-                            "$ref": "#/components/schemas/PaymentTypeRead"
+                            "$ref": "#/components/schemas/PaymentTypeModel"
                         },
                         "type": "array",
                         "title": "Items",
@@ -6660,7 +6851,7 @@
                 },
                 "type": "object",
                 "required": ["items", "limit", "offset", "total"],
-                "title": "OffsetPagination[PaymentTypeRead]"
+                "title": "OffsetPagination[PaymentTypeModel]"
             },
             "OffsetPagination_Provider_": {
                 "properties": {
@@ -6728,6 +6919,28 @@
                 "required": ["items", "limit", "offset", "total"],
                 "title": "OffsetPagination[Terminal]"
             },
+            "PaymentCategory": {
+                "type": "string",
+                "enum": ["h2h", "ecom"],
+                "title": "PaymentCategory"
+            },
+            "PaymentCategoryItem": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name",
+                        "examples": ["H2H"]
+                    },
+                    "value": {
+                        "type": "string",
+                        "title": "Value",
+                        "examples": ["h2h"]
+                    }
+                },
+                "type": "object",
+                "required": ["name", "value"],
+                "title": "PaymentCategoryItem"
+            },
             "PaymentTypeCreate": {
                 "properties": {
                     "code": {
@@ -6743,6 +6956,27 @@
                         "description": "Human-readable payment type title",
                         "examples": ["Bank card"]
                     },
+                    "category": {
+                        "$ref": "#/components/schemas/PaymentCategory",
+                        "description": "Category of the payment type (H2H or ECOM)",
+                        "examples": ["h2h"]
+                    },
+                    "required_fields_for_payment": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Required Fields For Payment",
+                        "description": "List of field names required to initiate a payment with this type",
+                        "examples": [["card_number", "card_expiry_date", "card_cvc"]]
+                    },
                     "meta": {
                         "additionalProperties": true,
                         "type": "object",
@@ -6756,22 +6990,8 @@
                     }
                 },
                 "type": "object",
-                "required": ["code", "title"],
+                "required": ["code", "title", "category"],
                 "title": "PaymentTypeCreate"
-            },
-            "PaymentTypeLink": {
-                "properties": {
-                    "code": {
-                        "type": "string",
-                        "pattern": "^[A-Za-z0-9_-]+$",
-                        "title": "Code",
-                        "description": "Unique code of the payment type",
-                        "examples": ["card2card"]
-                    }
-                },
-                "type": "object",
-                "required": ["code"],
-                "title": "PaymentTypeLink"
             },
             "PaymentTypeModel": {
                 "properties": {
@@ -6788,6 +7008,35 @@
                         "description": "Human-readable payment type title",
                         "examples": ["Bank card"]
                     },
+                    "category": {
+                        "$ref": "#/components/schemas/PaymentCategory",
+                        "description": "Category of the payment type",
+                        "examples": ["h2h"]
+                    },
+                    "currencies": {
+                        "items": {
+                            "$ref": "#/components/schemas/Currency"
+                        },
+                        "type": "array",
+                        "title": "Currencies",
+                        "description": "List of supported currency codes (ISO, e.g. RUB, USD, USDT)"
+                    },
+                    "required_fields_for_payment": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Required Fields For Payment",
+                        "description": "List of field names required to initiate a payment with this type",
+                        "examples": [["phone_number"]]
+                    },
                     "meta": {
                         "additionalProperties": true,
                         "type": "object",
@@ -6801,39 +7050,8 @@
                     }
                 },
                 "type": "object",
-                "required": ["code", "title", "meta"],
+                "required": ["code", "title", "category", "meta"],
                 "title": "PaymentTypeModel"
-            },
-            "PaymentTypeRead": {
-                "properties": {
-                    "code": {
-                        "type": "string",
-                        "pattern": "^[A-Za-z0-9_-]+$",
-                        "title": "Code",
-                        "description": "Unique payment type code",
-                        "examples": ["card2card", "spb", "tsbp"]
-                    },
-                    "title": {
-                        "type": "string",
-                        "title": "Title",
-                        "description": "Human-readable payment type title",
-                        "examples": ["Bank card"]
-                    },
-                    "meta": {
-                        "additionalProperties": true,
-                        "type": "object",
-                        "title": "Meta",
-                        "description": "Arbitrary metadata for the payment type (JSON object)",
-                        "examples": [
-                            {
-                                "icon": "mdi:credit-card-outline"
-                            }
-                        ]
-                    }
-                },
-                "type": "object",
-                "required": ["code", "title", "meta"],
-                "title": "PaymentTypeRead"
             },
             "PaymentTypeUpdate": {
                 "properties": {
@@ -6849,6 +7067,34 @@
                         "title": "Title",
                         "description": "New human-readable payment type title",
                         "examples": ["SBP"]
+                    },
+                    "category": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/PaymentCategory"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "New category for the payment type. If not provided, current value remains.",
+                        "examples": ["ecom"]
+                    },
+                    "required_fields_for_payment": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Required Fields For Payment",
+                        "description": "New list of required field names (will fully replace previous value if provided). Provide an empty list to clear.",
+                        "examples": [[]]
                     },
                     "meta": {
                         "anyOf": [
@@ -6871,6 +7117,23 @@
                 },
                 "type": "object",
                 "title": "PaymentTypeUpdate"
+            },
+            "PaymentTypesLink": {
+                "properties": {
+                    "codes": {
+                        "items": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z0-9_-]+$"
+                        },
+                        "type": "array",
+                        "title": "Codes",
+                        "description": "Unique codes of the payment types to link",
+                        "examples": [["card2card", "sbp"]]
+                    }
+                },
+                "type": "object",
+                "required": ["codes"],
+                "title": "PaymentTypesLink"
             },
             "Provider": {
                 "properties": {
