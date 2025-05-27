@@ -64,7 +64,6 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
             }
         return Array.from(map.values());
     }
-    console.log(controllerProps.record);
 
     const { merchantPaymentTypes, terminalPaymentTypes, isLoadingMerchantPaymentTypes, isLoadingTerminalPaymentTypes } =
         useGetPaymentTypes({
@@ -204,7 +203,6 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
             </div>
         );
 
-    console.log(merchantPaymentTypes, terminalPaymentTypes);
     const mergedPaymentTypes = mergeByCode(merchantPaymentTypes, terminalPaymentTypes);
 
     return (

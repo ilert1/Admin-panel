@@ -28,7 +28,6 @@ export const useGetPaymentTypes = (props: useGetPaymentTypesProps) => {
         enabled: Boolean(terminal) && !disabled,
         queryFn: async ({ signal }) => {
             const res = await dataProvider.getOne(`${provider}/terminal`, { id: terminal, signal });
-            console.log(res);
             return res.data.payment_types ? (res.data.payment_types as PaymentTypeModel[]) : [];
         }
     });
