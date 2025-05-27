@@ -809,6 +809,9 @@ const ru: TranslationMessages = {
             },
             financialEntities: {
                 name: "Фин. организации"
+            },
+            systemPaymentInstruments: {
+                name: "Системные инструменты"
             }
         }
     },
@@ -1911,6 +1914,9 @@ const en: TranslationMessages = {
             },
             financialEntities: {
                 name: "Financial entities"
+            },
+            systemPaymentInstruments: {
+                name: "System tools"
             }
         }
     },

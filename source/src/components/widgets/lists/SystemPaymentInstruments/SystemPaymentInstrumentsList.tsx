@@ -5,7 +5,7 @@ import { LoadingBlock } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
-export const FinancialEntitiesList = () => {
+export const SystemPaymentInstrumentsList = () => {
     const listContext = useAbortableListController({ resource: "financialEntities" });
     const { columns } = useGetFinancialEntitiesColumns();
 

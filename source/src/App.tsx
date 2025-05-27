@@ -66,6 +66,7 @@ import { PaymentTypesProvider } from "./data/payment_types";
 import { PaymentTypesList } from "./components/widgets/lists/PaymentTypes/PaymentTypesList";
 import { FinancialEntitiesProvider } from "./data/financialEntities";
 import { FinancialEntitiesList } from "./components/widgets/lists/FinancialEntities/FinancialEntitiesList";
+import { SystemPaymentInstrumentsList } from "./components/widgets/lists/SystemPaymentInstruments/SystemPaymentInstrumentsList";
 
 const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
 
@@ -165,6 +166,10 @@ export const App = () => {
                                             <Resource name="paymentTools" icon={Nfc}>
                                                 <Route path="paymentType" element={<PaymentTypesList />} />
                                                 <Route path="financialEntities" element={<FinancialEntitiesList />} />
+                                                <Route
+                                                    path="systemPaymentInstruments"
+                                                    element={<SystemPaymentInstrumentsList />}
+                                                />
                                             </Resource>
 
                                             {CALLBRIDGE_ENABLED && (

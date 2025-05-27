@@ -1,7 +1,8 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { ChevronDown, ChevronLeft, HandCoins, Landmark, Nfc } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Bolt, ChevronDown, ChevronLeft, HandCoins, Landmark, Nfc } from "lucide-react";
+import { useState } from "react";
+
 import { useTranslate } from "react-admin";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -20,26 +21,28 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
     const location = useLocation();
 
     const [openAccordion, setOpenAccordion] = useState(true);
-    const [customViewRoutes, setCustomViewRoutes] = useState<ICustomViewRoute | null>(null);
 
-    useEffect(() => {
-        setCustomViewRoutes({
-            name: "paymentTools",
-            icon: <Nfc />,
-            childrens: [
-                {
-                    name: "paymentType",
-                    path: "/paymentTools/paymentType",
-                    icon: <HandCoins />
-                },
-                {
-                    name: "financialEntities",
-                    path: "/paymentTools/financialEntities",
-                    icon: <Landmark />
-                }
-            ]
-        });
-    }, []);
+    const customViewRoutes: ICustomViewRoute = {
+        name: "paymentTools",
+        icon: <Nfc />,
+        childrens: [
+            {
+                name: "paymentType",
+                path: "/paymentTools/paymentType",
+                icon: <HandCoins />
+            },
+            {
+                name: "financialEntities",
+                path: "/paymentTools/financialEntities",
+                icon: <Landmark />
+            },
+            {
+                name: "systemPaymentInstruments",
+                path: "/paymentTools/systemPaymentInstruments",
+                icon: <Bolt />
+            }
+        ]
+    };
 
     return (
         <div className="flex w-full flex-col gap-4">
