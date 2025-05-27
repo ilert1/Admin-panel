@@ -67,7 +67,7 @@ import { PaymentTypesList } from "./components/widgets/lists/PaymentTypes/Paymen
 
 const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
 
-const dataProvider = combineDataProviders((resource: string) => {
+const dataProvider = combineDataProviders(resource => {
     if (resource?.startsWith("transactions")) {
         return TransactionDataProvider;
     } else if (resource === "users") {
