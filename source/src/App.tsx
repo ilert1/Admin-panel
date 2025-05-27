@@ -64,6 +64,8 @@ import { MappingsList } from "./components/widgets/lists/Mappings/MappingsList";
 import { CallbackHistoryList } from "./components/widgets/lists/CallbridgeHistory/CallbridgeHistory";
 import { PaymentTypesProvider } from "./data/payment_types";
 import { PaymentTypesList } from "./components/widgets/lists/PaymentTypes/PaymentTypesList";
+import { FinancialEntitiesProvider } from "./data/financialEntities";
+import { FinancialEntitiesList } from "./components/widgets/lists/FinancialEntities/FinancialEntitiesList";
 
 const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
 
@@ -103,6 +105,8 @@ const dataProvider = combineDataProviders(resource => {
         return AccountsDataProvider;
     } else if (resource === "payment_type") {
         return new PaymentTypesProvider();
+    } else if (resource === "financialEntities") {
+        return new FinancialEntitiesProvider();
     } else {
         return BaseDataProvider;
     }
@@ -160,6 +164,7 @@ export const App = () => {
 
                                             <Resource name="paymentTools" icon={Nfc}>
                                                 <Route path="paymentType" element={<PaymentTypesList />} />
+                                                <Route path="financialEntities" element={<FinancialEntitiesList />} />
                                             </Resource>
 
                                             {CALLBRIDGE_ENABLED && (

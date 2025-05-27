@@ -1,6 +1,6 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { ChevronDown, ChevronLeft, HandCoins, Nfc } from "lucide-react";
+import { ChevronDown, ChevronLeft, HandCoins, Landmark, Nfc } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslate } from "react-admin";
 import { NavLink, useLocation } from "react-router-dom";
@@ -31,6 +31,11 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
                     name: "paymentType",
                     path: "/paymentTools/paymentType",
                     icon: <HandCoins />
+                },
+                {
+                    name: "financialEntities",
+                    path: "/paymentTools/financialEntities",
+                    icon: <Landmark />
                 }
             ]
         });
