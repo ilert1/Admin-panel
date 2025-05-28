@@ -21,7 +21,7 @@ import {
 } from "@/api/enigma/financial-institution/financial-institution";
 
 export class FinancialInstitutionProvider extends IBaseDataProvider {
-    async getList(resource: string, params: GetListParams): Promise<GetListResult<FinancialInstitution>> {
+    async getList(resource: string, params: GetListParams): Promise<GetListResult> {
         const res = await financialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGet(
             {
                 currentPage: params?.pagination?.page,
@@ -52,7 +52,7 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         };
     }
 
-    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<FinancialInstitution>> {
+    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
         const res =
             await financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGet(
                 params.id,
@@ -77,12 +77,9 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async create(
-        resource: string,
-        params: Omit<CreateParams, "data"> & { data: FinancialInstitutionCreate }
-    ): Promise<CreateResult<FinancialInstitution>> {
+    async create(resource: string, params: CreateParams<FinancialInstitutionCreate>): Promise<CreateResult> {
         const res = await financialInstitutionEndpointsCreateFinancialInstitutionEnigmaV1FinancialInstitutionPost(
-            params.data,
+            params.data as FinancialInstitutionCreate,
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -103,10 +100,7 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async update(
-        resource: string,
-        params: UpdateParams<FinancialInstitution>
-    ): Promise<UpdateResult<FinancialInstitution>> {
+    async update(resource: string, params: UpdateParams<FinancialInstitution>): Promise<UpdateResult> {
         const res =
             await financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPut(
                 params.id,
@@ -131,10 +125,7 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async delete(
-        resource: string,
-        params: DeleteParams<FinancialInstitution>
-    ): Promise<DeleteResult<Pick<FinancialInstitution, "id">>> {
+    async delete(resource: string, params: DeleteParams<FinancialInstitution>): Promise<DeleteResult> {
         const res =
             await financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdDelete(
                 params.id,
