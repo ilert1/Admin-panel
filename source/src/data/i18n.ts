@@ -812,7 +812,24 @@ const ru: TranslationMessages = {
                 duplicateCode: "Введенный код уже используется"
             },
             financialInstitution: {
-                name: "Фин. организации"
+                name: "Фин. организации",
+                fields: {
+                    created_at: "Дата и время создания",
+                    updated_at: "Дата и время обновления",
+                    name: "Финансовый институт",
+                    short_name: "Краткое наименование",
+                    legal_name: "Полное юр.наименование",
+                    institution_type: "Типы платёжных институтов",
+                    country_code: "Код страны регистрации",
+                    bic: "SWIFT BIC",
+                    tax_id_number: "ИНН",
+                    registration_number: "ОГРН / регистрационный номер",
+                    nspk_member_id: "Код участника НСПК",
+                    status: "Активность",
+                    payment_types: "Платёжные системы",
+                    currencies: "Валюты",
+                    id: "ID"
+                }
             },
             systemPaymentInstruments: {
                 name: "Системные инструменты"
@@ -1931,7 +1948,24 @@ const en: TranslationMessages = {
                 duplicateCode: "This code is already in use"
             },
             financialInstitution: {
-                name: "Financial institution"
+                name: "Financial institution",
+                fields: {
+                    created_at: "Created at",
+                    updated_at: "Updated at",
+                    name: "Name",
+                    short_name: "Short name",
+                    legal_name: "Full legal name",
+                    institution_type: "Institution type",
+                    country_code: "Country code",
+                    bic: "SWIFT BIC",
+                    tax_id_number: "Tax identification number",
+                    registration_number: "Registration number",
+                    nspk_member_id: "NSPK member ID",
+                    status: "Activity",
+                    payment_types: "Payment types",
+                    currencies: "Currencies",
+                    id: "ID"
+                }
             },
             systemPaymentInstruments: {
                 name: "System tools"
