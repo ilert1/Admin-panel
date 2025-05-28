@@ -206,7 +206,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                 {IconComponent && <IconComponent className="mr-1 h-4 w-4" />}
                                                 {option?.label}
                                                 <XCircle
-                                                    className="ml-2 h-4 w-4 cursor-pointer"
+                                                    className="ml-2 h-4 w-4 cursor-pointer transition-colors hover:bg-red-40 rounded-full"
                                                     onClick={event => {
                                                         event.stopPropagation();
                                                         toggleOption(value);
