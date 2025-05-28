@@ -23,7 +23,9 @@ export const TerminalShowDialog = (props: TerminalFeesDialogProps) => {
                 <div className="flex-shrink-0 p-4 pb-[0px] md:p-[42px]">
                     <div>
                         <div className="flex items-center justify-between">
-                            <SheetTitle className="!text-display-1">{translate("resources.terminals.name")}</SheetTitle>
+                            <SheetTitle className="!text-display-1">
+                                {translate("resources.terminals.terminal")}
+                            </SheetTitle>
                             <CloseSheetXButton onOpenChange={onOpenChange} />
                         </div>
                     </div>

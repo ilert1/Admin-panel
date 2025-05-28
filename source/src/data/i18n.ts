@@ -512,6 +512,7 @@ const ru: TranslationMessages = {
         },
         terminals: {
             name: "Терминалы",
+            terminal: "Терминал",
             fields: {
                 verbose_name: "Наименование",
                 id: "ID",
@@ -1625,6 +1626,7 @@ const en: TranslationMessages = {
         },
         terminals: {
             name: "Terminals",
+            terminal: "Terminal",
             fields: {
                 verbose_name: "Name",
                 id: "ID",

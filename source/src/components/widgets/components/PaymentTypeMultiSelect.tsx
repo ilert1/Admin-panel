@@ -28,7 +28,7 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
 
     return (
         <div>
-            {label && <Label>{translate("resources.payment_type.fields.payment_types")}</Label>}
+            {label && <Label>{translate("resources.paymentTools.paymentType.name")}</Label>}
             <MultiSelect
                 options={modifiedOptions}
                 onValueChange={onValueChange}

@@ -216,7 +216,7 @@ export const useGetTerminalColumns = () => {
         },
         {
             id: "payment_types",
-            header: translate("resources.payment_type.fields.payment_types"),
+            header: translate("resources.paymentTools.paymentType.fields.payment_types"),
             cell: ({ row }) => {
                 return (
                     <div className="max-w-auto flex flex-wrap gap-2">

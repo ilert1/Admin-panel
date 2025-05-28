@@ -124,7 +124,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                                 name="category"
                                 render={({ field, fieldState }) => (
                                     <FormItem className="w-full p-2">
-                                        <Label>{translate("resources.payment_type.fields.category")}</Label>
+                                        <Label>{translate("resources.paymentTools.paymentType.fields.category")}</Label>
                                         <Select value={field.value} onValueChange={field.onChange}>
                                             <FormControl>
                                                 <SelectTrigger
