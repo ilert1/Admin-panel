@@ -1,4 +1,4 @@
-import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
@@ -32,7 +32,6 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController<IPaymentTypeCreate>();
     const { theme } = useTheme();
-    const refresh = useRefresh();
     const appToast = useAppToast();
     const translate = useTranslate();
 
@@ -66,8 +65,6 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
         try {
             await dataProvider.create("payment_type", { data });
             appToast("success", translate("app.ui.create.createSuccess"));
-            refresh();
-            onClose();
         } catch (error) {
             // С бэка прилетает нечеловеческая ошибка, поэтому оставлю пока так
             // if (error instanceof Error) {
@@ -75,6 +72,8 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
             // }
             appToast("error", translate("resources.paymentTools.paymentType.duplicateCode"));
             setSubmitButtonDisabled(false);
+        } finally {
+            onClose();
         }
     };
 

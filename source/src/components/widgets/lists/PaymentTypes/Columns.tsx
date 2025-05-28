@@ -38,11 +38,13 @@ export const useGetPaymentTypesColumns = () => {
         {
             id: "category",
             accessorKey: "category",
-            header: translate("resources.payment_type.fields.category")
+            header: translate("resources.paymentTools.paymentType.fields.category")
         },
         {
             id: "icon",
-            header: () => <div className="text-center">{translate("resources.payment_type.fields.icon")}</div>,
+            header: () => (
+                <div className="text-center">{translate("resources.paymentTools.paymentType.fields.icon")}</div>
+            ),
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
