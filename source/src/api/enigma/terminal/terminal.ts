@@ -12,7 +12,7 @@ import type {
     FeeCreate,
     FeeUpdate,
     HTTPValidationError,
-    PaymentTypeLink,
+    PaymentTypesLink,
     PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams,
     TerminalCreate,
     TerminalDeleteAuth,
@@ -825,45 +825,45 @@ export const terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminal
 };
 
 /**
- * Associates an existing payment type with a terminal
- * @summary Add payment type to terminal
+ * Associates existing payment types with a terminal. Skips already linked types.
+ * @summary Add payment types to terminal
  */
-export type terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponse200 =
+export type terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponse200 =
     {
         data: ApiResponseTerminal;
         status: 200;
     };
 
-export type terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponse422 =
+export type terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponseComposite =
+export type terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponseComposite =
 
-        | terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponse200
-        | terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponse422;
+        | terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponse200
+        | terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponse422;
 
-export type terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponse =
-    terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponseComposite & {
+export type terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponse =
+    terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchUrl =
+export const getTerminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchUrl =
     (providerName: string, terminalId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/add_payment_type`;
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/add_payment_types`;
     };
 
-export const terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatch =
+export const terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatch =
     async (
         providerName: string,
         terminalId: string,
-        paymentTypeLink: PaymentTypeLink,
+        paymentTypesLink: PaymentTypesLink,
         options?: RequestInit
-    ): Promise<terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponse> => {
-        return authFetch<terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchResponse>(
-            getTerminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypePatchUrl(
+    ): Promise<terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponse> => {
+        return authFetch<terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponse>(
+            getTerminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchUrl(
                 providerName,
                 terminalId
             ),
@@ -871,7 +871,7 @@ export const terminalEndpointsAddPaymentTypeToTerminalEnigmaV1ProviderProviderNa
                 ...options,
                 method: "PATCH",
                 headers: { "Content-Type": "application/json", ...options?.headers },
-                body: JSON.stringify(paymentTypeLink)
+                body: JSON.stringify(paymentTypesLink)
             }
         );
     };

@@ -5,9 +5,11 @@
  * OpenAPI spec version: develop
  */
 import type {
+    ApiResponseListPaymentCategoryItem,
     ApiResponseNoneType,
-    ApiResponseOffsetPaginationPaymentTypeRead,
-    ApiResponsePaymentTypeRead,
+    ApiResponseOffsetPaginationPaymentTypeModel,
+    ApiResponsePaymentTypeModel,
+    CurrenciesLink,
     HTTPValidationError,
     PaymentTypeCreate,
     PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetParams,
@@ -17,11 +19,44 @@ import type {
 import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
 
 /**
+ * Returns a list of payment type categories in a name:value format
+ * @summary Retrieve payment type categories
+ */
+export type paymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCategoriesGetResponse200 = {
+    data: ApiResponseListPaymentCategoryItem;
+    status: 200;
+};
+
+export type paymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCategoriesGetResponseComposite =
+    paymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCategoriesGetResponse200;
+
+export type paymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCategoriesGetResponse =
+    paymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCategoriesGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getPaymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCategoriesGetUrl = () => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/categories`;
+};
+
+export const paymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCategoriesGet = async (
+    options?: RequestInit
+): Promise<paymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCategoriesGetResponse> => {
+    return authFetch<paymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCategoriesGetResponse>(
+        getPaymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCategoriesGetUrl(),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
+};
+
+/**
  * Returns a paginated list of available payment types. Supports filtering based on query parameters
  * @summary Get a list of payment types with filtering and pagination
  */
 export type paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetResponse200 = {
-    data: ApiResponseOffsetPaginationPaymentTypeRead;
+    data: ApiResponseOffsetPaginationPaymentTypeModel;
     status: 200;
 };
 
@@ -75,7 +110,7 @@ export const paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet = async 
  * @summary Create a new payment type entry
  */
 export type paymentTypeEndpointsCreatePaymentTypeEnigmaV1PaymentTypePostResponse200 = {
-    data: ApiResponsePaymentTypeRead;
+    data: ApiResponsePaymentTypeModel;
     status: 200;
 };
 
@@ -117,7 +152,7 @@ export const paymentTypeEndpointsCreatePaymentTypeEnigmaV1PaymentTypePost = asyn
  * @summary Get details of a specific payment type
  */
 export type paymentTypeEndpointsGetPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeGetResponse200 = {
-    data: ApiResponsePaymentTypeRead;
+    data: ApiResponsePaymentTypeModel;
     status: 200;
 };
 
@@ -159,7 +194,7 @@ export const paymentTypeEndpointsGetPaymentTypeEnigmaV1PaymentTypePaymentTypeCod
  * @summary Update an existing payment type
  */
 export type paymentTypeEndpointsUpdatePaymentTypeEnigmaV1PaymentTypePaymentTypeCodePutResponse200 = {
-    data: ApiResponsePaymentTypeRead;
+    data: ApiResponsePaymentTypeModel;
     status: 200;
 };
 
@@ -240,3 +275,102 @@ export const paymentTypeEndpointsDeletePaymentTypeEnigmaV1PaymentTypePaymentType
         }
     );
 };
+
+/**
+ * Associates existing currencies with a payment type. Skips already linked currencies.
+ * @summary Add currencies to payment type
+ */
+export type paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatchResponse200 =
+    {
+        data: ApiResponsePaymentTypeModel;
+        status: 200;
+    };
+
+export type paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatchResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatchResponseComposite =
+
+        | paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatchResponse200
+        | paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatchResponse422;
+
+export type paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatchResponse =
+    paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatchResponseComposite & {
+        headers: Headers;
+    };
+
+export const getPaymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatchUrl =
+    (paymentTypeCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/${paymentTypeCode}/add_currencies`;
+    };
+
+export const paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatch =
+    async (
+        paymentTypeCode: string,
+        currenciesLink: CurrenciesLink,
+        options?: RequestInit
+    ): Promise<paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatchResponse> => {
+        return authFetch<paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatchResponse>(
+            getPaymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatchUrl(
+                paymentTypeCode
+            ),
+            {
+                ...options,
+                method: "PATCH",
+                headers: { "Content-Type": "application/json", ...options?.headers },
+                body: JSON.stringify(currenciesLink)
+            }
+        );
+    };
+
+/**
+ * Disassociates a currency from a payment type by its code.
+ * @summary Remove currency from payment type
+ */
+export type paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDeleteResponse200 =
+    {
+        data: ApiResponsePaymentTypeModel;
+        status: 200;
+    };
+
+export type paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDeleteResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDeleteResponseComposite =
+
+        | paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDeleteResponse200
+        | paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDeleteResponse422;
+
+export type paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDeleteResponse =
+    paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDeleteResponseComposite & {
+        headers: Headers;
+    };
+
+export const getPaymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDeleteUrl =
+    (paymentTypeCode: string, currencyCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/${paymentTypeCode}/remove_currency/${currencyCode}`;
+    };
+
+export const paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDelete =
+    async (
+        paymentTypeCode: string,
+        currencyCode: string,
+        options?: RequestInit
+    ): Promise<paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDeleteResponse> => {
+        return authFetch<paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDeleteResponse>(
+            getPaymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDeleteUrl(
+                paymentTypeCode,
+                currencyCode
+            ),
+            {
+                ...options,
+                method: "DELETE"
+            }
+        );
+    };

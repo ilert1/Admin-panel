@@ -81,6 +81,31 @@ export interface ApiResponseDirection {
 /**
  * The error details if the request was not successful
  */
+export type ApiResponseFinancialInstitutionError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseFinancialInstitutionMeta = unknown | null;
+
+export interface ApiResponseFinancialInstitution {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: FinancialInstitution;
+    /** The error details if the request was not successful */
+    error?: ApiResponseFinancialInstitutionError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseFinancialInstitutionMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
 export type ApiResponseKeyPairError = ErrorBody | null;
 
 /**
@@ -206,6 +231,31 @@ export interface ApiResponseOffsetPaginationDirection {
 /**
  * The error details if the request was not successful
  */
+export type ApiResponseOffsetPaginationFinancialInstitutionError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationFinancialInstitutionMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationFinancialInstitution {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: OffsetPaginationFinancialInstitution;
+    /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationFinancialInstitutionError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationFinancialInstitutionMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
 export type ApiResponseOffsetPaginationMerchantError = ErrorBody | null;
 
 /**
@@ -231,26 +281,26 @@ export interface ApiResponseOffsetPaginationMerchant {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseOffsetPaginationPaymentTypeReadError = ErrorBody | null;
+export type ApiResponseOffsetPaginationPaymentTypeModelError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseOffsetPaginationPaymentTypeReadMeta = unknown | null;
+export type ApiResponseOffsetPaginationPaymentTypeModelMeta = unknown | null;
 
-export interface ApiResponseOffsetPaginationPaymentTypeRead {
+export interface ApiResponseOffsetPaginationPaymentTypeModel {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: OffsetPaginationPaymentTypeRead;
+    data: OffsetPaginationPaymentTypeModel;
     /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationPaymentTypeReadError;
+    error?: ApiResponseOffsetPaginationPaymentTypeModelError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseOffsetPaginationPaymentTypeReadMeta;
+    meta?: ApiResponseOffsetPaginationPaymentTypeModelMeta;
 }
 
 /**
@@ -281,6 +331,56 @@ export interface ApiResponseOffsetPaginationProvider {
 /**
  * The error details if the request was not successful
  */
+export type ApiResponseOffsetPaginationSystemPaymentInstrumentError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationSystemPaymentInstrumentMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationSystemPaymentInstrument {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: OffsetPaginationSystemPaymentInstrument;
+    /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationSystemPaymentInstrumentError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationSystemPaymentInstrumentMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseOffsetPaginationTerminalInstrumentConfigurationError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationTerminalInstrumentConfigurationMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationTerminalInstrumentConfiguration {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: OffsetPaginationTerminalInstrumentConfiguration;
+    /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationTerminalInstrumentConfigurationError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationTerminalInstrumentConfigurationMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
 export type ApiResponseOffsetPaginationTerminalError = ErrorBody | null;
 
 /**
@@ -306,26 +406,26 @@ export interface ApiResponseOffsetPaginationTerminal {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponsePaymentTypeReadError = ErrorBody | null;
+export type ApiResponsePaymentTypeModelError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponsePaymentTypeReadMeta = unknown | null;
+export type ApiResponsePaymentTypeModelMeta = unknown | null;
 
-export interface ApiResponsePaymentTypeRead {
+export interface ApiResponsePaymentTypeModel {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: PaymentTypeRead;
+    data: PaymentTypeModel;
     /** The error details if the request was not successful */
-    error?: ApiResponsePaymentTypeReadError;
+    error?: ApiResponsePaymentTypeModelError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponsePaymentTypeReadMeta;
+    meta?: ApiResponsePaymentTypeModelMeta;
 }
 
 /**
@@ -376,6 +476,56 @@ export interface ApiResponseProvider {
      * @deprecated
      */
     meta?: ApiResponseProviderMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseSystemPaymentInstrumentError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseSystemPaymentInstrumentMeta = unknown | null;
+
+export interface ApiResponseSystemPaymentInstrument {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: SystemPaymentInstrument;
+    /** The error details if the request was not successful */
+    error?: ApiResponseSystemPaymentInstrumentError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseSystemPaymentInstrumentMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseTerminalInstrumentConfigurationError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseTerminalInstrumentConfigurationMeta = unknown | null;
+
+export interface ApiResponseTerminalInstrumentConfiguration {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: TerminalInstrumentConfiguration;
+    /** The error details if the request was not successful */
+    error?: ApiResponseTerminalInstrumentConfigurationError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseTerminalInstrumentConfigurationMeta;
 }
 
 /**
@@ -451,6 +601,61 @@ export interface ApiResponseListFeeTypeItem {
      * @deprecated
      */
     meta?: ApiResponseListFeeTypeItemMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseListFinancialInstitutionTypeItemError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseListFinancialInstitutionTypeItemMeta = unknown | null;
+
+export interface ApiResponseListFinancialInstitutionTypeItem {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: FinancialInstitutionTypeItem[];
+    /** The error details if the request was not successful */
+    error?: ApiResponseListFinancialInstitutionTypeItemError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseListFinancialInstitutionTypeItemMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseListPaymentCategoryItemError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseListPaymentCategoryItemMeta = unknown | null;
+
+export interface ApiResponseListPaymentCategoryItem {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: PaymentCategoryItem[];
+    /** The error details if the request was not successful */
+    error?: ApiResponseListPaymentCategoryItemError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseListPaymentCategoryItemMeta;
+}
+
+export interface CurrenciesLink {
+    /** Unique codes of the currencies to link (ISO 4217) */
+    codes: string[];
 }
 
 /**
@@ -978,6 +1183,321 @@ export interface FeeUpdate {
     description?: FeeUpdateDescription;
 }
 
+/**
+ * Short name or abbreviation
+ */
+export type FinancialInstitutionShortName = string | null;
+
+/**
+ * Full legal name of the institution
+ */
+export type FinancialInstitutionLegalName = string | null;
+
+/**
+ * SWIFT/BIC code
+ */
+export type FinancialInstitutionBic = string | null;
+
+/**
+ * Tax identification number
+ */
+export type FinancialInstitutionTaxIdNumber = string | null;
+
+/**
+ * Registration number
+ */
+export type FinancialInstitutionRegistrationNumber = string | null;
+
+/**
+ * NSPK member ID (for Russia)
+ */
+export type FinancialInstitutionNspkMemberId = string | null;
+
+/**
+ * Additional metadata
+ */
+export type FinancialInstitutionMeta = { [key: string]: unknown };
+
+export interface FinancialInstitution {
+    /** Name of the financial institution */
+    name: string;
+    /** Short name or abbreviation */
+    short_name?: FinancialInstitutionShortName;
+    /** Full legal name of the institution */
+    legal_name?: FinancialInstitutionLegalName;
+    /** Type of financial institution */
+    institution_type?: FinancialInstitutionType;
+    /**
+     * ISO 3166-1 alpha-2 country code
+     * @pattern ^\w{2}$
+     */
+    country_code: string;
+    /** SWIFT/BIC code */
+    bic?: FinancialInstitutionBic;
+    /** Tax identification number */
+    tax_id_number?: FinancialInstitutionTaxIdNumber;
+    /** Registration number */
+    registration_number?: FinancialInstitutionRegistrationNumber;
+    /** NSPK member ID (for Russia) */
+    nspk_member_id?: FinancialInstitutionNspkMemberId;
+    /** Status of the financial institution */
+    status?: FinancialInstitutionStatus;
+    /** Additional metadata */
+    meta?: FinancialInstitutionMeta;
+    /** Unique identifier of the financial institution */
+    id: string;
+    /** Associated payment types */
+    payment_types?: PaymentTypeBase[];
+    /** Associated currencies */
+    currencies?: Currency[];
+    /** Timestamp of creation */
+    created_at: string;
+    /** Timestamp of last update */
+    updated_at: string;
+}
+
+/**
+ * Short name or abbreviation
+ */
+export type FinancialInstitutionBaseShortName = string | null;
+
+/**
+ * Full legal name of the institution
+ */
+export type FinancialInstitutionBaseLegalName = string | null;
+
+/**
+ * SWIFT/BIC code
+ */
+export type FinancialInstitutionBaseBic = string | null;
+
+/**
+ * Tax identification number
+ */
+export type FinancialInstitutionBaseTaxIdNumber = string | null;
+
+/**
+ * Registration number
+ */
+export type FinancialInstitutionBaseRegistrationNumber = string | null;
+
+/**
+ * NSPK member ID (for Russia)
+ */
+export type FinancialInstitutionBaseNspkMemberId = string | null;
+
+/**
+ * Additional metadata
+ */
+export type FinancialInstitutionBaseMeta = { [key: string]: unknown };
+
+export interface FinancialInstitutionBase {
+    /** Name of the financial institution */
+    name: string;
+    /** Short name or abbreviation */
+    short_name?: FinancialInstitutionBaseShortName;
+    /** Full legal name of the institution */
+    legal_name?: FinancialInstitutionBaseLegalName;
+    /** Type of financial institution */
+    institution_type?: FinancialInstitutionType;
+    /**
+     * ISO 3166-1 alpha-2 country code
+     * @pattern ^\w{2}$
+     */
+    country_code: string;
+    /** SWIFT/BIC code */
+    bic?: FinancialInstitutionBaseBic;
+    /** Tax identification number */
+    tax_id_number?: FinancialInstitutionBaseTaxIdNumber;
+    /** Registration number */
+    registration_number?: FinancialInstitutionBaseRegistrationNumber;
+    /** NSPK member ID (for Russia) */
+    nspk_member_id?: FinancialInstitutionBaseNspkMemberId;
+    /** Status of the financial institution */
+    status?: FinancialInstitutionStatus;
+    /** Additional metadata */
+    meta?: FinancialInstitutionBaseMeta;
+}
+
+/**
+ * Short name or abbreviation
+ */
+export type FinancialInstitutionCreateShortName = string | null;
+
+/**
+ * Full legal name of the institution
+ */
+export type FinancialInstitutionCreateLegalName = string | null;
+
+/**
+ * SWIFT/BIC code
+ */
+export type FinancialInstitutionCreateBic = string | null;
+
+/**
+ * Tax identification number
+ */
+export type FinancialInstitutionCreateTaxIdNumber = string | null;
+
+/**
+ * Registration number
+ */
+export type FinancialInstitutionCreateRegistrationNumber = string | null;
+
+/**
+ * NSPK member ID (for Russia)
+ */
+export type FinancialInstitutionCreateNspkMemberId = string | null;
+
+/**
+ * Additional metadata
+ */
+export type FinancialInstitutionCreateMeta = { [key: string]: unknown };
+
+export interface FinancialInstitutionCreate {
+    /** Name of the financial institution */
+    name: string;
+    /** Short name or abbreviation */
+    short_name?: FinancialInstitutionCreateShortName;
+    /** Full legal name of the institution */
+    legal_name?: FinancialInstitutionCreateLegalName;
+    /** Type of financial institution */
+    institution_type?: FinancialInstitutionType;
+    /**
+     * ISO 3166-1 alpha-2 country code
+     * @pattern ^\w{2}$
+     */
+    country_code: string;
+    /** SWIFT/BIC code */
+    bic?: FinancialInstitutionCreateBic;
+    /** Tax identification number */
+    tax_id_number?: FinancialInstitutionCreateTaxIdNumber;
+    /** Registration number */
+    registration_number?: FinancialInstitutionCreateRegistrationNumber;
+    /** NSPK member ID (for Russia) */
+    nspk_member_id?: FinancialInstitutionCreateNspkMemberId;
+    /** Status of the financial institution */
+    status?: FinancialInstitutionStatus;
+    /** Additional metadata */
+    meta?: FinancialInstitutionCreateMeta;
+}
+
+export interface FinancialInstitutionCurrenciesLink {
+    /** List of currency codes to link */
+    codes: string[];
+}
+
+export interface FinancialInstitutionPaymentTypesLink {
+    /** List of payment type codes to link */
+    codes: string[];
+}
+
+export type FinancialInstitutionStatus = (typeof FinancialInstitutionStatus)[keyof typeof FinancialInstitutionStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FinancialInstitutionStatus = {
+    ACTIVE: "ACTIVE",
+    INACTIVE: "INACTIVE",
+    SUSPENDED: "SUSPENDED"
+} as const;
+
+export type FinancialInstitutionType = (typeof FinancialInstitutionType)[keyof typeof FinancialInstitutionType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FinancialInstitutionType = {
+    BANK: "BANK",
+    OTHER: "OTHER"
+} as const;
+
+export interface FinancialInstitutionTypeItem {
+    /** Name of the financial institution type */
+    name: string;
+    /** Value of the financial institution type */
+    value: string;
+}
+
+/**
+ * Name of the financial institution
+ */
+export type FinancialInstitutionUpdateName = string | null;
+
+/**
+ * Short name or abbreviation
+ */
+export type FinancialInstitutionUpdateShortName = string | null;
+
+/**
+ * Full legal name of the institution
+ */
+export type FinancialInstitutionUpdateLegalName = string | null;
+
+/**
+ * Type of financial institution
+ */
+export type FinancialInstitutionUpdateInstitutionType = FinancialInstitutionType | null;
+
+/**
+ * ISO 3166-1 alpha-2 country code
+ */
+export type FinancialInstitutionUpdateCountryCode = string | null;
+
+/**
+ * SWIFT/BIC code
+ */
+export type FinancialInstitutionUpdateBic = string | null;
+
+/**
+ * Tax identification number
+ */
+export type FinancialInstitutionUpdateTaxIdNumber = string | null;
+
+/**
+ * Registration number
+ */
+export type FinancialInstitutionUpdateRegistrationNumber = string | null;
+
+/**
+ * NSPK member ID (for Russia)
+ */
+export type FinancialInstitutionUpdateNspkMemberId = string | null;
+
+/**
+ * Status of the financial institution
+ */
+export type FinancialInstitutionUpdateStatus = FinancialInstitutionStatus | null;
+
+export type FinancialInstitutionUpdateMetaAnyOf = { [key: string]: unknown };
+
+/**
+ * Additional metadata
+ */
+export type FinancialInstitutionUpdateMeta = FinancialInstitutionUpdateMetaAnyOf | null;
+
+export interface FinancialInstitutionUpdate {
+    /** Name of the financial institution */
+    name?: FinancialInstitutionUpdateName;
+    /** Short name or abbreviation */
+    short_name?: FinancialInstitutionUpdateShortName;
+    /** Full legal name of the institution */
+    legal_name?: FinancialInstitutionUpdateLegalName;
+    /** Type of financial institution */
+    institution_type?: FinancialInstitutionUpdateInstitutionType;
+    /** ISO 3166-1 alpha-2 country code */
+    country_code?: FinancialInstitutionUpdateCountryCode;
+    /** SWIFT/BIC code */
+    bic?: FinancialInstitutionUpdateBic;
+    /** Tax identification number */
+    tax_id_number?: FinancialInstitutionUpdateTaxIdNumber;
+    /** Registration number */
+    registration_number?: FinancialInstitutionUpdateRegistrationNumber;
+    /** NSPK member ID (for Russia) */
+    nspk_member_id?: FinancialInstitutionUpdateNspkMemberId;
+    /** Status of the financial institution */
+    status?: FinancialInstitutionUpdateStatus;
+    /** Additional metadata */
+    meta?: FinancialInstitutionUpdateMeta;
+}
+
 export interface HTTPValidationError {
     detail?: ValidationError[];
 }
@@ -1069,7 +1589,7 @@ export interface Merchant {
     /** Description of the merchant */
     description?: MerchantDescription;
     /** List of payment types associated with this merchant */
-    payment_types?: PaymentTypeModel[];
+    payment_types?: PaymentTypeBase[];
     /** Keycloak identifier for the merchant */
     keycloak_id?: MerchantKeycloakId;
     /** Mapping of fee configurations with fee.id as key */
@@ -1143,6 +1663,17 @@ export interface OffsetPaginationDirection {
     total: number;
 }
 
+export interface OffsetPaginationFinancialInstitution {
+    /** A list of items in the current page */
+    items: FinancialInstitution[];
+    /** The maximum number of items returned in a single page */
+    limit: number;
+    /** The starting index for the current page */
+    offset: number;
+    /** The total number of available items */
+    total: number;
+}
+
 export interface OffsetPaginationMerchant {
     /** A list of items in the current page */
     items: Merchant[];
@@ -1154,9 +1685,9 @@ export interface OffsetPaginationMerchant {
     total: number;
 }
 
-export interface OffsetPaginationPaymentTypeRead {
+export interface OffsetPaginationPaymentTypeModel {
     /** A list of items in the current page */
-    items: PaymentTypeRead[];
+    items: PaymentTypeModel[];
     /** The maximum number of items returned in a single page */
     limit: number;
     /** The starting index for the current page */
@@ -1176,6 +1707,28 @@ export interface OffsetPaginationProvider {
     total: number;
 }
 
+export interface OffsetPaginationSystemPaymentInstrument {
+    /** A list of items in the current page */
+    items: SystemPaymentInstrument[];
+    /** The maximum number of items returned in a single page */
+    limit: number;
+    /** The starting index for the current page */
+    offset: number;
+    /** The total number of available items */
+    total: number;
+}
+
+export interface OffsetPaginationTerminalInstrumentConfiguration {
+    /** A list of items in the current page */
+    items: TerminalInstrumentConfiguration[];
+    /** The maximum number of items returned in a single page */
+    limit: number;
+    /** The starting index for the current page */
+    offset: number;
+    /** The total number of available items */
+    total: number;
+}
+
 export interface OffsetPaginationTerminal {
     /** A list of items in the current page */
     items: Terminal[];
@@ -1186,6 +1739,52 @@ export interface OffsetPaginationTerminal {
     /** The total number of available items */
     total: number;
 }
+
+export type PaymentCategory = (typeof PaymentCategory)[keyof typeof PaymentCategory];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PaymentCategory = {
+    h2h: "h2h",
+    ecom: "ecom"
+} as const;
+
+export interface PaymentCategoryItem {
+    /** Name of the payment category */
+    name: string;
+    /** Value of the payment category */
+    value: string;
+}
+
+/**
+ * List of field names required to initiate a payment with this type. These fields must exist in the Requisites model.
+ */
+export type PaymentTypeBaseRequiredFieldsForPayment = string[] | null;
+
+/**
+ * Arbitrary metadata for the payment type (JSON object)
+ */
+export type PaymentTypeBaseMeta = { [key: string]: unknown };
+
+export interface PaymentTypeBase {
+    /**
+     * Unique payment type code
+     * @pattern ^[A-Za-z0-9_-]+$
+     */
+    code: string;
+    /** Human-readable payment type title */
+    title: string;
+    /** Category of the payment type (H2H or ECOM) */
+    category: PaymentCategory;
+    /** List of field names required to initiate a payment with this type. These fields must exist in the Requisites model. */
+    required_fields_for_payment?: PaymentTypeBaseRequiredFieldsForPayment;
+    /** Arbitrary metadata for the payment type (JSON object) */
+    meta?: PaymentTypeBaseMeta;
+}
+
+/**
+ * List of field names required to initiate a payment with this type. These fields must exist in the Requisites model.
+ */
+export type PaymentTypeCreateRequiredFieldsForPayment = string[] | null;
 
 /**
  * Arbitrary metadata for the payment type (JSON object)
@@ -1200,17 +1799,18 @@ export interface PaymentTypeCreate {
     code: string;
     /** Human-readable payment type title */
     title: string;
+    /** Category of the payment type (H2H or ECOM) */
+    category: PaymentCategory;
+    /** List of field names required to initiate a payment with this type. These fields must exist in the Requisites model. */
+    required_fields_for_payment?: PaymentTypeCreateRequiredFieldsForPayment;
     /** Arbitrary metadata for the payment type (JSON object) */
     meta?: PaymentTypeCreateMeta;
 }
 
-export interface PaymentTypeLink {
-    /**
-     * Unique code of the payment type
-     * @pattern ^[A-Za-z0-9_-]+$
-     */
-    code: string;
-}
+/**
+ * List of field names required to initiate a payment with this type. These fields must exist in the Requisites model.
+ */
+export type PaymentTypeModelRequiredFieldsForPayment = string[] | null;
 
 /**
  * Arbitrary metadata for the payment type (JSON object)
@@ -1225,31 +1825,30 @@ export interface PaymentTypeModel {
     code: string;
     /** Human-readable payment type title */
     title: string;
+    /** Category of the payment type (H2H or ECOM) */
+    category: PaymentCategory;
+    /** List of field names required to initiate a payment with this type. These fields must exist in the Requisites model. */
+    required_fields_for_payment?: PaymentTypeModelRequiredFieldsForPayment;
     /** Arbitrary metadata for the payment type (JSON object) */
-    meta: PaymentTypeModelMeta;
-}
-
-/**
- * Arbitrary metadata for the payment type (JSON object)
- */
-export type PaymentTypeReadMeta = { [key: string]: unknown };
-
-export interface PaymentTypeRead {
-    /**
-     * Unique payment type code
-     * @pattern ^[A-Za-z0-9_-]+$
-     */
-    code: string;
-    /** Human-readable payment type title */
-    title: string;
-    /** Arbitrary metadata for the payment type (JSON object) */
-    meta: PaymentTypeReadMeta;
+    meta?: PaymentTypeModelMeta;
+    /** List of supported currency codes (ISO, e.g. RUB, USD, USDT) */
+    currencies?: Currency[];
 }
 
 /**
  * New human-readable payment type title
  */
 export type PaymentTypeUpdateTitle = string | null;
+
+/**
+ * New category for the payment type. If not provided, current value remains.
+ */
+export type PaymentTypeUpdateCategory = PaymentCategory | null;
+
+/**
+ * New list of required field names (will fully replace previous value if provided). Provide an empty list to clear.
+ */
+export type PaymentTypeUpdateRequiredFieldsForPayment = string[] | null;
 
 export type PaymentTypeUpdateMetaAnyOf = { [key: string]: unknown };
 
@@ -1261,8 +1860,17 @@ export type PaymentTypeUpdateMeta = PaymentTypeUpdateMetaAnyOf | null;
 export interface PaymentTypeUpdate {
     /** New human-readable payment type title */
     title?: PaymentTypeUpdateTitle;
+    /** New category for the payment type. If not provided, current value remains. */
+    category?: PaymentTypeUpdateCategory;
+    /** New list of required field names (will fully replace previous value if provided). Provide an empty list to clear. */
+    required_fields_for_payment?: PaymentTypeUpdateRequiredFieldsForPayment;
     /** New metadata (will fully replace previous value) */
     meta?: PaymentTypeUpdateMeta;
+}
+
+export interface PaymentTypesLink {
+    /** Unique codes of the payment types to link */
+    codes: string[];
 }
 
 /**
@@ -1286,7 +1894,7 @@ export interface Provider {
     /** The public key encoded in base58, corresponding to the private key. */
     public_key?: ProviderPublicKey;
     /** List of payment types associated with this provider */
-    payment_types?: PaymentTypeModel[];
+    payment_types?: PaymentTypeBase[];
     /** Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases. */
     methods: ProviderMethods;
 }
@@ -1377,6 +1985,155 @@ export const Status = {
 } as const;
 
 /**
+ * Optional detailed description of the payment instrument's purpose or configuration.
+ */
+export type SystemPaymentInstrumentDescription = string | null;
+
+/**
+ * Additional metadata in JSON format, useful for custom configurations or notes.
+ */
+export type SystemPaymentInstrumentMeta = { [key: string]: unknown };
+
+export interface SystemPaymentInstrument {
+    /** Unique name for the system payment instrument, e.g., 'MainCardProcessor_USD_Deposit'. */
+    name: string;
+    /** Code of the associated payment type, e.g., 'card2card' or 'sbp'. */
+    payment_type_code: string;
+    /** Code of the associated currency (ISO 4217), e.g., 'USD' or 'RUB'. */
+    currency_code: string;
+    /** Unique identifier of the associated financial institution. */
+    financial_institution_id: string;
+    /** Direction of the payment instrument, e.g., 'deposit' or 'withdraw'. */
+    direction: DirectionType;
+    /** Current operational status of the payment instrument. */
+    status?: SystemPaymentInstrumentStatus;
+    /** Optional detailed description of the payment instrument's purpose or configuration. */
+    description?: SystemPaymentInstrumentDescription;
+    /** Additional metadata in JSON format, useful for custom configurations or notes. */
+    meta?: SystemPaymentInstrumentMeta;
+    /** Unique identifier of the system payment instrument. */
+    id: string;
+    /** Details of the associated payment type. */
+    payment_type: PaymentTypeBase;
+    /** Details of the associated currency. */
+    currency: Currency;
+    /** Details of the associated financial institution. */
+    financial_institution: FinancialInstitutionBase;
+    /** Timestamp of creation */
+    created_at: string;
+    /** Timestamp of last update */
+    updated_at: string;
+}
+
+/**
+ * Optional detailed description of the payment instrument's purpose or configuration.
+ */
+export type SystemPaymentInstrumentBaseDescription = string | null;
+
+/**
+ * Additional metadata in JSON format, useful for custom configurations or notes.
+ */
+export type SystemPaymentInstrumentBaseMeta = { [key: string]: unknown };
+
+export interface SystemPaymentInstrumentBase {
+    /** Unique name for the system payment instrument, e.g., 'MainCardProcessor_USD_Deposit'. */
+    name: string;
+    /** Code of the associated payment type, e.g., 'card2card' or 'sbp'. */
+    payment_type_code: string;
+    /** Code of the associated currency (ISO 4217), e.g., 'USD' or 'RUB'. */
+    currency_code: string;
+    /** Unique identifier of the associated financial institution. */
+    financial_institution_id: string;
+    /** Direction of the payment instrument, e.g., 'deposit' or 'withdraw'. */
+    direction: DirectionType;
+    /** Current operational status of the payment instrument. */
+    status?: SystemPaymentInstrumentStatus;
+    /** Optional detailed description of the payment instrument's purpose or configuration. */
+    description?: SystemPaymentInstrumentBaseDescription;
+    /** Additional metadata in JSON format, useful for custom configurations or notes. */
+    meta?: SystemPaymentInstrumentBaseMeta;
+}
+
+/**
+ * Optional detailed description of the payment instrument's purpose or configuration.
+ */
+export type SystemPaymentInstrumentCreateDescription = string | null;
+
+/**
+ * Additional metadata in JSON format, useful for custom configurations or notes.
+ */
+export type SystemPaymentInstrumentCreateMeta = { [key: string]: unknown };
+
+export interface SystemPaymentInstrumentCreate {
+    /** Unique name for the system payment instrument, e.g., 'MainCardProcessor_USD_Deposit'. */
+    name: string;
+    /** Code of the associated payment type, e.g., 'card2card' or 'sbp'. */
+    payment_type_code: string;
+    /** Code of the associated currency (ISO 4217), e.g., 'USD' or 'RUB'. */
+    currency_code: string;
+    /** Unique identifier of the associated financial institution. */
+    financial_institution_id: string;
+    /** Direction of the payment instrument, e.g., 'deposit' or 'withdraw'. */
+    direction: DirectionType;
+    /** Current operational status of the payment instrument. */
+    status?: SystemPaymentInstrumentStatus;
+    /** Optional detailed description of the payment instrument's purpose or configuration. */
+    description?: SystemPaymentInstrumentCreateDescription;
+    /** Additional metadata in JSON format, useful for custom configurations or notes. */
+    meta?: SystemPaymentInstrumentCreateMeta;
+}
+
+export type SystemPaymentInstrumentStatus =
+    (typeof SystemPaymentInstrumentStatus)[keyof typeof SystemPaymentInstrumentStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SystemPaymentInstrumentStatus = {
+    active: "active",
+    inactive: "inactive",
+    test_only: "test_only"
+} as const;
+
+/**
+ * New unique name for the system payment instrument.
+ */
+export type SystemPaymentInstrumentUpdateName = string | null;
+
+/**
+ * New direction of the payment instrument.
+ */
+export type SystemPaymentInstrumentUpdateDirection = DirectionType | null;
+
+/**
+ * New operational status of the payment instrument.
+ */
+export type SystemPaymentInstrumentUpdateStatus = SystemPaymentInstrumentStatus | null;
+
+/**
+ * Updated detailed description of the payment instrument.
+ */
+export type SystemPaymentInstrumentUpdateDescription = string | null;
+
+export type SystemPaymentInstrumentUpdateMetadataAnyOf = { [key: string]: unknown };
+
+/**
+ * Updated additional metadata in JSON format.
+ */
+export type SystemPaymentInstrumentUpdateMetadata = SystemPaymentInstrumentUpdateMetadataAnyOf | null;
+
+export interface SystemPaymentInstrumentUpdate {
+    /** New unique name for the system payment instrument. */
+    name?: SystemPaymentInstrumentUpdateName;
+    /** New direction of the payment instrument. */
+    direction?: SystemPaymentInstrumentUpdateDirection;
+    /** New operational status of the payment instrument. */
+    status?: SystemPaymentInstrumentUpdateStatus;
+    /** Updated detailed description of the payment instrument. */
+    description?: SystemPaymentInstrumentUpdateDescription;
+    /** Updated additional metadata in JSON format. */
+    metadata?: SystemPaymentInstrumentUpdateMetadata;
+}
+
+/**
  * Description of the terminal
  */
 export type TerminalDescription = string | null;
@@ -1421,7 +2178,7 @@ export interface Terminal {
     /** Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration. */
     callback_url?: TerminalCallbackUrl;
     /** List of payment types associated with this terminal */
-    payment_types?: PaymentTypeModel[];
+    payment_types?: PaymentTypeBase[];
     /** Additional details about the terminal */
     details?: TerminalDetails;
 }
@@ -1456,6 +2213,154 @@ export interface TerminalCreate {
 export interface TerminalDeleteAuth {
     /** Authentication data for the terminal */
     keys: string[];
+}
+
+/**
+ * Provider's code for the payment type (e.g., SBP)
+ */
+export type TerminalInstrumentConfigurationTerminalPaymentTypeCode = string | null;
+
+/**
+ * Provider's code for the currency (if different from system)
+ */
+export type TerminalInstrumentConfigurationTerminalCurrencyCode = string | null;
+
+/**
+ * Provider's code for the financial institution
+ */
+export type TerminalInstrumentConfigurationTerminalFinancialInstitutionCode = string | null;
+
+/**
+ * Additional terminal-specific parameters in JSON format
+ */
+export type TerminalInstrumentConfigurationTerminalSpecificParameters = { [key: string]: unknown };
+
+export interface TerminalInstrumentConfiguration {
+    /** ID of the terminal */
+    terminal_id: string;
+    /** ID of the system payment instrument */
+    system_payment_instrument_id: string;
+    /** Provider's code for the payment type (e.g., SBP) */
+    terminal_payment_type_code?: TerminalInstrumentConfigurationTerminalPaymentTypeCode;
+    /** Provider's code for the currency (if different from system) */
+    terminal_currency_code?: TerminalInstrumentConfigurationTerminalCurrencyCode;
+    /** Provider's code for the financial institution */
+    terminal_financial_institution_code?: TerminalInstrumentConfigurationTerminalFinancialInstitutionCode;
+    /** Additional terminal-specific parameters in JSON format */
+    terminal_specific_parameters?: TerminalInstrumentConfigurationTerminalSpecificParameters;
+    /** Status of the terminal instrument configuration */
+    status?: TerminalInstrumentConfigurationStatus;
+    /** Unique ID of the configuration */
+    id: string;
+    /** Related Terminal object */
+    terminal: Terminal;
+    /** Related SystemPaymentInstrument object */
+    system_payment_instrument: SystemPaymentInstrumentBase;
+    /** Timestamp of creation */
+    created_at: string;
+    /** Timestamp of last update */
+    updated_at: string;
+}
+
+/**
+ * Provider's code for the payment type (e.g., SBP)
+ */
+export type TerminalInstrumentConfigurationCreateTerminalPaymentTypeCode = string | null;
+
+/**
+ * Provider's code for the currency (if different from system)
+ */
+export type TerminalInstrumentConfigurationCreateTerminalCurrencyCode = string | null;
+
+/**
+ * Provider's code for the financial institution
+ */
+export type TerminalInstrumentConfigurationCreateTerminalFinancialInstitutionCode = string | null;
+
+/**
+ * Additional terminal-specific parameters in JSON format
+ */
+export type TerminalInstrumentConfigurationCreateTerminalSpecificParameters = { [key: string]: unknown };
+
+export interface TerminalInstrumentConfigurationCreate {
+    /** ID of the terminal */
+    terminal_id: string;
+    /** ID of the system payment instrument */
+    system_payment_instrument_id: string;
+    /** Provider's code for the payment type (e.g., SBP) */
+    terminal_payment_type_code?: TerminalInstrumentConfigurationCreateTerminalPaymentTypeCode;
+    /** Provider's code for the currency (if different from system) */
+    terminal_currency_code?: TerminalInstrumentConfigurationCreateTerminalCurrencyCode;
+    /** Provider's code for the financial institution */
+    terminal_financial_institution_code?: TerminalInstrumentConfigurationCreateTerminalFinancialInstitutionCode;
+    /** Additional terminal-specific parameters in JSON format */
+    terminal_specific_parameters?: TerminalInstrumentConfigurationCreateTerminalSpecificParameters;
+    /** Status of the terminal instrument configuration */
+    status?: TerminalInstrumentConfigurationStatus;
+}
+
+export type TerminalInstrumentConfigurationStatus =
+    (typeof TerminalInstrumentConfigurationStatus)[keyof typeof TerminalInstrumentConfigurationStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TerminalInstrumentConfigurationStatus = {
+    ACTIVE: "ACTIVE",
+    INACTIVE: "INACTIVE"
+} as const;
+
+/**
+ * ID of the terminal
+ */
+export type TerminalInstrumentConfigurationUpdateTerminalId = string | null;
+
+/**
+ * ID of the system payment instrument
+ */
+export type TerminalInstrumentConfigurationUpdateSystemPaymentInstrumentId = string | null;
+
+/**
+ * Provider's code for the payment type (e.g., TINKOFF_SBP)
+ */
+export type TerminalInstrumentConfigurationUpdateTerminalPaymentTypeCode = string | null;
+
+/**
+ * Provider's code for the currency (if different from system)
+ */
+export type TerminalInstrumentConfigurationUpdateTerminalCurrencyCode = string | null;
+
+/**
+ * Provider's code for the financial institution
+ */
+export type TerminalInstrumentConfigurationUpdateTerminalFinancialInstitutionCode = string | null;
+
+export type TerminalInstrumentConfigurationUpdateTerminalSpecificParametersAnyOf = { [key: string]: unknown };
+
+/**
+ * Additional terminal-specific parameters in JSON format
+ */
+export type TerminalInstrumentConfigurationUpdateTerminalSpecificParameters =
+    TerminalInstrumentConfigurationUpdateTerminalSpecificParametersAnyOf | null;
+
+/**
+ * Status of the terminal instrument configuration
+ */
+export type TerminalInstrumentConfigurationUpdateStatus = TerminalInstrumentConfigurationStatus | null;
+
+export interface TerminalInstrumentConfigurationUpdate {
+    /** ID of the terminal */
+    terminal_id?: TerminalInstrumentConfigurationUpdateTerminalId;
+    /** ID of the system payment instrument */
+    system_payment_instrument_id?: TerminalInstrumentConfigurationUpdateSystemPaymentInstrumentId;
+    /** Provider's code for the payment type (e.g., TINKOFF_SBP) */
+    terminal_payment_type_code?: TerminalInstrumentConfigurationUpdateTerminalPaymentTypeCode;
+    /** Provider's code for the currency (if different from system) */
+    terminal_currency_code?: TerminalInstrumentConfigurationUpdateTerminalCurrencyCode;
+    /** Provider's code for the financial institution */
+    terminal_financial_institution_code?: TerminalInstrumentConfigurationUpdateTerminalFinancialInstitutionCode;
+    /** Additional terminal-specific parameters in JSON format */
+    terminal_specific_parameters?: TerminalInstrumentConfigurationUpdateTerminalSpecificParameters;
+    /** Status of the terminal instrument configuration */
+    status?: TerminalInstrumentConfigurationUpdateStatus;
 }
 
 /**
@@ -1557,15 +2462,15 @@ export type CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetParams = {
      */
     pageSize?: number;
     /**
-     * List of fields to perform the search on
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
-     * List of values to search for in corresponding fields
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
-     * Determines if the search should be case insensitive
+     * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
     /**
@@ -1601,15 +2506,15 @@ export type MerchantEndpointsListMerchantsEnigmaV1MerchantGetParams = {
      */
     pageSize?: number;
     /**
-     * List of fields to perform the search on
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
-     * List of values to search for in corresponding fields
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
-     * Determines if the search should be case insensitive
+     * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
     /**
@@ -1645,15 +2550,15 @@ export type ProviderEndpointsListProvidersEnigmaV1ProviderGetParams = {
      */
     pageSize?: number;
     /**
-     * List of fields to perform the search on
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
-     * List of values to search for in corresponding fields
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
-     * Determines if the search should be case insensitive
+     * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
     /**
@@ -1700,15 +2605,15 @@ export type PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams = {
      */
     pageSize?: number;
     /**
-     * List of fields to perform the search on
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
-     * List of values to search for in corresponding fields
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
-     * Determines if the search should be case insensitive
+     * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
     /**
@@ -1744,15 +2649,15 @@ export type TerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGe
      */
     pageSize?: number;
     /**
-     * List of fields to perform the search on
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
-     * List of values to search for in corresponding fields
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
-     * Determines if the search should be case insensitive
+     * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
     /**
@@ -1788,15 +2693,15 @@ export type DirectionEndpointsListDirectionsEnigmaV1DirectionGetParams = {
      */
     pageSize?: number;
     /**
-     * List of fields to perform the search on
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
-     * List of values to search for in corresponding fields
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
-     * Determines if the search should be case insensitive
+     * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
     /**
@@ -1832,15 +2737,15 @@ export type DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchan
      */
     pageSize?: number;
     /**
-     * List of fields to perform the search on
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
-     * List of values to search for in corresponding fields
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
-     * Determines if the search should be case insensitive
+     * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
     /**
@@ -1876,15 +2781,15 @@ export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetParams = {
      */
     pageSize?: number;
     /**
-     * List of fields to perform the search on
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
-     * List of values to search for in corresponding fields
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
-     * Determines if the search should be case insensitive
+     * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
     /**
@@ -1905,6 +2810,251 @@ export const PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSortOrder
     asc: "asc",
     desc: "desc"
 } as const;
+
+export type FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetParams = {
+    /**
+     * List of identifiers for filtering
+     */
+    ids?: string[] | null;
+    /**
+     * Upper bound for creation date filter
+     */
+    createdBefore?: string | null;
+    /**
+     * Lower bound for creation date filter
+     */
+    createdAfter?: string | null;
+    /**
+     * Upper bound for update date filter
+     */
+    updatedBefore?: string | null;
+    /**
+     * Lower bound for update date filter
+     */
+    updatedAfter?: string | null;
+    /**
+     * Current page number (starting from 1)
+     */
+    currentPage?: number;
+    /**
+     * Number of records per page
+     */
+    pageSize?: number;
+    /**
+     * Names of the fields to search (comma-separated or repeated).
+     */
+    searchField?: string[] | null;
+    /**
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     */
+    searchString?: string[] | null;
+    /**
+     * If true, the search will be case-insensitive.
+     */
+    searchIgnoreCase?: boolean;
+    /**
+     * Field to sort the results by
+     */
+    orderBy?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSortOrder;
+};
+
+export type FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSortOrder =
+    (typeof FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSortOrder)[keyof typeof FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSortOrder = {
+    asc: "asc",
+    desc: "desc"
+} as const;
+
+export type SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetParams = {
+    /**
+     * List of identifiers for filtering
+     */
+    ids?: string[] | null;
+    /**
+     * Upper bound for creation date filter
+     */
+    createdBefore?: string | null;
+    /**
+     * Lower bound for creation date filter
+     */
+    createdAfter?: string | null;
+    /**
+     * Upper bound for update date filter
+     */
+    updatedBefore?: string | null;
+    /**
+     * Lower bound for update date filter
+     */
+    updatedAfter?: string | null;
+    /**
+     * Current page number (starting from 1)
+     */
+    currentPage?: number;
+    /**
+     * Number of records per page
+     */
+    pageSize?: number;
+    /**
+     * Names of the fields to search (comma-separated or repeated).
+     */
+    searchField?: string[] | null;
+    /**
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     */
+    searchString?: string[] | null;
+    /**
+     * If true, the search will be case-insensitive.
+     */
+    searchIgnoreCase?: boolean;
+    /**
+     * Field to sort the results by
+     */
+    orderBy?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSortOrder;
+};
+
+export type SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSortOrder =
+    (typeof SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSortOrder)[keyof typeof SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSortOrder =
+    {
+        asc: "asc",
+        desc: "desc"
+    } as const;
+
+export type TerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetParams =
+    {
+        /**
+         * List of identifiers for filtering
+         */
+        ids?: string[] | null;
+        /**
+         * Upper bound for creation date filter
+         */
+        createdBefore?: string | null;
+        /**
+         * Lower bound for creation date filter
+         */
+        createdAfter?: string | null;
+        /**
+         * Upper bound for update date filter
+         */
+        updatedBefore?: string | null;
+        /**
+         * Lower bound for update date filter
+         */
+        updatedAfter?: string | null;
+        /**
+         * Current page number (starting from 1)
+         */
+        currentPage?: number;
+        /**
+         * Number of records per page
+         */
+        pageSize?: number;
+        /**
+         * Names of the fields to search (comma-separated or repeated).
+         */
+        searchField?: string[] | null;
+        /**
+         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+         */
+        searchString?: string[] | null;
+        /**
+         * If true, the search will be case-insensitive.
+         */
+        searchIgnoreCase?: boolean;
+        /**
+         * Field to sort the results by
+         */
+        orderBy?: string | null;
+        /**
+         * Sort order: 'asc' or 'desc'
+         */
+        sortOrder?: TerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder;
+    };
+
+export type TerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder =
+    (typeof TerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder)[keyof typeof TerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder =
+    {
+        asc: "asc",
+        desc: "desc"
+    } as const;
+
+export type TerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetParams =
+    {
+        /**
+         * List of identifiers for filtering
+         */
+        ids?: string[] | null;
+        /**
+         * Upper bound for creation date filter
+         */
+        createdBefore?: string | null;
+        /**
+         * Lower bound for creation date filter
+         */
+        createdAfter?: string | null;
+        /**
+         * Upper bound for update date filter
+         */
+        updatedBefore?: string | null;
+        /**
+         * Lower bound for update date filter
+         */
+        updatedAfter?: string | null;
+        /**
+         * Current page number (starting from 1)
+         */
+        currentPage?: number;
+        /**
+         * Number of records per page
+         */
+        pageSize?: number;
+        /**
+         * Names of the fields to search (comma-separated or repeated).
+         */
+        searchField?: string[] | null;
+        /**
+         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+         */
+        searchString?: string[] | null;
+        /**
+         * If true, the search will be case-insensitive.
+         */
+        searchIgnoreCase?: boolean;
+        /**
+         * Field to sort the results by
+         */
+        orderBy?: string | null;
+        /**
+         * Sort order: 'asc' or 'desc'
+         */
+        sortOrder?: TerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetSortOrder;
+    };
+
+export type TerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetSortOrder =
+    (typeof TerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetSortOrder)[keyof typeof TerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetSortOrder =
+    {
+        asc: "asc",
+        desc: "desc"
+    } as const;
 
 export type KeyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetParams = {
     /**

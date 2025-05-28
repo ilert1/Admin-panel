@@ -10,7 +10,7 @@ import type {
     ApiResponseProvider,
     ApiResponseProviderAddKeypair,
     HTTPValidationError,
-    PaymentTypeLink,
+    PaymentTypesLink,
     ProviderCreate,
     ProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchParams,
     ProviderEndpointsListProvidersEnigmaV1ProviderGetParams,
@@ -295,46 +295,47 @@ export const providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPa
 };
 
 /**
- * Associates an existing payment type with a provider
- * @summary Add payment type to provider
+ * Associates existing payment types with a provider. Skips already linked types.
+ * @summary Add payment types to provider
  */
-export type providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponse200 = {
+export type providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponse200 = {
     data: ApiResponseProvider;
     status: 200;
 };
 
-export type providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponse422 = {
+export type providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponseComposite =
-    | providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponse200
-    | providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponse422;
+export type providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponseComposite =
 
-export type providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponse =
-    providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponseComposite & {
+        | providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponse200
+        | providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponse422;
+
+export type providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponse =
+    providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponseComposite & {
         headers: Headers;
     };
 
-export const getProviderEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchUrl = (
+export const getProviderEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchUrl = (
     providerName: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/add_payment_type`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/add_payment_types`;
 };
 
-export const providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatch = async (
+export const providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatch = async (
     providerName: string,
-    paymentTypeLink: PaymentTypeLink,
+    paymentTypesLink: PaymentTypesLink,
     options?: RequestInit
-): Promise<providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponse> => {
-    return authFetch<providerEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchResponse>(
-        getProviderEndpointsAddPaymentTypeToProviderEnigmaV1ProviderProviderNameAddPaymentTypePatchUrl(providerName),
+): Promise<providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponse> => {
+    return authFetch<providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponse>(
+        getProviderEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchUrl(providerName),
         {
             ...options,
             method: "PATCH",
             headers: { "Content-Type": "application/json", ...options?.headers },
-            body: JSON.stringify(paymentTypeLink)
+            body: JSON.stringify(paymentTypesLink)
         }
     );
 };

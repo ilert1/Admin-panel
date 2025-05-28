@@ -19,7 +19,7 @@ import type {
     FeeCreate,
     FeeUpdate,
     HTTPValidationError,
-    PaymentTypeLink
+    PaymentTypesLink
 } from "../blowFishEnigmaAPIService.schemas";
 
 import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
@@ -645,47 +645,47 @@ export const directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDel
 };
 
 /**
- * Associates an existing payment type with a direction
- * @summary Add payment type to direction
+ * Associates existing payment types with a direction. Skips already linked types.
+ * @summary Add payment types to direction
  */
-export type directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponse200 = {
+export type directionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypesPatchResponse200 = {
     data: ApiResponseDirection;
     status: 200;
 };
 
-export type directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponse422 = {
+export type directionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypesPatchResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponseComposite =
+export type directionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypesPatchResponseComposite =
 
-        | directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponse200
-        | directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponse422;
+        | directionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypesPatchResponse200
+        | directionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypesPatchResponse422;
 
-export type directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponse =
-    directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponseComposite & {
+export type directionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypesPatchResponse =
+    directionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypesPatchResponseComposite & {
         headers: Headers;
     };
 
-export const getDirectionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchUrl = (
+export const getDirectionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypesPatchUrl = (
     directionId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/${directionId}/add_payment_type`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/${directionId}/add_payment_types`;
 };
 
-export const directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatch = async (
+export const directionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypesPatch = async (
     directionId: string,
-    paymentTypeLink: PaymentTypeLink,
+    paymentTypesLink: PaymentTypesLink,
     options?: RequestInit
-): Promise<directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponse> => {
-    return authFetch<directionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchResponse>(
-        getDirectionEndpointsAddPaymentTypeToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypePatchUrl(directionId),
+): Promise<directionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypesPatchResponse> => {
+    return authFetch<directionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypesPatchResponse>(
+        getDirectionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypesPatchUrl(directionId),
         {
             ...options,
             method: "PATCH",
             headers: { "Content-Type": "application/json", ...options?.headers },
-            body: JSON.stringify(paymentTypeLink)
+            body: JSON.stringify(paymentTypesLink)
         }
     );
 };

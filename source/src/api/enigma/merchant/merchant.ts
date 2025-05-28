@@ -14,7 +14,7 @@ import type {
     MerchantCreate,
     MerchantEndpointsListMerchantsEnigmaV1MerchantGetParams,
     MerchantUpdate,
-    PaymentTypeLink
+    PaymentTypesLink
 } from "../blowFishEnigmaAPIService.schemas";
 
 import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
@@ -373,46 +373,46 @@ export const merchantEndpointsDeleteFeeEnigmaV1MerchantMerchantIdFeeFeeIdDelete 
 };
 
 /**
- * Associates an existing payment type with a merchant
- * @summary Add payment type to merchant
+ * Associates existing payment types with a merchant. Skips already linked types.
+ * @summary Add payment types to merchant
  */
-export type merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponse200 = {
+export type merchantEndpointsAddPaymentTypesToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypesPatchResponse200 = {
     data: ApiResponseMerchant;
     status: 200;
 };
 
-export type merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponse422 = {
+export type merchantEndpointsAddPaymentTypesToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypesPatchResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponseComposite =
-    | merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponse200
-    | merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponse422;
+export type merchantEndpointsAddPaymentTypesToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypesPatchResponseComposite =
+    | merchantEndpointsAddPaymentTypesToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypesPatchResponse200
+    | merchantEndpointsAddPaymentTypesToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypesPatchResponse422;
 
-export type merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponse =
-    merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponseComposite & {
+export type merchantEndpointsAddPaymentTypesToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypesPatchResponse =
+    merchantEndpointsAddPaymentTypesToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypesPatchResponseComposite & {
         headers: Headers;
     };
 
-export const getMerchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchUrl = (
+export const getMerchantEndpointsAddPaymentTypesToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypesPatchUrl = (
     merchantId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant/${merchantId}/add_payment_type`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant/${merchantId}/add_payment_types`;
 };
 
-export const merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatch = async (
+export const merchantEndpointsAddPaymentTypesToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypesPatch = async (
     merchantId: string,
-    paymentTypeLink: PaymentTypeLink,
+    paymentTypesLink: PaymentTypesLink,
     options?: RequestInit
-): Promise<merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponse> => {
-    return authFetch<merchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchResponse>(
-        getMerchantEndpointsAddPaymentTypeToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypePatchUrl(merchantId),
+): Promise<merchantEndpointsAddPaymentTypesToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypesPatchResponse> => {
+    return authFetch<merchantEndpointsAddPaymentTypesToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypesPatchResponse>(
+        getMerchantEndpointsAddPaymentTypesToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypesPatchUrl(merchantId),
         {
             ...options,
             method: "PATCH",
             headers: { "Content-Type": "application/json", ...options?.headers },
-            body: JSON.stringify(paymentTypeLink)
+            body: JSON.stringify(paymentTypesLink)
         }
     );
 };
