@@ -1,5 +1,5 @@
 import { useAbortableListController } from "@/hooks/useAbortableListController";
-import { useGetFinancialEntitiesColumns } from "./Columns";
+import { useGetSystemPaymentInstrumentsColumns } from "./Columns";
 import { ListContextProvider } from "react-admin";
 import { LoadingBlock } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
@@ -7,7 +7,7 @@ import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const SystemPaymentInstrumentsList = () => {
     const listContext = useAbortableListController({ resource: "systemPaymentInstruments" });
-    const { columns } = useGetFinancialEntitiesColumns();
+    const { columns } = useGetSystemPaymentInstrumentsColumns();
 
     return (
         <>

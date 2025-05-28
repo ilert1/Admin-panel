@@ -1,5 +1,5 @@
 import { useAbortableListController } from "@/hooks/useAbortableListController";
-import { useGetFinancialEntitiesColumns } from "./Columns";
+import { useGetTerminalInstrumentConfigurationsColumns } from "./Columns";
 import { ListContextProvider } from "react-admin";
 import { LoadingBlock } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
@@ -7,7 +7,7 @@ import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const TerminalInstrumentConfigurationsList = () => {
     const listContext = useAbortableListController({ resource: "terminalInstrumentConfigurations" });
-    const { columns } = useGetFinancialEntitiesColumns();
+    const { columns } = useGetTerminalInstrumentConfigurationsColumns();
 
     return (
         <>
