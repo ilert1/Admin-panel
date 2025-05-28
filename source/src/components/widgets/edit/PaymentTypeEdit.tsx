@@ -40,7 +40,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
     const paymentTypeCategories = Object.keys(PaymentCategory);
 
     const formSchema = z.object({
-        code: z.string().min(1, translate("resources.payment_type.errors.code")).trim(),
+        code: z.string().min(1, translate("resources.paymentTools.paymentType.errors.code")).trim(),
         title: z.string().optional().default(""),
         category: z.enum(paymentTypeCategories as [string, ...string[]])
     });
@@ -75,7 +75,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             //     appToast("error", error.message);
             // }
 
-            appToast("error", translate("resources.payment_type.duplicateCode"));
+            appToast("error", translate("resources.paymentTools.paymentType.duplicateCode"));
 
             setSubmitButtonDisabled(false);
         }
@@ -102,7 +102,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                 variant={InputTypes.GRAY}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
-                                                label={translate("resources.payment_type.fields.code")}
+                                                label={translate("resources.paymentTools.paymentType.fields.code")}
                                                 disabled
                                             />
                                         </FormControl>
@@ -120,7 +120,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                 variant={InputTypes.GRAY}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
-                                                label={translate("resources.payment_type.fields.title")}
+                                                label={translate("resources.paymentTools.paymentType.fields.title")}
                                             />
                                         </FormControl>
                                     </FormItem>

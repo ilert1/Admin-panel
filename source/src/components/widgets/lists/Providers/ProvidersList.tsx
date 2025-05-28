@@ -34,10 +34,11 @@ export const ProvidersList = () => {
         deleteDialogOpen,
         columns,
         editDialogOpen,
+        confirmKeysCreatingOpen,
+        chosenProviderName,
         setEditDialogOpen,
         setDeleteDialogOpen,
         setDialogOpen,
-        confirmKeysCreatingOpen,
         setConfirmKeysCreatingOpen
     } = useGetProvidersColumns();
 
@@ -78,6 +79,7 @@ export const ProvidersList = () => {
                             isTest={false}
                             name={chosenId}
                             refresh={handleRefresh}
+                            providerName={chosenProviderName}
                         />
                     </div>
                 </div>

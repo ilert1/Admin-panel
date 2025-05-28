@@ -12,6 +12,7 @@ export const useGetProvidersColumns = () => {
     const translate = useTranslate();
 
     const [chosenId, setChosenId] = useState("");
+    const [chosenProviderName, setChosenProviderName] = useState("");
 
     const [dialogOpen, setDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -28,8 +29,9 @@ export const useGetProvidersColumns = () => {
         setEditDialogOpen(true);
     };
 
-    const handleClickGenerate = async (id: string) => {
+    const handleClickGenerate = async (id: string, providerName: string) => {
         setChosenId(id);
+        setChosenProviderName(providerName);
         setConfirmKeysCreatingOpen(true);
     };
 
@@ -46,7 +48,7 @@ export const useGetProvidersColumns = () => {
             cell: ({ row }) => {
                 if (!row.getValue("public_key")) {
                     return (
-                        <Button onClick={() => handleClickGenerate(row.getValue("name"))}>
+                        <Button onClick={() => handleClickGenerate(row.original.id, row.getValue("name"))}>
                             {translate("resources.provider.fields.genKey")}
                         </Button>
                     );
@@ -83,7 +85,9 @@ export const useGetProvidersColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Button onClick={() => handleClickGenerate(row.original.id)} variant={"text_btn"}>
+                        <Button
+                            onClick={() => handleClickGenerate(row.original.id, row.original.name)}
+                            variant={"text_btn"}>
                             <ReloadRoundSvg className="stroke-green-50 hover:stroke-green-40" />
                         </Button>
                     </div>
@@ -129,6 +133,7 @@ export const useGetProvidersColumns = () => {
         columns,
         editDialogOpen,
         confirmKeysCreatingOpen,
+        chosenProviderName,
         setEditDialogOpen,
         setDeleteDialogOpen,
         setDialogOpen,

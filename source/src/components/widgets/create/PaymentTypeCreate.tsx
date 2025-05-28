@@ -42,8 +42,8 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
     const formSchema = z.object({
         code: z
             .string()
-            .min(1, translate("resources.payment_type.errors.code"))
-            .regex(/^[A-Za-z0-9_-]+$/, translate("resources.payment_type.errors.codeRegex"))
+            .min(1, translate("resources.paymentTools.paymentType.errors.code"))
+            .regex(/^[A-Za-z0-9_-]+$/, translate("resources.paymentTools.paymentType.errors.codeRegex"))
             .trim(),
         title: z.string().optional().default(""),
         category: z.enum(paymentTypeCategories as [string, ...string[]]).default("h2h")
@@ -73,7 +73,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
             // if (error instanceof Error) {
             //     appToast("error", error.message);
             // }
-            appToast("error", translate("resources.payment_type.duplicateCode"));
+            appToast("error", translate("resources.paymentTools.paymentType.duplicateCode"));
             setSubmitButtonDisabled(false);
         }
     };
@@ -97,7 +97,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                                                 variant={InputTypes.GRAY}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
-                                                label={translate("resources.payment_type.fields.code")}
+                                                label={translate("resources.paymentTools.paymentType.fields.code")}
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -114,7 +114,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                                                 variant={InputTypes.GRAY}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
-                                                label={translate("resources.payment_type.fields.title")}
+                                                label={translate("resources.paymentTools.paymentType.fields.title")}
                                             />
                                         </FormControl>
                                     </FormItem>

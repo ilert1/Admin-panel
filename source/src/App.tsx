@@ -1,4 +1,4 @@
-import { CustomRoutes, Resource, combineDataProviders, CoreAdminContext, CoreAdminUI, useCheckAuth } from "react-admin";
+import { CustomRoutes, Resource, combineDataProviders, CoreAdminContext, CoreAdminUI } from "react-admin";
 import { BrowserRouter } from "react-router-dom";
 import {
     TransactionDataProvider,
@@ -47,7 +47,7 @@ import {
     CreditCardIcon,
     SquareTerminal,
     Split,
-    HandCoins
+    Nfc
 } from "lucide-react";
 import { authProvider, ThemeProvider } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
@@ -67,7 +67,7 @@ import { PaymentTypesList } from "./components/widgets/lists/PaymentTypes/Paymen
 
 const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
 
-const dataProvider = combineDataProviders((resource: string) => {
+const dataProvider = combineDataProviders(resource => {
     if (resource?.startsWith("transactions")) {
         return TransactionDataProvider;
     } else if (resource === "users") {
@@ -120,6 +120,7 @@ export const App = () => {
                 <CoreAdminContext i18nProvider={i18nProvider} dataProvider={dataProvider} authProvider={authProvider}>
                     <SheetProvider>
                         <CoreAdminUI
+                            disableTelemetry
                             catchAll={NotFound}
                             layout={MainLayout}
                             loading={InitLoading}
@@ -156,7 +157,11 @@ export const App = () => {
                                             <Resource name="provider" list={ProvidersList} icon={NetworkIcon} />
                                             <Resource name="terminals" list={TerminalsList} icon={SquareTerminal} />
                                             <Resource name="direction" list={DirectionsList} icon={SignpostIcon} />
-                                            <Resource name="payment_type" list={PaymentTypesList} icon={HandCoins} />
+
+                                            <Resource name="paymentTools" icon={Nfc}>
+                                                <Route path="paymentType" element={<PaymentTypesList />} />
+                                            </Resource>
+
                                             {CALLBRIDGE_ENABLED && (
                                                 <Resource name="callbridge" icon={Split}>
                                                     <Route path="mapping" element={<MappingsList />} />
