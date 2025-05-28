@@ -1,6 +1,6 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { Bolt, ChevronDown, ChevronLeft, FileTerminal, HandCoins, Landmark, Nfc } from "lucide-react";
+import { Bolt, ChevronDown, ChevronLeft, FileTerminal, HandCoins, Landmark, Pickaxe } from "lucide-react";
 import { useState } from "react";
 
 import { useTranslate } from "react-admin";
@@ -24,7 +24,7 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
 
     const customViewRoutes: ICustomViewRoute = {
         name: "paymentTools",
-        icon: <Nfc />,
+        icon: <Pickaxe />,
         childrens: [
             {
                 name: "paymentType",
