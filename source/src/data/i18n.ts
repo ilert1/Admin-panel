@@ -512,6 +512,7 @@ const ru: TranslationMessages = {
         },
         terminals: {
             name: "Терминалы",
+            terminal: "Терминал",
             fields: {
                 verbose_name: "Наименование",
                 id: "ID",
@@ -789,9 +790,9 @@ const ru: TranslationMessages = {
         paymentTools: {
             name: "Платёжные инструменты",
             paymentType: {
-                name: "Платёжные типы",
+                name: "Типы платежей",
                 admin: {
-                    name: "Payment types"
+                    name: "Типы платежей"
                 },
                 errors: {
                     code: "Код не может быть пустым",
@@ -799,7 +800,10 @@ const ru: TranslationMessages = {
                 },
                 fields: {
                     code: "Код",
-                    title: "Название"
+                    title: "Название",
+                    payment_types: "Типы платежей",
+                    category: "Категория",
+                    icon: "Иконка"
                 },
                 deletePaymentTypeQuestion: "Удалить тип платежа?",
                 creatingPaymentType: "Создание типа платежа",
@@ -864,7 +868,8 @@ const ru: TranslationMessages = {
                 search: "Поиск...",
                 refresh: "Обновить",
                 details: "Подробнее",
-                generateCallback: "Создать callback"
+                generateCallback: "Создать callback",
+                clear: "Очистить"
             },
             pagination: {
                 next: "Далее",
@@ -1039,6 +1044,12 @@ const ru: TranslationMessages = {
                     ofPayment: "выплаты",
                     ofReward: "вознаграждения"
                 }
+            },
+            multiSelect: {
+                selectAll: "Выбрать все",
+                noResultFound: "Нет результатов",
+                selectPaymentTypes: "Выберите типы платежей",
+                searchPlaceholder: "Поиск..."
             }
         },
 
@@ -1624,6 +1635,7 @@ const en: TranslationMessages = {
         },
         terminals: {
             name: "Terminals",
+            terminal: "Terminal",
             fields: {
                 verbose_name: "Name",
                 id: "ID",
@@ -1907,7 +1919,10 @@ const en: TranslationMessages = {
                 name: "Payment types",
                 fields: {
                     code: "Code",
-                    title: "Title"
+                    title: "Title",
+                    payment_types: "Payment types",
+                    category: "Category",
+                    icon: "Icon"
                 },
                 deletePaymentTypeQuestion: "Delete payment type?",
                 creatingPaymentType: "Creating payment type",
@@ -1972,7 +1987,8 @@ const en: TranslationMessages = {
                 search: "Search...",
                 refresh: "Refresh",
                 details: "More detailed",
-                generateCallback: "Generate callback"
+                generateCallback: "Generate callback",
+                clear: "Clear"
             },
             pagination: {
                 next: "Next",
@@ -2149,6 +2165,12 @@ const en: TranslationMessages = {
                     ofPayment: "payment",
                     ofReward: "reward"
                 }
+            },
+            multiSelect: {
+                selectAll: "Select all",
+                noResultFound: "No results found.",
+                selectPaymentTypes: "Select payment types",
+                searchPlaceholder: "Search..."
             }
         },
 

@@ -11,6 +11,17 @@ import { useTheme } from "@/components/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { usePreventFocus } from "@/hooks";
 import { useRefresh } from "react-admin";
+import {
+    SelectContent,
+    SelectGroup,
+    SelectTrigger,
+    SelectValue,
+    Select,
+    SelectType,
+    SelectItem
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { PaymentCategory } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export interface PaymentTypeEditProps {
     id: string;
@@ -26,17 +37,20 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
 
     const translate = useTranslate();
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+    const paymentTypeCategories = Object.keys(PaymentCategory);
 
     const formSchema = z.object({
         code: z.string().min(1, translate("resources.paymentTools.paymentType.errors.code")).trim(),
-        title: z.string().optional().default("")
+        title: z.string().optional().default(""),
+        category: z.enum(paymentTypeCategories as [string, ...string[]])
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             code: id,
-            title: controllerProps.record?.title
+            title: controllerProps.record?.title,
+            category: controllerProps.record?.category
         }
     });
 
@@ -76,7 +90,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                     <div className="flex flex-col flex-wrap">
-                        <div className="flex w-full flex-col">
+                        <div className="grid grid-cols-1 sm:grid-cols-2">
                             <FormField
                                 control={form.control}
                                 name="code"
@@ -109,6 +123,37 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                 label={translate("resources.paymentTools.paymentType.fields.title")}
                                             />
                                         </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="category"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <Label>{translate("resources.paymentTools.paymentType.fields.category")}</Label>
+                                        <Select value={field.value} onValueChange={field.onChange}>
+                                            <FormControl>
+                                                <SelectTrigger
+                                                    variant={SelectType.GRAY}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}>
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    {paymentTypeCategories.map(category => (
+                                                        <SelectItem
+                                                            key={category}
+                                                            value={category}
+                                                            variant={SelectType.GRAY}>
+                                                            {category}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
                                     </FormItem>
                                 )}
                             />

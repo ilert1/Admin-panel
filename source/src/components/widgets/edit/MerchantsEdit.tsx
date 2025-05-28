@@ -11,6 +11,9 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 import { usePreventFocus } from "@/hooks";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
+import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
+import { MerchantsDataProvider } from "@/data";
 
 interface MerchantEditProps {
     id?: string;
@@ -20,6 +23,8 @@ interface MerchantEditProps {
 export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
     const data = fetchDictionaries();
     const dataProvider = useDataProvider();
+    const merchantsDataProvider = new MerchantsDataProvider();
+
     const appToast = useAppToast();
 
     const { record, isLoading } = useEditController<Merchant>({
@@ -30,6 +35,7 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
 
     const translate = useTranslate();
     const refresh = useRefresh();
+    const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -42,15 +48,18 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
             .nullable()
             .refine(value => value === null || !/\s/.test(value), {
                 message: translate("resources.merchant.errors.noSpaces")
-            })
+            }),
+        payment_types: z.array(z.string()).optional()
     });
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             id: record?.id || "",
             name: record?.name || "",
             description: record?.description || "",
-            keycloak_id: record?.keycloak_id || ""
+            keycloak_id: record?.keycloak_id || "",
+            payment_types: record?.payment_types?.map(pt => pt.code) || []
         }
     });
 
@@ -60,14 +69,29 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                 id: record?.id || "",
                 name: record?.name || "",
                 description: record?.description || "",
-                keycloak_id: record?.keycloak_id || ""
+                keycloak_id: record?.keycloak_id || "",
+                payment_types: record?.payment_types?.map(pt => pt.code) || []
             });
         }
     }, [form, record]);
 
-    const onSubmit = async (data: Merchant) => {
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
+
+        let payment_types: string[] = [];
+        let oldPaymentTypes: Set<string> = new Set();
+
+        if (record?.payment_types) {
+            oldPaymentTypes = new Set(record?.payment_types?.map(pt => pt.code));
+        }
+
+        if (data.payment_types) {
+            payment_types = [...data.payment_types];
+            delete data.payment_types;
+        }
+
+        const paymentsToDelete = oldPaymentTypes.difference(new Set(payment_types));
 
         try {
             await dataProvider.update("merchant", {
@@ -75,17 +99,41 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                 data,
                 previousData: undefined
             });
-            refresh();
+
+            paymentsToDelete.forEach(async payment => {
+                await merchantsDataProvider.removePaymentType({
+                    id,
+                    data: { code: payment },
+                    previousData: undefined
+                });
+            });
+
+            await merchantsDataProvider.addPaymentTypes({
+                id,
+                data: {
+                    codes: payment_types
+                },
+                previousData: undefined
+            });
+
+            appToast("success", translate("app.ui.edit.editSuccess"));
             onOpenChange(false);
         } catch (error) {
             appToast("error", translate("resources.currency.errors.alreadyInUse"));
             setSubmitButtonDisabled(false);
+        } finally {
+            refresh();
         }
     };
 
     usePreventFocus({ dependencies: [record] });
 
-    if (isLoading || !record || !data) return <Loading />;
+    if (isLoading || !record || !data || isLoadingAllPaymentTypes)
+        return (
+            <div className="h-[200px]">
+                <Loading />
+            </div>
+        );
     return (
         <>
             <Form {...form}>
@@ -158,6 +206,21 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                                             label="Keycloak ID"
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="payment_types"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <PaymentTypeMultiSelect
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            options={allPaymentTypes || []}
                                         />
                                     </FormControl>
                                 </FormItem>

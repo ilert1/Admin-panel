@@ -8,6 +8,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Copy, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { useRefresh, useTranslate } from "react-admin";
+import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 
 export type MerchantTypeToShow = "fees" | "directions" | undefined;
 
@@ -209,6 +210,19 @@ export const useGetTerminalColumns = () => {
                                 />
                             </Button>
                         )}
+                    </div>
+                );
+            }
+        },
+        {
+            id: "payment_types",
+            header: translate("resources.paymentTools.paymentType.fields.payment_types"),
+            cell: ({ row }) => {
+                return (
+                    <div className="max-w-auto flex flex-wrap gap-2">
+                        {row.original.payment_types?.map(pt => {
+                            return <PaymentTypeIcon key={pt.code} type={pt.code} className="h-7 w-7" tooltip />;
+                        })}
                     </div>
                 );
             }

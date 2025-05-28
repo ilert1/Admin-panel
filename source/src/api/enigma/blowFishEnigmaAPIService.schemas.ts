@@ -282,24 +282,30 @@ export interface ApiResponseOffsetPaginationMerchant {
  * The error details if the request was not successful
  */
 export type ApiResponseOffsetPaginationPaymentTypeModelError = ErrorBody | null;
+export type ApiResponseOffsetPaginationPaymentTypeModelError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
 export type ApiResponseOffsetPaginationPaymentTypeModelMeta = unknown | null;
+export type ApiResponseOffsetPaginationPaymentTypeModelMeta = unknown | null;
 
+export interface ApiResponseOffsetPaginationPaymentTypeModel {
 export interface ApiResponseOffsetPaginationPaymentTypeModel {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
     data: OffsetPaginationPaymentTypeModel;
+    data: OffsetPaginationPaymentTypeModel;
     /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationPaymentTypeModelError;
     error?: ApiResponseOffsetPaginationPaymentTypeModelError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
+    meta?: ApiResponseOffsetPaginationPaymentTypeModelMeta;
     meta?: ApiResponseOffsetPaginationPaymentTypeModelMeta;
 }
 
@@ -407,24 +413,30 @@ export interface ApiResponseOffsetPaginationTerminal {
  * The error details if the request was not successful
  */
 export type ApiResponsePaymentTypeModelError = ErrorBody | null;
+export type ApiResponsePaymentTypeModelError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
 export type ApiResponsePaymentTypeModelMeta = unknown | null;
+export type ApiResponsePaymentTypeModelMeta = unknown | null;
 
+export interface ApiResponsePaymentTypeModel {
 export interface ApiResponsePaymentTypeModel {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
     data: PaymentTypeModel;
+    data: PaymentTypeModel;
     /** The error details if the request was not successful */
+    error?: ApiResponsePaymentTypeModelError;
     error?: ApiResponsePaymentTypeModelError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
+    meta?: ApiResponsePaymentTypeModelMeta;
     meta?: ApiResponsePaymentTypeModelMeta;
 }
 
@@ -1686,7 +1698,9 @@ export interface OffsetPaginationMerchant {
 }
 
 export interface OffsetPaginationPaymentTypeModel {
+export interface OffsetPaginationPaymentTypeModel {
     /** A list of items in the current page */
+    items: PaymentTypeModel[];
     items: PaymentTypeModel[];
     /** The maximum number of items returned in a single page */
     limit: number;
@@ -1836,7 +1850,7 @@ export interface PaymentTypeModel {
 }
 
 /**
- * New human-readable payment type title
+ * New list of required field names (will fully replace previous value if provided). Provide an empty list to clear.
  */
 export type PaymentTypeUpdateTitle = string | null;
 
@@ -1864,8 +1878,17 @@ export interface PaymentTypeUpdate {
     category?: PaymentTypeUpdateCategory;
     /** New list of required field names (will fully replace previous value if provided). Provide an empty list to clear. */
     required_fields_for_payment?: PaymentTypeUpdateRequiredFieldsForPayment;
+    /** New category for the payment type. If not provided, current value remains. */
+    category?: PaymentTypeUpdateCategory;
+    /** New list of required field names (will fully replace previous value if provided). Provide an empty list to clear. */
+    required_fields_for_payment?: PaymentTypeUpdateRequiredFieldsForPayment;
     /** New metadata (will fully replace previous value) */
     meta?: PaymentTypeUpdateMeta;
+}
+
+export interface PaymentTypesLink {
+    /** Unique codes of the payment types to link */
+    codes: string[];
 }
 
 export interface PaymentTypesLink {
@@ -2463,13 +2486,16 @@ export type CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetParams = {
     pageSize?: number;
     /**
      * Names of the fields to search (comma-separated or repeated).
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
      * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
+     * If true, the search will be case-insensitive.
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
@@ -2507,13 +2533,16 @@ export type MerchantEndpointsListMerchantsEnigmaV1MerchantGetParams = {
     pageSize?: number;
     /**
      * Names of the fields to search (comma-separated or repeated).
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
      * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
+     * If true, the search will be case-insensitive.
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
@@ -2551,13 +2580,16 @@ export type ProviderEndpointsListProvidersEnigmaV1ProviderGetParams = {
     pageSize?: number;
     /**
      * Names of the fields to search (comma-separated or repeated).
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
      * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
+     * If true, the search will be case-insensitive.
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
@@ -2606,13 +2638,16 @@ export type PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams = {
     pageSize?: number;
     /**
      * Names of the fields to search (comma-separated or repeated).
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
      * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
+     * If true, the search will be case-insensitive.
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
@@ -2650,13 +2685,16 @@ export type TerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGe
     pageSize?: number;
     /**
      * Names of the fields to search (comma-separated or repeated).
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
      * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
+     * If true, the search will be case-insensitive.
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
@@ -2694,13 +2732,16 @@ export type DirectionEndpointsListDirectionsEnigmaV1DirectionGetParams = {
     pageSize?: number;
     /**
      * Names of the fields to search (comma-separated or repeated).
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
      * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
+     * If true, the search will be case-insensitive.
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
@@ -2738,13 +2779,16 @@ export type DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchan
     pageSize?: number;
     /**
      * Names of the fields to search (comma-separated or repeated).
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
      * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
+     * If true, the search will be case-insensitive.
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
@@ -2782,13 +2826,16 @@ export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetParams = {
     pageSize?: number;
     /**
      * Names of the fields to search (comma-separated or repeated).
+     * Names of the fields to search (comma-separated or repeated).
      */
     searchField?: string[] | null;
     /**
      * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
      */
     searchString?: string[] | null;
     /**
+     * If true, the search will be case-insensitive.
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;

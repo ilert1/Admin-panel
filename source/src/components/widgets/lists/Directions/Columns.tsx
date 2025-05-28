@@ -9,6 +9,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useCallback, useState } from "react";
 import { useTranslate } from "react-admin";
 import { DirectionActivityBtn } from "./DirectionActivityBtn";
+import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 
 export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
@@ -148,6 +149,19 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             cell: ({ row }) => {
                 const type = row.original.type;
                 return type ? translate(`resources.direction.types.${row.original.type}`) : "-";
+            }
+        },
+        {
+            id: "payment_types",
+            header: translate("resources.paymentTools.paymentType.fields.payment_types"),
+            cell: ({ row }) => {
+                return (
+                    <div className="max-w-auto flex flex-wrap gap-2">
+                        {row.original.payment_types?.map(pt => {
+                            return <PaymentTypeIcon key={pt.code} type={pt.code} className="h-7 w-7" tooltip />;
+                        })}
+                    </div>
+                );
             }
         },
         {

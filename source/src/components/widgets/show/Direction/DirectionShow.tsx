@@ -12,6 +12,7 @@ import { Direction, MerchantFees } from "@/api/enigma/blowFishEnigmaAPIService.s
 import { LimitsList } from "../../components/Limits/ui/LimitsList";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
+import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShow";
 
 export interface DirectionsShowProps {
     id: string;
@@ -144,6 +145,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                             label={translate("resources.direction.fields.description")}
                             text={context.record.description ?? ""}
                         />
+                        <PaymentsTypesShowComponent payment_types={context.record.payment_types} />
                     </div>
                 </div>
 

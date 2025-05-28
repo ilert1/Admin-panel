@@ -12,6 +12,7 @@ import { AuthDataViewer, AuthDataEditSheet } from "../../edit/Terminals/AuthData
 import { GenerateCallbackDialog } from "./GenerateCallbackDialog";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery } from "@tanstack/react-query";
+import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShow";
 
 interface TerminalShowProps {
     id: string;
@@ -82,6 +83,7 @@ export const TerminalShow = (props: TerminalShowProps) => {
                                     label={translate("resources.callbridge.mapping.fields.callback_url")}
                                 />
                             </div>
+                            <PaymentsTypesShowComponent payment_types={data.payment_types} />
                         </div>
 
                         <div className="mt-3 flex justify-end">
