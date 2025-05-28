@@ -32,8 +32,8 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
                 icon: <HandCoins />
             },
             {
-                name: "financialEntities",
-                path: "/paymentTools/financialEntities",
+                name: "financialInstitution",
+                path: "/paymentTools/financialInstitution",
                 icon: <Landmark />
             },
             {

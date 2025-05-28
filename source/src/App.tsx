@@ -63,10 +63,11 @@ import { SheetManager } from "./components/providers/SheetManager";
 import { MappingsList } from "./components/widgets/lists/Mappings/MappingsList";
 import { CallbackHistoryList } from "./components/widgets/lists/CallbridgeHistory/CallbridgeHistory";
 import { PaymentTypesProvider } from "./data/payment_types";
-import { PaymentTypesList } from "./components/widgets/lists/PaymentTypes/PaymentTypesList";
-import { FinancialEntitiesProvider } from "./data/financialEntities";
-import { FinancialEntitiesList } from "./components/widgets/lists/FinancialEntities/FinancialEntitiesList";
-import { SystemPaymentInstrumentsList } from "./components/widgets/lists/SystemPaymentInstruments/SystemPaymentInstrumentsList";
+import { PaymentTypesList } from "./components/widgets/lists/PaymentTypes";
+import { FinancialInstitutionList } from "./components/widgets/lists/FinancialInstitution";
+import { SystemPaymentInstrumentsList } from "./components/widgets/lists/SystemPaymentInstruments";
+import { TerminalInstrumentConfigurationsList } from "./components/widgets/lists/TerminalInstrumentConfigurations";
+import { FinancialInstitutionProvider } from "./data/financialInstitution";
 import { TerminalInstrumentConfigurationsProvider } from "./data/terminalInstrumentConfigurations";
 import { SystemPaymentInstrumentsProvider } from "./data/systemPaymentInstruments";
 
@@ -108,8 +109,8 @@ const dataProvider = combineDataProviders(resource => {
         return AccountsDataProvider;
     } else if (resource === "payment_type") {
         return new PaymentTypesProvider();
-    } else if (resource === "financialEntities") {
-        return new FinancialEntitiesProvider();
+    } else if (resource === "financialInstitution") {
+        return new FinancialInstitutionProvider();
     } else if (resource === "terminalInstrumentConfigurations") {
         return new TerminalInstrumentConfigurationsProvider();
     } else if (resource === "systemPaymentInstruments") {
@@ -171,10 +172,13 @@ export const App = () => {
 
                                             <Resource name="paymentTools" icon={Nfc}>
                                                 <Route path="paymentType" element={<PaymentTypesList />} />
-                                                <Route path="financialEntities" element={<FinancialEntitiesList />} />
+                                                <Route
+                                                    path="financialInstitution"
+                                                    element={<FinancialInstitutionList />}
+                                                />
                                                 <Route
                                                     path="terminalInstrumentConfigurations"
-                                                    element={<FinancialEntitiesList />}
+                                                    element={<TerminalInstrumentConfigurationsList />}
                                                 />
                                                 <Route
                                                     path="systemPaymentInstruments"

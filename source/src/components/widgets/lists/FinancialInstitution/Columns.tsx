@@ -2,7 +2,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useTranslate } from "react-admin";
 import { PaymentTypeWithId } from "@/data/payment_types";
 
-export const useGetFinancialEntitiesColumns = () => {
+export const useGetFinancialInstitutionColumns = () => {
     const translate = useTranslate();
 
     const columns: ColumnDef<PaymentTypeWithId>[] = [

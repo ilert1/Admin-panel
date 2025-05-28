@@ -1,13 +1,13 @@
 import { useAbortableListController } from "@/hooks/useAbortableListController";
-import { useGetFinancialEntitiesColumns } from "./Columns";
+import { useGetFinancialInstitutionColumns } from "./Columns";
 import { ListContextProvider } from "react-admin";
 import { LoadingBlock } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
-export const FinancialEntitiesList = () => {
-    const listContext = useAbortableListController({ resource: "financialEntities" });
-    const { columns } = useGetFinancialEntitiesColumns();
+export const FinancialInstitutionList = () => {
+    const listContext = useAbortableListController({ resource: "financialInstitution" });
+    const { columns } = useGetFinancialInstitutionColumns();
 
     return (
         <>

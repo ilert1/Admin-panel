@@ -22,7 +22,7 @@ import {
 
 export type PaymentTypeWithId = PaymentTypeModel & { id: string };
 
-export class FinancialEntitiesProvider extends IBaseDataProvider {
+export class FinancialInstitutionProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<PaymentTypeWithId>> {
         const res = await paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet(
             {

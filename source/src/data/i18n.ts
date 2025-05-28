@@ -807,7 +807,7 @@ const ru: TranslationMessages = {
                 createNew: "Добавить тип платежа",
                 duplicateCode: "Введенный код уже используется"
             },
-            financialEntities: {
+            financialInstitution: {
                 name: "Фин. организации"
             },
             systemPaymentInstruments: {
@@ -1915,8 +1915,8 @@ const en: TranslationMessages = {
                 createNew: "Add payment type",
                 duplicateCode: "This code is already in use"
             },
-            financialEntities: {
-                name: "Financial entities"
+            financialInstitution: {
+                name: "Financial institution"
             },
             systemPaymentInstruments: {
                 name: "System tools"
