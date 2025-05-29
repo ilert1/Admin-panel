@@ -159,7 +159,17 @@ export const useGetFinancialInstitutionColumns = () => {
             accessorKey: "institution_type",
             header: translate("resources.paymentTools.financialInstitution.fields.institution_type"),
             cell: ({ row }) => {
-                return <TextField text={row.original.institution_type || ""} />;
+                return (
+                    <TextField
+                        text={
+                            row.original.institution_type
+                                ? translate(
+                                      `resources.paymentTools.financialInstitution.fields.types.${row.original.institution_type}`
+                                  )
+                                : ""
+                        }
+                    />
+                );
             }
         },
         {

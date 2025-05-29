@@ -817,7 +817,7 @@ const ru: TranslationMessages = {
                 fields: {
                     created_at: "Дата и время создания",
                     updated_at: "Дата и время обновления",
-                    name: "Финансовый институт",
+                    name: "Название финансового института",
                     short_name: "Краткое наименование",
                     legal_name: "Полное юр.наименование",
                     institution_type: "Типы платёжных институтов",
@@ -830,7 +830,15 @@ const ru: TranslationMessages = {
                     payment_types: "Платёжные системы",
                     currencies: "Валюты",
                     id: "ID",
-                    meta: "Метадата"
+                    meta: "Метадата",
+                    types: {
+                        BANK: "Банк",
+                        OTHER: "Другое"
+                    }
+                },
+                errors: {
+                    name: "Название финансового института обязательно",
+                    country_code: "Код страны введен не правильно"
                 },
                 createFinancialInstitutionBtn: "Добавить организацию",
                 createFinancialInstitutionTitle: "Добавление финансовой организации",
@@ -1958,7 +1966,7 @@ const en: TranslationMessages = {
                 fields: {
                     created_at: "Created at",
                     updated_at: "Updated at",
-                    name: "Name",
+                    name: "Name of the financial institution",
                     short_name: "Short name",
                     legal_name: "Full legal name",
                     institution_type: "Institution type",
@@ -1971,7 +1979,15 @@ const en: TranslationMessages = {
                     payment_types: "Payment types",
                     currencies: "Currencies",
                     id: "ID",
-                    meta: "Metadata"
+                    meta: "Metadata",
+                    types: {
+                        BANK: "Bank",
+                        OTHER: "Other"
+                    }
+                },
+                errors: {
+                    name: "The name of the financial institution is required",
+                    country_code: "The country code is entered incorrectly"
                 },
                 createFinancialInstitutionBtn: "Create institution",
                 createFinancialInstitutionTitle: "Create a financial institution",

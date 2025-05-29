@@ -13,9 +13,24 @@ import {
     FinancialInstitution,
     FinancialInstitutionCreate as IFinancialInstitutionCreate
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Label } from "@/components/ui/label";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
 
 export interface PaymentTypeCreateProps {
     onClose?: () => void;
+}
+
+enum FinancialInstitutionTypes {
+    BANK = "BANK",
+    OTHER = "OTHER"
 }
 
 export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCreateProps) => {
@@ -30,15 +45,32 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const formSchema = z.object({
-        name: z.string().min(1, translate("resources.paymentTools.paymentType.errors.code")).trim(),
-        country_code: z.string().regex(/^\w{2}$/)
+        name: z.string().min(1, translate("resources.paymentTools.financialInstitution.errors.name")).trim(),
+        short_name: z.string().trim().optional(),
+        legal_name: z.string().trim().optional(),
+        tax_id_number: z.string().trim().optional(),
+        registration_number: z.string().trim().optional(),
+        nspk_member_id: z.string().trim().optional(),
+        bic: z.string().trim().optional(),
+        institution_type: z.enum([FinancialInstitutionTypes.BANK, FinancialInstitutionTypes.OTHER]),
+        country_code: z
+            .string()
+            .regex(/^\w{2}$/, translate("resources.paymentTools.financialInstitution.errors.country_code"))
+            .trim()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            country_code: ""
+            country_code: "",
+            short_name: "",
+            legal_name: "",
+            tax_id_number: "",
+            registration_number: "",
+            nspk_member_id: "",
+            bic: "",
+            institution_type: FinancialInstitutionTypes.BANK
         }
     });
 
@@ -91,6 +123,111 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
                                     </FormItem>
                                 )}
                             />
+
+                            <FormField
+                                control={form.control}
+                                name="short_name"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate(
+                                                    "resources.paymentTools.financialInstitution.fields.short_name"
+                                                )}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+                        <FormField
+                            control={form.control}
+                            name="legal_name"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            variant={InputTypes.GRAY}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            label={translate(
+                                                "resources.paymentTools.financialInstitution.fields.legal_name"
+                                            )}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2">
+                            <FormField
+                                control={form.control}
+                                name="tax_id_number"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate(
+                                                    "resources.paymentTools.financialInstitution.fields.tax_id_number"
+                                                )}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="registration_number"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate(
+                                                    "resources.paymentTools.financialInstitution.fields.registration_number"
+                                                )}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-3">
+                            <FormField
+                                control={form.control}
+                                name="nspk_member_id"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate(
+                                                    "resources.paymentTools.financialInstitution.fields.nspk_member_id"
+                                                )}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
                             <FormField
                                 control={form.control}
                                 name="country_code"
@@ -110,7 +247,73 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
                                     </FormItem>
                                 )}
                             />
+
+                            <FormField
+                                control={form.control}
+                                name="bic"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate(
+                                                    "resources.paymentTools.financialInstitution.fields.bic"
+                                                )}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
                         </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2">
+                            <FormField
+                                control={form.control}
+                                name="institution_type"
+                                render={({ field, fieldState }) => {
+                                    return (
+                                        <FormItem className="w-full p-2">
+                                            <Label>
+                                                {translate(
+                                                    "resources.paymentTools.financialInstitution.fields.institution_type"
+                                                )}
+                                            </Label>
+                                            <Select value={field.value} onValueChange={field.onChange}>
+                                                <FormControl>
+                                                    <SelectTrigger
+                                                        variant={SelectType.GRAY}
+                                                        isError={fieldState.invalid}
+                                                        errorMessage={<FormMessage />}>
+                                                        <SelectValue
+                                                            placeholder={translate("resources.direction.fields.active")}
+                                                            defaultValue={FinancialInstitutionTypes.BANK}
+                                                        />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        {Object.keys(FinancialInstitutionTypes).map(type => (
+                                                            <SelectItem
+                                                                key={type}
+                                                                value={type}
+                                                                variant={SelectType.GRAY}>
+                                                                {translate(
+                                                                    `resources.paymentTools.financialInstitution.fields.types.${type}`
+                                                                )}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
+                                        </FormItem>
+                                    );
+                                }}
+                            />
+                        </div>
+
                         <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                             <Button
                                 type="submit"
