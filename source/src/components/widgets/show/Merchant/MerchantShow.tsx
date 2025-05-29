@@ -16,7 +16,7 @@ import { EditMerchantDialog } from "../../lists/Merchants/EditMerchantDialog";
 import { useState } from "react";
 import { DeleteMerchantDialog } from "../../lists/Merchants/DeleteMerchantDialog";
 import { useQuery } from "@tanstack/react-query";
-import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShow";
+import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowComponent";
 
 interface MerchantShowProps {
     id: string;

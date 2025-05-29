@@ -799,11 +799,11 @@ const ru: TranslationMessages = {
                     codeRegex: "Код может содержать только буквы, цифры, подчеркивание и тире"
                 },
                 fields: {
-                    code: "Код",
-                    title: "Название",
+                    code: "Название",
+                    title: "Описание",
                     payment_types: "Типы платежей",
                     category: "Категория",
-                    icon: "Иконка"
+                    icon: "Обозначение"
                 },
                 deletePaymentTypeQuestion: "Удалить тип платежа?",
                 creatingPaymentType: "Создание типа платежа",
@@ -1935,11 +1935,11 @@ const en: TranslationMessages = {
                 },
                 name: "Payment types",
                 fields: {
-                    code: "Code",
-                    title: "Title",
+                    code: "Title",
+                    title: "Description",
                     payment_types: "Payment types",
                     category: "Category",
-                    icon: "Icon"
+                    icon: "Symbol"
                 },
                 deletePaymentTypeQuestion: "Delete payment type?",
                 creatingPaymentType: "Creating payment type",

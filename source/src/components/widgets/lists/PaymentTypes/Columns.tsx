@@ -26,6 +26,19 @@ export const useGetPaymentTypesColumns = () => {
 
     const columns: ColumnDef<PaymentTypeWithId>[] = [
         {
+            id: "icon",
+            header: () => (
+                <div className="text-center">{translate("resources.paymentTools.paymentType.fields.icon")}</div>
+            ),
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center justify-center">
+                        <PaymentTypeIcon type={row.original.code} />
+                    </div>
+                );
+            }
+        },
+        {
             id: "code",
             accessorKey: "code",
             header: translate("resources.paymentTools.paymentType.fields.code")
@@ -40,19 +53,7 @@ export const useGetPaymentTypesColumns = () => {
             accessorKey: "category",
             header: translate("resources.paymentTools.paymentType.fields.category")
         },
-        {
-            id: "icon",
-            header: () => (
-                <div className="text-center">{translate("resources.paymentTools.paymentType.fields.icon")}</div>
-            ),
-            cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <PaymentTypeIcon type={row.original.code} />
-                    </div>
-                );
-            }
-        },
+
         {
             id: "update_field",
             header: () => {
