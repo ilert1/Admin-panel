@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { useTranslate } from "react-admin";
 import { NavLink, useLocation } from "react-router-dom";
+import SystemToolsIcon from "@/lib/icons/System_tools.svg?react";
 
 interface ICustomViewRoute {
     name: string;
@@ -44,7 +45,7 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
             {
                 name: "systemPaymentInstruments",
                 path: "/paymentTools/systemPaymentInstruments",
-                icon: <Bolt />
+                icon: <SystemToolsIcon className="stroke-white" />
             }
         ]
     };

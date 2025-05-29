@@ -11,38 +11,36 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
-import { PaymentTypeCreate, PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { SystemPaymentInstrument, SystemPaymentInstrumentCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
-    paymentTypeEndpointsCreatePaymentTypeEnigmaV1PaymentTypePost,
-    paymentTypeEndpointsDeletePaymentTypeEnigmaV1PaymentTypePaymentTypeCodeDelete,
-    paymentTypeEndpointsGetPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeGet,
-    paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet,
-    paymentTypeEndpointsUpdatePaymentTypeEnigmaV1PaymentTypePaymentTypeCodePut
-} from "@/api/enigma/payment-type/payment-type";
-
-export type PaymentTypeWithId = PaymentTypeModel & { id: string };
+    systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPost,
+    systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDelete,
+    systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGet,
+    systemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGet,
+    systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatch
+} from "@/api/enigma/system-payment-instruments/system-payment-instruments";
 
 // /system-payment-instruments
 export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
-    async getList(resource: string, params: GetListParams): Promise<GetListResult<PaymentTypeWithId>> {
-        const res = await paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet(
-            {
-                currentPage: params?.pagination?.page,
-                pageSize: params?.pagination?.perPage
-            },
-            {
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+    async getList(resource: string, params: GetListParams): Promise<GetListResult<SystemPaymentInstrument>> {
+        const res =
+            await systemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGet(
+                {
+                    currentPage: params?.pagination?.page,
+                    pageSize: params?.pagination?.perPage
                 },
-                signal: params.signal || params.filter?.signal
-            }
-        );
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    },
+                    signal: params.signal || params.filter?.signal
+                }
+            );
 
         if ("data" in res.data && res.data.success) {
             return {
                 data: res.data.data.items.map(elem => {
                     return {
-                        id: elem.code,
                         ...elem
                     };
                 }),
@@ -60,24 +58,24 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination(): Promise<GetListResult<PaymentTypeWithId>> {
-        const res = await paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet(
-            {
-                currentPage: 1,
-                pageSize: 1000
-            },
-            {
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+    async getListWithoutPagination(): Promise<GetListResult<SystemPaymentInstrument>> {
+        const res =
+            await systemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGet(
+                {
+                    currentPage: 1,
+                    pageSize: 1000
+                },
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
                 }
-            }
-        );
+            );
 
         if ("data" in res.data && res.data.success) {
             return {
                 data: res.data.data.items.map(elem => {
                     return {
-                        id: elem.code,
                         ...elem
                     };
                 }),
@@ -95,18 +93,21 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
         };
     }
 
-    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<PaymentTypeWithId>> {
-        const res = await paymentTypeEndpointsGetPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeGet(params.id, {
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("access-token")}`
-            },
-            signal: params.signal || params.meta?.signal
-        });
+    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<SystemPaymentInstrument>> {
+        const res =
+            await systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGet(
+                params.id,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    },
+                    signal: params.signal || params.meta?.signal
+                }
+            );
 
         if ("data" in res.data && res.data.success) {
             return {
                 data: {
-                    id: res.data.data.code,
                     ...res.data.data
                 }
             };
@@ -119,20 +120,20 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async create(resource: string, params: CreateParams): Promise<CreateResult<PaymentTypeWithId>> {
-        const res = await paymentTypeEndpointsCreatePaymentTypeEnigmaV1PaymentTypePost(
-            params.data as PaymentTypeCreate,
-            {
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+    async create(resource: string, params: CreateParams): Promise<CreateResult<SystemPaymentInstrument>> {
+        const res =
+            await systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPost(
+                params.data as SystemPaymentInstrumentCreate,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
                 }
-            }
-        );
+            );
 
         if ("data" in res.data && res.data.success) {
             return {
                 data: {
-                    id: res.data.data.code,
                     ...res.data.data
                 }
             };
@@ -145,21 +146,21 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async update(resource: string, params: UpdateParams): Promise<UpdateResult<PaymentTypeWithId>> {
-        const res = await paymentTypeEndpointsUpdatePaymentTypeEnigmaV1PaymentTypePaymentTypeCodePut(
-            params.id,
-            params.data,
-            {
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+    async update(resource: string, params: UpdateParams): Promise<UpdateResult<SystemPaymentInstrument>> {
+        const res =
+            await systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatch(
+                params.id,
+                params.data,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
                 }
-            }
-        );
+            );
 
         if ("data" in res.data && res.data.success) {
             return {
                 data: {
-                    id: res.data.data.code,
                     ...res.data.data
                 }
             };
@@ -172,12 +173,16 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<PaymentTypeWithId, "id">>> {
-        const res = await paymentTypeEndpointsDeletePaymentTypeEnigmaV1PaymentTypePaymentTypeCodeDelete(params.id, {
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("access-token")}`
-            }
-        });
+    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<SystemPaymentInstrument, "id">>> {
+        const res =
+            await systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDelete(
+                params.id,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
 
         if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);
