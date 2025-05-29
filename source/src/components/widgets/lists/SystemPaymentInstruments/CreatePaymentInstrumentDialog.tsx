@@ -6,8 +6,8 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { useRefresh, useTranslate } from "react-admin";
-import { PaymentTypeCreate } from "../../create/PaymentTypeCreate";
+import { useTranslate } from "react-admin";
+import { PaymentInstrumentCreate } from "../../create/PaymentInstrumentCreate";
 
 interface CreatePaymentInstrumentDialogProps {
     open?: boolean;
@@ -15,7 +15,6 @@ interface CreatePaymentInstrumentDialogProps {
 }
 export const CreatePaymentInstrumentDialog = (props: CreatePaymentInstrumentDialogProps) => {
     const { open, onOpenChange = () => {} } = props;
-    const refresh = useRefresh();
     const translate = useTranslate();
 
     return (
@@ -28,12 +27,7 @@ export const CreatePaymentInstrumentDialog = (props: CreatePaymentInstrumentDial
                         {translate("resources.paymentTools.systemPaymentInstruments.creatingPaymentInstrument")}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
-                    <PaymentTypeCreate
-                        onClose={() => {
-                            refresh();
-                            onOpenChange(false);
-                        }}
-                    />
+                    <PaymentInstrumentCreate onOpenChange={onOpenChange} />
                 </DialogHeader>
                 <DialogFooter></DialogFooter>
             </DialogContent>

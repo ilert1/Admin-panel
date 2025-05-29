@@ -1,10 +1,28 @@
-import { CallbackMappingCreate } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
+import {
+    DirectionType,
+    SystemPaymentInstrumentCreate,
+    SystemPaymentInstrumentStatus
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Button } from "@/components/ui/Button";
 import { FormField, FormItem, FormControl, FormMessage } from "@/components/ui/form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
+import { Label } from "@/components/ui/label";
+import { Loading } from "@/components/ui/loading";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { PaymentTypeWithId } from "@/data/payment_types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { Button, useDataProvider, useRefresh, useTranslate } from "react-admin";
+import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -22,11 +40,20 @@ export const PaymentInstrumentCreate = (props: PaymentInstrumentCreateProps) => 
 
     const [buttonDisabled, setButtonDisabled] = useState(false);
 
-    const onSubmit: SubmitHandler<CallbackMappingCreate> = async data => {
+    const { data: paymentTypes, isLoading: paymentTypesLoading } = useQuery({
+        queryKey: ["paymentTypes"],
+        queryFn: () => dataProvider.getListWithoutPagination("payment_type"),
+        select: data => data.data
+    });
+
+    console.log(paymentTypes);
+
+    const onSubmit: SubmitHandler<SystemPaymentInstrumentCreate> = async data => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
         try {
-            await dataProvider.create("callbridge/v1/mapping", { data: data });
+            await dataProvider.create("systemPaymentInstruments", { data: data });
+
             appToast(
                 "success",
                 translate("resources.paymentTools.systemPaymentInstruments.createSuccess"),
@@ -59,30 +86,12 @@ export const PaymentInstrumentCreate = (props: PaymentInstrumentCreateProps) => 
             .string()
             .uuid()
             .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty")),
-        direction: z.enum(["universal", "deposit", "withdraw"]).default("universal"),
-        status: z.string().min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty")),
-        description: z.string().min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty")),
-        meta: z.object({
-            processor_id: z
-                .string()
-                .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty")),
-            region: z.string().min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty"))
-        })
+        direction: z.enum(Object.keys(DirectionType) as [string, ...string[]]).default("universal"),
+        status: z.enum(Object.keys(SystemPaymentInstrumentStatus) as [string, ...string[]]).default("active"),
+        description: z.string().optional(),
+        // meta	:Additional metadata in JSON format, useful for custom configurations or notes.
+        meta: z.object({}).optional()
     });
-
-    // {
-    //     "name": "MainCardProcessor_USD_Deposit",
-    //     "payment_type_code": "card2card",
-    //     "currency_code": "USD",
-    //     "financial_institution_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
-    //     "direction": "universal",
-    //     "status": "active",
-    //     "description": "Primary instrument for USD card deposits via MainCardProcessor.",
-    //     "meta": {
-    //     "processor_id": "proc_001",
-    //     "region": "US"
-    //     }
-    //     }
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -94,12 +103,17 @@ export const PaymentInstrumentCreate = (props: PaymentInstrumentCreateProps) => 
             direction: "",
             status: "",
             description: "",
-            meta: {
-                processor_id: "",
-                region: ""
-            }
+            meta: {}
         }
     });
+    if (paymentTypesLoading)
+        return (
+            <div className="h-[300px]">
+                <Loading />
+            </div>
+        );
+
+    const paymentsDisabled = !paymentTypes || paymentTypes.length === 0;
 
     return (
         <FormProvider {...form}>
@@ -126,22 +140,42 @@ export const PaymentInstrumentCreate = (props: PaymentInstrumentCreateProps) => 
                     />
                     <FormField
                         control={form.control}
-                        name="internal_path"
+                        name="payment_type_code"
                         render={({ field, fieldState }) => (
-                            <FormItem>
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        variant={InputTypes.GRAY}
-                                        label={translate("resources.callbridge.mapping.fields.ext_path")}
-                                        error={fieldState.invalid}
-                                        errorMessage={<FormMessage />}
-                                    />
-                                </FormControl>
+                            <FormItem className="w-full p-2 sm:w-1/2">
+                                <Label>AAA</Label>
+                                <Select value={field.value} onValueChange={field.onChange} disabled={paymentsDisabled}>
+                                    <FormControl>
+                                        <SelectTrigger
+                                            variant={SelectType.GRAY}
+                                            isError={fieldState.invalid}
+                                            errorMessage={<FormMessage />}>
+                                            <SelectValue
+                                                placeholder={
+                                                    paymentsDisabled ? translate("resources.direction.noTerminals") : ""
+                                                }
+                                            />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            {!paymentsDisabled
+                                                ? paymentTypes.map((paymentType: PaymentTypeWithId) => (
+                                                      <SelectItem
+                                                          key={paymentType.code}
+                                                          value={paymentType.code}
+                                                          variant={SelectType.GRAY}>
+                                                          {paymentType.code}
+                                                      </SelectItem>
+                                                  ))
+                                                : ""}
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
                             </FormItem>
                         )}
                     />
-                    <FormField
+                    {/* <FormField
                         control={form.control}
                         name="external_path"
                         render={({ field, fieldState }) => (
@@ -174,7 +208,7 @@ export const PaymentInstrumentCreate = (props: PaymentInstrumentCreateProps) => 
                                 </FormControl>
                             </FormItem>
                         )}
-                    />
+                    /> */}
                 </div>
 
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:self-end">
