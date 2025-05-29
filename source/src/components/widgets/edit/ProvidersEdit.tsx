@@ -1,4 +1,4 @@
-import { useEditController, EditContextProvider, useTranslate, useDataProvider } from "react-admin";
+import { useTranslate, useDataProvider } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { useEffect, useState } from "react";
@@ -14,6 +14,7 @@ import { ProvidersDataProvider, ProviderWithId } from "@/data/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
+import { useQuery } from "@tanstack/react-query";
 
 export interface ProviderEditParams {
     id?: string;
@@ -24,10 +25,15 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
     const dataProvider = useDataProvider();
     const providersDataProvider = new ProvidersDataProvider();
 
-    const controllerProps = useEditController<ProviderWithId>({
-        resource: "provider",
-        id,
-        mutationMode: "pessimistic"
+    const {
+        data: provider,
+        isLoading: isLoadingProvider,
+        isFetchedAfterMount
+    } = useQuery({
+        queryKey: ["provider", id],
+        queryFn: () => dataProvider.getOne<ProviderWithId>("provider", { id: id ?? "" }),
+        enabled: true,
+        select: data => data.data
     });
 
     const translate = useTranslate();
@@ -36,6 +42,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+    const [isFinished, setIsFinished] = useState(false);
 
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
@@ -50,25 +57,29 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: controllerProps.record?.name || "",
-            public_key: controllerProps.record?.public_key || "",
-            fields_json_schema: controllerProps.record?.fields_json_schema || "",
-            methods: JSON.stringify(controllerProps.record?.methods) || "",
-            payment_types: controllerProps.record?.payment_types?.map(pt => pt.code) || []
+            name: "",
+            public_key: "",
+            fields_json_schema: "",
+            methods: "",
+            payment_types: []
         }
     });
 
     useEffect(() => {
-        if (controllerProps.record) {
-            form.reset({
-                name: controllerProps.record.name || "",
-                public_key: controllerProps.record.public_key || "",
-                fields_json_schema: controllerProps.record.fields_json_schema || "",
-                methods: JSON.stringify(controllerProps.record.methods, null, 2) || "",
-                payment_types: controllerProps.record.payment_types?.map(pt => pt.code) || []
-            });
+        if (!isLoadingProvider && provider && isFetchedAfterMount) {
+            const updatedValues = {
+                name: provider.name || "",
+                public_key: provider.public_key || "",
+                fields_json_schema: provider.fields_json_schema || "",
+                methods: JSON.stringify(provider.methods, null, 2) || "",
+                payment_types: provider?.payment_types?.map(pt => pt.code) || []
+            };
+
+            form.reset(updatedValues);
+            setIsFinished(true);
         }
-    }, [form, controllerProps.record]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [provider, isLoadingProvider, isFetchedAfterMount]);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
@@ -78,8 +89,8 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         let payment_types: string[] = [];
         let oldPaymentTypes: Set<string> = new Set();
 
-        if (controllerProps.record?.payment_types) {
-            oldPaymentTypes = new Set(controllerProps.record?.payment_types?.map(pt => pt.code));
+        if (provider?.payment_types) {
+            oldPaymentTypes = new Set(provider?.payment_types?.map(pt => pt.code));
         }
 
         if (data.payment_types) {
@@ -122,108 +133,106 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         onClose();
     };
 
-    usePreventFocus({ dependencies: [controllerProps.record] });
+    usePreventFocus({ dependencies: [provider] });
 
-    if (controllerProps.isLoading || !controllerProps.record || isLoadingAllPaymentTypes)
+    if (isLoadingProvider || !provider || isLoadingAllPaymentTypes || !isFinished)
         return (
             <div className="h-[400px]">
                 <Loading />
             </div>
         );
     return (
-        <EditContextProvider value={controllerProps}>
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <div className="flex flex-wrap">
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            disabled
-                                            variant={InputTypes.GRAY}
-                                            label={translate("resources.provider.fields._name")}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="fields_json_schema"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            label={translate("resources.provider.fields.json_schema")}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="methods"
-                            render={({ field }) => (
-                                <FormItem className="w-full p-2">
-                                    <Label className="!mb-0">{translate("resources.provider.fields.code")}</Label>
-                                    <FormControl>
-                                        <MonacoEditor
-                                            width="100%"
-                                            onMountEditor={() => setMonacoEditorMounted(true)}
-                                            onErrorsChange={setHasErrors}
-                                            code={field.value}
-                                            setCode={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="payment_types"
-                            render={({ field }) => (
-                                <FormItem className="w-full p-2">
-                                    <FormControl>
-                                        <PaymentTypeMultiSelect
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                            options={allPaymentTypes || []}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <div className="flex flex-wrap">
+                    <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field, fieldState }) => (
+                            <FormItem className="w-full p-2 sm:w-1/2">
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        disabled
+                                        variant={InputTypes.GRAY}
+                                        label={translate("resources.provider.fields._name")}
+                                        error={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="fields_json_schema"
+                        render={({ field, fieldState }) => (
+                            <FormItem className="w-full p-2 sm:w-1/2">
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        variant={InputTypes.GRAY}
+                                        label={translate("resources.provider.fields.json_schema")}
+                                        error={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="methods"
+                        render={({ field }) => (
+                            <FormItem className="w-full p-2">
+                                <Label className="!mb-0">{translate("resources.provider.fields.code")}</Label>
+                                <FormControl>
+                                    <MonacoEditor
+                                        width="100%"
+                                        onMountEditor={() => setMonacoEditorMounted(true)}
+                                        onErrorsChange={setHasErrors}
+                                        code={field.value}
+                                        setCode={field.onChange}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="payment_types"
+                        render={({ field }) => (
+                            <FormItem className="w-full p-2">
+                                <FormControl>
+                                    <PaymentTypeMultiSelect
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        options={allPaymentTypes || []}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
 
-                        <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
-                            <Button
-                                disabled={hasErrors || !monacoEditorMounted || submitButtonDisabled}
-                                type="submit"
-                                variant="default"
-                                className="flex-1">
-                                {translate("app.ui.actions.save")}
-                            </Button>
-                            <Button
-                                type="button"
-                                variant="outline_gray"
-                                className="mt-4 w-full flex-1 sm:mt-0 sm:w-1/2"
-                                onClick={onClose}>
-                                {translate("app.ui.actions.cancel")}
-                            </Button>
-                        </div>
+                    <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
+                        <Button
+                            disabled={hasErrors || !monacoEditorMounted || submitButtonDisabled}
+                            type="submit"
+                            variant="default"
+                            className="flex-1">
+                            {translate("app.ui.actions.save")}
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="outline_gray"
+                            className="mt-4 w-full flex-1 sm:mt-0 sm:w-1/2"
+                            onClick={onClose}>
+                            {translate("app.ui.actions.cancel")}
+                        </Button>
                     </div>
-                </form>
-            </Form>
-        </EditContextProvider>
+                </div>
+            </form>
+        </Form>
     );
 };
