@@ -840,6 +840,11 @@ const ru: TranslationMessages = {
                     name: "Название финансового института обязательно",
                     country_code: "Код страны введен не правильно"
                 },
+                success: {
+                    ACTIVE: "активна",
+                    INACTIVE: "деактивирована",
+                    editActivity: "Активность финансовой организации %{name} успешно изменена на: %{state}."
+                },
                 createFinancialInstitutionBtn: "Добавить организацию",
                 createFinancialInstitutionTitle: "Добавление финансовой организации",
                 deleteFinancialInstitution: "Удалить фин. организацию?"
@@ -2016,6 +2021,13 @@ const en: TranslationMessages = {
                     name: "The name of the financial institution is required",
                     country_code: "The country code is entered incorrectly"
                 },
+                success: {
+                    ACTIVE: "active",
+                    INACTIVE: "inactive",
+                    editActivity:
+                        "The activity of the financial institution %{name} has been successfully changed to: %{state}."
+                },
+
                 createFinancialInstitutionBtn: "Create institution",
                 createFinancialInstitutionTitle: "Create a financial institution",
                 deleteFinancialInstitution: "Delete financial institution?"

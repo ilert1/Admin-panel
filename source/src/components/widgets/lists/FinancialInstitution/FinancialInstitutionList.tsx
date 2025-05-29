@@ -11,7 +11,9 @@ import { CreateFinancialInstitutionDialog } from "./CreateFinancialInstitutionDi
 export const FinancialInstitutionList = () => {
     const listContext = useAbortableListController({ resource: "financialInstitution" });
 
-    const { translate, columns, createDialogOpen, setCreateDialogOpen } = useGetFinancialInstitutionColumns();
+    const { translate, columns, createDialogOpen, setCreateDialogOpen } = useGetFinancialInstitutionColumns({
+        isFetching: listContext.isFetching
+    });
 
     return (
         <>

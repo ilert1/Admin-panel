@@ -4,12 +4,12 @@ import { FinancialInstitution } from "@/api/enigma/blowFishEnigmaAPIService.sche
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import { TextField } from "@/components/ui/text-field";
-import { ToggleActiveUser } from "@/components/ui/toggle-active-user";
 import { EyeIcon } from "lucide-react";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { FinancialInstitutionActivityBtn } from "./FinancialInstitutionActivityBtn";
 
-export const useGetFinancialInstitutionColumns = () => {
+export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
     const { openSheet } = useSheets();
@@ -206,9 +206,12 @@ export const useGetFinancialInstitutionColumns = () => {
             header: translate("resources.paymentTools.financialInstitution.fields.status"),
             cell: ({ row }) => {
                 return (
-                    <div className="flex items-center justify-center">
-                        <ToggleActiveUser active={row.original.status === "ACTIVE" ? true : false} />
-                    </div>
+                    <FinancialInstitutionActivityBtn
+                        id={row.original.id}
+                        financialInstitutionName={row.original.name}
+                        activityState={row.original.status === "ACTIVE" ? true : false}
+                        isFetching={isFetching}
+                    />
                 );
             }
         },
