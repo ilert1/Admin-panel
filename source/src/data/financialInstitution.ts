@@ -26,6 +26,11 @@ import {
     financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPut
 } from "@/api/enigma/financial-institution/financial-institution";
 
+export enum FinancialInstitutionTypes {
+    BANK = "BANK",
+    OTHER = "OTHER"
+}
+
 export class FinancialInstitutionProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<FinancialInstitution>> {
         const res = await financialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGet(

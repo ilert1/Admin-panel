@@ -23,15 +23,10 @@ import {
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
-import { FinancialInstitutionProvider } from "@/data/financialInstitution";
+import { FinancialInstitutionProvider, FinancialInstitutionTypes } from "@/data/financialInstitution";
 
 export interface PaymentTypeCreateProps {
     onClose?: () => void;
-}
-
-enum FinancialInstitutionTypes {
-    BANK = "BANK",
-    OTHER = "OTHER"
 }
 
 export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCreateProps) => {
