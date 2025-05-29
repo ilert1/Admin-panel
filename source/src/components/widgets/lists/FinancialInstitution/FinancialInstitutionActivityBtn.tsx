@@ -2,7 +2,7 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { FinancialInstitutionProvider } from "@/data/financialInstitution";
 import clsx from "clsx";
 import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRefresh, useTranslate } from "react-admin";
 
 interface IFinancialInstitutionActivityBtn {
@@ -25,6 +25,13 @@ export const FinancialInstitutionActivityBtn = ({
     const [currentState, setCurrentState] = useState(() => activityState);
     const [btnDisabled, setBtnDisabled] = useState(false);
     const financialInstitutionProvider = new FinancialInstitutionProvider();
+
+    useEffect(() => {
+        if (currentState !== activityState) {
+            setCurrentState(activityState);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activityState]);
 
     const changeActivity = async () => {
         const tempStateActivity = currentState;

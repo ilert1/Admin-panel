@@ -4,13 +4,13 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 import { TextField } from "@/components/ui/text-field";
 import { FinancialInstitution } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
-import { ToggleActiveUser } from "@/components/ui/toggle-active-user";
 import { Button } from "@/components/ui/Button";
 import { useCallback, useState } from "react";
 import { DeleteFinancialInstitutionDialog } from "./DeleteFinancialInstitutionDialog";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { EditFinancialInstitutionDialog } from "./EditFinancialInstitutionDialog";
+import { FinancialInstitutionActivityBtn } from "../../lists/FinancialInstitution/FinancialInstitutionActivityBtn";
 
 export interface DirectionsShowProps {
     id: string;
@@ -44,9 +44,12 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: DirectionsShowPro
                 <TextField text={context.record.name} copyValue className="text-neutral-70 dark:text-neutral-30" />
 
                 <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0 sm:self-center">
-                    <div className="flex items-center justify-center">
-                        <ToggleActiveUser active={context.record.status === "ACTIVE" ? true : false} />
-                    </div>
+                    <FinancialInstitutionActivityBtn
+                        id={context.record.id}
+                        financialInstitutionName={context.record.name}
+                        activityState={context.record.status === "ACTIVE" ? true : false}
+                        isFetching={context.isFetching}
+                    />
                 </div>
             </div>
 
