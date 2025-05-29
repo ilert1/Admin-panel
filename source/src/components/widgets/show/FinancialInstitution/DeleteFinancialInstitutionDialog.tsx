@@ -8,7 +8,8 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { useDelete, useRefresh, useTranslate } from "react-admin";
+import { FinancialInstitutionProvider } from "@/data/financialInstitution";
+import { useRefresh, useTranslate } from "react-admin";
 
 export interface DeleteFinancialInstitutionProps {
     open: boolean;
@@ -16,25 +17,30 @@ export interface DeleteFinancialInstitutionProps {
     id: string;
     onQuickShowOpenChange: (state: boolean) => void;
 }
-export const DeleteFinancialInstitutionDialog = (props: DeleteFinancialInstitutionProps) => {
-    const { open, id, onOpenChange, onQuickShowOpenChange } = props;
-
+export const DeleteFinancialInstitutionDialog = ({
+    open,
+    id,
+    onOpenChange,
+    onQuickShowOpenChange
+}: DeleteFinancialInstitutionProps) => {
+    const financialInstitutionProvider = new FinancialInstitutionProvider();
     const refresh = useRefresh();
     const translate = useTranslate();
-    const [deleteOne] = useDelete();
     const appToast = useAppToast();
 
     const handleDelete = () => {
         const deleteElem = async () => {
             try {
-                await deleteOne("financialInstitution", {
+                await financialInstitutionProvider.delete("financialInstitution", {
                     id
                 });
+
                 refresh();
-                onOpenChange(false);
                 onQuickShowOpenChange(false);
             } catch (error) {
                 if (error instanceof Error) appToast("error", error.message);
+            } finally {
+                onOpenChange(false);
             }
         };
         deleteElem();
