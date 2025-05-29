@@ -1,18 +1,15 @@
-import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import {
-    FinancialInstitution,
-    FinancialInstitutionCreate as IFinancialInstitutionCreate
-} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { FinancialInstitutionCreate as IFinancialInstitutionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Label } from "@/components/ui/label";
 import {
     Select,
@@ -23,6 +20,10 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
+import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
+import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
+import { FinancialInstitutionProvider } from "@/data/financialInstitution";
 
 export interface PaymentTypeCreateProps {
     onClose?: () => void;
@@ -34,7 +35,7 @@ enum FinancialInstitutionTypes {
 }
 
 export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCreateProps) => {
-    const dataProvider = useDataProvider();
+    const dataProvider = new FinancialInstitutionProvider();
     const controllerProps = useCreateController<IFinancialInstitutionCreate>();
 
     const { theme } = useTheme();
@@ -42,6 +43,10 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
     const refresh = useRefresh();
     const translate = useTranslate();
 
+    const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
+
+    const [hasErrors, setHasErrors] = useState(false);
+    const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const formSchema = z.object({
@@ -56,7 +61,9 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
         country_code: z
             .string()
             .regex(/^\w{2}$/, translate("resources.paymentTools.financialInstitution.errors.country_code"))
-            .trim()
+            .trim(),
+        payment_types: z.array(z.string()).optional(),
+        meta: z.string().trim().optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -70,17 +77,40 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
             registration_number: "",
             nspk_member_id: "",
             bic: "",
-            institution_type: FinancialInstitutionTypes.BANK
+            institution_type: FinancialInstitutionTypes.BANK,
+            payment_types: [],
+            meta: ""
         }
     });
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
 
+        let payment_types: string[] = [];
         setSubmitButtonDisabled(true);
 
+        if (data.payment_types) {
+            payment_types = [...data.payment_types];
+            delete data.payment_types;
+        }
+
+        console.log(data);
+
         try {
-            await dataProvider.create<FinancialInstitution>("financialInstitution", { data });
+            const { data: financialInstitutionData } = await dataProvider.create("financialInstitution", {
+                data: { ...data, meta: data.meta && data.meta.length !== 0 ? JSON.parse(data.meta) : {} }
+            });
+
+            if (payment_types.length > 0) {
+                await dataProvider.addPaymentTypes({
+                    id: financialInstitutionData.id,
+                    data: {
+                        codes: payment_types
+                    },
+                    previousData: undefined
+                });
+            }
+
             appToast("success", translate("app.ui.create.createSuccess"));
 
             refresh();
@@ -96,7 +126,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
         }
     };
 
-    if (controllerProps.isLoading || theme.length === 0) return <Loading />;
+    if (controllerProps.isLoading || isLoadingAllPaymentTypes || theme.length === 0) return <Loading />;
 
     return (
         <CreateContextProvider value={controllerProps}>
@@ -312,14 +342,56 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
                                     );
                                 }}
                             />
+
+                            <FormField
+                                control={form.control}
+                                name="payment_types"
+                                render={({ field }) => (
+                                    <FormItem className="w-full p-2">
+                                        <FormControl>
+                                            <PaymentTypeMultiSelect
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                options={allPaymentTypes || []}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
                         </div>
+
+                        <FormField
+                            control={form.control}
+                            name="meta"
+                            render={({ field }) => {
+                                return (
+                                    <FormItem className="w-full p-2">
+                                        <FormLabel>
+                                            <span className="!text-note-1 !text-neutral-30">
+                                                {translate("resources.paymentTools.financialInstitution.fields.meta")}
+                                            </span>
+                                        </FormLabel>
+
+                                        <FormControl>
+                                            <MonacoEditor
+                                                onErrorsChange={setHasErrors}
+                                                onMountEditor={() => setMonacoEditorMounted(true)}
+                                                code={field.value || "{}"}
+                                                setCode={field.onChange}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                );
+                            }}
+                        />
 
                         <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                             <Button
                                 type="submit"
                                 variant="default"
                                 className="w-full sm:w-1/2"
-                                disabled={submitButtonDisabled}>
+                                disabled={hasErrors || !monacoEditorMounted || submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button
