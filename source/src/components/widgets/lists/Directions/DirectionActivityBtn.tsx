@@ -2,8 +2,8 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { DirectionsDataProvider } from "@/data";
 import clsx from "clsx";
 import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
-import { useState } from "react";
-import { useTranslate } from "react-admin";
+import { useEffect, useState } from "react";
+import { useRefresh, useTranslate } from "react-admin";
 
 interface IDirectionActivityBtn {
     id: string;
@@ -15,21 +15,28 @@ interface IDirectionActivityBtn {
 export const DirectionActivityBtn = ({ id, directionName, activityState, isFetching }: IDirectionActivityBtn) => {
     const appToast = useAppToast();
     const translate = useTranslate();
+    const refresh = useRefresh();
 
     const [currentState, setCurrentState] = useState(() => activityState);
     const [btnDisabled, setBtnDisabled] = useState(false);
     const dataProvider = new DirectionsDataProvider();
 
+    useEffect(() => {
+        if (currentState !== activityState) {
+            setCurrentState(activityState);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activityState]);
+
     const changeActivity = async () => {
-        const tempStateActivity = currentState;
+        const currentStateData = currentState ? "inactive" : "active";
 
         try {
-            setCurrentState(!tempStateActivity);
             setBtnDisabled(true);
 
             await dataProvider.updateStatus("direction", {
                 id,
-                data: { state: tempStateActivity ? "inactive" : "active" },
+                data: { state: currentStateData },
                 previousData: undefined
             });
 
@@ -37,11 +44,12 @@ export const DirectionActivityBtn = ({ id, directionName, activityState, isFetch
                 "success",
                 translate("resources.direction.success.editActivity", {
                     name: directionName,
-                    state: translate(`resources.direction.success.${tempStateActivity ? "inactive" : "active"}`)
+                    state: translate(`resources.direction.success.${currentStateData}`)
                 })
             );
+
+            refresh();
         } catch (error) {
-            setCurrentState(tempStateActivity);
             appToast("error", translate("app.ui.edit.editError"));
         } finally {
             setBtnDisabled(false);
