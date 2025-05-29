@@ -832,7 +832,34 @@ const ru: TranslationMessages = {
                 }
             },
             systemPaymentInstruments: {
-                name: "Системные инструменты"
+                name: "Системные инструменты",
+                fields: {
+                    name: "Название",
+                    payment_type_code: "Типа платежа",
+                    currency_code: "Валюта",
+                    financial_institution_id: "ID Финансовой организации",
+                    direction: "Направление",
+                    status: "Статус",
+                    description: "Описание",
+                    meta: "Метаданные"
+                },
+                list: {
+                    createdAt: "Дата и время создания",
+                    updatedAt: "Дата и время обновления",
+                    id: "ID",
+                    paymentType: "Инструмент",
+                    paymentTypeCode: "Ключ типа платежа",
+                    financialInstitution: "Финансовая организация",
+                    direction: "Направление операции"
+                },
+                errors: {
+                    cantBeEmpty: "Поле не может быть пустым",
+                    nameRegex: "Название может содержать только буквы, цифры, подчеркивание и тире"
+                },
+                creatingPaymentInstrument: "Создание платежного инструмента",
+                editingPaymentInstrument: "Изменение платежного инструмента",
+                createNew: "Добавить платежный инструмент",
+                deletePaymentInstrumentQuestion: "Удалить платежный инструмент?"
             },
             terminalInstrumentConfigurations: {
                 name: "Интеграции терминалов"
@@ -1968,7 +1995,34 @@ const en: TranslationMessages = {
                 }
             },
             systemPaymentInstruments: {
-                name: "System tools"
+                name: "System tools",
+                fields: {
+                    name: "Name",
+                    payment_type_code: "Payment type",
+                    currency_code: "Currency",
+                    financial_institution_id: "Financial institution ID",
+                    direction: "Direction",
+                    status: "Status",
+                    description: "Description",
+                    meta: "Meta"
+                },
+                list: {
+                    createdAt: "Created at",
+                    updatedAt: "Updated at",
+                    id: "ID",
+                    paymentType: "Instrument",
+                    financialInstitution: "Financial institution",
+                    paymentTypeCode: "Payment type key",
+                    direction: "Payment direction"
+                },
+                errors: {
+                    cantBeEmpty: "Field can't be empty",
+                    nameRegex: "Name can only contain letters, numbers, underscores, and hyphens"
+                },
+                creatingPaymentInstrument: "Creating payment instrument",
+                editingPaymentInstrument: "Editing payment instrument",
+                createNew: "Add payment instrument",
+                deletePaymentInstrumentQuestion: "Delete payment instrument?"
             },
             terminalInstrumentConfigurations: {
                 name: "Terminal integrations"

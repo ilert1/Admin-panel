@@ -8,11 +8,13 @@ import { CreatePaymentInstrumentDialog } from "./CreatePaymentInstrumentDialog";
 import { Button } from "@/components/ui/Button";
 import { CirclePlus } from "lucide-react";
 import { useTranslate } from "react-admin";
+import { DeletePaymentInstrumentDialog } from "./DeletePaymentInstrumentDialog";
 
 export const SystemPaymentInstrumentsList = () => {
     const listContext = useAbortableListController({ resource: "systemPaymentInstruments" });
     const translate = useTranslate();
-    const { columns, createDialogOpen, setCreateDialogOpen } = useGetSystemPaymentInstrumentsColumns();
+    const { columns, createDialogOpen, setCreateDialogOpen, showDeleteDialogOpen, setShowDeleteDialogOpen, chosenId } =
+        useGetSystemPaymentInstrumentsColumns();
 
     const handleCreateClicked = () => {
         setCreateDialogOpen(true);
@@ -35,6 +37,11 @@ export const SystemPaymentInstrumentsList = () => {
                 {listContext.isLoading || !listContext.data ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>
             <CreatePaymentInstrumentDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+            <DeletePaymentInstrumentDialog
+                open={showDeleteDialogOpen}
+                onOpenChange={setShowDeleteDialogOpen}
+                deleteId={chosenId}
+            />
         </>
     );
 };
