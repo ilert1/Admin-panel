@@ -10,8 +10,10 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
-import { ProviderWithId } from "@/data/providers";
+import { ProvidersDataProvider, ProviderWithId } from "@/data/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
+import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 
 export interface ProviderEditParams {
     id?: string;
@@ -20,6 +22,8 @@ export interface ProviderEditParams {
 
 export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) => {
     const dataProvider = useDataProvider();
+    const providersDataProvider = new ProvidersDataProvider();
+
     const controllerProps = useEditController<ProviderWithId>({
         resource: "provider",
         id,
@@ -33,11 +37,14 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
     const [hasErrors, setHasErrors] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
+    const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
+
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
         public_key: z.string().nullable(),
         fields_json_schema: z.string().optional().default(""),
-        methods: z.string()
+        methods: z.string(),
+        payment_types: z.array(z.string()).optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -46,7 +53,8 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
             name: controllerProps.record?.name || "",
             public_key: controllerProps.record?.public_key || "",
             fields_json_schema: controllerProps.record?.fields_json_schema || "",
-            methods: JSON.stringify(controllerProps.record?.methods) || ""
+            methods: JSON.stringify(controllerProps.record?.methods) || "",
+            payment_types: controllerProps.record?.payment_types?.map(pt => pt.code) || []
         }
     });
 
@@ -56,7 +64,8 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                 name: controllerProps.record.name || "",
                 public_key: controllerProps.record.public_key || "",
                 fields_json_schema: controllerProps.record.fields_json_schema || "",
-                methods: JSON.stringify(controllerProps.record.methods, null, 2) || ""
+                methods: JSON.stringify(controllerProps.record.methods, null, 2) || "",
+                payment_types: controllerProps.record.payment_types?.map(pt => pt.code) || []
             });
         }
     }, [form, controllerProps.record]);
@@ -65,12 +74,45 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
         data.methods = JSON.parse(data.methods);
+
+        let payment_types: string[] = [];
+        let oldPaymentTypes: Set<string> = new Set();
+
+        if (controllerProps.record?.payment_types) {
+            oldPaymentTypes = new Set(controllerProps.record?.payment_types?.map(pt => pt.code));
+        }
+
+        if (data.payment_types) {
+            payment_types = [...data.payment_types];
+            delete data.payment_types;
+        }
+
+        const paymentsToDelete = oldPaymentTypes.difference(new Set(payment_types));
+
         try {
             await dataProvider.update<ProviderWithId>("provider", {
                 id,
                 data,
                 previousData: undefined
             });
+
+            paymentsToDelete.forEach(async payment => {
+                await providersDataProvider.removePaymentType({
+                    id,
+                    data: { code: payment },
+                    previousData: undefined
+                });
+            });
+
+            await providersDataProvider.addPaymentTypes({
+                id,
+                data: {
+                    codes: payment_types
+                },
+                previousData: undefined
+            });
+
+            appToast("success", translate("app.ui.edit.editSuccess"));
             onClose();
         } catch (error) {
             appToast("error", translate("resources.currency.errors.alreadyInUse"));
@@ -82,7 +124,12 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
 
     usePreventFocus({ dependencies: [controllerProps.record] });
 
-    if (controllerProps.isLoading || !controllerProps.record) return <Loading />;
+    if (controllerProps.isLoading || !controllerProps.record || isLoadingAllPaymentTypes)
+        return (
+            <div className="h-[400px]">
+                <Loading />
+            </div>
+        );
     return (
         <EditContextProvider value={controllerProps}>
             <Form {...form}>
@@ -139,6 +186,21 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                                         />
                                     </FormControl>
                                     <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="payment_types"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <PaymentTypeMultiSelect
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            options={allPaymentTypes || []}
+                                        />
+                                    </FormControl>
                                 </FormItem>
                             )}
                         />

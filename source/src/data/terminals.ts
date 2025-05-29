@@ -12,14 +12,21 @@ import {
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
 import {
+    terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatch,
     terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPost,
     terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPost,
     terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDelete,
     terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGet,
     terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGet,
+    terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDelete,
     terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPut
 } from "@/api/enigma/terminal/terminal";
-import { Terminal, TerminalCreate, TerminalUpdateCallbackUrl } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    PaymentTypesLink,
+    Terminal,
+    TerminalCreate,
+    TerminalUpdateCallbackUrl
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export type TerminalWithId = Terminal & { id: string };
 
@@ -144,6 +151,68 @@ export class TerminalsDataProvider extends IBaseDataProvider {
                 }
             }
         );
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    id: res.data.data.terminal_id,
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async addPaymentTypes(
+        params: UpdateParams & { data: PaymentTypesLink; providerName: string }
+    ): Promise<UpdateResult<TerminalWithId>> {
+        const res =
+            await terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatch(
+                params.providerName,
+                params.id,
+                params.data,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    id: res.data.data.terminal_id,
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async removePaymentType(
+        params: UpdateParams & { data: { code: string }; providerName: string }
+    ): Promise<UpdateResult<TerminalWithId>> {
+        const res =
+            await terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDelete(
+                params.providerName,
+                params.id,
+                params.data.code,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
 
         if ("data" in res.data && res.data.success) {
             return {

@@ -512,6 +512,7 @@ const ru: TranslationMessages = {
         },
         terminals: {
             name: "Терминалы",
+            terminal: "Терминал",
             fields: {
                 verbose_name: "Наименование",
                 id: "ID",
@@ -789,9 +790,9 @@ const ru: TranslationMessages = {
         paymentTools: {
             name: "Платёжные инструменты",
             paymentType: {
-                name: "Платёжные типы",
+                name: "Типы платежей",
                 admin: {
-                    name: "Payment types"
+                    name: "Типы платежей"
                 },
                 errors: {
                     code: "Код не может быть пустым",
@@ -799,7 +800,10 @@ const ru: TranslationMessages = {
                 },
                 fields: {
                     code: "Код",
-                    title: "Название"
+                    title: "Название",
+                    payment_types: "Типы платежей",
+                    category: "Категория",
+                    icon: "Иконка"
                 },
                 deletePaymentTypeQuestion: "Удалить тип платежа?",
                 creatingPaymentType: "Создание типа платежа",
@@ -808,7 +812,24 @@ const ru: TranslationMessages = {
                 duplicateCode: "Введенный код уже используется"
             },
             financialInstitution: {
-                name: "Фин. организации"
+                name: "Фин. организации",
+                fields: {
+                    created_at: "Дата и время создания",
+                    updated_at: "Дата и время обновления",
+                    name: "Финансовый институт",
+                    short_name: "Краткое наименование",
+                    legal_name: "Полное юр.наименование",
+                    institution_type: "Типы платёжных институтов",
+                    country_code: "Код страны регистрации",
+                    bic: "SWIFT BIC",
+                    tax_id_number: "ИНН",
+                    registration_number: "ОГРН / регистрационный номер",
+                    nspk_member_id: "Код участника НСПК",
+                    status: "Активность",
+                    payment_types: "Платёжные системы",
+                    currencies: "Валюты",
+                    id: "ID"
+                }
             },
             systemPaymentInstruments: {
                 name: "Системные инструменты"
@@ -864,7 +885,8 @@ const ru: TranslationMessages = {
                 search: "Поиск...",
                 refresh: "Обновить",
                 details: "Подробнее",
-                generateCallback: "Создать callback"
+                generateCallback: "Создать callback",
+                clear: "Очистить"
             },
             pagination: {
                 next: "Далее",
@@ -1039,6 +1061,12 @@ const ru: TranslationMessages = {
                     ofPayment: "выплаты",
                     ofReward: "вознаграждения"
                 }
+            },
+            multiSelect: {
+                selectAll: "Выбрать все",
+                noResultFound: "Нет результатов",
+                selectPaymentTypes: "Выберите типы платежей",
+                searchPlaceholder: "Поиск..."
             }
         },
 
@@ -1624,6 +1652,7 @@ const en: TranslationMessages = {
         },
         terminals: {
             name: "Terminals",
+            terminal: "Terminal",
             fields: {
                 verbose_name: "Name",
                 id: "ID",
@@ -1907,7 +1936,10 @@ const en: TranslationMessages = {
                 name: "Payment types",
                 fields: {
                     code: "Code",
-                    title: "Title"
+                    title: "Title",
+                    payment_types: "Payment types",
+                    category: "Category",
+                    icon: "Icon"
                 },
                 deletePaymentTypeQuestion: "Delete payment type?",
                 creatingPaymentType: "Creating payment type",
@@ -1916,7 +1948,24 @@ const en: TranslationMessages = {
                 duplicateCode: "This code is already in use"
             },
             financialInstitution: {
-                name: "Financial institution"
+                name: "Financial institution",
+                fields: {
+                    created_at: "Created at",
+                    updated_at: "Updated at",
+                    name: "Name",
+                    short_name: "Short name",
+                    legal_name: "Full legal name",
+                    institution_type: "Institution type",
+                    country_code: "Country code",
+                    bic: "SWIFT BIC",
+                    tax_id_number: "Tax identification number",
+                    registration_number: "Registration number",
+                    nspk_member_id: "NSPK member ID",
+                    status: "Activity",
+                    payment_types: "Payment types",
+                    currencies: "Currencies",
+                    id: "ID"
+                }
             },
             systemPaymentInstruments: {
                 name: "System tools"
@@ -1972,7 +2021,8 @@ const en: TranslationMessages = {
                 search: "Search...",
                 refresh: "Refresh",
                 details: "More detailed",
-                generateCallback: "Generate callback"
+                generateCallback: "Generate callback",
+                clear: "Clear"
             },
             pagination: {
                 next: "Next",
@@ -2149,6 +2199,12 @@ const en: TranslationMessages = {
                     ofPayment: "payment",
                     ofReward: "reward"
                 }
+            },
+            multiSelect: {
+                selectAll: "Select all",
+                noResultFound: "No results found.",
+                selectPaymentTypes: "Select payment types",
+                searchPlaceholder: "Search..."
             }
         },
 

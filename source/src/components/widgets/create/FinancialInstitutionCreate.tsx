@@ -1,4 +1,4 @@
-import { useTranslate, useDataProvider, useEditController, EditContextProvider } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
@@ -9,48 +9,36 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { usePreventFocus } from "@/hooks";
-import { useRefresh } from "react-admin";
 import {
-    SelectContent,
-    SelectGroup,
-    SelectTrigger,
-    SelectValue,
-    Select,
-    SelectType,
-    SelectItem
-} from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import { PaymentCategory } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+    FinancialInstitution,
+    FinancialInstitutionCreate as IFinancialInstitutionCreate
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
-export interface PaymentTypeEditProps {
-    id: string;
+export interface PaymentTypeCreateProps {
     onClose?: () => void;
 }
 
-export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps) => {
+export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCreateProps) => {
     const dataProvider = useDataProvider();
-    const controllerProps = useEditController({ resource: "payment_type", id });
-    const { theme } = useTheme();
-    const refresh = useRefresh();
-    const appToast = useAppToast();
+    const controllerProps = useCreateController<IFinancialInstitutionCreate>();
 
+    const { theme } = useTheme();
+    const appToast = useAppToast();
+    const refresh = useRefresh();
     const translate = useTranslate();
+
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-    const paymentTypeCategories = Object.keys(PaymentCategory);
 
     const formSchema = z.object({
-        code: z.string().min(1, translate("resources.paymentTools.paymentType.errors.code")).trim(),
-        title: z.string().optional().default(""),
-        category: z.enum(paymentTypeCategories as [string, ...string[]])
+        name: z.string().min(1, translate("resources.paymentTools.paymentType.errors.code")).trim(),
+        country_code: z.string().regex(/^\w{2}$/)
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            code: id,
-            title: controllerProps.record?.title,
-            category: controllerProps.record?.category
+            name: "",
+            country_code: ""
         }
     });
 
@@ -60,40 +48,33 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
         setSubmitButtonDisabled(true);
 
         try {
-            await dataProvider.update("payment_type", {
-                id,
-                data,
-                previousData: undefined
-            });
+            await dataProvider.create<FinancialInstitution>("financialInstitution", { data });
+            appToast("success", translate("app.ui.create.createSuccess"));
 
-            appToast("success", translate("app.ui.edit.editSuccess"));
             refresh();
             onClose();
         } catch (error) {
-            // С бэка прилетает нечеловеческая ошибка, поэтому оставлю пока так
-            // if (error instanceof Error) {
-            //     appToast("error", error.message);
-            // }
-
-            appToast("error", translate("resources.paymentTools.paymentType.duplicateCode"));
-
+            if (error instanceof Error) {
+                appToast("error", error.message);
+            } else {
+                appToast("error", translate("app.ui.create.createError"));
+            }
+        } finally {
             setSubmitButtonDisabled(false);
         }
     };
 
-    usePreventFocus({});
-
     if (controllerProps.isLoading || theme.length === 0) return <Loading />;
 
     return (
-        <EditContextProvider value={controllerProps}>
+        <CreateContextProvider value={controllerProps}>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                     <div className="flex flex-col flex-wrap">
                         <div className="grid grid-cols-1 sm:grid-cols-2">
                             <FormField
                                 control={form.control}
-                                name="code"
+                                name="name"
                                 render={({ field, fieldState }) => (
                                     <FormItem className="w-full p-2">
                                         <FormControl>
@@ -102,8 +83,9 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                 variant={InputTypes.GRAY}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
-                                                label={translate("resources.paymentTools.paymentType.fields.code")}
-                                                disabled
+                                                label={translate(
+                                                    "resources.paymentTools.financialInstitution.fields.name"
+                                                )}
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -111,7 +93,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                             />
                             <FormField
                                 control={form.control}
-                                name="title"
+                                name="country_code"
                                 render={({ field, fieldState }) => (
                                     <FormItem className="w-full p-2">
                                         <FormControl>
@@ -120,40 +102,11 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                 variant={InputTypes.GRAY}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
-                                                label={translate("resources.paymentTools.paymentType.fields.title")}
+                                                label={translate(
+                                                    "resources.paymentTools.financialInstitution.fields.country_code"
+                                                )}
                                             />
                                         </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="category"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
-                                        <Label>{translate("resources.paymentTools.paymentType.fields.category")}</Label>
-                                        <Select value={field.value} onValueChange={field.onChange}>
-                                            <FormControl>
-                                                <SelectTrigger
-                                                    variant={SelectType.GRAY}
-                                                    isError={fieldState.invalid}
-                                                    errorMessage={<FormMessage />}>
-                                                    <SelectValue />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectGroup>
-                                                    {paymentTypeCategories.map(category => (
-                                                        <SelectItem
-                                                            key={category}
-                                                            value={category}
-                                                            variant={SelectType.GRAY}>
-                                                            {category}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectGroup>
-                                            </SelectContent>
-                                        </Select>
                                     </FormItem>
                                 )}
                             />
@@ -177,6 +130,6 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                     </div>
                 </form>
             </Form>
-        </EditContextProvider>
+        </CreateContextProvider>
     );
 };

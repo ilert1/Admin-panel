@@ -16,6 +16,7 @@ import { EditMerchantDialog } from "../../lists/Merchants/EditMerchantDialog";
 import { useState } from "react";
 import { DeleteMerchantDialog } from "../../lists/Merchants/DeleteMerchantDialog";
 import { useQuery } from "@tanstack/react-query";
+import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShow";
 
 interface MerchantShowProps {
     id: string;
@@ -80,6 +81,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
     }
 
     const fees = context.record.fees;
+    const payment_types = context.record.payment_types;
     return (
         <>
             <div className="flex h-full min-h-[300px] flex-col overflow-auto pt-0">
@@ -92,12 +94,14 @@ export const MerchantShow = (props: MerchantShowProps) => {
                             className="text-neutral-70 dark:text-neutral-30"
                         />
                     </div>
-                    <div className="grid grid-cols-2 px-4 md:px-[42px]">
+                    <div className="grid grid-cols-2 gap-y-2 px-4 md:px-[42px]">
                         <TextField
                             label={translate("resources.merchant.fields.descr")}
                             text={context.record.description || ""}
                         />
                         <TextField label="Keycloak ID" copyValue text={context.record.keycloak_id || ""} />
+
+                        <PaymentsTypesShowComponent payment_types={payment_types} />
                     </div>
                     <div className="self-end px-[42px]">
                         <div className="flex gap-2">

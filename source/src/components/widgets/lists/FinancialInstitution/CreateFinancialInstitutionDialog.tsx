@@ -6,16 +6,17 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { useRefresh, useTranslate } from "react-admin";
-import { PaymentTypeCreate } from "../../create/PaymentTypeCreate";
+import { useTranslate } from "react-admin";
+import { FinancialInstitutionCreate } from "../../create/FinancialInstitutionCreate";
 
-interface CreatePaymentDialogProps {
+interface ICreateFinancialInstitutionDialog {
     open?: boolean;
     onOpenChange?: (state: boolean) => void;
 }
-export const CreatePaymentDialog = (props: CreatePaymentDialogProps) => {
-    const { open, onOpenChange = () => {} } = props;
-    const refresh = useRefresh();
+export const CreateFinancialInstitutionDialog = ({
+    open,
+    onOpenChange = () => {}
+}: ICreateFinancialInstitutionDialog) => {
     const translate = useTranslate();
 
     return (
@@ -27,15 +28,11 @@ export const CreatePaymentDialog = (props: CreatePaymentDialogProps) => {
                     <DialogTitle className="mb-4 text-center">
                         {translate("resources.paymentTools.paymentType.creatingPaymentType")}
                     </DialogTitle>
-                    <DialogDescription></DialogDescription>
-                    <PaymentTypeCreate
-                        onClose={() => {
-                            refresh();
-                            onOpenChange(false);
-                        }}
-                    />
+                    <DialogDescription />
+
+                    <FinancialInstitutionCreate onClose={() => onOpenChange(false)} />
                 </DialogHeader>
-                <DialogFooter></DialogFooter>
+                <DialogFooter />
             </DialogContent>
         </Dialog>
     );

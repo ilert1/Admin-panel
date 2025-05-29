@@ -128,7 +128,12 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
         }
     });
 
-    if (controllerProps.isLoading || !data) return <Loading />;
+    if (controllerProps.isLoading || !data)
+        return (
+            <div className="h-[200px]">
+                <Loading />
+            </div>
+        );
 
     return (
         <CreateContextProvider value={controllerProps}>

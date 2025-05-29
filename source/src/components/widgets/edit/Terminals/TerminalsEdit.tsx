@@ -8,12 +8,14 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { usePreventFocus } from "@/hooks";
-import { TerminalWithId } from "@/data/terminals";
+import { TerminalsDataProvider, TerminalWithId } from "@/data/terminals";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
+import { PaymentTypeMultiSelect } from "../../components/PaymentTypeMultiSelect";
 
 interface ProviderEditParams {
     provider: string;
@@ -26,7 +28,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
-
+    const terminalsDataProvider = new TerminalsDataProvider();
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
 
@@ -35,6 +37,8 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         id,
         mutationMode: "pessimistic"
     });
+
+    const { providerPaymentTypes, isLoadingProviderPaymentTypes } = useGetPaymentTypes({ provider });
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -52,7 +56,8 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                     .min(0, translate("resources.terminals.errors.allocation_timeout_seconds_min"))
                     .max(120, translate("resources.terminals.errors.allocation_timeout_seconds_max"))
             )
-            .optional()
+            .optional(),
+        payment_types: z.array(z.string()).optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -62,10 +67,11 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
             description: controllerProps.record?.description || "",
             details: JSON.stringify(controllerProps.record?.details) || "",
             allocation_timeout_seconds:
-                (controllerProps.record?.allocation_timeout_seconds ||
-                controllerProps.record?.allocation_timeout_seconds === 0)
+                controllerProps.record?.allocation_timeout_seconds ||
+                controllerProps.record?.allocation_timeout_seconds === 0
                     ? controllerProps.record.allocation_timeout_seconds
-                    : 2
+                    : 2,
+            payment_types: controllerProps.record?.payment_types?.map(pt => pt.code) || []
         }
     });
 
@@ -76,10 +82,11 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 description: controllerProps.record.description || "",
                 details: JSON.stringify(controllerProps.record.details, null, 2) || "",
                 allocation_timeout_seconds:
-                    (controllerProps.record?.allocation_timeout_seconds ||
-                controllerProps.record?.allocation_timeout_seconds === 0)
-                    ? controllerProps.record.allocation_timeout_seconds
-                    : 2
+                    controllerProps.record?.allocation_timeout_seconds ||
+                    controllerProps.record?.allocation_timeout_seconds === 0
+                        ? controllerProps.record.allocation_timeout_seconds
+                        : 2,
+                payment_types: controllerProps.record?.payment_types?.map(pt => pt.code) || []
             });
         }
     }, [form, controllerProps.record]);
@@ -91,6 +98,20 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
             const parseDetails = JSON.parse(data.details);
 
             setSubmitButtonDisabled(true);
+
+            let payment_types: string[] = [];
+            let oldPaymentTypes: Set<string> = new Set();
+
+            if (controllerProps.record?.payment_types) {
+                oldPaymentTypes = new Set(controllerProps.record?.payment_types?.map(pt => pt.code));
+            }
+
+            if (data.payment_types) {
+                payment_types = [...data.payment_types];
+                delete data.payment_types;
+            }
+
+            const paymentsToDelete = oldPaymentTypes.difference(new Set(payment_types));
 
             await dataProvider.update<TerminalWithId>(`${provider}/terminal`, {
                 id,
@@ -105,10 +126,29 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 previousData: undefined
             });
 
-            refresh();
+            paymentsToDelete.forEach(async payment => {
+                await terminalsDataProvider.removePaymentType({
+                    id,
+                    providerName: provider,
+                    data: { code: payment },
+                    previousData: undefined
+                });
+            });
+
+            await terminalsDataProvider.addPaymentTypes({
+                id,
+                providerName: provider,
+                data: {
+                    codes: payment_types
+                },
+                previousData: undefined
+            });
+
+            appToast("success", translate("app.ui.edit.editSuccess"));
         } catch (error) {
             if (error instanceof Error) appToast("error", error.message);
         } finally {
+            refresh();
             form.reset();
             setSubmitButtonDisabled(false);
             onClose();
@@ -117,7 +157,12 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
 
     usePreventFocus({ dependencies: [controllerProps.record] });
 
-    if (controllerProps.isLoading || !controllerProps.record) return <Loading />;
+    if (controllerProps.isLoading || !controllerProps.record || isLoadingProviderPaymentTypes)
+        return (
+            <div className="h-[600px]">
+                <Loading />
+            </div>
+        );
     return (
         <EditContextProvider value={controllerProps}>
             <Form {...form}>
@@ -207,6 +252,21 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                                         />
                                     </FormControl>
                                     <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="payment_types"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <PaymentTypeMultiSelect
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            options={providerPaymentTypes || []}
+                                        />
+                                    </FormControl>
                                 </FormItem>
                             )}
                         />

@@ -12,14 +12,16 @@ import {
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
 import {
+    directionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypesPatch,
     directionEndpointsCreateDirectionEnigmaV1DirectionPost,
     directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDelete,
     directionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGet,
     directionEndpointsListDirectionsEnigmaV1DirectionGet,
+    directionEndpointsRemovePaymentTypeFromDirectionEnigmaV1DirectionDirectionIdRemovePaymentTypePaymentTypeCodeDelete,
     directionEndpointsUpdateDirectionEnigmaV1DirectionDirectionIdPut,
     directionEndpointsUpdateStateEnigmaV1DirectionDirectionIdStatePatch
 } from "@/api/enigma/direction/direction";
-import { Direction, DirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Direction, DirectionCreate, PaymentTypesLink } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export class DirectionsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<Direction>> {
@@ -126,6 +128,55 @@ export class DirectionsDataProvider extends IBaseDataProvider {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
         });
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async addPaymentTypes(params: UpdateParams & { data: PaymentTypesLink }): Promise<UpdateResult<Direction>> {
+        const res = await directionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypesPatch(
+            params.id,
+            params.data,
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }
+        );
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async removePaymentType(params: UpdateParams & { data: { code: string } }): Promise<UpdateResult<Direction>> {
+        const res =
+            await directionEndpointsRemovePaymentTypeFromDirectionEnigmaV1DirectionDirectionIdRemovePaymentTypePaymentTypeCodeDelete(
+                params.id,
+                params.data.code,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
 
         if ("data" in res.data && res.data.success) {
             return {
