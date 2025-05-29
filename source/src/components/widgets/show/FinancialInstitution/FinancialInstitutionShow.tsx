@@ -10,6 +10,7 @@ import { useCallback, useState } from "react";
 import { DeleteFinancialInstitutionDialog } from "./DeleteFinancialInstitutionDialog";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { EditFinancialInstitutionDialog } from "./EditFinancialInstitutionDialog";
 
 export interface DirectionsShowProps {
     id: string;
@@ -159,6 +160,8 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: DirectionsShowPro
                     </Button>
                 </div>
             </div>
+
+            <EditFinancialInstitutionDialog id={id} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
 
             <DeleteFinancialInstitutionDialog
                 open={deleteDialogOpen}

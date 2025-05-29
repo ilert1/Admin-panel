@@ -114,10 +114,7 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async update(
-        resource: string,
-        params: UpdateParams<FinancialInstitution>
-    ): Promise<UpdateResult<FinancialInstitution>> {
+    async update(resource: string, params: UpdateParams): Promise<UpdateResult<FinancialInstitution>> {
         const res =
             await financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPut(
                 params.id,

@@ -89,8 +89,6 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
             delete data.payment_types;
         }
 
-        console.log(data);
-
         try {
             const { data: financialInstitutionData } = await financialInstitutionProvider.create(
                 "financialInstitution",
@@ -124,7 +122,12 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
         }
     };
 
-    if (controllerProps.isLoading || isLoadingAllPaymentTypes || theme.length === 0) return <Loading />;
+    if (controllerProps.isLoading || isLoadingAllPaymentTypes || theme.length === 0)
+        return (
+            <div className="h-[400px]">
+                <Loading />
+            </div>
+        );
 
     return (
         <CreateContextProvider value={controllerProps}>
@@ -315,10 +318,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
                                                         variant={SelectType.GRAY}
                                                         isError={fieldState.invalid}
                                                         errorMessage={<FormMessage />}>
-                                                        <SelectValue
-                                                            placeholder={translate("resources.direction.fields.active")}
-                                                            defaultValue={FinancialInstitutionTypes.BANK}
-                                                        />
+                                                        <SelectValue defaultValue={FinancialInstitutionTypes.BANK} />
                                                     </SelectTrigger>
                                                 </FormControl>
                                                 <SelectContent>
