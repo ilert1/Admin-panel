@@ -829,8 +829,10 @@ const ru: TranslationMessages = {
                     status: "Активность",
                     payment_types: "Платёжные системы",
                     currencies: "Валюты",
-                    id: "ID"
-                }
+                    id: "ID",
+                    meta: "Метадата"
+                },
+                deleteFinancialInstitution: "Удалить фин. организацию?"
             },
             systemPaymentInstruments: {
                 name: "Системные инструменты"
@@ -1966,8 +1968,10 @@ const en: TranslationMessages = {
                     status: "Activity",
                     payment_types: "Payment types",
                     currencies: "Currencies",
-                    id: "ID"
-                }
+                    id: "ID",
+                    meta: "Metadata"
+                },
+                deleteFinancialInstitution: "Delete financial institution?"
             },
             systemPaymentInstruments: {
                 name: "System tools"

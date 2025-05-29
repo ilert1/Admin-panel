@@ -1,10 +1,14 @@
-import { useTranslate } from "react-admin";
+import { useLocaleState, useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { TextField } from "@/components/ui/text-field";
 import { FinancialInstitution } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { ToggleActiveUser } from "@/components/ui/toggle-active-user";
+import { Button } from "@/components/ui/Button";
+import { useCallback, useState } from "react";
+import { DeleteFinancialInstitutionDialog } from "./DeleteFinancialInstitutionDialog";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
 
 export interface DirectionsShowProps {
     id: string;
@@ -15,6 +19,18 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: DirectionsShowPro
     const context = useAbortableShowController<FinancialInstitution>({ resource: "financialInstitution", id });
     const data = fetchDictionaries();
     const translate = useTranslate();
+    const [locale] = useLocaleState();
+
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
+
+    const handleDeleteClicked = useCallback(() => {
+        setDeleteDialogOpen(prev => !prev);
+    }, []);
+
+    const handleEditClicked = useCallback(() => {
+        setEditDialogOpen(prev => !prev);
+    }, []);
 
     if (context.isLoading || !context.record || !data) {
         return <Loading />;
@@ -23,7 +39,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: DirectionsShowPro
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
             <div className="flex flex-row flex-wrap items-center justify-between md:flex-nowrap">
-                <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
+                <TextField text={context.record.name} copyValue className="text-neutral-70 dark:text-neutral-30" />
 
                 <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0 sm:self-center">
                     <div className="flex items-center justify-center">
@@ -34,28 +50,33 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: DirectionsShowPro
 
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-[24px]">
-                    <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.created_at")}
-                        text={context.record.created_at}
-                    />
+                    <div className="flex flex-col">
+                        <small className="mb-1 text-sm text-neutral-60">
+                            {translate("resources.paymentTools.financialInstitution.fields.created_at")}
+                        </small>
+                        <p className="text-nowrap text-base leading-[18px]">
+                            {new Date(context.record.created_at).toLocaleDateString(locale)}
+                        </p>
+                        <p className="text-nowrap text-base leading-[18px]">
+                            {new Date(context.record.created_at).toLocaleTimeString(locale)}
+                        </p>
+                    </div>
 
-                    <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.updated_at")}
-                        text={context.record.updated_at}
-                    />
-
-                    <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.name")}
-                        text={context.record.name}
-                        wrap
-                        copyValue
-                    />
+                    <div className="flex flex-col">
+                        <small className="mb-1 text-sm text-neutral-60">
+                            {translate("resources.paymentTools.financialInstitution.fields.updated_at")}
+                        </small>
+                        <p className="text-nowrap text-base leading-[18px]">
+                            {new Date(context.record.updated_at).toLocaleDateString(locale)}
+                        </p>
+                        <p className="text-nowrap text-base leading-[18px]">
+                            {new Date(context.record.updated_at).toLocaleTimeString(locale)}
+                        </p>
+                    </div>
 
                     <TextField
                         label={translate("resources.paymentTools.financialInstitution.fields.short_name")}
                         text={context.record.short_name || ""}
-                        wrap
-                        copyValue
                     />
 
                     <TextField
@@ -66,6 +87,11 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: DirectionsShowPro
                     />
 
                     <TextField
+                        label={translate("resources.paymentTools.financialInstitution.fields.id")}
+                        text={context.record.id || ""}
+                    />
+
+                    <TextField
                         label={translate("resources.paymentTools.financialInstitution.fields.tax_id_number")}
                         text={context.record.tax_id_number || ""}
                         wrap
@@ -73,15 +99,15 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: DirectionsShowPro
                     />
 
                     <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.registration_number")}
-                        text={context.record.registration_number || ""}
+                        label={translate("resources.paymentTools.financialInstitution.fields.nspk_member_id")}
+                        text={context.record.nspk_member_id || ""}
                         wrap
                         copyValue
                     />
 
                     <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.nspk_member_id")}
-                        text={context.record.nspk_member_id || ""}
+                        label={translate("resources.paymentTools.financialInstitution.fields.registration_number")}
+                        text={context.record.registration_number || ""}
                         wrap
                         copyValue
                     />
@@ -106,7 +132,32 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: DirectionsShowPro
                         text={context.record.bic || ""}
                     />
                 </div>
+
+                <div className="flex flex-col gap-1">
+                    <small className="text-sm text-neutral-60">
+                        {translate("resources.paymentTools.financialInstitution.fields.meta")}
+                    </small>
+
+                    <MonacoEditor disabled code={JSON.stringify(context.record.meta || "{}", null, 2)} />
+                </div>
+
+                <div className="flex flex-wrap justify-end gap-2 md:gap-4">
+                    <Button className="" onClick={handleEditClicked}>
+                        {translate("app.ui.actions.edit")}
+                    </Button>
+
+                    <Button className="" onClick={handleDeleteClicked} variant={"outline_gray"}>
+                        {translate("app.ui.actions.delete")}
+                    </Button>
+                </div>
             </div>
+
+            <DeleteFinancialInstitutionDialog
+                open={deleteDialogOpen}
+                onOpenChange={setDeleteDialogOpen}
+                onQuickShowOpenChange={onOpenChange}
+                id={id}
+            />
         </div>
     );
 };
