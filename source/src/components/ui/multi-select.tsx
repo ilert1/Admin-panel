@@ -24,22 +24,19 @@ import { useTranslate } from "react-admin";
  * Variants for the multi-select component to handle different styles.
  * Uses class-variance-authority (cva) to define different styles based on "variant" prop.
  */
-const multiSelectVariants = cva(
-    "m-1 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300",
-    {
-        variants: {
-            variant: {
-                default: "border-foreground/10 text-foreground bg-card hover:bg-card/80",
-                secondary: "border-foreground/10 bg-secondary text-secondary-foreground hover:bg-secondary/80",
-                destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-                inverted: "inverted"
-            }
-        },
-        defaultVariants: {
-            variant: "default"
+const multiSelectVariants = cva("m-1 transition ease-in-out delay-150 duration-300", {
+    variants: {
+        variant: {
+            default: "border-foreground/10 text-foreground bg-card hover:bg-card/80",
+            secondary: "border-foreground/10 bg-secondary text-secondary-foreground hover:bg-secondary/80",
+            destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
+            inverted: "inverted"
         }
+    },
+    defaultVariants: {
+        variant: "default"
     }
-);
+});
 
 /**
  * Props for MultiSelect component
@@ -206,7 +203,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                 {IconComponent && <IconComponent className="mr-1 h-4 w-4" />}
                                                 {option?.label}
                                                 <XCircle
-                                                    className="ml-2 h-4 w-4 cursor-pointer transition-colors hover:bg-red-40 rounded-full"
+                                                    className="ml-2 h-4 w-4 cursor-pointer rounded-full transition-colors hover:bg-red-40"
                                                     onClick={event => {
                                                         event.stopPropagation();
                                                         toggleOption(value);
@@ -303,7 +300,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                 })}
                             </CommandGroup>
                             <CommandSeparator />
-                            <CommandGroup>
+                            {/* <CommandGroup>
                                 <div className="flex items-center justify-between">
                                     {selectedValues.length > 0 && (
                                         <>
@@ -316,13 +313,13 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                             <Separator orientation="vertical" className="flex h-full min-h-6" />
                                         </>
                                     )}
-                                    {/* <Button
+                                    <Button
                                         onClick={() => setIsPopoverOpen(false)}
                                         className="max-w-full flex-1 cursor-pointer justify-center rounded-none">
                                         {translate("app.ui.actions.close")}
-                                    </Button> */}
+                                    </Button>
                                 </div>
-                            </CommandGroup>
+                            </CommandGroup> */}
                         </CommandList>
                     </Command>
                 </PopoverContent>

@@ -12,7 +12,7 @@ import { AuthDataViewer, AuthDataEditSheet } from "../../edit/Terminals/AuthData
 import { GenerateCallbackDialog } from "./GenerateCallbackDialog";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery } from "@tanstack/react-query";
-import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShow";
+import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowComponent";
 
 interface TerminalShowProps {
     id: string;

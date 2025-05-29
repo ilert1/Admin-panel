@@ -12,7 +12,7 @@ import { Direction, MerchantFees } from "@/api/enigma/blowFishEnigmaAPIService.s
 import { LimitsList } from "../../components/Limits/ui/LimitsList";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
-import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShow";
+import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowComponent";
 
 export interface DirectionsShowProps {
     id: string;
