@@ -35,7 +35,7 @@ enum FinancialInstitutionTypes {
 }
 
 export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCreateProps) => {
-    const dataProvider = new FinancialInstitutionProvider();
+    const financialInstitutionProvider = new FinancialInstitutionProvider();
     const controllerProps = useCreateController<IFinancialInstitutionCreate>();
 
     const { theme } = useTheme();
@@ -97,12 +97,15 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
         console.log(data);
 
         try {
-            const { data: financialInstitutionData } = await dataProvider.create("financialInstitution", {
-                data: { ...data, meta: data.meta && data.meta.length !== 0 ? JSON.parse(data.meta) : {} }
-            });
+            const { data: financialInstitutionData } = await financialInstitutionProvider.create(
+                "financialInstitution",
+                {
+                    data: { ...data, meta: data.meta && data.meta.length !== 0 ? JSON.parse(data.meta) : {} }
+                }
+            );
 
             if (payment_types.length > 0) {
-                await dataProvider.addPaymentTypes({
+                await financialInstitutionProvider.addPaymentTypes({
                     id: financialInstitutionData.id,
                     data: {
                         codes: payment_types
