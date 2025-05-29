@@ -832,6 +832,8 @@ const ru: TranslationMessages = {
                     id: "ID",
                     meta: "Метадата"
                 },
+                createFinancialInstitutionBtn: "Добавить организацию",
+                createFinancialInstitutionTitle: "Добавление финансовой организации",
                 deleteFinancialInstitution: "Удалить фин. организацию?"
             },
             systemPaymentInstruments: {
@@ -1971,6 +1973,8 @@ const en: TranslationMessages = {
                     id: "ID",
                     meta: "Metadata"
                 },
+                createFinancialInstitutionBtn: "Create institution",
+                createFinancialInstitutionTitle: "Create a financial institution",
                 deleteFinancialInstitution: "Delete financial institution?"
             },
             systemPaymentInstruments: {
