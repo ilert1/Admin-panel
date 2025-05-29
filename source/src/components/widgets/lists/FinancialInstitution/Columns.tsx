@@ -7,6 +7,7 @@ import { TextField } from "@/components/ui/text-field";
 import { ToggleActiveUser } from "@/components/ui/toggle-active-user";
 import { EyeIcon } from "lucide-react";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 
 export const useGetFinancialInstitutionColumns = () => {
     const translate = useTranslate();
@@ -177,7 +178,13 @@ export const useGetFinancialInstitutionColumns = () => {
             accessorKey: "payment_types",
             header: translate("resources.paymentTools.financialInstitution.fields.payment_types"),
             cell: ({ row }) => {
-                return <TextField text={row.original.payment_types?.join(", ") || ""} />;
+                return (
+                    <div className="max-w-auto flex min-w-28 flex-wrap gap-2">
+                        {row.original.payment_types?.map(pt => {
+                            return <PaymentTypeIcon key={pt.code} type={pt.code} className="h-7 w-7" tooltip />;
+                        })}
+                    </div>
+                );
             }
         },
         {

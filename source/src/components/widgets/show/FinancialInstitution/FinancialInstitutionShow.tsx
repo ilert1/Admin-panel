@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { useCallback, useState } from "react";
 import { DeleteFinancialInstitutionDialog } from "./DeleteFinancialInstitutionDialog";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
+import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 
 export interface DirectionsShowProps {
     id: string;
@@ -117,10 +118,17 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: DirectionsShowPro
                         text={context.record.institution_type || ""}
                     />
 
-                    <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.payment_types")}
-                        text={context.record.payment_types?.join(", ") || ""}
-                    />
+                    <div className="flex flex-col">
+                        <small className="mb-1 text-sm text-neutral-60">
+                            {translate("resources.paymentTools.financialInstitution.fields.payment_types")}
+                        </small>
+
+                        <div className="max-w-auto flex flex-wrap gap-2">
+                            {context.record.payment_types?.map(pt => {
+                                return <PaymentTypeIcon key={pt.code} type={pt.code} className="h-7 w-7" tooltip />;
+                            })}
+                        </div>
+                    </div>
 
                     <TextField
                         label={translate("resources.paymentTools.financialInstitution.fields.country_code")}
