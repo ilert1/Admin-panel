@@ -7,7 +7,11 @@ import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const SystemPaymentInstrumentsList = () => {
     const listContext = useAbortableListController({ resource: "systemPaymentInstruments" });
-    const { columns } = useGetSystemPaymentInstrumentsColumns();
+    const { columns, createDialogOpen, setCreateDialogOpen } = useGetSystemPaymentInstrumentsColumns();
+
+    const handleCreateClicked = () => {
+        setCreateDialogOpen(true);
+    };
 
     return (
         <>
