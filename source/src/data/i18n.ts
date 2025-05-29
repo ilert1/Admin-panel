@@ -813,6 +813,7 @@ const ru: TranslationMessages = {
             },
             financialInstitution: {
                 name: "Фин. организации",
+                show: "Фин. организация",
                 fields: {
                     created_at: "Дата и время создания",
                     updated_at: "Дата и время обновления",
@@ -1948,7 +1949,8 @@ const en: TranslationMessages = {
                 duplicateCode: "This code is already in use"
             },
             financialInstitution: {
-                name: "Financial institution",
+                name: "Financial institutions",
+                show: "Financial institution",
                 fields: {
                     created_at: "Created at",
                     updated_at: "Updated at",
