@@ -49,20 +49,26 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
 
     const { directionTypes } = useGetDirectionTypes();
 
-    function mergeByCode(
+    function mergeByCodeIntersection(
         arr1: PaymentTypeModel[] | undefined,
         arr2: PaymentTypeModel[] | undefined
     ): PaymentTypeModel[] {
-        const map = new Map();
-        if (arr1)
-            for (const item of arr1) {
-                map.set(item.code, { ...item });
+        if (!arr1 || !arr2) return [];
+
+        const map1 = new Map<string, PaymentTypeModel>();
+        for (const item of arr1) {
+            map1.set(item.code, item);
+        }
+
+        const result: PaymentTypeModel[] = [];
+        for (const item of arr2) {
+            const matched = map1.get(item.code);
+            if (matched) {
+                result.push({ ...matched, ...item });
             }
-        if (arr2)
-            for (const item of arr2) {
-                map.set(item.code, { ...map.get(item.code), ...item });
-            }
-        return Array.from(map.values());
+        }
+
+        return result;
     }
 
     const { merchantPaymentTypes, terminalPaymentTypes, isLoadingMerchantPaymentTypes, isLoadingTerminalPaymentTypes } =
@@ -203,7 +209,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
             </div>
         );
 
-    const mergedPaymentTypes = mergeByCode(merchantPaymentTypes, terminalPaymentTypes);
+    const mergedPaymentTypes = mergeByCodeIntersection(merchantPaymentTypes, terminalPaymentTypes);
 
     return (
         <EditContextProvider value={controllerProps}>
@@ -493,7 +499,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="payment_types"
                             render={({ field }) => (
-                                <FormItem className="w-full p-2">
+                                <FormItem className="w-full p-2 sm:w-1/2">
                                     <FormControl>
                                         <PaymentTypeMultiSelect
                                             value={field.value}
@@ -504,20 +510,20 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                 </FormItem>
                             )}
                         />
-                        <div className="ml-auto mt-4 flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:mt-0 md:w-2/5">
-                            <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
-                                {translate("app.ui.actions.save")}
-                            </Button>
-                            <Button
-                                type="button"
-                                variant="outline_gray"
-                                className="flex-1"
-                                onClick={() => {
-                                    onOpenChange(false);
-                                }}>
-                                {translate("app.ui.actions.cancel")}
-                            </Button>
-                        </div>
+                    </div>
+                    <div className="ml-auto mt-4 flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:mt-0 md:w-2/5">
+                        <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
+                            {translate("app.ui.actions.save")}
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="outline_gray"
+                            className="flex-1"
+                            onClick={() => {
+                                onOpenChange(false);
+                            }}>
+                            {translate("app.ui.actions.cancel")}
+                        </Button>
                     </div>
                 </form>
             </Form>
