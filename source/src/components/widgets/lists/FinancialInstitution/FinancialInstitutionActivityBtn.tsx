@@ -34,14 +34,14 @@ export const FinancialInstitutionActivityBtn = ({
     }, [activityState]);
 
     const changeActivity = async () => {
-        const tempStateActivity = currentState;
+        const currentStateData = currentState ? "INACTIVE" : "ACTIVE";
 
         try {
             setBtnDisabled(true);
 
             await financialInstitutionProvider.update("financialInstitution", {
                 id,
-                data: { status: tempStateActivity ? "INACTIVE" : "ACTIVE" },
+                data: { status: currentStateData },
                 previousData: undefined
             });
 
@@ -49,15 +49,12 @@ export const FinancialInstitutionActivityBtn = ({
                 "success",
                 translate("resources.paymentTools.financialInstitution.success.editActivity", {
                     name: financialInstitutionName,
-                    state: translate(
-                        `resources.paymentTools.financialInstitution.success.${tempStateActivity ? "INACTIVE" : "ACTIVE"}`
-                    )
+                    state: translate(`resources.paymentTools.financialInstitution.success.${currentStateData}`)
                 })
             );
 
             refresh();
         } catch (error) {
-            setCurrentState(tempStateActivity);
             appToast("error", translate("app.ui.edit.editError"));
         } finally {
             setBtnDisabled(false);
