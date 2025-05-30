@@ -77,10 +77,10 @@ export const systemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV
  * Creates a new system payment instrument with the provided details.
  * @summary Create a new System Payment Instrument
  */
-export type systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPostResponse201 =
+export type systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPostResponse200 =
     {
         data: ApiResponseSystemPaymentInstrument;
-        status: 201;
+        status: 200;
     };
 
 export type systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPostResponse422 =
@@ -91,7 +91,7 @@ export type systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV
 
 export type systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPostResponseComposite =
 
-        | systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPostResponse201
+        | systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPostResponse200
         | systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPostResponse422;
 
 export type systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPostResponse =
