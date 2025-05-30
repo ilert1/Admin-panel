@@ -3,6 +3,7 @@ import { ShowCallbridgeHistorySheet } from "../widgets/lists/CallbridgeHistory/S
 import { ShowDirectionSheet } from "../widgets/lists/Directions/ShowDirectionSheet";
 import { ShowMappingSheet } from "../widgets/lists/Mappings/ShowMappingSheet";
 import { ShowMerchantSheet } from "../widgets/lists/Merchants/ShowMerchantSheet";
+import { SystemPaymentInstrumentSheet } from "../widgets/lists/SystemPaymentInstruments/SystemPaymentInstrumentSheet";
 import { TerminalShowDialog } from "../widgets/lists/Terminals/TerminalShowDialog";
 import { ShowTransactionSheet } from "../widgets/lists/Transactions/ShowTransactionSheet";
 import { ShowUserSheet } from "../widgets/lists/Users/ShowUserSheet";
@@ -22,7 +23,8 @@ export const SHEETS_COMPONENTS = {
     walletLinked: ShowWalletLinkedTransactionsSheet,
     walletTransactions: ShowWalletTransactionsSheet,
     callbridgeMappings: ShowMappingSheet,
-    callbridgeHistory: ShowCallbridgeHistorySheet
+    callbridgeHistory: ShowCallbridgeHistorySheet,
+    systemPaymentInstrument: SystemPaymentInstrumentSheet
 };
 
 export const SheetManager = () => {

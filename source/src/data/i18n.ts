@@ -833,6 +833,7 @@ const ru: TranslationMessages = {
             },
             systemPaymentInstruments: {
                 name: "Системные инструменты",
+                show: "Системный инструмент",
                 fields: {
                     name: "Название",
                     payment_type_code: "Типа платежа",
@@ -855,6 +856,11 @@ const ru: TranslationMessages = {
                 errors: {
                     cantBeEmpty: "Поле не может быть пустым",
                     nameRegex: "Название может содержать только буквы, цифры, подчеркивание и тире"
+                },
+                statuses: {
+                    active: "Активен",
+                    inactive: "Неактивен",
+                    test_only: "Тестовый"
                 },
                 creatingPaymentInstrument: "Создание платежного инструмента",
                 editingPaymentInstrument: "Изменение платежного инструмента",
@@ -1996,6 +2002,7 @@ const en: TranslationMessages = {
             },
             systemPaymentInstruments: {
                 name: "System tools",
+                show: "System tool",
                 fields: {
                     name: "Name",
                     payment_type_code: "Payment type",
@@ -2018,6 +2025,11 @@ const en: TranslationMessages = {
                 errors: {
                     cantBeEmpty: "Field can't be empty",
                     nameRegex: "Name can only contain letters, numbers, underscores, and hyphens"
+                },
+                statuses: {
+                    active: "Active",
+                    inactive: "Inactive",
+                    test_only: "Test only"
                 },
                 creatingPaymentInstrument: "Creating payment instrument",
                 editingPaymentInstrument: "Editing payment instrument",
