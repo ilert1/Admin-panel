@@ -1,40 +1,13 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { useLocaleState, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 import { TerminalPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { TextField } from "@/components/ui/text-field";
 import { TerminalPaymentInstrumentsActivityBtn } from "./TerminalPaymentInstrumentsActivityBtn";
 
 export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
-    const [locale] = useLocaleState();
 
     const columns: ColumnDef<TerminalPaymentInstrument>[] = [
-        {
-            id: "created_at",
-            accessorKey: "created_at",
-            header: translate("resources.paymentTools.terminalPaymentInstruments.fields.created_at"),
-            cell: ({ row }) => (
-                <>
-                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
-                    <p className="text-nowrap text-neutral-70">
-                        {new Date(row.original.created_at).toLocaleTimeString(locale)}
-                    </p>
-                </>
-            )
-        },
-        {
-            id: "updated_at",
-            accessorKey: "updated_at",
-            header: translate("resources.paymentTools.terminalPaymentInstruments.fields.updated_at"),
-            cell: ({ row }) => (
-                <>
-                    <p className="text-nowrap">{new Date(row.original.updated_at).toLocaleDateString(locale)}</p>
-                    <p className="text-nowrap text-neutral-70">
-                        {new Date(row.original.updated_at).toLocaleTimeString(locale)}
-                    </p>
-                </>
-            )
-        },
         {
             id: "id",
             accessorKey: "id",
