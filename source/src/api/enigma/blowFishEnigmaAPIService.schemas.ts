@@ -2319,17 +2319,17 @@ export type TerminalInstrumentConfigurationUpdateTerminalId = string | null;
 export type TerminalInstrumentConfigurationUpdateSystemPaymentInstrumentId = string | null;
 
 /**
- * Provider's code for the payment type (e.g., TINKOFF_SBP)
+ * Terminal's code for the payment type (e.g., TINKOFF_SBP)
  */
 export type TerminalInstrumentConfigurationUpdateTerminalPaymentTypeCode = string | null;
 
 /**
- * Provider's code for the currency (if different from system)
+ * Terminal's code for the currency (if different from system)
  */
 export type TerminalInstrumentConfigurationUpdateTerminalCurrencyCode = string | null;
 
 /**
- * Provider's code for the financial institution
+ * Terminal's code for the financial institution
  */
 export type TerminalInstrumentConfigurationUpdateTerminalFinancialInstitutionCode = string | null;
 
@@ -2342,7 +2342,7 @@ export type TerminalInstrumentConfigurationUpdateTerminalSpecificParameters =
     TerminalInstrumentConfigurationUpdateTerminalSpecificParametersAnyOf | null;
 
 /**
- * Status of the terminal instrument configuration
+ * Status of the terminal payment instrument
  */
 export type TerminalInstrumentConfigurationUpdateStatus = TerminalInstrumentConfigurationStatus | null;
 
@@ -2351,15 +2351,15 @@ export interface TerminalInstrumentConfigurationUpdate {
     terminal_id?: TerminalInstrumentConfigurationUpdateTerminalId;
     /** ID of the system payment instrument */
     system_payment_instrument_id?: TerminalInstrumentConfigurationUpdateSystemPaymentInstrumentId;
-    /** Provider's code for the payment type (e.g., TINKOFF_SBP) */
+    /** Terminal's code for the payment type (e.g., TINKOFF_SBP) */
     terminal_payment_type_code?: TerminalInstrumentConfigurationUpdateTerminalPaymentTypeCode;
-    /** Provider's code for the currency (if different from system) */
+    /** Terminal's code for the currency (if different from system) */
     terminal_currency_code?: TerminalInstrumentConfigurationUpdateTerminalCurrencyCode;
-    /** Provider's code for the financial institution */
+    /** Terminal's code for the financial institution */
     terminal_financial_institution_code?: TerminalInstrumentConfigurationUpdateTerminalFinancialInstitutionCode;
     /** Additional terminal-specific parameters in JSON format */
     terminal_specific_parameters?: TerminalInstrumentConfigurationUpdateTerminalSpecificParameters;
-    /** Status of the terminal instrument configuration */
+    /** Status of the terminal payment instrument */
     status?: TerminalInstrumentConfigurationUpdateStatus;
 }
 

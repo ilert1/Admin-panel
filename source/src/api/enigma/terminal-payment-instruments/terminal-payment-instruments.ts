@@ -18,8 +18,8 @@ import type {
 import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
 
 /**
- * Returns a list of terminal instrument configurations associated with a given terminal ID.
- * @summary Get terminal instrument configurations for a specific terminal
+ * Returns a list of terminal payment instruments associated with a given terminal ID.
+ * @summary Get terminal payment instruments for a specific terminal
  */
 export type terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetResponse200 =
     {
@@ -82,8 +82,8 @@ export const terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfig
     };
 
 /**
- * Returns a paginated list of terminal instrument configurations with optional filtering.
- * @summary Get a paginated list of terminal instrument configurations
+ * Returns a paginated list of terminal payment instruments with optional filtering.
+ * @summary Get a paginated list of terminal payment instruments
  */
 export type terminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetResponse200 =
     {
@@ -143,13 +143,13 @@ export const terminalInstrumentConfigurationEndpointsListTerminalInstrumentConfi
     };
 
 /**
- * Registers a new terminal instrument configuration.
- * @summary Create a new terminal instrument configuration
+ * Registers a new terminal payment instrument.
+ * @summary Create a new terminal payment instrument
  */
-export type terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostResponse201 =
+export type terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostResponse200 =
     {
         data: ApiResponseTerminalInstrumentConfiguration;
-        status: 201;
+        status: 200;
     };
 
 export type terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostResponse422 =
@@ -160,7 +160,7 @@ export type terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConf
 
 export type terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostResponseComposite =
 
-        | terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostResponse201
+        | terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostResponse200
         | terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostResponse422;
 
 export type terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostResponse =
@@ -190,8 +190,8 @@ export const terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentCon
     };
 
 /**
- * Returns the details of a specific terminal instrument configuration.
- * @summary Get a single terminal instrument configuration by ID
+ * Returns the details of a specific terminal payment instrument.
+ * @summary Get a single terminal payment instrument by ID
  */
 export type terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdGetResponse200 =
     {
@@ -237,8 +237,8 @@ export const terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfig
     };
 
 /**
- * Partially updates an existing terminal instrument configuration.
- * @summary Partially update a terminal instrument configuration
+ * Partially updates an existing terminal payment instrument.
+ * @summary Partially update a terminal payment instrument
  */
 export type terminalInstrumentConfigurationEndpointsPatchTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdPatchResponse200 =
     {
@@ -287,8 +287,8 @@ export const terminalInstrumentConfigurationEndpointsPatchTerminalInstrumentConf
     };
 
 /**
- * Deletes a terminal instrument configuration by ID.
- * @summary Delete a terminal instrument configuration
+ * Deletes a terminal payment instrument by ID.
+ * @summary Delete a terminal payment instrument
  */
 export type terminalInstrumentConfigurationEndpointsDeleteTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdDeleteResponse200 =
     {
