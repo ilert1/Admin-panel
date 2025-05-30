@@ -9,7 +9,7 @@ import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useLocale, useTranslate } from "react-admin";
-import { DeletePaymentInstrumentDialog } from "../../lists/SystemPaymentInstruments/DeletePaymentInstrumentDialog";
+import { DeleteSystemPaymentInstrumentDialog } from "../../lists/SystemPaymentInstruments/DeleteSystemPaymentInstrumentDialog";
 import { EditPaymentInstrumentDialog } from "./EditSystemPaymentInstrumentDialog";
 
 interface SystemPaymentInstrumentShowProps {
@@ -18,6 +18,7 @@ interface SystemPaymentInstrumentShowProps {
 }
 
 export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowProps) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, onOpenChange } = props;
     const translate = useTranslate();
     const locale = useLocale();
@@ -48,14 +49,9 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
             <div className="flex h-full min-h-[300px] flex-col overflow-auto pt-0">
                 <div className="flex flex-col gap-1 md:gap-4">
                     <div className="flex items-center justify-between px-4 md:px-[42px]">
-                        <TextField
-                            text={context.record.name}
-                            copyValue
-                            fontSize="title-2"
-                            className="text-neutral-70 dark:text-neutral-30"
-                        />
+                        <TextField text={context.record.name} copyValue fontSize="title-2" />
                         <Badge
-                            className={cn("rounded-[20px] px-[12px] py-[6px] !text-title-2", {
+                            className={cn("rounded-[20px] px-[12px] py-[6px] !text-title-2 text-white", {
                                 "bg-green-50 hover:bg-green-50": context.record.status === "active",
                                 "bg-red-50 hover:bg-red-50": context.record.status === "inactive",
                                 "bg-extra-2 hover:bg-extra-2": context.record.status === "test_only"
@@ -150,7 +146,7 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                     </div>
                 </div>
             </div>
-            <DeletePaymentInstrumentDialog
+            <DeleteSystemPaymentInstrumentDialog
                 open={deleteDialogOpen}
                 onOpenChange={setDeleteDialogOpen}
                 deleteId={context.record?.id}

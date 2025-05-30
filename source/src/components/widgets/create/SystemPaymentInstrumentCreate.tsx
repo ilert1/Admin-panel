@@ -23,18 +23,17 @@ import { CurrencyWithId } from "@/data/currencies";
 import { PaymentTypeWithId } from "@/data/payment_types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
-interface PaymentInstrumentEditProps {
-    id: string;
+interface SystemPaymentInstrumentCreateProps {
     onOpenChange: (state: boolean) => void;
 }
 
-export const PaymentInstrumentEdit = (props: PaymentInstrumentEditProps) => {
-    const { id, onOpenChange } = props;
+export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCreateProps) => {
+    const { onOpenChange } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
     const dataProvider = useDataProvider();
@@ -47,13 +46,6 @@ export const PaymentInstrumentEdit = (props: PaymentInstrumentEditProps) => {
 
     const directions = Object.keys(DirectionType);
     const statuses = Object.keys(SystemPaymentInstrumentStatus);
-
-    const { data: record, isLoading: isLoadingPaymentInstrument } = useQuery({
-        queryKey: ["paymentInstrument", id],
-        queryFn: () => dataProvider.getOne("systemPaymentInstruments", { id }),
-        select: data => data.data
-    });
-    console.log(record);
 
     const { data: paymentTypes, isLoading: paymentTypesLoading } = useQuery({
         queryKey: ["paymentTypes"],
@@ -73,17 +65,11 @@ export const PaymentInstrumentEdit = (props: PaymentInstrumentEditProps) => {
         select: data => data.data
     });
 
-    // name
-    // direction
-    // status
-    // description
-    // metadata
-
     const formSchema = z.object({
         name: z
             .string()
             .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty"))
-            .regex(/^[A-Za-z0-9 _-]+$/, translate("resources.paymentTools.systemPaymentInstruments.errors.nameRegex"))
+            .regex(/^[A-Za-z0-9_-]+$/, translate("resources.paymentTools.systemPaymentInstruments.errors.nameRegex"))
             .trim(),
         payment_type_code: z
             .string()
@@ -115,32 +101,12 @@ export const PaymentInstrumentEdit = (props: PaymentInstrumentEditProps) => {
         }
     });
 
-    useEffect(() => {
-        if (!isLoadingPaymentInstrument) {
-            form.reset({
-                name: record.name,
-                payment_type_code: record.payment_type_code,
-                currency_code: record.currency_code,
-                financial_institution_id: record.financial_institution_id,
-                direction: record.direction,
-                status: record.status,
-                description: record.description,
-                meta: JSON.stringify(record.meta)
-            });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLoadingPaymentInstrument, record]);
-
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
         data.meta = JSON.parse(data.meta);
         try {
-            await dataProvider.update("systemPaymentInstruments", {
-                id,
-                data,
-                previousData: undefined
-            });
+            await dataProvider.create("systemPaymentInstruments", { data: data });
             appToast("success", translate("app.ui.toast.success"));
             refresh();
         } catch (error) {
@@ -152,7 +118,7 @@ export const PaymentInstrumentEdit = (props: PaymentInstrumentEditProps) => {
         }
     };
 
-    if (paymentTypesLoading || currenciesLoading || financialInstitutionsLoading || isLoadingPaymentInstrument)
+    if (paymentTypesLoading || currenciesLoading || financialInstitutionsLoading)
         return (
             <div className="h-[300px]">
                 <Loading />
@@ -384,7 +350,9 @@ export const PaymentInstrumentEdit = (props: PaymentInstrumentEditProps) => {
                                             <SelectGroup>
                                                 {statuses.map(status => (
                                                     <SelectItem key={status} value={status} variant={SelectType.GRAY}>
-                                                        {status}
+                                                        {translate(
+                                                            `resources.paymentTools.systemPaymentInstruments.statuses.${status}`
+                                                        )}
                                                     </SelectItem>
                                                 ))}
                                             </SelectGroup>

@@ -1,8 +1,4 @@
-import {
-    DirectionType,
-    FinancialInstitution,
-    SystemPaymentInstrumentStatus
-} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { DirectionType, SystemPaymentInstrumentStatus } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button } from "@/components/ui/Button";
 import { FormField, FormItem, FormControl, FormMessage } from "@/components/ui/form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
@@ -19,21 +15,20 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { CurrencyWithId } from "@/data/currencies";
-import { PaymentTypeWithId } from "@/data/payment_types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
-interface PaymentInstrumentCreateProps {
+interface SystemPaymentInstrumentEditProps {
+    id: string;
     onOpenChange: (state: boolean) => void;
 }
 
-export const PaymentInstrumentCreate = (props: PaymentInstrumentCreateProps) => {
-    const { onOpenChange } = props;
+export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditProps) => {
+    const { id, onOpenChange } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
     const dataProvider = useDataProvider();
@@ -47,23 +42,9 @@ export const PaymentInstrumentCreate = (props: PaymentInstrumentCreateProps) => 
     const directions = Object.keys(DirectionType);
     const statuses = Object.keys(SystemPaymentInstrumentStatus);
 
-    const { data: paymentTypes, isLoading: paymentTypesLoading } = useQuery({
-        queryKey: ["paymentTypes"],
-        queryFn: () => dataProvider.getListWithoutPagination("payment_type"),
-        select: data => data.data
-    });
-
-    const { data: currencies, isLoading: currenciesLoading } = useQuery({
-        queryKey: ["currencies"],
-        queryFn: () => dataProvider.getListWithoutPagination("currency"),
-        select: data => data.data
-    });
-
-    // const financialInstitutions: FinancialInstitution[] = [];
-    // const financialInstitutionsLoading = false;
-    const { data: financialInstitutions, isLoading: financialInstitutionsLoading } = useQuery({
-        queryKey: ["financialInstitutions"],
-        queryFn: ({ signal }) => dataProvider.getList("financialInstitution", { signal }),
+    const { data: record, isLoading: isLoadingPaymentInstrument } = useQuery({
+        queryKey: ["paymentInstrument", id],
+        queryFn: () => dataProvider.getOne("systemPaymentInstruments", { id }),
         select: data => data.data
     });
 
@@ -71,18 +52,8 @@ export const PaymentInstrumentCreate = (props: PaymentInstrumentCreateProps) => 
         name: z
             .string()
             .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty"))
-            .regex(/^[A-Za-z0-9_-]+$/, translate("resources.paymentTools.systemPaymentInstruments.errors.nameRegex"))
+            .regex(/^[A-Za-z0-9 _-]+$/, translate("resources.paymentTools.systemPaymentInstruments.errors.nameRegex"))
             .trim(),
-        payment_type_code: z
-            .string()
-            .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty")),
-        currency_code: z
-            .string()
-            .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty")),
-        financial_institution_id: z
-            .string()
-            .uuid()
-            .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty")),
         direction: z.enum(directions as [string, ...string[]]).default("universal"),
         status: z.enum(statuses as [string, ...string[]]).default("active"),
         description: z.string().optional(),
@@ -93,9 +64,6 @@ export const PaymentInstrumentCreate = (props: PaymentInstrumentCreateProps) => 
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            payment_type_code: "",
-            currency_code: "",
-            financial_institution_id: "",
             direction: DirectionType.universal,
             status: SystemPaymentInstrumentStatus.active,
             description: "",
@@ -103,12 +71,29 @@ export const PaymentInstrumentCreate = (props: PaymentInstrumentCreateProps) => 
         }
     });
 
+    useEffect(() => {
+        if (!isLoadingPaymentInstrument) {
+            form.reset({
+                name: record.name,
+                direction: record.direction,
+                status: record.status,
+                description: record.description,
+                meta: JSON.stringify(record.meta)
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isLoadingPaymentInstrument, record]);
+
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
         data.meta = JSON.parse(data.meta);
         try {
-            await dataProvider.create("systemPaymentInstruments", { data: data });
+            await dataProvider.update("systemPaymentInstruments", {
+                id,
+                data,
+                previousData: undefined
+            });
             appToast("success", translate("app.ui.toast.success"));
             refresh();
         } catch (error) {
@@ -120,16 +105,12 @@ export const PaymentInstrumentCreate = (props: PaymentInstrumentCreateProps) => 
         }
     };
 
-    if (paymentTypesLoading || currenciesLoading || financialInstitutionsLoading)
+    if (isLoadingPaymentInstrument)
         return (
             <div className="h-[300px]">
                 <Loading />
             </div>
         );
-
-    const paymentsDisabled = !paymentTypes || paymentTypes.length === 0;
-    const currenciesDisabled = !currencies || currencies.length === 0;
-    const financialInstitutionsDisabled = !financialInstitutions || financialInstitutions.length === 0;
 
     return (
         <FormProvider {...form}>
@@ -157,147 +138,6 @@ export const PaymentInstrumentCreate = (props: PaymentInstrumentCreateProps) => 
                                 );
                             }}
                         />
-                        <FormField
-                            control={form.control}
-                            name="payment_type_code"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="">
-                                    <Label>
-                                        {translate(
-                                            "resources.paymentTools.systemPaymentInstruments.fields.payment_type_code"
-                                        )}
-                                    </Label>
-                                    <Select
-                                        value={field.value}
-                                        onValueChange={field.onChange}
-                                        disabled={paymentsDisabled}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue
-                                                    placeholder={
-                                                        paymentsDisabled
-                                                            ? translate("resources.direction.noTerminals")
-                                                            : ""
-                                                    }
-                                                />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {!paymentsDisabled
-                                                    ? paymentTypes.map((paymentType: PaymentTypeWithId) => (
-                                                          <SelectItem
-                                                              key={paymentType.code}
-                                                              value={paymentType.code}
-                                                              variant={SelectType.GRAY}>
-                                                              {paymentType.code}
-                                                          </SelectItem>
-                                                      ))
-                                                    : ""}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="currency_code"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="">
-                                    <Label>
-                                        {translate(
-                                            "resources.paymentTools.systemPaymentInstruments.fields.currency_code"
-                                        )}
-                                    </Label>
-                                    <Select
-                                        value={field.value}
-                                        onValueChange={field.onChange}
-                                        disabled={paymentsDisabled}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue
-                                                    placeholder={
-                                                        paymentsDisabled
-                                                            ? translate("resources.direction.noTerminals")
-                                                            : ""
-                                                    }
-                                                />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {!currenciesDisabled
-                                                    ? currencies.map((currency: CurrencyWithId) => (
-                                                          <SelectItem
-                                                              key={currency.code}
-                                                              value={currency.code}
-                                                              variant={SelectType.GRAY}>
-                                                              {currency.code}
-                                                          </SelectItem>
-                                                      ))
-                                                    : ""}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="financial_institution_id"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="">
-                                    <Label>
-                                        {translate(
-                                            "resources.paymentTools.systemPaymentInstruments.fields.financial_institution_id"
-                                        )}
-                                    </Label>
-                                    <Select
-                                        value={field.value}
-                                        onValueChange={field.onChange}
-                                        disabled={paymentsDisabled}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue
-                                                    placeholder={
-                                                        paymentsDisabled
-                                                            ? translate("resources.direction.noTerminals")
-                                                            : ""
-                                                    }
-                                                />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {!financialInstitutionsDisabled
-                                                    ? financialInstitutions.map(
-                                                          (financialInstitution: FinancialInstitution) => (
-                                                              <SelectItem
-                                                                  key={financialInstitution.id}
-                                                                  value={financialInstitution.id}
-                                                                  variant={SelectType.GRAY}>
-                                                                  {financialInstitution.name}
-                                                              </SelectItem>
-                                                          )
-                                                      )
-                                                    : ""}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            )}
-                        />
-
                         <FormField
                             control={form.control}
                             name="direction"
@@ -352,7 +192,9 @@ export const PaymentInstrumentCreate = (props: PaymentInstrumentCreateProps) => 
                                             <SelectGroup>
                                                 {statuses.map(status => (
                                                     <SelectItem key={status} value={status} variant={SelectType.GRAY}>
-                                                        {status}
+                                                        {translate(
+                                                            `resources.paymentTools.systemPaymentInstruments.statuses.${status}`
+                                                        )}
                                                     </SelectItem>
                                                 ))}
                                             </SelectGroup>

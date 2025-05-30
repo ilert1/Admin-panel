@@ -7,7 +7,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useTranslate } from "react-admin";
-import { PaymentInstrumentEdit } from "../../edit/PaymentInstrumentEdit";
+import { SystemPaymentInstrumentEdit } from "../../edit/SystemPaymentInstrumentEdit";
 
 export interface EditPaymentInstrumentDialogProps {
     open: boolean;
@@ -23,10 +23,12 @@ export const EditPaymentInstrumentDialog = ({ open, id, onOpenChange }: EditPaym
                 disableOutsideClick
                 className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
                 <DialogHeader>
-                    <DialogTitle className="mb-4 text-center">{translate("resources.users.editUser")}</DialogTitle>
+                    <DialogTitle className="mb-4 text-center">
+                        {translate("resources.paymentTools.systemPaymentInstruments.editingPaymentInstrument")}
+                    </DialogTitle>
                 </DialogHeader>
 
-                <PaymentInstrumentEdit id={id} onOpenChange={onOpenChange} />
+                <SystemPaymentInstrumentEdit id={id} onOpenChange={onOpenChange} />
                 <DialogDescription />
                 <DialogFooter />
             </DialogContent>

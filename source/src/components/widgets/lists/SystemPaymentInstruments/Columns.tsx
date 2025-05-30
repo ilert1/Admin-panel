@@ -125,7 +125,7 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
                 return (
                     <div className="flex items-center justify-center">
                         <Badge
-                            className={cn("rounded-[20px] px-[12px] py-[6px] !text-title-2", {
+                            className={cn("rounded-[20px] px-[12px] py-[6px] !text-title-2 text-white", {
                                 "bg-green-50 hover:bg-green-50": row.original.status === "active",
                                 "bg-red-50 hover:bg-red-50": row.original.status === "inactive",
                                 "bg-extra-2 hover:bg-extra-2": row.original.status === "test_only"
