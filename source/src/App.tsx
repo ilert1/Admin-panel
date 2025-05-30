@@ -68,7 +68,7 @@ import { FinancialInstitutionList } from "./components/widgets/lists/FinancialIn
 import { SystemPaymentInstrumentsList } from "./components/widgets/lists/SystemPaymentInstruments";
 import { TerminalPaymentInstrumentsList } from "./components/widgets/lists/TerminalPaymentInstruments";
 import { FinancialInstitutionProvider } from "./data/financialInstitution";
-import { TerminalPaymentInstruments } from "./data/terminalPaymentInstruments";
+import { TerminalPaymentInstrumentsProvider } from "./data/terminalPaymentInstruments";
 import { SystemPaymentInstrumentsProvider } from "./data/systemPaymentInstruments";
 
 const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
@@ -112,7 +112,7 @@ const dataProvider = combineDataProviders(resource => {
     } else if (resource === "financialInstitution") {
         return new FinancialInstitutionProvider();
     } else if (resource === "terminalPaymentInstruments") {
-        return new TerminalPaymentInstruments();
+        return new TerminalPaymentInstrumentsProvider();
     } else if (resource === "systemPaymentInstruments") {
         return new SystemPaymentInstrumentsProvider();
     } else {
