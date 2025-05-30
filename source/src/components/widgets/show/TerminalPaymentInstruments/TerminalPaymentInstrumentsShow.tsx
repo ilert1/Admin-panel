@@ -61,9 +61,11 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: DirectionsS
                         <small className="mb-1 text-sm text-neutral-60">
                             {translate("resources.paymentTools.terminalPaymentInstruments.fields.created_at")}
                         </small>
+
                         <p className="text-nowrap text-base leading-[18px]">
                             {new Date(context.record.created_at).toLocaleDateString(locale)}
                         </p>
+
                         <p className="text-nowrap text-base leading-[18px]">
                             {new Date(context.record.created_at).toLocaleTimeString(locale)}
                         </p>
@@ -73,29 +75,46 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: DirectionsS
                         <small className="mb-1 text-sm text-neutral-60">
                             {translate("resources.paymentTools.terminalPaymentInstruments.fields.updated_at")}
                         </small>
+
                         <p className="text-nowrap text-base leading-[18px]">
                             {new Date(context.record.updated_at).toLocaleDateString(locale)}
                         </p>
+
                         <p className="text-nowrap text-base leading-[18px]">
                             {new Date(context.record.updated_at).toLocaleTimeString(locale)}
                         </p>
                     </div>
 
-                    <TextField
-                        label={translate("resources.paymentTools.terminalPaymentInstruments.fields.terminal_id")}
-                        text={context.record.terminal_id || ""}
-                        wrap
-                        copyValue
-                    />
+                    <div className="flex flex-col">
+                        <small className="mb-1 text-sm text-neutral-60">
+                            {translate("resources.paymentTools.terminalPaymentInstruments.fields.terminal_id")}
+                        </small>
 
-                    <TextField
-                        label={translate(
-                            "resources.paymentTools.terminalPaymentInstruments.fields.system_payment_instrument_id"
-                        )}
-                        text={context.record.system_payment_instrument_id}
-                        wrap
-                        copyValue
-                    />
+                        <p className="mb-1 text-nowrap text-base leading-[18px]">
+                            {context.record.terminal.verbose_name}
+                        </p>
+
+                        <TextField className="text-neutral-40" text={context.record.terminal_id} wrap copyValue />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <small className="mb-1 text-sm text-neutral-60">
+                            {translate(
+                                "resources.paymentTools.terminalPaymentInstruments.fields.system_payment_instrument_id"
+                            )}
+                        </small>
+
+                        <p className="mb-1 text-nowrap text-base leading-[18px]">
+                            {context.record.system_payment_instrument.name}
+                        </p>
+
+                        <TextField
+                            className="text-neutral-40"
+                            text={context.record.system_payment_instrument_id}
+                            wrap
+                            copyValue
+                        />
+                    </div>
 
                     <TextField
                         label={translate(

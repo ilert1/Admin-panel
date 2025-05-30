@@ -29,14 +29,28 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
             header: translate("resources.paymentTools.terminalPaymentInstruments.fields.terminal_id"),
             cell: ({ row }) => {
                 return (
-                    <TextField
-                        wrap
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                        minWidth="150px"
-                        text={row.original.terminal_id}
-                    />
+                    <div>
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                openSheet("terminal", {
+                                    id: row.original.terminal_id,
+                                    provider: row.original.terminal.provider
+                                });
+                            }}>
+                            {row.original.terminal.verbose_name}
+                        </Button>
+
+                        <TextField
+                            className="text-neutral-70"
+                            text={row.original.terminal_id}
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                        />
+                    </div>
                 );
             }
         },
@@ -46,14 +60,27 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
             header: translate("resources.paymentTools.terminalPaymentInstruments.fields.system_payment_instrument_id"),
             cell: ({ row }) => {
                 return (
-                    <TextField
-                        wrap
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                        minWidth="150px"
-                        text={row.original.system_payment_instrument_id}
-                    />
+                    <div>
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                openSheet("systemPaymentInstrument", {
+                                    id: row.original.system_payment_instrument_id
+                                });
+                            }}>
+                            {row.original.system_payment_instrument.name}
+                        </Button>
+
+                        <TextField
+                            className="text-neutral-70"
+                            text={row.original.system_payment_instrument_id}
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                        />
+                    </div>
                 );
             }
         },
