@@ -5,7 +5,8 @@ import { SystemPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.s
 import { TextField } from "@/components/ui/text-field";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { ShowButton, TrashButton } from "@/components/ui/Button";
+import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
+import { useSheets } from "@/components/providers/SheetProvider";
 
 export const useGetSystemPaymentInstrumentsColumns = () => {
     const translate = useTranslate();
@@ -14,6 +15,7 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
     const [chosenId, setChosenId] = useState<string>("");
     const [showEditDialogOpen, setShowEditDialogOpen] = useState(false);
     const [showDeleteDialogOpen, setShowDeleteDialogOpen] = useState(false);
+    const { openSheet } = useSheets();
     // const handleDirectionShowOpen = (id: string) => {
     //     setShowDirectionId(id);
     //     setShowDirectionDialog(true);
@@ -54,9 +56,55 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
             accessorKey: "id",
             header: translate("resources.paymentTools.systemPaymentInstruments.list.id"),
             cell: ({ row }) => {
-                return <TextField text={row.original.id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />;
+                return (
+                    <div>
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                openSheet("systemPaymentInstrument", { id: row.original.id });
+                            }}>
+                            {row.original.name ?? ""}
+                        </Button>
+                        <TextField
+                            text={row.original.id}
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                            className="text-neutral-70"
+                        />
+                    </div>
+                );
             }
         },
+        // {
+        //     id: "id",
+        //     accessorKey: "id",
+        //     header: translate("resources.merchant.merchant"),
+        //     cell: ({ row }) => {
+        //         return (
+        //             <div>
+        // <Button
+        //     variant={"resourceLink"}
+        //     onClick={() => {
+        //         handleShowClicked(row.original.id ?? "", row.original.name);
+        //     }}>
+        //     {row.original.name ?? ""}
+        // </Button>
+        //                 <TextField
+        //                     className="text-neutral-70"
+        //                     text={row.original.id}
+        //                     wrap
+        //                     copyValue
+        //                     lineClamp
+        //                     linesCount={1}
+        //                     minWidth="50px"
+        //                 />
+        //             </div>
+        //         );
+        //     }
+        // },
         {
             id: "instrument",
             header: translate("resources.paymentTools.systemPaymentInstruments.list.paymentType"),
@@ -95,7 +143,9 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
                 return (
                     <TextField
                         text={row.original.financial_institution.name}
-                        onClick={() => {}}
+                        onClick={() => {
+                            openSheet("financialInstitution", { id: row.original.financial_institution_id });
+                        }}
                         wrap
                         copyValue
                         lineClamp
@@ -123,27 +173,17 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
                 return (
                     <div className="flex items-center justify-center">
                         <Badge
-                            className={cn("rounded-[20px] px-[12px] py-[6px] !text-title-2", {
-                                "bg-green-50": row.original.status === "active",
-                                "bg-red-50": row.original.status === "inactive",
-                                "bg-extra-2": row.original.status === "test_only"
+                            className={cn("rounded-[20px] px-[12px] py-[6px] !text-title-2 text-white", {
+                                "bg-green-50 hover:bg-green-50": row.original.status === "active",
+                                "bg-red-50 hover:bg-red-50": row.original.status === "inactive",
+                                "bg-extra-2 hover:bg-extra-2": row.original.status === "test_only"
                             })}
                             variant="default">
-                            {row.original.status}
+                            {translate(
+                                `resources.paymentTools.systemPaymentInstruments.statuses.${row.original.status}`
+                            )}
                         </Badge>
                     </div>
-                );
-            }
-        },
-        {
-            id: "actions",
-            cell: ({ row }) => {
-                return (
-                    <ShowButton
-                        onClick={() => {
-                            // handleDirectionShowOpen(row.original.id);
-                        }}
-                    />
                 );
             }
         },
@@ -154,6 +194,18 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
             },
             cell: ({ row }) => {
                 return <TrashButton onClick={() => handleDeleteClicked(row.original.id)} />;
+            }
+        },
+        {
+            id: "actions",
+            cell: ({ row }) => {
+                return (
+                    <ShowButton
+                        onClick={() => {
+                            openSheet("systemPaymentInstrument", { id: row.original.id });
+                        }}
+                    />
+                );
             }
         }
     ];

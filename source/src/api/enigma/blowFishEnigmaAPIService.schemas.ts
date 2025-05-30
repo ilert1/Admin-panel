@@ -356,26 +356,26 @@ export interface ApiResponseOffsetPaginationSystemPaymentInstrument {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseOffsetPaginationTerminalInstrumentConfigurationError = ErrorBody | null;
+export type ApiResponseOffsetPaginationTerminalPaymentInstrumentError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseOffsetPaginationTerminalInstrumentConfigurationMeta = unknown | null;
+export type ApiResponseOffsetPaginationTerminalPaymentInstrumentMeta = unknown | null;
 
-export interface ApiResponseOffsetPaginationTerminalInstrumentConfiguration {
+export interface ApiResponseOffsetPaginationTerminalPaymentInstrument {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: OffsetPaginationTerminalInstrumentConfiguration;
+    data: OffsetPaginationTerminalPaymentInstrument;
     /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationTerminalInstrumentConfigurationError;
+    error?: ApiResponseOffsetPaginationTerminalPaymentInstrumentError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseOffsetPaginationTerminalInstrumentConfigurationMeta;
+    meta?: ApiResponseOffsetPaginationTerminalPaymentInstrumentMeta;
 }
 
 /**
@@ -506,26 +506,26 @@ export interface ApiResponseSystemPaymentInstrument {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseTerminalInstrumentConfigurationError = ErrorBody | null;
+export type ApiResponseTerminalPaymentInstrumentError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseTerminalInstrumentConfigurationMeta = unknown | null;
+export type ApiResponseTerminalPaymentInstrumentMeta = unknown | null;
 
-export interface ApiResponseTerminalInstrumentConfiguration {
+export interface ApiResponseTerminalPaymentInstrument {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: TerminalInstrumentConfiguration;
+    data: TerminalPaymentInstrument;
     /** The error details if the request was not successful */
-    error?: ApiResponseTerminalInstrumentConfigurationError;
+    error?: ApiResponseTerminalPaymentInstrumentError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseTerminalInstrumentConfigurationMeta;
+    meta?: ApiResponseTerminalPaymentInstrumentMeta;
 }
 
 /**
@@ -1718,9 +1718,9 @@ export interface OffsetPaginationSystemPaymentInstrument {
     total: number;
 }
 
-export interface OffsetPaginationTerminalInstrumentConfiguration {
+export interface OffsetPaginationTerminalPaymentInstrument {
     /** A list of items in the current page */
-    items: TerminalInstrumentConfiguration[];
+    items: TerminalPaymentInstrument[];
     /** The maximum number of items returned in a single page */
     limit: number;
     /** The starting index for the current page */
@@ -2218,38 +2218,38 @@ export interface TerminalDeleteAuth {
 /**
  * Provider's code for the payment type (e.g., SBP)
  */
-export type TerminalInstrumentConfigurationTerminalPaymentTypeCode = string | null;
+export type TerminalPaymentInstrumentTerminalPaymentTypeCode = string | null;
 
 /**
  * Provider's code for the currency (if different from system)
  */
-export type TerminalInstrumentConfigurationTerminalCurrencyCode = string | null;
+export type TerminalPaymentInstrumentTerminalCurrencyCode = string | null;
 
 /**
  * Provider's code for the financial institution
  */
-export type TerminalInstrumentConfigurationTerminalFinancialInstitutionCode = string | null;
+export type TerminalPaymentInstrumentTerminalFinancialInstitutionCode = string | null;
 
 /**
  * Additional terminal-specific parameters in JSON format
  */
-export type TerminalInstrumentConfigurationTerminalSpecificParameters = { [key: string]: unknown };
+export type TerminalPaymentInstrumentTerminalSpecificParameters = { [key: string]: unknown };
 
-export interface TerminalInstrumentConfiguration {
+export interface TerminalPaymentInstrument {
     /** ID of the terminal */
     terminal_id: string;
     /** ID of the system payment instrument */
     system_payment_instrument_id: string;
     /** Provider's code for the payment type (e.g., SBP) */
-    terminal_payment_type_code?: TerminalInstrumentConfigurationTerminalPaymentTypeCode;
+    terminal_payment_type_code?: TerminalPaymentInstrumentTerminalPaymentTypeCode;
     /** Provider's code for the currency (if different from system) */
-    terminal_currency_code?: TerminalInstrumentConfigurationTerminalCurrencyCode;
+    terminal_currency_code?: TerminalPaymentInstrumentTerminalCurrencyCode;
     /** Provider's code for the financial institution */
-    terminal_financial_institution_code?: TerminalInstrumentConfigurationTerminalFinancialInstitutionCode;
+    terminal_financial_institution_code?: TerminalPaymentInstrumentTerminalFinancialInstitutionCode;
     /** Additional terminal-specific parameters in JSON format */
-    terminal_specific_parameters?: TerminalInstrumentConfigurationTerminalSpecificParameters;
+    terminal_specific_parameters?: TerminalPaymentInstrumentTerminalSpecificParameters;
     /** Status of the terminal instrument configuration */
-    status?: TerminalInstrumentConfigurationStatus;
+    status?: TerminalPaymentInstrumentStatus;
     /** Unique ID of the configuration */
     id: string;
     /** Related Terminal object */
@@ -2265,45 +2265,45 @@ export interface TerminalInstrumentConfiguration {
 /**
  * Provider's code for the payment type (e.g., SBP)
  */
-export type TerminalInstrumentConfigurationCreateTerminalPaymentTypeCode = string | null;
+export type TerminalPaymentInstrumentCreateTerminalPaymentTypeCode = string | null;
 
 /**
  * Provider's code for the currency (if different from system)
  */
-export type TerminalInstrumentConfigurationCreateTerminalCurrencyCode = string | null;
+export type TerminalPaymentInstrumentCreateTerminalCurrencyCode = string | null;
 
 /**
  * Provider's code for the financial institution
  */
-export type TerminalInstrumentConfigurationCreateTerminalFinancialInstitutionCode = string | null;
+export type TerminalPaymentInstrumentCreateTerminalFinancialInstitutionCode = string | null;
 
 /**
  * Additional terminal-specific parameters in JSON format
  */
-export type TerminalInstrumentConfigurationCreateTerminalSpecificParameters = { [key: string]: unknown };
+export type TerminalPaymentInstrumentCreateTerminalSpecificParameters = { [key: string]: unknown };
 
-export interface TerminalInstrumentConfigurationCreate {
+export interface TerminalPaymentInstrumentCreate {
     /** ID of the terminal */
     terminal_id: string;
     /** ID of the system payment instrument */
     system_payment_instrument_id: string;
     /** Provider's code for the payment type (e.g., SBP) */
-    terminal_payment_type_code?: TerminalInstrumentConfigurationCreateTerminalPaymentTypeCode;
+    terminal_payment_type_code?: TerminalPaymentInstrumentCreateTerminalPaymentTypeCode;
     /** Provider's code for the currency (if different from system) */
-    terminal_currency_code?: TerminalInstrumentConfigurationCreateTerminalCurrencyCode;
+    terminal_currency_code?: TerminalPaymentInstrumentCreateTerminalCurrencyCode;
     /** Provider's code for the financial institution */
-    terminal_financial_institution_code?: TerminalInstrumentConfigurationCreateTerminalFinancialInstitutionCode;
+    terminal_financial_institution_code?: TerminalPaymentInstrumentCreateTerminalFinancialInstitutionCode;
     /** Additional terminal-specific parameters in JSON format */
-    terminal_specific_parameters?: TerminalInstrumentConfigurationCreateTerminalSpecificParameters;
+    terminal_specific_parameters?: TerminalPaymentInstrumentCreateTerminalSpecificParameters;
     /** Status of the terminal instrument configuration */
-    status?: TerminalInstrumentConfigurationStatus;
+    status?: TerminalPaymentInstrumentStatus;
 }
 
-export type TerminalInstrumentConfigurationStatus =
-    (typeof TerminalInstrumentConfigurationStatus)[keyof typeof TerminalInstrumentConfigurationStatus];
+export type TerminalPaymentInstrumentStatus =
+    (typeof TerminalPaymentInstrumentStatus)[keyof typeof TerminalPaymentInstrumentStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const TerminalInstrumentConfigurationStatus = {
+export const TerminalPaymentInstrumentStatus = {
     ACTIVE: "ACTIVE",
     INACTIVE: "INACTIVE"
 } as const;
@@ -2311,56 +2311,56 @@ export const TerminalInstrumentConfigurationStatus = {
 /**
  * ID of the terminal
  */
-export type TerminalInstrumentConfigurationUpdateTerminalId = string | null;
+export type TerminalPaymentInstrumentUpdateTerminalId = string | null;
 
 /**
  * ID of the system payment instrument
  */
-export type TerminalInstrumentConfigurationUpdateSystemPaymentInstrumentId = string | null;
+export type TerminalPaymentInstrumentUpdateSystemPaymentInstrumentId = string | null;
 
 /**
  * Terminal's code for the payment type (e.g., TINKOFF_SBP)
  */
-export type TerminalInstrumentConfigurationUpdateTerminalPaymentTypeCode = string | null;
+export type TerminalPaymentInstrumentUpdateTerminalPaymentTypeCode = string | null;
 
 /**
  * Terminal's code for the currency (if different from system)
  */
-export type TerminalInstrumentConfigurationUpdateTerminalCurrencyCode = string | null;
+export type TerminalPaymentInstrumentUpdateTerminalCurrencyCode = string | null;
 
 /**
  * Terminal's code for the financial institution
  */
-export type TerminalInstrumentConfigurationUpdateTerminalFinancialInstitutionCode = string | null;
+export type TerminalPaymentInstrumentUpdateTerminalFinancialInstitutionCode = string | null;
 
-export type TerminalInstrumentConfigurationUpdateTerminalSpecificParametersAnyOf = { [key: string]: unknown };
+export type TerminalPaymentInstrumentUpdateTerminalSpecificParametersAnyOf = { [key: string]: unknown };
 
 /**
  * Additional terminal-specific parameters in JSON format
  */
-export type TerminalInstrumentConfigurationUpdateTerminalSpecificParameters =
-    TerminalInstrumentConfigurationUpdateTerminalSpecificParametersAnyOf | null;
+export type TerminalPaymentInstrumentUpdateTerminalSpecificParameters =
+    TerminalPaymentInstrumentUpdateTerminalSpecificParametersAnyOf | null;
 
 /**
  * Status of the terminal payment instrument
  */
-export type TerminalInstrumentConfigurationUpdateStatus = TerminalInstrumentConfigurationStatus | null;
+export type TerminalPaymentInstrumentUpdateStatus = TerminalPaymentInstrumentStatus | null;
 
-export interface TerminalInstrumentConfigurationUpdate {
+export interface TerminalPaymentInstrumentUpdate {
     /** ID of the terminal */
-    terminal_id?: TerminalInstrumentConfigurationUpdateTerminalId;
+    terminal_id?: TerminalPaymentInstrumentUpdateTerminalId;
     /** ID of the system payment instrument */
-    system_payment_instrument_id?: TerminalInstrumentConfigurationUpdateSystemPaymentInstrumentId;
+    system_payment_instrument_id?: TerminalPaymentInstrumentUpdateSystemPaymentInstrumentId;
     /** Terminal's code for the payment type (e.g., TINKOFF_SBP) */
-    terminal_payment_type_code?: TerminalInstrumentConfigurationUpdateTerminalPaymentTypeCode;
+    terminal_payment_type_code?: TerminalPaymentInstrumentUpdateTerminalPaymentTypeCode;
     /** Terminal's code for the currency (if different from system) */
-    terminal_currency_code?: TerminalInstrumentConfigurationUpdateTerminalCurrencyCode;
+    terminal_currency_code?: TerminalPaymentInstrumentUpdateTerminalCurrencyCode;
     /** Terminal's code for the financial institution */
-    terminal_financial_institution_code?: TerminalInstrumentConfigurationUpdateTerminalFinancialInstitutionCode;
+    terminal_financial_institution_code?: TerminalPaymentInstrumentUpdateTerminalFinancialInstitutionCode;
     /** Additional terminal-specific parameters in JSON format */
-    terminal_specific_parameters?: TerminalInstrumentConfigurationUpdateTerminalSpecificParameters;
+    terminal_specific_parameters?: TerminalPaymentInstrumentUpdateTerminalSpecificParameters;
     /** Status of the terminal payment instrument */
-    status?: TerminalInstrumentConfigurationUpdateStatus;
+    status?: TerminalPaymentInstrumentUpdateStatus;
 }
 
 /**
@@ -2932,7 +2932,7 @@ export const SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV
         desc: "desc"
     } as const;
 
-export type TerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetParams =
+export type TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetParams =
     {
         /**
          * List of identifiers for filtering
@@ -2981,20 +2981,20 @@ export type TerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigu
         /**
          * Sort order: 'asc' or 'desc'
          */
-        sortOrder?: TerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder;
+        sortOrder?: TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder;
     };
 
-export type TerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder =
-    (typeof TerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder)[keyof typeof TerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder];
+export type TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder =
+    (typeof TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder)[keyof typeof TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const TerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder =
+export const TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder =
     {
         asc: "asc",
         desc: "desc"
     } as const;
 
-export type TerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetParams =
+export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetParams =
     {
         /**
          * List of identifiers for filtering
@@ -3043,14 +3043,14 @@ export type TerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfig
         /**
          * Sort order: 'asc' or 'desc'
          */
-        sortOrder?: TerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetSortOrder;
+        sortOrder?: TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSortOrder;
     };
 
-export type TerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetSortOrder =
-    (typeof TerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetSortOrder)[keyof typeof TerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetSortOrder];
+export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSortOrder =
+    (typeof TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSortOrder)[keyof typeof TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSortOrder];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const TerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetSortOrder =
+export const TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSortOrder =
     {
         asc: "asc",
         desc: "desc"

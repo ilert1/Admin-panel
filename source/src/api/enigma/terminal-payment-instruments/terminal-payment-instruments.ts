@@ -6,13 +6,13 @@
  */
 import type {
     ApiResponseNoneType,
-    ApiResponseOffsetPaginationTerminalInstrumentConfiguration,
-    ApiResponseTerminalInstrumentConfiguration,
+    ApiResponseOffsetPaginationTerminalPaymentInstrument,
+    ApiResponseTerminalPaymentInstrument,
     HTTPValidationError,
-    TerminalInstrumentConfigurationCreate,
-    TerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetParams,
-    TerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetParams,
-    TerminalInstrumentConfigurationUpdate
+    TerminalPaymentInstrumentCreate,
+    TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetParams,
+    TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetParams,
+    TerminalPaymentInstrumentUpdate
 } from "../blowFishEnigmaAPIService.schemas";
 
 import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
@@ -21,32 +21,32 @@ import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
  * Returns a list of terminal payment instruments associated with a given terminal ID.
  * @summary Get terminal payment instruments for a specific terminal
  */
-export type terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetResponse200 =
+export type terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponse200 =
     {
-        data: ApiResponseOffsetPaginationTerminalInstrumentConfiguration;
+        data: ApiResponseOffsetPaginationTerminalPaymentInstrument;
         status: 200;
     };
 
-export type terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetResponse422 =
+export type terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetResponseComposite =
+export type terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponseComposite =
 
-        | terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetResponse200
-        | terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetResponse422;
+        | terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponse200
+        | terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponse422;
 
-export type terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetResponse =
-    terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetResponseComposite & {
+export type terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponse =
+    terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetUrl =
+export const getTerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetUrl =
     (
         terminalId: string,
-        params?: TerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetParams
+        params?: TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetParams
     ) => {
         const normalizedParams = new URLSearchParams();
 
@@ -59,18 +59,18 @@ export const getTerminalInstrumentConfigurationEndpointsGetTerminalInstrumentCon
         const stringifiedParams = normalizedParams.toString();
 
         return stringifiedParams.length > 0
-            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-instrument-configurations/terminals/${terminalId}/instrument-configurations?${stringifiedParams}`
-            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-instrument-configurations/terminals/${terminalId}/instrument-configurations`;
+            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/terminals/${terminalId}/instrument-configurations?${stringifiedParams}`
+            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/terminals/${terminalId}/instrument-configurations`;
     };
 
-export const terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGet =
+export const terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGet =
     async (
         terminalId: string,
-        params?: TerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetParams,
+        params?: TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetParams,
         options?: RequestInit
-    ): Promise<terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetResponse> => {
-        return authFetch<terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetResponse>(
-            getTerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationsByTerminalEnigmaV1TerminalInstrumentConfigurationsTerminalsTerminalIdInstrumentConfigurationsGetUrl(
+    ): Promise<terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponse> => {
+        return authFetch<terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponse>(
+            getTerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetUrl(
                 terminalId,
                 params
             ),
@@ -85,31 +85,31 @@ export const terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfig
  * Returns a paginated list of terminal payment instruments with optional filtering.
  * @summary Get a paginated list of terminal payment instruments
  */
-export type terminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetResponse200 =
+export type terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetResponse200 =
     {
-        data: ApiResponseOffsetPaginationTerminalInstrumentConfiguration;
+        data: ApiResponseOffsetPaginationTerminalPaymentInstrument;
         status: 200;
     };
 
-export type terminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetResponse422 =
+export type terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type terminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetResponseComposite =
+export type terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetResponseComposite =
 
-        | terminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetResponse200
-        | terminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetResponse422;
+        | terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetResponse200
+        | terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetResponse422;
 
-export type terminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetResponse =
-    terminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetResponseComposite & {
+export type terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetResponse =
+    terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetUrl =
+export const getTerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetUrl =
     (
-        params?: TerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetParams
+        params?: TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetParams
     ) => {
         const normalizedParams = new URLSearchParams();
 
@@ -122,17 +122,17 @@ export const getTerminalInstrumentConfigurationEndpointsListTerminalInstrumentCo
         const stringifiedParams = normalizedParams.toString();
 
         return stringifiedParams.length > 0
-            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-instrument-configurations?${stringifiedParams}`
-            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-instrument-configurations`;
+            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments?${stringifiedParams}`
+            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments`;
     };
 
-export const terminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGet =
+export const terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGet =
     async (
-        params?: TerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetParams,
+        params?: TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetParams,
         options?: RequestInit
-    ): Promise<terminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetResponse> => {
-        return authFetch<terminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetResponse>(
-            getTerminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGetUrl(
+    ): Promise<terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetResponse> => {
+        return authFetch<terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetResponse>(
+            getTerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetUrl(
                 params
             ),
             {
@@ -146,45 +146,45 @@ export const terminalInstrumentConfigurationEndpointsListTerminalInstrumentConfi
  * Registers a new terminal payment instrument.
  * @summary Create a new terminal payment instrument
  */
-export type terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostResponse200 =
+export type terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPostResponse200 =
     {
-        data: ApiResponseTerminalInstrumentConfiguration;
+        data: ApiResponseTerminalPaymentInstrument;
         status: 200;
     };
 
-export type terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostResponse422 =
+export type terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPostResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostResponseComposite =
+export type terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPostResponseComposite =
 
-        | terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostResponse200
-        | terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostResponse422;
+        | terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPostResponse200
+        | terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPostResponse422;
 
-export type terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostResponse =
-    terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostResponseComposite & {
+export type terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPostResponse =
+    terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPostResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostUrl =
+export const getTerminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPostUrl =
     () => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-instrument-configurations`;
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments`;
     };
 
-export const terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPost =
+export const terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPost =
     async (
-        terminalInstrumentConfigurationCreate: TerminalInstrumentConfigurationCreate,
+        terminalPaymentInstrumentCreate: TerminalPaymentInstrumentCreate,
         options?: RequestInit
-    ): Promise<terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostResponse> => {
-        return authFetch<terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostResponse>(
-            getTerminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPostUrl(),
+    ): Promise<terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPostResponse> => {
+        return authFetch<terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPostResponse>(
+            getTerminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPostUrl(),
             {
                 ...options,
                 method: "POST",
                 headers: { "Content-Type": "application/json", ...options?.headers },
-                body: JSON.stringify(terminalInstrumentConfigurationCreate)
+                body: JSON.stringify(terminalPaymentInstrumentCreate)
             }
         );
     };
@@ -193,40 +193,40 @@ export const terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentCon
  * Returns the details of a specific terminal payment instrument.
  * @summary Get a single terminal payment instrument by ID
  */
-export type terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdGetResponse200 =
+export type terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGetResponse200 =
     {
-        data: ApiResponseTerminalInstrumentConfiguration;
+        data: ApiResponseTerminalPaymentInstrument;
         status: 200;
     };
 
-export type terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdGetResponse422 =
+export type terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGetResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdGetResponseComposite =
+export type terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGetResponseComposite =
 
-        | terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdGetResponse200
-        | terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdGetResponse422;
+        | terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGetResponse200
+        | terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGetResponse422;
 
-export type terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdGetResponse =
-    terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdGetResponseComposite & {
+export type terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGetResponse =
+    terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGetResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdGetUrl =
+export const getTerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGetUrl =
     (terminalPaymentInstrumentId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-instrument-configurations/${terminalPaymentInstrumentId}`;
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/${terminalPaymentInstrumentId}`;
     };
 
-export const terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdGet =
+export const terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGet =
     async (
         terminalPaymentInstrumentId: string,
         options?: RequestInit
-    ): Promise<terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdGetResponse> => {
-        return authFetch<terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdGetResponse>(
-            getTerminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdGetUrl(
+    ): Promise<terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGetResponse> => {
+        return authFetch<terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGetResponse>(
+            getTerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGetUrl(
                 terminalPaymentInstrumentId
             ),
             {
@@ -240,48 +240,48 @@ export const terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfig
  * Partially updates an existing terminal payment instrument.
  * @summary Partially update a terminal payment instrument
  */
-export type terminalInstrumentConfigurationEndpointsPatchTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdPatchResponse200 =
+export type terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatchResponse200 =
     {
-        data: ApiResponseTerminalInstrumentConfiguration;
+        data: ApiResponseTerminalPaymentInstrument;
         status: 200;
     };
 
-export type terminalInstrumentConfigurationEndpointsPatchTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdPatchResponse422 =
+export type terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatchResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type terminalInstrumentConfigurationEndpointsPatchTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdPatchResponseComposite =
+export type terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatchResponseComposite =
 
-        | terminalInstrumentConfigurationEndpointsPatchTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdPatchResponse200
-        | terminalInstrumentConfigurationEndpointsPatchTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdPatchResponse422;
+        | terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatchResponse200
+        | terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatchResponse422;
 
-export type terminalInstrumentConfigurationEndpointsPatchTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdPatchResponse =
-    terminalInstrumentConfigurationEndpointsPatchTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdPatchResponseComposite & {
+export type terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatchResponse =
+    terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatchResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalInstrumentConfigurationEndpointsPatchTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdPatchUrl =
+export const getTerminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatchUrl =
     (terminalPaymentInstrumentId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-instrument-configurations/${terminalPaymentInstrumentId}`;
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/${terminalPaymentInstrumentId}`;
     };
 
-export const terminalInstrumentConfigurationEndpointsPatchTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdPatch =
+export const terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatch =
     async (
         terminalPaymentInstrumentId: string,
-        terminalInstrumentConfigurationUpdate: TerminalInstrumentConfigurationUpdate,
+        terminalPaymentInstrumentUpdate: TerminalPaymentInstrumentUpdate,
         options?: RequestInit
-    ): Promise<terminalInstrumentConfigurationEndpointsPatchTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdPatchResponse> => {
-        return authFetch<terminalInstrumentConfigurationEndpointsPatchTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdPatchResponse>(
-            getTerminalInstrumentConfigurationEndpointsPatchTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdPatchUrl(
+    ): Promise<terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatchResponse> => {
+        return authFetch<terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatchResponse>(
+            getTerminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatchUrl(
                 terminalPaymentInstrumentId
             ),
             {
                 ...options,
                 method: "PATCH",
                 headers: { "Content-Type": "application/json", ...options?.headers },
-                body: JSON.stringify(terminalInstrumentConfigurationUpdate)
+                body: JSON.stringify(terminalPaymentInstrumentUpdate)
             }
         );
     };
@@ -290,40 +290,40 @@ export const terminalInstrumentConfigurationEndpointsPatchTerminalInstrumentConf
  * Deletes a terminal payment instrument by ID.
  * @summary Delete a terminal payment instrument
  */
-export type terminalInstrumentConfigurationEndpointsDeleteTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdDeleteResponse200 =
+export type terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDeleteResponse200 =
     {
         data: ApiResponseNoneType;
         status: 200;
     };
 
-export type terminalInstrumentConfigurationEndpointsDeleteTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdDeleteResponse422 =
+export type terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDeleteResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type terminalInstrumentConfigurationEndpointsDeleteTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdDeleteResponseComposite =
+export type terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDeleteResponseComposite =
 
-        | terminalInstrumentConfigurationEndpointsDeleteTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdDeleteResponse200
-        | terminalInstrumentConfigurationEndpointsDeleteTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdDeleteResponse422;
+        | terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDeleteResponse200
+        | terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDeleteResponse422;
 
-export type terminalInstrumentConfigurationEndpointsDeleteTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdDeleteResponse =
-    terminalInstrumentConfigurationEndpointsDeleteTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdDeleteResponseComposite & {
+export type terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDeleteResponse =
+    terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDeleteResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalInstrumentConfigurationEndpointsDeleteTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdDeleteUrl =
+export const getTerminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDeleteUrl =
     (terminalPaymentInstrumentId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-instrument-configurations/${terminalPaymentInstrumentId}`;
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/${terminalPaymentInstrumentId}`;
     };
 
-export const terminalInstrumentConfigurationEndpointsDeleteTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdDelete =
+export const terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDelete =
     async (
         terminalPaymentInstrumentId: string,
         options?: RequestInit
-    ): Promise<terminalInstrumentConfigurationEndpointsDeleteTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdDeleteResponse> => {
-        return authFetch<terminalInstrumentConfigurationEndpointsDeleteTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdDeleteResponse>(
-            getTerminalInstrumentConfigurationEndpointsDeleteTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdDeleteUrl(
+    ): Promise<terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDeleteResponse> => {
+        return authFetch<terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDeleteResponse>(
+            getTerminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDeleteUrl(
                 terminalPaymentInstrumentId
             ),
             {

@@ -852,11 +852,12 @@ const ru: TranslationMessages = {
             },
             systemPaymentInstruments: {
                 name: "Системные инструменты",
+                show: "Системный инструмент",
                 fields: {
                     name: "Название",
-                    payment_type_code: "Типа платежа",
+                    payment_type_code: "Тип платежа",
                     currency_code: "Валюта",
-                    financial_institution_id: "ID Финансовой организации",
+                    financial_institution_id: "Финансовая организация",
                     direction: "Направление",
                     status: "Статус",
                     description: "Описание",
@@ -875,13 +876,38 @@ const ru: TranslationMessages = {
                     cantBeEmpty: "Поле не может быть пустым",
                     nameRegex: "Название может содержать только буквы, цифры, подчеркивание и тире"
                 },
+                statuses: {
+                    active: "Активен",
+                    inactive: "Неактивен",
+                    test_only: "Тестовый"
+                },
                 creatingPaymentInstrument: "Создание платежного инструмента",
                 editingPaymentInstrument: "Изменение платежного инструмента",
                 createNew: "Добавить платежный инструмент",
                 deletePaymentInstrumentQuestion: "Удалить платежный инструмент?"
             },
-            terminalInstrumentConfigurations: {
-                name: "Интеграции терминалов"
+            terminalPaymentInstruments: {
+                name: "Интеграции терминалов",
+                show: "Интеграции терминала",
+                fields: {
+                    created_at: "Дата и время создания",
+                    updated_at: "Дата и время обновления",
+                    terminal_id: "Терминал",
+                    system_payment_instrument_id: "ID cистемного инструмента",
+                    terminal_payment_type_code: "Код платежного инструмента терминала",
+                    terminal_currency_code: "Код валюты терминала",
+                    terminal_financial_institution_code: "Финансовая организация",
+                    terminal_specific_parameters: "Параметры",
+                    status: "Статус",
+                    terminal: "Терминал",
+                    system_payment_instrument: "Системный инструмент",
+                    id: "ID"
+                },
+                success: {
+                    ACTIVE: "активна",
+                    INACTIVE: "деактивирована",
+                    editActivity: "Активность интегарций терминала %{name} успешно изменена на: %{state}."
+                }
             },
             deletion: {
                 attention: "Внимание!",
@@ -2045,18 +2071,18 @@ const en: TranslationMessages = {
                     editActivity:
                         "The activity of the financial institution %{name} has been successfully changed to: %{state}."
                 },
-
                 createFinancialInstitutionBtn: "Create institution",
                 createFinancialInstitutionTitle: "Create a financial institution",
                 deleteFinancialInstitution: "Delete financial institution?"
             },
             systemPaymentInstruments: {
                 name: "System tools",
+                show: "System tool",
                 fields: {
                     name: "Name",
                     payment_type_code: "Payment type",
                     currency_code: "Currency",
-                    financial_institution_id: "Financial institution ID",
+                    financial_institution_id: "Financial institution",
                     direction: "Direction",
                     status: "Status",
                     description: "Description",
@@ -2075,13 +2101,39 @@ const en: TranslationMessages = {
                     cantBeEmpty: "Field can't be empty",
                     nameRegex: "Name can only contain letters, numbers, underscores, and hyphens"
                 },
+                statuses: {
+                    active: "Active",
+                    inactive: "Inactive",
+                    test_only: "Test only"
+                },
                 creatingPaymentInstrument: "Creating payment instrument",
                 editingPaymentInstrument: "Editing payment instrument",
                 createNew: "Add payment instrument",
                 deletePaymentInstrumentQuestion: "Delete payment instrument?"
             },
-            terminalInstrumentConfigurations: {
-                name: "Terminal integrations"
+            terminalPaymentInstruments: {
+                name: "Terminal integrations",
+                show: "Terminal integration",
+                fields: {
+                    created_at: "Created at",
+                    updated_at: "Updated at",
+                    terminal_id: "Terminal ID",
+                    system_payment_instrument_id: "System payment instrument ID",
+                    terminal_payment_type_code: "Terminal payment type code",
+                    terminal_currency_code: "Terminal currency code",
+                    terminal_financial_institution_code: "Financial institution",
+                    terminal_specific_parameters: "Parameters",
+                    status: "Status",
+                    terminal: "Terminal",
+                    system_payment_instrument: "System payment instrument",
+                    id: "ID"
+                },
+                success: {
+                    ACTIVE: "active",
+                    INACTIVE: "inactive",
+                    editActivity:
+                        "The activity of the terminal payment instrument %{name} has been successfully changed to: %{state}."
+                }
             },
             deletion: {
                 attention: "Attention!",

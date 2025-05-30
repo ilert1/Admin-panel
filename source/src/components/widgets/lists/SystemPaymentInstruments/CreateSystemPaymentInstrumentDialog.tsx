@@ -7,13 +7,13 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useTranslate } from "react-admin";
-import { PaymentInstrumentCreate } from "../../create/PaymentInstrumentCreate";
+import { SystemPaymentInstrumentCreate } from "../../create/SystemPaymentInstrumentCreate";
 
-interface CreatePaymentInstrumentDialogProps {
+interface CreateSystemPaymentInstrumentDialogProps {
     open?: boolean;
     onOpenChange?: (state: boolean) => void;
 }
-export const CreatePaymentInstrumentDialog = (props: CreatePaymentInstrumentDialogProps) => {
+export const CreateSystemPaymentInstrumentDialog = (props: CreateSystemPaymentInstrumentDialogProps) => {
     const { open, onOpenChange = () => {} } = props;
     const translate = useTranslate();
 
@@ -27,7 +27,7 @@ export const CreatePaymentInstrumentDialog = (props: CreatePaymentInstrumentDial
                         {translate("resources.paymentTools.systemPaymentInstruments.creatingPaymentInstrument")}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
-                    <PaymentInstrumentCreate onOpenChange={onOpenChange} />
+                    <SystemPaymentInstrumentCreate onOpenChange={onOpenChange} />
                 </DialogHeader>
                 <DialogFooter></DialogFooter>
             </DialogContent>

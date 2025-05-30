@@ -11,12 +11,12 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useState } from "react";
 import { useDelete, useRefresh, useTranslate } from "react-admin";
 
-interface DeletePaymentInstrumentDialogProps {
+interface DeleteSystemPaymentInstrumentDialogProps {
     open?: boolean;
     onOpenChange?: (state: boolean) => void;
     deleteId?: string;
 }
-export const DeletePaymentInstrumentDialog = (props: DeletePaymentInstrumentDialogProps) => {
+export const DeleteSystemPaymentInstrumentDialog = (props: DeleteSystemPaymentInstrumentDialogProps) => {
     const { open, deleteId, onOpenChange = () => {} } = props;
 
     const translate = useTranslate();

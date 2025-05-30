@@ -5736,14 +5736,14 @@
         }
       }
     },
-    "/enigma/v1/terminal-instrument-configurations/terminals/{terminal_id}/instrument-configurations": {
+    "/enigma/v1/terminal-payment-instruments/terminals/{terminal_id}/instrument-configurations": {
       "get": {
         "tags": [
           "Terminal Payment Instruments"
         ],
         "summary": "Get terminal payment instruments for a specific terminal",
         "description": "Returns a list of terminal payment instruments associated with a given terminal ID.",
-        "operationId": "TerminalInstrumentConfigurationEndpoints_get_terminal_instrument_configurations_by_terminal_enigma_v1_terminal_instrument_configurations_terminals__terminal_id__instrument_configurations_get",
+        "operationId": "TerminalPaymentInstrumentEndpoints_get_terminal_payment_instruments_by_terminal_enigma_v1_terminal_payment_instruments_terminals__terminal_id__instrument_configurations_get",
         "parameters": [
           {
             "name": "terminal_id",
@@ -5977,7 +5977,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_TerminalInstrumentConfiguration__"
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_TerminalPaymentInstrument__"
                 }
               }
             }
@@ -5995,14 +5995,14 @@
         }
       }
     },
-    "/enigma/v1/terminal-instrument-configurations": {
+    "/enigma/v1/terminal-payment-instruments": {
       "get": {
         "tags": [
           "Terminal Payment Instruments"
         ],
         "summary": "Get a paginated list of terminal payment instruments",
         "description": "Returns a paginated list of terminal payment instruments with optional filtering.",
-        "operationId": "TerminalInstrumentConfigurationEndpoints_list_terminal_instrument_configurations_enigma_v1_terminal_instrument_configurations_get",
+        "operationId": "TerminalPaymentInstrumentEndpoints_list_terminal_payment_instruments_enigma_v1_terminal_payment_instruments_get",
         "parameters": [
           {
             "name": "ids",
@@ -6223,7 +6223,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_TerminalInstrumentConfiguration__"
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_TerminalPaymentInstrument__"
                 }
               }
             }
@@ -6246,13 +6246,13 @@
         ],
         "summary": "Create a new terminal payment instrument",
         "description": "Registers a new terminal payment instrument.",
-        "operationId": "TerminalInstrumentConfigurationEndpoints_create_terminal_instrument_configuration_enigma_v1_terminal_instrument_configurations_post",
+        "operationId": "TerminalPaymentInstrumentEndpoints_create_terminal_payment_instrument_enigma_v1_terminal_payment_instruments_post",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TerminalInstrumentConfigurationCreate"
+                "$ref": "#/components/schemas/TerminalPaymentInstrumentCreate"
               }
             }
           }
@@ -6263,7 +6263,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_TerminalInstrumentConfiguration_"
+                  "$ref": "#/components/schemas/ApiResponse_TerminalPaymentInstrument_"
                 }
               }
             }
@@ -6281,14 +6281,14 @@
         }
       }
     },
-    "/enigma/v1/terminal-instrument-configurations/{terminal_payment_instrument_id}": {
+    "/enigma/v1/terminal-payment-instruments/{terminal_payment_instrument_id}": {
       "get": {
         "tags": [
           "Terminal Payment Instruments"
         ],
         "summary": "Get a single terminal payment instrument by ID",
         "description": "Returns the details of a specific terminal payment instrument.",
-        "operationId": "TerminalInstrumentConfigurationEndpoints_get_terminal_instrument_configuration_enigma_v1_terminal_instrument_configurations__terminal_payment_instrument_id__get",
+        "operationId": "TerminalPaymentInstrumentEndpoints_get_terminal_payment_instrument_enigma_v1_terminal_payment_instruments__terminal_payment_instrument_id__get",
         "parameters": [
           {
             "name": "terminal_payment_instrument_id",
@@ -6312,7 +6312,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_TerminalInstrumentConfiguration_"
+                  "$ref": "#/components/schemas/ApiResponse_TerminalPaymentInstrument_"
                 }
               }
             }
@@ -6335,7 +6335,7 @@
         ],
         "summary": "Partially update a terminal payment instrument",
         "description": "Partially updates an existing terminal payment instrument.",
-        "operationId": "TerminalInstrumentConfigurationEndpoints_patch_terminal_instrument_configuration_enigma_v1_terminal_instrument_configurations__terminal_payment_instrument_id__patch",
+        "operationId": "TerminalPaymentInstrumentEndpoints_patch_terminal_payment_instrument_enigma_v1_terminal_payment_instruments__terminal_payment_instrument_id__patch",
         "parameters": [
           {
             "name": "terminal_payment_instrument_id",
@@ -6358,7 +6358,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TerminalInstrumentConfigurationUpdate"
+                "$ref": "#/components/schemas/TerminalPaymentInstrumentUpdate"
               }
             }
           }
@@ -6369,7 +6369,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_TerminalInstrumentConfiguration_"
+                  "$ref": "#/components/schemas/ApiResponse_TerminalPaymentInstrument_"
                 }
               }
             }
@@ -6392,7 +6392,7 @@
         ],
         "summary": "Delete a terminal payment instrument",
         "description": "Deletes a terminal payment instrument by ID.",
-        "operationId": "TerminalInstrumentConfigurationEndpoints_delete_terminal_instrument_configuration_enigma_v1_terminal_instrument_configurations__terminal_payment_instrument_id__delete",
+        "operationId": "TerminalPaymentInstrumentEndpoints_delete_terminal_payment_instrument_enigma_v1_terminal_payment_instruments__terminal_payment_instrument_id__delete",
         "parameters": [
           {
             "name": "terminal_payment_instrument_id",
@@ -7102,7 +7102,7 @@
         ],
         "title": "ApiResponse[OffsetPagination[SystemPaymentInstrument]]"
       },
-      "ApiResponse_OffsetPagination_TerminalInstrumentConfiguration__": {
+      "ApiResponse_OffsetPagination_TerminalPaymentInstrument__": {
         "properties": {
           "success": {
             "type": "boolean",
@@ -7111,7 +7111,7 @@
             "default": true
           },
           "data": {
-            "$ref": "#/components/schemas/OffsetPagination_TerminalInstrumentConfiguration_",
+            "$ref": "#/components/schemas/OffsetPagination_TerminalPaymentInstrument_",
             "description": "The actual response data if the request was successful"
           },
           "error": {
@@ -7141,7 +7141,7 @@
         "required": [
           "data"
         ],
-        "title": "ApiResponse[OffsetPagination[TerminalInstrumentConfiguration]]"
+        "title": "ApiResponse[OffsetPagination[TerminalPaymentInstrument]]"
       },
       "ApiResponse_OffsetPagination_Terminal__": {
         "properties": {
@@ -7348,7 +7348,7 @@
         ],
         "title": "ApiResponse[SystemPaymentInstrument]"
       },
-      "ApiResponse_TerminalInstrumentConfiguration_": {
+      "ApiResponse_TerminalPaymentInstrument_": {
         "properties": {
           "success": {
             "type": "boolean",
@@ -7357,7 +7357,7 @@
             "default": true
           },
           "data": {
-            "$ref": "#/components/schemas/TerminalInstrumentConfiguration",
+            "$ref": "#/components/schemas/TerminalPaymentInstrument",
             "description": "The actual response data if the request was successful"
           },
           "error": {
@@ -7387,7 +7387,7 @@
         "required": [
           "data"
         ],
-        "title": "ApiResponse[TerminalInstrumentConfiguration]"
+        "title": "ApiResponse[TerminalPaymentInstrument]"
       },
       "ApiResponse_Terminal_": {
         "properties": {
@@ -10319,11 +10319,11 @@
         ],
         "title": "OffsetPagination[SystemPaymentInstrument]"
       },
-      "OffsetPagination_TerminalInstrumentConfiguration_": {
+      "OffsetPagination_TerminalPaymentInstrument_": {
         "properties": {
           "items": {
             "items": {
-              "$ref": "#/components/schemas/TerminalInstrumentConfiguration"
+              "$ref": "#/components/schemas/TerminalPaymentInstrument"
             },
             "type": "array",
             "title": "Items",
@@ -10361,7 +10361,7 @@
           "offset",
           "total"
         ],
-        "title": "OffsetPagination[TerminalInstrumentConfiguration]"
+        "title": "OffsetPagination[TerminalPaymentInstrument]"
       },
       "OffsetPagination_Terminal_": {
         "properties": {
@@ -11873,7 +11873,7 @@
         ],
         "title": "TerminalDeleteAuth"
       },
-      "TerminalInstrumentConfiguration": {
+      "TerminalPaymentInstrument": {
         "properties": {
           "terminal_id": {
             "type": "string",
@@ -11944,7 +11944,7 @@
             ]
           },
           "status": {
-            "$ref": "#/components/schemas/TerminalInstrumentConfigurationStatus",
+            "$ref": "#/components/schemas/TerminalPaymentInstrumentStatus",
             "description": "Status of the terminal instrument configuration",
             "default": "ACTIVE",
             "examples": [
@@ -11994,9 +11994,9 @@
           "created_at",
           "updated_at"
         ],
-        "title": "TerminalInstrumentConfiguration"
+        "title": "TerminalPaymentInstrument"
       },
-      "TerminalInstrumentConfigurationCreate": {
+      "TerminalPaymentInstrumentCreate": {
         "properties": {
           "terminal_id": {
             "type": "string",
@@ -12067,7 +12067,7 @@
             ]
           },
           "status": {
-            "$ref": "#/components/schemas/TerminalInstrumentConfigurationStatus",
+            "$ref": "#/components/schemas/TerminalPaymentInstrumentStatus",
             "description": "Status of the terminal instrument configuration",
             "default": "ACTIVE",
             "examples": [
@@ -12080,17 +12080,17 @@
           "terminal_id",
           "system_payment_instrument_id"
         ],
-        "title": "TerminalInstrumentConfigurationCreate"
+        "title": "TerminalPaymentInstrumentCreate"
       },
-      "TerminalInstrumentConfigurationStatus": {
+      "TerminalPaymentInstrumentStatus": {
         "type": "string",
         "enum": [
           "ACTIVE",
           "INACTIVE"
         ],
-        "title": "TerminalInstrumentConfigurationStatus"
+        "title": "TerminalPaymentInstrumentStatus"
       },
-      "TerminalInstrumentConfigurationUpdate": {
+      "TerminalPaymentInstrumentUpdate": {
         "properties": {
           "terminal_id": {
             "anyOf": [
@@ -12184,7 +12184,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/TerminalInstrumentConfigurationStatus"
+                "$ref": "#/components/schemas/TerminalPaymentInstrumentStatus"
               },
               {
                 "type": "null"
@@ -12197,7 +12197,7 @@
           }
         },
         "type": "object",
-        "title": "TerminalInstrumentConfigurationUpdate"
+        "title": "TerminalPaymentInstrumentUpdate"
       },
       "TerminalUpdate": {
         "properties": {
