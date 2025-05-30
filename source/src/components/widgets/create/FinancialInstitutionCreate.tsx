@@ -97,7 +97,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
         if (submitButtonDisabled) return;
 
         let payment_types: string[] = [];
-        let currencies: string[] = [];
+        const currencies: string[] = [];
         setSubmitButtonDisabled(true);
 
         if (data.payment_types) {
@@ -106,7 +106,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
         }
 
         if (data.currencies) {
-            currencies = [...data.currencies];
+            currencies.push(data.currencies);
             delete data.currencies;
         }
 
