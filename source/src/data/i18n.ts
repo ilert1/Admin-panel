@@ -913,6 +913,21 @@ const ru: TranslationMessages = {
                 editingTerminalPaymentInstrument: "Изменение интеграции терминала",
                 deleteTerminalPaymentInstrument: "Удалить интеграцию терминала?"
             }
+        },
+        deletion: {
+            attention: "Внимание!",
+            attentionDescriptionPaymentType:
+                "Удаление типа платежа приведет к удалению связанных с ним платёжных инструментов",
+            consequencesPaymentType:
+                "Вы уверены, что хотите удалить тип платежа и связанные с ним платёжные инструменты?",
+            attentionDescriptionFinOrganization:
+                "Удаление финансовой организации приведет к удалению связанных с ней платёжных инструментов",
+            consequencesFinOrganization:
+                "Вы уверены, что хотите удалить финансовую организацию и связанные с ней платёжные инструменты?",
+            attentionDescriptionSystemInstrument:
+                "Удаление системного инструмента приведет к удалению связанных с ним платежных инструментов",
+            consequencesSystemInstrument:
+                "Вы уверены, что хотите удалить системный инструмент и связанные с ним платежные инструменты?"
         }
     },
     app: {
@@ -962,7 +977,8 @@ const ru: TranslationMessages = {
                 refresh: "Обновить",
                 details: "Подробнее",
                 generateCallback: "Создать callback",
-                clear: "Очистить"
+                clear: "Очистить",
+                continue: "Продолжить"
             },
             pagination: {
                 next: "Далее",
@@ -2127,6 +2143,21 @@ const en: TranslationMessages = {
                 editingTerminalPaymentInstrument: "Editing terminal integration",
                 deleteTerminalPaymentInstrument: "Delete terminal integration?"
             }
+        },
+        deletion: {
+            attention: "Attention!",
+            attentionDescriptionPaymentType:
+                "Payment type deletion will lead to the deletion of associated payment instruments",
+            consequencesPaymentType:
+                "You are going to delete payment type and associated payment instruments. Proceed?",
+            attentionDescriptionFinOrganization:
+                "Financial organization deletion will lead to the deletion of associated payment instruments",
+            consequencesFinOrganization:
+                "You are going to delete financial organization and associated payment instruments. Proceed?",
+            attentionDescriptionSystemInstrument:
+                "System instrument deletion will lead to the deletion of associated payment instruments",
+            consequencesSystemInstrument:
+                "You are going to delete system instrument and associated payment instruments. Proceed?"
         }
     },
     app: {
@@ -2176,7 +2207,8 @@ const en: TranslationMessages = {
                 refresh: "Refresh",
                 details: "More detailed",
                 generateCallback: "Generate callback",
-                clear: "Clear"
+                clear: "Clear",
+                continue: "Continue"
             },
             pagination: {
                 next: "Next",

@@ -78,33 +78,6 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
                 );
             }
         },
-        // {
-        //     id: "id",
-        //     accessorKey: "id",
-        //     header: translate("resources.merchant.merchant"),
-        //     cell: ({ row }) => {
-        //         return (
-        //             <div>
-        // <Button
-        //     variant={"resourceLink"}
-        //     onClick={() => {
-        //         handleShowClicked(row.original.id ?? "", row.original.name);
-        //     }}>
-        //     {row.original.name ?? ""}
-        // </Button>
-        //                 <TextField
-        //                     className="text-neutral-70"
-        //                     text={row.original.id}
-        //                     wrap
-        //                     copyValue
-        //                     lineClamp
-        //                     linesCount={1}
-        //                     minWidth="50px"
-        //                 />
-        //             </div>
-        //         );
-        //     }
-        // },
         {
             id: "instrument",
             header: translate("resources.paymentTools.systemPaymentInstruments.list.paymentType"),
