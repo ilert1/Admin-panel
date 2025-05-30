@@ -25,12 +25,12 @@ import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstru
 import { SystemPaymentInstrumentsProvider } from "@/data/systemPaymentInstruments";
 import { TerminalsDataProvider } from "@/data";
 
-export interface ProviderEditParams {
+export interface TerminalPaymentInstrumentsEditProps {
     id: string;
     onClose: () => void;
 }
 
-export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: ProviderEditParams) => {
+export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: TerminalPaymentInstrumentsEditProps) => {
     const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsProvider();
     const systemPaymentInstrumentsProvider = new SystemPaymentInstrumentsProvider();
     const terminalsDataProvider = new TerminalsDataProvider();
@@ -152,7 +152,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Provi
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                 <div className="flex flex-col flex-wrap">
                     <div className="grid grid-cols-1 sm:grid-cols-2">
                         <FormField

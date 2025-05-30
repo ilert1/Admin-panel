@@ -11,12 +11,12 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalPaymentInstrumentsActivityBtn } from "../../lists/TerminalPaymentInstruments/TerminalPaymentInstrumentsActivityBtn";
 import { EditTerminalPaymentInstrumentsDialog } from "./EditTerminalPaymentInstrumentsDialog";
 
-export interface DirectionsShowProps {
+export interface TerminalPaymentInstrumentsShowProps {
     id: string;
     onOpenChange: (state: boolean) => void;
 }
 
-export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
+export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPaymentInstrumentsShowProps) => {
     const context = useAbortableShowController<TerminalPaymentInstrument>({
         resource: "terminalPaymentInstruments",
         id

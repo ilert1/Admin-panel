@@ -27,12 +27,12 @@ import {
 import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
 import { CurrenciesDataProvider } from "@/data";
 
-export interface ProviderEditParams {
+export interface FinancialInstitutionProps {
     id: string;
     onClose: () => void;
 }
 
-export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: ProviderEditParams) => {
+export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialInstitutionProps) => {
     const financialInstitutionProvider = new FinancialInstitutionProvider();
     const currenciesDataProvider = new CurrenciesDataProvider();
 
@@ -230,7 +230,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: ProviderEdi
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                 <div className="flex flex-col flex-wrap">
                     <div className="grid grid-cols-1 sm:grid-cols-2">
                         <FormField
