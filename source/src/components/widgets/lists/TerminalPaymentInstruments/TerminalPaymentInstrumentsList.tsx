@@ -7,7 +7,7 @@ import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 
 export const TerminalPaymentInstrumentsList = () => {
     const listContext = useAbortableListController({ resource: "terminalPaymentInstruments" });
-    const { columns } = useGetTerminalPaymentInstrumentsListColumns();
+    const { columns } = useGetTerminalPaymentInstrumentsListColumns({ isFetching: listContext.isFetching });
 
     return (
         <>

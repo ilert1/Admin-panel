@@ -881,7 +881,27 @@ const ru: TranslationMessages = {
                 deletePaymentInstrumentQuestion: "Удалить платежный инструмент?"
             },
             terminalPaymentInstruments: {
-                name: "Интеграции терминалов"
+                name: "Интеграции терминалов",
+                show: "Интеграции терминала",
+                fields: {
+                    created_at: "Дата и время создания",
+                    updated_at: "Дата и время обновления",
+                    terminal_id: "Терминал",
+                    system_payment_instrument_id: "ID cистемного инструмента",
+                    terminal_payment_type_code: "Код платежного инструмента терминала",
+                    terminal_currency_code: "Код валюты терминала",
+                    terminal_financial_institution_code: "Финансовая организация",
+                    terminal_specific_parameters: "Параметры",
+                    status: "Статус",
+                    terminal: "Терминал",
+                    system_payment_instrument: "Системный инструмент",
+                    id: "ID"
+                },
+                success: {
+                    ACTIVE: "активна",
+                    INACTIVE: "деактивирована",
+                    editActivity: "Активность интегарций терминала %{name} успешно изменена на: %{state}."
+                }
             }
         }
     },
@@ -2029,7 +2049,6 @@ const en: TranslationMessages = {
                     editActivity:
                         "The activity of the financial institution %{name} has been successfully changed to: %{state}."
                 },
-
                 createFinancialInstitutionBtn: "Create institution",
                 createFinancialInstitutionTitle: "Create a financial institution",
                 deleteFinancialInstitution: "Delete financial institution?"
@@ -2065,7 +2084,28 @@ const en: TranslationMessages = {
                 deletePaymentInstrumentQuestion: "Delete payment instrument?"
             },
             terminalPaymentInstruments: {
-                name: "Terminal integrations"
+                name: "Terminal integrations",
+                show: "Terminal integration",
+                fields: {
+                    created_at: "Created at",
+                    updated_at: "Updated at",
+                    terminal_id: "Terminal ID",
+                    system_payment_instrument_id: "System payment instrument ID",
+                    terminal_payment_type_code: "Terminal payment type code",
+                    terminal_currency_code: "Terminal currency code",
+                    terminal_financial_institution_code: "Financial institution",
+                    terminal_specific_parameters: "Parameters",
+                    status: "Status",
+                    terminal: "Terminal",
+                    system_payment_instrument: "System payment instrument",
+                    id: "ID"
+                },
+                success: {
+                    ACTIVE: "active",
+                    INACTIVE: "inactive",
+                    editActivity:
+                        "The activity of the terminal payment instrument %{name} has been successfully changed to: %{state}."
+                }
             }
         }
     },
