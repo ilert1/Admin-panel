@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { useLocaleState, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 import { FinancialInstitution } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
@@ -11,7 +11,6 @@ import { FinancialInstitutionActivityBtn } from "./FinancialInstitutionActivityB
 
 export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
-    const [locale] = useLocaleState();
     const { openSheet } = useSheets();
 
     const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -20,30 +19,22 @@ export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFe
 
     const columns: ColumnDef<FinancialInstitution>[] = [
         {
-            id: "created_at",
-            accessorKey: "created_at",
-            header: translate("resources.paymentTools.financialInstitution.fields.created_at"),
-            cell: ({ row }) => (
-                <>
-                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
-                    <p className="text-nowrap text-neutral-70">
-                        {new Date(row.original.created_at).toLocaleTimeString(locale)}
-                    </p>
-                </>
-            )
-        },
-        {
-            id: "updated_at",
-            accessorKey: "updated_at",
-            header: translate("resources.paymentTools.financialInstitution.fields.updated_at"),
-            cell: ({ row }) => (
-                <>
-                    <p className="text-nowrap">{new Date(row.original.updated_at).toLocaleDateString(locale)}</p>
-                    <p className="text-nowrap text-neutral-70">
-                        {new Date(row.original.updated_at).toLocaleTimeString(locale)}
-                    </p>
-                </>
-            )
+            id: "institution_type",
+            accessorKey: "institution_type",
+            header: translate("resources.paymentTools.financialInstitution.fields.institution_type"),
+            cell: ({ row }) => {
+                return (
+                    <TextField
+                        text={
+                            row.original.institution_type
+                                ? translate(
+                                      `resources.paymentTools.financialInstitution.fields.types.${row.original.institution_type}`
+                                  )
+                                : ""
+                        }
+                    />
+                );
+            }
         },
         {
             id: "name",
@@ -75,100 +66,6 @@ export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFe
                         linesCount={1}
                         minWidth="150px"
                         text={row.original.short_name || ""}
-                    />
-                );
-            }
-        },
-        {
-            id: "legal_name",
-            accessorKey: "legal_name",
-            header: translate("resources.paymentTools.financialInstitution.fields.legal_name"),
-            cell: ({ row }) => {
-                return (
-                    <TextField
-                        wrap
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                        minWidth="150px"
-                        text={row.original.legal_name || ""}
-                    />
-                );
-            }
-        },
-        {
-            id: "id",
-            accessorKey: "id",
-            header: translate("resources.paymentTools.financialInstitution.fields.id"),
-            cell: ({ row }) => (
-                <TextField wrap copyValue lineClamp linesCount={1} minWidth="150px" text={row.original.id} />
-            )
-        },
-        {
-            id: "tax_id_number",
-            accessorKey: "tax_id_number",
-            header: translate("resources.paymentTools.financialInstitution.fields.tax_id_number"),
-            cell: ({ row }) => {
-                return (
-                    <TextField
-                        wrap
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                        minWidth="150px"
-                        text={row.original.tax_id_number || ""}
-                    />
-                );
-            }
-        },
-        {
-            id: "registration_number",
-            accessorKey: "registration_number",
-            header: translate("resources.paymentTools.financialInstitution.fields.registration_number"),
-            cell: ({ row }) => {
-                return (
-                    <TextField
-                        wrap
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                        minWidth="150px"
-                        text={row.original.registration_number || ""}
-                    />
-                );
-            }
-        },
-        {
-            id: "nspk_member_id",
-            accessorKey: "nspk_member_id",
-            header: translate("resources.paymentTools.financialInstitution.fields.nspk_member_id"),
-            cell: ({ row }) => {
-                return (
-                    <TextField
-                        wrap
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                        minWidth="150px"
-                        text={row.original.nspk_member_id || ""}
-                    />
-                );
-            }
-        },
-        {
-            id: "institution_type",
-            accessorKey: "institution_type",
-            header: translate("resources.paymentTools.financialInstitution.fields.institution_type"),
-            cell: ({ row }) => {
-                return (
-                    <TextField
-                        text={
-                            row.original.institution_type
-                                ? translate(
-                                      `resources.paymentTools.financialInstitution.fields.types.${row.original.institution_type}`
-                                  )
-                                : ""
-                        }
                     />
                 );
             }
@@ -207,14 +104,6 @@ export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFe
             id: "country_code",
             accessorKey: "country_code",
             header: translate("resources.paymentTools.financialInstitution.fields.country_code")
-        },
-        {
-            id: "bic",
-            accessorKey: "bic",
-            header: translate("resources.paymentTools.financialInstitution.fields.bic"),
-            cell: ({ row }) => {
-                return <TextField text={row.original.bic || ""} />;
-            }
         },
         {
             id: "status",
