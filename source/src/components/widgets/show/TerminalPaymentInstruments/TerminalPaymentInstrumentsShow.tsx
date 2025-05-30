@@ -9,6 +9,7 @@ import { useCallback, useState } from "react";
 import { DeleteTerminalPaymentInstrumentsDialog } from "./DeleteTerminalPaymentInstrumentsDialog";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalPaymentInstrumentsActivityBtn } from "../../lists/TerminalPaymentInstruments/TerminalPaymentInstrumentsActivityBtn";
+import { EditTerminalPaymentInstrumentsDialog } from "./EditTerminalPaymentInstrumentsDialog";
 
 export interface DirectionsShowProps {
     id: string;
@@ -24,7 +25,12 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: DirectionsS
     const translate = useTranslate();
     const [locale] = useLocaleState();
 
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+    const handleEditClicked = useCallback(() => {
+        setEditDialogOpen(prev => !prev);
+    }, []);
 
     const handleDeleteClicked = useCallback(() => {
         setDeleteDialogOpen(prev => !prev);
@@ -127,7 +133,7 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: DirectionsS
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
-                    <Button className="" onClick={() => {}}>
+                    <Button className="" onClick={handleEditClicked}>
                         {translate("app.ui.actions.edit")}
                     </Button>
 
@@ -136,6 +142,8 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: DirectionsS
                     </Button>
                 </div>
             </div>
+
+            <EditTerminalPaymentInstrumentsDialog id={id} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
 
             <DeleteTerminalPaymentInstrumentsDialog
                 open={deleteDialogOpen}
