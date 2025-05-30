@@ -143,7 +143,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: DirectionsShowPro
                         label={translate("resources.paymentTools.financialInstitution.fields.currencies")}
                         text={
                             context.record.currencies && context.record.currencies?.length > 0
-                                ? context.record.currencies?.join(", ")
+                                ? context.record.currencies?.map(item => item.code).join(", ")
                                 : ""
                         }
                     />

@@ -182,7 +182,7 @@ export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFe
                     <TextField
                         text={
                             row.original.currencies && row.original.currencies?.length > 0
-                                ? row.original.currencies?.join(", ")
+                                ? row.original.currencies?.map(item => item.code).join(", ")
                                 : ""
                         }
                     />
