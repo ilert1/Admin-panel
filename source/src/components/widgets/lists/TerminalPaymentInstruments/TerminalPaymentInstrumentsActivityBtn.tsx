@@ -1,5 +1,5 @@
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { FinancialInstitutionProvider } from "@/data/financialInstitution";
+import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
 import clsx from "clsx";
 import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -24,7 +24,7 @@ export const TerminalPaymentInstrumentsActivityBtn = ({
 
     const [currentState, setCurrentState] = useState(() => activityState);
     const [btnDisabled, setBtnDisabled] = useState(false);
-    const financialInstitutionProvider = new FinancialInstitutionProvider();
+    const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsProvider();
 
     useEffect(() => {
         if (currentState !== activityState) {
@@ -39,7 +39,7 @@ export const TerminalPaymentInstrumentsActivityBtn = ({
         try {
             setBtnDisabled(true);
 
-            await financialInstitutionProvider.update("financialInstitution", {
+            await terminalPaymentInstrumentsProvider.update("terminalPaymentInstruments", {
                 id,
                 data: { status: currentStateData },
                 previousData: undefined
