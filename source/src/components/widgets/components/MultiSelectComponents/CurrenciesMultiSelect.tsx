@@ -30,6 +30,7 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
                 placeholder={translate("app.widgets.multiSelect.selectPaymentTypes")}
                 animation={0}
                 maxCount={10}
+                modalPopover={true}
             />
         </div>
     );
