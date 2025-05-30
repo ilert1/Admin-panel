@@ -17,6 +17,7 @@ interface SheetDataMap {
     callbridgeMappings: { id: string | undefined };
     callbridgeHistory: { id: string | undefined };
     financialInstitution: { id: string | undefined };
+    systemPaymentInstrument: { id: string | undefined };
 }
 
 type SheetState<K extends SheetKey> = {

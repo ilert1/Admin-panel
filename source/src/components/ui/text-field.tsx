@@ -12,6 +12,7 @@ export const TextField = ({
     labelSize = "text-sm",
     link = "/",
     type = "text",
+    fontSize = "title-1",
     copyValue = false,
     wrap = false,
     lineClamp = false,
@@ -26,6 +27,7 @@ export const TextField = ({
     labelSize?: LabelSize;
     link?: string;
     type?: "text" | "link" | "internal-link" | "secret";
+    fontSize?: "note-1" | "title-1" | "title-2";
     copyValue?: boolean;
     wrap?: boolean | "break-all";
     lineClamp?: boolean;
@@ -91,7 +93,8 @@ export const TextField = ({
                                 textStyle(),
                                 "block cursor-default",
                                 onClick &&
-                                    "cursor-pointer !text-green-50 underline transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
+                                    "cursor-pointer !text-green-50 underline transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50",
+                                fontSize && `${fontSize}`
                             )}
                             onClick={onClick}
                             style={{

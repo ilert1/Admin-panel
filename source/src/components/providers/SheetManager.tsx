@@ -4,6 +4,7 @@ import { ShowDirectionSheet } from "../widgets/lists/Directions/ShowDirectionShe
 import { ShowFinancialInstitutionSheet } from "../widgets/lists/FinancialInstitution/ShowFinancialInstitutionSheet";
 import { ShowMappingSheet } from "../widgets/lists/Mappings/ShowMappingSheet";
 import { ShowMerchantSheet } from "../widgets/lists/Merchants/ShowMerchantSheet";
+import { SystemPaymentInstrumentSheet } from "../widgets/lists/SystemPaymentInstruments/SystemPaymentInstrumentSheet";
 import { TerminalShowDialog } from "../widgets/lists/Terminals/TerminalShowDialog";
 import { ShowTransactionSheet } from "../widgets/lists/Transactions/ShowTransactionSheet";
 import { ShowUserSheet } from "../widgets/lists/Users/ShowUserSheet";
@@ -24,7 +25,8 @@ export const SHEETS_COMPONENTS = {
     walletTransactions: ShowWalletTransactionsSheet,
     callbridgeMappings: ShowMappingSheet,
     callbridgeHistory: ShowCallbridgeHistorySheet,
-    financialInstitution: ShowFinancialInstitutionSheet
+    financialInstitution: ShowFinancialInstitutionSheet,
+    systemPaymentInstrument: SystemPaymentInstrumentSheet
 };
 
 export const SheetManager = () => {
