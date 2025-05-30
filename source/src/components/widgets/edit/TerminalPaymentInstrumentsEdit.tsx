@@ -40,7 +40,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Provi
         isLoading: isLoadingTerminalPaymentInstrumentsData,
         isFetchedAfterMount
     } = useQuery({
-        queryKey: ["financialInstitution", id],
+        queryKey: ["terminalPaymentInstrument", id],
         queryFn: () => terminalPaymentInstrumentsProvider.getOne("terminalPaymentInstrumentsEdit", { id: id ?? "" }),
         enabled: true,
         select: data => data.data
