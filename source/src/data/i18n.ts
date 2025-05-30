@@ -894,21 +894,26 @@ const ru: TranslationMessages = {
                     created_at: "Дата и время создания",
                     updated_at: "Дата и время обновления",
                     terminal_id: "Терминал",
-                    system_payment_instrument_id: "ID cистемного инструмента",
-                    terminal_payment_type_code: "Код платежного инструмента терминала",
+                    system_payment_instrument_id: "ID платежного инструмента",
+                    terminal_payment_type_code: "Код типа платежна терминала",
                     terminal_currency_code: "Код валюты терминала",
                     terminal_financial_institution_code: "Финансовая организация",
                     terminal_specific_parameters: "Параметры",
                     status: "Статус",
                     terminal: "Терминал",
                     system_payment_instrument: "Системный инструмент",
-                    id: "ID"
+                    id: "ID",
+                    terminalToChoose: "Выберите терминал",
+                    systemPaymentInstrumentsToChoose: "Выберите платежный инструмент"
                 },
                 success: {
                     ACTIVE: "активна",
                     INACTIVE: "деактивирована",
                     editActivity: "Активность интегарций терминала %{name} успешно изменена на: %{state}."
-                }
+                },
+                createTerminalPaymentInstrument: "Добавить интеграцию терминала",
+                editingTerminalPaymentInstrument: "Изменение интеграции терминала",
+                deleteTerminalPaymentInstrument: "Удалить интеграцию терминала?"
             }
         }
     },
@@ -2112,14 +2117,19 @@ const en: TranslationMessages = {
                     status: "Status",
                     terminal: "Terminal",
                     system_payment_instrument: "System payment instrument",
-                    id: "ID"
+                    id: "ID",
+                    terminalToChoose: "Select terminal",
+                    systemPaymentInstrumentsToChoose: "Select payment instrument"
                 },
                 success: {
                     ACTIVE: "active",
                     INACTIVE: "inactive",
                     editActivity:
                         "The activity of the terminal payment instrument %{name} has been successfully changed to: %{state}."
-                }
+                },
+                createTerminalPaymentInstrument: "Create terminal integration",
+                editingTerminalPaymentInstrument: "Editing terminal integration",
+                deleteTerminalPaymentInstrument: "Delete terminal integration?"
             }
         }
     },

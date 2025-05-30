@@ -3,9 +3,12 @@ import { useTranslate } from "react-admin";
 import { TerminalPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { TextField } from "@/components/ui/text-field";
 import { TerminalPaymentInstrumentsActivityBtn } from "./TerminalPaymentInstrumentsActivityBtn";
+import { useState } from "react";
 
 export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
+
+    const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const columns: ColumnDef<TerminalPaymentInstrument>[] = [
         {
@@ -82,6 +85,9 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
     ];
 
     return {
-        columns
+        translate,
+        columns,
+        createDialogOpen,
+        setCreateDialogOpen
     };
 };
