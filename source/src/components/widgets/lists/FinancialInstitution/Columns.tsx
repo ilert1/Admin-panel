@@ -174,6 +174,22 @@ export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFe
             }
         },
         {
+            id: "currencies",
+            accessorKey: "currencies",
+            header: translate("resources.paymentTools.financialInstitution.fields.currencies"),
+            cell: ({ row }) => {
+                return (
+                    <TextField
+                        text={
+                            row.original.currencies && row.original.currencies?.length > 0
+                                ? row.original.currencies?.map(item => item.code).join(", ")
+                                : ""
+                        }
+                    />
+                );
+            }
+        },
+        {
             id: "payment_types",
             accessorKey: "payment_types",
             header: translate("resources.paymentTools.financialInstitution.fields.payment_types"),

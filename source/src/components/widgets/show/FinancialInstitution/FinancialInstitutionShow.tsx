@@ -140,6 +140,15 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: DirectionsShowPro
                     />
 
                     <TextField
+                        label={translate("resources.paymentTools.financialInstitution.fields.currencies")}
+                        text={
+                            context.record.currencies && context.record.currencies?.length > 0
+                                ? context.record.currencies?.map(item => item.code).join(", ")
+                                : ""
+                        }
+                    />
+
+                    <TextField
                         label={translate("resources.paymentTools.financialInstitution.fields.bic")}
                         text={context.record.bic || ""}
                     />

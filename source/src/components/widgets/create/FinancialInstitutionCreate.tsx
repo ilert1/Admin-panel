@@ -2,7 +2,7 @@ import { useCreateController, CreateContextProvider, useTranslate, useRefresh } 
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +24,8 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
 import { FinancialInstitutionProvider, FinancialInstitutionTypes } from "@/data/financialInstitution";
+import { CurrenciesDataProvider } from "@/data";
+import { useQuery } from "@tanstack/react-query";
 
 export interface PaymentTypeCreateProps {
     onClose?: () => void;
@@ -31,6 +33,7 @@ export interface PaymentTypeCreateProps {
 
 export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCreateProps) => {
     const financialInstitutionProvider = new FinancialInstitutionProvider();
+    const currenciesDataProvider = new CurrenciesDataProvider();
     const controllerProps = useCreateController<IFinancialInstitutionCreate>();
 
     const { theme } = useTheme();
@@ -44,6 +47,16 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
+    const { isLoading: currenciesLoading, data: currencies } = useQuery({
+        queryKey: ["currencies"],
+        queryFn: async () => await currenciesDataProvider.getListWithoutPagination()
+    });
+
+    const currenciesDisabled = useMemo(
+        () => !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0),
+        [currencies]
+    );
+
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.paymentTools.financialInstitution.errors.name")).trim(),
         short_name: z.string().trim().optional(),
@@ -52,6 +65,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
         registration_number: z.string().trim().optional(),
         nspk_member_id: z.string().trim().optional(),
         bic: z.string().trim().optional(),
+        currencies: z.string().optional(),
         institution_type: z.enum([FinancialInstitutionTypes.BANK, FinancialInstitutionTypes.OTHER]),
         country_code: z
             .string()
@@ -72,6 +86,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
             registration_number: "",
             nspk_member_id: "",
             bic: "",
+            currencies: "",
             institution_type: FinancialInstitutionTypes.BANK,
             payment_types: [],
             meta: ""
@@ -82,11 +97,17 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
         if (submitButtonDisabled) return;
 
         let payment_types: string[] = [];
+        const currencies: string[] = [];
         setSubmitButtonDisabled(true);
 
         if (data.payment_types) {
             payment_types = [...data.payment_types];
             delete data.payment_types;
+        }
+
+        if (data.currencies) {
+            currencies.push(data.currencies);
+            delete data.currencies;
         }
 
         try {
@@ -102,6 +123,16 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
                     id: financialInstitutionData.id,
                     data: {
                         codes: payment_types
+                    },
+                    previousData: undefined
+                });
+            }
+
+            if (currencies.length > 0) {
+                await financialInstitutionProvider.addCurrencies({
+                    id: financialInstitutionData.id,
+                    data: {
+                        codes: currencies
                     },
                     previousData: undefined
                 });
@@ -343,20 +374,63 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
 
                             <FormField
                                 control={form.control}
-                                name="payment_types"
-                                render={({ field }) => (
+                                name="currencies"
+                                render={({ field, fieldState }) => (
                                     <FormItem className="w-full p-2">
-                                        <FormControl>
-                                            <PaymentTypeMultiSelect
-                                                value={field.value}
-                                                onChange={field.onChange}
-                                                options={allPaymentTypes || []}
-                                            />
-                                        </FormControl>
+                                        <Label>
+                                            {translate("resources.paymentTools.financialInstitution.fields.currencies")}
+                                        </Label>
+                                        <Select
+                                            value={field.value}
+                                            onValueChange={field.onChange}
+                                            disabled={currenciesDisabled}>
+                                            <FormControl>
+                                                <SelectTrigger
+                                                    variant={SelectType.GRAY}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}>
+                                                    <SelectValue
+                                                        placeholder={translate(
+                                                            "resources.paymentTools.financialInstitution.fields.currenciesToChoose"
+                                                        )}
+                                                    />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    {!currenciesDisabled && !currenciesLoading && currencies
+                                                        ? currencies.data.map(currency => (
+                                                              <SelectItem
+                                                                  key={currency.code}
+                                                                  value={currency.code}
+                                                                  variant={SelectType.GRAY}>
+                                                                  {currency.code}
+                                                              </SelectItem>
+                                                          ))
+                                                        : ""}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
                                     </FormItem>
                                 )}
                             />
                         </div>
+
+                        <FormField
+                            control={form.control}
+                            name="payment_types"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <PaymentTypeMultiSelect
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            options={allPaymentTypes || []}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
 
                         <FormField
                             control={form.control}
