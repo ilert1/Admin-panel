@@ -106,11 +106,11 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
                                     <NavLink
                                         to={customRoute.path}
                                         className={cn(
-                                            "flex items-center gap-3 py-2 pl-4 transition-colors duration-150 animate-in fade-in-0",
+                                            "flex items-center gap-3 py-2 pl-4 text-black transition-colors duration-150 animate-in fade-in-0",
                                             showCaptions ? "" : "ml-2",
                                             location.pathname === customRoute.path
                                                 ? "text-controlElements dark:bg-muted [&>svg>path]:stroke-controlElements [&>svg>path]:transition-all dark:[&>svg>path]:stroke-controlElements"
-                                                : "text-neutral-90 hover:text-controlElements dark:text-neutral-0 dark:hover:bg-muted dark:hover:text-controlElements [&:hover>svg>path]:stroke-controlElements dark:[&:hover>svg>path]:stroke-controlElements [&>svg>path]:stroke-neutral-90 [&>svg>path]:transition-all dark:[&>svg>path]:stroke-neutral-0"
+                                                : "text-black hover:text-controlElements dark:text-neutral-0 dark:hover:bg-muted dark:hover:text-controlElements [&:hover>svg>path]:stroke-controlElements dark:[&:hover>svg>path]:stroke-controlElements [&>svg>path]:stroke-neutral-90 [&>svg>path]:transition-all dark:[&>svg>path]:stroke-neutral-0"
                                         )}>
                                         {customRoute.icon}
 

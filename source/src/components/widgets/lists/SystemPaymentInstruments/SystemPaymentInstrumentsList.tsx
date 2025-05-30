@@ -4,11 +4,11 @@ import { ListContextProvider } from "react-admin";
 import { LoadingBlock } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
-import { CreatePaymentInstrumentDialog } from "./CreatePaymentInstrumentDialog";
+import { CreateSystemPaymentInstrumentDialog } from "./CreateSystemPaymentInstrumentDialog";
 import { Button } from "@/components/ui/Button";
 import { CirclePlus } from "lucide-react";
 import { useTranslate } from "react-admin";
-import { DeletePaymentInstrumentDialog } from "./DeletePaymentInstrumentDialog";
+import { DeleteSystemPaymentInstrumentDialog } from "./DeleteSystemPaymentInstrumentDialog";
 
 export const SystemPaymentInstrumentsList = () => {
     const listContext = useAbortableListController({ resource: "systemPaymentInstruments" });
@@ -36,8 +36,8 @@ export const SystemPaymentInstrumentsList = () => {
 
                 {listContext.isLoading || !listContext.data ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>
-            <CreatePaymentInstrumentDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
-            <DeletePaymentInstrumentDialog
+            <CreateSystemPaymentInstrumentDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+            <DeleteSystemPaymentInstrumentDialog
                 open={showDeleteDialogOpen}
                 onOpenChange={setShowDeleteDialogOpen}
                 deleteId={chosenId}
