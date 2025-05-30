@@ -829,6 +829,7 @@ const ru: TranslationMessages = {
                     status: "Активность",
                     payment_types: "Платёжные системы",
                     currencies: "Валюты",
+                    currenciesToChoose: "Выберите валюты",
                     id: "ID",
                     meta: "Метадата",
                     types: {
@@ -2010,6 +2011,7 @@ const en: TranslationMessages = {
                     status: "Activity",
                     payment_types: "Payment types",
                     currencies: "Currencies",
+                    currenciesToChoose: "Select currencies",
                     id: "ID",
                     meta: "Metadata",
                     types: {
