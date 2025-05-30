@@ -7,16 +7,19 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useTranslate } from "react-admin";
-import { FinancialInstitutionCreate } from "../../create/FinancialInstitutionCreate";
+import { FinancialInstitutionEdit } from "../../edit/FinancialInstitutionEdit";
 
-interface ICreateFinancialInstitutionDialog {
+interface EditFinancialInstitutionDialogProps {
     open?: boolean;
-    onOpenChange?: (state: boolean) => void;
+    onOpenChange: (state: boolean) => void;
+    id: string;
 }
-export const CreateFinancialInstitutionDialog = ({
+
+export const EditFinancialInstitutionDialog = ({
     open,
+    id,
     onOpenChange = () => {}
-}: ICreateFinancialInstitutionDialog) => {
+}: EditFinancialInstitutionDialogProps) => {
     const translate = useTranslate();
 
     return (
@@ -25,13 +28,15 @@ export const CreateFinancialInstitutionDialog = ({
                 disableOutsideClick
                 className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
                 <DialogHeader>
-                    <DialogTitle className="mb-4 text-center">
-                        {translate("resources.paymentTools.financialInstitution.createFinancialInstitutionTitle")}
+                    <DialogTitle className="text-center">
+                        {translate("resources.paymentTools.paymentType.editingPaymentType")}
                     </DialogTitle>
+
                     <DialogDescription />
 
-                    <FinancialInstitutionCreate onClose={() => onOpenChange(false)} />
+                    <FinancialInstitutionEdit id={id} onClose={() => onOpenChange(false)} />
                 </DialogHeader>
+
                 <DialogFooter />
             </DialogContent>
         </Dialog>

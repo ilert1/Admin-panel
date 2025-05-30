@@ -1,25 +1,30 @@
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { DirectionsDataProvider } from "@/data";
+import { FinancialInstitutionProvider } from "@/data/financialInstitution";
 import clsx from "clsx";
 import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRefresh, useTranslate } from "react-admin";
 
-interface IDirectionActivityBtn {
+interface IFinancialInstitutionActivityBtn {
     id: string;
-    directionName: string;
+    financialInstitutionName: string;
     activityState: boolean;
     isFetching?: boolean;
 }
 
-export const DirectionActivityBtn = ({ id, directionName, activityState, isFetching }: IDirectionActivityBtn) => {
+export const FinancialInstitutionActivityBtn = ({
+    id,
+    financialInstitutionName,
+    activityState,
+    isFetching
+}: IFinancialInstitutionActivityBtn) => {
     const appToast = useAppToast();
-    const translate = useTranslate();
     const refresh = useRefresh();
+    const translate = useTranslate();
 
     const [currentState, setCurrentState] = useState(() => activityState);
     const [btnDisabled, setBtnDisabled] = useState(false);
-    const dataProvider = new DirectionsDataProvider();
+    const financialInstitutionProvider = new FinancialInstitutionProvider();
 
     useEffect(() => {
         if (currentState !== activityState) {
@@ -29,22 +34,22 @@ export const DirectionActivityBtn = ({ id, directionName, activityState, isFetch
     }, [activityState]);
 
     const changeActivity = async () => {
-        const currentStateData = currentState ? "inactive" : "active";
+        const currentStateData = currentState ? "INACTIVE" : "ACTIVE";
 
         try {
             setBtnDisabled(true);
 
-            await dataProvider.updateStatus("direction", {
+            await financialInstitutionProvider.update("financialInstitution", {
                 id,
-                data: { state: currentStateData },
+                data: { status: currentStateData },
                 previousData: undefined
             });
 
             appToast(
                 "success",
-                translate("resources.direction.success.editActivity", {
-                    name: directionName,
-                    state: translate(`resources.direction.success.${currentStateData}`)
+                translate("resources.paymentTools.financialInstitution.success.editActivity", {
+                    name: financialInstitutionName,
+                    state: translate(`resources.paymentTools.financialInstitution.success.${currentStateData}`)
                 })
             );
 

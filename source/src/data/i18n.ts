@@ -799,8 +799,8 @@ const ru: TranslationMessages = {
                     codeRegex: "Код может содержать только буквы, цифры, подчеркивание и тире"
                 },
                 fields: {
-                    code: "Код",
-                    title: "Название",
+                    code: "Название",
+                    title: "Описание",
                     payment_types: "Типы платежей",
                     category: "Категория",
                     icon: "Иконка"
@@ -813,10 +813,11 @@ const ru: TranslationMessages = {
             },
             financialInstitution: {
                 name: "Фин. организации",
+                show: "Фин. организация",
                 fields: {
                     created_at: "Дата и время создания",
                     updated_at: "Дата и время обновления",
-                    name: "Финансовый институт",
+                    name: "Название финансового института",
                     short_name: "Краткое наименование",
                     legal_name: "Полное юр.наименование",
                     institution_type: "Типы платёжных институтов",
@@ -828,8 +829,26 @@ const ru: TranslationMessages = {
                     status: "Активность",
                     payment_types: "Платёжные системы",
                     currencies: "Валюты",
-                    id: "ID"
-                }
+                    currenciesToChoose: "Выберите валюты",
+                    id: "ID",
+                    meta: "Метадата",
+                    types: {
+                        BANK: "Банк",
+                        OTHER: "Другое"
+                    }
+                },
+                errors: {
+                    name: "Название финансового института обязательно",
+                    country_code: "Код страны введен не правильно"
+                },
+                success: {
+                    ACTIVE: "активна",
+                    INACTIVE: "деактивирована",
+                    editActivity: "Активность финансовой организации %{name} успешно изменена на: %{state}."
+                },
+                createFinancialInstitutionBtn: "Добавить организацию",
+                createFinancialInstitutionTitle: "Добавление финансовой организации",
+                deleteFinancialInstitution: "Удалить фин. организацию?"
             },
             systemPaymentInstruments: {
                 name: "Системные инструменты",
@@ -849,7 +868,7 @@ const ru: TranslationMessages = {
                     updatedAt: "Дата и время обновления",
                     id: "ID",
                     paymentType: "Инструмент",
-                    paymentTypeCode: "Ключ типа платежа",
+                    paymentTypeCode: "Тип платежа",
                     financialInstitution: "Финансовая организация",
                     direction: "Направление операции"
                 },
@@ -1968,8 +1987,8 @@ const en: TranslationMessages = {
                 },
                 name: "Payment types",
                 fields: {
-                    code: "Code",
-                    title: "Title",
+                    code: "Title",
+                    title: "Description",
                     payment_types: "Payment types",
                     category: "Category",
                     icon: "Icon"
@@ -1981,11 +2000,12 @@ const en: TranslationMessages = {
                 duplicateCode: "This code is already in use"
             },
             financialInstitution: {
-                name: "Financial institution",
+                name: "Financial institutions",
+                show: "Financial institution",
                 fields: {
                     created_at: "Created at",
                     updated_at: "Updated at",
-                    name: "Name",
+                    name: "Name of the financial institution",
                     short_name: "Short name",
                     legal_name: "Full legal name",
                     institution_type: "Institution type",
@@ -1997,8 +2017,28 @@ const en: TranslationMessages = {
                     status: "Activity",
                     payment_types: "Payment types",
                     currencies: "Currencies",
-                    id: "ID"
-                }
+                    currenciesToChoose: "Select currencies",
+                    id: "ID",
+                    meta: "Metadata",
+                    types: {
+                        BANK: "Bank",
+                        OTHER: "Other"
+                    }
+                },
+                errors: {
+                    name: "The name of the financial institution is required",
+                    country_code: "The country code is entered incorrectly"
+                },
+                success: {
+                    ACTIVE: "active",
+                    INACTIVE: "inactive",
+                    editActivity:
+                        "The activity of the financial institution %{name} has been successfully changed to: %{state}."
+                },
+
+                createFinancialInstitutionBtn: "Create institution",
+                createFinancialInstitutionTitle: "Create a financial institution",
+                deleteFinancialInstitution: "Delete financial institution?"
             },
             systemPaymentInstruments: {
                 name: "System tools",
@@ -2019,7 +2059,7 @@ const en: TranslationMessages = {
                     id: "ID",
                     paymentType: "Instrument",
                     financialInstitution: "Financial institution",
-                    paymentTypeCode: "Payment type key",
+                    paymentTypeCode: "Payment type",
                     direction: "Payment direction"
                 },
                 errors: {

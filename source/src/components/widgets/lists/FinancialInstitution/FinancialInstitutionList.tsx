@@ -11,7 +11,9 @@ import { CreateFinancialInstitutionDialog } from "./CreateFinancialInstitutionDi
 export const FinancialInstitutionList = () => {
     const listContext = useAbortableListController({ resource: "financialInstitution" });
 
-    const { translate, columns, createDialogOpen, setCreateDialogOpen } = useGetFinancialInstitutionColumns();
+    const { translate, columns, createDialogOpen, setCreateDialogOpen } = useGetFinancialInstitutionColumns({
+        isFetching: listContext.isFetching
+    });
 
     return (
         <>
@@ -24,7 +26,7 @@ export const FinancialInstitutionList = () => {
                             <CirclePlus className="h-[16px] w-[16px]" />
 
                             <span className="text-title-1">
-                                {translate("resources.paymentTools.paymentType.createNew")}
+                                {translate("resources.paymentTools.financialInstitution.createFinancialInstitutionBtn")}
                             </span>
                         </Button>
                     </div>

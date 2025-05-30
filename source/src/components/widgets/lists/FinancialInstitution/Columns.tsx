@@ -1,29 +1,22 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { useLocaleState, useTranslate } from "react-admin";
 import { FinancialInstitution } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { EditButton, TrashButton } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import { TextField } from "@/components/ui/text-field";
-import { ToggleActiveUser } from "@/components/ui/toggle-active-user";
+import { EyeIcon } from "lucide-react";
+import { useSheets } from "@/components/providers/SheetProvider";
+import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { FinancialInstitutionActivityBtn } from "./FinancialInstitutionActivityBtn";
 
-export const useGetFinancialInstitutionColumns = () => {
+export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
+    const { openSheet } = useSheets();
 
-    const [chosenId, setChosenId] = useState("");
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
-
-    const handleDeleteClicked = (id: string) => {
-        setChosenId(id);
-        setDeleteDialogOpen(true);
-    };
-
-    const handleEditClicked = (id: string) => {
-        setChosenId(id);
-        setEditDialogOpen(true);
-    };
 
     const columns: ColumnDef<FinancialInstitution>[] = [
         {
@@ -167,13 +160,48 @@ export const useGetFinancialInstitutionColumns = () => {
             accessorKey: "institution_type",
             header: translate("resources.paymentTools.financialInstitution.fields.institution_type"),
             cell: ({ row }) => {
-                return <TextField text={row.original.institution_type || ""} />;
+                return (
+                    <TextField
+                        text={
+                            row.original.institution_type
+                                ? translate(
+                                      `resources.paymentTools.financialInstitution.fields.types.${row.original.institution_type}`
+                                  )
+                                : ""
+                        }
+                    />
+                );
+            }
+        },
+        {
+            id: "currencies",
+            accessorKey: "currencies",
+            header: translate("resources.paymentTools.financialInstitution.fields.currencies"),
+            cell: ({ row }) => {
+                return (
+                    <TextField
+                        text={
+                            row.original.currencies && row.original.currencies?.length > 0
+                                ? row.original.currencies?.map(item => item.code).join(", ")
+                                : ""
+                        }
+                    />
+                );
             }
         },
         {
             id: "payment_types",
             accessorKey: "payment_types",
-            header: translate("resources.paymentTools.financialInstitution.fields.payment_types")
+            header: translate("resources.paymentTools.financialInstitution.fields.payment_types"),
+            cell: ({ row }) => {
+                return (
+                    <div className="max-w-auto flex min-w-28 flex-wrap gap-2">
+                        {row.original.payment_types?.map(pt => {
+                            return <PaymentTypeIcon key={pt.code} type={pt.code} className="h-7 w-7" tooltip />;
+                        })}
+                    </div>
+                );
+            }
         },
         {
             id: "country_code",
@@ -194,34 +222,32 @@ export const useGetFinancialInstitutionColumns = () => {
             header: translate("resources.paymentTools.financialInstitution.fields.status"),
             cell: ({ row }) => {
                 return (
-                    <div className="flex items-center justify-center">
-                        <ToggleActiveUser active={row.original.status === "ACTIVE" ? true : false} />
-                    </div>
+                    <FinancialInstitutionActivityBtn
+                        id={row.original.id}
+                        financialInstitutionName={row.original.name}
+                        activityState={row.original.status === "ACTIVE" ? true : false}
+                        isFetching={isFetching}
+                    />
                 );
             }
         },
         {
-            id: "update_field",
-            header: () => {
-                return <div className="text-center">{translate("app.ui.actions.edit")}</div>;
-            },
+            id: "show",
             cell: ({ row }) => {
-                return <EditButton onClick={() => handleEditClicked(row.original.id)} />;
-            }
-        },
-        {
-            id: "delete_field",
-            header: () => {
-                return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
-            },
-            cell: ({ row }) => {
-                return <TrashButton onClick={() => handleDeleteClicked(row.original.id)} />;
+                return (
+                    <div className="flex items-center justify-center">
+                        <Button
+                            onClick={() => openSheet("financialInstitution", { id: row.original.id })}
+                            variant={"text_btn"}>
+                            <EyeIcon className="text-green-50 hover:text-green-40" />
+                        </Button>
+                    </div>
+                );
             }
         }
     ];
     return {
         translate,
-        chosenId,
         editDialogOpen,
         deleteDialogOpen,
         createDialogOpen,

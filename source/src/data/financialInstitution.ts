@@ -11,17 +11,31 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
-import { FinancialInstitution, FinancialInstitutionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
+    FinancialInstitution,
+    FinancialInstitutionCreate,
+    FinancialInstitutionCurrenciesLink,
+    PaymentTypesLink
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddCurrenciesPatch,
+    financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddPaymentTypesPatch,
     financialInstitutionEndpointsCreateFinancialInstitutionEnigmaV1FinancialInstitutionPost,
     financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdDelete,
     financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGet,
     financialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGet,
+    financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemoveCurrencyCurrencyCodeDelete,
+    financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemovePaymentTypePaymentTypeCodeDelete,
     financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPut
 } from "@/api/enigma/financial-institution/financial-institution";
 
+export enum FinancialInstitutionTypes {
+    BANK = "BANK",
+    OTHER = "OTHER"
+}
+
 export class FinancialInstitutionProvider extends IBaseDataProvider {
-    async getList(resource: string, params: GetListParams): Promise<GetListResult> {
+    async getList(resource: string, params: GetListParams): Promise<GetListResult<FinancialInstitution>> {
         const res = await financialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGet(
             {
                 currentPage: params?.pagination?.page,
@@ -52,7 +66,7 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         };
     }
 
-    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult> {
+    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<FinancialInstitution>> {
         const res =
             await financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGet(
                 params.id,
@@ -77,7 +91,10 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async create(resource: string, params: CreateParams<FinancialInstitutionCreate>): Promise<CreateResult> {
+    async create(
+        resource: string,
+        params: CreateParams<FinancialInstitutionCreate>
+    ): Promise<CreateResult<FinancialInstitution>> {
         const res = await financialInstitutionEndpointsCreateFinancialInstitutionEnigmaV1FinancialInstitutionPost(
             params.data as FinancialInstitutionCreate,
             {
@@ -100,11 +117,119 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async update(resource: string, params: UpdateParams<FinancialInstitution>): Promise<UpdateResult> {
+    async update(resource: string, params: UpdateParams): Promise<UpdateResult<FinancialInstitution>> {
         const res =
             await financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPut(
                 params.id,
                 params.data,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async addPaymentTypes(
+        params: UpdateParams & { data: PaymentTypesLink }
+    ): Promise<UpdateResult<FinancialInstitution>> {
+        const res =
+            await financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddPaymentTypesPatch(
+                params.id,
+                params.data,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async removePaymentType(
+        params: UpdateParams & { data: { code: string } }
+    ): Promise<UpdateResult<FinancialInstitution>> {
+        const res =
+            await financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemovePaymentTypePaymentTypeCodeDelete(
+                params.id,
+                params.data.code,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async addCurrencies(
+        params: UpdateParams & { data: FinancialInstitutionCurrenciesLink }
+    ): Promise<UpdateResult<FinancialInstitution>> {
+        const res =
+            await financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddCurrenciesPatch(
+                params.id,
+                params.data,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async removeCurrency(
+        params: UpdateParams & { data: { code: string } }
+    ): Promise<UpdateResult<FinancialInstitution>> {
+        const res =
+            await financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemoveCurrencyCurrencyCodeDelete(
+                params.id,
+                params.data.code,
                 {
                     headers: {
                         authorization: `Bearer ${localStorage.getItem("access-token")}`

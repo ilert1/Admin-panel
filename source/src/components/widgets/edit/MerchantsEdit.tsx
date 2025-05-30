@@ -1,4 +1,4 @@
-import { useEditController, useTranslate, useDataProvider, useRefresh } from "react-admin";
+import { useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
@@ -14,6 +14,7 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { MerchantsDataProvider } from "@/data";
+import { useQuery } from "@tanstack/react-query";
 
 interface MerchantEditProps {
     id?: string;
@@ -24,13 +25,19 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
     const data = fetchDictionaries();
     const dataProvider = useDataProvider();
     const merchantsDataProvider = new MerchantsDataProvider();
+    const [isFinished, setIsFinished] = useState(false);
 
     const appToast = useAppToast();
 
-    const { record, isLoading } = useEditController<Merchant>({
-        resource: "merchant",
-        id,
-        mutationMode: "pessimistic"
+    const {
+        data: merchant,
+        isLoading: isLoadingMerchant,
+        isFetchedAfterMount
+    } = useQuery({
+        queryKey: ["merchant", id],
+        queryFn: () => dataProvider.getOne<Merchant>("merchant", { id }),
+        enabled: true,
+        select: data => data.data
     });
 
     const translate = useTranslate();
@@ -55,25 +62,29 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            id: record?.id || "",
-            name: record?.name || "",
-            description: record?.description || "",
-            keycloak_id: record?.keycloak_id || "",
-            payment_types: record?.payment_types?.map(pt => pt.code) || []
+            id: "",
+            name: "",
+            description: "",
+            keycloak_id: "",
+            payment_types: []
         }
     });
 
     useEffect(() => {
-        if (record) {
-            form.reset({
-                id: record?.id || "",
-                name: record?.name || "",
-                description: record?.description || "",
-                keycloak_id: record?.keycloak_id || "",
-                payment_types: record?.payment_types?.map(pt => pt.code) || []
-            });
+        if (!isLoadingMerchant && merchant && isFetchedAfterMount) {
+            const updatedValues = {
+                id: merchant.id || "",
+                name: merchant.name || "",
+                description: merchant.description || "",
+                keycloak_id: merchant.keycloak_id || "",
+                payment_types: merchant?.payment_types?.map(pt => pt.code) || []
+            };
+
+            form.reset(updatedValues);
+            setIsFinished(true);
         }
-    }, [form, record]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [merchant, isLoadingMerchant, isFetchedAfterMount]);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
@@ -82,8 +93,8 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
         let payment_types: string[] = [];
         let oldPaymentTypes: Set<string> = new Set();
 
-        if (record?.payment_types) {
-            oldPaymentTypes = new Set(record?.payment_types?.map(pt => pt.code));
+        if (merchant?.payment_types) {
+            oldPaymentTypes = new Set(merchant?.payment_types?.map(pt => pt.code));
         }
 
         if (data.payment_types) {
@@ -126,9 +137,9 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
         }
     };
 
-    usePreventFocus({ dependencies: [record] });
+    usePreventFocus({ dependencies: [merchant] });
 
-    if (isLoading || !record || !data || isLoadingAllPaymentTypes)
+    if (isLoadingMerchant || !merchant || !data || isLoadingAllPaymentTypes || !isFinished)
         return (
             <div className="h-[200px]">
                 <Loading />
