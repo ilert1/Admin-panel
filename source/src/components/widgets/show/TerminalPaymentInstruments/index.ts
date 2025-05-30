@@ -1,0 +1,1 @@
+export { TerminalPaymentInstrumentsShow } from "./TerminalPaymentInstrumentsShow";

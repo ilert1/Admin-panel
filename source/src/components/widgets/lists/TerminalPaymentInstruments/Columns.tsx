@@ -4,9 +4,13 @@ import { TerminalPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService
 import { TextField } from "@/components/ui/text-field";
 import { TerminalPaymentInstrumentsActivityBtn } from "./TerminalPaymentInstrumentsActivityBtn";
 import { useState } from "react";
+import { Button } from "@/components/ui/Button";
+import { useSheets } from "@/components/providers/SheetProvider";
+import { EyeIcon } from "lucide-react";
 
 export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
+    const { openSheet } = useSheets();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
@@ -79,6 +83,20 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
                         activityState={row.original.status === "ACTIVE" ? true : false}
                         isFetching={isFetching}
                     />
+                );
+            }
+        },
+        {
+            id: "show",
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center justify-center">
+                        <Button
+                            onClick={() => openSheet("terminalPaymentInstruments", { id: row.original.id })}
+                            variant={"text_btn"}>
+                            <EyeIcon className="text-green-50 hover:text-green-40" />
+                        </Button>
+                    </div>
                 );
             }
         }
