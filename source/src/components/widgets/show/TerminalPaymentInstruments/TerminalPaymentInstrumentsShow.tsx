@@ -96,8 +96,6 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: DirectionsS
                             "resources.paymentTools.terminalPaymentInstruments.fields.terminal_payment_type_code"
                         )}
                         text={context.record.terminal_payment_type_code || ""}
-                        wrap
-                        copyValue
                     />
 
                     <TextField
@@ -105,8 +103,6 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: DirectionsS
                             "resources.paymentTools.terminalPaymentInstruments.fields.terminal_currency_code"
                         )}
                         text={context.record.terminal_currency_code || ""}
-                        wrap
-                        copyValue
                     />
 
                     <TextField
@@ -114,8 +110,6 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: DirectionsS
                             "resources.paymentTools.terminalPaymentInstruments.fields.terminal_financial_institution_code"
                         )}
                         text={context.record.terminal_financial_institution_code || ""}
-                        wrap
-                        copyValue
                     />
                 </div>
 
