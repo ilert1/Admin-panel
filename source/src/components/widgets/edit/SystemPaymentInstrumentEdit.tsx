@@ -229,7 +229,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
                             control={form.control}
                             name="meta"
                             render={({ field }) => (
-                                <FormItem className="col-span-1 p-2 sm:col-span-2">
+                                <FormItem className="col-span-1 sm:col-span-2">
                                     <Label className="!mb-0">
                                         {translate("resources.paymentTools.systemPaymentInstruments.fields.meta")}
                                     </Label>

@@ -230,7 +230,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: ProviderEdi
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
                 <div className="flex flex-col flex-wrap">
                     <div className="grid grid-cols-1 sm:grid-cols-2">
                         <FormField
