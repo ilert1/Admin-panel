@@ -12,21 +12,21 @@ import {
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
 import {
-    TerminalInstrumentConfiguration,
-    TerminalInstrumentConfigurationCreate
+    TerminalPaymentInstrument,
+    TerminalPaymentInstrumentCreate
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
-    terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPost,
-    terminalInstrumentConfigurationEndpointsDeleteTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdDelete,
-    terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdGet,
-    terminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGet,
-    terminalInstrumentConfigurationEndpointsPatchTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdPatch
+    terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPost,
+    terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDelete,
+    terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGet,
+    terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGet,
+    terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatch
 } from "@/api/enigma/terminal-payment-instruments/terminal-payment-instruments";
 
 export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
-    async getList(resource: string, params: GetListParams): Promise<GetListResult<TerminalInstrumentConfiguration>> {
+    async getList(resource: string, params: GetListParams): Promise<GetListResult<TerminalPaymentInstrument>> {
         const res =
-            await terminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGet(
+            await terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGet(
                 {
                     currentPage: params?.pagination?.page,
                     pageSize: params?.pagination?.perPage
@@ -56,9 +56,9 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination(): Promise<GetListResult<TerminalInstrumentConfiguration>> {
+    async getListWithoutPagination(): Promise<GetListResult<TerminalPaymentInstrument>> {
         const res =
-            await terminalInstrumentConfigurationEndpointsListTerminalInstrumentConfigurationsEnigmaV1TerminalInstrumentConfigurationsGet(
+            await terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGet(
                 {
                     currentPage: 1,
                     pageSize: 1000
@@ -87,9 +87,9 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
         };
     }
 
-    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<TerminalInstrumentConfiguration>> {
+    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<TerminalPaymentInstrument>> {
         const res =
-            await terminalInstrumentConfigurationEndpointsGetTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdGet(
+            await terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGet(
                 params.id,
                 {
                     headers: {
@@ -114,11 +114,11 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
 
     async create(
         resource: string,
-        params: CreateParams<TerminalInstrumentConfigurationCreate>
-    ): Promise<CreateResult<TerminalInstrumentConfiguration>> {
+        params: CreateParams<TerminalPaymentInstrumentCreate>
+    ): Promise<CreateResult<TerminalPaymentInstrument>> {
         const res =
-            await terminalInstrumentConfigurationEndpointsCreateTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsPost(
-                params.data as TerminalInstrumentConfigurationCreate,
+            await terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPost(
+                params.data as TerminalPaymentInstrumentCreate,
                 {
                     headers: {
                         authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -139,9 +139,9 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async update(resource: string, params: UpdateParams): Promise<UpdateResult<TerminalInstrumentConfiguration>> {
+    async update(resource: string, params: UpdateParams): Promise<UpdateResult<TerminalPaymentInstrument>> {
         const res =
-            await terminalInstrumentConfigurationEndpointsPatchTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdPatch(
+            await terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatch(
                 params.id,
                 params.data,
                 {
@@ -166,7 +166,7 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
 
     async delete(resource: string, params: DeleteParams): Promise<DeleteResult> {
         const res =
-            await terminalInstrumentConfigurationEndpointsDeleteTerminalInstrumentConfigurationEnigmaV1TerminalInstrumentConfigurationsTerminalPaymentInstrumentIdDelete(
+            await terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDelete(
                 params.id,
                 {
                     headers: {
