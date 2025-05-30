@@ -66,7 +66,7 @@ import { PaymentTypesProvider } from "./data/payment_types";
 import { PaymentTypesList } from "./components/widgets/lists/PaymentTypes";
 import { FinancialInstitutionList } from "./components/widgets/lists/FinancialInstitution";
 import { SystemPaymentInstrumentsList } from "./components/widgets/lists/SystemPaymentInstruments";
-import { TerminalPaymentInstrumentsList } from "./components/widgets/lists/TerminalInstrumentConfigurations";
+import { TerminalPaymentInstrumentsList } from "./components/widgets/lists/TerminalPaymentInstruments";
 import { FinancialInstitutionProvider } from "./data/financialInstitution";
 import { TerminalPaymentInstruments } from "./data/terminalPaymentInstruments";
 import { SystemPaymentInstrumentsProvider } from "./data/systemPaymentInstruments";
