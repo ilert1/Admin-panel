@@ -848,6 +848,7 @@ const ru: TranslationMessages = {
                 },
                 createFinancialInstitutionBtn: "Добавить организацию",
                 createFinancialInstitutionTitle: "Добавление финансовой организации",
+                editingFinancialInstitution: "Изменение финансовой организации",
                 deleteFinancialInstitution: "Удалить фин. организацию?"
             },
             systemPaymentInstruments: {
@@ -2057,6 +2058,7 @@ const en: TranslationMessages = {
                 },
                 createFinancialInstitutionBtn: "Create institution",
                 createFinancialInstitutionTitle: "Create a financial institution",
+                editingFinancialInstitution: "Editing a financial institution",
                 deleteFinancialInstitution: "Delete financial institution?"
             },
             systemPaymentInstruments: {
