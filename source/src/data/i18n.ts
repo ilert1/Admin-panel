@@ -803,7 +803,7 @@ const ru: TranslationMessages = {
                     title: "Описание",
                     payment_types: "Типы платежей",
                     category: "Категория",
-                    icon: "Обозначение"
+                    icon: "Иконка"
                 },
                 deletePaymentTypeQuestion: "Удалить тип платежа?",
                 creatingPaymentType: "Создание типа платежа",
@@ -866,7 +866,7 @@ const ru: TranslationMessages = {
                     updatedAt: "Дата и время обновления",
                     id: "ID",
                     paymentType: "Инструмент",
-                    paymentTypeCode: "Ключ типа платежа",
+                    paymentTypeCode: "Тип платежа",
                     financialInstitution: "Финансовая организация",
                     direction: "Направление операции"
                 },
@@ -1984,7 +1984,7 @@ const en: TranslationMessages = {
                     title: "Description",
                     payment_types: "Payment types",
                     category: "Category",
-                    icon: "Symbol"
+                    icon: "Icon"
                 },
                 deletePaymentTypeQuestion: "Delete payment type?",
                 creatingPaymentType: "Creating payment type",
@@ -2050,7 +2050,7 @@ const en: TranslationMessages = {
                     id: "ID",
                     paymentType: "Instrument",
                     financialInstitution: "Financial institution",
-                    paymentTypeCode: "Payment type key",
+                    paymentTypeCode: "Payment type",
                     direction: "Payment direction"
                 },
                 errors: {
