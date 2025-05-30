@@ -1,26 +1,20 @@
-import { PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { useTranslate } from "react-admin";
-import { PaymentTypeIcon } from "./PaymentTypeIcon";
+import { CurrencyWithId } from "@/data/currencies";
 
-interface PaymentTypeMultiSelectProps {
+interface CurrenciesMultiSelectProps {
     value: string[] | undefined;
     onChange: (values: string[]) => void;
-    options?: PaymentTypeModel[];
+    options?: CurrencyWithId[];
     label?: boolean;
 }
 
-export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
+export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
     const { value, onChange, options, label = true } = props;
     const translate = useTranslate();
 
-    const modifiedOptions =
-        options?.map(option => ({
-            label: option.code,
-            value: option.code,
-            icon: (props: object) => <PaymentTypeIcon type={option.code} {...props} />
-        })) || [];
+    const modifiedOptions = options?.map(option => ({ label: option.code, value: option.code })) || [];
 
     const onValueChange = (values: string[]) => {
         onChange(values);
@@ -28,7 +22,7 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
 
     return (
         <div>
-            {label && <Label>{translate("resources.paymentTools.paymentType.name")}</Label>}
+            {label && <Label>{translate("resources.paymentTools.financialInstitution.fields.currencies")}</Label>}
             <MultiSelect
                 options={modifiedOptions}
                 onValueChange={onValueChange}

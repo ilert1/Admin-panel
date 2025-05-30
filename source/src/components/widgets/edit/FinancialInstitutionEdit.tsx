@@ -11,7 +11,7 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
+import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { useQuery } from "@tanstack/react-query";
 import { FinancialInstitutionProvider, FinancialInstitutionTypes } from "@/data/financialInstitution";
@@ -24,6 +24,8 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
+import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
+import { CurrenciesDataProvider } from "@/data";
 
 export interface ProviderEditParams {
     id: string;
@@ -32,6 +34,7 @@ export interface ProviderEditParams {
 
 export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: ProviderEditParams) => {
     const financialInstitutionProvider = new FinancialInstitutionProvider();
+    const currenciesDataProvider = new CurrenciesDataProvider();
 
     const {
         data: financialInstitutionData,
@@ -55,6 +58,11 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: ProviderEdi
 
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
+    const { isLoading: currenciesLoading, data: currencies } = useQuery({
+        queryKey: ["currencies"],
+        queryFn: async () => await currenciesDataProvider.getListWithoutPagination()
+    });
+
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.paymentTools.financialInstitution.errors.name")).trim(),
         short_name: z.string().trim().optional(),
@@ -64,6 +72,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: ProviderEdi
         nspk_member_id: z.string().trim().optional(),
         bic: z.string().trim().optional(),
         institution_type: z.enum([FinancialInstitutionTypes.BANK, FinancialInstitutionTypes.OTHER]),
+        currencies: z.array(z.string()).optional(),
         country_code: z
             .string()
             .regex(/^\w{2}$/, translate("resources.paymentTools.financialInstitution.errors.country_code"))
@@ -84,6 +93,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: ProviderEdi
             nspk_member_id: "",
             bic: "",
             institution_type: FinancialInstitutionTypes.BANK,
+            currencies: [],
             payment_types: [],
             meta: ""
         }
@@ -100,6 +110,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: ProviderEdi
                 registration_number: financialInstitutionData.registration_number || "",
                 nspk_member_id: financialInstitutionData.nspk_member_id || "",
                 bic: financialInstitutionData.bic || "",
+                currencies: financialInstitutionData.currencies?.map(c => c.code) || [],
                 institution_type:
                     FinancialInstitutionTypes[
                         financialInstitutionData.institution_type || FinancialInstitutionTypes.BANK
@@ -132,6 +143,20 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: ProviderEdi
 
         const paymentsToDelete = oldPaymentTypes.difference(new Set(payment_types));
 
+        let currenciesList: string[] = [];
+        let oldCurrencies: Set<string> = new Set();
+
+        if (financialInstitutionData?.currencies) {
+            oldCurrencies = new Set(financialInstitutionData?.currencies?.map(pt => pt.code));
+        }
+
+        if (data.currencies) {
+            currenciesList = [...data.currencies];
+            delete data.currencies;
+        }
+
+        const currenciesToDelete = oldCurrencies.difference(new Set(currenciesList));
+
         try {
             await financialInstitutionProvider.update("financialInstitution", {
                 id,
@@ -155,6 +180,24 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: ProviderEdi
                 previousData: undefined
             });
 
+            await Promise.all(
+                [...currenciesToDelete].map(currency =>
+                    financialInstitutionProvider.removeCurrency({
+                        id,
+                        data: { code: currency },
+                        previousData: undefined
+                    })
+                )
+            );
+
+            await financialInstitutionProvider.addCurrencies({
+                id,
+                data: {
+                    codes: currenciesList
+                },
+                previousData: undefined
+            });
+
             appToast("success", translate("app.ui.edit.editSuccess"));
 
             refresh();
@@ -172,7 +215,13 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: ProviderEdi
 
     usePreventFocus({ dependencies: [financialInstitutionData] });
 
-    if (isLoadingFinancialInstitutionData || !financialInstitutionData || isLoadingAllPaymentTypes || !isFinished)
+    if (
+        isLoadingFinancialInstitutionData ||
+        !financialInstitutionData ||
+        isLoadingAllPaymentTypes ||
+        !isFinished ||
+        currenciesLoading
+    )
         return (
             <div className="h-[400px]">
                 <Loading />
@@ -385,20 +434,34 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: ProviderEdi
 
                         <FormField
                             control={form.control}
-                            name="payment_types"
+                            name="currencies"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
-                                    <FormControl>
-                                        <PaymentTypeMultiSelect
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                            options={allPaymentTypes || []}
-                                        />
-                                    </FormControl>
+                                    <CurrenciesMultiSelect
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        options={currencies?.data || []}
+                                    />
                                 </FormItem>
                             )}
                         />
                     </div>
+
+                    <FormField
+                        control={form.control}
+                        name="payment_types"
+                        render={({ field }) => (
+                            <FormItem className="w-full p-2">
+                                <FormControl>
+                                    <PaymentTypeMultiSelect
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        options={allPaymentTypes || []}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
 
                     <FormField
                         control={form.control}

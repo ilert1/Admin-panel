@@ -15,7 +15,7 @@ export const ShowFinancialInstitutionSheet = ({ id, open, onOpenChange }: IShowF
         <>
             <Sheet open={open} onOpenChange={onOpenChange}>
                 <SheetContent
-                    className="top-[84px] m-0 flex h-full !max-h-[calc(100dvh-84px)] w-full flex-col overflow-hidden border-0 p-0 sm:max-w-[1015px]"
+                    className="top-[84px] m-0 flex h-full !max-h-[calc(100dvh-84px)] w-full flex-col overflow-auto border-0 p-0 sm:max-w-[1015px]"
                     tabIndex={-1}
                     close={false}>
                     <div className="flex-shrink-0 p-4 pb-0 md:p-[42px] md:pb-0">

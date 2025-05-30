@@ -12,7 +12,7 @@ import { usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { ProvidersDataProvider, ProviderWithId } from "@/data/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
+import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { useQuery } from "@tanstack/react-query";
 
