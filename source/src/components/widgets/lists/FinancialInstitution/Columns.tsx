@@ -13,8 +13,6 @@ export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFe
     const translate = useTranslate();
     const { openSheet } = useSheets();
 
-    const [editDialogOpen, setEditDialogOpen] = useState(false);
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const columns: ColumnDef<FinancialInstitution>[] = [
@@ -137,12 +135,8 @@ export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFe
     ];
     return {
         translate,
-        editDialogOpen,
-        deleteDialogOpen,
         createDialogOpen,
         columns,
-        setDeleteDialogOpen,
-        setEditDialogOpen,
         setCreateDialogOpen
     };
 };
