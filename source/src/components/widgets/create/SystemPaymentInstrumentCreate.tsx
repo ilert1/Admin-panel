@@ -27,6 +27,7 @@ import { useState } from "react";
 import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
+import { CurrencySelect } from "../components/Selects/CurrencySelect";
 
 interface SystemPaymentInstrumentCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -211,7 +212,12 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                             "resources.paymentTools.systemPaymentInstruments.fields.currency_code"
                                         )}
                                     </Label>
-                                    <Select
+                                    <CurrencySelect
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        currencies={currencies}
+                                    />
+                                    {/* <Select
                                         value={field.value}
                                         onValueChange={field.onChange}
                                         disabled={paymentsDisabled}>
@@ -243,7 +249,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                                     : ""}
                                             </SelectGroup>
                                         </SelectContent>
-                                    </Select>
+                                    </Select> */}
                                 </FormItem>
                             )}
                         />
