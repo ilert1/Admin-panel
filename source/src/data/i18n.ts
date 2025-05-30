@@ -880,7 +880,7 @@ const ru: TranslationMessages = {
                 createNew: "Добавить платежный инструмент",
                 deletePaymentInstrumentQuestion: "Удалить платежный инструмент?"
             },
-            terminalInstrumentConfigurations: {
+            terminalPaymentInstruments: {
                 name: "Интеграции терминалов"
             }
         }
@@ -2064,7 +2064,7 @@ const en: TranslationMessages = {
                 createNew: "Add payment instrument",
                 deletePaymentInstrumentQuestion: "Delete payment instrument?"
             },
-            terminalInstrumentConfigurations: {
+            terminalPaymentInstruments: {
                 name: "Terminal integrations"
             }
         }

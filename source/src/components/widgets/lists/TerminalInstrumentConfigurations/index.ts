@@ -1,1 +1,1 @@
-export { TerminalInstrumentConfigurationsList } from "./TerminalInstrumentConfigurationsList";
+export { TerminalPaymentInstrumentsList } from "./TerminalPaymentInstrumentsList";

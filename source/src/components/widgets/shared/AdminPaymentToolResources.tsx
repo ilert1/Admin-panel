@@ -1,6 +1,6 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { Bolt, ChevronDown, ChevronLeft, FileTerminal, HandCoins, Landmark, Pickaxe } from "lucide-react";
+import { ChevronDown, ChevronLeft, FileTerminal, HandCoins, Landmark, Pickaxe } from "lucide-react";
 import { useState } from "react";
 
 import { useTranslate } from "react-admin";
@@ -38,8 +38,8 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
                 icon: <Landmark />
             },
             {
-                name: "terminalInstrumentConfigurations",
-                path: "/paymentTools/terminalInstrumentConfigurations",
+                name: "terminalPaymentInstruments",
+                path: "/paymentTools/terminalPaymentInstruments",
                 icon: <FileTerminal />
             },
             {

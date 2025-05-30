@@ -66,9 +66,9 @@ import { PaymentTypesProvider } from "./data/payment_types";
 import { PaymentTypesList } from "./components/widgets/lists/PaymentTypes";
 import { FinancialInstitutionList } from "./components/widgets/lists/FinancialInstitution";
 import { SystemPaymentInstrumentsList } from "./components/widgets/lists/SystemPaymentInstruments";
-import { TerminalInstrumentConfigurationsList } from "./components/widgets/lists/TerminalInstrumentConfigurations";
+import { TerminalPaymentInstrumentsList } from "./components/widgets/lists/TerminalInstrumentConfigurations";
 import { FinancialInstitutionProvider } from "./data/financialInstitution";
-import { TerminalInstrumentConfigurationsProvider } from "./data/terminalInstrumentConfigurations";
+import { TerminalPaymentInstruments } from "./data/terminalPaymentInstruments";
 import { SystemPaymentInstrumentsProvider } from "./data/systemPaymentInstruments";
 
 const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
@@ -111,8 +111,8 @@ const dataProvider = combineDataProviders(resource => {
         return new PaymentTypesProvider();
     } else if (resource === "financialInstitution") {
         return new FinancialInstitutionProvider();
-    } else if (resource === "terminalInstrumentConfigurations") {
-        return new TerminalInstrumentConfigurationsProvider();
+    } else if (resource === "terminalPaymentInstruments") {
+        return new TerminalPaymentInstruments();
     } else if (resource === "systemPaymentInstruments") {
         return new SystemPaymentInstrumentsProvider();
     } else {
@@ -177,8 +177,8 @@ export const App = () => {
                                                     element={<FinancialInstitutionList />}
                                                 />
                                                 <Route
-                                                    path="terminalInstrumentConfigurations"
-                                                    element={<TerminalInstrumentConfigurationsList />}
+                                                    path="terminalPaymentInstruments"
+                                                    element={<TerminalPaymentInstrumentsList />}
                                                 />
                                                 <Route
                                                     path="systemPaymentInstruments"

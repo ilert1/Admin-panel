@@ -23,7 +23,7 @@ import {
 export type PaymentTypeWithId = PaymentTypeModel & { id: string };
 
 // /terminal_instrument_configurations
-export class TerminalInstrumentConfigurationsProvider extends IBaseDataProvider {
+export class TerminalPaymentInstruments extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<PaymentTypeWithId>> {
         const res = await paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet(
             {
