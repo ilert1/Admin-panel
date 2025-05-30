@@ -5,7 +5,7 @@ import { SystemPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.s
 import { TextField } from "@/components/ui/text-field";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { ShowButton, TrashButton } from "@/components/ui/Button";
+import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { useSheets } from "@/components/providers/SheetProvider";
 
 export const useGetSystemPaymentInstrumentsColumns = () => {
@@ -56,9 +56,55 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
             accessorKey: "id",
             header: translate("resources.paymentTools.systemPaymentInstruments.list.id"),
             cell: ({ row }) => {
-                return <TextField text={row.original.id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />;
+                return (
+                    <div>
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                openSheet("systemPaymentInstrument", { id: row.original.id });
+                            }}>
+                            {row.original.name ?? ""}
+                        </Button>
+                        <TextField
+                            text={row.original.id}
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                            className="text-neutral-70"
+                        />
+                    </div>
+                );
             }
         },
+        // {
+        //     id: "id",
+        //     accessorKey: "id",
+        //     header: translate("resources.merchant.merchant"),
+        //     cell: ({ row }) => {
+        //         return (
+        //             <div>
+        // <Button
+        //     variant={"resourceLink"}
+        //     onClick={() => {
+        //         handleShowClicked(row.original.id ?? "", row.original.name);
+        //     }}>
+        //     {row.original.name ?? ""}
+        // </Button>
+        //                 <TextField
+        //                     className="text-neutral-70"
+        //                     text={row.original.id}
+        //                     wrap
+        //                     copyValue
+        //                     lineClamp
+        //                     linesCount={1}
+        //                     minWidth="50px"
+        //                 />
+        //             </div>
+        //         );
+        //     }
+        // },
         {
             id: "instrument",
             header: translate("resources.paymentTools.systemPaymentInstruments.list.paymentType"),
@@ -97,7 +143,9 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
                 return (
                     <TextField
                         text={row.original.financial_institution.name}
-                        onClick={() => {}}
+                        onClick={() => {
+                            openSheet("financialInstitution", { id: row.original.financial_institution_id });
+                        }}
                         wrap
                         copyValue
                         lineClamp

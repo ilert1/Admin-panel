@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useLocale, useTranslate } from "react-admin";
 import { DeleteSystemPaymentInstrumentDialog } from "../../lists/SystemPaymentInstruments/DeleteSystemPaymentInstrumentDialog";
 import { EditPaymentInstrumentDialog } from "./EditSystemPaymentInstrumentDialog";
+import { useSheets } from "@/components/providers/SheetProvider";
 
 interface SystemPaymentInstrumentShowProps {
     id: string;
@@ -24,7 +25,7 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
     const locale = useLocale();
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-
+    const { openSheet } = useSheets();
     const context = useAbortableShowController<SystemPaymentInstrument>({
         resource: "systemPaymentInstruments",
         id
@@ -103,7 +104,9 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                                 "resources.paymentTools.systemPaymentInstruments.list.financialInstitution"
                             )}
                             text={context.record.financial_institution.name}
-                            onClick={() => {}}
+                            onClick={() => {
+                                openSheet("financialInstitution", { id: context.record.financial_institution_id });
+                            }}
                             copyValue
                         />
                         <TextField
