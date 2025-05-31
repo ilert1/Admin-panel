@@ -318,6 +318,7 @@ export const MappingShow = (props: MappingShowProps) => {
 
             <EditIPsDialog
                 IpList={context.record.security_policy?.blocked_ips}
+                secondaryList={context.record.security_policy?.allowed_ips}
                 id={context.record.id}
                 onOpenChange={setEditBlockedIPsClicked}
                 open={editBlockedIPsClicked}
@@ -326,6 +327,7 @@ export const MappingShow = (props: MappingShowProps) => {
 
             <EditIPsDialog
                 IpList={context.record.security_policy?.allowed_ips}
+                secondaryList={context.record.security_policy?.blocked_ips}
                 id={context.record.id}
                 onOpenChange={setEditAllowedIPsClicked}
                 open={editAllowedIPsClicked}

@@ -14,6 +14,7 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { MinusCircle, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CallbackMappingUpdate } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
+import { ConfirmCloseDialog } from "./ConfirmCloseDialog";
 
 export interface EditBlockedIPsDialogProps {
     id: string;
@@ -21,28 +22,138 @@ export interface EditBlockedIPsDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
     variant: "Blocked" | "Allowed";
+    secondaryList: string[] | undefined;
 }
 
 const isValidIP = (ip: string) => {
-    const regex = /^(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}$/;
-    return regex.test(ip);
+    if (!ip || ip.trim() === "") return false;
+
+    const parts = ip.split(".");
+    if (parts.length !== 4) return false;
+
+    return parts.every(part => {
+        if (part === "" || part.length === 0) return false;
+        const num = parseInt(part, 10);
+        return !isNaN(num) && num >= 0 && num <= 255 && part === num.toString();
+    });
 };
 
 export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
-    const { open, id, IpList, variant, onOpenChange } = props;
-
-    const [newIpList, setNewIpList] = useState<string[]>([]);
+    const { open, id, IpList, variant, secondaryList, onOpenChange } = props;
+    const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
     const [newIp, setNewIp] = useState("");
     const [saveClicked, setSaveClicked] = useState(false);
     const [somethingEdited, setSomethingEdited] = useState(false);
     const [saveButtonDisabled, setSaveButtonDisabled] = useState(false);
+    const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(true);
 
+    const translate = useTranslate();
     const refresh = useRefresh();
-
     const appToast = useAppToast();
     const dataProvider = useDataProvider();
     const containerEndRef = useRef<HTMLDivElement>(null);
+
+    const [newIpList, setNewIpList] = useState<string[]>([]);
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value;
+        const cursorPosition = e.target.selectionStart || 0;
+
+        value = value.replace(/[^\d.]/g, "");
+
+        if (value.endsWith("..")) {
+            value = value.slice(0, -1);
+        }
+
+        const parts = value.split(".");
+
+        if (parts.length > 4) {
+            parts.splice(4);
+            value = parts.join(".");
+        }
+
+        let shouldAddDot = false;
+        let newCursorPosition = cursorPosition;
+
+        const validatedParts = parts.map(part => {
+            if (part.length > 3) {
+                part = part.substring(0, 3);
+            }
+
+            if (part && !isNaN(parseInt(part, 10))) {
+                const num = parseInt(part, 10);
+                if (num > 255) {
+                    part = "255";
+                }
+            }
+
+            return part;
+        });
+
+        const lastPartIndex = validatedParts.length - 1;
+        const lastPart = validatedParts[lastPartIndex];
+
+        if (lastPart && lastPart.length === 3 && validatedParts.length < 4 && !value.endsWith(".")) {
+            shouldAddDot = true;
+        }
+
+        let validatedValue = validatedParts.join(".");
+
+        if (shouldAddDot) {
+            validatedValue += ".";
+            newCursorPosition = validatedValue.length;
+        }
+
+        if (!shouldAddDot && newIpList.findIndex(el => el === validatedValue) >= 0) {
+            setDeleteButtonDisabled(false);
+        } else {
+            setDeleteButtonDisabled(true);
+        }
+
+        setNewIp(validatedValue);
+
+        setTimeout(() => {
+            if (inputRef.current && shouldAddDot) {
+                inputRef.current.setSelectionRange(newCursorPosition, newCursorPosition);
+            }
+        }, 0);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Backspace") {
+            const input = e.target as HTMLInputElement;
+            const cursorPosition = input.selectionStart || 0;
+            const value = newIp;
+
+            if (cursorPosition > 0 && value[cursorPosition - 1] === ".") {
+                e.preventDefault();
+                const newValue = value.substring(0, cursorPosition - 1) + value.substring(cursorPosition);
+                setNewIp(newValue);
+
+                setTimeout(() => {
+                    if (inputRef.current) {
+                        inputRef.current.setSelectionRange(cursorPosition - 1, cursorPosition - 1);
+                    }
+                }, 0);
+            } else if (cursorPosition === value.length && value.endsWith(".")) {
+                e.preventDefault();
+                const newValue = value.slice(0, -1);
+                setNewIp(newValue);
+
+                setTimeout(() => {
+                    if (inputRef.current) {
+                        inputRef.current.setSelectionRange(newValue.length, newValue.length);
+                    }
+                }, 0);
+            }
+        }
+
+        if (e.key === "Enter" && newIp && isValidIP(newIp)) {
+            addIp();
+        }
+    };
 
     useEffect(() => {
         if (newIpList && containerEndRef.current) {
@@ -61,9 +172,10 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
     useEffect(() => {
         if (IpList) setNewIpList(IpList);
         else setNewIpList([]);
+        () => {
+            setSaveClicked(false);
+        };
     }, [IpList]);
-
-    const translate = useTranslate();
 
     const addIp = () => {
         setSomethingEdited(true);
@@ -108,6 +220,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
 
         if (!somethingEdited) {
             onOpenChange(false);
+            setSaveButtonDisabled(false);
             return;
         }
 
@@ -115,10 +228,10 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
             const data: CallbackMappingUpdate =
                 variant === "Blocked"
                     ? {
-                          security_policy: { blocked_ips: newIpList }
+                          security_policy: { blocked_ips: newIpList, allowed_ips: secondaryList }
                       }
                     : {
-                          security_policy: { allowed_ips: newIpList }
+                          security_policy: { allowed_ips: newIpList, blocked_ips: secondaryList }
                       };
 
             await dataProvider.update("callbridge/v1/mapping", {
@@ -128,7 +241,10 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
             });
 
             refresh();
-            appToast("success", translate("app.ui.toast.success"));
+            appToast(
+                "success",
+                translate("resources.callbridge.mapping.sec_policy_edit.ipAdressListUpdatedSuccessfully")
+            );
         } catch (error) {
             if (error instanceof Error) appToast("error", error.message);
             else appToast("error", translate("app.ui.edit.editError"));
@@ -138,20 +254,54 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
         }
     };
 
+    const onCloseFn = () => {
+        setSomethingEdited(false);
+        setSaveClicked(false);
+        setNewIpList(IpList ?? []);
+        onOpenChange(false);
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const dialogCloseFn = (e: any) => {
+        e.preventDefault();
+        if (!saveClicked && somethingEdited) {
+            setConfirmDialogOpen(true);
+        } else {
+            onOpenChange(false);
+        }
+    };
+
     return (
         <>
             <Dialog open={open} onOpenChange={onOpenChange}>
                 <DialogContent
-                    onInteractOutside={e => {
-                        e.preventDefault();
-                        if (!saveClicked && somethingEdited) onSave();
-                        onOpenChange(false);
-                    }}
-                    onCloseAutoFocus={e => {
-                        e.preventDefault();
-                        if (!saveClicked && somethingEdited) onSave();
-                        onOpenChange(false);
-                    }}
+                    onInteractOutside={e => dialogCloseFn(e)}
+                    // onCloseAutoFocus={e => dialogCloseFn(e)}
+                    onEscapeKeyDown={e => dialogCloseFn(e)}
+                    // onInteractOutside={e => {
+                    //     e.preventDefault();
+                    //     if (!saveClicked && somethingEdited) {
+                    //         setConfirmDialogOpen(true);
+                    //     } else {
+                    //         onOpenChange(false);
+                    //     }
+                    // }}
+                    // onCloseAutoFocus={e => {
+                    //     e.preventDefault();
+                    //     if (!saveClicked && somethingEdited) {
+                    //         setConfirmDialogOpen(true);
+                    //     } else {
+                    //         onOpenChange(false);
+                    //     }
+                    // }}
+                    // onEscapeKeyDown={e => {
+                    //     e.preventDefault();
+                    //     if (!saveClicked && somethingEdited) {
+                    //         setConfirmDialogOpen(true);
+                    //     } else {
+                    //         onOpenChange(false);
+                    //     }
+                    // }}
                     disableOutsideClick
                     className="!max-w-[530px] !overflow-x-hidden !overflow-y-hidden bg-muted">
                     <DialogHeader>
@@ -189,10 +339,15 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
                                 )}
                                 <div ref={containerEndRef} />
                             </div>
-                            <Input value={newIp} onChange={e => setNewIp(e.target.value)} />
+                            <Input
+                                value={newIp}
+                                onChange={handleInputChange}
+                                ref={inputRef}
+                                onKeyDown={handleKeyDown}
+                            />
                         </div>
                         <div>
-                            <div className="flex w-full flex-wrap items-center justify-center gap-2">
+                            <div className="grid grid-cols-1 items-center justify-center gap-2 sm:grid-cols-2">
                                 <Button
                                     className="flex w-full gap-2 sm:w-auto"
                                     onClick={addIp}
@@ -202,10 +357,10 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
                                     {translate("resources.callbridge.mapping.sec_policy_edit.addIp")}
                                 </Button>
                                 <Button
-                                    disabled={saveButtonDisabled}
+                                    disabled={deleteButtonDisabled}
                                     className="flex w-full gap-2 sm:w-auto"
                                     onClick={() => deleteIp()}
-                                    variant={"alert"}>
+                                    variant={deleteButtonDisabled ? "default" : "alert"}>
                                     <MinusCircle className="h-4 w-4" />
                                     {translate("resources.callbridge.mapping.sec_policy_edit.deleteIp")}
                                 </Button>
@@ -215,12 +370,25 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
                                     disabled={saveButtonDisabled}>
                                     {translate("app.ui.actions.save")}
                                 </Button>
+                                <Button
+                                    className="w-full flex-1 sm:w-auto"
+                                    variant={"alert"}
+                                    onClick={() => {}}
+                                    disabled={saveButtonDisabled}>
+                                    {translate("app.ui.actions.cancel")}
+                                </Button>
                             </div>
                         </div>
                     </div>
                     <DialogFooter></DialogFooter>
                 </DialogContent>
             </Dialog>
+            <ConfirmCloseDialog
+                onOpenChange={setConfirmDialogOpen}
+                onSave={onSave}
+                open={confirmDialogOpen}
+                onClose={onCloseFn}
+            />
         </>
     );
 };
