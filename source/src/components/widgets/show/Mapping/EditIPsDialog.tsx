@@ -14,6 +14,7 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { MinusCircle, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CallbackMappingUpdate } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
+import { ConfirmCloseDialog } from "./ConfirmCloseDialog";
 
 export interface EditBlockedIPsDialogProps {
     id: string;
@@ -39,6 +40,19 @@ const isValidIP = (ip: string) => {
 
 export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
     const { open, id, IpList, variant, secondaryList, onOpenChange } = props;
+    const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+
+    const [newIp, setNewIp] = useState("");
+    const [saveClicked, setSaveClicked] = useState(false);
+    const [somethingEdited, setSomethingEdited] = useState(false);
+    const [saveButtonDisabled, setSaveButtonDisabled] = useState(false);
+    const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(true);
+
+    const translate = useTranslate();
+    const refresh = useRefresh();
+    const appToast = useAppToast();
+    const dataProvider = useDataProvider();
+    const containerEndRef = useRef<HTMLDivElement>(null);
 
     const [newIpList, setNewIpList] = useState<string[]>([]);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -141,18 +155,6 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
         }
     };
 
-    const [newIp, setNewIp] = useState("");
-    const [saveClicked, setSaveClicked] = useState(false);
-    const [somethingEdited, setSomethingEdited] = useState(false);
-    const [saveButtonDisabled, setSaveButtonDisabled] = useState(false);
-    const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(true);
-
-    const refresh = useRefresh();
-
-    const appToast = useAppToast();
-    const dataProvider = useDataProvider();
-    const containerEndRef = useRef<HTMLDivElement>(null);
-
     useEffect(() => {
         if (newIpList && containerEndRef.current) {
             const parent = containerEndRef.current.parentElement;
@@ -174,8 +176,6 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
             setSaveClicked(false);
         };
     }, [IpList]);
-
-    const translate = useTranslate();
 
     const addIp = () => {
         setSomethingEdited(true);
@@ -254,34 +254,54 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
         }
     };
 
+    const onCloseFn = () => {
+        setSomethingEdited(false);
+        setSaveClicked(false);
+        setNewIpList(IpList ?? []);
+        onOpenChange(false);
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const dialogCloseFn = (e: any) => {
+        e.preventDefault();
+        if (!saveClicked && somethingEdited) {
+            setConfirmDialogOpen(true);
+        } else {
+            onOpenChange(false);
+        }
+    };
+
     return (
         <>
             <Dialog open={open} onOpenChange={onOpenChange}>
                 <DialogContent
-                    onInteractOutside={e => {
-                        e.preventDefault();
-                        console.log(saveClicked, somethingEdited);
-
-                        // console.log(!saveClicked && somethingEdited);
-                        if (!saveClicked && somethingEdited) {
-                            onSave();
-                            setSomethingEdited(false);
-                            setSaveClicked(false);
-                        }
-                        onOpenChange(false);
-                    }}
-                    onCloseAutoFocus={e => {
-                        e.preventDefault();
-                        console.log(saveClicked, somethingEdited);
-
-                        // console.log(!saveClicked && somethingEdited);
-                        if (!saveClicked && somethingEdited) {
-                            onSave();
-                            setSomethingEdited(false);
-                            setSaveClicked(false);
-                        }
-                        onOpenChange(false);
-                    }}
+                    onInteractOutside={e => dialogCloseFn(e)}
+                    // onCloseAutoFocus={e => dialogCloseFn(e)}
+                    onEscapeKeyDown={e => dialogCloseFn(e)}
+                    // onInteractOutside={e => {
+                    //     e.preventDefault();
+                    //     if (!saveClicked && somethingEdited) {
+                    //         setConfirmDialogOpen(true);
+                    //     } else {
+                    //         onOpenChange(false);
+                    //     }
+                    // }}
+                    // onCloseAutoFocus={e => {
+                    //     e.preventDefault();
+                    //     if (!saveClicked && somethingEdited) {
+                    //         setConfirmDialogOpen(true);
+                    //     } else {
+                    //         onOpenChange(false);
+                    //     }
+                    // }}
+                    // onEscapeKeyDown={e => {
+                    //     e.preventDefault();
+                    //     if (!saveClicked && somethingEdited) {
+                    //         setConfirmDialogOpen(true);
+                    //     } else {
+                    //         onOpenChange(false);
+                    //     }
+                    // }}
                     disableOutsideClick
                     className="!max-w-[530px] !overflow-x-hidden !overflow-y-hidden bg-muted">
                     <DialogHeader>
@@ -327,7 +347,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
                             />
                         </div>
                         <div>
-                            <div className="flex w-full flex-wrap items-center justify-center gap-2">
+                            <div className="grid grid-cols-1 items-center justify-center gap-2 sm:grid-cols-2">
                                 <Button
                                     className="flex w-full gap-2 sm:w-auto"
                                     onClick={addIp}
@@ -350,12 +370,25 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
                                     disabled={saveButtonDisabled}>
                                     {translate("app.ui.actions.save")}
                                 </Button>
+                                <Button
+                                    className="w-full flex-1 sm:w-auto"
+                                    variant={"alert"}
+                                    onClick={() => {}}
+                                    disabled={saveButtonDisabled}>
+                                    {translate("app.ui.actions.cancel")}
+                                </Button>
                             </div>
                         </div>
                     </div>
                     <DialogFooter></DialogFooter>
                 </DialogContent>
             </Dialog>
+            <ConfirmCloseDialog
+                onOpenChange={setConfirmDialogOpen}
+                onSave={onSave}
+                open={confirmDialogOpen}
+                onClose={onCloseFn}
+            />
         </>
     );
 };

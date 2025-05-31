@@ -738,7 +738,9 @@ const ru: TranslationMessages = {
                     deletedSuccessfully: "IP адрес удален",
                     activatePolicy: "Активировать политику?",
                     deactivatePolicy: "Деактивировать политику?",
-                    ipAdressListUpdatedSuccessfully: "Список IP адресов успешно обновлен"
+                    ipAdressListUpdatedSuccessfully: "Список IP адресов успешно обновлен",
+                    youHaveUnsavedChanges: "Found unsaved changes",
+                    saveOrDeleteThem: "Delete or save them?"
                 },
                 errors: {
                     cantBeEmpty: "Поле не может быть пустым",
@@ -1803,7 +1805,9 @@ const en: TranslationMessages = {
                     deletedSuccessfully: "IP address deleted",
                     activatePolicy: "Activate policy?",
                     deactivatePolicy: "Deactivate policy?",
-                    ipAdressListUpdatedSuccessfully: "IP adresses list updated successfully"
+                    ipAdressListUpdatedSuccessfully: "IP adresses list updated successfully",
+                    youHaveUnsavedChanges: "Найдены несохраненные изменения",
+                    saveOrDeleteThem: "Удалить или сохранить их?"
                 },
                 errors: {
                     cantBeEmpty: "Field can't be empty",
