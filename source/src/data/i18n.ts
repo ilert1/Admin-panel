@@ -931,7 +931,11 @@ const ru: TranslationMessages = {
                 attentionDescriptionSystemInstrument:
                     "Удаление платёжного инструмента приведет к удалению связанного с ним платежного терминала",
                 consequencesSystemInstrument:
-                    "Вы уверены, что хотите удалить плажетный инструмент и связанный с ним платёжный терминал?"
+                    "Вы уверены, что хотите удалить плажетный инструмент и связанный с ним платёжный терминал?",
+                attentionDescriptionTerminalPaymentInstrument:
+                    "Удаление платёжного инструмента терминала приведет к удалению связанных с ним платежных инструментов",
+                consequencesTerminalPaymentInstrument:
+                    "Вы уверены, что хотите удалить плажетный инструмент терминала и связанные с ним платежные инструменты?"
             }
         }
     },
@@ -2166,6 +2170,10 @@ const en: TranslationMessages = {
                 attentionDescriptionSystemInstrument:
                     "System instrument deletion will lead to the deletion of associated payment terminal",
                 consequencesSystemInstrument:
+                    "You are going to delete system instrument and associated payment terminal. Proceed?",
+                attentionDescriptionTerminalPaymentInstrument:
+                    "Terminal payment instrument deletion will lead to the deletion of associated payment terminal",
+                consequencesTerminalPaymentInstrument:
                     "You are going to delete system instrument and associated payment terminal. Proceed?"
             }
         }
