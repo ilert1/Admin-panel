@@ -851,8 +851,8 @@ const ru: TranslationMessages = {
                 deleteFinancialInstitution: "Удалить фин. организацию?"
             },
             systemPaymentInstruments: {
-                name: "Системные инструменты",
-                show: "Системный инструмент",
+                name: "Платёжные инструменты",
+                show: "Платёжный инструмент",
                 fields: {
                     name: "Название",
                     payment_type_code: "Тип платежа",
@@ -923,9 +923,9 @@ const ru: TranslationMessages = {
                 consequencesFinOrganization:
                     "Вы уверены, что хотите удалить финансовую организацию и связанные с ней платёжные инструменты?",
                 attentionDescriptionSystemInstrument:
-                    "Удаление системного инструмента приведет к удалению связанных с ним платежных инструментов",
+                    "Удаление платёжного инструмента приведет к удалению связанного с ним платежного терминала",
                 consequencesSystemInstrument:
-                    "Вы уверены, что хотите удалить системный инструмент и связанные с ним платежные инструменты?"
+                    "Вы уверены, что хотите удалить плажетный инструмент и связанный с ним платёжный терминал?"
             }
         }
     },
@@ -2152,9 +2152,9 @@ const en: TranslationMessages = {
                 consequencesFinOrganization:
                     "You are going to delete financial organization and associated payment instruments. Proceed?",
                 attentionDescriptionSystemInstrument:
-                    "System instrument deletion will lead to the deletion of associated payment instruments",
+                    "System instrument deletion will lead to the deletion of associated payment terminal",
                 consequencesSystemInstrument:
-                    "You are going to delete system instrument and associated payment instruments. Proceed?"
+                    "You are going to delete system instrument and associated payment terminal. Proceed?"
             }
         }
     },
