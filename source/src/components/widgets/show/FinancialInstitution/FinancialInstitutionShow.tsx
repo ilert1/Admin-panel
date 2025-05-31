@@ -123,7 +123,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
 
                     <TextField
                         label={translate("resources.paymentTools.financialInstitution.fields.institution_type")}
-                        text={context.record.institution_type || ""}
+                        text={context.record.institution_type ? translate(`resources.paymentTools.financialInstitution.fields.types.${context.record.institution_type}`) : ""}
                     />
 
                     <div className="flex flex-col">
