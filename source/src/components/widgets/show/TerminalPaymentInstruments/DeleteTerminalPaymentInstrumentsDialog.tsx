@@ -54,10 +54,6 @@ export const DeleteTerminalPaymentInstrumentsDialog = ({
                     setContinueClicked(false);
                 }}>
                 <DialogHeader>
-                    {/* <DialogTitle className="text-center">
-                        {translate("resources.paymentTools.terminalPaymentInstruments.deleteTerminalPaymentInstrument")}
-                    </DialogTitle>
-                    <DialogDescription></DialogDescription> */}
                     <DialogTitle className="text-center !text-display-2 text-red-40 dark:text-red-40">
                         {translate("resources.paymentTools.deletion.attention")}
                     </DialogTitle>

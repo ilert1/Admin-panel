@@ -935,7 +935,10 @@ const ru: TranslationMessages = {
                 attentionDescriptionTerminalPaymentInstrument:
                     "Удаление платёжного инструмента терминала приведет к удалению связанных с ним платежных инструментов",
                 consequencesTerminalPaymentInstrument:
-                    "Вы уверены, что хотите удалить плажетный инструмент терминала и связанные с ним платежные инструменты?"
+                    "Вы уверены, что хотите удалить плажетный инструмент терминала и связанные с ним платежные инструменты?",
+                attentionDescriptionCurrency:
+                    "Удаление валюты приведет к удалению связанных с ней платежных инструментов",
+                consequencesCurrency: "Вы уверены, что хотите удалить валюту и связанные с ней платежные инструменты?"
             }
         }
     },
@@ -2174,7 +2177,10 @@ const en: TranslationMessages = {
                 attentionDescriptionTerminalPaymentInstrument:
                     "Terminal payment instrument deletion will lead to the deletion of associated payment terminal",
                 consequencesTerminalPaymentInstrument:
-                    "You are going to delete system instrument and associated payment terminal. Proceed?"
+                    "Terminal payment instrument deletion will lead to the deletion of associated payment terminal",
+                attentionDescriptionCurrency:
+                    "Currency deletion will lead to the deletion of associated payment instruments",
+                consequencesCurrency: "Currency deletion will lead to the deletion of associated payment instruments"
             }
         }
     },
