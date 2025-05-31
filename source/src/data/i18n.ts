@@ -874,7 +874,7 @@ const ru: TranslationMessages = {
                 },
                 errors: {
                     cantBeEmpty: "Поле не может быть пустым",
-                    nameRegex: "Название может содержать только буквы, цифры, подчеркивание и тире"
+                    nameRegex: "Название может содержать только латинские буквы, цифры, подчеркивание и тире"
                 },
                 statuses: {
                     active: "Активен",
@@ -2102,7 +2102,7 @@ const en: TranslationMessages = {
                 },
                 errors: {
                     cantBeEmpty: "Field can't be empty",
-                    nameRegex: "Name can only contain letters, numbers, underscores, and hyphens"
+                    nameRegex: "Name can only contain latin letters, numbers, underscores, and hyphens"
                 },
                 statuses: {
                     active: "Active",
