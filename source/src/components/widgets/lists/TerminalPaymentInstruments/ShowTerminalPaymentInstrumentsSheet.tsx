@@ -1,27 +1,31 @@
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { XIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
-import { FinancialInstitutionShow } from "../../show/FinancialInstitution";
+import { TerminalPaymentInstrumentsShow } from "../../show/TerminalPaymentInstruments";
 
-interface IShowFinancialInstitutionSheet {
+interface IShowTerminalPaymentInstrumentsSheet {
     id: string;
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
-export const ShowFinancialInstitutionSheet = ({ id, open, onOpenChange }: IShowFinancialInstitutionSheet) => {
+export const ShowTerminalPaymentInstrumentsSheet = ({
+    id,
+    open,
+    onOpenChange
+}: IShowTerminalPaymentInstrumentsSheet) => {
     const translate = useTranslate();
 
     return (
         <>
             <Sheet open={open} onOpenChange={onOpenChange}>
                 <SheetContent
-                    className="top-[84px] m-0 flex h-full !max-h-[calc(100dvh-84px)] w-full flex-col overflow-auto border-0 p-0 sm:max-w-[1015px]"
+                    className="top-[84px] m-0 flex h-full !max-h-[calc(100dvh-84px)] w-full flex-col overflow-hidden border-0 p-0 sm:max-w-[1015px]"
                     tabIndex={-1}
                     close={false}>
                     <div className="flex-shrink-0 p-4 pb-0 md:p-[42px] md:pb-0">
                         <div className="flex items-center justify-between">
                             <SheetTitle className="!text-display-1">
-                                {translate("resources.paymentTools.financialInstitution.show")}
+                                {translate("resources.paymentTools.terminalPaymentInstruments.show")}
                             </SheetTitle>
 
                             <button
@@ -32,7 +36,7 @@ export const ShowFinancialInstitutionSheet = ({ id, open, onOpenChange }: IShowF
                         </div>
                     </div>
 
-                    <FinancialInstitutionShow id={id} onOpenChange={onOpenChange} />
+                    <TerminalPaymentInstrumentsShow id={id} onOpenChange={onOpenChange} />
 
                     <SheetDescription />
                 </SheetContent>

@@ -11,7 +11,7 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 import { usePreventFocus } from "@/hooks";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
+import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { MerchantsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";

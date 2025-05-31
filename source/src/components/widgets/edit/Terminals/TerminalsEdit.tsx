@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
-import { PaymentTypeMultiSelect } from "../../components/PaymentTypeMultiSelect";
+import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface ProviderEditParams {

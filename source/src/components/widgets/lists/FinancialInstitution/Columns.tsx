@@ -13,8 +13,6 @@ export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFe
     const translate = useTranslate();
     const { openSheet } = useSheets();
 
-    const [editDialogOpen, setEditDialogOpen] = useState(false);
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const columns: ColumnDef<FinancialInstitution>[] = [
@@ -39,17 +37,30 @@ export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFe
         {
             id: "name",
             accessorKey: "name",
-            header: translate("resources.paymentTools.financialInstitution.fields.name"),
+            header: translate("resources.paymentTools.financialInstitution.fields.nameWithId"),
             cell: ({ row }) => {
                 return (
-                    <TextField
-                        wrap
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                        minWidth="150px"
-                        text={row.original.name || ""}
-                    />
+                    <div>
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                openSheet("financialInstitution", {
+                                    id: row.original.id
+                                });
+                            }}>
+                            {row.original.name}
+                        </Button>
+
+                        <TextField
+                            className="text-neutral-70"
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="150px"
+                            text={row.original.id || ""}
+                        />
+                    </div>
                 );
             }
         },
@@ -58,16 +69,7 @@ export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFe
             accessorKey: "short_name",
             header: translate("resources.paymentTools.financialInstitution.fields.short_name"),
             cell: ({ row }) => {
-                return (
-                    <TextField
-                        wrap
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                        minWidth="150px"
-                        text={row.original.short_name || ""}
-                    />
-                );
+                return <TextField text={row.original.short_name || ""} />;
             }
         },
         {
@@ -137,12 +139,8 @@ export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFe
     ];
     return {
         translate,
-        editDialogOpen,
-        deleteDialogOpen,
         createDialogOpen,
         columns,
-        setDeleteDialogOpen,
-        setEditDialogOpen,
         setCreateDialogOpen
     };
 };

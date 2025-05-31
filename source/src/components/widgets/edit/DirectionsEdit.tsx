@@ -22,7 +22,7 @@ import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
-import { PaymentTypeMultiSelect } from "../components/PaymentTypeMultiSelect";
+import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { DirectionsDataProvider } from "@/data";
 import { PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";

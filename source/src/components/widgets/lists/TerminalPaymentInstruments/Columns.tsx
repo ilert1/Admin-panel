@@ -1,40 +1,20 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { useLocaleState, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 import { TerminalPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { TextField } from "@/components/ui/text-field";
 import { TerminalPaymentInstrumentsActivityBtn } from "./TerminalPaymentInstrumentsActivityBtn";
+import { useState } from "react";
+import { Button } from "@/components/ui/Button";
+import { useSheets } from "@/components/providers/SheetProvider";
+import { EyeIcon } from "lucide-react";
 
 export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
-    const [locale] = useLocaleState();
+    const { openSheet } = useSheets();
+
+    const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const columns: ColumnDef<TerminalPaymentInstrument>[] = [
-        {
-            id: "created_at",
-            accessorKey: "created_at",
-            header: translate("resources.paymentTools.terminalPaymentInstruments.fields.created_at"),
-            cell: ({ row }) => (
-                <>
-                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
-                    <p className="text-nowrap text-neutral-70">
-                        {new Date(row.original.created_at).toLocaleTimeString(locale)}
-                    </p>
-                </>
-            )
-        },
-        {
-            id: "updated_at",
-            accessorKey: "updated_at",
-            header: translate("resources.paymentTools.terminalPaymentInstruments.fields.updated_at"),
-            cell: ({ row }) => (
-                <>
-                    <p className="text-nowrap">{new Date(row.original.updated_at).toLocaleDateString(locale)}</p>
-                    <p className="text-nowrap text-neutral-70">
-                        {new Date(row.original.updated_at).toLocaleTimeString(locale)}
-                    </p>
-                </>
-            )
-        },
         {
             id: "id",
             accessorKey: "id",
@@ -49,14 +29,28 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
             header: translate("resources.paymentTools.terminalPaymentInstruments.fields.terminal_id"),
             cell: ({ row }) => {
                 return (
-                    <TextField
-                        wrap
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                        minWidth="150px"
-                        text={row.original.terminal_id}
-                    />
+                    <div>
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                openSheet("terminal", {
+                                    id: row.original.terminal_id,
+                                    provider: row.original.terminal.provider
+                                });
+                            }}>
+                            {row.original.terminal.verbose_name}
+                        </Button>
+
+                        <TextField
+                            className="text-neutral-70"
+                            text={row.original.terminal_id}
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                        />
+                    </div>
                 );
             }
         },
@@ -66,14 +60,27 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
             header: translate("resources.paymentTools.terminalPaymentInstruments.fields.system_payment_instrument_id"),
             cell: ({ row }) => {
                 return (
-                    <TextField
-                        wrap
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                        minWidth="150px"
-                        text={row.original.system_payment_instrument_id}
-                    />
+                    <div>
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                openSheet("systemPaymentInstrument", {
+                                    id: row.original.system_payment_instrument_id
+                                });
+                            }}>
+                            {row.original.system_payment_instrument.name}
+                        </Button>
+
+                        <TextField
+                            className="text-neutral-70"
+                            text={row.original.system_payment_instrument_id}
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                        />
+                    </div>
                 );
             }
         },
@@ -105,10 +112,27 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
                     />
                 );
             }
+        },
+        {
+            id: "show",
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center justify-center">
+                        <Button
+                            onClick={() => openSheet("terminalPaymentInstruments", { id: row.original.id })}
+                            variant={"text_btn"}>
+                            <EyeIcon className="text-green-50 hover:text-green-40" />
+                        </Button>
+                    </div>
+                );
+            }
         }
     ];
 
     return {
-        columns
+        translate,
+        columns,
+        createDialogOpen,
+        setCreateDialogOpen
     };
 };
