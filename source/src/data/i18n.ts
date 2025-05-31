@@ -866,13 +866,14 @@ const ru: TranslationMessages = {
                     meta: "Метаданные"
                 },
                 list: {
-                    createdAt: "Дата и время создания",
-                    updatedAt: "Дата и время обновления",
+                    createdAt: "Создан",
+                    updatedAt: "Обновлён",
                     id: "ID",
-                    paymentType: "Инструмент",
-                    paymentTypeCode: "Тип платежа",
-                    financialInstitution: "Финансовая организация",
-                    direction: "Направление операции"
+                    name: "Инструмент",
+                    paymentType: "Тип платежа",
+                    paymentTypeCode: "Код типа платежа",
+                    financialInstitution: "Фин. организация",
+                    direction: "Направление операций"
                 },
                 errors: {
                     cantBeEmpty: "Поле не может быть пустым",
@@ -2099,10 +2100,11 @@ const en: TranslationMessages = {
                     createdAt: "Created at",
                     updatedAt: "Updated at",
                     id: "ID",
-                    paymentType: "Instrument",
+                    name: "Instrument",
+                    paymentType: "Payment type",
+                    paymentTypeCode: "Payment type code",
                     financialInstitution: "Financial institution",
-                    paymentTypeCode: "Payment type",
-                    direction: "Payment direction"
+                    direction: "Payments direction"
                 },
                 errors: {
                     cantBeEmpty: "Field can't be empty",

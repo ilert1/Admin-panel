@@ -52,9 +52,9 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
             )
         },
         {
-            id: "ID",
+            id: "instrument",
             accessorKey: "id",
-            header: translate("resources.paymentTools.systemPaymentInstruments.list.id"),
+            header: translate("resources.paymentTools.systemPaymentInstruments.list.name"),
             cell: ({ row }) => {
                 return (
                     <div>
@@ -79,7 +79,7 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
             }
         },
         {
-            id: "instrument",
+            id: "paymentType",
             header: translate("resources.paymentTools.systemPaymentInstruments.list.paymentType"),
             cell: ({ row }) => {
                 return (
@@ -93,7 +93,7 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
                 );
             }
         },
-        {
+        /* {
             id: "payment_type_code",
             header: translate("resources.paymentTools.systemPaymentInstruments.list.paymentTypeCode"),
             cell: ({ row }) => {
@@ -107,7 +107,7 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
                     />
                 );
             }
-        },
+        }, */
         {
             id: "financial_institution_id",
             accessorKey: "financial_institution_id",
