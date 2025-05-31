@@ -12,12 +12,12 @@ import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { EditFinancialInstitutionDialog } from "./EditFinancialInstitutionDialog";
 import { FinancialInstitutionActivityBtn } from "../../lists/FinancialInstitution/FinancialInstitutionActivityBtn";
 
-export interface DirectionsShowProps {
+export interface FinancialInstitutionShowProps {
     id: string;
     onOpenChange: (state: boolean) => void;
 }
 
-export const FinancialInstitutionShow = ({ id, onOpenChange }: DirectionsShowProps) => {
+export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitutionShowProps) => {
     const context = useAbortableShowController<FinancialInstitution>({ resource: "financialInstitution", id });
     const data = fetchDictionaries();
     const translate = useTranslate();
@@ -82,6 +82,8 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: DirectionsShowPro
                     <TextField
                         label={translate("resources.paymentTools.financialInstitution.fields.short_name")}
                         text={context.record.short_name || ""}
+                        wrap
+                        copyValue
                     />
 
                     <TextField
@@ -94,6 +96,8 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: DirectionsShowPro
                     <TextField
                         label={translate("resources.paymentTools.financialInstitution.fields.id")}
                         text={context.record.id || ""}
+                        wrap
+                        copyValue
                     />
 
                     <TextField
@@ -119,7 +123,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: DirectionsShowPro
 
                     <TextField
                         label={translate("resources.paymentTools.financialInstitution.fields.institution_type")}
-                        text={context.record.institution_type || ""}
+                        text={context.record.institution_type ? translate(`resources.paymentTools.financialInstitution.fields.types.${context.record.institution_type}`) : ""}
                     />
 
                     <div className="flex flex-col">

@@ -12,6 +12,7 @@ import {
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
 import {
+    poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGet,
     terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatch,
     terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPost,
     terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPost,
@@ -62,6 +63,36 @@ export class TerminalsDataProvider extends IBaseDataProvider {
                         id: elem.terminal_id
                     };
                 }),
+                total: res.data.data.total
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return {
+            data: [],
+            total: 0
+        };
+    }
+
+    async getListWithoutPagination() {
+        const res = await poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGet(
+            {
+                currentPage: 1,
+                pageSize: 1000
+            },
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }
+        );
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data.items,
                 total: res.data.data.total
             };
         } else if ("data" in res.data && !res.data.success) {

@@ -7,19 +7,16 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useTranslate } from "react-admin";
-import { FinancialInstitutionEdit } from "../../edit/FinancialInstitutionEdit";
+import { TerminalPaymentInstrumentsCreate } from "../../create/TerminalPaymentInstrumentsCreate";
 
-interface EditFinancialInstitutionDialogProps {
+interface ICreateFinancialInstitutionDialog {
     open?: boolean;
-    onOpenChange: (state: boolean) => void;
-    id: string;
+    onOpenChange?: (state: boolean) => void;
 }
-
-export const EditFinancialInstitutionDialog = ({
+export const CreateTerminalPaymentInstrumentsDialog = ({
     open,
-    id,
     onOpenChange = () => {}
-}: EditFinancialInstitutionDialogProps) => {
+}: ICreateFinancialInstitutionDialog) => {
     const translate = useTranslate();
 
     return (
@@ -28,15 +25,13 @@ export const EditFinancialInstitutionDialog = ({
                 disableOutsideClick
                 className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
                 <DialogHeader>
-                    <DialogTitle className="text-center">
-                        {translate("resources.paymentTools.financialInstitution.editingFinancialInstitution")}
+                    <DialogTitle className="mb-4 text-center">
+                        {translate("resources.paymentTools.terminalPaymentInstruments.createTerminalPaymentInstrument")}
                     </DialogTitle>
-
                     <DialogDescription />
 
-                    <FinancialInstitutionEdit id={id} onClose={() => onOpenChange(false)} />
+                    <TerminalPaymentInstrumentsCreate onClose={() => onOpenChange(false)} />
                 </DialogHeader>
-
                 <DialogFooter />
             </DialogContent>
         </Dialog>

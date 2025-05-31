@@ -2,7 +2,7 @@ import { useCreateController, CreateContextProvider, useTranslate, useRefresh } 
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,11 +28,11 @@ import { CurrenciesDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
 
-export interface PaymentTypeCreateProps {
+export interface FinancialInstitutionCreateProps {
     onClose?: () => void;
 }
 
-export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCreateProps) => {
+export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInstitutionCreateProps) => {
     const financialInstitutionProvider = new FinancialInstitutionProvider();
     const currenciesDataProvider = new CurrenciesDataProvider();
     const controllerProps = useCreateController<IFinancialInstitutionCreate>();
@@ -52,11 +52,6 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
         queryKey: ["currencies"],
         queryFn: async () => await currenciesDataProvider.getListWithoutPagination()
     });
-
-    const currenciesDisabled = useMemo(
-        () => !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0),
-        [currencies]
-    );
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.paymentTools.financialInstitution.errors.name")).trim(),
@@ -376,7 +371,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: PaymentTypeCr
                             <FormField
                                 control={form.control}
                                 name="currencies"
-                                render={({ field, fieldState }) => (
+                                render={({ field }) => (
                                     <FormItem className="w-full p-2">
                                         <CurrenciesMultiSelect
                                             value={field.value}

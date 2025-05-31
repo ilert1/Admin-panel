@@ -815,19 +815,20 @@ const ru: TranslationMessages = {
                 name: "Фин. организации",
                 show: "Фин. организация",
                 fields: {
-                    created_at: "Дата и время создания",
-                    updated_at: "Дата и время обновления",
+                    created_at: "Создано",
+                    updated_at: "Обновлено",
                     name: "Название финансового института",
+                    nameWithId: "Наименование",
                     short_name: "Краткое наименование",
                     legal_name: "Полное юр.наименование",
-                    institution_type: "Типы платёжных институтов",
+                    institution_type: "Тип фин. организации",
                     country_code: "Код страны регистрации",
                     bic: "SWIFT BIC",
                     tax_id_number: "ИНН",
                     registration_number: "ОГРН / регистрационный номер",
                     nspk_member_id: "Код участника НСПК",
-                    status: "Активность",
-                    payment_types: "Платёжные системы",
+                    status: "Статус",
+                    payment_types: "Платёжные типы",
                     currencies: "Валюты",
                     currenciesToChoose: "Выберите валюты",
                     id: "ID",
@@ -848,6 +849,7 @@ const ru: TranslationMessages = {
                 },
                 createFinancialInstitutionBtn: "Добавить организацию",
                 createFinancialInstitutionTitle: "Добавление финансовой организации",
+                editingFinancialInstitution: "Изменение финансовой организации",
                 deleteFinancialInstitution: "Удалить фин. организацию?"
             },
             systemPaymentInstruments: {
@@ -864,13 +866,14 @@ const ru: TranslationMessages = {
                     meta: "Метаданные"
                 },
                 list: {
-                    createdAt: "Дата и время создания",
-                    updatedAt: "Дата и время обновления",
+                    createdAt: "Создан",
+                    updatedAt: "Обновлён",
                     id: "ID",
-                    paymentType: "Инструмент",
-                    paymentTypeCode: "Тип платежа",
-                    financialInstitution: "Финансовая организация",
-                    direction: "Направление операции"
+                    name: "Инструмент",
+                    paymentType: "Тип платежа",
+                    paymentTypeCode: "Код типа платежа",
+                    financialInstitution: "Фин. организация",
+                    direction: "Направление операций"
                 },
                 errors: {
                     cantBeEmpty: "Поле не может быть пустым",
@@ -893,21 +896,24 @@ const ru: TranslationMessages = {
                     created_at: "Дата и время создания",
                     updated_at: "Дата и время обновления",
                     terminal_id: "Терминал",
-                    system_payment_instrument_id: "ID cистемного инструмента",
-                    terminal_payment_type_code: "Код платежного инструмента терминала",
+                    system_payment_instrument_id: "Платежный инструмент",
+                    terminal_payment_type_code: "Код типа платежа терминала",
                     terminal_currency_code: "Код валюты терминала",
-                    terminal_financial_institution_code: "Финансовая организация",
+                    terminal_financial_institution_code: "Код фин. организации терминала",
                     terminal_specific_parameters: "Параметры",
                     status: "Статус",
-                    terminal: "Терминал",
-                    system_payment_instrument: "Системный инструмент",
-                    id: "ID"
+                    id: "ID",
+                    terminalToChoose: "Выберите терминал",
+                    systemPaymentInstrumentsToChoose: "Выберите платежный инструмент"
                 },
                 success: {
                     ACTIVE: "активна",
                     INACTIVE: "деактивирована",
                     editActivity: "Активность интегарций терминала %{name} успешно изменена на: %{state}."
-                }
+                },
+                createTerminalPaymentInstrument: "Добавить интеграцию терминала",
+                editingTerminalPaymentInstrument: "Изменение интеграции терминала",
+                deleteTerminalPaymentInstrument: "Удалить интеграцию терминала?"
             },
             currency: {
                 name: "Валюты"
@@ -2045,6 +2051,7 @@ const en: TranslationMessages = {
                     created_at: "Created at",
                     updated_at: "Updated at",
                     name: "Name of the financial institution",
+                    nameWithId: "Name",
                     short_name: "Short name",
                     legal_name: "Full legal name",
                     institution_type: "Institution type",
@@ -2053,7 +2060,7 @@ const en: TranslationMessages = {
                     tax_id_number: "Tax identification number",
                     registration_number: "Registration number",
                     nspk_member_id: "NSPK member ID",
-                    status: "Activity",
+                    status: "Status",
                     payment_types: "Payment types",
                     currencies: "Currencies",
                     currenciesToChoose: "Select currencies",
@@ -2076,6 +2083,7 @@ const en: TranslationMessages = {
                 },
                 createFinancialInstitutionBtn: "Create institution",
                 createFinancialInstitutionTitle: "Create a financial institution",
+                editingFinancialInstitution: "Editing a financial institution",
                 deleteFinancialInstitution: "Delete financial institution?"
             },
             systemPaymentInstruments: {
@@ -2095,10 +2103,11 @@ const en: TranslationMessages = {
                     createdAt: "Created at",
                     updatedAt: "Updated at",
                     id: "ID",
-                    paymentType: "Instrument",
+                    name: "Instrument",
+                    paymentType: "Payment type",
+                    paymentTypeCode: "Payment type code",
                     financialInstitution: "Financial institution",
-                    paymentTypeCode: "Payment type",
-                    direction: "Payment direction"
+                    direction: "Payments direction"
                 },
                 errors: {
                     cantBeEmpty: "Field can't be empty",
@@ -2120,23 +2129,26 @@ const en: TranslationMessages = {
                 fields: {
                     created_at: "Created at",
                     updated_at: "Updated at",
-                    terminal_id: "Terminal ID",
-                    system_payment_instrument_id: "System payment instrument ID",
+                    terminal_id: "Terminal",
+                    system_payment_instrument_id: "Payment instrument",
                     terminal_payment_type_code: "Terminal payment type code",
                     terminal_currency_code: "Terminal currency code",
-                    terminal_financial_institution_code: "Financial institution",
+                    terminal_financial_institution_code: "Terminal financial institution code",
                     terminal_specific_parameters: "Parameters",
                     status: "Status",
-                    terminal: "Terminal",
-                    system_payment_instrument: "System payment instrument",
-                    id: "ID"
+                    id: "ID",
+                    terminalToChoose: "Select terminal",
+                    systemPaymentInstrumentsToChoose: "Select payment instrument"
                 },
                 success: {
                     ACTIVE: "active",
                     INACTIVE: "inactive",
                     editActivity:
                         "The activity of the terminal payment instrument %{name} has been successfully changed to: %{state}."
-                }
+                },
+                createTerminalPaymentInstrument: "Create terminal integration",
+                editingTerminalPaymentInstrument: "Editing terminal integration",
+                deleteTerminalPaymentInstrument: "Delete terminal integration?"
             },
             currency: {
                 name: "Currencies"

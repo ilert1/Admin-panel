@@ -5,6 +5,7 @@ import { ShowFinancialInstitutionSheet } from "../widgets/lists/FinancialInstitu
 import { ShowMappingSheet } from "../widgets/lists/Mappings/ShowMappingSheet";
 import { ShowMerchantSheet } from "../widgets/lists/Merchants/ShowMerchantSheet";
 import { SystemPaymentInstrumentSheet } from "../widgets/lists/SystemPaymentInstruments/SystemPaymentInstrumentSheet";
+import { ShowTerminalPaymentInstrumentsSheet } from "../widgets/lists/TerminalPaymentInstruments/ShowTerminalPaymentInstrumentsSheet";
 import { TerminalShowDialog } from "../widgets/lists/Terminals/TerminalShowDialog";
 import { ShowTransactionSheet } from "../widgets/lists/Transactions/ShowTransactionSheet";
 import { ShowUserSheet } from "../widgets/lists/Users/ShowUserSheet";
@@ -26,6 +27,7 @@ export const SHEETS_COMPONENTS = {
     callbridgeMappings: ShowMappingSheet,
     callbridgeHistory: ShowCallbridgeHistorySheet,
     financialInstitution: ShowFinancialInstitutionSheet,
+    terminalPaymentInstruments: ShowTerminalPaymentInstrumentsSheet,
     systemPaymentInstrument: SystemPaymentInstrumentSheet
 };
 
