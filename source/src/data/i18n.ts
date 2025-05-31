@@ -887,8 +887,8 @@ const ru: TranslationMessages = {
                 deletePaymentInstrumentQuestion: "Удалить платежный инструмент?"
             },
             terminalPaymentInstruments: {
-                name: "Интеграции терминалов",
-                show: "Интеграции терминала",
+                name: "Платежные инструменты терминалов",
+                show: "Платежный инструмент терминала",
                 fields: {
                     created_at: "Дата и время создания",
                     updated_at: "Дата и время обновления",
@@ -908,6 +908,9 @@ const ru: TranslationMessages = {
                     INACTIVE: "деактивирована",
                     editActivity: "Активность интегарций терминала %{name} успешно изменена на: %{state}."
                 }
+            },
+            currency: {
+                name: "Валюты"
             },
             deletion: {
                 attention: "Внимание!",
@@ -2076,8 +2079,8 @@ const en: TranslationMessages = {
                 deleteFinancialInstitution: "Delete financial institution?"
             },
             systemPaymentInstruments: {
-                name: "System tools",
-                show: "System tool",
+                name: "Payment tools",
+                show: "Payment tool",
                 fields: {
                     name: "Name",
                     payment_type_code: "Payment type",
@@ -2112,8 +2115,8 @@ const en: TranslationMessages = {
                 deletePaymentInstrumentQuestion: "Delete payment instrument?"
             },
             terminalPaymentInstruments: {
-                name: "Terminal integrations",
-                show: "Terminal integration",
+                name: "Terminal payment instruments",
+                show: "Terminal payment instrument",
                 fields: {
                     created_at: "Created at",
                     updated_at: "Updated at",
@@ -2134,6 +2137,9 @@ const en: TranslationMessages = {
                     editActivity:
                         "The activity of the terminal payment instrument %{name} has been successfully changed to: %{state}."
                 }
+            },
+            currency: {
+                name: "Currencies"
             },
             deletion: {
                 attention: "Attention!",
